@@ -1,0 +1,238 @@
+D:\mPOS\mPOS\App1\bin\Debug\App1.exe.config
+D:\mPOS\mPOS\App1\bin\Debug\App1.exe
+D:\mPOS\mPOS\App1\bin\Debug\App1.pdb
+D:\mPOS\mPOS\App1\bin\Debug\AYJCardLib.dll
+D:\mPOS\mPOS\App1\bin\Debug\AYJCardLib.pdb
+D:\mPOS\mPOS\App1\obj\Debug\App1.Form1.resources
+D:\mPOS\mPOS\App1\obj\Debug\App1.Properties.Resources.resources
+D:\mPOS\mPOS\App1\obj\Debug\App1.csproj.GenerateResource.cache
+D:\mPOS\mPOS\App1\obj\Debug\App1.csproj.CopyComplete
+D:\mPOS\mPOS\App1\obj\Debug\App1.exe
+D:\mPOS\mPOS\App1\obj\Debug\App1.pdb
+C:\Hari\mPOS\App1\bin\Debug\App1.exe.config
+C:\Hari\mPOS\App1\bin\Debug\App1.exe
+C:\Hari\mPOS\App1\bin\Debug\App1.pdb
+C:\Hari\mPOS\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Hari\mPOS\App1\obj\Debug\App1.Form1.resources
+C:\Hari\mPOS\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Hari\mPOS\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Hari\mPOS\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Hari\mPOS\App1\obj\Debug\App1.exe
+C:\Hari\mPOS\App1\obj\Debug\App1.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.exe.config
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.exe
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.Form1.resources
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.exe
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csprojAssemblyReference.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.exe.config
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.exe
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\bin\Debug\App1.pdb
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csprojAssemblyReference.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.Form1.resources
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.Properties.Resources.resources
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.GenerateResource.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.csproj.CopyComplete
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.exe
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\App1\obj\Debug\App1.pdb
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe.config
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.exe
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\bin\Debug\App1.pdb
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Form1.resources
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.exe
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\App1\obj\Debug\App1.pdb
+C:\Users\hari\Desktop\mi_Locker\App1\bin\Debug\App1.exe.config
+C:\Users\hari\Desktop\mi_Locker\App1\bin\Debug\App1.exe
+C:\Users\hari\Desktop\mi_Locker\App1\bin\Debug\App1.pdb
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.csprojAssemblyReference.cache
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.Form1.resources
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.exe
+C:\Users\hari\Desktop\mi_Locker\App1\obj\Debug\App1.pdb
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.exe.config
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.exe
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.pdb
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.AssemblyReference.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.Form1.resources
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.exe
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.pdb
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.exe.config
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.exe
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\bin\Debug\App1.pdb
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.Form1.resources
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.exe
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\App1\obj\Debug\App1.pdb
+E:\Rahul\MidasfunGame_Plocker\App1\bin\Debug\App1.exe.config
+E:\Rahul\MidasfunGame_Plocker\App1\bin\Debug\App1.exe
+E:\Rahul\MidasfunGame_Plocker\App1\bin\Debug\App1.pdb
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.csproj.AssemblyReference.cache
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.Form1.resources
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.Properties.Resources.resources
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.csproj.GenerateResource.cache
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.csproj.CopyComplete
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.exe
+E:\Rahul\MidasfunGame_Plocker\App1\obj\Debug\App1.pdb
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\bin\Debug\App1.exe.config
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\bin\Debug\App1.exe
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\bin\Debug\App1.pdb
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.csproj.AssemblyReference.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.Form1.resources
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.exe
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\App1\obj\Debug\App1.pdb

@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{161D7F30-C109-4301-BF27-F8F5D014D0D9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>pLocker</RootNamespace>
+    <AssemblyName>pLocker</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>mi Locker.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge.Video">
+      <HintPath>Packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>Packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="AYJCardLib">
+      <HintPath>..\MarginPOSNew\bin\Debug\AYJCardLib.dll</HintPath>
+    </Reference>
+    <Reference Include="AYJ_CardLib_Mi">
+      <HintPath>..\..\..\..\IDCardPrintingwithRFID 29-10-20\IDCardPrintingwithRFID\bin\Debug\AYJ_CardLib_Mi.dll</HintPath>
+    </Reference>
+    <Reference Include="AYJ_CardLib_Ul">
+      <HintPath>..\..\..\..\IDCardPrintingwithRFID 29-10-20\IDCardPrintingwithRFID\bin\Debug\AYJ_CardLib_Ul.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Dapper">
+      <HintPath>..\MarginPOSNew\bin\Debug\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MarginPOSNew">
+      <HintPath>..\MarginPOSNew\bin\Debug\MarginPOSNew.exe</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework">
+      <HintPath>..\MarginPOSNew\bin\Debug\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design">
+      <HintPath>..\MarginPOSNew\bin\Debug\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts">
+      <HintPath>..\MarginPOSNew\bin\Debug\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\..\..\..\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\ClsDocument.cs" />
+    <Compile Include="Classes\clsGeneral.cs" />
+    <Compile Include="Classes\ClsImgComprossor.cs" />
+    <Compile Include="Component1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component1.Designer.cs">
+      <DependentUpon>Component1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\dsReport_Master.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReport_Master.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\dsReport_Sale.cs">
+      <DependentUpon>dsReport_Sale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\dsReport_Sale.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReport_Sale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DS_Sale.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_Sale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Dictionary.cs" />
+    <Compile Include="Forms\Frmbulklocker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Frmbulklocker.Designer.cs">
+      <DependentUpon>Frmbulklocker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCustAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCustAccount.Designer.cs">
+      <DependentUpon>FrmCustAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDataGridView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDataGridView.designer.cs">
+      <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDepartment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDepartment.Designer.cs">
+      <DependentUpon>FrmDepartment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDesignation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDesignation.Designer.cs">
+      <DependentUpon>FrmDesignation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDisplayLockers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDisplayLockers.Designer.cs">
+      <DependentUpon>FrmDisplayLockers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmEmployee.Designer.cs">
+      <DependentUpon>FrmEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmEmployeeEarnDedu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmEmployeeEarnDedu.Designer.cs">
+      <DependentUpon>FrmEmployeeEarnDedu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmEmployeeShort.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmEmployeeShort.Designer.cs">
+      <DependentUpon>FrmEmployeeShort.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmHireLocker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmHireLocker.designer.cs">
+      <DependentUpon>FrmHireLocker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmHireList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmHireList.designer.cs">
+      <DependentUpon>FrmHireList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCustomerList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCustomerList.Designer.cs">
+      <DependentUpon>FrmCustomerList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmLocker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLocker.designer.cs">
+      <DependentUpon>FrmLocker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmLockerDashBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLockerDashBoard.Designer.cs">
+      <DependentUpon>FrmLockerDashBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmLogin.designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmOTP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmOTP.Designer.cs">
+      <DependentUpon>frmOTP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmRegistration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmRegistration.Designer.cs">
+      <DependentUpon>FrmRegistration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmRpt_Option.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmRpt_Option.Designer.cs">
+      <DependentUpon>FrmRpt_Option.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSearch.Designer.cs">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSplash.Designer.cs">
+      <DependentUpon>FrmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmTaxSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTaxSettings.Designer.cs">
+      <DependentUpon>FrmTaxSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserAccount\FrmUserAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserAccount\FrmUserAccount.Designer.cs">
+      <DependentUpon>FrmUserAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmDataGridView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmDataGridView.Designer.cs">
+      <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmkeypad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmkeypad.Designer.cs">
+      <DependentUpon>Frmkeypad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmSearch.Designer.cs">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Game\Forms\frmLogin.cs" />
+    <Compile Include="Interfaces\IReturnType.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RPT_LockerCustDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPT_LockerCustDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RPT_LockerDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPT_LockerDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RPT_LockerHIreDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPT_LockerHIreDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RPT_LockerReceipt.cs">
+      <DependentUpon>RPT_LockerReceipt.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RPT_LockerPaymentDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPT_LockerPaymentDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RPT_UnitList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_Bulk_Bill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bulk_Bill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_Game_Sale_BillNew.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Game_Sale_BillNew.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\FrmSaleInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleBill\FrmSaleInvoice.Designer.cs">
+      <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\Frmbulklocker.resx">
+      <DependentUpon>Frmbulklocker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCustAccount.resx">
+      <DependentUpon>FrmCustAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDataGridView.resx">
+      <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDepartment.resx">
+      <DependentUpon>FrmDepartment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDesignation.resx">
+      <DependentUpon>FrmDesignation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDisplayLockers.resx">
+      <DependentUpon>FrmDisplayLockers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmEmployee.resx">
+      <DependentUpon>FrmEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmEmployeeEarnDedu.resx">
+      <DependentUpon>FrmEmployeeEarnDedu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmEmployeeShort.resx">
+      <DependentUpon>FrmEmployeeShort.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmHireLocker.resx">
+      <DependentUpon>FrmHireLocker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmHireList.resx">
+      <DependentUpon>FrmHireList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCustomerList.resx">
+      <DependentUpon>FrmCustomerList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLocker.resx">
+      <DependentUpon>FrmLocker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLockerDashBoard.resx">
+      <DependentUpon>FrmLockerDashBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOTP.resx">
+      <DependentUpon>frmOTP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRegistration.resx">
+      <DependentUpon>FrmRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRpt_Option.resx">
+      <DependentUpon>FrmRpt_Option.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSearch.resx">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSplash.resx">
+      <DependentUpon>FrmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTaxSettings.resx">
+      <DependentUpon>FrmTaxSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserAccount\FrmUserAccount.resx">
+      <DependentUpon>FrmUserAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\FrmDataGridView.resx">
+      <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Frmkeypad.resx">
+      <DependentUpon>Frmkeypad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\FrmSearch.resx">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RPT_LockerCustDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPT_LockerCustDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RPT_LockerDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPT_LockerDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RPT_LockerHIreDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPT_LockerHIreDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RPT_LockerReceipt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPT_LockerReceipt.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RPT_LockerPaymentDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPT_LockerPaymentDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bulk_Bill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bulk_Bill.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Game_Sale_BillNew.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Game_Sale_BillNew.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
+      <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Dataset\dsReport_Master.xsc">
+      <DependentUpon>dsReport_Master.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\dsReport_Master.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReport_Master.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Dataset\dsReport_Master.xss">
+      <DependentUpon>dsReport_Master.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\dsReport_Sale.xsc">
+      <DependentUpon>dsReport_Sale.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\dsReport_Sale.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReport_Sale.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dataset\dsReport_Sale.xss">
+      <DependentUpon>dsReport_Sale.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\DS_Sale.xsc">
+      <DependentUpon>DS_Sale.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\DS_Sale.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_Sale.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dataset\DS_Sale.xss">
+      <DependentUpon>DS_Sale.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\userProfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\locker1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\locker-key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\App1\App1.csproj">
+      <Project>{98300bf2-60c0-46d7-ad6d-62cbcfe64252}</Project>
+      <Name>App1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{ce5b651e-3ce7-4312-adde-bf242daf1197}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{698b5441-f0b1-4265-a263-47a42dde0127}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{45af665b-7adf-4bec-8ff9-3806483b13f5}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconCloseSale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Locker.png" />
+    <None Include="Resources\Locker.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="mi Locker.ico" />
+    <None Include="Resources\L_printer.png" />
+    <None Include="Resources\L_gmail.png" />
+    <None Include="Resources\L_whatsapp.png" />
+    <None Include="Resources\reset__3.png" />
+    <None Include="Resources\reset__2.png" />
+    <None Include="Resources\reset _2.png" />
+    <None Include="Resources\reset_1.png" />
+    <None Include="Resources\get_otp_1.png" />
+    <None Include="Resources\get_otp_2.png" />
+    <None Include="Resources\resend_1.png" />
+    <None Include="Resources\resend_2.png" />
+    <None Include="Resources\validate_otp.png" />
+    <None Include="Resources\validate_otp_1.png" />
+    <None Include="Resources\RFID_3.png" />
+    <None Include="Resources\RFID_1.png" />
+    <None Include="Resources\RFID_2.png" />
+    <None Include="Resources\B1.png" />
+    <None Include="Resources\Password.png" />
+    <None Include="Resources\Branch.png" />
+    <None Include="Resources\user.png" />
+    <None Include="Resources\new_3.png" />
+    <None Include="Resources\Branch_2.png" />
+    <None Include="Resources\Branch_1.png" />
+    <None Include="Resources\Counting-1.png" />
+    <None Include="Resources\Counting_2.png" />
+    <None Include="Resources\Counting_3.png" />
+    <None Include="Resources\new_2.png" />
+    <None Include="Resources\lock_2.png" />
+    <None Include="Resources\lock_1.png" />
+    <None Include="Resources\lock01.png" />
+    <None Include="Resources\01a.png" />
+    <None Include="Resources\pasword.png" />
+    <None Include="Resources\Login_2.png" />
+    <None Include="Resources\Login_1.png" />
+    <None Include="Resources\Login_3.png" />
+    <None Include="Resources\Minimize_1.png" />
+    <None Include="Resources\Minimize_2.png" />
+    <None Include="Resources\new_2 button.png" />
+    <None Include="Resources\new_1 button.png" />
+    <None Include="Resources\new_3 button.png" />
+    <None Include="Resources\Delete_2.png" />
+    <None Include="Resources\Delete_1.png" />
+    <None Include="Resources\Delete_3.png" />
+    <None Include="Resources\Search_2.png" />
+    <None Include="Resources\Search_1.png" />
+    <None Include="Resources\Search_3.png" />
+    <None Include="Resources\save_2.png" />
+    <None Include="Resources\save_1.png" />
+    <None Include="Resources\save_3.png" />
+    <None Include="Resources\Cancel_2.png" />
+    <None Include="Resources\Cancel_1.png" />
+    <None Include="Resources\Cancel_3.png" />
+    <None Include="Resources\Close_2.png" />
+    <None Include="Resources\Close_1.png" />
+    <None Include="Resources\Close_3.png" />
+    <None Include="Resources\Refresh_2.png" />
+    <None Include="Resources\Refresh_1.png" />
+    <None Include="Resources\Refresh_3.png" />
+    <None Include="Resources\New_1.png" />
+    <None Include="Resources\get otp_1.png" />
+    <None Include="Resources\get otp_2.png" />
+    <None Include="Resources\validate otp.png" />
+    <None Include="Resources\reset_2.png" />
+    <None Include="Resources\resend _2.png" />
+    <None Include="Resources\resend _1.png" />
+    <None Include="Resources\validate otp_1.png" />
+    <None Include="Resources\close_1 button.png" />
+    <None Include="Resources\close_2 button.png" />
+    <None Include="Resources\close_3 button.png" />
+    <None Include="Resources\Add_2.png" />
+    <None Include="Resources\Add_1.png" />
+    <None Include="Resources\Add_3.png" />
+    <None Include="Resources\camera_2.png" />
+    <None Include="Resources\camera_1.png" />
+    <None Include="Resources\camera_3.png" />
+    <None Include="Resources\new.png" />
+    <None Include="Resources\03.png" />
+    <None Include="Resources\01.png" />
+    <None Include="Resources\report 1st.png" />
+    <None Include="Resources\report  2nd.png" />
+    <None Include="Resources\logout red_3.png" />
+    <None Include="Resources\logout red 2nd.png" />
+    <None Include="Resources\logout red 1st.png" />
+    <None Include="Resources\locker 1st.png" />
+    <None Include="Resources\locker _3.png" />
+    <None Include="Resources\locker  2nd.png" />
+    <None Include="Resources\employee_3.png" />
+    <None Include="Resources\employee 2nd.png" />
+    <None Include="Resources\employee 1st.png" />
+    <None Include="Resources\customer_3.png" />
+    <None Include="Resources\customer 2nd.png" />
+    <None Include="Resources\customer 1st.png" />
+    <None Include="Resources\report_3.png" />
+    <None Include="Resources\hire 2nd.png" />
+    <None Include="Resources\hire 1st.png" />
+    <None Include="Resources\hire_3.png" />
+    <None Include="Resources\lock.png" />
+    <None Include="Resources\settings 1st.png" />
+    <None Include="Resources\settings 2nd.png" />
+    <None Include="Resources\settings 3.png" />
+    <None Include="Resources\hire second.png" />
+    <None Include="Resources\gray.png" />
+    <None Include="Resources\grey.png" />
+    <None Include="Resources\hire first.png" />
+    <None Include="Resources\hire02.png" />
+    <None Include="Resources\hire 02.png" />
+    <None Include="Resources\hire01.png" />
+    <None Include="Resources\hire.png" />
+    <None Include="Resources\hire 01.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "TccECUuzTOJceyjXsz4YlM+wf8cKGCQDBwAyvOnDPgJSQbbqg9rRA3JjKXw3oej69bTUHGMMyPwhyKsmEmbF+Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ajay\\Desktop\\MidasFunGame_Plocker\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ajay\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\ajay\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

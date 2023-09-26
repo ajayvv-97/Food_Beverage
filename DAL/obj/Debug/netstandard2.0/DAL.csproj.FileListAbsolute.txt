@@ -1,0 +1,416 @@
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Akhil\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Akhil\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Akhil\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Akhil\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Akhil\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Akhil\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Lal\MarginPOS New\MarginPOS\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Lal\MarginPOS New\MarginPOS\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOS\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Lal\MarginPOS New\MarginPOS\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Lal\MarginPOS New\MarginPOS\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOS\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\a4akh\Desktop\Lal\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Lal\MarginPOS New\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Lal\MarginPOS New\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOS New\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Lal\MarginPOS New\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Lal\MarginPOS New\MarginPOS New\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Lal\MarginPOS New\MarginPOS New\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Unnimaya\MarginPOSNew1\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Unnimaya\MarginPOSNew1\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Unnimaya\MarginPOSNew1\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Unnimaya\MarginPOSNew1\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Unnimaya\MarginPOSNew1\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Unnimaya\MarginPOSNew1\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Unnimaya\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Unnimaya\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Unnimaya\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Unnimaya\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Unnimaya\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Unnimaya\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Prajiv\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Prajiv\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Prajiv\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Prajiv\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Prajiv\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Prajiv\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Prajiv\MarginPOSNew_2\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.pdb
+D:\n_mPOS\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+D:\n_mPOS\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.dll
+D:\n_mPOS\MarginPOSNew\DAL\bin\Debug\netstandard2.0\DAL.pdb
+D:\n_mPOS\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.dll
+D:\n_mPOS\MarginPOSNew\DAL\bin\Debug\netstandard2.0\Domain.pdb
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.dll
+D:\n_mPOS\MarginPOSNew\DAL\obj\Debug\netstandard2.0\DAL.pdb
+D:\mPOS\mPOS\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+D:\mPOS\mPOS\DAL\bin\Debug\netstandard2.0\DAL.dll
+D:\mPOS\mPOS\DAL\bin\Debug\netstandard2.0\DAL.pdb
+D:\mPOS\mPOS\DAL\bin\Debug\netstandard2.0\Domain.dll
+D:\mPOS\mPOS\DAL\bin\Debug\netstandard2.0\Domain.pdb
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.dll
+D:\mPOS\mPOS\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Hari\mPOS\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Hari\mPOS\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Hari\mPOS\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Hari\mPOS\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Hari\mPOS\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Hari\mPOS\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.pdb
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.dll
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\DAL.pdb
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\Domain.dll
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\bin\Debug\netstandard2.0\Domain.pdb
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.dll
+\\winserver\pShare\hari\Desktop\HARI Solutions\mPOS\DAL\obj\Debug\netstandard2.0\DAL.pdb
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+\\winserver\pShare\Hari\HARI Solutions\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\Dell\Contacts\Desktop\Hari\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mPOS_Main 25_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 28_02_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 08_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main 09_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  10_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  11_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  15_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  16_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  17_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  18_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mpos\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\mPOS_Main  19_09_20\mPOS_Main 28_02_20\mPOS_Main\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\hari\Desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\hari\Desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\hari\Desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\hari\Desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\Dell\Contacts\Desktop\desktop\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\rahul\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\ajay\Desktop\mi_Locker\mi_Locker\DAL\obj\Debug\netstandard2.0\DAL.pdb
+E:\Rahul\MidasfunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+E:\Rahul\MidasfunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.dll
+E:\Rahul\MidasfunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+E:\Rahul\MidasfunGame_Plocker\DAL\bin\Debug\netstandard2.0\Domain.dll
+E:\Rahul\MidasfunGame_Plocker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.dll
+E:\Rahul\MidasfunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\ajay\Desktop\MidasFunGame_Plocker\DAL\obj\Debug\netstandard2.0\DAL.pdb
