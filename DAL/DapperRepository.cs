@@ -277,9 +277,7 @@ namespace DAL
         /// <returns></returns>
         public static IDbConnection OpenConnection()
         {
-            //IDbConnection connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=mPOS_DB;Integrated Security=SSPI");
-            IDbConnection connection = new SqlConnection("Data Source=192.168.0.5;Initial Catalog=mPOS_DBNew;Persist Security Info=True;User ID=sa;Password=iapsIT@234#");
-            //IDbConnection connection = new SqlConnection("Data Source=192.168.2.5;Initial Catalog=mPOS_DB;Persist Security Info=True;User ID=sa;Password=JM@2020");
+            IDbConnection connection = new SqlConnection("Data Source=192.168.0.5;Initial Catalog=Food_Beverage;Persist Security Info=True;User ID=sa;Password=iapsIT@234#");
             connection.Open();
             return connection;
         }
