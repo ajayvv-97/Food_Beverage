@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper">
-      <HintPath>..\pLocker\bin\Debug\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="MetroFramework">
       <HintPath>..\MarginPOSNew\bin\Debug\MetroFramework.dll</HintPath>
@@ -55,6 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\FrmFoodCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmFoodCategory.Designer.cs">
+      <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMenu.Designer.cs">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,13 +80,28 @@
     <Compile Include="Forms\FrmTableCategory.Designer.cs">
       <DependentUpon>FrmTableCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmItemRegistartion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemRegistartion.Designer.cs">
+      <DependentUpon>frmItemRegistartion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FrmFoodCategory.resx">
+      <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMenu.resx">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTable.resx">
       <DependentUpon>FrmTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTableCategory.resx">
       <DependentUpon>FrmTableCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemRegistartion.resx">
+      <DependentUpon>frmItemRegistartion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

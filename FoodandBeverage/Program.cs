@@ -16,7 +16,7 @@ namespace FoodandBeverage
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Forms.FrmTable());
+            Application.Run(new Forms.FrmMenu());
         }
     }
 }

@@ -4,10 +4,12 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pd
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.AssemblyReference.cache
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmFoodCategory.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTable.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTableCategory.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
@@ -16,8 +18,4 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Dapper.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\System.Data.SqlClient.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\System.Data.SqlClient.xml
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe.config
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmMenu.resources
