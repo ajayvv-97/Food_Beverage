@@ -29,9 +29,9 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgv_usertype = new System.Windows.Forms.DataGridView();
             this.Slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,14 +62,14 @@ namespace FoodandBeverage.Forms
             this.dgv_usertype.AllowUserToAddRows = false;
             this.dgv_usertype.AllowUserToDeleteRows = false;
             this.dgv_usertype.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_usertype.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_usertype.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_usertype.ColumnHeadersHeight = 46;
             this.dgv_usertype.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Slno,
@@ -82,8 +82,8 @@ namespace FoodandBeverage.Forms
             this.dgv_usertype.Location = new System.Drawing.Point(3, 101);
             this.dgv_usertype.Name = "dgv_usertype";
             this.dgv_usertype.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_usertype.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_usertype.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_usertype.RowTemplate.Height = 30;
             this.dgv_usertype.Size = new System.Drawing.Size(722, 349);
             this.dgv_usertype.TabIndex = 1;
@@ -96,9 +96,9 @@ namespace FoodandBeverage.Forms
             // 
             // Id
             // 
-            dataGridViewCellStyle11.Format = "N0";
-            dataGridViewCellStyle11.NullValue = "0";
-            this.Id.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.Id.DefaultCellStyle = dataGridViewCellStyle2;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.Visible = false;
@@ -128,7 +128,7 @@ namespace FoodandBeverage.Forms
             this.tbl_main.ColumnCount = 3;
             this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.4F));
             this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.6F));
-            this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 163F));
+            this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
             this.tbl_main.Controls.Add(this.chk_active, 2, 1);
             this.tbl_main.Controls.Add(this.label29, 0, 0);
             this.tbl_main.Controls.Add(this.txtfoodCate, 0, 1);
@@ -148,7 +148,7 @@ namespace FoodandBeverage.Forms
             // 
             this.chk_active.AutoSize = true;
             this.chk_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_active.Location = new System.Drawing.Point(561, 24);
+            this.chk_active.Location = new System.Drawing.Point(560, 24);
             this.chk_active.Name = "chk_active";
             this.chk_active.Size = new System.Drawing.Size(72, 22);
             this.chk_active.TabIndex = 2;
@@ -203,7 +203,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtFcid
             // 
-            this.txtFcid.Location = new System.Drawing.Point(561, 3);
+            this.txtFcid.Location = new System.Drawing.Point(560, 3);
             this.txtFcid.Name = "txtFcid";
             this.txtFcid.Size = new System.Drawing.Size(100, 20);
             this.txtFcid.TabIndex = 251;

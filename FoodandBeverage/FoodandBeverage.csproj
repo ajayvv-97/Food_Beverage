@@ -56,11 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\FrmDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDashboard.Designer.cs">
+      <DependentUpon>FrmDashboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmFoodCategory.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmFoodCategory.Designer.cs">
       <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmItemRegistartion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmItemRegistartion.Designer.cs">
+      <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMenu.cs">
       <SubType>Form</SubType>
@@ -80,16 +92,22 @@
     <Compile Include="Forms\FrmTableCategory.Designer.cs">
       <DependentUpon>FrmTableCategory.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmItemRegistartion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmItemRegistartion.Designer.cs">
-      <DependentUpon>frmItemRegistartion.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoundButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RoundedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="Forms\FrmDashboard.resx">
+      <DependentUpon>FrmDashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmFoodCategory.resx">
       <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
+      <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
@@ -99,9 +117,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTableCategory.resx">
       <DependentUpon>FrmTableCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmItemRegistartion.resx">
-      <DependentUpon>frmItemRegistartion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -146,5 +161,6 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

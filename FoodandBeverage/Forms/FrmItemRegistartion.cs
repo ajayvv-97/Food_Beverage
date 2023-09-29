@@ -10,15 +10,64 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FoodandBeverage
+namespace FoodandBeverage.Forms
 {
-    public partial class frmItemRegistartion : Form
+    public partial class FrmItemRegistartion : Form
     {
-        public frmItemRegistartion()
+        public FrmItemRegistartion()
         {
             InitializeComponent();
         }
+        #region Declare Grid
+        public static int slno = 0;
+        public static int id = 1;
+        public static int incre_name = 2;
+        public static int incre_categ = 3;
+        public static int iunit = 4;
+        public static int iqty = 5;
+        public static int iprice = 6;
+        public static int idesc = 7;
+        public static int istatus = 8;
+        public static int iunitid = 9;
+        public static int incre_categ_id = 10;
+        #endregion
+        public void Fillitem()
+        {
+            try
+            {
+                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblItem";
+                objSearch.WhereNdGroupBy = "Where status=1 ";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                dgv_item.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_item.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_item.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_item.Rows[i].Cells[id].Value = itemSource[i].ItemId;
+                        dgv_item.Rows[i].Cells[incre_name].Value = itemSource[i].Itemname;
+                        dgv_item.Rows[i].Cells[incre_categ].Value = itemSource[i].Fcid;
+                        dgv_item.Rows[i].Cells[iunit].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[iqty].Value = itemSource[i].quantity;
+                        dgv_item.Rows[i].Cells[iprice].Value = itemSource[i].price;
+                        dgv_item.Rows[i].Cells[idesc].Value = itemSource[i].summary;
+                        dgv_item.Rows[i].Cells[istatus].Value = Convert.ToInt32(itemSource[i].Status);
+                        dgv_item.Rows[i].Cells[iunitid].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[incre_categ_id].Value = itemSource[i].unit;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
+
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -97,39 +146,7 @@ namespace FoodandBeverage
         {
             this.Close();
         }
-        public void Fillitem()
-        {
-            try
-            {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "m.mid as Field1, m.Title as Field2,fc.CategoryName as Field3,m.Description as Field4,m.Status as Field5,m.FcategoryId as Field6 ";
-                objSearch.Table = "tblMenu m left join tblFoodCategory fc on fc.Fcid=m.FcategoryId";
-                objSearch.WhereNdGroupBy = "Where m.status=1 ";
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                dgv_menu.Rows.Clear();
-                if (itemSource.Count > 0)
-                {
-                    dgv_menu.Rows.Add(itemSource.Count);
-                    for (int i = 0; i < itemSource.Count; i++)
-                    {
-                        //dgv_menu.Rows[i].Cells[slno].Value = i + 1;
-                        //dgv_menu.Rows[i].Cells[id].Value = itemSource[i].Field1;
-                        //dgv_menu.Rows[i].Cells[fname].Value = itemSource[i].Field2;
-                        //dgv_menu.Rows[i].Cells[fcateg].Value = itemSource[i].Field3;
-                        //dgv_menu.Rows[i].Cells[fdes].Value = itemSource[i].Field4;
-                        //dgv_menu.Rows[i].Cells[fstaus].Value = Convert.ToInt32(itemSource[i].Field5);
-                        //dgv_menu.Rows[i].Cells[ffcid].Value = itemSource[i].Field6;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
 
-            }
-
-        }
         public bool MandatoryCheck()
         {
             if (txtitemid.Text == "" || txtitemid.Text == null)
@@ -146,6 +163,11 @@ namespace FoodandBeverage
             //}
 
             return true;
+        }
+
+        private void btnrefresh_Click(object sender, EventArgs e)
+        {
+            Fillitem();
         }
     }
 }
