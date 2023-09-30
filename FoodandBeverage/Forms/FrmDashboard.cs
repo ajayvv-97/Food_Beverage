@@ -224,9 +224,10 @@ namespace FoodandBeverage.Forms
             switch (isbridge)
             {
                 case 1:
-                     newX = rb_home.Right + 30; // Adjust this value according to your desired X coordinate
-                     newY = rb_home.Bottom + 7; // Set newY to rboperation's Top position
+                    newX = rb_home.Right + 30; // Adjust this value according to your desired X coordinate
+                    newY = rb_home.Bottom + 7; // Set newY to rboperation's Top position
                     pb_connection.Location = new Point(newX, newY);
+
                     break;
                 case 2:
                     newX = rboperation.Right + 30; // Adjust this value according to your desired X coordinate
@@ -343,6 +344,9 @@ namespace FoodandBeverage.Forms
 
         }
 
-
+        private void FrmDashboard_Resize(object sender, EventArgs e)
+        {
+            Bridge();
+        }
     }
 }
