@@ -169,5 +169,36 @@ namespace FoodandBeverage.Forms
         {
             Fillitem();
         }
+
+        private void btnmini_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btncolse_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btntoggle_Click(object sender, EventArgs e)
+        {
+            tlp_registration.Visible = false;
+            tlp_grid.Visible = true;
+            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+            tlp_main.Controls.Remove(controlToRemove);
+            tlp_main.Controls.Add(tlp_grid, 1, 0);
+            tlp_grid.Dock = DockStyle.Fill;
+        }
+
+        private void toggle_grid_Click(object sender, EventArgs e)
+        {
+            tlp_grid.Visible = false;
+            tlp_registration.Visible = true;
+            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+            tlp_main.Controls.Remove(controlToRemove);
+            tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
+            tlp_registartion_toggle.Dock = DockStyle.Fill;
+        }
+
     }
 }

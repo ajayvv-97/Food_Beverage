@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\FoodandBeverage\bin\Debug\Dapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="BllEmployee.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
