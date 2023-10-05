@@ -128,7 +128,7 @@ namespace FoodandBeverage.Forms
             this.tbl_main.ColumnCount = 3;
             this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.4F));
             this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.6F));
-            this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tbl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 167F));
             this.tbl_main.Controls.Add(this.chk_active, 2, 1);
             this.tbl_main.Controls.Add(this.label29, 0, 0);
             this.tbl_main.Controls.Add(this.txtfoodCate, 0, 1);
@@ -148,7 +148,7 @@ namespace FoodandBeverage.Forms
             // 
             this.chk_active.AutoSize = true;
             this.chk_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_active.Location = new System.Drawing.Point(560, 24);
+            this.chk_active.Location = new System.Drawing.Point(557, 24);
             this.chk_active.Name = "chk_active";
             this.chk_active.Size = new System.Drawing.Size(72, 22);
             this.chk_active.TabIndex = 2;
@@ -183,7 +183,7 @@ namespace FoodandBeverage.Forms
             this.txtdescr.BackColor = System.Drawing.Color.White;
             this.txtdescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtdescr.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtdescr.Location = new System.Drawing.Point(256, 24);
+            this.txtdescr.Location = new System.Drawing.Point(254, 24);
             this.txtdescr.Multiline = true;
             this.txtdescr.Name = "txtdescr";
             this.txtdescr.Size = new System.Drawing.Size(264, 64);
@@ -195,7 +195,7 @@ namespace FoodandBeverage.Forms
             this.label27.BackColor = System.Drawing.Color.Transparent;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(256, 0);
+            this.label27.Location = new System.Drawing.Point(254, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(87, 17);
             this.label27.TabIndex = 221;
@@ -203,7 +203,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtFcid
             // 
-            this.txtFcid.Location = new System.Drawing.Point(560, 3);
+            this.txtFcid.Location = new System.Drawing.Point(557, 3);
             this.txtFcid.Name = "txtFcid";
             this.txtFcid.Size = new System.Drawing.Size(100, 20);
             this.txtFcid.TabIndex = 251;
@@ -226,7 +226,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(728, 529);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(728, 502);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // tlp_button
@@ -321,7 +321,7 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(728, 529);
+            this.ClientSize = new System.Drawing.Size(728, 502);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmFoodCategory";
