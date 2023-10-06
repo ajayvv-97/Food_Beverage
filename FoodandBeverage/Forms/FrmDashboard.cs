@@ -301,6 +301,33 @@ namespace FoodandBeverage.Forms
                             _instanceFrmMenu.BringToFront();
                         }
                         break;
+                    case "5":
+                        if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
+                        {
+                            FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
+                            if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
+                                _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            else
+                            {
+                                _instanceFrmUnit.Dock = DockStyle.None;
+                                _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                                panelDesktop.Controls.Add(_instanceFrmUnit);
+                                _instanceFrmUnit.Show();
+                                _instanceFrmUnit.BringToFront();
+                            }
+                        }
+                        else
+                        {
+                            FrmUnit _instanceFrmUnit = new FrmUnit();
+                            _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+
+                            _instanceFrmUnit.TopLevel = false;
+                            _instanceFrmUnit.Dock = DockStyle.None;
+                            panelDesktop.Controls.Add(_instanceFrmUnit);
+                            _instanceFrmUnit.Show();
+                            _instanceFrmUnit.BringToFront();
+                        }
+                        break;
                 }
             }
             catch (Exception ex)

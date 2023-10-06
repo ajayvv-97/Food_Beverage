@@ -197,10 +197,6 @@ namespace DAL
             using (IDbConnection connection = OpenConnection())
             {
                 lstResult = connection.Query<T>(sp, param, commandType: CommandType.StoredProcedure).ToList();
-
-
-
-
             }
 
             return lstResult;

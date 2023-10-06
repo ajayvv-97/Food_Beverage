@@ -278,9 +278,10 @@ namespace FoodandBeverage.Forms
             this.panelDesktop.AutoScroll = true;
             this.panelDesktop.BackColor = System.Drawing.Color.White;
             this.panelDesktop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDesktop.Location = new System.Drawing.Point(234, 42);
             this.panelDesktop.Name = "panelDesktop";
-            this.panelDesktop.Size = new System.Drawing.Size(769, 539);
+            this.panelDesktop.Size = new System.Drawing.Size(915, 539);
             this.panelDesktop.TabIndex = 5;
             // 
             // pnlappcolor
@@ -391,7 +392,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
-            this.tlp_main.Size = new System.Drawing.Size(1022, 611);
+            this.tlp_main.Size = new System.Drawing.Size(1152, 611);
             this.tlp_main.TabIndex = 6;
             // 
             // flowLayoutPanel1
@@ -399,7 +400,7 @@ namespace FoodandBeverage.Forms
             this.flowLayoutPanel1.Controls.Add(this.lblTime);
             this.flowLayoutPanel1.Controls.Add(this.datelbl);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(777, 587);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(907, 587);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(242, 21);
             this.flowLayoutPanel1.TabIndex = 7;
@@ -440,7 +441,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(785, 33);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 33);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // flowLayoutPanel2
@@ -448,7 +449,7 @@ namespace FoodandBeverage.Forms
             this.flowLayoutPanel2.Controls.Add(this.btnmini);
             this.flowLayoutPanel2.Controls.Add(this.btnclose);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(723, 5);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(853, 5);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(59, 25);
@@ -490,7 +491,7 @@ namespace FoodandBeverage.Forms
             this.navibar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navibar.Location = new System.Drawing.Point(3, 3);
             this.navibar.Name = "navibar";
-            this.navibar.Size = new System.Drawing.Size(712, 27);
+            this.navibar.Size = new System.Drawing.Size(830, 27);
             this.navibar.TabIndex = 1;
             this.navibar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseDown);
             this.navibar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseMove);
@@ -521,7 +522,7 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 611);
+            this.ClientSize = new System.Drawing.Size(1152, 611);
             this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

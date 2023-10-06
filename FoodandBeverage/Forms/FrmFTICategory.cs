@@ -65,14 +65,14 @@ namespace FoodandBeverage.Forms
                         if (usertype.Fcid>0)
                             {
                                 if (Convert.ToUInt32(txtFcid.Text) > 0)
-                                CMessageBox.Show("Update Successfully saved");
+                                MessageBox.Show("Update Successfully saved");
                             else
-                                CMessageBox.Show("Successfully saved");
+                                MessageBox.Show("Successfully saved");
                                 clearall();
-                                Fillusertype();
+                            Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
                             }
                             else
-                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel,MessageBoxIcon.Error);
+                            MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel,MessageBoxIcon.Error);
 
                         
                     }
@@ -91,17 +91,31 @@ namespace FoodandBeverage.Forms
             txtdescr.Text = "";
             txtfoodCate.Text = "";
             chk_active.Visible = false;
-            Fillusertype();
         }
-        public void Fillusertype()
+        public void Fillcategory(int n)
         {
             try
             {
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName,Description,Status";
-                objSearch.Table = "tblFoodCategory";
-                objSearch.WhereNdGroupBy = "Where status=1 ";
+                objSearch.Table = "tblCategory_FTI";
+                switch (n)
+                {
+               
+                    case 0:
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=0";
+                        break;
+                    case 1:
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=1";
+                        break;
+                    case 2:
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=2";
+                        break;
+                    case 4:
+                        objSearch.WhereNdGroupBy = "where status = 1";
+                        break;
+                };
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 dgv_category.Rows.Clear();
@@ -133,6 +147,7 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
+            Fillcategory(4);
         }
 
         private void btnclose_Click(object sender, EventArgs e)
@@ -164,9 +179,27 @@ namespace FoodandBeverage.Forms
             tlp_registartion.Region = new Region(path);
         }
 
-        private void cmb_cate_SelectionChangeCommitted(object sender, EventArgs e)
-        {
 
+        private void FrmFTICategory_Load(object sender, EventArgs e)
+        {
+            dgv_category.BorderStyle = BorderStyle.None;
+            dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_category.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_category.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_category.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_category.BackgroundColor = Color.White;
+
+            dgv_category.EnableHeadersVisualStyles = false;
+            dgv_category.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_category.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_category.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            Fillcategory(4);
+        }
+
+        private void cmb_cate_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
         }
     }
 }

@@ -69,6 +69,37 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public void combofill()
+        {
+
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "Fcid,CategoryName";
+                objSearch.Table = " tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=2";
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                cmb_inc_categ.DataSource = gridSource;
+                cmb_inc_categ.ValueMember = "Id";
+                cmb_inc_categ.DisplayMember = "Value";
+
+                objSearch.Select = " UId,UnitName";
+                objSearch.Table = " tblUnit";
+                objSearch.WhereNdGroupBy = "where status=1";
+                objSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdComboFill", objSearch);
+                cmbunit.DataSource = gridSource1;
+                cmbunit.ValueMember = "Id";
+                cmbunit.DisplayMember = "Value";
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -124,26 +155,7 @@ namespace FoodandBeverage.Forms
             Fillitem();
         }
 
-        //public void Fillcombo()
-        //{
-        //    try
-        //    {
-        //        BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-        //        DmnSearch objSearch = new DmnSearch();
-        //        objSearch.Select = "Fcid,CategoryName";
-        //        objSearch.Table = " tblFoodCategory";
-        //        objSearch.WhereNdGroupBy = "where status=1";
-        //        objSearch.OrderBy = "";
-        //        var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-        //        cmbfcateg.DataSource = gridSource;
-        //        cmbfcateg.ValueMember = "Id";
-        //        cmbfcateg.DisplayMember = "Value";
-        //    }
-        //    catch (Exception ex)
-        //    {
 
-        //    }
-        //}
         private void btnclose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -151,7 +163,7 @@ namespace FoodandBeverage.Forms
 
         public bool MandatoryCheck()
         {
-            if (txtitemid.Text == "" || txtitemid.Text == null)
+            if (txtincr_name.Text == "" || txtincr_name.Text == null)
             {
                 MessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtitemid.Focus();
@@ -227,6 +239,23 @@ namespace FoodandBeverage.Forms
             path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
             path.CloseFigure();
             tlp_registration.Region = new Region(path);
+        }
+
+        private void FrmItemRegistartion_Load(object sender, EventArgs e)
+        {
+            Fillitem();
+            combofill();
+            dgv_item.BorderStyle = BorderStyle.None;
+            //dgv_item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            //dgv_item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            //dgv_item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            //dgv_item.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            //dgv_item.BackgroundColor = Color.White;
+
+            dgv_item.EnableHeadersVisualStyles = false;
+            dgv_item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BLL;
-using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -72,14 +71,14 @@ namespace FoodandBeverage.Forms
                         if (usertype.UId > 0)
                         {
                             if (Convert.ToUInt32(txtUid.Text) > 0)
-                                CMessageBox.Show("Update Successfully saved");
+                                MessageBox.Show("Update Successfully saved");
                             else
-                                CMessageBox.Show("Successfully saved");
+                                MessageBox.Show("Successfully saved");
                             clearall();
                             Fillunit();
                         }
                         else
-                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
 
 
                     }
@@ -143,6 +142,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmUnit_Load(object sender, EventArgs e)
         {
+            Fillunit();
             dgv_unit.BorderStyle = BorderStyle.None;
             dgv_unit.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_unit.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;

@@ -140,7 +140,7 @@ namespace FoodandBeverage.Forms
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.48837F));
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.51163F));
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 242F));
-            this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.tlp_registartion.Controls.Add(this.label29, 1, 0);
             this.tlp_registartion.Controls.Add(this.chk_active, 4, 1);
             this.tlp_registartion.Controls.Add(this.txtFcid, 4, 0);
@@ -169,7 +169,7 @@ namespace FoodandBeverage.Forms
             this.label29.ForeColor = System.Drawing.Color.Black;
             this.label29.Location = new System.Drawing.Point(14, 0);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(175, 34);
+            this.label29.Size = new System.Drawing.Size(172, 34);
             this.label29.TabIndex = 231;
             this.label29.Text = "Category ";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -179,9 +179,9 @@ namespace FoodandBeverage.Forms
             this.chk_active.AutoSize = true;
             this.chk_active.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_active.Location = new System.Drawing.Point(594, 37);
+            this.chk_active.Location = new System.Drawing.Point(589, 37);
             this.chk_active.Name = "chk_active";
-            this.chk_active.Size = new System.Drawing.Size(91, 67);
+            this.chk_active.Size = new System.Drawing.Size(96, 67);
             this.chk_active.TabIndex = 2;
             this.chk_active.Text = "Active";
             this.chk_active.UseVisualStyleBackColor = true;
@@ -189,7 +189,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtFcid
             // 
-            this.txtFcid.Location = new System.Drawing.Point(594, 3);
+            this.txtFcid.Location = new System.Drawing.Point(589, 3);
             this.txtFcid.Name = "txtFcid";
             this.txtFcid.Size = new System.Drawing.Size(28, 20);
             this.txtFcid.TabIndex = 251;
@@ -204,7 +204,7 @@ namespace FoodandBeverage.Forms
             this.txtfoodCate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.txtfoodCate.Location = new System.Drawing.Point(14, 37);
             this.txtfoodCate.Name = "txtfoodCate";
-            this.txtfoodCate.Size = new System.Drawing.Size(175, 19);
+            this.txtfoodCate.Size = new System.Drawing.Size(172, 19);
             this.txtfoodCate.TabIndex = 0;
             // 
             // label27
@@ -214,7 +214,7 @@ namespace FoodandBeverage.Forms
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(352, 0);
+            this.label27.Location = new System.Drawing.Point(347, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(236, 34);
             this.label27.TabIndex = 221;
@@ -228,9 +228,9 @@ namespace FoodandBeverage.Forms
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(195, 0);
+            this.label1.Location = new System.Drawing.Point(192, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 34);
+            this.label1.Size = new System.Drawing.Size(149, 34);
             this.label1.TabIndex = 252;
             this.label1.Text = "Category Type";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -242,7 +242,7 @@ namespace FoodandBeverage.Forms
             this.txtdescr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtdescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtdescr.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtdescr.Location = new System.Drawing.Point(352, 37);
+            this.txtdescr.Location = new System.Drawing.Point(347, 37);
             this.txtdescr.Multiline = true;
             this.txtdescr.Name = "txtdescr";
             this.txtdescr.Size = new System.Drawing.Size(236, 67);
@@ -259,11 +259,11 @@ namespace FoodandBeverage.Forms
             "Food Category",
             "Table Category",
             "Item Category"});
-            this.cmb_cate.Location = new System.Drawing.Point(195, 37);
+            this.cmb_cate.Location = new System.Drawing.Point(192, 37);
             this.cmb_cate.Name = "cmb_cate";
-            this.cmb_cate.Size = new System.Drawing.Size(151, 28);
+            this.cmb_cate.Size = new System.Drawing.Size(149, 28);
             this.cmb_cate.TabIndex = 253;
-            this.cmb_cate.SelectionChangeCommitted += new System.EventHandler(this.cmb_cate_SelectionChangeCommitted);
+            this.cmb_cate.SelectedValueChanged += new System.EventHandler(this.cmb_cate_SelectedValueChanged);
             // 
             // tlp_main
             // 
@@ -445,6 +445,7 @@ namespace FoodandBeverage.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmFTICategory";
             this.Text = "FrmFoodCategory";
+            this.Load += new System.EventHandler(this.FrmFTICategory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_category)).EndInit();
             this.tlp_registartion.ResumeLayout(false);
             this.tlp_registartion.PerformLayout();

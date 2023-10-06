@@ -40,8 +40,8 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
-                objSearch.Table = " tblFoodCategory";
-                objSearch.WhereNdGroupBy = "where status=1";
+                objSearch.Table = " tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 cmbfcateg.DataSource = gridSource;
@@ -67,15 +67,22 @@ namespace FoodandBeverage.Forms
                     dmnmenu.MId = Convert.ToInt32(txtmid.Text);
                     dmnmenu.Title = txtitemname.Text;
                     dmnmenu.Description = txtdesc.Text;
-                    dmnmenu.FcategoryId = Convert.ToInt32(cmbfcateg.SelectedValue);
+                    dmnmenu.CategoryId = Convert.ToInt32(cmbfcateg.SelectedValue);
+                    dmnmenu.Recipe_Des = txtrecipedes.Text;
                     dmnmenu.CreatedBy = 1;
                     dmnmenu.BranchId = 1;
-                 
-                            if (chb_active.Checked)
-                            dmnmenu.Status = 1;
-                            else
-                            dmnmenu.Status = 0;
-                        var usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                    if (chb_active.Checked)
+                        dmnmenu.Status = 1;
+                    else
+                        dmnmenu.Status = 0;
+
+                    if (chk_avilable.Checked)
+                        dmnmenu.Aviable_status = 1;
+                    else
+                        dmnmenu.Aviable_status = 0;
+
+
+                    var usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
 
                         if (usertype.MId > 0)
                         {
@@ -101,8 +108,8 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "m.mid as Field1, m.Title as Field2,fc.CategoryName as Field3,m.Description as Field4,m.Status as Field5,m.FcategoryId as Field6 ";
-                objSearch.Table = "tblMenu m left join tblFoodCategory fc on fc.Fcid=m.FcategoryId";
+                objSearch.Select = "m.mid as Field1, m.Title as Field2,fc.CategoryName as Field3,m.Description as Field4,m.Status as Field5,m.MId as Field6 ";
+                objSearch.Table = "tblMenu m left join tblCategory_FTI fc on fc.Fcid=m.MId";
                 objSearch.WhereNdGroupBy = "Where m.status=1 ";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
@@ -152,6 +159,7 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
+            Fillmenu();
             clearall();
         }
         public void clearall()
@@ -164,6 +172,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
+            Fillmenu();
             dgv_menu.BorderStyle = BorderStyle.None;
             dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_menu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
