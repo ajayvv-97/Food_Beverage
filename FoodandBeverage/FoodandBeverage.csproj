@@ -56,11 +56,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\FrmFoodCategory.cs">
+    <Compile Include="Forms\FrmFTICategory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmFoodCategory.Designer.cs">
-      <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    <Compile Include="Forms\FrmFTICategory.Designer.cs">
+      <DependentUpon>FrmFTICategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmIncrediant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmIncrediant.Designer.cs">
+      <DependentUpon>FrmIncrediant.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmItemRegistartion.cs">
       <SubType>Form</SubType>
@@ -74,17 +80,11 @@
     <Compile Include="Forms\FrmMenu.Designer.cs">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmTable.cs">
+    <Compile Include="Forms\FrmUnit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmTable.Designer.cs">
-      <DependentUpon>FrmTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FrmTableCategory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmTableCategory.Designer.cs">
-      <DependentUpon>FrmTableCategory.cs</DependentUpon>
+    <Compile Include="Forms\FrmUnit.Designer.cs">
+      <DependentUpon>FrmUnit.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,8 +94,11 @@
     <Compile Include="RoundedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="Forms\FrmFoodCategory.resx">
-      <DependentUpon>FrmFoodCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmFTICategory.resx">
+      <DependentUpon>FrmFTICategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmIncrediant.resx">
+      <DependentUpon>FrmIncrediant.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
@@ -103,11 +106,8 @@
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmTable.resx">
-      <DependentUpon>FrmTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmTableCategory.resx">
-      <DependentUpon>FrmTableCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmUnit.resx">
+      <DependentUpon>FrmUnit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -142,6 +142,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{CE5B651E-3CE7-4312-ADDE-BF242DAF1197}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomMessageBox\CustomMessageBox.csproj">
+      <Project>{68255BFA-DB01-4583-9578-F9DBD47F37D8}</Project>
+      <Name>CustomMessageBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{698b5441-f0b1-4265-a263-47a42dde0127}</Project>
@@ -193,6 +197,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-message-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25512-4-save-button-clipart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

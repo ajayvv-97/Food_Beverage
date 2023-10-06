@@ -1,16 +1,18 @@
-﻿using Dapper;
+﻿
+using Dapper;
 using Domain;
 
 namespace BLL
 {
-    public class BllFoodCategory
+    public class BllCategory
     {
-        public DmnFoodCategory AddData(string procedureName, DmnFoodCategory objTestClass)
+        public DmnCategory AddeditData(string procedureName, DmnCategory objTestClass)
         {
-            DAL.DapperRepository<DmnFoodCategory> objDapperRepository = new DAL.DapperRepository<DmnFoodCategory>();
+            DAL.DapperRepository<DmnCategory> objDapperRepository = new DAL.DapperRepository<DmnCategory>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("Fcid", objTestClass.Fcid);
-            parms.Add("CategoryName", objTestClass.CategoryName); 
+            parms.Add("CategoryName", objTestClass.CategoryName);
+            parms.Add("CategoryType", objTestClass.CategoryType);            
             parms.Add("Description", objTestClass.Description);
             parms.Add("BranchId", objTestClass.BranchId); ;
             parms.Add("CreatedBy", objTestClass.CreatedBy);

@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace FoodandBeverage.Forms
 {
-    public partial class FrmTableCategory : Form
+    public partial class FrmIncrediant : Form
     {
-        public FrmTableCategory()
+        public FrmIncrediant()
         {
             InitializeComponent();
+        }
+
+        private void cmb_inc_categ_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnsave_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,14 +100,15 @@ namespace FoodandBeverage.Forms
                     if (usertype.ItemId > 0)
                     {
                         if (Convert.ToUInt32(txtitemid.Text) > 0)
-                            MessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Update Successfully saved");
                         else
-                            MessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Successfully saved");
+
                         clearall();
                         Fillitem();
                     }
                     else
-                        MessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -200,5 +203,31 @@ namespace FoodandBeverage.Forms
             tlp_registartion_toggle.Dock = DockStyle.Fill;
         }
 
+        private void txtprice_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtqty_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlp_registration_Paint(object sender, PaintEventArgs e)
+        {
+            float borderRadius = 10f; 
+            GraphicsPath path = new GraphicsPath();
+            RectangleF rect = new RectangleF(tlp_registration.ClientRectangle.X, tlp_registration.ClientRectangle.Y, tlp_registration.ClientRectangle.Width, tlp_registration.ClientRectangle.Height);
+            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+            path.CloseFigure();
+            tlp_registration.Region = new Region(path);
+        }
     }
 }

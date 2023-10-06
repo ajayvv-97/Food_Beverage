@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnFoodCategory
+    public class DmnCategory
     {
         public long Fcid { get; set; }
         public string Description { get; set; }
@@ -15,6 +15,7 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public int BranchId { get; set; }
+        public int CategoryType { get; set; }
         
     }
 }
