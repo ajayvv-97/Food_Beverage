@@ -154,4 +154,13 @@
   <data name="item" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="add_row" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_row.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit_row" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit_row.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_25512_4_save_button_clipart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\25512-4-save-button-clipart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

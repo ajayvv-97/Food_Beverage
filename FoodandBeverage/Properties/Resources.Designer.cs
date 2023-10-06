@@ -63,6 +63,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25512_4_save_button_clipart {
+            get {
+                object obj = ResourceManager.GetObject("_25512_4_save_button_clipart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap add_row {
+            get {
+                object obj = ResourceManager.GetObject("add_row", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap button_roundedge {
             get {
                 object obj = ResourceManager.GetObject("button_roundedge", resourceCulture);
@@ -86,6 +106,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap button_roundedge2 {
             get {
                 object obj = ResourceManager.GetObject("button_roundedge2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_row {
+            get {
+                object obj = ResourceManager.GetObject("edit_row", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

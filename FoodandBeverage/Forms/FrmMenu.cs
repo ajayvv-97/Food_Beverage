@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,6 +164,17 @@ namespace FoodandBeverage.Forms
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
+            dgv_menu.BorderStyle = BorderStyle.None;
+            dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_menu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_menu.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_menu.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_menu.BackgroundColor = Color.White;
+
+            dgv_menu.EnableHeadersVisualStyles = false;
+            dgv_menu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_menu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             clearall();
             Fillcombo();
         }
@@ -170,6 +182,33 @@ namespace FoodandBeverage.Forms
         private void dgv_menu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btncolse_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnmini_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void tlp_registration_Paint(object sender, PaintEventArgs e)
+        {
+            float borderRadius = 10f; // adjust this value to change the roundness of the corners
+            GraphicsPath path = new GraphicsPath();
+            RectangleF rect = new RectangleF(tlp_registration.ClientRectangle.X, tlp_registration.ClientRectangle.Y, tlp_registration.ClientRectangle.Width, tlp_registration.ClientRectangle.Height);
+            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+            path.CloseFigure();
+            tlp_registration.Region = new Region(path);
         }
     }
 }

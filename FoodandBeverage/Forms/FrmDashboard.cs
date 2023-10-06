@@ -191,33 +191,33 @@ namespace FoodandBeverage.Forms
                 {
                     case "1":
                        
-                        if (System.Windows.Forms.Application.OpenForms["FrmFoodCategory"] != null)
+                        if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
                         {
-                            FrmFoodCategory _instanceFrmFoodCategory = Application.OpenForms["FrmFoodCategory"] as FrmFoodCategory;
-                            _instanceFrmFoodCategory.Dock = DockStyle.None;
-                            _instanceFrmFoodCategory.Margin = new Padding(10);
-                            if (_instanceFrmFoodCategory.WindowState == FormWindowState.Minimized)
-                                _instanceFrmFoodCategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
+                            _instanceFrmFTICategory.Dock = DockStyle.None;
+                            _instanceFrmFTICategory.Margin = new Padding(10);
+                            if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
+                                _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                             else
                             {
-                                _instanceFrmFoodCategory.Dock = DockStyle.None;
-                                _instanceFrmFoodCategory.Margin = new Padding(20); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmFoodCategory);
-                                _instanceFrmFoodCategory.Show();
-                                _instanceFrmFoodCategory.BringToFront();
+                                _instanceFrmFTICategory.Dock = DockStyle.None;
+                                _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+                                panelDesktop.Controls.Add(_instanceFrmFTICategory);
+                                _instanceFrmFTICategory.Show();
+                                _instanceFrmFTICategory.BringToFront();
                             }
                         }
                         else
                         {
-                            FrmFoodCategory _instanceFrmFoodCategory = new FrmFoodCategory();
-                            _instanceFrmFoodCategory.Dock = DockStyle.None;
-                            _instanceFrmFoodCategory.Margin = new Padding(20); // Adjust these values as needed
-                            _instanceFrmFoodCategory.TopLevel = false;
+                            FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
+                            _instanceFrmFTICategory.Dock = DockStyle.None;
+                            _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+                            _instanceFrmFTICategory.TopLevel = false;
                           
-                            panelDesktop.Controls.Add(_instanceFrmFoodCategory);
+                            panelDesktop.Controls.Add(_instanceFrmFTICategory);
                             panelDesktop.Padding= new Padding(20);
-                            _instanceFrmFoodCategory.Show();
-                            _instanceFrmFoodCategory.BringToFront();
+                            _instanceFrmFTICategory.Show();
+                            _instanceFrmFTICategory.BringToFront();
                         }
                         break;
                     case "2":
@@ -248,7 +248,31 @@ namespace FoodandBeverage.Forms
                         }
                         break;
                     case "3":
+                        if (System.Windows.Forms.Application.OpenForms["FrmIncrediant"] != null)
+                        {
+                            FrmIncrediant _instanceFrmIncrediant = Application.OpenForms["FrmIncrediant"] as FrmIncrediant;
+                            if (_instanceFrmIncrediant.WindowState == FormWindowState.Minimized)
+                                _instanceFrmIncrediant.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            else
+                            {
+                                _instanceFrmIncrediant.Dock = DockStyle.None;
+                                _instanceFrmIncrediant.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                                panelDesktop.Controls.Add(_instanceFrmIncrediant);
+                                _instanceFrmIncrediant.Show();
+                                _instanceFrmIncrediant.BringToFront();
+                            }
+                        }
+                        else
+                        {
+                            FrmIncrediant _instanceFrmIncrediant = new FrmIncrediant();
+                            _instanceFrmIncrediant.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
+                            _instanceFrmIncrediant.TopLevel = false;
+                            _instanceFrmIncrediant.Dock = DockStyle.None;
+                            panelDesktop.Controls.Add(_instanceFrmIncrediant);
+                            _instanceFrmIncrediant.Show();
+                            _instanceFrmIncrediant.BringToFront();
+                        }
                         break;
                     case "4":
                         if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
