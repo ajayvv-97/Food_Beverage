@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -87,14 +88,14 @@ namespace FoodandBeverage.Forms
                         if (usertype.MId > 0)
                         {
                             if (Convert.ToUInt32(txtmid.Text) > 0)
-                                MessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                MessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             clearall();
                         Fillmenu();
                     }
                     else
-                            MessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }                
             }
             catch (Exception ex)
@@ -139,13 +140,13 @@ namespace FoodandBeverage.Forms
         {
             if (txtitemname.Text == "" || txtitemname.Text == null)
             {
-                MessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtitemname.Focus();
                 return false;
             }
             else if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
             {
-                MessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbfcateg.Focus();
                 return false;
             }

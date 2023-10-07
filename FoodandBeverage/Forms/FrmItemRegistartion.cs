@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -130,15 +131,15 @@ namespace FoodandBeverage.Forms
                     if (usertype.ItemId > 0)
                     {
                         if (Convert.ToUInt32(txtitemid.Text) > 0)
-                            MessageBox.Show("Update Successfully saved");
+                            CMessageBox.Show("Update Successfully saved");
                         else
-                            MessageBox.Show("Successfully saved");
+                            CMessageBox.Show("Successfully saved");
 
                         clearall();
                         Fillitem();
                     }
                     else
-                        MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -165,13 +166,13 @@ namespace FoodandBeverage.Forms
         {
             if (txtincr_name.Text == "" || txtincr_name.Text == null)
             {
-                MessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtitemid.Focus();
                 return false;
             }
             //else if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
             //{
-            //    MessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //    cmbfcateg.Focus();
             //    return false;
             //}

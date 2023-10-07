@@ -258,7 +258,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.Location = new System.Drawing.Point(83, 4);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(73, 44);
+            this.btnSearch.Size = new System.Drawing.Size(73, 37);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "search";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -274,7 +274,7 @@ namespace FoodandBeverage.Forms
             this.btnrefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnrefresh.Location = new System.Drawing.Point(163, 3);
             this.btnrefresh.Name = "btnrefresh";
-            this.btnrefresh.Size = new System.Drawing.Size(73, 44);
+            this.btnrefresh.Size = new System.Drawing.Size(73, 39);
             this.btnrefresh.TabIndex = 2;
             this.btnrefresh.Text = "refresh";
             this.btnrefresh.UseVisualStyleBackColor = false;
@@ -291,7 +291,7 @@ namespace FoodandBeverage.Forms
             this.btnclose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnclose.Location = new System.Drawing.Point(242, 3);
             this.btnclose.Name = "btnclose";
-            this.btnclose.Size = new System.Drawing.Size(73, 44);
+            this.btnclose.Size = new System.Drawing.Size(73, 39);
             this.btnclose.TabIndex = 3;
             this.btnclose.Text = "close";
             this.btnclose.UseVisualStyleBackColor = false;
@@ -309,11 +309,11 @@ namespace FoodandBeverage.Forms
             this.tlp_button.Controls.Add(this.btnrefresh, 1, 0);
             this.tlp_button.Controls.Add(this.btnclose, 2, 0);
             this.tlp_button.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tlp_button.Location = new System.Drawing.Point(302, 400);
+            this.tlp_button.Location = new System.Drawing.Point(296, 400);
             this.tlp_button.Name = "tlp_button";
             this.tlp_button.RowCount = 1;
             this.tlp_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_button.Size = new System.Drawing.Size(314, 53);
+            this.tlp_button.Size = new System.Drawing.Size(314, 45);
             this.tlp_button.TabIndex = 13;
             // 
             // btnsave
@@ -328,7 +328,7 @@ namespace FoodandBeverage.Forms
             this.btnsave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btnsave.Location = new System.Drawing.Point(3, 3);
             this.btnsave.Name = "btnsave";
-            this.btnsave.Size = new System.Drawing.Size(73, 44);
+            this.btnsave.Size = new System.Drawing.Size(73, 39);
             this.btnsave.TabIndex = 0;
             this.btnsave.UseVisualStyleBackColor = false;
             this.btnsave.Click += new System.EventHandler(this.btnsave_Click);
@@ -468,14 +468,14 @@ namespace FoodandBeverage.Forms
             this.tlp_registartion_toggle.Controls.Add(this.pnl_toggle, 1, 1);
             this.tlp_registartion_toggle.Controls.Add(this.txtitemid, 1, 2);
             this.tlp_registartion_toggle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_registartion_toggle.Location = new System.Drawing.Point(3, 51);
+            this.tlp_registartion_toggle.Location = new System.Drawing.Point(6, 56);
             this.tlp_registartion_toggle.Name = "tlp_registartion_toggle";
             this.tlp_registartion_toggle.RowCount = 3;
             this.tlp_registartion_toggle.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registartion_toggle.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registartion_toggle.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_registartion_toggle.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_registartion_toggle.Size = new System.Drawing.Size(661, 456);
+            this.tlp_registartion_toggle.Size = new System.Drawing.Size(655, 448);
             this.tlp_registartion_toggle.TabIndex = 15;
             // 
             // tlp_outer_design
@@ -492,14 +492,14 @@ namespace FoodandBeverage.Forms
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tlp_outer_design.Size = new System.Drawing.Size(613, 391);
+            this.tlp_outer_design.Size = new System.Drawing.Size(607, 391);
             this.tlp_outer_design.TabIndex = 11;
             // 
             // pnl_toggle
             // 
             this.pnl_toggle.Controls.Add(this.btntoggle);
             this.pnl_toggle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_toggle.Location = new System.Drawing.Point(622, 3);
+            this.pnl_toggle.Location = new System.Drawing.Point(616, 3);
             this.pnl_toggle.Name = "pnl_toggle";
             this.pnl_toggle.Size = new System.Drawing.Size(36, 391);
             this.pnl_toggle.TabIndex = 13;
@@ -518,7 +518,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtitemid
             // 
-            this.txtitemid.Location = new System.Drawing.Point(622, 400);
+            this.txtitemid.Location = new System.Drawing.Point(616, 400);
             this.txtitemid.Name = "txtitemid";
             this.txtitemid.Size = new System.Drawing.Size(30, 20);
             this.txtitemid.TabIndex = 16;
@@ -534,11 +534,11 @@ namespace FoodandBeverage.Forms
             this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
             this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
             this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_navbar.Location = new System.Drawing.Point(3, 3);
+            this.tlp_navbar.Location = new System.Drawing.Point(6, 6);
             this.tlp_navbar.Name = "tlp_navbar";
             this.tlp_navbar.RowCount = 1;
             this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_navbar.Size = new System.Drawing.Size(661, 42);
+            this.tlp_navbar.Size = new System.Drawing.Size(655, 41);
             this.tlp_navbar.TabIndex = 15;
             // 
             // btnmini
@@ -548,9 +548,9 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(602, 3);
+            this.btnmini.Location = new System.Drawing.Point(596, 3);
             this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(25, 36);
+            this.btnmini.Size = new System.Drawing.Size(25, 35);
             this.btnmini.TabIndex = 9;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
@@ -563,9 +563,9 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(633, 3);
+            this.btncolse.Location = new System.Drawing.Point(627, 3);
             this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(25, 36);
+            this.btncolse.Size = new System.Drawing.Size(25, 35);
             this.btncolse.TabIndex = 10;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
@@ -573,6 +573,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_main
             // 
+            this.tlp_main.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
             this.tlp_main.ColumnCount = 1;
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main.Controls.Add(this.tlp_navbar, 0, 0);

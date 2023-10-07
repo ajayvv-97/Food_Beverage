@@ -93,6 +93,12 @@
     <Compile Include="Forms\FrmMenu.Designer.cs">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmTableInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTableInfo.Designer.cs">
+      <DependentUpon>FrmTableInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmUnit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTableInfo.resx">
+      <DependentUpon>FrmTableInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUnit.resx">
+      <DependentUpon>FrmUnit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -153,6 +165,10 @@
     <None Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Downloads\CustomMessageBox\CustomMessageBox.csproj">
+      <Project>{68255BFA-DB01-4583-9578-F9DBD47F37D8}</Project>
+      <Name>CustomMessageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{CE5B651E-3CE7-4312-ADDE-BF242DAF1197}</Project>
       <Name>BLL</Name>
@@ -216,6 +232,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\25512-4-save-button-clipart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restaurant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reserve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\available %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cate_registration.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtfoodCate.Text == "" || txtfoodCate.Text == null)
             {
-                MessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -65,14 +66,14 @@ namespace FoodandBeverage.Forms
                         if (usertype.Fcid>0)
                             {
                                 if (Convert.ToUInt32(txtFcid.Text) > 0)
-                                MessageBox.Show("Update Successfully saved");
+                                CMessageBox.Show("Update Successfully saved");
                             else
-                                MessageBox.Show("Successfully saved");
+                                CMessageBox.Show("Successfully saved");
                                 clearall();
                             Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
                             }
                             else
-                            MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel,MessageBoxIcon.Error);
+                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel,MessageBoxIcon.Error);
 
                         
                     }

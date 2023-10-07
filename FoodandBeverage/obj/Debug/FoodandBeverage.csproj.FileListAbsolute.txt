@@ -25,10 +25,13 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.ex
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FontAwesome.Sharp.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
@@ -38,6 +41,8 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Fo
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmIncrediant.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmItemRegistartion.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmMenu.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTableInfo.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmUnit.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.GenerateResource.cache
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CoreCompileInputs.cache

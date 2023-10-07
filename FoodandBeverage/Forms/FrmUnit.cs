@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -71,14 +72,14 @@ namespace FoodandBeverage.Forms
                         if (usertype.UId > 0)
                         {
                             if (Convert.ToUInt32(txtUid.Text) > 0)
-                                MessageBox.Show("Update Successfully saved");
+                                CMessageBox.Show("Update Successfully saved");
                             else
-                                MessageBox.Show("Successfully saved");
+                                CMessageBox.Show("Successfully saved");
                             clearall();
                             Fillunit();
                         }
                         else
-                            MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
 
 
                     }
@@ -134,7 +135,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtunit.Text == "" || txtunit.Text == null)
             {
-                MessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;

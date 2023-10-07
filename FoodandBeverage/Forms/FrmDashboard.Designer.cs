@@ -39,7 +39,7 @@ namespace FoodandBeverage.Forms
             this.Menusetting = new FontAwesome.Sharp.IconButton();
             this.Menulogout = new FontAwesome.Sharp.IconButton();
             this.pnl_header = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.pb_appicon = new System.Windows.Forms.PictureBox();
             this.panelDesktop = new System.Windows.Forms.Panel();
             this.pnlappcolor = new System.Windows.Forms.Panel();
             this.btnappok = new System.Windows.Forms.Button();
@@ -49,7 +49,7 @@ namespace FoodandBeverage.Forms
             this.pbappcoloepicker = new System.Windows.Forms.PictureBox();
             this.lblappcolor = new System.Windows.Forms.Label();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flp_time = new System.Windows.Forms.FlowLayoutPanel();
             this.lblTime = new System.Windows.Forms.Label();
             this.datelbl = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -61,15 +61,26 @@ namespace FoodandBeverage.Forms
             this.navibar2 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.tlp_tablestatus = new System.Windows.Forms.TableLayoutPanel();
+            this.btntrefresh = new System.Windows.Forms.Button();
+            this.btn_avial = new System.Windows.Forms.Button();
+            this.btn_rev = new System.Windows.Forms.Button();
+            this.btn_running = new System.Windows.Forms.Button();
+            this.tp_Avilable = new System.Windows.Forms.ToolTip(this.components);
+            this.tp_rev = new System.Windows.Forms.ToolTip(this.components);
+            this.tp_running = new System.Windows.Forms.ToolTip(this.components);
+            this.tp_refresh = new System.Windows.Forms.ToolTip(this.components);
             this.panelMenu.SuspendLayout();
             this.flp_menu.SuspendLayout();
             this.pnl_header.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
             this.pnlappcolor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbappcoloepicker)).BeginInit();
             this.tlp_main.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.flp_time.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.tlp_tablestatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -81,11 +92,12 @@ namespace FoodandBeverage.Forms
             this.panelMenu.BackColor = System.Drawing.Color.Silver;
             this.panelMenu.Controls.Add(this.flp_menu);
             this.panelMenu.Controls.Add(this.pnl_header);
+            this.panelMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMenu.ForeColor = System.Drawing.SystemColors.Window;
             this.panelMenu.Location = new System.Drawing.Point(22, 41);
             this.panelMenu.Margin = new System.Windows.Forms.Padding(2);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(183, 470);
+            this.panelMenu.Size = new System.Drawing.Size(184, 541);
             this.panelMenu.TabIndex = 4;
             this.panelMenu.Tag = "MenuBar";
             // 
@@ -102,7 +114,7 @@ namespace FoodandBeverage.Forms
             this.flp_menu.Location = new System.Drawing.Point(0, 63);
             this.flp_menu.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.flp_menu.Name = "flp_menu";
-            this.flp_menu.Size = new System.Drawing.Size(183, 407);
+            this.flp_menu.Size = new System.Drawing.Size(184, 478);
             this.flp_menu.TabIndex = 1;
             // 
             // Menuhome
@@ -251,27 +263,27 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_header
             // 
-            this.pnl_header.BackColor = System.Drawing.Color.Black;
+            this.pnl_header.BackColor = System.Drawing.Color.Transparent;
             this.pnl_header.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnl_header.Controls.Add(this.label2);
+            this.pnl_header.Controls.Add(this.pb_appicon);
             this.pnl_header.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnl_header.Location = new System.Drawing.Point(0, 0);
             this.pnl_header.Margin = new System.Windows.Forms.Padding(2);
             this.pnl_header.Name = "pnl_header";
-            this.pnl_header.Size = new System.Drawing.Size(183, 63);
+            this.pnl_header.Size = new System.Drawing.Size(184, 63);
             this.pnl_header.TabIndex = 0;
             this.pnl_header.Click += new System.EventHandler(this.pnl_header_Click);
             // 
-            // label2
+            // pb_appicon
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Maiandra GD", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.Menu;
-            this.label2.Location = new System.Drawing.Point(45, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 16);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "f&b";
+            this.pb_appicon.BackgroundImage = global::FoodandBeverage.Properties.Resources.Icon;
+            this.pb_appicon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_appicon.Location = new System.Drawing.Point(38, 5);
+            this.pb_appicon.Name = "pb_appicon";
+            this.pb_appicon.Size = new System.Drawing.Size(97, 50);
+            this.pb_appicon.TabIndex = 0;
+            this.pb_appicon.TabStop = false;
+            this.pb_appicon.Click += new System.EventHandler(this.pnl_header_Click);
             // 
             // panelDesktop
             // 
@@ -279,9 +291,9 @@ namespace FoodandBeverage.Forms
             this.panelDesktop.BackColor = System.Drawing.Color.White;
             this.panelDesktop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDesktop.Location = new System.Drawing.Point(234, 42);
+            this.panelDesktop.Location = new System.Drawing.Point(216, 42);
             this.panelDesktop.Name = "panelDesktop";
-            this.panelDesktop.Size = new System.Drawing.Size(915, 539);
+            this.panelDesktop.Size = new System.Drawing.Size(933, 539);
             this.panelDesktop.TabIndex = 5;
             // 
             // pnlappcolor
@@ -378,8 +390,8 @@ namespace FoodandBeverage.Forms
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_main.Controls.Add(this.flowLayoutPanel1, 3, 2);
+            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_main.Controls.Add(this.flp_time, 3, 2);
             this.tlp_main.Controls.Add(this.panelDesktop, 3, 1);
             this.tlp_main.Controls.Add(this.panelMenu, 1, 1);
             this.tlp_main.Controls.Add(this.tableLayoutPanel1, 3, 0);
@@ -395,15 +407,15 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Size = new System.Drawing.Size(1152, 611);
             this.tlp_main.TabIndex = 6;
             // 
-            // flowLayoutPanel1
+            // flp_time
             // 
-            this.flowLayoutPanel1.Controls.Add(this.lblTime);
-            this.flowLayoutPanel1.Controls.Add(this.datelbl);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(907, 587);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(242, 21);
-            this.flowLayoutPanel1.TabIndex = 7;
+            this.flp_time.Controls.Add(this.lblTime);
+            this.flp_time.Controls.Add(this.datelbl);
+            this.flp_time.Dock = System.Windows.Forms.DockStyle.Right;
+            this.flp_time.Location = new System.Drawing.Point(907, 587);
+            this.flp_time.Name = "flp_time";
+            this.flp_time.Size = new System.Drawing.Size(242, 21);
+            this.flp_time.TabIndex = 7;
             // 
             // lblTime
             // 
@@ -431,17 +443,18 @@ namespace FoodandBeverage.Forms
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 91.46982F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.530184F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.navibar, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(234, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(216, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 33);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(933, 33);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // flowLayoutPanel2
@@ -449,7 +462,7 @@ namespace FoodandBeverage.Forms
             this.flowLayoutPanel2.Controls.Add(this.btnmini);
             this.flowLayoutPanel2.Controls.Add(this.btnclose);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(853, 5);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(871, 5);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(59, 25);
@@ -491,23 +504,24 @@ namespace FoodandBeverage.Forms
             this.navibar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navibar.Location = new System.Drawing.Point(3, 3);
             this.navibar.Name = "navibar";
-            this.navibar.Size = new System.Drawing.Size(830, 27);
+            this.navibar.Size = new System.Drawing.Size(847, 27);
             this.navibar.TabIndex = 1;
             this.navibar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseDown);
             this.navibar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseMove);
             // 
             // navibar1
             // 
+            this.navibar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navibar1.Location = new System.Drawing.Point(23, 3);
             this.navibar1.Name = "navibar1";
-            this.navibar1.Size = new System.Drawing.Size(200, 33);
+            this.navibar1.Size = new System.Drawing.Size(182, 33);
             this.navibar1.TabIndex = 9;
             this.navibar1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseDown);
             this.navibar1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseMove);
             // 
             // navibar2
             // 
-            this.navibar2.Location = new System.Drawing.Point(229, 3);
+            this.navibar2.Location = new System.Drawing.Point(211, 3);
             this.navibar2.Name = "navibar2";
             this.navibar2.Size = new System.Drawing.Size(1, 33);
             this.navibar2.TabIndex = 10;
@@ -518,11 +532,87 @@ namespace FoodandBeverage.Forms
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // tlp_tablestatus
+            // 
+            this.tlp_tablestatus.ColumnCount = 4;
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_running, 2, 0);
+            this.tlp_tablestatus.Location = new System.Drawing.Point(455, 71);
+            this.tlp_tablestatus.Name = "tlp_tablestatus";
+            this.tlp_tablestatus.RowCount = 1;
+            this.tlp_tablestatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_tablestatus.Size = new System.Drawing.Size(437, 51);
+            this.tlp_tablestatus.TabIndex = 0;
+            this.tlp_tablestatus.Visible = false;
+            // 
+            // btntrefresh
+            // 
+            this.btntrefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_button;
+            this.btntrefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btntrefresh.FlatAppearance.BorderSize = 0;
+            this.btntrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btntrefresh.Location = new System.Drawing.Point(3, 3);
+            this.btntrefresh.Name = "btntrefresh";
+            this.btntrefresh.Size = new System.Drawing.Size(52, 42);
+            this.btntrefresh.TabIndex = 3;
+            this.tp_refresh.SetToolTip(this.btntrefresh, "Refresh Table List");
+            this.btntrefresh.UseVisualStyleBackColor = true;
+            this.btntrefresh.Click += new System.EventHandler(this.btntrefresh_Click);
+            // 
+            // btn_avial
+            // 
+            this.btn_avial.BackgroundImage = global::FoodandBeverage.Properties.Resources.available;
+            this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_avial.FlatAppearance.BorderSize = 0;
+            this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_avial.Location = new System.Drawing.Point(114, 3);
+            this.btn_avial.Name = "btn_avial";
+            this.btn_avial.Size = new System.Drawing.Size(58, 42);
+            this.btn_avial.TabIndex = 0;
+            this.tp_Avilable.SetToolTip(this.btn_avial, "Avilable Table");
+            this.btn_avial.UseVisualStyleBackColor = true;
+            this.btn_avial.Click += new System.EventHandler(this.btn_avial_Click);
+            // 
+            // btn_rev
+            // 
+            this.btn_rev.BackgroundImage = global::FoodandBeverage.Properties.Resources.reserve;
+            this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_rev.FlatAppearance.BorderSize = 0;
+            this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_rev.Location = new System.Drawing.Point(336, 3);
+            this.btn_rev.Name = "btn_rev";
+            this.btn_rev.Size = new System.Drawing.Size(66, 42);
+            this.btn_rev.TabIndex = 1;
+            this.tp_rev.SetToolTip(this.btn_rev, "Reservation table");
+            this.btn_rev.UseVisualStyleBackColor = true;
+            this.btn_rev.Click += new System.EventHandler(this.btn_rev_Click);
+            // 
+            // btn_running
+            // 
+            this.btn_running.BackgroundImage = global::FoodandBeverage.Properties.Resources.time;
+            this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_running.FlatAppearance.BorderSize = 0;
+            this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_running.Location = new System.Drawing.Point(231, 3);
+            this.btn_running.Name = "btn_running";
+            this.btn_running.Size = new System.Drawing.Size(52, 42);
+            this.btn_running.TabIndex = 2;
+            this.tp_running.SetToolTip(this.btn_running, "Currently Running Table");
+            this.btn_running.UseVisualStyleBackColor = true;
+            this.btn_running.Click += new System.EventHandler(this.btn_running_Click);
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1152, 611);
+            this.Controls.Add(this.tlp_tablestatus);
             this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -532,15 +622,16 @@ namespace FoodandBeverage.Forms
             this.panelMenu.ResumeLayout(false);
             this.flp_menu.ResumeLayout(false);
             this.pnl_header.ResumeLayout(false);
-            this.pnl_header.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).EndInit();
             this.pnlappcolor.ResumeLayout(false);
             this.pnlappcolor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbappcoloepicker)).EndInit();
             this.tlp_main.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.flp_time.ResumeLayout(false);
+            this.flp_time.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
+            this.tlp_tablestatus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -549,7 +640,6 @@ namespace FoodandBeverage.Forms
 
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel pnl_header;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.FlowLayoutPanel flp_menu;
         private System.Windows.Forms.Panel panelDesktop;
         private FontAwesome.Sharp.IconButton Menuoperation;
@@ -560,7 +650,7 @@ namespace FoodandBeverage.Forms
         private FontAwesome.Sharp.IconButton Menuhome;
         private System.Windows.Forms.TableLayoutPanel tlp_main;
         private System.Windows.Forms.Button btnclose;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flp_time;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Label datelbl;
         private System.Windows.Forms.Timer timer1;
@@ -578,5 +668,15 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtcolorcode;
         private System.Windows.Forms.Button btnappcolse;
         private System.Windows.Forms.Button btnappok;
+        private System.Windows.Forms.TableLayoutPanel tlp_tablestatus;
+        private System.Windows.Forms.Button btn_running;
+        private System.Windows.Forms.Button btn_rev;
+        private System.Windows.Forms.Button btn_avial;
+        private System.Windows.Forms.ToolTip tp_running;
+        private System.Windows.Forms.ToolTip tp_rev;
+        private System.Windows.Forms.ToolTip tp_Avilable;
+        private System.Windows.Forms.Button btntrefresh;
+        private System.Windows.Forms.ToolTip tp_refresh;
+        private System.Windows.Forms.PictureBox pb_appicon;
     }
 }

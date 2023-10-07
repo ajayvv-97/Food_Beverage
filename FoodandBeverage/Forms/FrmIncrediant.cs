@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -65,15 +66,15 @@ namespace FoodandBeverage.Forms
                     if (status.ItemId > 0)
                     {
                         if (Convert.ToUInt32(txtincrid.Text) > 0)
-                            MessageBox.Show("Update Successfully saved");
+                            CMessageBox.Show("Update Successfully saved");
                         else
-                            MessageBox.Show("Successfully saved");
+                            CMessageBox.Show("Successfully saved");
 
                         clearall();
                         //Fillitem();
                     }
                     else
-                        MessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace FoodandBeverage.Forms
         public void clearall()
         {
             txtdesc.Text = "";
-            cmb_menu.SelectedIndex = 0;
+            cmb_menu.SelectedIndex = -1;
             dgv_registartion.Rows.Clear();
             dgv_registartion.Rows.Add();
 
@@ -94,13 +95,13 @@ namespace FoodandBeverage.Forms
         {
             //if (txtincr_name.Text == "" || txtincr_name.Text == null)
             //{
-            //    MessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    CMessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //    txtitemid.Focus();
             //    return false;
             //}
             ////else if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
             ////{
-            ////    MessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            ////    CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             ////    cmbfcateg.Focus();
             ////    return false;
             ////}
@@ -211,7 +212,7 @@ namespace FoodandBeverage.Forms
             string selectedValue = cell.EditedFormattedValue?.ToString();
             if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == ".")
             {
-                MessageBox.Show("Please Select the item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Please Select the item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Ritemno];
                 dgv_registartion.BeginEdit(false);
 
@@ -220,7 +221,7 @@ namespace FoodandBeverage.Forms
             DataGridViewTextBoxCell cell1 = dgv_registartion[Rqtyno, rowno] as DataGridViewTextBoxCell;
             if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty )
             {
-                MessageBox.Show("Please Enter the Quantity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Please Enter the Quantity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Rqtyno];
                 dgv_registartion.BeginEdit(false);
                 return true;
@@ -230,7 +231,7 @@ namespace FoodandBeverage.Forms
             string selectedValue2 = cell2.EditedFormattedValue?.ToString();
             if (string.IsNullOrWhiteSpace(selectedValue2) || selectedValue2 == ".")
             {
-                MessageBox.Show("Please Select the Unit Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Please Select the Unit Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Runitno];
                 dgv_registartion.BeginEdit(false);
 
