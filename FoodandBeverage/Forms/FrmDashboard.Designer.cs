@@ -94,10 +94,10 @@ namespace FoodandBeverage.Forms
             this.panelMenu.Controls.Add(this.pnl_header);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMenu.ForeColor = System.Drawing.SystemColors.Window;
-            this.panelMenu.Location = new System.Drawing.Point(22, 41);
+            this.panelMenu.Location = new System.Drawing.Point(22, 42);
             this.panelMenu.Margin = new System.Windows.Forms.Padding(2);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(184, 541);
+            this.panelMenu.Size = new System.Drawing.Size(184, 671);
             this.panelMenu.TabIndex = 4;
             this.panelMenu.Tag = "MenuBar";
             // 
@@ -114,7 +114,7 @@ namespace FoodandBeverage.Forms
             this.flp_menu.Location = new System.Drawing.Point(0, 63);
             this.flp_menu.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.flp_menu.Name = "flp_menu";
-            this.flp_menu.Size = new System.Drawing.Size(184, 478);
+            this.flp_menu.Size = new System.Drawing.Size(184, 608);
             this.flp_menu.TabIndex = 1;
             // 
             // Menuhome
@@ -291,9 +291,9 @@ namespace FoodandBeverage.Forms
             this.panelDesktop.BackColor = System.Drawing.Color.White;
             this.panelDesktop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDesktop.Location = new System.Drawing.Point(216, 42);
+            this.panelDesktop.Location = new System.Drawing.Point(216, 43);
             this.panelDesktop.Name = "panelDesktop";
-            this.panelDesktop.Size = new System.Drawing.Size(933, 539);
+            this.panelDesktop.Size = new System.Drawing.Size(1040, 669);
             this.panelDesktop.TabIndex = 5;
             // 
             // pnlappcolor
@@ -390,7 +390,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 939F));
             this.tlp_main.Controls.Add(this.flp_time, 3, 2);
             this.tlp_main.Controls.Add(this.panelDesktop, 3, 1);
             this.tlp_main.Controls.Add(this.panelMenu, 1, 1);
@@ -401,10 +401,10 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 3;
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
-            this.tlp_main.Size = new System.Drawing.Size(1152, 611);
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 101F));
+            this.tlp_main.Size = new System.Drawing.Size(1259, 736);
             this.tlp_main.TabIndex = 6;
             // 
             // flp_time
@@ -412,9 +412,9 @@ namespace FoodandBeverage.Forms
             this.flp_time.Controls.Add(this.lblTime);
             this.flp_time.Controls.Add(this.datelbl);
             this.flp_time.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flp_time.Location = new System.Drawing.Point(907, 587);
+            this.flp_time.Location = new System.Drawing.Point(1014, 718);
             this.flp_time.Name = "flp_time";
-            this.flp_time.Size = new System.Drawing.Size(242, 21);
+            this.flp_time.Size = new System.Drawing.Size(242, 95);
             this.flp_time.TabIndex = 7;
             // 
             // lblTime
@@ -446,7 +446,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 91.46982F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.530184F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.navibar, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -454,7 +454,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(933, 33);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1040, 34);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // flowLayoutPanel2
@@ -462,10 +462,10 @@ namespace FoodandBeverage.Forms
             this.flowLayoutPanel2.Controls.Add(this.btnmini);
             this.flowLayoutPanel2.Controls.Add(this.btnclose);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(871, 5);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(956, 5);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(59, 25);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(59, 26);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // btnmini
@@ -504,7 +504,7 @@ namespace FoodandBeverage.Forms
             this.navibar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navibar.Location = new System.Drawing.Point(3, 3);
             this.navibar.Name = "navibar";
-            this.navibar.Size = new System.Drawing.Size(847, 27);
+            this.navibar.Size = new System.Drawing.Size(926, 28);
             this.navibar.TabIndex = 1;
             this.navibar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseDown);
             this.navibar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseMove);
@@ -514,7 +514,7 @@ namespace FoodandBeverage.Forms
             this.navibar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navibar1.Location = new System.Drawing.Point(23, 3);
             this.navibar1.Name = "navibar1";
-            this.navibar1.Size = new System.Drawing.Size(182, 33);
+            this.navibar1.Size = new System.Drawing.Size(182, 34);
             this.navibar1.TabIndex = 9;
             this.navibar1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseDown);
             this.navibar1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navibar_MouseMove);
@@ -611,12 +611,13 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1152, 611);
+            this.ClientSize = new System.Drawing.Size(1259, 736);
             this.Controls.Add(this.tlp_tablestatus);
             this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmDashboard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmDashboard";
             this.Load += new System.EventHandler(this.FrmDashboard_Load);
             this.panelMenu.ResumeLayout(false);

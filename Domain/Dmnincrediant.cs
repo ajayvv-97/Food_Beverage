@@ -22,6 +22,7 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public int BranchId { get; set; }
+        public int ProductId { get; set; }
 
     }
 }

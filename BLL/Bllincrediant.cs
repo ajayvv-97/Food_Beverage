@@ -18,7 +18,7 @@ namespace BLL
             parms.Add("unit", objTestClass.unit);
             parms.Add("Instructions", objTestClass.Instructions); 
             parms.Add("Recipe", objTestClass.Recipe);
-            parms.Add("Mid", objTestClass.Mid);
+            parms.Add("ProductId", objTestClass.ProductId);
             parms.Add("BranchId", objTestClass.BranchId); 
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);

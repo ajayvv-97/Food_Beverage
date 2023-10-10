@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Domain
+{
+	public class DmnProducts : DmnTaxSettings
+	{
+		public int ProductId { get; set; }
+		public int BranchId { get; set; }
+		public string Product { get; set; }
+		public string Description { get; set; }
+		public decimal Price { get; set; }
+		public string upc { get; set; }
+		public string UPCBarcode { get; set; }
+		public int CreatedBy { get; set; }
+		public DateTime CreatedOn { get; set; }
+		public int ModifiedBy { get; set; }
+		public DateTime ModifiedOn { get; set; }
+		public int Status { get; set; }
+		public string Tax { get; set; }
+		public int TaxType { get; set; }
+		public int TaxSettingsId { get; set; }
+		public decimal Qoh { get; set; }
+		public int Branchid { get; set; }
+		public int Fcid { get; set; }
+		public decimal DiscountAmt { get; set; }
+		public decimal DiscountPer { get; set; }
+		public string OfferDescription { get; set; }
+		public decimal MRP { get; set; }
+
+	}
+}

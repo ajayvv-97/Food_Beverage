@@ -1,16 +1,18 @@
-﻿using BLL;
+﻿
+using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -30,6 +32,12 @@ namespace FoodandBeverage.Forms
         public static int ffcid = 6;
         #endregion
 
+        public string Compressedimg = Application.StartupPath + "\\CompressedImg";
+        ClsDocument clsDocument = new ClsDocument();
+        public static string empImgExt = "";
+        TableLayoutPanel tlp_Gallery_Main = new TableLayoutPanel();
+        TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel(); 
+        private Color originalBackColor; // Variable to store the original background color
         private void btnclose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -66,7 +74,7 @@ namespace FoodandBeverage.Forms
                         if (string.IsNullOrWhiteSpace(txtmid.Text))
                         txtmid.Text = "0";
                     dmnmenu.MId = Convert.ToInt32(txtmid.Text);
-                    dmnmenu.Title = txtitemname.Text;
+                    //dmnmenu.Title = txtitemname.Text;
                     dmnmenu.Description = txtdesc.Text;
                     dmnmenu.CategoryId = Convert.ToInt32(cmbfcateg.SelectedValue);
                     dmnmenu.Recipe_Des = txtrecipedes.Text;
@@ -82,17 +90,36 @@ namespace FoodandBeverage.Forms
                     else
                         dmnmenu.Aviable_status = 0;
 
-
                     var usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
 
                         if (usertype.MId > 0)
                         {
-                            if (Convert.ToUInt32(txtmid.Text) > 0)
-                            CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            else
-                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            clearall();
-                        Fillmenu();
+                                if (pb_view_pic.BackgroundImage != null)
+                                {
+                                    if (File.Exists(Compressedimg + "\\Image.jpeg"))
+                                    {
+                                        bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
+                                        //if (status == false)
+                                        //{
+                                        //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                        //}
+                                    }
+                                }
+                                else
+                                {
+                                    bool imageExist = clsDocument.FileExistOrNot(Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
+                                    if (imageExist)
+                                    {
+                                        clsDocument.DeleteImage(Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
+                                    }
+                                }
+
+                                if (Convert.ToUInt32(txtmid.Text) > 0)
+                                    CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                    else
+                                    CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                    clearall();
+                                Fillmenu();
                     }
                     else
                         CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -138,13 +165,14 @@ namespace FoodandBeverage.Forms
         }
         public bool MandatoryCheck()
         {
-            if (txtitemname.Text == "" || txtitemname.Text == null)
-            {
-                CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtitemname.Focus();
-                return false;
-            }
-            else if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
+            //if (txtitemname.Text == "" || txtitemname.Text == null)
+            //{
+            //    CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtitemname.Focus();
+            //    return false;
+            //}
+            //else 
+            if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
             {
                 CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbfcateg.Focus();
@@ -167,7 +195,7 @@ namespace FoodandBeverage.Forms
         {
             txtmid.Text = "";
             txtdesc.Text = "";
-            txtitemname.Text = "";
+            //txtitemname.Text = "";
             Fillmenu();  
         }
 
@@ -187,6 +215,26 @@ namespace FoodandBeverage.Forms
             dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             clearall();
             Fillcombo();
+
+            #region menu Picture Folder 
+            if (!Directory.Exists(Compressedimg))
+            {
+                Directory.CreateDirectory(Compressedimg);
+                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                dInfo.SetAccessControl(dSecurity);
+            }
+            else
+            {
+                foreach (string file in Directory.GetFiles(Compressedimg))
+                {
+                    System.GC.Collect();
+                    System.GC.WaitForPendingFinalizers();
+                    File.Delete(file);
+                }
+            }
+            #endregion
         }
 
         private void dgv_menu_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -219,6 +267,254 @@ namespace FoodandBeverage.Forms
             path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
             path.CloseFigure();
             tlp_registration.Region = new Region(path);
+        }
+
+        private void pb_menupic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (empImgExt != "" && empImgExt != null)
+                {
+                    pnl_menupic.Visible = true;
+                    pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);
+                }
+                else
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                    DialogResult dialogResult = openFileDialog.ShowDialog();
+                    if (openFileDialog.FileName != "")
+                    {
+                        empImgExt = openFileDialog.FileName;
+                        pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                        pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+                        pb_view_pic.Image = null;
+                        Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
+                        bitmap.Save(Compressedimg + "\\Image.jpeg");
+                    }
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+               
+            }
+        }
+
+        private void btn_close_pic_Click(object sender, EventArgs e)
+        {
+            pnl_menupic.Visible = false;
+        }
+
+
+        #region gallery creation
+        public void GalleryView(int serachmode)
+        {
+            BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+            DmnSearch dmnSearch = new DmnSearch();
+            dmnSearch.Select = "*";
+            dmnSearch.Table = "tblTable_info";
+
+            switch (serachmode)
+            {
+                case 0:
+                    dmnSearch.WhereNdGroupBy = "where Status=1";
+                    break;
+                case 1:
+                    dmnSearch.WhereNdGroupBy = "where Status=1 and OrderStatus=1";
+                    break;
+                case 2:
+                    dmnSearch.WhereNdGroupBy = "where Status=1 and RevStatus=1";
+                    break;
+                case 3:
+                    dmnSearch.WhereNdGroupBy = "where Status=1 and OrderStatus=0 and RevStatus=0";
+                    break;
+
+            }
+
+            dmnSearch.OrderBy = "";
+            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+            if (gridSource.Count > 0)
+            {
+                pnlGallery.Controls.Clear();
+                tlp_Gallery_Main.RowCount = 2;
+                tlp_Gallery_Main.Controls.Clear();
+                tlp_Gallery_Main.Dock = DockStyle.Fill;
+                tlp_Gallery_Main.AutoScroll = true;
+
+
+                int rowIndex = 1;
+                int columnIndex = 0;
+                for (int i = 0; i < gridSource.Count; i++)
+                {
+                    if (columnIndex == 8)
+                    {
+                        columnIndex = 0;
+                        rowIndex++;
+                    }
+                    TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
+                    PictureBox pictureBox = new PictureBox();
+                    Label lbltablename = new Label();
+
+                    // Configure the PictureBox
+                    pictureBox.Name = gridSource[i].TableCode;
+                    pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
+                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                   // pictureBox.BackColor = "";
+                    pictureBox.Width = 60;
+                    pictureBox.Height = 80;
+
+                    // Configure the Label
+                    lbltablename.Name = gridSource[i].TableCode;
+                    lbltablename.Text = gridSource[i].TableCode;
+                    lbltablename.ForeColor = Color.Black;
+                    lbltablename.BackColor = Color.Transparent;
+                    lbltablename.Dock = DockStyle.Top;
+                    lbltablename.Width = 60;
+                    //lbltablename.Margin = new Padding(10, 10, 0, 0);
+                    lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+
+                    // Add the PictureBox and Label to the TableLayoutPanel
+                    tlp_Gallery_Box.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
+                    tlp_Gallery_Box.Controls.Add(lbltablename, 0, 1); // Label in the second row
+
+                    // Configure the TableLayoutPanel
+                    tlp_Gallery_Box.RowCount = 2;
+                    //tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Absolute, 80));
+                    //tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                    if (gridSource[i].OrderStatus == 1)
+                        lbltablename.BackColor = Color.Red;
+                    else if (gridSource[i].RevStatus == 1)
+                        lbltablename.BackColor = Color.Yellow;
+                    else
+                        lbltablename.BackColor = Color.Green;
+                    tlp_Gallery_Box.Name = gridSource[i].TableCode;
+                    //tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
+                    tlp_Gallery_Box.Dock = DockStyle.None;
+                    tlp_Gallery_Box.Margin = new Padding(20, 10, 20, 10);
+                    tlp_Gallery_Box.Width = 70;
+                    tlp_Gallery_Box.Height = 120;
+
+                    pictureBox.MouseEnter += TlpTableInner_MouseEnter;
+                    lbltablename.MouseEnter += TlpTableInner_MouseEnter;
+
+                    pictureBox.MouseLeave += TlpTableInner_MouseLeave;
+                    lbltablename.MouseLeave += TlpTableInner_MouseLeave;
+
+                    tlp_Gallery_Box.MouseEnter += TlpTableInner_MouseEnter;
+                    tlp_Gallery_Box.MouseLeave += TlpTableInner_MouseLeave;
+
+                    pictureBox.Click += new EventHandler(tableClickEventHandler);
+                    lbltablename.Click += new EventHandler(tableClickEventHandler);
+                    tlp_Gallery_Box.Click += new EventHandler(tableClickEventHandler);
+
+                    tlp_Gallery_Box.Controls.Add(tlp_Gallery_Box, columnIndex, rowIndex);
+                    columnIndex++;
+                }
+                tlp_Gallery_Box.BorderStyle = BorderStyle.FixedSingle;
+                tlp_Gallery_Main.Controls.Add(tlp_Gallery_Box, 0, 1);
+                pnlGallery.Controls.Add(tlp_Gallery_Main);
+            }
+        }
+        private void tableClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                if (clickedControl != null)
+                {
+                    string tableCode = clickedControl.Name;
+                    // Now, you have the ID (tableCode) associated with the clicked control.
+                    // You can use it as needed.
+                    CMessageBox.Show("Clicked Table ID: " + tableCode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void TlpTableInner_MouseEnter(object sender, EventArgs e)
+        {
+            TableLayoutPanel tlp = sender as TableLayoutPanel;
+            if (tlp != null)
+            {
+                foreach (Control control in tlp.Controls)
+                {
+                    if (control is Label)
+                    {
+                        Label lbl = control as Label;
+                        originalBackColor = lbl.BackColor;
+                        lbl.BackColor = Color.LightGray;
+                    }
+                }
+
+            }
+        }
+
+        private void TlpTableInner_MouseLeave(object sender, EventArgs e)
+        {
+            TableLayoutPanel tlp = sender as TableLayoutPanel;
+            if (tlp != null)
+            {
+                foreach (Control control in tlp.Controls)
+                {
+                    if (control is Label)
+                    {
+                        Label lbl = control as Label;
+                        lbl.BackColor = originalBackColor;
+                    }
+                }
+
+            }
+        }
+        #endregion
+        private void btn_change_pic_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (openFileDialog.FileName != "")
+            {
+                Compressedimg = Application.StartupPath + "\\CompressedImg";
+                empImgExt = openFileDialog.FileName;
+                pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+                pb_view_pic.Image = null;
+                Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
+                bitmap.Save(Compressedimg + "\\Image.jpeg");
+            }
+        }
+
+        private void btn_clear_pic_Click(object sender, EventArgs e)
+        {
+            empImgExt = "";
+            pb_view_pic.BackgroundImage = null;
+            pb_view_pic.Image = FoodandBeverage.Properties.Resources.no_pictures;
+            pb_view_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void Btn_view_menu_Click(object sender, EventArgs e)
+        {
+            tlp_registartion_main.Visible = false;
+            tlp_menu_Gallery.Visible = true;
+            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+            tlp_main.Controls.Remove(controlToRemove);
+            tlp_main.Controls.Add(tlp_menu_Gallery, 1, 0);
+            tlp_menu_Gallery.Dock = DockStyle.Fill;
+            GalleryView(0);
+        }
+
+        private void btn_back_reg_Click(object sender, EventArgs e)
+        {
+            tlp_menu_Gallery.Visible = false;
+            tlp_registartion_main.Visible = true;
+            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+            tlp_main.Controls.Remove(controlToRemove);
+            tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+            tlp_registartion_main.Dock = DockStyle.Fill;
         }
     }
 }

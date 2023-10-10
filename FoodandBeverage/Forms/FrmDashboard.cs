@@ -38,6 +38,8 @@ namespace FoodandBeverage.Forms
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
+            this.DoubleBuffered = true;
+            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             RoundPictureBoxCorners(pb_appicon, 10);
             TableStaus(0);
             pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
@@ -150,7 +152,6 @@ namespace FoodandBeverage.Forms
                     pictureBox.BackColor = menubuttoncolor;
                     pictureBox.Width = 60;
                     pictureBox.Height = 80;
-
 
                     // Configure the Label
                     lbltablename.Name = gridSource[i].TableCode;
@@ -367,6 +368,8 @@ namespace FoodandBeverage.Forms
                     pictureBox.Name = gridSource[i].Field1;
                     pictureBox.Image = FoodandBeverage.Properties.Resources.cate_registration; // Set the image you want to display
                     pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pictureBox.Tag = gridSource[i].Field2;
+                    pictureBox.Click += new EventHandler(MyButtonClickEventHandler);
                     pictureBox.Visible = true;            
                     button_type.MouseHover += new EventHandler(MouseEnterEventHandler);          
                     pictureBox.MouseLeave += new EventHandler(MouseLeaveEventHandler);
@@ -436,10 +439,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                Button clickedButton = (Button)sender;
-                string bname = clickedButton.Name;
-                string ptypeno = Convert.ToString(clickedButton.Tag);
-                string commandName = ptypeno;
+                string commandName="";
+                if (sender is Button clickedButton)
+                    commandName = Convert.ToString(clickedButton.Tag);     
+                else if (sender is PictureBox clickedPicture)
+                    commandName = Convert.ToString(clickedPicture.Tag);
+                
                 switch (commandName)
                 {
                     case "1":
