@@ -38,10 +38,11 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.AssemblyReference.cache
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmDashboard.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmFTICategory.resources
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmIncrediant.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmIngredient.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmItemRegistartion.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmMenu.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTableInfo.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTaxSetting.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmUnit.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.GenerateResource.cache

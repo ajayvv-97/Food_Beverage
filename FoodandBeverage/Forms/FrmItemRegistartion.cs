@@ -22,16 +22,16 @@ namespace FoodandBeverage.Forms
         }
         #region Declare Grid
         public static int slno = 0;
-        public static int id = 1;
-        public static int incre_name = 2;
-        public static int incre_categ = 3;
-        public static int iunit = 4;
-        public static int iqty = 5;
-        public static int iprice = 6;
-        public static int idesc = 7;
-        public static int istatus = 8;
-        public static int iunitid = 9;
-        public static int incre_categ_id = 10;
+        public static int idno = 1;
+        public static int incre_nameno = 2;
+        public static int incre_categno = 3;
+        public static int iunitno = 4;
+        public static int iqtyno = 5;
+        public static int ipriceno = 6;
+        public static int idescno = 7;
+        public static int istatusno = 8;
+        public static int iunitidno = 9;
+        public static int incre_categ_idno = 10;
         #endregion
         public void Fillitem()
         {
@@ -51,16 +51,16 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgv_item.Rows[i].Cells[slno].Value = i + 1;
-                        dgv_item.Rows[i].Cells[id].Value = itemSource[i].ItemId;
-                        dgv_item.Rows[i].Cells[incre_name].Value = itemSource[i].Itemname;
-                        dgv_item.Rows[i].Cells[incre_categ].Value = itemSource[i].Fcid;
-                        dgv_item.Rows[i].Cells[iunit].Value = itemSource[i].unit;
-                        dgv_item.Rows[i].Cells[iqty].Value = itemSource[i].quantity;
-                        dgv_item.Rows[i].Cells[iprice].Value = itemSource[i].price;
-                        dgv_item.Rows[i].Cells[idesc].Value = itemSource[i].summary;
-                        dgv_item.Rows[i].Cells[istatus].Value = Convert.ToInt32(itemSource[i].Status);
-                        dgv_item.Rows[i].Cells[iunitid].Value = itemSource[i].unit;
-                        dgv_item.Rows[i].Cells[incre_categ_id].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].ItemId;
+                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Itemname;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Fcid;
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
+                        dgv_item.Rows[i].Cells[ipriceno].Value = itemSource[i].price;
+                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
+                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].unit;
                     }
                 }
             }
@@ -153,7 +153,8 @@ namespace FoodandBeverage.Forms
             txtdesc.Text = "";
             txtqty.Text = "";
             txtprice.Text = "";
-            Fillitem();
+            cmbunit.SelectedIndex = -1;
+            cmb_inc_categ.SelectedIndex = -1;
         }
 
 
@@ -170,12 +171,30 @@ namespace FoodandBeverage.Forms
                 txtitemid.Focus();
                 return false;
             }
-            //else if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
-            //{
-            //    CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    cmbfcateg.Focus();
-            //    return false;
-            //}
+            else if (Convert.ToInt32(cmb_inc_categ.SelectedValue) == -1)
+            {
+                CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmb_inc_categ.Focus();
+                return false;
+            }
+            else if (Convert.ToInt32(cmbunit.SelectedValue) == -1)
+            {
+                CMessageBox.Show("Please Select Unit Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbunit.Focus();
+                return false;
+            }  
+            else if (txtqty.Text == "" || txtqty.Text == null || Convert.ToDecimal(txtqty.Text) < 0)
+            {
+                CMessageBox.Show("Please Enter Item Quauntity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtqty.Focus();
+                return false;
+            }
+            else if (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) < 0)
+            {
+                CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtprice.Focus();
+                return false;
+            }
 
             return true;
         }
@@ -183,6 +202,7 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             Fillitem();
+            clearall();
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -197,6 +217,9 @@ namespace FoodandBeverage.Forms
 
         private void btntoggle_Click(object sender, EventArgs e)
         {
+            
+            this.Width = 1025;
+            this.Height = 617;
             tlp_registration.Visible = false;
             tlp_grid.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -207,6 +230,8 @@ namespace FoodandBeverage.Forms
 
         private void toggle_grid_Click(object sender, EventArgs e)
         {
+            this.Width = 667;
+            this.Height = 510;
             tlp_grid.Visible = false;
             tlp_registration.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -257,6 +282,62 @@ namespace FoodandBeverage.Forms
             dgv_item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+        }
+
+        private void btn_del_ingre_Click(object sender, EventArgs e)
+        {
+            var result = CMessageBox.Show("Do You want Delete This Category", "Confirm The Actionn", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                chb_active.Checked = false;
+                btnsave.PerformClick();
+                Fillitem();
+            }
+        }
+
+        private void dgv_item_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int incgreid = Convert.ToInt32(dgv_item.Rows[e.RowIndex].Cells[idno].Value);
+                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblitem";
+                objSearch.WhereNdGroupBy = "where status = 1 and itemid=" + incgreid;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    txtitemid.Text = Convert.ToString(incgreid);
+                    txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
+                    txtdesc.Text = Convert.ToString(itemSource[0].summary);
+                    txtprice.Text = Convert.ToString(itemSource[0].price);
+                    txtqty.Text = Convert.ToString(itemSource[0].quantity);
+                    cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
+                    btn_del_ingre.Visible = true;
+                    toggle_grid.PerformClick();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void txtqty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

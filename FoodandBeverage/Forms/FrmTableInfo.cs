@@ -19,7 +19,16 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
-
+        #region Declaration Grid
+        public static int cslno = 0;
+        public static int tidno = 1;
+        public static int tcodeno = 2;
+        public static int tcapcno = 3;
+        public static int tcategno = 4;
+        public static int tdesno = 5;
+        public static int tstatusno = 6;
+        public static int tfcid = 7;
+        #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -37,7 +46,13 @@ namespace FoodandBeverage.Forms
                 txttablecode.Focus();
                 return false;
             }
-            else if (Convert.ToInt32(cmb_category.SelectedValue) == 0)
+            else if (txtcapcity.Text == "" || txtcapcity.Text == null ||Convert.ToDecimal(txtcapcity.Text)>=0)
+            {
+                CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcapcity.Focus();
+                return false;
+            }
+            else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
             {
                 CMessageBox.Show("Please Select Table category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmb_category.Focus();
@@ -61,7 +76,7 @@ namespace FoodandBeverage.Forms
                     dmntableinfo.TableCode = txttablecode.Text;
                     dmntableinfo.Capcity = Convert.ToInt32(txtcapcity.Text);
                     dmntableinfo.Description = txtdesc.Text;
-                    dmntableinfo.TCid = Convert.ToInt32(cmb_category.SelectedValue);
+                    dmntableinfo.Fcid = Convert.ToInt32(cmb_category.SelectedValue);
                     dmntableinfo.RevStatus = 0;
                     dmntableinfo.OrderStatus = 0;
                     dmntableinfo.CreatedBy = 1;
@@ -115,19 +130,115 @@ namespace FoodandBeverage.Forms
             txttid.Text = "";
             txtcapcity.Text = "";
             txttablecode.Text = "";
-            //Fillmenu();
+            btn_del_table.Visible = false;
         }
 
         private void FrmTableInfo_Load(object sender, EventArgs e)
         {
             Fillcombo();
+            Filltable();
+            dgv_table.BorderStyle = BorderStyle.None;
+            dgv_table.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_table.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_table.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_table.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_table.BackgroundColor = Color.White;
+
+            dgv_table.EnableHeadersVisualStyles = false;
+            dgv_table.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_table.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_table.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
+            Filltable();
+         
         }
 
+        private void dgv_table_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int tableid = Convert.ToInt32(dgv_table.Rows[e.RowIndex].Cells[tidno].Value);
+                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblTable_info";
+                objSearch.WhereNdGroupBy = "where status = 1 and Tid=" + tableid;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    txttid.Text = Convert.ToString(tableid);
+                    txtdesc.Text = Convert.ToString(itemSource[0].Description);
+                    cmb_category.SelectedValue= Convert.ToInt64(itemSource[0].Fcid);
+                    txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
+                    txttablecode.Text = Convert.ToString(itemSource[0].TableCode);    
+                    btn_del_table.Visible = true;
+                }
 
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void btn_del_table_Click(object sender, EventArgs e)
+        {
+
+            var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                chb_active.Checked = false;
+                btnsave.PerformClick();
+                Filltable();
+            }
+        }
+            public void Filltable()
+            {
+            try
+            {
+                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "t.*,c.CategoryName";
+                objSearch.Table = "tblTable_info t LEFT JOIN tblCategory_FTI c ON C.Fcid=T.Fcid";
+                objSearch.WhereNdGroupBy = "where t.status=1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                dgv_table.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_table.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_table.Rows[i].Cells[cslno].Value = i + 1;
+                        dgv_table.Rows[i].Cells[tidno].Value = itemSource[i].Tid;
+                        dgv_table.Rows[i].Cells[tcodeno].Value = itemSource[i].TableCode;
+                        dgv_table.Rows[i].Cells[tcapcno].Value = Convert.ToInt32(itemSource[i].Capcity);
+                        dgv_table.Rows[i].Cells[tcategno].Value = itemSource[i].CategoryName;
+                        dgv_table.Rows[i].Cells[tdesno].Value = itemSource[i].Description;
+                        dgv_table.Rows[i].Cells[tstatusno].Value = itemSource[i].Status;
+                        dgv_table.Rows[i].Cells[tfcid].Value = Convert.ToInt32(itemSource[i].Fcid);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        private void txtcapcity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+           
+        }
     }
 }

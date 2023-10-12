@@ -16,6 +16,14 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmUnit : Form
     {
+        #region Declare Grid
+        public static int slno = 0;
+        public static int idno = 1;
+        public static int iunitno = 2;
+        public static int idesno = 3;
+        public static int istatusno = 4;
+
+        #endregion
         public FrmUnit()
         {
             InitializeComponent();
@@ -48,7 +56,6 @@ namespace FoodandBeverage.Forms
                     bool savestatus;
                     if (txtunit.Text != "")
                     {
-
                         DmnUnit dmnunit = new DmnUnit();
                         BllUnit bllunit = new BllUnit();
                         if (string.IsNullOrWhiteSpace(txtUid.Text))
@@ -58,16 +65,10 @@ namespace FoodandBeverage.Forms
                         dmnunit.Description = txtdescr.Text;
                         dmnunit.CreatedBy = 1;
                         dmnunit.BranchId = 1;
-                        if (chk_active.Visible)
-                        {
-                            if (chk_active.Checked)
-                                dmnunit.Status = 1;
-                            else
-                                dmnunit.Status = 0;
-                        }
-                        else
+                        if (chk_active.Checked)
                             dmnunit.Status = 1;
-
+                        else
+                            dmnunit.Status = 0;
                         var usertype = bllunit.AddeditData("prdInsert_upd_Unit", dmnunit);
                         if (usertype.UId > 0)
                         {
@@ -80,8 +81,6 @@ namespace FoodandBeverage.Forms
                         }
                         else
                             CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-
-
                     }
                     else
                         txtunit.Focus();
@@ -98,7 +97,6 @@ namespace FoodandBeverage.Forms
             txtdescr.Text = "";
             txtunit.Text = "";
             chk_active.Visible = false;
-            Fillunit();
         }
         public void Fillunit()
         {
@@ -117,11 +115,11 @@ namespace FoodandBeverage.Forms
                     dgv_unit.Rows.Add(itemSource.Count);
                     for (int i = 0; i < itemSource.Count; i++)
                     {
-                        dgv_unit.Rows[i].Cells[0].Value = i + 1;
-                        dgv_unit.Rows[i].Cells[1].Value = itemSource[i].UId;
-                        dgv_unit.Rows[i].Cells[2].Value = itemSource[i].UnitName;
-                        dgv_unit.Rows[i].Cells[3].Value = itemSource[i].Description;
-                        dgv_unit.Rows[i].Cells[4].Value = Convert.ToInt32(itemSource[i].Status);
+                        dgv_unit.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_unit.Rows[i].Cells[idno].Value = itemSource[i].UId;
+                        dgv_unit.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
+                        dgv_unit.Rows[i].Cells[idesno].Value = itemSource[i].Description;
+                        dgv_unit.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
                     }
                 }
             }
@@ -135,7 +133,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtunit.Text == "" || txtunit.Text == null)
             {
-                CMessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Unit Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -159,7 +157,9 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
-            Fillunit();
+            clearall();
+            Fillunit();        
+            btn_del_unit.Visible = false;
         }
 
         private void tlp_registartion_Paint(object sender, PaintEventArgs e)
@@ -177,6 +177,43 @@ namespace FoodandBeverage.Forms
             path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
             path.CloseFigure();
             tlp_registartion.Region = new Region(path);
+        }
+
+        private void btn_del_unit_Click(object sender, EventArgs e)
+        {
+            var result = CMessageBox.Show("Do You want Delete This Unit", "Confirm The Action", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                chk_active.Checked = false;
+                btnsave.PerformClick();
+                Fillunit();
+            }
+        }
+
+        private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int unitid = Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[idno].Value);
+                BllSearch<DmnUnit> bllSearch = new BllSearch<DmnUnit>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblunit";
+                objSearch.WhereNdGroupBy = "where status = 1 and uid=" + unitid;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    txtUid.Text = Convert.ToString(unitid);
+                    txtunit.Text = Convert.ToString(itemSource[0].UnitName);
+                    txtdescr.Text = Convert.ToString(itemSource[0].Description);
+                    btn_del_unit.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

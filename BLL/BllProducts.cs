@@ -21,7 +21,8 @@ namespace BLL
 			parms.Add("DiscountPer", objTestClass.DiscountPer);
 			parms.Add("OfferDescription", objTestClass.OfferDescription);
 			parms.Add("MRP", objTestClass.MRP);
-			parms.Add("upc", objTestClass.upc);
+			parms.Add("upc", objTestClass.upc); 
+			parms.Add("TaxType", objTestClass.TaxType); 
 
 			parms.Add("CreatedBy", objTestClass.CreatedBy);		
 			parms.Add("Status", objTestClass.Status);

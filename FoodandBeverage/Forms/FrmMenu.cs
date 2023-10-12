@@ -24,19 +24,24 @@ namespace FoodandBeverage.Forms
         }
         #region Declare Grid
         public static int slno = 0;
-        public static int id = 1;
-        public static int fname = 2;
-        public static int fcateg = 3;
-        public static int fdes = 4;
-        public static int fstaus = 5;
-        public static int ffcid = 6;
+        public static int pmidno = 1;
+        public static int piidno = 2;
+        public static int pnameno = 3;
+        public static int pcatno = 4;
+        public static int ppriceno = 5;
+        public static int pstatusno = 6;
+        public static int pfcidno = 7;
+
         #endregion
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         ClsDocument clsDocument = new ClsDocument();
         public static string empImgExt = "";
         TableLayoutPanel tlp_Gallery_Main = new TableLayoutPanel();
-        TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel(); 
+        TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
+        TableLayoutPanel tlp_gallery_sub = new TableLayoutPanel();
+        ToolTip toolTip_gallery = new ToolTip();
+        private bool comboBoxChanged = false;
         private Color originalBackColor; // Variable to store the original background color
         private void btnclose_Click(object sender, EventArgs e)
         {
@@ -53,9 +58,14 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                cmbfcateg.DataSource = gridSource;
-                cmbfcateg.ValueMember = "Id";
-                cmbfcateg.DisplayMember = "Value";
+                cmbMenu_category.DataSource = gridSource;
+                cmbMenu_category.ValueMember = "Id";
+                cmbMenu_category.DisplayMember = "Value";
+
+                cmbSearchlist.DataSource = gridSource;
+                cmbSearchlist.ValueMember = "Id";
+                cmbSearchlist.DisplayMember = "Value";
+
             }
             catch (Exception ex)
             {
@@ -70,56 +80,34 @@ namespace FoodandBeverage.Forms
                 {
 
                     DmnMenu dmnmenu = new DmnMenu();
+                    DmnMenu usertype = new DmnMenu();
+                    
                     BllMenu bllmenu = new BllMenu();
-                        if (string.IsNullOrWhiteSpace(txtmid.Text))
-                        txtmid.Text = "0";
-                    dmnmenu.MId = Convert.ToInt32(txtmid.Text);
-                    //dmnmenu.Title = txtitemname.Text;
-                    dmnmenu.Description = txtdesc.Text;
-                    dmnmenu.CategoryId = Convert.ToInt32(cmbfcateg.SelectedValue);
-                    dmnmenu.Recipe_Des = txtrecipedes.Text;
-                    dmnmenu.CreatedBy = 1;
-                    dmnmenu.BranchId = 1;
-                    if (chb_active.Checked)
-                        dmnmenu.Status = 1;
-                    else
-                        dmnmenu.Status = 0;
+                    int count = 0;
+                    for (int i = 0; i < dgv_menu.RowCount; i++)
+                    {
+                        if ( ((dgv_menu.Rows[i].Cells[piidno].Value) != null || (dgv_menu.Rows[i].Cells[piidno].Value) != ""))//&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
 
-                    if (chk_avilable.Checked)
-                        dmnmenu.Aviable_status = 1;
-                    else
-                        dmnmenu.Aviable_status = 0;
-
-                    var usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
-
-                        if (usertype.MId > 0)
                         {
-                                if (pb_view_pic.BackgroundImage != null)
-                                {
-                                    if (File.Exists(Compressedimg + "\\Image.jpeg"))
-                                    {
-                                        bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
-                                        //if (status == false)
-                                        //{
-                                        //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-                                        //}
-                                    }
-                                }
-                                else
-                                {
-                                    bool imageExist = clsDocument.FileExistOrNot(Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
-                                    if (imageExist)
-                                    {
-                                        clsDocument.DeleteImage(Convert.ToString(usertype.MId) + ".jpeg", DocumentType.FoodPhoto);
-                                    }
-                                }
-
-                                if (Convert.ToUInt32(txtmid.Text) > 0)
-                                    CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                                    else
-                                    CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                                    clearall();
-                                Fillmenu();
+                            dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
+                            dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
+                            dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
+                            dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
+                            dmnmenu.CreatedBy = 1;
+                            dmnmenu.BranchId = 1;
+                            if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) ==true)
+                                dmnmenu.Status =1;
+                            else
+                                dmnmenu.Status = 0;
+                            usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                            count++;
+                        }
+                    }
+                    if (count== dgv_menu.RowCount)
+                    {
+                        CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        clearall();
+                        Fillmenu(0);
                     }
                     else
                         CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -130,16 +118,21 @@ namespace FoodandBeverage.Forms
 
             }
         }
-        public void Fillmenu()
+
+        public void Fillmenu(int searchmode)
         {
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "m.mid as Field1, m.Title as Field2,fc.CategoryName as Field3,m.Description as Field4,m.Status as Field5,m.MId as Field6 ";
-                objSearch.Table = "tblMenu m left join tblCategory_FTI fc on fc.Fcid=m.MId";
-                objSearch.WhereNdGroupBy = "Where m.status=1 ";
-                objSearch.OrderBy = "";
+                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7";
+                objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+                if(searchmode == 0 || searchmode == -1)
+                    objSearch.WhereNdGroupBy = "Where P.status=1";
+                else
+                    objSearch.WhereNdGroupBy = "Where P.status=1 and P.Fcid=" + searchmode;
+
+                objSearch.OrderBy = "order by Product";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 dgv_menu.Rows.Clear();
                 if (itemSource.Count > 0)
@@ -148,14 +141,21 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgv_menu.Rows[i].Cells[slno].Value = i + 1;
-                        dgv_menu.Rows[i].Cells[id].Value = itemSource[i].Field1;
-                        dgv_menu.Rows[i].Cells[fname].Value = itemSource[i].Field2;
-                        dgv_menu.Rows[i].Cells[fcateg].Value = itemSource[i].Field3;
-                        dgv_menu.Rows[i].Cells[fdes].Value = itemSource[i].Field4;
-                        dgv_menu.Rows[i].Cells[fstaus].Value = Convert.ToInt32(itemSource[i].Field5);
-                        dgv_menu.Rows[i].Cells[ffcid].Value = itemSource[i].Field6;
+                        dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
+                        dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
+                        dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
+                        dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
+                        dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+                        dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
+
+                        if (Convert.ToInt32(itemSource[i].Field6)==1)
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                        else
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;
                     }
                 }
+                else
+                    CMessageBox.Show("No Products For This Category");
             }
             catch (Exception ex)
             {
@@ -172,10 +172,10 @@ namespace FoodandBeverage.Forms
             //    return false;
             //}
             //else 
-            if (Convert.ToInt32(cmbfcateg.SelectedValue) == 0)
+            if (Convert.ToInt32(cmbMenu_category.SelectedValue) == 0)
             {
                 CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbfcateg.Focus();
+                cmbMenu_category.Focus();
                 return false;
             }
             
@@ -188,20 +188,19 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
-            Fillmenu();
             clearall();
+            Fillmenu(0);
+           
         }
         public void clearall()
         {
-            txtmid.Text = "";
-            txtdesc.Text = "";
-            //txtitemname.Text = "";
-            Fillmenu();  
+            cmbSearchlist.SelectedIndex = -1;
+            txtsearch.Text = "";
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
-            Fillmenu();
+            Fillmenu(0);
             dgv_menu.BorderStyle = BorderStyle.None;
             dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_menu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -237,10 +236,7 @@ namespace FoodandBeverage.Forms
             #endregion
         }
 
-        private void dgv_menu_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -269,166 +265,178 @@ namespace FoodandBeverage.Forms
             tlp_registration.Region = new Region(path);
         }
 
-        private void pb_menupic_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (empImgExt != "" && empImgExt != null)
-                {
-                    pnl_menupic.Visible = true;
-                    pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);
-                }
-                else
-                {
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                    DialogResult dialogResult = openFileDialog.ShowDialog();
-                    if (openFileDialog.FileName != "")
-                    {
-                        empImgExt = openFileDialog.FileName;
-                        pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                        pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                        pb_view_pic.Image = null;
-                        Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
-                        bitmap.Save(Compressedimg + "\\Image.jpeg");
-                    }
-                }
-
-                
-            }
-            catch (Exception ex)
-            {
-               
-            }
-        }
-
-        private void btn_close_pic_Click(object sender, EventArgs e)
-        {
-            pnl_menupic.Visible = false;
-        }
-
-
         #region gallery creation
         public void GalleryView(int serachmode)
         {
-            BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+            BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
             DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.Select = "*";
-            dmnSearch.Table = "tblTable_info";
 
-            switch (serachmode)
+            dmnSearch.Select = "p.*, m.status as menustatus";
+            dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+
+            if (comboBoxChanged)
             {
-                case 0:
-                    dmnSearch.WhereNdGroupBy = "where Status=1";
-                    break;
-                case 1:
-                    dmnSearch.WhereNdGroupBy = "where Status=1 and OrderStatus=1";
-                    break;
-                case 2:
-                    dmnSearch.WhereNdGroupBy = "where Status=1 and RevStatus=1";
-                    break;
-                case 3:
-                    dmnSearch.WhereNdGroupBy = "where Status=1 and OrderStatus=0 and RevStatus=0";
-                    break;
-
+                dmnSearch.WhereNdGroupBy = "where p.Status=1 and  p.Fcid = " + serachmode;
+                comboBoxChanged = false;
             }
-
-            dmnSearch.OrderBy = "";
+            else
+                dmnSearch.WhereNdGroupBy = "where p.Status=1";
+            dmnSearch.OrderBy = "order by Product";
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
             if (gridSource.Count > 0)
             {
-                pnlGallery.Controls.Clear();
-                tlp_Gallery_Main.RowCount = 2;
-                tlp_Gallery_Main.Controls.Clear();
-                tlp_Gallery_Main.Dock = DockStyle.Fill;
-                tlp_Gallery_Main.AutoScroll = true;
-
-
-                int rowIndex = 1;
+                tlp_gallery_sub.Controls.Clear();
+                int rowIndex = 0;
                 int columnIndex = 0;
                 for (int i = 0; i < gridSource.Count; i++)
                 {
-                    if (columnIndex == 8)
+                    if (Convert.ToInt32(gridSource[i].menustatus) == 1)
                     {
-                        columnIndex = 0;
-                        rowIndex++;
+                        if (columnIndex == 5)
+                        {
+                            columnIndex = 0;
+                            rowIndex++;
+                        }
+                        string info = gridSource[i].Product + "," + gridSource[i].Price + "," + gridSource[i].MRP + "," + gridSource[i].Tax + "," + gridSource[i].TaxType + "," + gridSource[i].DiscountPer + "," + gridSource[i].DiscountAmt;
+
+                        TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
+                        PictureBox pictureBox = new PictureBox();
+                        Label lbltablename = new Label();
+
+                        // Configure the PictureBox
+                        string imageName = Convert.ToString(gridSource[i].ProductId) + ".jpeg";
+                        bool imageExist, brLogoExist;
+                        if (imageName != "" && imageName != null)
+                        {
+                            imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                            if (imageExist)
+                                pictureBox.Image = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                            else
+                                pictureBox.Image = FoodandBeverage.Properties.Resources.Deafult_food_pic;
+                        }
+                        pictureBox.Name = Convert.ToString(gridSource[i].ProductId);
+                        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pictureBox.Width = 150;
+                        pictureBox.Height = 150;
+                        pictureBox.Tag = info;
+
+                        // Configure the Label
+                        lbltablename.Name = Convert.ToString(gridSource[i].ProductId);
+                        tlp_Gallery_Box.Tag = info;
+                        lbltablename.Text = Convert.ToString(gridSource[i].Product);
+                        lbltablename.ForeColor = Color.Black;
+                        lbltablename.AutoSize = true;
+                        lbltablename.BackColor = Color.Transparent;
+                        lbltablename.Dock = DockStyle.Top;
+                        lbltablename.Width = 60;
+                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+
+                        // Configure the TableLayoutPanel
+                        tlp_Gallery_Box.RowCount = 2;
+                        // Add the PictureBox and Label to the TableLayoutPanel
+                        tlp_Gallery_Box.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
+                        tlp_Gallery_Box.Controls.Add(lbltablename, 0, 1); // Label in the second row
+                        tlp_Gallery_Box.Name = Convert.ToString(gridSource[i].ProductId);
+                        tlp_Gallery_Box.Tag = info;
+                        tlp_Gallery_Box.Dock = DockStyle.None;
+                        tlp_Gallery_Box.Margin = new Padding(20, 10, 20, 10);
+                        tlp_Gallery_Box.Width = 150;
+                        tlp_Gallery_Box.Height = 200;
+                        tlp_Gallery_Box.BorderStyle = BorderStyle.FixedSingle;
+                        tlp_Gallery_Box.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+
+                        pictureBox.MouseEnter += TlpTableInner_MouseEnter;
+                        lbltablename.MouseEnter += TlpTableInner_MouseEnter;
+
+                        pictureBox.MouseLeave += TlpTableInner_MouseLeave;
+                        lbltablename.MouseLeave += TlpTableInner_MouseLeave;
+
+                        tlp_Gallery_Box.MouseEnter += TlpTableInner_MouseEnter;
+                        tlp_Gallery_Box.MouseLeave += TlpTableInner_MouseLeave;
+
+                        pictureBox.Click += new EventHandler(ProductClickEventHandler);
+                        lbltablename.Click += new EventHandler(ProductClickEventHandler);
+                        tlp_Gallery_Box.Click += new EventHandler(ProductClickEventHandler);
+
+                        pictureBox.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+                        lbltablename.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+                        tlp_Gallery_Box.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+
+                        tlp_gallery_sub.Controls.Add(tlp_Gallery_Box, columnIndex, rowIndex);
+                        columnIndex++;
                     }
-                    TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
-                    PictureBox pictureBox = new PictureBox();
-                    Label lbltablename = new Label();
-
-                    // Configure the PictureBox
-                    pictureBox.Name = gridSource[i].TableCode;
-                    pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
-                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                   // pictureBox.BackColor = "";
-                    pictureBox.Width = 60;
-                    pictureBox.Height = 80;
-
-                    // Configure the Label
-                    lbltablename.Name = gridSource[i].TableCode;
-                    lbltablename.Text = gridSource[i].TableCode;
-                    lbltablename.ForeColor = Color.Black;
-                    lbltablename.BackColor = Color.Transparent;
-                    lbltablename.Dock = DockStyle.Top;
-                    lbltablename.Width = 60;
-                    //lbltablename.Margin = new Padding(10, 10, 0, 0);
-                    lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-
-                    // Add the PictureBox and Label to the TableLayoutPanel
-                    tlp_Gallery_Box.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
-                    tlp_Gallery_Box.Controls.Add(lbltablename, 0, 1); // Label in the second row
-
-                    // Configure the TableLayoutPanel
-                    tlp_Gallery_Box.RowCount = 2;
-                    //tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Absolute, 80));
-                    //tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                    if (gridSource[i].OrderStatus == 1)
-                        lbltablename.BackColor = Color.Red;
-                    else if (gridSource[i].RevStatus == 1)
-                        lbltablename.BackColor = Color.Yellow;
-                    else
-                        lbltablename.BackColor = Color.Green;
-                    tlp_Gallery_Box.Name = gridSource[i].TableCode;
-                    //tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                    tlp_Gallery_Box.Dock = DockStyle.None;
-                    tlp_Gallery_Box.Margin = new Padding(20, 10, 20, 10);
-                    tlp_Gallery_Box.Width = 70;
-                    tlp_Gallery_Box.Height = 120;
-
-                    pictureBox.MouseEnter += TlpTableInner_MouseEnter;
-                    lbltablename.MouseEnter += TlpTableInner_MouseEnter;
-
-                    pictureBox.MouseLeave += TlpTableInner_MouseLeave;
-                    lbltablename.MouseLeave += TlpTableInner_MouseLeave;
-
-                    tlp_Gallery_Box.MouseEnter += TlpTableInner_MouseEnter;
-                    tlp_Gallery_Box.MouseLeave += TlpTableInner_MouseLeave;
-
-                    pictureBox.Click += new EventHandler(tableClickEventHandler);
-                    lbltablename.Click += new EventHandler(tableClickEventHandler);
-                    tlp_Gallery_Box.Click += new EventHandler(tableClickEventHandler);
-
-                    tlp_Gallery_Box.Controls.Add(tlp_Gallery_Box, columnIndex, rowIndex);
-                    columnIndex++;
+                
                 }
                 tlp_Gallery_Box.BorderStyle = BorderStyle.FixedSingle;
-                tlp_Gallery_Main.Controls.Add(tlp_Gallery_Box, 0, 1);
-                pnlGallery.Controls.Add(tlp_Gallery_Main);
+                tlp_Gallery_Box.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                tlp_Gallery_Main.Dock = DockStyle.Fill;
+                tlp_gallery_sub.Dock = DockStyle.Fill;
+                tlp_menu_Gallery_main.Dock = DockStyle.Fill;
+                tlp_gallery_sub.AutoScroll = true;
+                tlp_menu_Gallery_main.Controls.Add(tlp_gallery_sub, 0, 1);
+            }
+            else
+                CMessageBox.Show("No Products For This Category");
+
+        }
+        private void ProductMousehoverEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                toolTip_gallery.BackColor = Color.Green;
+                toolTip_gallery.ForeColor = Color.Black;
+                if (sender is PictureBox)
+                {
+                    PictureBox pictureBox = (PictureBox)sender;
+                    string info = Convert.ToString(pictureBox.Tag);
+                    // Split the info string by commas
+                    string[] infoParts = info.Split(',');
+                    string tooltipText = "";
+                    tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
+                    toolTip_gallery.Show(tooltipText, pictureBox);
+
+                }
+                else if (sender is Label)
+                {
+                    // Handle Label hover
+                    Label label = (Label)sender;
+                    string info = Convert.ToString(label.Tag);
+                    // Split the info string by commas
+                    string[] infoParts = info.Split(',');
+                    string tooltipText = "";
+                    tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
+                    toolTip_gallery.Show(tooltipText, label);
+                }
+                else if (sender is TableLayoutPanel)
+                {
+                    // Handle TableLayoutPanel hover
+                    TableLayoutPanel tlp = (TableLayoutPanel)sender;
+                    string info = Convert.ToString(tlp.Tag);
+                    // Split the info string by commas
+                    string[] infoParts = info.Split(',');
+                    string tooltipText = "";
+                    tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
+                    toolTip_gallery.Show(tooltipText, tlp);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions if necessary
             }
         }
-        private void tableClickEventHandler(object sender, EventArgs e)
+
+
+        private void ProductClickEventHandler(object sender, EventArgs e)
         {
             try
             {
                 Control clickedControl = sender as Control;
                 if (clickedControl != null)
                 {
-                    string tableCode = clickedControl.Name;
-                    // Now, you have the ID (tableCode) associated with the clicked control.
-                    // You can use it as needed.
-                    CMessageBox.Show("Clicked Table ID: " + tableCode);
+                    string pid = clickedControl.Name;
+                    ///FillData(Convert.ToInt32(pid));
+                    CMessageBox.Show("Clicked Table ID: " + pid);
                 }
             }
             catch (Exception ex)
@@ -471,50 +479,52 @@ namespace FoodandBeverage.Forms
             }
         }
         #endregion
-        private void btn_change_pic_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-            DialogResult dialogResult = openFileDialog.ShowDialog();
-            if (openFileDialog.FileName != "")
-            {
-                Compressedimg = Application.StartupPath + "\\CompressedImg";
-                empImgExt = openFileDialog.FileName;
-                pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                pb_view_pic.Image = null;
-                Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
-                bitmap.Save(Compressedimg + "\\Image.jpeg");
-            }
-        }
 
-        private void btn_clear_pic_Click(object sender, EventArgs e)
-        {
-            empImgExt = "";
-            pb_view_pic.BackgroundImage = null;
-            pb_view_pic.Image = FoodandBeverage.Properties.Resources.no_pictures;
-            pb_view_pic.SizeMode = PictureBoxSizeMode.StretchImage;
-        }
 
         private void Btn_view_menu_Click(object sender, EventArgs e)
         {
+            this.Width = 1025;
+            this.Height = 617;
             tlp_registartion_main.Visible = false;
-            tlp_menu_Gallery.Visible = true;
+            tlp_menu_Gallery_main.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
             tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_menu_Gallery, 1, 0);
-            tlp_menu_Gallery.Dock = DockStyle.Fill;
+            tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
+            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
             GalleryView(0);
+        } 
+
+        private void btnseach_menu_Click(object sender, EventArgs e)
+        {
+           
         }
 
-        private void btn_back_reg_Click(object sender, EventArgs e)
+        private void cmbMenu_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            tlp_menu_Gallery.Visible = false;
+            Fillmenu(Convert.ToInt32(cmbMenu_category.SelectedValue));
+        }
+
+        private void btn_bck_reg_Click(object sender, EventArgs e)
+        {
+            this.Width = 755;
+            this.Height = 506;
+            tlp_menu_Gallery_main.Visible = false;
             tlp_registartion_main.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
             tlp_registartion_main.Dock = DockStyle.Fill;
+        }
+
+        private void cmbSearchlist_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            comboBoxChanged = true;
+            GalleryView(Convert.ToInt32(cmbSearchlist.SelectedValue));
+        }
+
+        private void Search_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -508,7 +508,7 @@ namespace FoodandBeverage.Forms
                     case "3":
                         if (System.Windows.Forms.Application.OpenForms["FrmIncrediant"] != null)
                         {
-                            FrmIncrediant _instanceFrmIncrediant = Application.OpenForms["FrmIncrediant"] as FrmIncrediant;
+                            FrmIngredient _instanceFrmIncrediant = Application.OpenForms["FrmIncrediant"] as FrmIngredient;
                             if (_instanceFrmIncrediant.WindowState == FormWindowState.Minimized)
                                 _instanceFrmIncrediant.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                             else
@@ -522,7 +522,7 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            FrmIncrediant _instanceFrmIncrediant = new FrmIncrediant();
+                            FrmIngredient _instanceFrmIncrediant = new FrmIngredient();
                             _instanceFrmIncrediant.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
                             _instanceFrmIncrediant.TopLevel = false;
@@ -612,6 +612,33 @@ namespace FoodandBeverage.Forms
                             panelDesktop.Controls.Add(_instanceTableInfo);
                             _instanceTableInfo.Show();
                             _instanceTableInfo.BringToFront();
+                        }
+                        break;
+                    case "9":
+                        if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
+                        {
+                            FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
+                            if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
+                                _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            else
+                            {
+                                _instanceTaxSetting.Dock = DockStyle.None;
+                                _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                                panelDesktop.Controls.Add(_instanceTaxSetting);
+                                _instanceTaxSetting.Show();
+                                _instanceTaxSetting.BringToFront();
+                            }
+                        }
+                        else
+                        {
+                            FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
+                            _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+
+                            _instanceTaxSetting.TopLevel = false;
+                            _instanceTaxSetting.Dock = DockStyle.None;
+                            panelDesktop.Controls.Add(_instanceTaxSetting);
+                            _instanceTaxSetting.Show();
+                            _instanceTaxSetting.BringToFront();
                         }
                         break;
                 }

@@ -76,11 +76,11 @@
     <Compile Include="Forms\FrmFTICategory.Designer.cs">
       <DependentUpon>FrmFTICategory.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmIncrediant.cs">
+    <Compile Include="Forms\FrmIngredient.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmIncrediant.Designer.cs">
-      <DependentUpon>FrmIncrediant.cs</DependentUpon>
+    <Compile Include="Forms\FrmIngredient.Designer.cs">
+      <DependentUpon>FrmIngredient.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmItemRegistartion.cs">
       <SubType>Form</SubType>
@@ -99,6 +99,12 @@
     </Compile>
     <Compile Include="Forms\FrmTableInfo.Designer.cs">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmTaxSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTaxSetting.Designer.cs">
+      <DependentUpon>FrmTaxSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmUnit.cs">
       <SubType>Form</SubType>
@@ -121,8 +127,8 @@
     <EmbeddedResource Include="Forms\FrmFTICategory.resx">
       <DependentUpon>FrmFTICategory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmIncrediant.resx">
-      <DependentUpon>FrmIncrediant.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmIngredient.resx">
+      <DependentUpon>FrmIngredient.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
@@ -132,6 +138,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTableInfo.resx">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTaxSetting.resx">
+      <DependentUpon>FrmTaxSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnit.resx">
       <DependentUpon>FrmUnit.cs</DependentUpon>
@@ -273,6 +283,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deafult_food_pic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

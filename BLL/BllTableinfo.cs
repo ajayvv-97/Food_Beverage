@@ -15,7 +15,7 @@ namespace BLL
             parms.Add("Tid", objTestClass.Tid);
             parms.Add("TableCode", objTestClass.TableCode);
             parms.Add("Capcity", objTestClass.Capcity);
-            parms.Add("TCid", objTestClass.TCid);
+            parms.Add("Fcid", objTestClass.Fcid);
             parms.Add("RevStatus", objTestClass.RevStatus);
             parms.Add("Description", objTestClass.Description);
             parms.Add("BranchId", objTestClass.BranchId); ;

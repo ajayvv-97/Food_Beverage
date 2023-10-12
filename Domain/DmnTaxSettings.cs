@@ -7,7 +7,7 @@ namespace Domain
     public class DmnTaxSettings
     {
         public int TaxSettingsId { get; set; }
-        public string Tax { get; set; }
+        public string TaxType { get; set; }
         public decimal CgstPrcnt { get; set; }
         public decimal IgstPrcnt { get; set; }
         public decimal SgstPrcnt { get; set; }

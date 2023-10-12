@@ -13,14 +13,13 @@ namespace BLL
             DAL.DapperRepository<DmnMenu> objDapperRepository = new DAL.DapperRepository<DmnMenu>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("MId", objTestClass.MId);
-            parms.Add("Title", objTestClass.Title);
-            parms.Add("CategoryId", objTestClass.CategoryId);
+            parms.Add("Name", objTestClass.Name);
+            parms.Add("Fcid", objTestClass.Fcid);
+            parms.Add("ProductId", objTestClass.ProductId);
             parms.Add("Description", objTestClass.Description);
             parms.Add("BranchId", objTestClass.BranchId); ;
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);
-            parms.Add("Active", objTestClass.Aviable_status);
-            parms.Add("Recipe", objTestClass.Recipe_Des);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

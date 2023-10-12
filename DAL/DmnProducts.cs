@@ -19,7 +19,7 @@ namespace Domain
 		public DateTime ModifiedOn { get; set; }
 		public int Status { get; set; }
 		public string Tax { get; set; }
-		public int TaxType { get; set; }
+		public string TaxType { get; set; }
 		public int TaxSettingsId { get; set; }
 		public decimal Qoh { get; set; }
 		public int Branchid { get; set; }
@@ -28,6 +28,8 @@ namespace Domain
 		public decimal DiscountPer { get; set; }
 		public string OfferDescription { get; set; }
 		public decimal MRP { get; set; }
+
+		public int menustatus { get; set; }
 
 	}
 }

@@ -10,7 +10,7 @@ namespace Domain
         
         public string TableCode { get; set; }
         public int Capcity { get; set; }
-        public int TCid { get; set; }
+        public int Fcid { get; set; }
         public int RevStatus { get; set; }      
         public string Description { get; set; }
         public long CreatedBy { get; set; }
@@ -20,7 +20,7 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public int OrderStatus { get; set; }
-        
+        public string CategoryName { get; set; }
 
 
     }
