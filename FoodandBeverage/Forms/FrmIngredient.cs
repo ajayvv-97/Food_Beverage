@@ -72,7 +72,8 @@ namespace FoodandBeverage.Forms
                     dmnproduct.MRP = Convert.ToDecimal(txtmrp.Text);
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
                     dmnproduct.TaxType = Convert.ToString(cmbTaxType.Text);
-                    dmnproduct.upc = "";
+                    dmnproduct.Quantity = Convert.ToInt32(txtqty.Text);
+                    dmnproduct.UPC = "";
                     dmnproduct.CreatedBy = 1;
                     dmnproduct.BranchId = 1;
 
@@ -162,6 +163,7 @@ namespace FoodandBeverage.Forms
             cmbTaxType.SelectedIndex = 0;    
             dgv_registartion.Rows.Clear();
             dgv_registartion.Rows.Add();
+            btn_del_ingre.Visible = false;
         }
         public bool MandatoryCheck()
         {
@@ -295,8 +297,6 @@ namespace FoodandBeverage.Forms
                 cmbSearchlist.ValueMember = "Id";
                 cmbSearchlist.DisplayMember = "Value";
 
-
-
                 objSearch.Select = " UId,UnitName";
                 objSearch.Table = " tblUnit";
                 objSearch.WhereNdGroupBy = "where status=1";
@@ -411,7 +411,7 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearchproduct.GetSearchData("prdSearch", objSearch);
                 if (gridSource.Count > 0)
                 {
-                   
+                    btn_del_ingre.Visible = true;
                     tlp_menu_Gallery_main.Visible = false;
                     tlp_registartion_toggle.Visible = true;
                     Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -518,42 +518,72 @@ namespace FoodandBeverage.Forms
             cmbIgstPrcnt.DisplayMember = "Value";
         }
 
-
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
+            int[] columnsToRemove = { 1, 2, 3 }; 
+            int[] rowsToRemove = { 4, 5 }; 
+
+            foreach (int column in columnsToRemove)
+            {
+                foreach (int row in rowsToRemove)
+                {
+                    Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                    if (controlToRemove != null)
+                    {
+                        tlp_registration.Controls.Remove(controlToRemove);
+                    }
+                }
+            }
+
             if (cmbTaxType.Text == "GST")
             {
-                lbligst.Visible = true;
-                cmbIgstPrcnt.Visible = true;
-
                 lbligst.Dock = DockStyle.Fill;
                 cmbIgstPrcnt.Dock = DockStyle.Fill;
+                //lbligst.Visible = true;
+                //cmbIgstPrcnt.Visible = true;              
 
-                lblcgst.Visible = true;
-                txtCgstPrcnt.Visible = true;
+                //lblcgst.Visible = true;
+                //txtCgstPrcnt.Visible = true;
 
-                lblsgst.Visible = true;
-                txtSgstPrcnt.Visible = true;
+                //lblsgst.Visible = true;
+                //txtSgstPrcnt.Visible = true;
 
-                lblvat.Visible = false;
-                cmbVatPrcnt.Visible = false;
+                //lblvat.Visible = false;
+                //cmbVatPrcnt.Visible = false;     
+                //row1
+                tlp_registration.Controls.Add(lbligst, 1, 4);
+                tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 2, 4);
+                tlp_registration.Controls.Add(tlp_lbl_des_del, 3, 4);
+                //row2
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 5);
+                tlp_registration.Controls.Add(tlp_S_C_text, 2, 5);
+                tlp_registration.Controls.Add(tlp_desc_delete, 3, 5);
             }
             else if (cmbTaxType.Text == "VAT")
             {
-                lbligst.Visible = false;
-                cmbIgstPrcnt.Visible = false;
+                //lbligst.Visible = false;
+                //cmbIgstPrcnt.Visible = false;
 
-                lblcgst.Visible = false;
-                txtCgstPrcnt.Visible = false;
+                //lblcgst.Visible = false;
+                //txtCgstPrcnt.Visible = false;
 
-                lblsgst.Visible = false;
-                txtSgstPrcnt.Visible = false;
+                //lblsgst.Visible = false;
+                //txtSgstPrcnt.Visible = false;
 
                 cmbVatPrcnt.Dock = DockStyle.Fill;
                 lblvat.Dock = DockStyle.Fill;
 
-                lblvat.Visible = true;
-                cmbVatPrcnt.Visible = true;
+                //lblvat.Visible = true;
+                //cmbVatPrcnt.Visible = true;
+
+                //row1
+                tlp_registration.Controls.Add(lblvat, 1, 4);
+                tlp_registration.Controls.Add(tlp_lbl_des_del, 2, 4);
+
+                //row2
+                tlp_registration.Controls.Add(cmbVatPrcnt, 1, 5);
+                tlp_registration.Controls.Add(tlp_desc_delete, 2, 5);
+
 
             }
         }
@@ -1030,6 +1060,28 @@ namespace FoodandBeverage.Forms
             if (!decimal.TryParse(txtmrp.Text, out value))
             {
                 txtmrp.Text = "0";
+            }
+        }
+
+        private void txtqty_Validating(object sender, CancelEventArgs e)
+        {
+            decimal value;
+            if (!decimal.TryParse(txtprice.Text, out value))
+            {
+                txtprice.Text = "0";
+            }
+        }
+
+        private void txtqty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnItem
+    public class DmnItem :DmnTaxSettings
     {
         public long ItemId { get; set; }
         public string Itemname { get; set; }
@@ -19,6 +19,13 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public int BranchId { get; set; }
+        public int TaxSettingsId { get; set; }
+        public string Tax { get; set; }
+        public string TaxType { get; set; }
+        public string UnitName { get; set; }
+        public string CategoryName { get; set; }
+        
+            
 
     }
 }

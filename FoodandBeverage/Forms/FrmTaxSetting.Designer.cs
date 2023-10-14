@@ -47,6 +47,13 @@ namespace FoodandBeverage.Forms
             this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_outer_design = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_registration = new System.Windows.Forms.TableLayoutPanel();
+            this.chb_active = new System.Windows.Forms.CheckBox();
+            this.btn_del_tax = new System.Windows.Forms.Button();
+            this.tlp_button = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.btnsave = new System.Windows.Forms.Button();
+            this.btnrefresh = new System.Windows.Forms.Button();
+            this.btnclose = new System.Windows.Forms.Button();
             this.txtSgstPrcnt = new System.Windows.Forms.TextBox();
             this.txtCgstPrcnt = new System.Windows.Forms.TextBox();
             this.lbltaxtype = new System.Windows.Forms.Label();
@@ -56,21 +63,15 @@ namespace FoodandBeverage.Forms
             this.txtIgstPrcnt = new System.Windows.Forms.TextBox();
             this.cmbTaxType = new System.Windows.Forms.ComboBox();
             this.txtVatPrcnt = new System.Windows.Forms.TextBox();
-            this.chb_active = new System.Windows.Forms.CheckBox();
-            this.btn_del_tax = new System.Windows.Forms.Button();
             this.lblcgst = new System.Windows.Forms.Label();
-            this.tlp_button = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnsave = new System.Windows.Forms.Button();
-            this.btnrefresh = new System.Windows.Forms.Button();
-            this.btnclose = new System.Windows.Forms.Button();
+            this.pnl_all_controls = new System.Windows.Forms.Panel();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_submain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaxSettings)).BeginInit();
             this.tlp_outer_design.SuspendLayout();
-            this.tlp_registration.SuspendLayout();
             this.tlp_button.SuspendLayout();
+            this.pnl_all_controls.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -82,9 +83,10 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.RowCount = 2;
+            this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_main.Size = new System.Drawing.Size(800, 450);
             this.tlp_main.TabIndex = 0;
             // 
@@ -177,7 +179,7 @@ namespace FoodandBeverage.Forms
             this.Status});
             this.dgvTaxSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTaxSettings.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgvTaxSettings.Location = new System.Drawing.Point(3, 255);
+            this.dgvTaxSettings.Location = new System.Drawing.Point(3, 257);
             this.dgvTaxSettings.Name = "dgvTaxSettings";
             this.dgvTaxSettings.ReadOnly = true;
             this.dgvTaxSettings.RowHeadersVisible = false;
@@ -249,6 +251,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_outer_design
             // 
+            this.tlp_outer_design.AutoSize = true;
             this.tlp_outer_design.BackColor = System.Drawing.Color.AliceBlue;
             this.tlp_outer_design.ColumnCount = 3;
             this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
@@ -264,150 +267,27 @@ namespace FoodandBeverage.Forms
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_outer_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tlp_outer_design.Size = new System.Drawing.Size(788, 200);
+            this.tlp_outer_design.Size = new System.Drawing.Size(788, 202);
             this.tlp_outer_design.TabIndex = 10;
             // 
             // tlp_registration
             // 
             this.tlp_registration.BackColor = System.Drawing.Color.White;
-            this.tlp_registration.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tlp_registration.ColumnCount = 3;
-            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_registration.Controls.Add(this.txtSgstPrcnt, 0, 3);
-            this.tlp_registration.Controls.Add(this.txtCgstPrcnt, 0, 3);
-            this.tlp_registration.Controls.Add(this.lbltaxtype, 0, 0);
-            this.tlp_registration.Controls.Add(this.lblvat, 1, 0);
-            this.tlp_registration.Controls.Add(this.lblsgst, 0, 2);
-            this.tlp_registration.Controls.Add(this.lbligst, 2, 0);
-            this.tlp_registration.Controls.Add(this.txtIgstPrcnt, 2, 1);
-            this.tlp_registration.Controls.Add(this.cmbTaxType, 0, 1);
-            this.tlp_registration.Controls.Add(this.txtVatPrcnt, 1, 1);
-            this.tlp_registration.Controls.Add(this.lblcgst, 1, 2);
+            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tlp_registration.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_registration.Location = new System.Drawing.Point(22, 11);
             this.tlp_registration.Name = "tlp_registration";
             this.tlp_registration.RowCount = 5;
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.66864F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.85207F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.09467F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registration.Size = new System.Drawing.Size(741, 172);
             this.tlp_registration.TabIndex = 4;
-            // 
-            // txtSgstPrcnt
-            // 
-            this.txtSgstPrcnt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSgstPrcnt.Location = new System.Drawing.Point(4, 104);
-            this.txtSgstPrcnt.Name = "txtSgstPrcnt";
-            this.txtSgstPrcnt.Size = new System.Drawing.Size(221, 20);
-            this.txtSgstPrcnt.TabIndex = 259;
-            this.txtSgstPrcnt.TextChanged += new System.EventHandler(this.txtSgstPrcnt_TextChanged);
-            this.txtSgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
-            // 
-            // txtCgstPrcnt
-            // 
-            this.txtCgstPrcnt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCgstPrcnt.Location = new System.Drawing.Point(232, 104);
-            this.txtCgstPrcnt.Name = "txtCgstPrcnt";
-            this.txtCgstPrcnt.Size = new System.Drawing.Size(221, 20);
-            this.txtCgstPrcnt.TabIndex = 258;
-            this.txtCgstPrcnt.TextChanged += new System.EventHandler(this.txtCgstPrcnt_TextChanged);
-            this.txtCgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
-            // 
-            // lbltaxtype
-            // 
-            this.lbltaxtype.AutoSize = true;
-            this.lbltaxtype.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbltaxtype.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltaxtype.Location = new System.Drawing.Point(4, 1);
-            this.lbltaxtype.Name = "lbltaxtype";
-            this.lbltaxtype.Size = new System.Drawing.Size(221, 36);
-            this.lbltaxtype.TabIndex = 5;
-            this.lbltaxtype.Text = "Tax Type";
-            this.lbltaxtype.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblvat
-            // 
-            this.lblvat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblvat.AutoSize = true;
-            this.lblvat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblvat.Location = new System.Drawing.Point(232, 1);
-            this.lblvat.Name = "lblvat";
-            this.lblvat.Size = new System.Drawing.Size(221, 20);
-            this.lblvat.TabIndex = 7;
-            this.lblvat.Text = "VAT";
-            this.lblvat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblsgst
-            // 
-            this.lblsgst.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblsgst.AutoSize = true;
-            this.lblsgst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblsgst.Location = new System.Drawing.Point(4, 77);
-            this.lblsgst.Name = "lblsgst";
-            this.lblsgst.Size = new System.Drawing.Size(221, 20);
-            this.lblsgst.TabIndex = 6;
-            this.lblsgst.Text = "SGST";
-            this.lblsgst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbligst
-            // 
-            this.lbligst.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbligst.AutoSize = true;
-            this.lbligst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbligst.Location = new System.Drawing.Point(460, 1);
-            this.lbligst.Name = "lbligst";
-            this.lbligst.Size = new System.Drawing.Size(277, 20);
-            this.lbligst.TabIndex = 11;
-            this.lbligst.Text = "IGST";
-            this.lbligst.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtIgstPrcnt
-            // 
-            this.txtIgstPrcnt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIgstPrcnt.Location = new System.Drawing.Point(460, 41);
-            this.txtIgstPrcnt.Name = "txtIgstPrcnt";
-            this.txtIgstPrcnt.Size = new System.Drawing.Size(277, 20);
-            this.txtIgstPrcnt.TabIndex = 0;
-            this.txtIgstPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtIgstPrcnt_Validating);
-            // 
-            // cmbTaxType
-            // 
-            this.cmbTaxType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbTaxType.FormattingEnabled = true;
-            this.cmbTaxType.Items.AddRange(new object[] {
-            "GST",
-            "VAT"});
-            this.cmbTaxType.Location = new System.Drawing.Point(4, 41);
-            this.cmbTaxType.Name = "cmbTaxType";
-            this.cmbTaxType.Size = new System.Drawing.Size(221, 21);
-            this.cmbTaxType.TabIndex = 10;
-            this.cmbTaxType.SelectedIndexChanged += new System.EventHandler(this.cmbTaxType_SelectedIndexChanged);
-            // 
-            // txtVatPrcnt
-            // 
-            this.txtVatPrcnt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVatPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtVatPrcnt.Location = new System.Drawing.Point(232, 41);
-            this.txtVatPrcnt.MaxLength = 5;
-            this.txtVatPrcnt.Name = "txtVatPrcnt";
-            this.txtVatPrcnt.Size = new System.Drawing.Size(221, 26);
-            this.txtVatPrcnt.TabIndex = 256;
-            this.txtVatPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtVatPrcnt_Validating);
             // 
             // chb_active
             // 
@@ -439,19 +319,6 @@ namespace FoodandBeverage.Forms
             this.btn_del_tax.Visible = false;
             this.btn_del_tax.Click += new System.EventHandler(this.btn_del_tax_Click);
             // 
-            // lblcgst
-            // 
-            this.lblcgst.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblcgst.AutoSize = true;
-            this.lblcgst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcgst.Location = new System.Drawing.Point(232, 77);
-            this.lblcgst.Name = "lblcgst";
-            this.lblcgst.Size = new System.Drawing.Size(221, 20);
-            this.lblcgst.TabIndex = 257;
-            this.lblcgst.Text = "CGST";
-            this.lblcgst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // tlp_button
             // 
             this.tlp_button.ColumnCount = 4;
@@ -464,7 +331,7 @@ namespace FoodandBeverage.Forms
             this.tlp_button.Controls.Add(this.btnrefresh, 1, 0);
             this.tlp_button.Controls.Add(this.btnclose, 2, 0);
             this.tlp_button.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tlp_button.Location = new System.Drawing.Point(386, 209);
+            this.tlp_button.Location = new System.Drawing.Point(386, 211);
             this.tlp_button.Name = "tlp_button";
             this.tlp_button.RowCount = 1;
             this.tlp_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -539,11 +406,143 @@ namespace FoodandBeverage.Forms
             this.btnclose.UseVisualStyleBackColor = false;
             this.btnclose.Click += new System.EventHandler(this.btnclose_Click);
             // 
+            // txtSgstPrcnt
+            // 
+            this.txtSgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtSgstPrcnt.Name = "txtSgstPrcnt";
+            this.txtSgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtSgstPrcnt.TabIndex = 259;
+            this.txtSgstPrcnt.TextChanged += new System.EventHandler(this.txtSgstPrcnt_TextChanged);
+            this.txtSgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
+            // 
+            // txtCgstPrcnt
+            // 
+            this.txtCgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtCgstPrcnt.Name = "txtCgstPrcnt";
+            this.txtCgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtCgstPrcnt.TabIndex = 258;
+            this.txtCgstPrcnt.TextChanged += new System.EventHandler(this.txtCgstPrcnt_TextChanged);
+            this.txtCgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
+            // 
+            // lbltaxtype
+            // 
+            this.lbltaxtype.AutoSize = true;
+            this.lbltaxtype.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbltaxtype.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbltaxtype.Location = new System.Drawing.Point(0, 0);
+            this.lbltaxtype.Name = "lbltaxtype";
+            this.lbltaxtype.Size = new System.Drawing.Size(80, 20);
+            this.lbltaxtype.TabIndex = 5;
+            this.lbltaxtype.Text = "Tax Type";
+            this.lbltaxtype.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblvat
+            // 
+            this.lblvat.AutoSize = true;
+            this.lblvat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblvat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblvat.Location = new System.Drawing.Point(0, 0);
+            this.lblvat.Name = "lblvat";
+            this.lblvat.Size = new System.Drawing.Size(43, 20);
+            this.lblvat.TabIndex = 7;
+            this.lblvat.Text = "VAT";
+            this.lblvat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblsgst
+            // 
+            this.lblsgst.AutoSize = true;
+            this.lblsgst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblsgst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblsgst.Location = new System.Drawing.Point(0, 0);
+            this.lblsgst.Name = "lblsgst";
+            this.lblsgst.Size = new System.Drawing.Size(57, 20);
+            this.lblsgst.TabIndex = 6;
+            this.lblsgst.Text = "SGST";
+            this.lblsgst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbligst
+            // 
+            this.lbligst.AutoSize = true;
+            this.lbligst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbligst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbligst.Location = new System.Drawing.Point(0, 0);
+            this.lbligst.Name = "lbligst";
+            this.lbligst.Size = new System.Drawing.Size(51, 20);
+            this.lbligst.TabIndex = 11;
+            this.lbligst.Text = "IGST";
+            this.lbligst.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtIgstPrcnt
+            // 
+            this.txtIgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtIgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtIgstPrcnt.Name = "txtIgstPrcnt";
+            this.txtIgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtIgstPrcnt.TabIndex = 0;
+            this.txtIgstPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtIgstPrcnt_Validating);
+            // 
+            // cmbTaxType
+            // 
+            this.cmbTaxType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbTaxType.FormattingEnabled = true;
+            this.cmbTaxType.Items.AddRange(new object[] {
+            "GST",
+            "VAT"});
+            this.cmbTaxType.Location = new System.Drawing.Point(0, 0);
+            this.cmbTaxType.Name = "cmbTaxType";
+            this.cmbTaxType.Size = new System.Drawing.Size(30, 21);
+            this.cmbTaxType.TabIndex = 10;
+            this.cmbTaxType.SelectedIndexChanged += new System.EventHandler(this.cmbTaxType_SelectedIndexChanged);
+            // 
+            // txtVatPrcnt
+            // 
+            this.txtVatPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVatPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtVatPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtVatPrcnt.MaxLength = 5;
+            this.txtVatPrcnt.Name = "txtVatPrcnt";
+            this.txtVatPrcnt.Size = new System.Drawing.Size(30, 26);
+            this.txtVatPrcnt.TabIndex = 256;
+            this.txtVatPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtVatPrcnt_Validating);
+            // 
+            // lblcgst
+            // 
+            this.lblcgst.AutoSize = true;
+            this.lblcgst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblcgst.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcgst.Location = new System.Drawing.Point(0, 0);
+            this.lblcgst.Name = "lblcgst";
+            this.lblcgst.Size = new System.Drawing.Size(57, 20);
+            this.lblcgst.TabIndex = 257;
+            this.lblcgst.Text = "CGST";
+            this.lblcgst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pnl_all_controls
+            // 
+            this.pnl_all_controls.Controls.Add(this.txtCgstPrcnt);
+            this.pnl_all_controls.Controls.Add(this.txtSgstPrcnt);
+            this.pnl_all_controls.Controls.Add(this.lbltaxtype);
+            this.pnl_all_controls.Controls.Add(this.lblcgst);
+            this.pnl_all_controls.Controls.Add(this.txtIgstPrcnt);
+            this.pnl_all_controls.Controls.Add(this.lbligst);
+            this.pnl_all_controls.Controls.Add(this.txtVatPrcnt);
+            this.pnl_all_controls.Controls.Add(this.cmbTaxType);
+            this.pnl_all_controls.Controls.Add(this.lblvat);
+            this.pnl_all_controls.Controls.Add(this.lblsgst);
+            this.pnl_all_controls.Location = new System.Drawing.Point(0, 0);
+            this.pnl_all_controls.Name = "pnl_all_controls";
+            this.pnl_all_controls.Size = new System.Drawing.Size(30, 19);
+            this.pnl_all_controls.TabIndex = 260;
+            this.pnl_all_controls.Visible = false;
+            // 
             // FrmTaxSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pnl_all_controls);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmTaxSetting";
@@ -552,12 +551,13 @@ namespace FoodandBeverage.Forms
             this.tlp_main.ResumeLayout(false);
             this.tlp_navbar.ResumeLayout(false);
             this.tlp_submain.ResumeLayout(false);
+            this.tlp_submain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaxSettings)).EndInit();
             this.tlp_outer_design.ResumeLayout(false);
             this.tlp_outer_design.PerformLayout();
-            this.tlp_registration.ResumeLayout(false);
-            this.tlp_registration.PerformLayout();
             this.tlp_button.ResumeLayout(false);
+            this.pnl_all_controls.ResumeLayout(false);
+            this.pnl_all_controls.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -597,5 +597,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn cgst;
         private System.Windows.Forms.DataGridViewTextBoxColumn vat;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Status;
+        private System.Windows.Forms.Panel pnl_all_controls;
     }
 }

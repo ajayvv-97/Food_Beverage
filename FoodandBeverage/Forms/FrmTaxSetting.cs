@@ -256,6 +256,9 @@ namespace FoodandBeverage.Forms
             txtSgstPrcnt.Text = "";
             txtIgstPrcnt.Text = "";
             txtVatPrcnt.Text = "";
+            tlp_registration.Controls.Clear();
+            btn_del_tax.Width = 50;
+            btn_del_tax.Height = 47;
             if (cmbTaxType.Text == "GST")
             {
                 lblcgst.Visible = true;
@@ -266,8 +269,22 @@ namespace FoodandBeverage.Forms
                 txtCgstPrcnt.Visible = true;
                 txtIgstPrcnt.Visible = true;
                 txtVatPrcnt.Visible = false;
+                //row1
+                tlp_registration.Controls.Add(lbltaxtype, 0, 0);
+                tlp_registration.Controls.Add(lbligst, 1, 0);
+                tlp_registration.Controls.Add(lblsgst, 2, 0);
+                //row2
+                tlp_registration.Controls.Add(cmbTaxType, 0, 1);
+                tlp_registration.Controls.Add(txtIgstPrcnt, 1, 1);
+                tlp_registration.Controls.Add(txtSgstPrcnt, 2, 1);
+                //row3
+                tlp_registration.Controls.Add(lblcgst, 0, 2);
+                //row 4
+                tlp_registration.Controls.Add(txtCgstPrcnt, 0, 3);
+                tlp_registration.Controls.Add(btn_del_tax, 1, 3);
+              
             }
-            if (cmbTaxType.Text == "VAT")
+            else if (cmbTaxType.Text == "VAT")
             {
                 lblcgst.Visible = false;
                 lblsgst.Visible = false;
@@ -277,6 +294,19 @@ namespace FoodandBeverage.Forms
                 txtCgstPrcnt.Visible = false;
                 txtIgstPrcnt.Visible = false;
                 txtVatPrcnt.Visible = true;
+                //row1
+                tlp_registration.Controls.Add(lbltaxtype, 0, 0);
+                tlp_registration.Controls.Add(lblvat, 1, 0);
+
+                //row2
+                tlp_registration.Controls.Add(cmbTaxType, 0, 1);
+                tlp_registration.Controls.Add(txtVatPrcnt, 1, 1);
+                tlp_registration.Controls.Add(btn_del_tax, 2, 1);
+                ////row3
+                //tlp_registration.Controls.Add(lblcgst, 0, 2);
+                ////row 4
+                //tlp_registration.Controls.Add(txtCgstPrcnt, 0, 3);
+                //tlp_registration.Controls.Add(btn_del_tax, 1, 3);
 
 
             }
@@ -487,6 +517,9 @@ namespace FoodandBeverage.Forms
             dgvTaxSettings.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            cmbTaxType.SelectedIndex = 0;
+
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)

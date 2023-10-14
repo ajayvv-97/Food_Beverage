@@ -11,7 +11,7 @@ namespace Domain
 		public string Product { get; set; }
 		public string Description { get; set; }
 		public decimal Price { get; set; }
-		public string upc { get; set; }
+		public string UPC { get; set; }
 		public string UPCBarcode { get; set; }
 		public int CreatedBy { get; set; }
 		public DateTime CreatedOn { get; set; }
@@ -21,7 +21,7 @@ namespace Domain
 		public string Tax { get; set; }
 		public string TaxType { get; set; }
 		public int TaxSettingsId { get; set; }
-		public decimal Qoh { get; set; }
+		public int Quantity { get; set; }
 		public int Branchid { get; set; }
 		public int Fcid { get; set; }
 		public decimal DiscountAmt { get; set; }

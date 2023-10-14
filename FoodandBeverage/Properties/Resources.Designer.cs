@@ -83,6 +83,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap add_vendor {
+            get {
+                object obj = ResourceManager.GetObject("add_vendor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap available {
             get {
                 object obj = ResourceManager.GetObject("available", resourceCulture);
@@ -186,6 +196,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap gallery {
             get {
                 object obj = ResourceManager.GetObject("gallery", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grid_registration {
+            get {
+                object obj = ResourceManager.GetObject("grid_registration", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -23,6 +23,10 @@ namespace BLL
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);
             parms.Add("summary", objTestClass.summary);
+
+            parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
+            parms.Add("Tax", objTestClass.Tax);
+            parms.Add("TaxType", objTestClass.TaxType);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

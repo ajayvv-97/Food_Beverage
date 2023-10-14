@@ -28,10 +28,15 @@ namespace FoodandBeverage.Forms
         public static int iunitno = 4;
         public static int iqtyno = 5;
         public static int ipriceno = 6;
-        public static int idescno = 7;
-        public static int istatusno = 8;
-        public static int iunitidno = 9;
-        public static int incre_categ_idno = 10;
+
+        public static int itaxno = 7;
+        public static int itaxtypeno = 8;
+        public static int itaxperno = 9;
+
+        public static int idescno = 10;
+        public static int istatusno = 11;
+        public static int iunitidno = 12;
+        public static int incre_categ_idno = 13;
         #endregion
         public void Fillitem()
         {
@@ -39,9 +44,9 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblItem";
-                objSearch.WhereNdGroupBy = "Where status=1 ";
+                objSearch.Select = "i.*,t.*,u.UnitName,c.CategoryName";
+                objSearch.Table = "tblItem i LEFT JOIN tblTaxSettings t on t.TaxSettingsId=i.TaxSettingsId LEFT JOIN tblUnit u on u.UId=i.unit LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
+                objSearch.WhereNdGroupBy = "Where i.status=1 ";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 dgv_item.Rows.Clear();
@@ -53,14 +58,22 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[slno].Value = i + 1;
                         dgv_item.Rows[i].Cells[idno].Value = itemSource[i].ItemId;
                         dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Itemname;
-                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Fcid;
-                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].CategoryName;
+                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
                         dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
                         dgv_item.Rows[i].Cells[ipriceno].Value = itemSource[i].price;
+
+                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
+                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
+                        if(itemSource[i].TaxType=="GST")                        
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].IgstPrcnt;
+                        else
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].VatPrcnt;
+
                         dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
                         dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
                         dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
-                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Fcid;
                     }
                 }
             }
@@ -101,6 +114,34 @@ namespace FoodandBeverage.Forms
 
             }
         }
+        public void Taxfill()
+        {
+            BllSearch<DmnComboBox> fiilgst = new BllSearch<DmnComboBox>();
+            BllSearch<DmnComboBox> fiilvat = new BllSearch<DmnComboBox>();
+            DmnSearch objSearch1 = new DmnSearch();
+            DmnSearch objSearch2 = new DmnSearch();
+
+            objSearch1.Select = " TaxSettingsId as Id, IgstPrcnt as Value";
+            objSearch1.Table = " tblTaxSettings";
+            objSearch1.WhereNdGroupBy = " where status=1 and TaxType='GST'";
+            objSearch1.OrderBy = "order by value";
+
+            objSearch2.Select = " TaxSettingsId as Id, VatPrcnt as Value ";
+            objSearch2.Table = " tblTaxSettings";
+            objSearch2.WhereNdGroupBy = " where isnull(status,0)=1 and TaxType='VAT'";
+            objSearch2.OrderBy = " order by value";
+
+            var gridSource1 = fiilgst.GetSearchData("prdComboFill", objSearch1);
+            var gridSource2 = fiilvat.GetSearchData("prdComboFill", objSearch2);
+
+            cmbVatPrcnt.DataSource = gridSource2;
+            cmbVatPrcnt.ValueMember = "Id";
+            cmbVatPrcnt.DisplayMember = "Value";
+
+            cmbIgstPrcnt.DataSource = gridSource1;
+            cmbIgstPrcnt.ValueMember = "Id";
+            cmbIgstPrcnt.DisplayMember = "Value";
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -118,6 +159,13 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.quantity = Convert.ToDecimal(txtqty.Text);
                     dmnitemreg.unit = Convert.ToInt32(cmbunit.SelectedValue);
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
+                    dmnitemreg.Tax = Convert.ToString(cmbtax.Text);
+
+                    if (Convert.ToInt32(cmbTaxType.SelectedIndex) == 0)
+                        dmnitemreg.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt.SelectedValue);
+                    else
+                        dmnitemreg.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
+                    dmnitemreg.TaxType = Convert.ToString(cmbTaxType.Text);
 
                     dmnitemreg.CreatedBy = 1;
                     dmnitemreg.BranchId = 1;
@@ -155,6 +203,11 @@ namespace FoodandBeverage.Forms
             txtprice.Text = "";
             cmbunit.SelectedIndex = -1;
             cmb_inc_categ.SelectedIndex = -1;
+            cmbtax.SelectedIndex = 0;
+            cmbTaxType.SelectedIndex = 0;
+            cmbIgstPrcnt.SelectedIndex = 0;
+            cmbTaxType.SelectedIndex = 0;
+            btn_del_ingre.Visible = false;
         }
 
 
@@ -195,6 +248,36 @@ namespace FoodandBeverage.Forms
                 txtprice.Focus();
                 return false;
             }
+            else if (cmbtax.Text == "")
+            {
+                CMessageBox.Show("Please Select Tax", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbtax.Focus();
+                return false;
+            }
+            else if (cmbTaxType.Text == "")
+            {
+                CMessageBox.Show("Please Select Tax Type GST or VAT", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbTaxType.Focus();
+                return false;
+            }
+            else if (cmbTaxType.Text == "GST")
+            {
+                if (Convert.ToInt32(cmbIgstPrcnt.SelectedValue) == -1)
+                {
+                    CMessageBox.Show("Please Select IGST %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbIgstPrcnt.Focus();
+                    return false;
+                }
+            }
+            else if (cmbTaxType.Text == "VAT")
+            {
+                if (Convert.ToInt32(cmbVatPrcnt.SelectedValue) == -1)
+                {
+                    CMessageBox.Show("Please Select VAT %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbVatPrcnt.Focus();
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -230,8 +313,8 @@ namespace FoodandBeverage.Forms
 
         private void toggle_grid_Click(object sender, EventArgs e)
         {
-            this.Width = 667;
-            this.Height = 510;
+            this.Width = 919; 
+            this.Height = 417;
             tlp_grid.Visible = false;
             tlp_registration.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -271,6 +354,7 @@ namespace FoodandBeverage.Forms
         {
             Fillitem();
             combofill();
+            Taxfill();
             dgv_item.BorderStyle = BorderStyle.None;
             //dgv_item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             //dgv_item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -338,6 +422,100 @@ namespace FoodandBeverage.Forms
             {
                 e.Handled = true;
             }
+        }
+
+        private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
+        {
+            int[] columnsToRemove = {  3 };
+            int[] rowsToRemove = { 3,4};
+
+            foreach (int column in columnsToRemove)
+            {
+                foreach (int row in rowsToRemove)
+                {
+                    Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                    if (controlToRemove != null)
+                    {
+                        tlp_registration.Controls.Remove(controlToRemove);
+                    }
+                }
+            }
+            int[] columnsToRemove1 = { 0,1,2,3 };
+            int[] rowsToRemove1 = { 5, 6};
+
+            foreach (int column in columnsToRemove1)
+            {
+                foreach (int row in rowsToRemove1)
+                {
+                    Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                    if (controlToRemove != null)
+                    {
+                        tlp_registration.Controls.Remove(controlToRemove);
+                    }
+                }
+            }
+
+            if (cmbTaxType.Text == "GST")
+            {
+                lbligst.Dock = DockStyle.Fill;
+                cmbIgstPrcnt.Dock = DockStyle.Fill;
+                tlp_s_c_gst.Dock = DockStyle.Fill;
+                tlp_S_C_text_.Dock = DockStyle.Fill;
+                lbldes.Dock = DockStyle.Fill;
+                //row1
+                tlp_registration.Controls.Add(lbligst, 3, 3);
+                //row2
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 4);
+                //row3
+                tlp_registration.Controls.Add(tlp_s_c_gst, 0, 5);
+                tlp_registration.Controls.Add(lbldes, 1, 5);
+                //row4
+                tlp_registration.Controls.Add(tlp_S_C_text_, 0, 6);
+                tlp_registration.Controls.Add(txtdesc, 1, 6);
+                tlp_registration.Controls.Add(btn_del_ingre, 2, 6);
+            }
+            else if (cmbTaxType.Text == "VAT")
+            {
+                cmbVatPrcnt.Dock = DockStyle.Fill;
+                lblvat.Dock = DockStyle.Fill;
+                lbldes.Dock = DockStyle.Fill;
+
+                tlp_registration.Controls.Add(lblvat, 3, 3);
+                //row2
+                tlp_registration.Controls.Add(cmbVatPrcnt, 3, 4);
+                //row3
+                tlp_registration.Controls.Add(lbldes, 0, 5);
+                //row4
+                tlp_registration.Controls.Add(txtdesc, 0, 6);
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 6);
+
+
+            }
+        }
+
+        private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbIgstPrcnt.SelectedIndex > 0)
+            {
+                BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                DmnSearch objSearch_tax = new DmnSearch();
+                objSearch_tax = new DmnSearch();
+                objSearch_tax.Select = " TaxSettingsId,SgstPrcnt,CgstPrcnt ";
+                objSearch_tax.Table = " tblTaxSettings ";
+                objSearch_tax.WhereNdGroupBy = " Where TaxSettingsId = " + cmbIgstPrcnt.SelectedValue;
+                objSearch_tax.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+                if (gridSource.Count > 0)
+                {
+                    txtSgstPrcnt.Text = gridSource[0].SgstPrcnt.ToString();
+                    txtCgstPrcnt.Text = gridSource[0].CgstPrcnt.ToString();
+                }
+            }
+        }
+
+        private void btn_grid_refresh_Click(object sender, EventArgs e)
+        {
+            Fillitem();
         }
     }
 }
