@@ -24,8 +24,11 @@ namespace Domain
         public string TaxType { get; set; }
         public string UnitName { get; set; }
         public string CategoryName { get; set; }
+        public string ItemCode_UPC { get; set; }
+        public int Saletype { get; set; }
+        public decimal MRP { get; set; }
         
-            
+
 
     }
 }

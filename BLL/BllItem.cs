@@ -27,6 +27,9 @@ namespace BLL
             parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxType", objTestClass.TaxType);
+            parms.Add("ItemCode_UPC", objTestClass.ItemCode_UPC);
+            parms.Add("Saletype", objTestClass.Saletype);
+            parms.Add("MRP", objTestClass.MRP);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

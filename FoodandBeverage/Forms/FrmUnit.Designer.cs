@@ -215,6 +215,8 @@ namespace FoodandBeverage.Forms
             // chk_active
             // 
             this.chk_active.AutoSize = true;
+            this.chk_active.Checked = true;
+            this.chk_active.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chk_active.Location = new System.Drawing.Point(355, 110);
             this.chk_active.Name = "chk_active";

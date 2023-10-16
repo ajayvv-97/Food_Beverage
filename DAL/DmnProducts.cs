@@ -28,8 +28,9 @@ namespace Domain
 		public decimal DiscountPer { get; set; }
 		public string OfferDescription { get; set; }
 		public decimal MRP { get; set; }
-
 		public int menustatus { get; set; }
+
+		
 
 	}
 }

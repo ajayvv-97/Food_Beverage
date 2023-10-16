@@ -159,6 +159,14 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.quantity = Convert.ToDecimal(txtqty.Text);
                     dmnitemreg.unit = Convert.ToInt32(cmbunit.SelectedValue);
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
+                    dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
+                    if (string.IsNullOrWhiteSpace(txtmrp.Text))
+                        txtmrp.Text = "0";
+                    dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
+                    if (rdb_dsale.Checked)
+                        dmnitemreg.Saletype = 1;
+                    else
+                        dmnitemreg.Saletype = 0;
                     dmnitemreg.Tax = Convert.ToString(cmbtax.Text);
 
                     if (Convert.ToInt32(cmbTaxType.SelectedIndex) == 0)
@@ -197,6 +205,7 @@ namespace FoodandBeverage.Forms
         }
         public void clearall()
         {
+            txtbarcode.Text = "";
             txtincr_name.Text = "";
             txtdesc.Text = "";
             txtqty.Text = "";
@@ -208,6 +217,8 @@ namespace FoodandBeverage.Forms
             cmbIgstPrcnt.SelectedIndex = 0;
             cmbTaxType.SelectedIndex = 0;
             btn_del_ingre.Visible = false;
+            txtCgstPrcnt.Text = "";
+            txtSgstPrcnt.Text = "";
         }
 
 
@@ -286,6 +297,8 @@ namespace FoodandBeverage.Forms
         {
             Fillitem();
             clearall();
+            combofill();
+            Taxfill();
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -356,6 +369,7 @@ namespace FoodandBeverage.Forms
             combofill();
             Taxfill();
             dgv_item.BorderStyle = BorderStyle.None;
+            cmbTaxType.SelectedIndex = 0;
             //dgv_item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             //dgv_item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             //dgv_item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
@@ -395,10 +409,22 @@ namespace FoodandBeverage.Forms
                 {
                     txtitemid.Text = Convert.ToString(incgreid);
                     txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
+                    txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
                     txtdesc.Text = Convert.ToString(itemSource[0].summary);
                     txtprice.Text = Convert.ToString(itemSource[0].price);
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                    if (Convert.ToInt32(itemSource[0].Saletype) == 1)
+                        rdb_dsale.Checked = true;
+                    else
+                        rdb_notsale.Checked = true;
+                    cmbtax.Text = Convert.ToString(itemSource[0].Tax);
+                    cmbtax.Text = Convert.ToString(itemSource[0].TaxType);
+                    if (cmbtax.Text=="GST")
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+                    else
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
                     cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                     btn_del_ingre.Visible = true;
                     toggle_grid.PerformClick();
@@ -425,23 +451,9 @@ namespace FoodandBeverage.Forms
         }
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
-        {
-            int[] columnsToRemove = {  3 };
-            int[] rowsToRemove = { 3,4};
-
-            foreach (int column in columnsToRemove)
-            {
-                foreach (int row in rowsToRemove)
-                {
-                    Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
-                    if (controlToRemove != null)
-                    {
-                        tlp_registration.Controls.Remove(controlToRemove);
-                    }
-                }
-            }
-            int[] columnsToRemove1 = { 0,1,2,3 };
-            int[] rowsToRemove1 = { 5, 6};
+        {           
+            int[] columnsToRemove1 = { 0, 1, 2, 3 };
+            int[] rowsToRemove1 = { 5,6,7, 8 };
 
             foreach (int column in columnsToRemove1)
             {
@@ -454,6 +466,8 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
+            cmbtax.Dock = DockStyle.Fill;
+            cmbTaxType.Dock = DockStyle.Fill;
 
             if (cmbTaxType.Text == "GST")
             {
@@ -463,32 +477,39 @@ namespace FoodandBeverage.Forms
                 tlp_S_C_text_.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
                 //row1
-                tlp_registration.Controls.Add(lbligst, 3, 3);
+                tlp_registration.Controls.Add(lbltax, 0, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                tlp_registration.Controls.Add(lbligst, 2, 5);
+                tlp_registration.Controls.Add(tlp_s_c_gst, 3, 5);
                 //row2
-                tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 4);
+                tlp_registration.Controls.Add(cmbtax, 0, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
+                tlp_registration.Controls.Add(tlp_S_C_text_, 3, 6);
                 //row3
-                tlp_registration.Controls.Add(tlp_s_c_gst, 0, 5);
-                tlp_registration.Controls.Add(lbldes, 1, 5);
+                tlp_registration.Controls.Add(lbldes, 0, 7);
                 //row4
-                tlp_registration.Controls.Add(tlp_S_C_text_, 0, 6);
-                tlp_registration.Controls.Add(txtdesc, 1, 6);
-                tlp_registration.Controls.Add(btn_del_ingre, 2, 6);
+                tlp_registration.Controls.Add(txtdesc, 0, 8);
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+
             }
             else if (cmbTaxType.Text == "VAT")
             {
                 cmbVatPrcnt.Dock = DockStyle.Fill;
                 lblvat.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
-
-                tlp_registration.Controls.Add(lblvat, 3, 3);
+                //row1
+                tlp_registration.Controls.Add(lbltax, 0, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                tlp_registration.Controls.Add(lblvat, 2, 5);
+                tlp_registration.Controls.Add(lbldes, 3, 5);
                 //row2
-                tlp_registration.Controls.Add(cmbVatPrcnt, 3, 4);
+                tlp_registration.Controls.Add(cmbtax, 0, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
+                tlp_registration.Controls.Add(txtdesc, 3, 6);
                 //row3
-                tlp_registration.Controls.Add(lbldes, 0, 5);
-                //row4
-                tlp_registration.Controls.Add(txtdesc, 0, 6);
-                tlp_registration.Controls.Add(btn_del_ingre, 1, 6);
-
+                tlp_registration.Controls.Add(btn_del_ingre, 0, 8);
 
             }
         }
@@ -516,6 +537,31 @@ namespace FoodandBeverage.Forms
         private void btn_grid_refresh_Click(object sender, EventArgs e)
         {
             Fillitem();
+        }
+
+        private void txtmrp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtmrp_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtmrp.Text))
+                txtmrp.Text = "0";
+            if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtprice.Text))
+            {
+                CMessageBox.Show("MRP Rate Must be Greater than Sale Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtmrp.Focus();
+            }
         }
     }
 }
