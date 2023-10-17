@@ -27,16 +27,26 @@ namespace FoodandBeverage.Forms
         public static int incre_categno = 3;
         public static int iunitno = 4;
         public static int iqtyno = 5;
-        public static int ipriceno = 6;
+        public static int iprateno = 6;
+        public static int israteno = 7;
+        public static int imrpno = 8;
+        public static int itaxno = 9;
+        public static int itaxtypeno = 10;
+        public static int itaxperno = 11;
+        public static int idescno = 12;
+        public static int istatusno = 13;
+        public static int iunitidno = 14;
+        public static int incre_categ_idno = 15;
 
-        public static int itaxno = 7;
-        public static int itaxtypeno = 8;
-        public static int itaxperno = 9;
-
-        public static int idescno = 10;
-        public static int istatusno = 11;
-        public static int iunitidno = 12;
-        public static int incre_categ_idno = 13;
+        //Prid
+        public static int iprId = 0;
+        public static int iprslno = 1;
+        public static int iprproduct = 2;
+        public static int iprprate = 3;
+        public static int iprsrate = 4;
+        public static int iprmrp = 5;
+        public static int iprqoh = 6;
+        public static int iprPtype = 7;
         #endregion
         public void Fillitem()
         {
@@ -61,7 +71,9 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].CategoryName;
                         dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
                         dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
-                        dgv_item.Rows[i].Cells[ipriceno].Value = itemSource[i].price;
+                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Prate;
+                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Srate;
+                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].MRP;
 
                         dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
                         dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
@@ -152,14 +164,22 @@ namespace FoodandBeverage.Forms
                     BllItem blltenreg = new BllItem();
                     if (string.IsNullOrWhiteSpace(txtitemid.Text))
                         txtitemid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtprate.Text))
+                        txtprate.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtsrate.Text))
+                        txtsrate.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtprid.Text))
+                        txtprid.Text = "0";
                     dmnitemreg.ItemId = Convert.ToInt32(txtitemid.Text);
                     dmnitemreg.Itemname = txtincr_name.Text;
                     dmnitemreg.summary = txtdesc.Text;
-                    dmnitemreg.price = Convert.ToDecimal(txtprice.Text);
+                    dmnitemreg.Prate = Convert.ToDecimal(txtprate.Text);
+                    dmnitemreg.Srate = Convert.ToDecimal(txtsrate.Text);
                     dmnitemreg.quantity = Convert.ToDecimal(txtqty.Text);
                     dmnitemreg.unit = Convert.ToInt32(cmbunit.SelectedValue);
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
                     dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
+                    dmnitemreg.PrId = Convert.ToInt32(txtprid.Text);
                     if (string.IsNullOrWhiteSpace(txtmrp.Text))
                         txtmrp.Text = "0";
                     dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
@@ -209,7 +229,7 @@ namespace FoodandBeverage.Forms
             txtincr_name.Text = "";
             txtdesc.Text = "";
             txtqty.Text = "";
-            txtprice.Text = "";
+            txtprate.Text = "";
             cmbunit.SelectedIndex = -1;
             cmb_inc_categ.SelectedIndex = -1;
             cmbtax.SelectedIndex = 0;
@@ -253,10 +273,10 @@ namespace FoodandBeverage.Forms
                 txtqty.Focus();
                 return false;
             }
-            else if (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) < 0)
+            else if (txtprate.Text == "" || txtprate.Text == null || Convert.ToDecimal(txtprate.Text) < 0)
             {
                 CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtprice.Focus();
+                txtprate.Focus();
                 return false;
             }
             else if (cmbtax.Text == "")
@@ -392,7 +412,6 @@ namespace FoodandBeverage.Forms
                 Fillitem();
             }
         }
-
         private void dgv_item_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -411,7 +430,9 @@ namespace FoodandBeverage.Forms
                     txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
                     txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
                     txtdesc.Text = Convert.ToString(itemSource[0].summary);
-                    txtprice.Text = Convert.ToString(itemSource[0].price);
+                    txtprate.Text = Convert.ToString(itemSource[0].Prate);
+                    txtsrate.Text = Convert.ToString(itemSource[0].Srate);
+                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
@@ -428,6 +449,26 @@ namespace FoodandBeverage.Forms
                     cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                     btn_del_ingre.Visible = true;
                     toggle_grid.PerformClick();
+                }
+                else if (itemSource.Count > 1)
+                {
+                    pnlPrRates.Visible = true;
+                    pnlPrRates.Location = new Point(this.ClientSize.Width / 2 - pnlPrRates.Size.Width / 2, (this.ClientSize.Height / 3 - pnlPrRates.Size.Height / 3));
+                    dgvprDetails.Rows.Clear();
+                    dgvprDetails.Rows.Add(itemSource.Count);
+
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        //dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
+                        //dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                        //dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Description;
+                        //dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
+                        //dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
+                        //dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
+                        //dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].Qoh;
+                        //dgvprDetails.Rows[i].Cells[iprPtype].Value = Convert.ToInt32(ProductType.FB);
+                    }
+                    dgvprDetails.Focus();
                 }
 
             }
@@ -452,8 +493,8 @@ namespace FoodandBeverage.Forms
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {           
-            int[] columnsToRemove1 = { 0, 1, 2, 3 };
-            int[] rowsToRemove1 = { 5,6,7, 8 };
+            int[] columnsToRemove1 = { 0,1, 2, 3 };
+            int[] rowsToRemove1 = { 5,6,7,8 };
 
             foreach (int column in columnsToRemove1)
             {
@@ -477,20 +518,24 @@ namespace FoodandBeverage.Forms
                 tlp_S_C_text_.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
                 //row1
-                tlp_registration.Controls.Add(lbltax, 0, 5);
-                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
-                tlp_registration.Controls.Add(lbligst, 2, 5);
-                tlp_registration.Controls.Add(tlp_s_c_gst, 3, 5);
+                tlp_registration.Controls.Add(lblunit, 0, 5);
+                tlp_registration.Controls.Add(lbltax, 1, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                tlp_registration.Controls.Add(lbligst, 3, 5);
+
                 //row2
-                tlp_registration.Controls.Add(cmbtax, 0, 6);
-                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
-                tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
-                tlp_registration.Controls.Add(tlp_S_C_text_, 3, 6);
+                tlp_registration.Controls.Add(cmbunit, 0, 6);
+                tlp_registration.Controls.Add(cmbtax, 1, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
+
                 //row3
-                tlp_registration.Controls.Add(lbldes, 0, 7);
+                tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
+                tlp_registration.Controls.Add(lbldes, 1, 7);
                 //row4
-                tlp_registration.Controls.Add(txtdesc, 0, 8);
-                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+                tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
+                tlp_registration.Controls.Add(txtdesc, 1, 8);
+                tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
 
             }
             else if (cmbTaxType.Text == "VAT")
@@ -499,17 +544,19 @@ namespace FoodandBeverage.Forms
                 lblvat.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
                 //row1
-                tlp_registration.Controls.Add(lbltax, 0, 5);
-                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
-                tlp_registration.Controls.Add(lblvat, 2, 5);
-                tlp_registration.Controls.Add(lbldes, 3, 5);
+                tlp_registration.Controls.Add(lblunit, 0, 5);
+                tlp_registration.Controls.Add(lbltax, 1, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                tlp_registration.Controls.Add(lblvat, 3, 5);
+
                 //row2
-                tlp_registration.Controls.Add(cmbtax, 0, 6);
-                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
-                tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
-                tlp_registration.Controls.Add(txtdesc, 3, 6);
+                tlp_registration.Controls.Add(cmbunit, 0, 6);
+                tlp_registration.Controls.Add(cmbtax, 1, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+
                 //row3
-                tlp_registration.Controls.Add(btn_del_ingre, 0, 8);
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
 
             }
         }
@@ -557,11 +604,68 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrWhiteSpace(txtmrp.Text))
                 txtmrp.Text = "0";
-            if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtprice.Text))
+            if (string.IsNullOrWhiteSpace(txtsrate.Text))
+                txtsrate.Text = "0";
+            if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
             {
                 CMessageBox.Show("MRP Rate Must be Greater than Sale Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtmrp.Focus();
             }
+        }
+
+        private void dgvprDetails_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            int rowno = dgvprDetails.CurrentCell.RowIndex;
+            GridkeydownEnter(rowno);
+        }
+        public void GridkeydownEnter(int rowno)
+        {
+            try
+            {
+                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "i.*,t.*,u.UnitName,c.CategoryName";
+                objSearch.Table = "tblItem i LEFT JOIN tblTaxSettings t on t.TaxSettingsId=i.TaxSettingsId LEFT JOIN tblUnit u on u.UId=i.unit LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
+                objSearch.WhereNdGroupBy = "Where i.status=1 ";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                dgv_item.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_item.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_item.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].ItemId;
+                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Itemname;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].CategoryName;
+                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
+                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
+                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Prate;
+                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Srate;
+                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].MRP;
+
+                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
+                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
+                        if (itemSource[i].TaxType == "GST")
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].IgstPrcnt;
+                        else
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].VatPrcnt;
+
+                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
+                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Fcid;
+                    }
+                    pnlPrRates.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

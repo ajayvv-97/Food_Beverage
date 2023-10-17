@@ -41,8 +41,9 @@ namespace FoodandBeverage.Forms
         public static int itype = 17;
         public static int ibarcode2 = 18;
         public static int itaxsettingid = 19;
-        public static int iunitid = 20;
-
+        public static int iunitid = 20; 
+        public static int ipridno = 21;
+        
         // Popup Grid
         public static int pslno = 0;
         public static int pnameno = 1;
@@ -401,32 +402,14 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.TaxType = Convert.ToString(dgvProduct.Rows[i].Cells[itaxtype].Value);
                             dmnPurchase.Srate = Convert.ToDecimal(dgvProduct.Rows[i].Cells[israte].Value);
                             dmnPurchase.MRP = Convert.ToDecimal(dgvProduct.Rows[i].Cells[imrp].Value);
-                            dmnPurchase.Type = Convert.ToString(dgvProduct.Rows[i].Cells[itype].Value);
+                            dmnPurchase.Type = Convert.ToString("0");
                             dmnPurchase.BranchId =1;
                             dmnPurchase.CreatedBy =1;
                             dmnPurchase.Status = 1;
                             dmnPurchase.PurchaseDetailId = Convert.ToInt32("0");
-                            dmnPurchase.Prate = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iprate].Value);
                             dmnPurchase.Amount = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iamount].Value);
                             dmnPurchase.DisPer = Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisper].Value);
-
-
-                            //dmnPurchase.PRate1 = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iprate].Value.ToString());
-                            //dmnPurchase.SRate1 = Convert.ToDecimal(dgvProduct.Rows[i].Cells[israte].Value);
-                            //dmnPurchase.MRP1 = Convert.ToDecimal(dgvProduct.Rows[i].Cells[imrp].Value);
-
-                            //if (dmnPurchase.Prate != dmnPurchase.PRate1 || dmnPurchase.Srate != dmnPurchase.SRate1 || dmnPurchase.MRP != dmnPurchase.MRP1)
-                            //{
-                            //    dmnPurchase.MultiValueProduct = true;
-                            //}
-                            //else
-                            //{
-                            //    dmnPurchase.MultiValueProduct = false;
-                            //    dmnPurchase.PRate1 = 0;
-                            //    dmnPurchase.SRate1 = 0;
-                            //    dmnPurchase.MRP1 = 0;
-                            //    dmnPurchase.Qoh1 = 0;
-                            //}
+                            dmnPurchase.PrId = Convert.ToInt32(dgvProduct.Rows[i].Cells[ipridno].Value);
 
                             var InsertStatus = bllPurchase.AddEditDataDet("prdInsert_Upd_PurchaseDetails", dmnPurchase);
                             if (InsertStatus == null)
@@ -706,7 +689,7 @@ namespace FoodandBeverage.Forms
                         MessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         SendKeys.Send("{UP}");
                         s = false;
-                        btnsave.Enabled = false;
+                        //btnsave.Enabled = false;
                         return;
                     }
                 }
@@ -720,170 +703,7 @@ namespace FoodandBeverage.Forms
 
                     }
                 }
-                //if (e.ColumnIndex == ibarcode && dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value != null)
-                //{
-                //    panelProductPopup.Hide();
-                //    dgvItemPop.Rows.Clear();
-                //    int cno = dgvProduct.CurrentCell.ColumnIndex;
-                //    dmnSearch.Select = " Description as Field1," +
-                //    " (Select Top(1)Prate from tblProductRate  pr1 where  pr1.ProductId=f.ProductId and pr1.BranchId=" + BranchId + " and pr1.ProductType=" + Convert.ToInt32(ProductType.FB) + " order by pr1.QOH,pr1.Id desc) as Field2," +
-                //    " (Select Sum(QOH) from tblProductRate pr where pr.ProductId = f.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.FB) + ") as Field3," +
-                //    " f.ProductId as Field4, " + Convert.ToInt32(ProductType.FB) + " Field5 from tblFoodAndBeverages f " +
-                //    " left join tblCardProductLocMapping m on f.ProductId=m.Product and m.ProductType=" + Convert.ToInt32(ProductType.FB) + "  and Location =  " + BranchId +
-                //    " left join tblProductRate p on p.ProductId=f.ProductId and p.ProductType=" + Convert.ToInt32(ProductType.FB) + " and  p.BranchId=" + BranchId +
-                //    " where f.Status=1 and m.Status=1 and UPC='" + dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value + "'" +
-                //    " " +
-                //    " UNION select Description as Field1, " +
-                //    " (Select Top(1)Prate from tblProductRate pr1 where pr1.ProductId = m.ProductId and pr1.BranchId = " + BranchId + " and pr1.ProductType = " + Convert.ToInt32(ProductType.Merchandise) + " order by pr1.QOH, pr1.Id desc) as Field2," +
-                //    " (Select Sum(QOH) from tblProductRate pr where pr.ProductId = m.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.Merchandise) + ") as Field3," +
-                //    " m.ProductId as Field4, " + Convert.ToInt32(ProductType.Merchandise) + " Field5 from tblMarchandise m " +
-                //    " left join tblCardProductLocMapping c  on m.ProductId = c.Product and c.ProductType = " + Convert.ToInt32(ProductType.Merchandise) + " and Location =  " + BranchId +
-                //    " left join tblProductRate p on p.ProductId=m.ProductId and p.ProductType=" + Convert.ToInt32(ProductType.Merchandise) + " and  p.BranchId=" + BranchId +
-                //    " where m.Status = 1 and c.Status = 1  and UPC='" + dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value + "'" +
-                //    "" +
-                //    " UNION select Description as Field1,  " +
-                //    " (Select Top(1)Prate from tblProductRate pr1 where pr1.ProductId =b.ProductId and pr1.BranchId = " + BranchId + " and pr1.ProductType = " + Convert.ToInt32(ProductType.Bowling) + " order by pr1.QOH, pr1.Id desc) as Field2," +
-                //    " (Select Sum(QOH) from tblProductRate pr where pr.ProductId = b.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.Bowling) + ") as Field3,  " +
-                //    " b.ProductId as Field4, " + Convert.ToInt32(ProductType.Bowling) + " Field5 from[tblBowlingAccessories]  b " +
-                //    " left join  tblCardProductLocMapping c on b.ProductId = c.Product and c.ProductType = " + Convert.ToInt32(ProductType.Bowling) + " and Location = " + BranchId +
-                //    " left join tblProductRate p on p.ProductId=b.ProductId and p.ProductType=" + Convert.ToInt32(ProductType.Bowling) + " and  p.BranchId=" + BranchId +
-                //    " where b.Status = 1 and c.Status = 1 and UPC='" + dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value + "'" +
-                //    " " +
-                //    " UNION select Description as Field1," +
-                //    " (Select Top(1)Prate from tblProductRate  pr1 where  pr1.ProductId=r.ProductId and pr1.BranchId=" + BranchId + " and pr1.ProductType=" + Convert.ToInt32(ProductType.RedemptionTicket) + " order by pr1.QOH,pr1.Id desc) as Field2," +
-                //    " (Select Sum(QOH) from tblProductRate pr where pr.ProductId = r.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.RedemptionTicket) + ") as Field3," +
-                //    " r.ProductId as Field4," + Convert.ToInt32(ProductType.RedemptionTicket) + " Field5  ";
-                //    dmnSearch.Table = " [tblRedemptionProducts] r " +
-                //                      " left join tblProductRate p on p.ProductId=r.ProductId and p.ProductType=" + Convert.ToInt32(ProductType.RedemptionTicket) + " and  p.BranchId=" + BranchId +
-                //                      " left join tblCardProductLocMapping c on r.ProductId = c.Product and c.ProductType = " + Convert.ToInt32(ProductType.RedemptionTicket) + " and Location =" + BranchId;
-                //    dmnSearch.WhereNdGroupBy = "where r.Status = 1 and c.Status = 1 and UPC = '" + dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value + "'";
-                //    dmnSearch.OrderBy = " ";
-                //    var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-                //    if (gridSource.Count > 1)
-                //    {
-                //        dgvItemPop.Rows.Add(gridSource.Count);
-                //        for (int i = 0; i < gridSource.Count; i++)
-                //        {
-                //            dgvItemPop.Rows[i].Cells[0].Value = i + 1;
-                //            dgvItemPop.Rows[i].Cells[1].Value = gridSource[i].Field1;
-                //            dgvItemPop.Rows[i].Cells[2].Value = gridSource[i].Field2;
-                //            dgvItemPop.Rows[i].Cells[3].Value = gridSource[i].Field3;
-                //            dgvItemPop.Rows[i].Cells[4].Value = gridSource[i].Field4;
-                //            dgvItemPop.Rows[i].Cells[5].Value = gridSource[i].Field5;
-                //        }
-                //        dgvProduct.Enabled = false;
-                //        panelProductPopup.Show();
-                //        dgvItemPop.Focus();
-                //    }
-                //    else if (gridSource.Count == 1)
-                //    {
-                //        int r1 = e.RowIndex;
-                //        BllSearch<DmnProduct> bllSearch = new BllSearch<DmnProduct>();
-                //        dmnSearch.Select = "cp.ProductId,Description,cp.TaxSettingsId,Tax,UPC,TaxType,IgstPrcnt,VatPrcnt,pr.PRate,pr.SRate,pr.MRP,pr.Id as PrId";
-                //        if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.FB))
-                //        {
-                //            dmnSearch.Table = " [tblFoodAndBeverages] cp" +
-                //                " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId " +
-                //                " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.FB);
-                //        }
-                //        else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.Merchandise))
-                //        {
-                //            dmnSearch.Table = " [tblMarchandise] cp" +
-                //                " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                //                " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.Merchandise);
-                //        }
-                //        else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.Bowling))
-                //        {
-                //            dmnSearch.Table = " [tblBowlingAccessories] cp" +
-                //                " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                //                " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.Bowling);
-                //        }
-                //        else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.RedemptionTicket))
-                //        {
-                //            //dmnSearch.Select = "ProductId,Description,Price,cp.TaxSettingsId,Tax,UPCBarcode,TaxType,IgstPrcnt,VatPrcnt";
-                //            dmnSearch.Table = " [tblRedemptionProducts] cp" +
-                //                " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                //                " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.RedemptionTicket);
-                //        }
-                //        dmnSearch.WhereNdGroupBy = " Where cp.ProductId = " + gridSource[0].Field4;
-                //        dmnSearch.OrderBy = " Order By PrId desc ";
-                //        var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                //        if (gridSource1.Count > 0)
-                //        {
-                //            bool flage = false;
-                //            for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
-                //            {
-
-                //                if (Convert.ToInt32(gridSource1[0].ProductId) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
-                //                {
-                //                    flage = true;
-                //                    dgvProduct.Rows[i].Cells[iqty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[iqty].Value) + 1;
-                //                    if (e.RowIndex != i)
-                //                    {
-                //                        dgvProduct.Rows[e.RowIndex].Cells[ibarcode].Value = dgvProduct.Rows[e.RowIndex].Cells[ibarcode2].Value;
-                //                    }
-                //                    totalcellamount(i);
-                //                    break;
-                //                }
-                //            }
-                //            if (flage == false)
-                //            {
-                //                if (r1 == dgvProduct.RowCount - 1)
-                //                {
-                //                    dgvProduct.Rows.Add(1);
-                //                }
-                //                dgvProduct.Rows[r1].Cells[islno].Value = r1 + 1;
-                //                dgvProduct.Rows[r1].Cells[ibarcode].Value = gridSource1[0].UPC;
-                //                dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridSource1[0].UPC;
-                //                dgvProduct.Rows[r1].Cells[iname].Value = gridSource1[0].Description;
-                //                dgvProduct.Rows[r1].Cells[iunit].Value = "Number";
-                //                dgvProduct.Rows[r1].Cells[iqty].Value = "1";
-                //                dgvProduct.Rows[r1].Cells[iprate].Value = gridSource1[0].PRate;
-                //                dgvProduct.Rows[r1].Cells[israte].Value = gridSource1[0].SRate;
-                //                dgvProduct.Rows[r1].Cells[imrp].Value = gridSource1[0].MRP;
-                //                //dgvProduct.Rows[r1].Cells[iprate1].Value = gridSource[0].PRate;
-                //                //dgvProduct.Rows[r1].Cells[israte1].Value = gridSource[0].SRate;
-                //                //dgvProduct.Rows[r1].Cells[imrp1].Value = gridSource[0].MRP;
-                //                dgvProduct.Rows[r1].Cells[idisper].Value = "0";
-                //                dgvProduct.Rows[r1].Cells[idisamt].Value = "0";
-                //                if (gridSource1[0].TaxType == "GST")
-                //                {
-                //                    dgvProduct.Rows[r1].Cells[itaxper].Value = gridSource1[0].IgstPrcnt;
-                //                }
-                //                if (gridSource1[0].TaxType == "VAT")
-                //                {
-                //                    dgvProduct.Rows[r1].Cells[itaxper].Value = gridSource1[0].VatPrcnt;
-                //                }
-
-                //                dgvProduct.Rows[r1].Cells[itax].Value = gridSource1[0].Tax;
-                //                dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSource1[0].TaxType;
-                //                dgvProduct.Rows[r1].Cells[itype].Value = Convert.ToString(gridSource[0].Field5);
-                //                panelProductPopup.Visible = false;
-                //                dgvProduct.CurrentCell = dgvProduct.Rows[r1 + 1].Cells[ibarcode];
-                //                dgvProduct.Rows[r1].Cells[iitemid].Value = gridSource1[0].ProductId;
-                //                dgvProduct.Rows[r1].Cells[iprid].Value = gridSource1[0].PrId;
-                //            }
-
-                //        }
-                //        //panelProductPopup.Show();
-                //        //pnlCustHead.Hide();
-                //        pnlCustomer.Hide();
-                //        totalcellamount(r1);
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        //dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
-                //        if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iprid].Value != "")
-                //        {
-                //            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode2].Value;
-                //        }
-                //        else
-                //            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = "";
-                //        //SendKeys.Send("{UP}");
-                //        s = false;
-                //    }
-                //}
+               
                 if (s == true && e.ColumnIndex != ibarcode)
                 {
                     SendKeys.Send("{UP}");
@@ -925,7 +745,7 @@ namespace FoodandBeverage.Forms
             panelProductPopup.Anchor = AnchorStyles.None;
             panelProductPopup.Show();
             dgvItemPop.Rows.Clear();
-            dmnSearch.Select = "i.Itemname as Field1,i.price as Field2,i.quantity as Field3,i.ItemId as Field4,c.CategoryName as Field5"; 
+            dmnSearch.Select = "i.Itemname as Field1,(Select Top(1)Prate from tblProductRate) as Field2,(Select Sum(QOH) from tblProductRate) as Field3,i.ItemId as Field4,c.CategoryName as Field5"; 
             dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
             dmnSearch.WhereNdGroupBy = "where i.Status=1";// and LocationId =" + BranchId;
             dmnSearch.OrderBy = " ";
@@ -1091,8 +911,8 @@ namespace FoodandBeverage.Forms
                 int r = dgvItemPop.CurrentCell.RowIndex;
                 int r1 = dgvProduct.CurrentCell.RowIndex;
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
-                dmnSearch.Select = "i.*,u.UnitName";
-                dmnSearch.Table = "tblItem i LEFT JOIN tblUnit u on u.UId=i.unit";
+                dmnSearch.Select = "top(1) i.*,u.UnitName,pr.Id as PrId";
+                dmnSearch.Table = "tblItem i LEFT JOIN tblUnit u on u.UId=i.unit left join tblProductRate pr on pr.ProductId=i.ItemId";
                 dmnSearch.WhereNdGroupBy = " Where i.status=1 and i.ItemId = " + dgvItemPop.Rows[r].Cells[pitemidno].Value;
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1129,7 +949,8 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[iunit].Value = gridSource[0].UnitName;
                         dgvProduct.Rows[r1].Cells[iunitid].Value = gridSource[0].unit;
                         dgvProduct.Rows[r1].Cells[iqty].Value = "1";
-                        dgvProduct.Rows[r1].Cells[iprate].Value = gridSource[0].price;
+                        dgvProduct.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                        dgvProduct.Rows[r1].Cells[israte].Value = gridSource[0].Srate;
                         dgvProduct.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
                         dgvProduct.Rows[r1].Cells[idisper].Value = "0";
                         dgvProduct.Rows[r1].Cells[idisamt].Value = "0";
@@ -1145,7 +966,8 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[itax].Value = gridSource[0].Tax;
                         dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSource[0].TaxType;
                         dgvProduct.Rows[r1].Cells[itype].Value = Convert.ToString(dgvItemPop.Rows[r].Cells[5].Value);
-                        dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId; 
+                        dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
+                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridSource[0].PrId;
                         panelProductPopup.Visible = false;
                         totalcellamount(r1);
                     }
@@ -1238,7 +1060,11 @@ namespace FoodandBeverage.Forms
                 pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
                 txtbarcode.Focus();
             }
-
+            else
+            {
+                txtbarcode.Text = "";
+                pnl_barcode.Visible = false;
+            }
         }
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
@@ -1257,125 +1083,105 @@ namespace FoodandBeverage.Forms
             panelProductPopup.Hide();
             dgvItemPop.Rows.Clear();
             int cno = dgvProduct.CurrentCell.ColumnIndex;
-            dmnSearch.Select = "i.*,u.UnitName";
-            dmnSearch.Table = "tblItem i LEFT JOIN tblUnit u on u.UId=i.unit";
-            dmnSearch.WhereNdGroupBy = " Where i.status=1 and i.ItemId = " + dgvItemPop.Rows[r].Cells[pitemidno].Value;
-            dmnSearch.WhereNdGroupBy = "where r.Status = 1 and c.Status = 1 and UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
+            dmnSearch.Select = "i.Itemname as Field1,i.price as Field2,i.quantity as Field3,i.ItemId as Field4,c.CategoryName as Field5";
+            dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
+            dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.ItemCode_UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
             dmnSearch.OrderBy = " ";
-            var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-            if (gridSource.Count > 1)
+            var gridSourceitem = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+            if (gridSourceitem.Count > 1)
             {
-                dgvItemPop.Rows.Add(gridSource.Count);
-                for (int i = 0; i < gridSource.Count; i++)
-                {
-                    dgvItemPop.Rows[i].Cells[0].Value = i + 1;
-                    dgvItemPop.Rows[i].Cells[1].Value = gridSource[i].Field1;
-                    dgvItemPop.Rows[i].Cells[2].Value = gridSource[i].Field2;
-                    dgvItemPop.Rows[i].Cells[3].Value = gridSource[i].Field3;
-                    dgvItemPop.Rows[i].Cells[4].Value = gridSource[i].Field4;
-                    dgvItemPop.Rows[i].Cells[5].Value = gridSource[i].Field5;
-                }
                 dgvProduct.Enabled = false;
+                dgvItemPop.Rows.Add(gridSourceitem.Count);
+                for (int i = 0; i < gridSourceitem.Count; i++)
+                {
+                    dgvItemPop.Rows[i].Cells[pslno].Value = i + 1;
+                    dgvItemPop.Rows[i].Cells[pnameno].Value = gridSourceitem[i].Field1;
+                    dgvItemPop.Rows[i].Cells[prateno].Value = gridSourceitem[i].Field2;
+                    dgvItemPop.Rows[i].Cells[pqohno].Value = gridSourceitem[i].Field3;
+                    dgvItemPop.Rows[i].Cells[pitemidno].Value = gridSourceitem[i].Field4;
+                    dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSourceitem[i].Field5;
+                }
                 panelProductPopup.Show();
+                pnlCustomer.Hide();
                 dgvItemPop.Focus();
-            }
-            else if (gridSource.Count == 1)
+            } 
+            else if (gridSourceitem.Count == 1)
             {
                 int r1 = rowno;
-                BllSearch<DmnProduct> bllSearch = new BllSearch<DmnProduct>();
-                dmnSearch.Select = "cp.ProductId,Description,cp.TaxSettingsId,Tax,UPC,TaxType,IgstPrcnt,VatPrcnt,pr.PRate,pr.SRate,pr.MRP,pr.Id as PrId";
-                if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.FB))
-                {
-                    dmnSearch.Table = " [tblFoodAndBeverages] cp" +
-                        " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId " +
-                        " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.FB);
-                }
-                else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.Merchandise))
-                {
-                    dmnSearch.Table = " [tblMarchandise] cp" +
-                        " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                        " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.Merchandise);
-                }
-                else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.Bowling))
-                {
-                    dmnSearch.Table = " [tblBowlingAccessories] cp" +
-                        " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                        " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.Bowling);
-                }
-                else if (Convert.ToInt32(gridSource[0].Field5) == Convert.ToInt32(ProductType.RedemptionTicket))
-                {
-                    //dmnSearch.Select = "ProductId,Description,Price,cp.TaxSettingsId,Tax,UPCBarcode,TaxType,IgstPrcnt,VatPrcnt";
-                    dmnSearch.Table = " [tblRedemptionProducts] cp" +
-                        " LEFT JOIN [tblTaxSettings] ts ON ts.TaxSettingsId = cp.TaxSettingsId" +
-                        " Left Join tblProductRate pr on pr.ProductId=cp.ProductId and pr.BranchId=" + BranchId + " and pr.ProductType=" + Convert.ToInt32(ProductType.RedemptionTicket);
-                }
-                dmnSearch.WhereNdGroupBy = " Where cp.ProductId = " + gridSource[0].Field4;
-                dmnSearch.OrderBy = " Order By PrId desc ";
-                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource1.Count > 0)
+                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
+                dmnSearch.Select = "i.*,u.UnitName";
+                dmnSearch.Table = "tblItem i LEFT JOIN tblUnit u on u.UId=i.unit";
+                dmnSearch.WhereNdGroupBy = " Where i.status=1 and i.ItemCode_UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
+                dmnSearch.OrderBy = "";
+                var gridsource_multi = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridsource_multi.Count > 0)
                 {
                     bool flage = false;
                     for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
                     {
 
-                        if (Convert.ToInt32(gridSource1[0].ProductId) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
+                        if (Convert.ToInt32(gridsource_multi[0].ItemId) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
                         {
                             flage = true;
                             dgvProduct.Rows[i].Cells[iqty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[iqty].Value) + 1;
-                            if (rowno != i)
+                            if (r1 != i)
                             {
-                                dgvProduct.Rows[rowno].Cells[ibarcode].Value = dgvProduct.Rows[rowno].Cells[ibarcode2].Value;
+                                dgvProduct.Rows[r1].Cells[ibarcode].Value = "";
+                                totalcellamount(i);
                             }
-                            totalcellamount(i);
                             break;
                         }
                     }
+
                     if (flage == false)
                     {
                         if (r1 == dgvProduct.RowCount - 1)
                         {
                             dgvProduct.Rows.Add(1);
                         }
+
                         dgvProduct.Rows[r1].Cells[islno].Value = r1 + 1;
-                        dgvProduct.Rows[r1].Cells[ibarcode].Value = gridSource1[0].UPC;
-                        dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridSource1[0].UPC;
-                        dgvProduct.Rows[r1].Cells[iname].Value = gridSource1[0].Description;
-                        dgvProduct.Rows[r1].Cells[iunit].Value = "Number";
+                        dgvProduct.Rows[r1].Cells[ibarcode].Value = gridsource_multi[0].ItemCode_UPC;
+                        dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridsource_multi[0].ItemCode_UPC;
+                        dgvProduct.Rows[r1].Cells[iname].Value = gridsource_multi[0].Itemname;
+                        dgvProduct.Rows[r1].Cells[iunit].Value = gridsource_multi[0].UnitName;
+                        dgvProduct.Rows[r1].Cells[iunitid].Value = gridsource_multi[0].unit;
                         dgvProduct.Rows[r1].Cells[iqty].Value = "1";
-                        dgvProduct.Rows[r1].Cells[iprate].Value = gridSource1[0].PRate;
-                        dgvProduct.Rows[r1].Cells[israte].Value = gridSource1[0].SRate;
-                        dgvProduct.Rows[r1].Cells[imrp].Value = gridSource1[0].MRP;
+                        dgvProduct.Rows[r1].Cells[iprate].Value = gridsource_multi[0].Prate;
+                        dgvProduct.Rows[r1].Cells[israte].Value = gridsource_multi[0].Srate;
+                        dgvProduct.Rows[r1].Cells[imrp].Value = gridsource_multi[0].MRP;
                         dgvProduct.Rows[r1].Cells[idisper].Value = "0";
                         dgvProduct.Rows[r1].Cells[idisamt].Value = "0";
-                        if (gridSource1[0].TaxType == "GST")
+                        if (gridsource_multi[0].TaxType == "GST")
                         {
-                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridSource1[0].IgstPrcnt;
+                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridsource_multi[0].IgstPrcnt;
                         }
-                        if (gridSource1[0].TaxType == "VAT")
+                        if (gridsource_multi[0].TaxType == "VAT")
                         {
-                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridSource1[0].VatPrcnt;
+                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridsource_multi[0].VatPrcnt;
                         }
-
-                        dgvProduct.Rows[r1].Cells[itax].Value = gridSource1[0].Tax;
-                        dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSource1[0].TaxType;
-                        dgvProduct.Rows[r1].Cells[itype].Value = Convert.ToString(gridSource[0].Field5);
+                        dgvProduct.Rows[r1].Cells[iitemid].Value = gridsource_multi[0].ItemId;
+                        dgvProduct.Rows[r1].Cells[itax].Value = gridsource_multi[0].Tax;
+                        dgvProduct.Rows[r1].Cells[itaxtype].Value = gridsource_multi[0].TaxType;
+                        //dgvProduct.Rows[r1].Cells[itype].Value = ;
+                        dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridsource_multi[0].TaxSettingsId;
+                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridsource_multi[0].PrId;
                         panelProductPopup.Visible = false;
-                        dgvProduct.CurrentCell = dgvProduct.Rows[r1 + 1].Cells[ibarcode];
-                        dgvProduct.Rows[r1].Cells[iitemid].Value = gridSource1[0].ProductId;
-
+                        totalcellamount(r1);
                     }
+                    panelProductPopup.Visible = false;
+                    dgvProduct.Enabled = true;
 
+                    dgvProduct.Focus();
+                    dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
                 }
-                //panelProductPopup.Show();
-                //pnlCustHead.Hide();
-                pnlCustomer.Hide();
-                totalcellamount(r1);
+
             }
             else
             {
                 MessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
-                if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iprid].Value != "")
+                if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value != "")
                 {
                     dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode2].Value;
                 }

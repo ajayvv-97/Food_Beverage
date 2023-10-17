@@ -77,6 +77,7 @@ namespace BLL
             parms.Add("Type", objTestClass.Type);
             parms.Add("PurchaseMasterId", objTestClass.PurchaseMasterId);
             parms.Add("PurchaseDetailId", objTestClass.PurchaseDetailId);
+            parms.Add("PrId", objTestClass.PrId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -10,7 +10,9 @@ namespace Domain
         public string Itemname { get; set; }
         public string summary { get; set; }
         public int Fcid { get; set; }
-        public decimal price { get; set; }
+        public decimal Prate { get; set; }
+        public decimal Srate { get; set; }
+
         public decimal quantity { get; set; }
         public int unit { get; set; }        
         public long CreatedBy { get; set; }
@@ -27,8 +29,7 @@ namespace Domain
         public string ItemCode_UPC { get; set; }
         public int Saletype { get; set; }
         public decimal MRP { get; set; }
-        
-
+        public int PrId { get; set; }        
 
     }
 }
