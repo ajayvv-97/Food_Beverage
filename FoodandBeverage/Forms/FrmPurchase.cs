@@ -402,7 +402,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.TaxType = Convert.ToString(dgvProduct.Rows[i].Cells[itaxtype].Value);
                             dmnPurchase.Srate = Convert.ToDecimal(dgvProduct.Rows[i].Cells[israte].Value);
                             dmnPurchase.MRP = Convert.ToDecimal(dgvProduct.Rows[i].Cells[imrp].Value);
-                            dmnPurchase.Type = Convert.ToString("0");
+                            dmnPurchase.Fcid = Convert.ToInt32(dgvProduct.Rows[i].Cells[itype].Value);
                             dmnPurchase.BranchId =1;
                             dmnPurchase.CreatedBy =1;
                             dmnPurchase.Status = 1;
@@ -579,7 +579,6 @@ namespace FoodandBeverage.Forms
         private void FrmPurchase_Load(object sender, EventArgs e)
         {
             ClearAll();
-            dgvProduct.Rows.Add(1);
             FillCombobox();
             tlp_textboxes.Visible = true;
             Control controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
@@ -965,7 +964,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[iitemid].Value = gridSource[0].ItemId;
                         dgvProduct.Rows[r1].Cells[itax].Value = gridSource[0].Tax;
                         dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSource[0].TaxType;
-                        dgvProduct.Rows[r1].Cells[itype].Value = Convert.ToString(dgvItemPop.Rows[r].Cells[5].Value);
+                        dgvProduct.Rows[r1].Cells[itype].Value = gridSource[0].Fcid;
                         dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
                         dgvProduct.Rows[r1].Cells[ipridno].Value = gridSource[0].PrId;
                         panelProductPopup.Visible = false;
@@ -1163,7 +1162,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[iitemid].Value = gridsource_multi[0].ItemId;
                         dgvProduct.Rows[r1].Cells[itax].Value = gridsource_multi[0].Tax;
                         dgvProduct.Rows[r1].Cells[itaxtype].Value = gridsource_multi[0].TaxType;
-                        //dgvProduct.Rows[r1].Cells[itype].Value = ;
+                        dgvProduct.Rows[r1].Cells[itype].Value = gridsource_multi[0].Fcid;
                         dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridsource_multi[0].TaxSettingsId;
                         dgvProduct.Rows[r1].Cells[ipridno].Value = gridsource_multi[0].PrId;
                         panelProductPopup.Visible = false;

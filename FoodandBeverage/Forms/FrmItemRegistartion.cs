@@ -238,7 +238,12 @@ namespace FoodandBeverage.Forms
             cmbTaxType.SelectedIndex = 0;
             btn_del_ingre.Visible = false;
             txtCgstPrcnt.Text = "";
+            txtmrp.Text = "";
+            txtprate.Text = "";
+            txtsrate.Text = "";
             txtSgstPrcnt.Text = "";
+            txtprid.Text = "";
+            txtitemid.Text = "";
         }
 
 
@@ -419,12 +424,12 @@ namespace FoodandBeverage.Forms
                 int incgreid = Convert.ToInt32(dgv_item.Rows[e.RowIndex].Cells[idno].Value);
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblitem";
-                objSearch.WhereNdGroupBy = "where status = 1 and itemid=" + incgreid;
+                objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.Id as PrId";
+                objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
+                objSearch.WhereNdGroupBy = "where i.status = 1 and itemid=" + incgreid;
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count > 0)
+                if (itemSource.Count == 1)
                 {
                     txtitemid.Text = Convert.ToString(incgreid);
                     txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
@@ -436,6 +441,8 @@ namespace FoodandBeverage.Forms
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
+
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                         rdb_dsale.Checked = true;
                     else
@@ -459,14 +466,14 @@ namespace FoodandBeverage.Forms
 
                     for (int i = 0; i < itemSource.Count; i++)
                     {
-                        //dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                        //dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
-                        //dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Description;
-                        //dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
-                        //dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
-                        //dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
-                        //dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].Qoh;
-                        //dgvprDetails.Rows[i].Cells[iprPtype].Value = Convert.ToInt32(ProductType.FB);
+                        dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
+                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                        dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
+                        dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
+                        dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
+                        dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
+                        dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
+                        dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
                     }
                     dgvprDetails.Focus();
                 }
@@ -615,7 +622,6 @@ namespace FoodandBeverage.Forms
 
         private void dgvprDetails_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             int rowno = dgvprDetails.CurrentCell.RowIndex;
             GridkeydownEnter(rowno);
         }
@@ -623,42 +629,41 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "i.*,t.*,u.UnitName,c.CategoryName";
-                objSearch.Table = "tblItem i LEFT JOIN tblTaxSettings t on t.TaxSettingsId=i.TaxSettingsId LEFT JOIN tblUnit u on u.UId=i.unit LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
-                objSearch.WhereNdGroupBy = "Where i.status=1 ";
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                dgv_item.Rows.Clear();
-                if (itemSource.Count > 0)
+                    BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "i.*,pr.QOH,pr.Id as PrId";
+                    objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
+                    objSearch.WhereNdGroupBy = "where i.status = 1 and pr.id=" + dgvprDetails.Rows[rowno].Cells[iprId].Value;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count == 1)
                 {
-                    dgv_item.Rows.Add(itemSource.Count);
-                    for (int i = 0; i < itemSource.Count; i++)
-                    {
-                        dgv_item.Rows[i].Cells[slno].Value = i + 1;
-                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].ItemId;
-                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Itemname;
-                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].CategoryName;
-                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
-                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
-                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Prate;
-                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Srate;
-                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].MRP;
+                    txtitemid.Text = Convert.ToString(itemSource[0].ItemId);
+                    txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
+                    txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
+                    txtdesc.Text = Convert.ToString(itemSource[0].summary);
+                    txtprate.Text = Convert.ToString(itemSource[0].Prate);
+                    txtsrate.Text = Convert.ToString(itemSource[0].Srate);
+                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                    txtqty.Text = Convert.ToString(itemSource[0].quantity);
+                    cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
-                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
-                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
-                        if (itemSource[i].TaxType == "GST")
-                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].IgstPrcnt;
-                        else
-                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].VatPrcnt;
-
-                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
-                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
-                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
-                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Fcid;
-                    }
+                    if (Convert.ToInt32(itemSource[0].Saletype) == 1)
+                        rdb_dsale.Checked = true;
+                    else
+                        rdb_notsale.Checked = true;
+                    cmbtax.Text = Convert.ToString(itemSource[0].Tax);
+                    cmbtax.Text = Convert.ToString(itemSource[0].TaxType);
+                    if (cmbtax.Text == "GST")
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+                    else
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+                    cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                     pnlPrRates.Visible = false;
+                    btn_del_ingre.Visible = true;
+                    toggle_grid.PerformClick();
                 }
             }
             catch (Exception ex)
@@ -666,6 +671,21 @@ namespace FoodandBeverage.Forms
 
             }
 
+        }
+
+        private void btnPrClose_Click(object sender, EventArgs e)
+        {
+            pnlPrRates.Visible = false;
+        }
+
+        private void dgvprDetails_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                int rowno = dgvprDetails.CurrentCell.RowIndex;
+                GridkeydownEnter(rowno);
+            }
+      
         }
     }
 }

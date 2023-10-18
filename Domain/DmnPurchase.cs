@@ -61,5 +61,6 @@ namespace Domain
         public decimal Qoh1 { get; set; }
         public bool MultiValueProduct { get; set; }
         public int PrId { get; set; }
+        public int Fcid { get; set; }
     }
 }

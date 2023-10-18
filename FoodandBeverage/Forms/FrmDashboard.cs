@@ -646,6 +646,37 @@ namespace FoodandBeverage.Forms
                         }
 
                         break;
+                    case "8":
+                        if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
+                        {
+                            FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
+                            _instancePurchaseReturn.Dock = DockStyle.None;
+                            _instancePurchaseReturn.Margin = new Padding(10);
+                            if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+                                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            else
+                            {
+                                _instancePurchaseReturn.Dock = DockStyle.None;
+                                _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
+                                panelDesktop.Controls.Add(_instancePurchaseReturn);
+                                _instancePurchaseReturn.Show();
+                                _instancePurchaseReturn.BringToFront();
+                            }
+                        }
+                        else
+                        {
+                            FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
+                            _instancePurchaseReturn.Dock = DockStyle.None;
+                            _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
+                            _instancePurchaseReturn.TopLevel = false;
+
+                            panelDesktop.Controls.Add(_instancePurchaseReturn);
+                            panelDesktop.Padding = new Padding(20);
+                            _instancePurchaseReturn.Show();
+                            _instancePurchaseReturn.BringToFront();
+                        }
+
+                        break;
 
                     case "9":
                         if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)

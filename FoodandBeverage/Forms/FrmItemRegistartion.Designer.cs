@@ -96,6 +96,7 @@ namespace FoodandBeverage.Forms
             this.unitid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_registartion_toggle = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_outer_design = new System.Windows.Forms.TableLayoutPanel();
+            this.txtprid = new System.Windows.Forms.TextBox();
             this.pnl_toggle = new System.Windows.Forms.Panel();
             this.btntoggle = new System.Windows.Forms.Button();
             this.txtitemid = new System.Windows.Forms.TextBox();
@@ -121,7 +122,6 @@ namespace FoodandBeverage.Forms
             this.btn_grid_refresh = new System.Windows.Forms.Button();
             this.toggle_grid = new System.Windows.Forms.Button();
             this.pnl_tax = new System.Windows.Forms.Panel();
-            this.txtprid = new System.Windows.Forms.TextBox();
             this.tlp_button.SuspendLayout();
             this.tlp_registration.SuspendLayout();
             this.tlp_salecategory.SuspendLayout();
@@ -899,6 +899,14 @@ namespace FoodandBeverage.Forms
             this.tlp_outer_design.Size = new System.Drawing.Size(859, 354);
             this.tlp_outer_design.TabIndex = 11;
             // 
+            // txtprid
+            // 
+            this.txtprid.Location = new System.Drawing.Point(12, 3);
+            this.txtprid.Name = "txtprid";
+            this.txtprid.Size = new System.Drawing.Size(10, 20);
+            this.txtprid.TabIndex = 13;
+            this.txtprid.Visible = false;
+            // 
             // pnl_toggle
             // 
             this.pnl_toggle.Controls.Add(this.btntoggle);
@@ -935,7 +943,6 @@ namespace FoodandBeverage.Forms
             this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_navbar.Controls.Add(this.pnlPrRates, 0, 0);
             this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
             this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
             this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -951,10 +958,10 @@ namespace FoodandBeverage.Forms
             this.pnlPrRates.AutoSize = true;
             this.pnlPrRates.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlPrRates.Controls.Add(this.tlp_grid_main);
-            this.pnlPrRates.Location = new System.Drawing.Point(3, 3);
+            this.pnlPrRates.Location = new System.Drawing.Point(0, 0);
             this.pnlPrRates.Name = "pnlPrRates";
             this.pnlPrRates.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlPrRates.Size = new System.Drawing.Size(14, 14);
+            this.pnlPrRates.Size = new System.Drawing.Size(712, 342);
             this.pnlPrRates.TabIndex = 267;
             this.pnlPrRates.Visible = false;
             // 
@@ -968,9 +975,9 @@ namespace FoodandBeverage.Forms
             this.tlp_grid_main.Location = new System.Drawing.Point(5, 5);
             this.tlp_grid_main.Name = "tlp_grid_main";
             this.tlp_grid_main.RowCount = 2;
-            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.589286F));
-            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.41071F));
-            this.tlp_grid_main.Size = new System.Drawing.Size(0, 0);
+            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.06098F));
+            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.93903F));
+            this.tlp_grid_main.Size = new System.Drawing.Size(698, 328);
             this.tlp_grid_main.TabIndex = 228;
             // 
             // pnl_titlebar
@@ -979,7 +986,7 @@ namespace FoodandBeverage.Forms
             this.pnl_titlebar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_titlebar.Location = new System.Drawing.Point(3, 3);
             this.pnl_titlebar.Name = "pnl_titlebar";
-            this.pnl_titlebar.Size = new System.Drawing.Size(1, 1);
+            this.pnl_titlebar.Size = new System.Drawing.Size(692, 27);
             this.pnl_titlebar.TabIndex = 0;
             // 
             // btnPrClose
@@ -989,12 +996,13 @@ namespace FoodandBeverage.Forms
             this.btnPrClose.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnPrClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrClose.Location = new System.Drawing.Point(-26, 0);
+            this.btnPrClose.Location = new System.Drawing.Point(665, 0);
             this.btnPrClose.Name = "btnPrClose";
-            this.btnPrClose.Size = new System.Drawing.Size(27, 1);
+            this.btnPrClose.Size = new System.Drawing.Size(27, 27);
             this.btnPrClose.TabIndex = 227;
             this.btnPrClose.Text = "X";
             this.btnPrClose.UseVisualStyleBackColor = false;
+            this.btnPrClose.Click += new System.EventHandler(this.btnPrClose_Click);
             // 
             // dgvprDetails
             // 
@@ -1031,13 +1039,14 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvprDetails.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvprDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvprDetails.Location = new System.Drawing.Point(3, 3);
+            this.dgvprDetails.Location = new System.Drawing.Point(3, 36);
             this.dgvprDetails.Name = "dgvprDetails";
             this.dgvprDetails.ReadOnly = true;
             this.dgvprDetails.RowHeadersVisible = false;
-            this.dgvprDetails.Size = new System.Drawing.Size(1, 1);
+            this.dgvprDetails.Size = new System.Drawing.Size(692, 289);
             this.dgvprDetails.TabIndex = 224;
             this.dgvprDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvprDetails_CellClick);
+            this.dgvprDetails.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvprDetails_KeyDown);
             // 
             // prId
             // 
@@ -1215,20 +1224,13 @@ namespace FoodandBeverage.Forms
             this.pnl_tax.TabIndex = 11;
             this.pnl_tax.Visible = false;
             // 
-            // txtprid
-            // 
-            this.txtprid.Location = new System.Drawing.Point(12, 3);
-            this.txtprid.Name = "txtprid";
-            this.txtprid.Size = new System.Drawing.Size(10, 20);
-            this.txtprid.TabIndex = 13;
-            this.txtprid.Visible = false;
-            // 
             // FrmItemRegistartion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(919, 478);
+            this.Controls.Add(this.pnlPrRates);
             this.Controls.Add(this.pnl_tax);
             this.Controls.Add(this.tlp_grid);
             this.Controls.Add(this.tlp_main);
@@ -1252,7 +1254,6 @@ namespace FoodandBeverage.Forms
             this.tlp_outer_design.PerformLayout();
             this.pnl_toggle.ResumeLayout(false);
             this.tlp_navbar.ResumeLayout(false);
-            this.tlp_navbar.PerformLayout();
             this.pnlPrRates.ResumeLayout(false);
             this.tlp_grid_main.ResumeLayout(false);
             this.pnl_titlebar.ResumeLayout(false);
@@ -1263,6 +1264,7 @@ namespace FoodandBeverage.Forms
             this.pnl_tax.ResumeLayout(false);
             this.pnl_tax.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

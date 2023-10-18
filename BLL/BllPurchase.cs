@@ -74,7 +74,7 @@ namespace BLL
             parms.Add("Srate", objTestClass.Srate);
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxType", objTestClass.TaxType);
-            parms.Add("Type", objTestClass.Type);
+            parms.Add("Fcid", objTestClass.Fcid);
             parms.Add("PurchaseMasterId", objTestClass.PurchaseMasterId);
             parms.Add("PurchaseDetailId", objTestClass.PurchaseDetailId);
             parms.Add("PrId", objTestClass.PrId);
