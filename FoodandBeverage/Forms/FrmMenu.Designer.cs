@@ -256,7 +256,7 @@ namespace FoodandBeverage.Forms
             this.dgv_menu.Name = "dgv_menu";
             this.dgv_menu.ReadOnly = true;
             this.dgv_menu.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgv_menu.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_menu.RowTemplate.Height = 30;
             this.dgv_menu.Size = new System.Drawing.Size(673, 293);
@@ -500,7 +500,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search_box.ColumnCount = 3;
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.09927F));
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.90073F));
-            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
+            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
             this.tlp_search_box.Controls.Add(this.Search, 2, 0);
             this.tlp_search_box.Controls.Add(this.txtsearch, 1, 0);
             this.tlp_search_box.Controls.Add(this.cmbSearchlist, 0, 0);
@@ -516,9 +516,9 @@ namespace FoodandBeverage.Forms
             // 
             this.Search.Dock = System.Windows.Forms.DockStyle.Top;
             this.Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Search.Location = new System.Drawing.Point(406, 3);
+            this.Search.Location = new System.Drawing.Point(405, 3);
             this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(150, 29);
+            this.Search.Size = new System.Drawing.Size(151, 29);
             this.Search.TabIndex = 175;
             this.Search.Text = "Search";
             this.Search.UseVisualStyleBackColor = true;
@@ -527,7 +527,7 @@ namespace FoodandBeverage.Forms
             // txtsearch
             // 
             this.txtsearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtsearch.Location = new System.Drawing.Point(177, 3);
+            this.txtsearch.Location = new System.Drawing.Point(176, 3);
             this.txtsearch.Name = "txtsearch";
             this.txtsearch.Size = new System.Drawing.Size(223, 22);
             this.txtsearch.TabIndex = 176;
@@ -542,7 +542,7 @@ namespace FoodandBeverage.Forms
             this.cmbSearchlist.ItemHeight = 23;
             this.cmbSearchlist.Location = new System.Drawing.Point(3, 3);
             this.cmbSearchlist.Name = "cmbSearchlist";
-            this.cmbSearchlist.Size = new System.Drawing.Size(168, 29);
+            this.cmbSearchlist.Size = new System.Drawing.Size(167, 29);
             this.cmbSearchlist.TabIndex = 174;
             this.cmbSearchlist.Tag = "Designation";
             this.cmbSearchlist.UseCustomBackColor = true;

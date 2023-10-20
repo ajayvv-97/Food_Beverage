@@ -25,9 +25,10 @@ namespace FoodandBeverage.Forms
         public static int tcodeno = 2;
         public static int tcapcno = 3;
         public static int tcategno = 4;
-        public static int tdesno = 5;
-        public static int tstatusno = 6;
-        public static int tfcid = 7;
+        public static int trateno = 5;
+        public static int tdesno = 6;
+        public static int tstatusno = 7;
+        public static int tfcid = 8;
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -46,7 +47,7 @@ namespace FoodandBeverage.Forms
                 txttablecode.Focus();
                 return false;
             }
-            else if (txtcapcity.Text == "" || txtcapcity.Text == null ||Convert.ToDecimal(txtcapcity.Text)>=0)
+            else if (txtcapcity.Text == "" && txtcapcity.Text == null && Convert.ToDecimal(txtcapcity.Text)>=0)
             {
                 CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcapcity.Focus();
@@ -58,6 +59,12 @@ namespace FoodandBeverage.Forms
                 cmb_category.Focus();
                 return false;
             }
+            //else if (txtrate.Text == "" || txtrate.Text == null || Convert.ToDecimal(txtrate.Text) >= 0)
+            //{
+            //    CMessageBox.Show("Please Enter Table Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtrate.Focus();
+            //    return false;
+            //}
 
             return true;
         }
@@ -67,16 +74,18 @@ namespace FoodandBeverage.Forms
             {
                 if (MandatoryCheck())
                 {
-
                     DmnTableinfo dmntableinfo = new DmnTableinfo();
                     BllTableinfo bllmenu = new BllTableinfo();
                     if (string.IsNullOrWhiteSpace(txttid.Text))
                         txttid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtrate.Text))
+                        txtrate.Text = "0";
                     dmntableinfo.Tid = Convert.ToInt32(txttid.Text);
                     dmntableinfo.TableCode = txttablecode.Text;
                     dmntableinfo.Capcity = Convert.ToInt32(txtcapcity.Text);
                     dmntableinfo.Description = txtdesc.Text;
                     dmntableinfo.Fcid = Convert.ToInt32(cmb_category.SelectedValue);
+                    dmntableinfo.Price = Convert.ToDecimal(txtrate.Text);
                     dmntableinfo.RevStatus = 0;
                     dmntableinfo.OrderStatus = 0;
                     dmntableinfo.CreatedBy = 1;
@@ -94,7 +103,7 @@ namespace FoodandBeverage.Forms
                         else
                             CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         clearall();
-                        //Fillmenu();
+                        Filltable();
                     }
                     else
                         CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -130,6 +139,8 @@ namespace FoodandBeverage.Forms
             txttid.Text = "";
             txtcapcity.Text = "";
             txttablecode.Text = "";
+            txtrate.Text = "";
+            cmb_category.SelectedIndex = 0;
             btn_del_table.Visible = false;
         }
 
@@ -175,7 +186,8 @@ namespace FoodandBeverage.Forms
                     txtdesc.Text = Convert.ToString(itemSource[0].Description);
                     cmb_category.SelectedValue= Convert.ToInt64(itemSource[0].Fcid);
                     txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
-                    txttablecode.Text = Convert.ToString(itemSource[0].TableCode);    
+                    txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
+                    txtrate.Text = Convert.ToString(itemSource[0].Price);
                     btn_del_table.Visible = true;
                 }
 
@@ -219,6 +231,7 @@ namespace FoodandBeverage.Forms
                         dgv_table.Rows[i].Cells[tcodeno].Value = itemSource[i].TableCode;
                         dgv_table.Rows[i].Cells[tcapcno].Value = Convert.ToInt32(itemSource[i].Capcity);
                         dgv_table.Rows[i].Cells[tcategno].Value = itemSource[i].CategoryName;
+                        dgv_table.Rows[i].Cells[trateno].Value = itemSource[i].Price;
                         dgv_table.Rows[i].Cells[tdesno].Value = itemSource[i].Description;
                         dgv_table.Rows[i].Cells[tstatusno].Value = itemSource[i].Status;
                         dgv_table.Rows[i].Cells[tfcid].Value = Convert.ToInt32(itemSource[i].Fcid);

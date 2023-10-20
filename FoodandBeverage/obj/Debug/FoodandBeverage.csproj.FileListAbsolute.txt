@@ -32,6 +32,8 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FontAwesome.Sharp.
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.Design.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Document.NET.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Words.NET.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
@@ -48,7 +50,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Fo
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTableInfo.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTaxSetting.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmUnit.resources
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.UserControls.FrmSearch.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.test.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.GenerateResource.cache
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CoreCompileInputs.cache

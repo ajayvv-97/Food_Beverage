@@ -183,7 +183,7 @@ namespace FoodandBeverage.Forms
             this.dgvTaxSettings.Name = "dgvTaxSettings";
             this.dgvTaxSettings.ReadOnly = true;
             this.dgvTaxSettings.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgvTaxSettings.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTaxSettings.RowTemplate.Height = 30;
             this.dgvTaxSettings.Size = new System.Drawing.Size(788, 136);

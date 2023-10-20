@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Domain;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
+using CustomMessageBox;
 
 namespace FoodandBeverage.Forms
 {
@@ -266,7 +269,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(discountper.Text) > 100)
                 {
-                    MessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     discountper.Focus();
                 }
                 else
@@ -284,7 +287,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
                 {
-                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     totaldiscountamt.Focus();
                 }
                 else
@@ -324,19 +327,19 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtVendorName.Text))
             {
-                MessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtVendorAddress.Text))
             {
-                MessageBox.Show("Vendor Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtVendorTel.Text))
             {
-                MessageBox.Show("Vendor PhNo Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor PhNo Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
@@ -351,7 +354,7 @@ namespace FoodandBeverage.Forms
                 bool CUst = false;
                 if (MandatoryCheck())
                 {
-                    DmnPurchase dmnPurchase = new DmnPurchase();
+                    DmnPurchaseMaster dmnPurchase = new DmnPurchaseMaster();
                     BllPurchase bllPurchase = new BllPurchase();
                     dmnPurchase.EntryNo = invoiceno.Text;
                     dmnPurchase.DocNo = txtdocno.Text;
@@ -415,7 +418,7 @@ namespace FoodandBeverage.Forms
                             if (InsertStatus == null)
                             {
                                 CUst = true;
-                                MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 break;
                             }
 
@@ -424,7 +427,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (CUst == false)
                     {
-                        MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     ClearAll();
                 }
@@ -439,49 +442,49 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtdocno.Text))
             {
-                MessageBox.Show("Document Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Document Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtdocno.Focus();
                 return false;
             }
             //else if (string.IsNullOrEmpty(invoiceno.Text))
             //{
-            //    MessageBox.Show("Entry Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    CMessageBox.Show("Entry Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //    invoiceno.Focus();
             //    return false;
             //}
             else if (Convert.ToInt32(custname.SelectedValue) < 0)
             {
-                MessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 custname.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(address.Text))
             {
-                MessageBox.Show("Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 address.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(contactno.Text))
             {
-                MessageBox.Show("Contact Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Contact Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 contactno.Focus();
                 return false;
             }
             //else if (string.IsNullOrEmpty(txtEmail.Text))
             //{
-            //    MessageBox.Show("Email Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    CMessageBox.Show("Email Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //    txtEmail.Focus();
             //    return false;
             //}
             else if (string.IsNullOrEmpty(netamount.Text) || netamount.Text.ToString() == "0")
             {
-                MessageBox.Show("Netamount Is Not Zero & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Netamount Is Not Zero & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
             //else if (dgvProduct.Rows[0].Cells[iitemid].Value == null)
             //{
-            //    MessageBox.Show("No product Found !", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    CMessageBox.Show("No product Found !", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //    dgvProduct.Focus();
             //    return false;
             //}
@@ -499,7 +502,7 @@ namespace FoodandBeverage.Forms
             //{
             //    if (dgvProduct.Rows[i].Cells[iitemid].Value == "" || dgvProduct.Rows[i].Cells[iitemid].Value == null)
             //    {
-            //        MessageBox.Show("Product Is Not Selected", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        CMessageBox.Show("Product Is Not Selected", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //        return false;
             //        break;
             //    }
@@ -585,6 +588,18 @@ namespace FoodandBeverage.Forms
             tlp_grid_registartion.Controls.Remove(controlToRemove);
             tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
             tlp_textboxes.Dock = DockStyle.Fill;
+
+            dgvProduct.BorderStyle = BorderStyle.None;
+            dgvProduct.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvProduct.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvProduct.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvProduct.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvProduct.BackgroundColor = Color.White;
+
+            dgvProduct.EnableHeadersVisualStyles = false;
+            dgvProduct.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
         }
 
 
@@ -599,7 +614,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
                         {
-                            MessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //SendKeys.Send("{UP}");
                             e.Cancel = true;
                         }
@@ -609,7 +624,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[iprate, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue) <= 0)
                         {
-                            MessageBox.Show("Purchase Rate Is A Mandatory Field", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Purchase Rate Is A Mandatory Field", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             e.Cancel = true;
                         }
                     }
@@ -618,7 +633,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[imrp, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
                         {
-                            MessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             // SendKeys.Send("{UP}");
                             e.Cancel = true;
                         }
@@ -628,7 +643,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[idisper, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
                         {
-                            MessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //SendKeys.Send("{UP}");
                             e.Cancel = true;
                         }
@@ -638,7 +653,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[idisamt, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
                         {
-                            MessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //SendKeys.Send("{UP}");
                             e.Cancel = true;
                         }
@@ -650,14 +665,14 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) < 1)
                         {
-                            MessageBox.Show("Quantity Must Be Grater Than Or Equal To One", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Quantity Must Be Grater Than Or Equal To One", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             e.Cancel = true;
                         }
                         else if (!int.TryParse(Convert.ToString(cell.EditedFormattedValue), out value))
                         {
                             //dgvProduct.Rows[e.RowIndex].Cells[iqty].Value = decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue));
                             dgvProduct.EditingControl.Text = Convert.ToString(decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue)));
-                            //MessageBox.Show("Decimal Point Is Not Allowed In Quantity", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            //CMessageBox.Show("Decimal Point Is Not Allowed In Quantity", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //e.Cancel = true;
                             return;
                         }
@@ -685,7 +700,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value))
                     {
-                        MessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         SendKeys.Send("{UP}");
                         s = false;
                         //btnsave.Enabled = false;
@@ -696,7 +711,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[imrp].Value))
                     {
-                        MessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         SendKeys.Send("{UP}");
                         s = false;
 
@@ -803,14 +818,14 @@ namespace FoodandBeverage.Forms
                 DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
                 if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
                 {
-                    MessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     e.Cancel = true;
                     return;
                 }
                 cell = dgvProduct[iprate, e.RowIndex] as DataGridViewTextBoxCell;
                 if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue) <= 0)
                 {
-                    MessageBox.Show("Purchase Rate Is A Mandatory Field.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("Purchase Rate Is A Mandatory Field.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     e.Cancel = true;
                     return;
                 }
@@ -818,7 +833,7 @@ namespace FoodandBeverage.Forms
                 cell = dgvProduct[imrp, e.RowIndex] as DataGridViewTextBoxCell;
                 if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
                 {
-                    MessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     e.Cancel = true;
                     return;
                 }
@@ -827,7 +842,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
                     {
-                        MessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         e.Cancel = true;
                         return;
                     }
@@ -841,7 +856,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
                     {
-                        MessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         e.Cancel = true;
                         return;
                     }
@@ -853,7 +868,7 @@ namespace FoodandBeverage.Forms
                 cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
                 if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) <= 0)
                 {
-                    MessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     e.Cancel = true;
                     return;
                 }
@@ -1082,8 +1097,8 @@ namespace FoodandBeverage.Forms
             panelProductPopup.Hide();
             dgvItemPop.Rows.Clear();
             int cno = dgvProduct.CurrentCell.ColumnIndex;
-            dmnSearch.Select = "i.Itemname as Field1,i.price as Field2,i.quantity as Field3,i.ItemId as Field4,c.CategoryName as Field5";
-            dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
+            dmnSearch.Select = "i.Itemname as Field1,pr.SRate as Field2,pr.QOH as Field3,i.ItemId as Field4,c.CategoryName as Field5";
+            dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId";
             dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.ItemCode_UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
             dmnSearch.OrderBy = " ";
             var gridSourceitem = _bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1178,7 +1193,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                MessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
                 if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value != "")
                 {
@@ -1189,6 +1204,170 @@ namespace FoodandBeverage.Forms
 
             }
 
+        }
+
+        private void btn_vendor_close_Click(object sender, EventArgs e)
+        {
+            pnlCustomer.Visible = false;
+        }
+
+        private void btnSaveCust_Click(object sender, EventArgs e)
+        {
+            if (VendorMandatoryCheck())
+            {
+                DmnPurchaseMaster dmnPurchase = new DmnPurchaseMaster();
+                BllPurchase bllPurchase = new BllPurchase();
+                dmnPurchase.Customer = txtVendorName.Text;
+                dmnPurchase.Address = txtVendorAddress.Text;
+                dmnPurchase.Email = txtVendorEmail.Text;
+                dmnPurchase.ContactNo = txtVendorTel.Text;
+                dmnPurchase.BranchId =1;
+                dmnPurchase.CreatedBy =1;
+                dmnPurchase.Status = 1;
+                dmnPurchase.CustomerId = Convert.ToInt32("0");
+                dmnPurchase.CustomerId = Convert.ToInt32(custname.SelectedValue);
+
+                var InsertStatus = bllPurchase.AddEditDataVendor("prdInsert_Upd_Vendor", dmnPurchase);
+                if (InsertStatus == null)
+                {
+                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //break;
+                }
+                if (InsertStatus != null)
+                {
+                    CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorName.Text = "";
+                    txtVendorTel.Text = "";
+                    txtVendorAddress.Text = "";
+                    txtVendorEmail.Text = "";
+                }
+                pnlCustomer.Hide();
+                FillCombobox();
+                txtVendorName.Text = "";
+                txtVendorEmail.Text = "";
+                txtVendorAddress.Text = "";
+                txtVendorTel.Text = "";
+            }
+        }
+        
+        private void btnCloseCst_Click(object sender, EventArgs e)
+        {
+            pnlCustomer.Visible = false;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,BillNo,Date,DocumentNo,Telephone,TotalQuantity,NetAmount";
+                _objSearch.Select = "PurchaseMasterId Id,EntryNo  as Field1,EntryDate as Field2,DocumentNo as Field3,Telephone as Field4,TotalQuantity as Field5,NetAmount as Field6";
+                _objSearch.Table = "tblPurchaseMaster";
+                _objSearch.WhereNdGroupBy = "where Status = 1 ";
+                _objSearch.OrderBy = " ORDER BY PurchaseMasterId  desc";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    {
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToString(search._retValue);
+                        }
+                    }
+                    if (returnValue != "")
+                    {
+                        BllSearch<DmnPurchaseMaster> bllSearch1 = new BllSearch<DmnPurchaseMaster>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch = new DmnSearch();
+                        objSearch.Select = "PurchaseMasterId,EntryNo,EntryDate,DocumentNo,LedgerId,PurchaseAddress," +
+                            " Telephone,Email,TotalQuantity,TotalDiscount,TotalAmount,DiscountPer,DiscountAmount,Remarks," +
+                            " OaAmount OtherAdditions,OaDesc OtherAddionDesc,OdAmount OtherDeduction," +
+                            "OdDesc OtherDeductionDesc,NetAmount,Terms SalesTerms,RcvAmnt PaidAmount,BalAmnt BalanceAmount,NetAmount";
+                        objSearch.Table = "tblPurchaseMaster";
+                        objSearch.WhereNdGroupBy = "Where PurchaseMasterId = " + returnValue;
+                        objSearch.OrderBy = " ";
+                        var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (gridSource1.Count > 0)
+                        {
+                            invoiceno.Text = gridSource1[0].EntryNo;
+                            txtdocno.Text = gridSource1[0].DocumentNo;
+                            dtpdocdate.Value = gridSource1[0].EntryDate;
+                            custname.SelectedValue = gridSource1[0].LedgerId;
+                            address.Text = gridSource1[0].PurchaseAddress;
+                            contactno.Text = gridSource1[0].Telephone;
+                            txtEmail.Text = gridSource1[0].Email;
+                            lblTotqty.Text = Convert.ToString(gridSource1[0].TotalQuantity);
+                            lblTotal.Text = Convert.ToString(gridSource1[0].TotalAmount);
+                            lblGrandTot.Text = Convert.ToString(gridSource1[0].TotalAmount);
+                            lblTotDisc.Text = Convert.ToString(gridSource1[0].TotalDiscount);
+                            discountper.Text = Convert.ToString(gridSource1[0].DiscountPer);
+                            totaldiscountamt.Text = Convert.ToString(gridSource1[0].DiscountAmount);
+                            oaamount.Text = Convert.ToString(gridSource1[0].OtherAdditions);
+                            oadesc.Text = Convert.ToString(gridSource1[0].OtherAddionDesc);
+                            odamt.Text = Convert.ToString(gridSource1[0].OtherDeduction);
+                            oddesc.Text = gridSource1[0].OtherDeductionDesc;
+                            netamount.Text = Convert.ToString(gridSource1[0].NetAmount);
+                            lblNetAmt.Text = Convert.ToString(gridSource1[0].NetAmount);
+                            rcvamt.Text = Convert.ToString(gridSource1[0].PaidAmount);
+                            lblBalAmt.Text = Convert.ToString(gridSource1[0].BalanceAmount);
+                            remarks.Text = gridSource1[0].Remarks;
+                            sterms.Text = gridSource1[0].SalesTerms;
+                            BllSearch<DmnPurchaseDetails> bllSearch2 = new BllSearch<DmnPurchaseDetails>();
+                            objSearch = new DmnSearch();
+                            objSearch.Select = "*";
+                            objSearch.Table = " tblPurchaseDetails m  ";
+                            objSearch.WhereNdGroupBy = "Where m.PurchaseMasterId = " + gridSource1[0].PurchaseMasterId;
+                            objSearch.OrderBy = " ";
+                            var gridSource2 = bllSearch2.GetSearchData("prdSearch", objSearch);
+                            dgvProduct.Rows.Clear();
+                            dgvProduct.Rows.Add(gridSource2.Count);
+                            for (int i = 0; i < gridSource2.Count; i++)
+                            {
+                                dgvProduct.Rows[i].Cells[islno].Value = i + 1;
+                                dgvProduct.Rows[i].Cells[ibarcode].Value = gridSource2[i].ItemBarCode;
+                                dgvProduct.Rows[i].Cells[iname].Value = gridSource2[i].ItemCode;
+                                dgvProduct.Rows[i].Cells[iunit].Value = "Number";
+                                dgvProduct.Rows[i].Cells[iqty].Value = gridSource2[i].Quantity;
+                                dgvProduct.Rows[i].Cells[iprate].Value = gridSource2[i].PurchaseRate;
+                                dgvProduct.Rows[i].Cells[iamount].Value = gridSource2[i].Amount;
+                                dgvProduct.Rows[i].Cells[idisper].Value = gridSource2[i].DiscountPer;
+                                dgvProduct.Rows[i].Cells[idisamt].Value = gridSource2[i].DiscountAmount;
+                                dgvProduct.Rows[i].Cells[itaxper].Value = gridSource2[i].TaxPer;
+                                dgvProduct.Rows[i].Cells[itaxamt].Value = gridSource2[i].TaxAmount;
+                                dgvProduct.Rows[i].Cells[itotal].Value = gridSource2[i].NetAmount;
+                                dgvProduct.Rows[i].Cells[itaxtype].Value = gridSource2[i].TaxType;
+                                dgvProduct.Rows[i].Cells[itax].Value = gridSource2[i].Tax;
+                                dgvProduct.Rows[i].Cells[israte].Value = gridSource2[i].Srate;
+                                dgvProduct.Rows[i].Cells[imrp].Value = gridSource2[i].MRP;
+
+                            }
+                            btnsave.Visible = false;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void txtVendorTel_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

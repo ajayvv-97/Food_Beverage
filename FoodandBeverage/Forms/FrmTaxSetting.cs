@@ -77,7 +77,6 @@ namespace FoodandBeverage.Forms
                         dgvTaxSettings.Rows.Add(itemSource.Count);
                         for (int i = 0; i < itemSource.Count; i++)
                         {
-                            TaxSettingsId= Convert.ToInt32(itemSource[i].Id); 
                             dgvTaxSettings.Rows[i].Cells[tslno].Value = i + 1;
                             dgvTaxSettings.Rows[i].Cells[ttidno].Value = itemSource[i].Id;
                             dgvTaxSettings.Rows[i].Cells[ttaxtypeno].Value = itemSource[i].Field1;

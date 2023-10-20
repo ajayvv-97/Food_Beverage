@@ -2,6 +2,7 @@
 using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,8 +30,9 @@ namespace FoodandBeverage.Forms
         public static int Ritemno = 1;
         public static int Rqtyno = 2;
         public static int Runitno = 3;
-        public static int Raction = 4; 
+        public static int Raction = 4;
         public static int RIng_DetailsIdno = 5;
+        public static int Ritemidno = 6;
         #endregion
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         ClsDocument clsDocument = new ClsDocument();
@@ -56,6 +58,11 @@ namespace FoodandBeverage.Forms
                     BllProducts  bllProduct = new BllProducts();
                     if (string.IsNullOrWhiteSpace(txtpid.Text))
                         txtpid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtqty.Text))
+                        txtqty.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtDiscAmnt.Text))
+                        txtDiscAmnt.Text = "0";                  
+
                     dmnproduct.ProductId = Convert.ToInt32(txtpid.Text);
                     dmnproduct.Product = Convert.ToString(txtproductname.Text);
                     dmnproduct.Price = Convert.ToDecimal(txtprice.Text);
@@ -87,13 +94,13 @@ namespace FoodandBeverage.Forms
                     {
                         for (int i = 0; i < dgv_registartion.RowCount; i++)
                         {
-                            if (((dgv_registartion.Rows[i].Cells[Ritemno].Value) != null || (dgv_registartion.Rows[i].Cells[Ritemno].Value) != "") &&
+                            if (((dgv_registartion.Rows[i].Cells[Ritemidno].Value) != null || (dgv_registartion.Rows[i].Cells[Ritemidno].Value) != "") &&
                                 ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" || (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) <= 0)
                                 )
 
                             dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
                             dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
-                            dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemno].Value);
+                            dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                             dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
                             dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
                             // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
@@ -305,15 +312,6 @@ namespace FoodandBeverage.Forms
                 cmb_unit.DataSource = gridSource1;
                 cmb_unit.ValueMember = "Id";
                 cmb_unit.DisplayMember = "Value";
-
-                objSearch.Select = "ItemId,Itemname";
-                objSearch.Table = " tblItem";
-                objSearch.WhereNdGroupBy = "where Status=1 ";
-                objSearch.OrderBy = "";
-                var gridSource3 = bllSearch.GetSearchData("prdComboFill", objSearch);
-                cmb_item.DataSource = gridSource3;
-                cmb_item.ValueMember = "Id";
-                cmb_item.DisplayMember = "Value";
             }
             catch (Exception ex)
             {
@@ -349,7 +347,7 @@ namespace FoodandBeverage.Forms
         }
         private bool IsValidData(int rowno)
         {
-            DataGridViewComboBoxCell cell = dgv_registartion.Rows[rowno].Cells[Ritemno] as DataGridViewComboBoxCell;
+            DataGridViewTextBoxCell cell = dgv_registartion.Rows[rowno].Cells[Ritemno] as DataGridViewTextBoxCell;
             string selectedValue = cell.EditedFormattedValue?.ToString();
             if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == ".")
             {
@@ -456,10 +454,10 @@ namespace FoodandBeverage.Forms
                     else
                         chb_active.Checked = false;
 
-                    BllSearch<Dmnincrediant> bllSearchdetails = new BllSearch<Dmnincrediant>();
+                    BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "*";
-                    objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId";
+                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5";
+                    objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
                     objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
                     objSearchDetails.OrderBy = "";
                     var gridSource_pro = bllSearchdetails.GetSearchData("prdSearch", objSearchDetails);
@@ -467,10 +465,12 @@ namespace FoodandBeverage.Forms
                     dgv_registartion.Rows.Add(gridSource_pro.Count);
                     for (int i = 0; i < gridSource_pro.Count; i++)
                     {
-                        dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Ing_DetailsId);
-                        dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToInt64(gridSource_pro[i].ItemId);
-                        dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].quantity);
-                        dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].unit);
+                        dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);      
+                        dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToString(gridSource_pro[i].Field2);
+                        dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
+                        dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
+                        dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
+
                     }
                     rearrange_slno();
                 }
@@ -1084,5 +1084,108 @@ namespace FoodandBeverage.Forms
                 e.Handled = true;
             }
         }
+
+        private void dgv_registartion_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SendKeys.Send("{TAB}");
+            }
+            else if (e.KeyData == Keys.F8 && dgv_registartion.CurrentCell.ColumnIndex == Ritemno)
+            {
+                int cno = dgv_registartion.CurrentCell.ColumnIndex;
+                int rowno = dgv_registartion.CurrentCell.RowIndex;
+                ItemFillGrid(rowno);
+            }
+            else if (e.KeyData == Keys.Delete)
+            {
+                dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentCell.RowIndex);
+            }
+        }
+
+        private void dgv_registartion_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Ritemno)
+            {
+                if (dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemidno].Value == null)
+                {
+                    dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemno].Value = "F8 for Products";
+                    dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemno].Style.ForeColor = Color.Red;
+                }
+                else
+                    dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemno].Style.ForeColor = Color.Black;
+
+            }
+        }
+
+        private void dgv_registartion_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Ritemno)
+            {
+                if (dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemidno].Value == null)
+                {
+                    dgv_registartion.Rows[dgv_registartion.CurrentCell.RowIndex].Cells[Ritemno].Value = "";
+                }
+            }
+        }
+        public void ItemFillGrid(int rowno)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,ItemCode_UPC,Item Name,Category Name";
+                _objSearch.Select = "ItemId as Id,ItemCode_UPC as Field1,Itemname as Field2,c.CategoryName  as Field3";
+                _objSearch.Table = "tblItem i left join tblCategory_FTI c on c.Fcid=i.Fcid";
+                _objSearch.WhereNdGroupBy = "where i.Status = 1 ";
+                _objSearch.OrderBy = " ORDER BY Itemname ";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    {
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToString(search._retValue);
+                        }
+                    }
+                    if (returnValue != "")
+                    {
+                        BllSearch<DmnItem> bllSearch1 = new BllSearch<DmnItem>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch = new DmnSearch();
+                        objSearch.Select = "*";
+                        objSearch.Table = "tblItem";
+                        objSearch.WhereNdGroupBy = "Where Status =1 and itemid = " + returnValue;
+                        objSearch.OrderBy = " ";
+                        var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (gridSource1.Count > 0)
+                        {
+                            dgv_registartion.Rows[rowno].Cells[Rslno].Value = rowno + 1;
+                            dgv_registartion.Rows[rowno].Cells[Ritemno].Value = gridSource1[0].Itemname;
+                            dgv_registartion.Rows[rowno].Cells[Ritemidno].Value = gridSource1[0].ItemId;
+                            dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+
+
+       
     }
 }

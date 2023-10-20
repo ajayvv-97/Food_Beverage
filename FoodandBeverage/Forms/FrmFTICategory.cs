@@ -93,6 +93,7 @@ namespace FoodandBeverage.Forms
             txtfoodCate.Text = "";
             chk_active.Visible = false;
             btn_del_cate.Visible = false;
+            txtfoodCate.Focus();
         }
         public void Fillcategory(int n)
         {
@@ -183,6 +184,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmFTICategory_Load(object sender, EventArgs e)
         {
+            txtfoodCate.Focus();
             dgv_category.BorderStyle = BorderStyle.None;
             dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_category.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -240,6 +242,14 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
+            }
+        }
+
+        private void txtfoodCate_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
             }
         }
     }

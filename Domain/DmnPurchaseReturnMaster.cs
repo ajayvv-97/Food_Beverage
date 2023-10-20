@@ -8,6 +8,8 @@ namespace Domain
     {
 
         /*-----------------*/
+        
+        public string itemName { get; set; }
         public string Description { get; set; }
         public string PurchaseRate { get; set; }
         public string Quantity { get; set; }

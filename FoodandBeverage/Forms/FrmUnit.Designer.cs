@@ -381,7 +381,7 @@ namespace FoodandBeverage.Forms
             this.dgv_unit.Name = "dgv_unit";
             this.dgv_unit.ReadOnly = true;
             this.dgv_unit.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_unit.RowTemplate.Height = 30;
             this.dgv_unit.Size = new System.Drawing.Size(717, 212);

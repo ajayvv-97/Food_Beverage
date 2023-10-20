@@ -8,17 +8,17 @@ namespace BLL
 {
     public class BllPurchase
     {
-        public List<DmnPurchase> getInvoiceNo(string Procedure, int BranchId)
+        public List<DmnPurchaseMaster> getInvoiceNo(string Procedure, int BranchId)
         {
-            DAL.DapperRepository<DmnPurchase> dapper = new DAL.DapperRepository<DmnPurchase>();
+            DAL.DapperRepository<DmnPurchaseMaster> dapper = new DAL.DapperRepository<DmnPurchaseMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("BranchId", BranchId);
             var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }
-        public DmnPurchase AddEditData(string procedureName, DmnPurchase objTestClass)
+        public DmnPurchaseMaster AddEditData(string procedureName, DmnPurchaseMaster objTestClass)
         {
-            DAL.DapperRepository<DmnPurchase> dapperRepository = new DAL.DapperRepository<DmnPurchase>();
+            DAL.DapperRepository<DmnPurchaseMaster> dapperRepository = new DAL.DapperRepository<DmnPurchaseMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("PurchaseMasterId", objTestClass.PurchaseMasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
@@ -49,9 +49,9 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-        public DmnPurchase AddEditDataDet(string procedureName, DmnPurchase objTestClass)
+        public DmnPurchaseMaster AddEditDataDet(string procedureName, DmnPurchaseMaster objTestClass)
         {
-            DAL.DapperRepository<DmnPurchase> dapperRepository = new DAL.DapperRepository<DmnPurchase>();
+            DAL.DapperRepository<DmnPurchaseMaster> dapperRepository = new DAL.DapperRepository<DmnPurchaseMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("Barcode", objTestClass.Barcode);
             parms.Add("Name", objTestClass.Name);
@@ -81,9 +81,9 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-        public DmnPurchase AddEditDataVendor(string procedureName, DmnPurchase objTestClass)
+        public DmnPurchaseMaster AddEditDataVendor(string procedureName, DmnPurchaseMaster objTestClass)
         {
-            DAL.DapperRepository<DmnPurchase> dapperRepository = new DAL.DapperRepository<DmnPurchase>();
+            DAL.DapperRepository<DmnPurchaseMaster> dapperRepository = new DAL.DapperRepository<DmnPurchaseMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("VendorId", objTestClass.CustomerId);
             parms.Add("VendorName", objTestClass.Customer);

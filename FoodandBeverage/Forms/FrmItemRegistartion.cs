@@ -390,6 +390,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmItemRegistartion_Load(object sender, EventArgs e)
         {
+            textb_shape();
             Fillitem();
             combofill();
             Taxfill();
@@ -448,8 +449,8 @@ namespace FoodandBeverage.Forms
                     else
                         rdb_notsale.Checked = true;
                     cmbtax.Text = Convert.ToString(itemSource[0].Tax);
-                    cmbtax.Text = Convert.ToString(itemSource[0].TaxType);
-                    if (cmbtax.Text=="GST")
+                    cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
+                    if (cmbTaxType.Text=="GST")
                         cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
                     else
                         cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
@@ -485,19 +486,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txtqty_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-            // only allow one decimal point
-            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }
-        }
-
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {           
             int[] columnsToRemove1 = { 0,1, 2, 3 };
@@ -516,7 +504,9 @@ namespace FoodandBeverage.Forms
             }
             cmbtax.Dock = DockStyle.Fill;
             cmbTaxType.Dock = DockStyle.Fill;
-
+            lblunit.Dock = DockStyle.Fill;
+            lbltax.Dock = DockStyle.Fill;
+            lbltaxtype.Dock = DockStyle.Fill;
             if (cmbTaxType.Text == "GST")
             {
                 lbligst.Dock = DockStyle.Fill;
@@ -524,6 +514,8 @@ namespace FoodandBeverage.Forms
                 tlp_s_c_gst.Dock = DockStyle.Fill;
                 tlp_S_C_text_.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
+                txtSgstPrcnt.Dock = DockStyle.Top;
+                txtCgstPrcnt.Dock = DockStyle.Top;
                 //row1
                 tlp_registration.Controls.Add(lblunit, 0, 5);
                 tlp_registration.Controls.Add(lbltax, 1, 5);
@@ -591,20 +583,6 @@ namespace FoodandBeverage.Forms
         private void btn_grid_refresh_Click(object sender, EventArgs e)
         {
             Fillitem();
-        }
-
-        private void txtmrp_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-            // only allow one decimal point
-            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }
         }
 
         private void txtmrp_Leave(object sender, EventArgs e)
@@ -686,6 +664,145 @@ namespace FoodandBeverage.Forms
                 GridkeydownEnter(rowno);
             }
       
+        }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                ApplyRoundedTextBox(txtincr_name, 10);
+                ApplyRoundedTextBox(txtdesc, 10);
+                ApplyRoundedTextBox(txtbarcode, 10);
+                ApplyRoundedTextBox(txtmrp, 10);
+                ApplyRoundedTextBox(txtqty, 10);
+                ApplyRoundedTextBox(txtprate, 10);
+                ApplyRoundedTextBox(txtsrate, 10);
+                //ApplyRoundedTextBox(txtCgstPrcnt, 10);
+                //ApplyRoundedTextBox(txtSgstPrcnt, 10);
+                txtincr_name.Font = new Font(txtincr_name.Font.FontFamily, 12);
+                txtdesc.Font = new Font(txtdesc.Font.FontFamily, 12);
+                txtbarcode.Font = new Font(txtbarcode.Font.FontFamily, 12);
+                txtmrp.Font = new Font(txtmrp.Font.FontFamily, 12);
+                txtqty.Font = new Font(txtqty.Font.FontFamily, 12);
+                txtprate.Font = new Font(txtprate.Font.FontFamily, 12);
+                txtsrate.Font = new Font(txtsrate.Font.FontFamily, 12);
+                txtCgstPrcnt.Font = new Font(txtCgstPrcnt.Font.FontFamily, 12);
+                txtSgstPrcnt.Font = new Font(txtSgstPrcnt.Font.FontFamily, 12);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+     
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
+
+        private void txtbarcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            #region Allow 5 Digit and Two decimal Point
+            string input = (sender as TextBox).Text;
+            if (e.KeyChar == '.')
+            {
+                if ((sender as TextBox).MaxLength == 5)
+                    (sender as TextBox).MaxLength = 8;
+                else
+                {
+                    if (input.Contains('.'))
+                    {
+                        (sender as TextBox).MaxLength = 8;
+                    }
+                    else
+                    {
+                        (sender as TextBox).MaxLength = 5;
+                    }
+                }
+
+            }
+            else
+            {
+                if (input.Contains('.'))
+                {
+                    (sender as TextBox).MaxLength = 8;
+                }
+                else
+                {
+                    (sender as TextBox).MaxLength = 5;
+                }
+            }
+            #endregion
+        }
+
+        private void txtqty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
+            
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            
+                e.Handled = true;
+            
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            
+                e.Handled = true;
+            
+        }
+
+        private void txtincr_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
+        }
+
+        private void FrmItemRegistartion_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                CMessageBox.Show("F5 Presss");
+            }
+             
+        }
+
+        private void FrmItemRegistartion_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                CMessageBox.Show("F5 Presss");
+            }
+        }
+
+        private void FrmItemRegistartion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
         }
     }
 }
