@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -783,26 +785,93 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
         }
 
-        private void FrmItemRegistartion_KeyDown(object sender, KeyEventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.F5)
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            int returnValue = 0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+            DmnSearch _objSearch = new DmnSearch();
+            _objSearch.ColumnHeaders = "ID,ItemCode_UPC,Itemname";
+            _objSearch.Select = " ItemId as Id,ItemCode_UPC as Field1,Itemname as Field2";
+            _objSearch.Table = "tblItem";
+            _objSearch.WhereNdGroupBy = "where Status = 1";
+            _objSearch.OrderBy = " ORDER BY Itemname";
+            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+            if (gridSource.Count == 0)
             {
-                CMessageBox.Show("F5 Presss");
+                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-             
-        }
-
-        private void FrmItemRegistartion_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F5)
+            else
             {
-                CMessageBox.Show("F5 Presss");
-            }
-        }
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+                if (returnValue >0)
+                {
+                    int incgreid = returnValue;
+                    BllSearch<DmnItem> bllSearch1 = new BllSearch<DmnItem>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.Id as PrId";
+                    objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
+                    objSearch.WhereNdGroupBy = "where i.status = 1 and itemid=" + incgreid;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count == 1)
+                    {
+                        txtitemid.Text = Convert.ToString(incgreid);
+                        txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
+                        txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
+                        txtdesc.Text = Convert.ToString(itemSource[0].summary);
+                        txtprate.Text = Convert.ToString(itemSource[0].Prate);
+                        txtsrate.Text = Convert.ToString(itemSource[0].Srate);
+                        txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                        txtqty.Text = Convert.ToString(itemSource[0].quantity);
+                        cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                        txtmrp.Text = Convert.ToString(itemSource[0].MRP);
+                        txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
-        private void FrmItemRegistartion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            
+                        if (Convert.ToInt32(itemSource[0].Saletype) == 1)
+                            rdb_dsale.Checked = true;
+                        else
+                            rdb_notsale.Checked = true;
+                        cmbtax.Text = Convert.ToString(itemSource[0].Tax);
+                        cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
+                        if (cmbTaxType.Text == "GST")
+                            cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+                        else
+                            cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+                        cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
+                        btn_del_ingre.Visible = true;
+                        toggle_grid.PerformClick();
+                    }
+                    else if (itemSource.Count > 1)
+                    {
+                        pnlPrRates.Visible = true;
+                        pnlPrRates.Location = new Point(this.ClientSize.Width / 2 - pnlPrRates.Size.Width / 2, (this.ClientSize.Height / 3 - pnlPrRates.Size.Height / 3));
+                        dgvprDetails.Rows.Clear();
+                        dgvprDetails.Rows.Add(itemSource.Count);
+
+                        for (int i = 0; i < itemSource.Count; i++)
+                        {
+                            dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
+                            dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                            dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
+                            dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
+                            dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
+                            dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
+                            dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
+                            dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
+                        }
+                        dgvprDetails.Focus();
+                    }
+                }
+            }
         }
     }
 }

@@ -361,5 +361,11 @@
   <ItemGroup>
     <None Include="Resources\grid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fb_icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -97,6 +97,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "search";
             this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnrefresh
             // 
@@ -351,7 +352,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_main.Size = new System.Drawing.Size(729, 500);
+            this.tlp_main.Size = new System.Drawing.Size(729, 658);
             this.tlp_main.TabIndex = 4;
             // 
             // dgv_unit
@@ -384,7 +385,7 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_unit.RowTemplate.Height = 30;
-            this.dgv_unit.Size = new System.Drawing.Size(717, 212);
+            this.dgv_unit.Size = new System.Drawing.Size(717, 370);
             this.dgv_unit.TabIndex = 1;
             this.dgv_unit.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_unit_CellDoubleClick);
             // 
@@ -431,7 +432,7 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 500);
+            this.ClientSize = new System.Drawing.Size(729, 658);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmUnit";

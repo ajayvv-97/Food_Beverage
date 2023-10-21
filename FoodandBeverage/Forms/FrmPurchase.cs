@@ -1067,7 +1067,7 @@ namespace FoodandBeverage.Forms
 
         private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == ibarcode)
             {
                 txtbarcode.Text = "";
                 pnl_barcode.Visible = true;
@@ -1367,6 +1367,32 @@ namespace FoodandBeverage.Forms
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void dgvProduct_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == iname)
+            {
+                if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value == null)
+                {
+                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "";
+                }
+            }
+        }
+
+        private void dgvProduct_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == iname)
+            {
+                if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value == null)
+                {
+                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "F8 for Products";
+                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Red;
+                }
+                else
+                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Black;
+
             }
         }
     }

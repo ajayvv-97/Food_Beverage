@@ -28,6 +28,9 @@ namespace BLL
 			parms.Add("CreatedBy", objTestClass.CreatedBy);		
 			parms.Add("Status", objTestClass.Status);
 			parms.Add("BranchId", objTestClass.BranchId);
+
+			parms.Add("ItemCode", objTestClass.ItemCode);
+
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

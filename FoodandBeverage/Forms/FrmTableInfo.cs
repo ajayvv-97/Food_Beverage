@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -252,6 +254,57 @@ namespace FoodandBeverage.Forms
                 e.Handled = true;
             }
            
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            int returnValue = 0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+            DmnSearch _objSearch = new DmnSearch();
+            _objSearch.ColumnHeaders = "ID,TableCode,Capcity,Price,Description";
+            _objSearch.Select = "tid as Id,TableCode as Field1,Capcity as Field2,Price as Field3,Description as Field4";
+            _objSearch.Table = "tblTable_info";
+            _objSearch.WhereNdGroupBy = "where Status = 1";
+            _objSearch.OrderBy = " ORDER BY tid";
+            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+            if (gridSource.Count == 0)
+            {
+                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+                if (returnValue > 0)
+                {
+                    int tableid = Convert.ToInt32(returnValue);
+                    BllSearch<DmnTableinfo> bllSearch1 = new BllSearch<DmnTableinfo>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblTable_info";
+                    objSearch.WhereNdGroupBy = "where status = 1 and Tid=" + tableid;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        txttid.Text = Convert.ToString(tableid);
+                        txtdesc.Text = Convert.ToString(itemSource[0].Description);
+                        cmb_category.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
+                        txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
+                        txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
+                        txtrate.Text = Convert.ToString(itemSource[0].Price);
+                        btn_del_table.Visible = true;
+                    }
+                }
+            }
         }
     }
 }

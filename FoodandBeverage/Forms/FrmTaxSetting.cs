@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -525,5 +527,79 @@ namespace FoodandBeverage.Forms
         {
             filltax();
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            int returnValue = 0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+            DmnSearch _objSearch = new DmnSearch();
+            _objSearch.ColumnHeaders = "ID,TaxType,IgstPrcnt,VatPrcnt";
+            _objSearch.Select = "TaxSettingsId as Id,TaxType as Field1,IgstPrcnt as Field2,VatPrcnt as Field3";
+            _objSearch.Table = "tblTaxSettings";
+            _objSearch.WhereNdGroupBy = "where Status = 1";
+            _objSearch.OrderBy = " ORDER BY TaxSettingsId";
+            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+            if (gridSource.Count == 0)
+            {
+                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+                if (returnValue > 0)
+                {
+                    int taxid = Convert.ToInt32(returnValue);
+                    BllSearch<DmnTaxSettings> bllSearch1 = new BllSearch<DmnTaxSettings>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "* ";
+                    objSearch.Table = "tblTaxSettings";
+                    objSearch.WhereNdGroupBy = "where status = 1 and TaxSettingsId=" + taxid;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        TaxSettingsId = taxid;
+                        cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
+                        txtCgstPrcnt.Text = Convert.ToString(itemSource[0].CgstPrcnt);
+                        txtSgstPrcnt.Text = Convert.ToString(itemSource[0].SgstPrcnt);
+                        txtIgstPrcnt.Text = Convert.ToString(itemSource[0].IgstPrcnt);
+                        txtVatPrcnt.Text = Convert.ToString(itemSource[0].VatPrcnt);
+                        btn_del_tax.Visible = true;
+                        if (cmbTaxType.Text == "VAT")
+                        {
+                            lblcgst.Visible = false;
+                            lblcgst.Visible = false;
+                            lbligst.Visible = false;
+                            lblvat.Visible = true;
+                            txtSgstPrcnt.Visible = false;
+                            txtSgstPrcnt.Visible = false;
+                            txtIgstPrcnt.Visible = false;
+                            txtVatPrcnt.Visible = true;
+                        }
+                        if (cmbTaxType.Text == "GST")
+                        {
+                            lblcgst.Visible = true;
+                            lblcgst.Visible = true;
+                            lbligst.Visible = true;
+                            lblvat.Visible = false;
+                            txtSgstPrcnt.Visible = true;
+                            txtSgstPrcnt.Visible = true;
+                            txtIgstPrcnt.Visible = true;
+                            txtVatPrcnt.Visible = false;
+                        }
+                    }
+                }
+            }
+
+        }
+        }
     }
-}

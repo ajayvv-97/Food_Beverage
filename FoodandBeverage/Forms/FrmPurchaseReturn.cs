@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Forms.UserControls;
 using System;
@@ -122,12 +123,12 @@ namespace FoodandBeverage.Forms
 
             //if (string.IsNullOrEmpty(txtpurchaseentry.Text))
             //{
-            //    MessageBox.Show("Please Select Purchase Entry No", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    CMessageBox.Show("Please Select Purchase Entry No", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //    return false;
             //}
             else if (dgvProduct.Rows[0].Cells[iitemId].Value == null)
             {
-                MessageBox.Show("No Product Found", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("No Product Found", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
             return true;
@@ -204,7 +205,7 @@ namespace FoodandBeverage.Forms
                             var InsertStatus = bllPurchase.AddEditDataDet("prdInsert_Upd_PurchaseReturnDetails", dmnPurchase);
                             if (InsertStatus == null)
                             {
-                                MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 break;
                             }
                             if (InsertStatus != null)
@@ -215,7 +216,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (insflag == 1)
                     {
-                        MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearAll();
                     }
                 }
@@ -445,7 +446,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(discountper.Text) > 100)
                 {
-                    MessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     discountper.Focus();
                 }
                 else
@@ -463,7 +464,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
                 {
-                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     totaldiscountamt.Focus();
                 }
                 else
@@ -538,7 +539,7 @@ namespace FoodandBeverage.Forms
                 var CheckData = Searchcount.GetSearchData("prdSearch", _objSearch);
                 if (CheckData.Count == 0)
                 {
-                    MessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -572,7 +573,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (Convert.ToDecimal(gridSourcecountsum[0].Field1) == Convert.ToDecimal(gridSourcecountsum[0].Field2))
                         {
-                            MessageBox.Show("These Product Are Already Return !", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show("These Product Are Already Return !", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                     }
@@ -598,7 +599,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error");
+                CMessageBox.Show(this, ex.Message, "Error");
             }
         }
         
@@ -678,12 +679,12 @@ namespace FoodandBeverage.Forms
                         decimal temp = purch_qty - ret_qty;
                         if (temp > current_qty)
                         {
-                            MessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            CMessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             dgvProduct.Rows[dgvProduct_rowid].Cells[iqty].Value = current_qty;
                         }
                         else
                         {
-                            MessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            CMessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             dgvProduct.Rows[dgvProduct_rowid].Cells[iqty].Value = temp;
                         }
 
@@ -712,12 +713,12 @@ namespace FoodandBeverage.Forms
                 int dgvProduct_rowid = 0;
                 if (dgvItemPop.Rows[cellpopupid].Cells[iqty].Value == "Out of stock")
                 {
-                    MessageBox.Show("Avilable PurChase Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    CMessageBox.Show("Avilable PurChase Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
                 if (Convert.ToInt32(dgvItemPop.Rows[cellpopupid].Cells[ipopNetavaQoty].Value) == 0)
                 {
-                    MessageBox.Show("Avilable Stock Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    CMessageBox.Show("Avilable Stock Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
                 dmnSearch.Select = "a.ItemBarCode as ItemBarCode,i.itemName as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,(Select Sum(QOH) from tblProductRate pr where pr.ProductId = i.itemid )as QuantityOnHand,i.TaxType";
@@ -966,7 +967,7 @@ namespace FoodandBeverage.Forms
                         {
                             if (purchaseID == null || purchaseID == "")
                             {
-                                MessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
                             txtpurchaseentry.Enabled = false;
@@ -1186,12 +1187,12 @@ namespace FoodandBeverage.Forms
                                 decimal temp = purch_qty - ret_qty;
                                 if (temp > current_qty)
                                 {
-                                    MessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                    CMessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                                     dgvProduct.Rows[e.RowIndex].Cells[iqty].Value = current_qty;
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                    CMessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                                     dgvProduct.Rows[e.RowIndex].Cells[iqty].Value = temp;
                                 }
 
@@ -1263,7 +1264,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewTextBoxCell cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
                         if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) <= 0)
                         {
-                            MessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             e.Cancel = true;
                         }
                     }
@@ -1274,7 +1275,7 @@ namespace FoodandBeverage.Forms
                         {
                             if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
                             {
-                                MessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 e.Cancel = true;
                             }
                         }
@@ -1290,7 +1291,7 @@ namespace FoodandBeverage.Forms
                         {
                             if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
                             {
-                                MessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 e.Cancel = true;
                             }
                         }
@@ -1368,7 +1369,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (Convert.ToDecimal(dispercell.EditedFormattedValue.ToString()) > 100)
                         {
-                            MessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //SendKeys.Send("{UP}");
                             e.Cancel = true;
                             return;
@@ -1383,7 +1384,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (Convert.ToDecimal(disamtcell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
                         {
-                            MessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             e.Cancel = true;
                             return;
                         }
@@ -1397,7 +1398,7 @@ namespace FoodandBeverage.Forms
                     DataGridViewTextBoxCell qtycell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
                     if ((qtycell.EditedFormattedValue.ToString() == "") || (qtycell.EditedFormattedValue.ToString() == string.Empty) || (Convert.ToDecimal(qtycell.EditedFormattedValue.ToString()) <= 0))
                     {
-                        MessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         e.Cancel = true;
                         return;
                     }
@@ -1453,7 +1454,7 @@ namespace FoodandBeverage.Forms
 
             if (purchaseID == null || purchaseID == "")
             {
-                MessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1662,7 +1663,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Avilable Quantity is " + dgvProduct.Rows[gridrowno].Cells[iorglQty].Value, "Out Of Quantity", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        CMessageBox.Show("Avilable Quantity is " + dgvProduct.Rows[gridrowno].Cells[iorglQty].Value, "Out Of Quantity", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         return;
                     }
                     totalcellamount(gridrowno);
@@ -1681,7 +1682,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
                     { dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value; }
                     else
@@ -1767,12 +1768,12 @@ namespace FoodandBeverage.Forms
                         decimal temp = purch_qty - ret_qty;
                         if (temp > current_qty)
                         {
-                            MessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            CMessageBox.Show("Available Quantity is " + current_qty, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             dgvProduct.Rows[rowid].Cells[iqty].Value = current_qty;
                         }
                         else
                         {
-                            MessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            CMessageBox.Show("Available Quantity is " + temp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             dgvProduct.Rows[rowid].Cells[iqty].Value = temp;
                         }
 
@@ -1803,7 +1804,7 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
                 {
-                    MessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {

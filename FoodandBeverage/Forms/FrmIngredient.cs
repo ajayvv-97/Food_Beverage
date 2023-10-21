@@ -4,16 +4,12 @@ using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static FoodandBeverage.Interfaces.Interfaces;
 
@@ -55,14 +51,8 @@ namespace FoodandBeverage.Forms
                     Bllincrediant bllincr = new Bllincrediant();
 
                     DmnProducts dmnproduct = new DmnProducts();
-                    BllProducts  bllProduct = new BllProducts();
-                    if (string.IsNullOrWhiteSpace(txtpid.Text))
-                        txtpid.Text = "0";
-                    if (string.IsNullOrWhiteSpace(txtqty.Text))
-                        txtqty.Text = "0";
-                    if (string.IsNullOrWhiteSpace(txtDiscAmnt.Text))
-                        txtDiscAmnt.Text = "0";                  
-
+                    BllProducts  bllProduct = new BllProducts();                   
+                    
                     dmnproduct.ProductId = Convert.ToInt32(txtpid.Text);
                     dmnproduct.Product = Convert.ToString(txtproductname.Text);
                     dmnproduct.Price = Convert.ToDecimal(txtprice.Text);
@@ -80,6 +70,8 @@ namespace FoodandBeverage.Forms
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
                     dmnproduct.TaxType = Convert.ToString(cmbTaxType.Text);
                     dmnproduct.Quantity = Convert.ToInt32(txtqty.Text);
+                    dmnproduct.Description = Convert.ToString(txtdes.Text);
+                    dmnproduct.ItemCode = Convert.ToString(txtitemcode.Text);
                     dmnproduct.UPC = "";
                     dmnproduct.CreatedBy = 1;
                     dmnproduct.BranchId = 1;
@@ -156,6 +148,13 @@ namespace FoodandBeverage.Forms
         }
         public void clearall()
         {
+            txtsearch.Text = "Food Name.....";
+            txtsearch.ForeColor = Color.Gray;
+            pb_view_pic.BackgroundImage = null;
+            pb_view_pic.Image = null;
+            empImgExt = "";
+            txtqty.Text = "";
+            txtitemcode.Text = "";
             txtpid.Text = "0";
             txtproductname.Text = "";
             txtprice.Text = "";
@@ -171,9 +170,19 @@ namespace FoodandBeverage.Forms
             dgv_registartion.Rows.Clear();
             dgv_registartion.Rows.Add();
             btn_del_ingre.Visible = false;
+            txtSgstPrcnt.Text = "";
+            txtCgstPrcnt.Text = "";
         }
         public bool MandatoryCheck()
         {
+            if (string.IsNullOrWhiteSpace(txtpid.Text))
+                txtpid.Text = "0";
+            if (string.IsNullOrWhiteSpace(txtqty.Text))
+                txtqty.Text = "0";
+            if (string.IsNullOrWhiteSpace(txtDiscAmnt.Text))
+                txtDiscAmnt.Text = "0";
+            if (string.IsNullOrWhiteSpace(txtDisPer.Text))
+                txtDisPer.Text = "0";
             if (txtproductname.Text == "" || txtproductname.Text == null)
             {
                 CMessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -271,6 +280,8 @@ namespace FoodandBeverage.Forms
                 }
             }
             #endregion
+            txtsearch.Text = "Food Name .....";
+            txtsearch.ForeColor = Color.Gray;
         }
 
         private void btncolse_Click(object sender, EventArgs e)
@@ -426,6 +437,8 @@ namespace FoodandBeverage.Forms
                     cmbtax.Text = Convert.ToString(gridSource[0].Tax);
                     CmbCategory.SelectedValue = Convert.ToInt64(gridSource[0].Fcid);
                     cmbTaxType.Text = Convert.ToString(gridSource[0].TaxType);
+                    txtdes.Text = Convert.ToString(gridSource[0].Description);
+                    txtitemcode.Text = Convert.ToString(gridSource[0].ItemCode);
 
                     string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
                     bool imageExist, brLogoExist;
@@ -521,7 +534,7 @@ namespace FoodandBeverage.Forms
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
             int[] columnsToRemove = { 1, 2, 3 }; 
-            int[] rowsToRemove = { 4, 5 }; 
+            int[] rowsToRemove = { 4, 5,6,7 }; 
 
             foreach (int column in columnsToRemove)
             {
@@ -534,56 +547,49 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-
+            lbltax.Dock = DockStyle.Fill;
+            lbltaxtype.Dock = DockStyle.Fill;
             if (cmbTaxType.Text == "GST")
             {
                 lbligst.Dock = DockStyle.Fill;
                 cmbIgstPrcnt.Dock = DockStyle.Fill;
-                //lbligst.Visible = true;
-                //cmbIgstPrcnt.Visible = true;              
 
-                //lblcgst.Visible = true;
-                //txtCgstPrcnt.Visible = true;
-
-                //lblsgst.Visible = true;
-                //txtSgstPrcnt.Visible = true;
-
-                //lblvat.Visible = false;
-                //cmbVatPrcnt.Visible = false;     
                 //row1
-                tlp_registration.Controls.Add(lbligst, 1, 4);
-                tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 2, 4);
-                tlp_registration.Controls.Add(tlp_lbl_des_del, 3, 4);
+                tlp_registration.Controls.Add(lbltax, 0, 4);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 4);
+                tlp_registration.Controls.Add(lbligst, 2, 4);
+                tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 4);
+
                 //row2
-                tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 5);
-                tlp_registration.Controls.Add(tlp_S_C_text, 2, 5);
-                tlp_registration.Controls.Add(tlp_desc_delete, 3, 5);
+                tlp_registration.Controls.Add(cmbtax, 0, 5);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 5);
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 5);
+                tlp_registration.Controls.Add(tlp_S_C_text, 3, 5);
+
+                //row3
+                tlp_registration.Controls.Add(lbldes, 0, 6);
+                //row4
+                tlp_registration.Controls.Add(txtdes, 0, 7);
+                tlp_registration.Controls.Add(btn_del_ingre, 1,7);
+
             }
             else if (cmbTaxType.Text == "VAT")
             {
-                //lbligst.Visible = false;
-                //cmbIgstPrcnt.Visible = false;
-
-                //lblcgst.Visible = false;
-                //txtCgstPrcnt.Visible = false;
-
-                //lblsgst.Visible = false;
-                //txtSgstPrcnt.Visible = false;
-
                 cmbVatPrcnt.Dock = DockStyle.Fill;
                 lblvat.Dock = DockStyle.Fill;
 
-                //lblvat.Visible = true;
-                //cmbVatPrcnt.Visible = true;
-
                 //row1
-                tlp_registration.Controls.Add(lblvat, 1, 4);
-                tlp_registration.Controls.Add(tlp_lbl_des_del, 2, 4);
-
+                tlp_registration.Controls.Add(lbltax, 0, 4);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 4);
+                tlp_registration.Controls.Add(lblvat, 2, 4);
+                tlp_registration.Controls.Add(lbldes, 3, 4);
                 //row2
-                tlp_registration.Controls.Add(cmbVatPrcnt, 1, 5);
-                tlp_registration.Controls.Add(tlp_desc_delete, 2, 5);
-
+                tlp_registration.Controls.Add(cmbtax, 0, 5);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 5);
+                tlp_registration.Controls.Add(cmbVatPrcnt, 2, 5);
+                tlp_registration.Controls.Add(txtdes, 3, 5);
+                //row3
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 7);
 
             }
         }
@@ -775,11 +781,13 @@ namespace FoodandBeverage.Forms
             DmnSearch dmnSearch = new DmnSearch();
             dmnSearch.Select = "*";
             dmnSearch.Table = "tblProduct p";// LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId";
-
             if(comboBoxChanged)
             {
-                dmnSearch.WhereNdGroupBy = "where p.Status=1 and  Fcid = " + serachmode;
                 comboBoxChanged = false;
+                if (cmbSearchlist.SelectedIndex==0)
+                    dmnSearch.WhereNdGroupBy = "where p.Status=1";
+                else
+                    dmnSearch.WhereNdGroupBy = "where p.Status=1 and  Fcid = " + serachmode;                
             }                
             else
                 dmnSearch.WhereNdGroupBy = "where p.Status=1";          
@@ -1184,8 +1192,183 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            int returnValue=0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+            DmnSearch _objSearch = new DmnSearch();
+            _objSearch.ColumnHeaders = "ID,Item Code,Product,";
+            _objSearch.Select = "ProductId as Id,Itemcode as Field1,Product as Field2";//Description as Field2";
+            _objSearch.Table = "tblProduct";
+            _objSearch.WhereNdGroupBy = "where Status = 1";
+            _objSearch.OrderBy = " ORDER BY Product";
+            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+            if (gridSource.Count == 0)
+            {
+                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+                if (returnValue >0)
+                {
+                    FillData(returnValue);
+                }
+            }
+        }
 
+        private void txtsearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')           
+                btn_Searchitem.Focus(); 
+        }
 
-       
+        private void btn_Searchitem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtsearch.Text == "" || txtsearch.Text == null)
+                {
+                    CMessageBox.Show("Please Enter Food Name ");
+                    txtsearch.Focus();
+                    return;
+                }
+                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblProduct p";
+                dmnSearch.WhereNdGroupBy = "where p.Status=1 and  Product LIKE '%" + txtsearch.Text + "%'";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    tlp_gallery_sub.Controls.Clear();
+                    int rowIndex = 0;
+                    int columnIndex = 0;
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        if (columnIndex == 5)
+                        {
+                            columnIndex = 0;
+                            rowIndex++;
+                        }
+                        string info = gridSource[i].Product + "," + gridSource[i].Price + "," + gridSource[i].MRP + "," + gridSource[i].Tax + "," + gridSource[i].TaxType + "," + gridSource[i].DiscountPer + "," + gridSource[i].DiscountAmt;
+
+                        TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
+                        PictureBox pictureBox = new PictureBox();
+                        Label lbltablename = new Label();
+
+                        // Configure the PictureBox
+                        string imageName = Convert.ToString(gridSource[i].ProductId) + ".jpeg";
+                        bool imageExist, brLogoExist;
+                        if (imageName != "" && imageName != null)
+                        {
+                            imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                            if (imageExist)
+                                pictureBox.Image = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                            else
+                                pictureBox.Image = FoodandBeverage.Properties.Resources.Deafult_food_pic;
+                        }
+                        pictureBox.Name = Convert.ToString(gridSource[i].ProductId);
+                        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pictureBox.Width = 150;
+                        pictureBox.Height = 150;
+                        pictureBox.Tag = info;
+
+                        // Configure the Label
+                        lbltablename.Name = Convert.ToString(gridSource[i].ProductId);
+                        tlp_Gallery_Box.Tag = info;
+                        lbltablename.Text = Convert.ToString(gridSource[i].Product);
+                        lbltablename.ForeColor = Color.Black;
+                        lbltablename.AutoSize = true;
+                        lbltablename.BackColor = Color.Transparent;
+                        lbltablename.Dock = DockStyle.Top;
+                        lbltablename.Width = 60;
+                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+
+                        // Configure the TableLayoutPanel
+                        tlp_Gallery_Box.RowCount = 2;
+                        // Add the PictureBox and Label to the TableLayoutPanel
+                        tlp_Gallery_Box.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
+                        tlp_Gallery_Box.Controls.Add(lbltablename, 0, 1); // Label in the second row
+                        tlp_Gallery_Box.Name = Convert.ToString(gridSource[i].ProductId);
+                        tlp_Gallery_Box.Tag = info;
+                        tlp_Gallery_Box.Dock = DockStyle.None;
+                        tlp_Gallery_Box.Margin = new Padding(20, 10, 20, 10);
+                        tlp_Gallery_Box.Width = 150;
+                        tlp_Gallery_Box.Height = 200;
+                        tlp_Gallery_Box.BorderStyle = BorderStyle.FixedSingle;
+                        tlp_Gallery_Box.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+
+                        pictureBox.MouseEnter += TlpTableInner_MouseEnter;
+                        lbltablename.MouseEnter += TlpTableInner_MouseEnter;
+
+                        pictureBox.MouseLeave += TlpTableInner_MouseLeave;
+                        lbltablename.MouseLeave += TlpTableInner_MouseLeave;
+
+                        tlp_Gallery_Box.MouseEnter += TlpTableInner_MouseEnter;
+                        tlp_Gallery_Box.MouseLeave += TlpTableInner_MouseLeave;
+
+                        pictureBox.Click += new EventHandler(ProductClickEventHandler);
+                        lbltablename.Click += new EventHandler(ProductClickEventHandler);
+                        tlp_Gallery_Box.Click += new EventHandler(ProductClickEventHandler);
+
+                        pictureBox.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+                        lbltablename.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+                        tlp_Gallery_Box.MouseHover += new EventHandler(ProductMousehoverEventHandler);
+
+                        tlp_gallery_sub.Controls.Add(tlp_Gallery_Box, columnIndex, rowIndex);
+                        columnIndex++;
+                    }
+                    tlp_Gallery_Box.BorderStyle = BorderStyle.FixedSingle;
+                    tlp_Gallery_Box.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                    tlp_Gallery_Main.Dock = DockStyle.Fill;
+                    tlp_gallery_sub.Dock = DockStyle.Fill;
+                    tlp_menu_Gallery_main.Dock = DockStyle.Fill;
+                    tlp_gallery_sub.AutoScroll = true;
+                    tlp_menu_Gallery_main.Controls.Add(tlp_gallery_sub, 0, 1);
+                }
+                else
+                    CMessageBox.Show("No Products For This Category");
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+           
+        }
+
+        private void txtsearch_Enter(object sender, EventArgs e)
+        {
+            if (txtsearch.Text == "Food Name .....")
+            {
+                txtsearch.Text = "";
+                txtsearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtsearch_Leave(object sender, EventArgs e)
+        {
+            if (txtsearch.Text == "")
+            {
+                txtsearch.Text = "Food Name .....";
+                txtsearch.ForeColor = Color.LightGray;
+            }
+        }
+
+        private void btn_refreshlist_Click(object sender, EventArgs e)
+        {
+            GalleryView(0);
+        }
     }
 }

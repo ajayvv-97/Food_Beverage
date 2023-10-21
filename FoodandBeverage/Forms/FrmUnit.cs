@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FoodandBeverage.Interfaces.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -213,6 +215,54 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            int returnValue = 0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+            DmnSearch _objSearch = new DmnSearch();
+            _objSearch.ColumnHeaders = "ID,UnitName,Description";
+            _objSearch.Select = "uid as Id,UnitName  as Field1,Description  as Field2";
+            _objSearch.Table = "tblUnit";
+            _objSearch.WhereNdGroupBy = "where Status = 1";
+            _objSearch.OrderBy = " ORDER BY UnitName";
+            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+            if (gridSource.Count == 0)
+            {
+                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+                if (returnValue > 0)
+                {
+                    int unitid = Convert.ToInt32(returnValue);
+                    BllSearch<DmnUnit> bllSearch1 = new BllSearch<DmnUnit>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblunit";
+                    objSearch.WhereNdGroupBy = "where status = 1 and uid=" + unitid;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        txtUid.Text = Convert.ToString(unitid);
+                        txtunit.Text = Convert.ToString(itemSource[0].UnitName);
+                        txtdescr.Text = Convert.ToString(itemSource[0].Description);
+                        btn_del_unit.Visible = true;
+                    }
+                }
             }
         }
     }

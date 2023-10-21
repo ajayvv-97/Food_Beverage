@@ -30,7 +30,7 @@ namespace Domain
 		public decimal MRP { get; set; }
 		public int menustatus { get; set; }
 
-		
+		public string ItemCode { get; set; }
 
 	}
 }

@@ -87,7 +87,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_main.Size = new System.Drawing.Size(800, 450);
+            this.tlp_main.Size = new System.Drawing.Size(800, 658);
             this.tlp_main.TabIndex = 0;
             // 
             // tlp_navbar
@@ -151,7 +151,7 @@ namespace FoodandBeverage.Forms
             this.tlp_submain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_submain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_submain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_submain.Size = new System.Drawing.Size(794, 394);
+            this.tlp_submain.Size = new System.Drawing.Size(794, 562);
             this.tlp_submain.TabIndex = 19;
             // 
             // dgvTaxSettings
@@ -186,7 +186,7 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgvTaxSettings.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTaxSettings.RowTemplate.Height = 30;
-            this.dgvTaxSettings.Size = new System.Drawing.Size(788, 136);
+            this.dgvTaxSettings.Size = new System.Drawing.Size(788, 302);
             this.dgvTaxSettings.TabIndex = 12;
             this.dgvTaxSettings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTaxSettings_CellDoubleClick);
             // 
@@ -354,6 +354,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "search";
             this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnsave
             // 
@@ -541,7 +542,7 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 658);
             this.Controls.Add(this.pnl_all_controls);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

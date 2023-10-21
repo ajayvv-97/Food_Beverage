@@ -24,5 +24,6 @@ namespace Domain
         public int BranchId { get; set; }
         public int ProductId { get; set; }
 
+
     }
 }
