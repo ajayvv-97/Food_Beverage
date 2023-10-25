@@ -59,12 +59,49 @@ namespace FoodandBeverage.Forms
             Menusetting.BackColor = menubuttoncolor;
 
             Image originalImage = FoodandBeverage.Properties.Resources.icons8_home_50;
-            int desiredWidth = 32; 
-            int desiredHeight = 32; 
+            int desiredWidth = 32;
+            int desiredHeight = 32;
             Image resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
             Menuhome.Image = resizedImage;
+
+            originalImage = FoodandBeverage.Properties.Resources.operation;
+            resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            Menuoperation.Image = resizedImage;
+
+            originalImage = FoodandBeverage.Properties.Resources.bill;
+            resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            Menubilling.Image = resizedImage;
+
+
+            originalImage = FoodandBeverage.Properties.Resources.report;
+            resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            Menureport.Image = resizedImage;
+
+
+            originalImage = FoodandBeverage.Properties.Resources.setting;
+            resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            Menusetting.Image = resizedImage;
+
+
+            originalImage = FoodandBeverage.Properties.Resources.logout;
+            resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            Menulogout.Image = resizedImage;
+
             flp_menu.BackColor = Color.White;
+            tlp_main.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
+
         }
+        private void tlp_main_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+        {
+            if (e.Column == 3) // Check if it's the second column (change to the desired column index)
+            {
+                using (SolidBrush brush = new SolidBrush(Color.Red)) // Replace with your desired color
+                {
+                    e.Graphics.FillRectangle(brush, e.CellBounds);
+                }
+            }
+        }
+
         private void ChangeButtonBorder(Button button)
         {
             tlp_tablestatus.Visible = false;
@@ -136,7 +173,7 @@ namespace FoodandBeverage.Forms
                 int columnIndex = 0;
                 for (int i = 0; i < gridSource.Count; i++)
                 {
-                    if (columnIndex == 8)
+                    if (columnIndex == 7)
                     {
                         columnIndex = 0;
                         rowIndex++;
@@ -268,14 +305,19 @@ namespace FoodandBeverage.Forms
             path.CloseFigure();
 
             pictureBox.Region = new Region(path);
+            pb_appicon.Location = new Point((pnl_header.Width - pb_appicon.Width) / 2, (pnl_header.Height - pb_appicon.Height) / 2);
         }
 
         private void CollapseMenu()
         {
-            if (this.panelMenu.Width > 150) //Collapse menu
-            {
-    
-                panelMenu.Width = 100;
+            if (Menuhome.Width > 150) //Collapse menu
+            {    
+                flp_menu.Dock = DockStyle.None;   
+                flp_menu.Width = 108;
+                panelMenu.Width = 108;
+                panelMenu.Dock = DockStyle.Fill;
+                flp_menu.Dock = DockStyle.Fill;
+                pnl_header.Width = 95;
                 pb_appicon.Width = 30;
                 RoundPictureBoxCorners(pb_appicon, 10);
                 foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
@@ -285,10 +327,13 @@ namespace FoodandBeverage.Forms
                     menuButton.ImageAlign = ContentAlignment.MiddleLeft;
                     menuButton.Padding = new Padding(20,0,0,0);
                 }
+                tlp_main.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                tlp_main.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
             }
             else
             { //Expand menu
-               
+                flp_menu.Dock = DockStyle.Fill;
+                pnl_header.Width = 179;
                 panelMenu.Width = 180;
                 pb_appicon.Width = 97;
                 RoundPictureBoxCorners(pb_appicon, 10);
@@ -344,7 +389,7 @@ namespace FoodandBeverage.Forms
                 int columnIndex = 0;
                 for (int i = 0; i < gridSource.Count; i++)
                 {
-                    if (columnIndex == 7)
+                    if (columnIndex == 6)
                     {
                         columnIndex = 0;
                         rowIndex++;
@@ -877,5 +922,7 @@ namespace FoodandBeverage.Forms
         {
             TableStaus(0);
         }
+
+       
     }
 }
