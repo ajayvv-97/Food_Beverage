@@ -298,5 +298,10 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
             }
         }
+
+        private void btnmini_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }

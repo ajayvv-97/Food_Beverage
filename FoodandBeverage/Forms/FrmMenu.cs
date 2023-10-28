@@ -126,7 +126,7 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7";
+                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7";
                 objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
                 if(searchmode == 0 || searchmode == -1)
                     objSearch.WhereNdGroupBy = "Where P.status=1";
@@ -530,8 +530,6 @@ namespace FoodandBeverage.Forms
 
         private void Btn_view_menu_Click(object sender, EventArgs e)
         {
-            this.Width = 1025;
-            this.Height = 617;
             tlp_registartion_main.Visible = false;
             tlp_menu_Gallery_main.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -550,8 +548,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_bck_reg_Click(object sender, EventArgs e)
         {
-            this.Width = 755;
-            this.Height = 506;
             tlp_menu_Gallery_main.Visible = false;
             tlp_registartion_main.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -619,7 +615,7 @@ namespace FoodandBeverage.Forms
             }
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7";
+            dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7";
             dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
             dmnSearch.WhereNdGroupBy = "where p.Status=1 and  p.Product LIKE '%" + txtsearchlist.Text + "%'";
             dmnSearch.OrderBy = "order by Product";
@@ -659,8 +655,8 @@ namespace FoodandBeverage.Forms
                 }
                 BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "*";
-                dmnSearch.Table = "tblmenu m";
+                dmnSearch.Select = "p.*";
+                dmnSearch.Table = "tblProduct p  LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
                 dmnSearch.WhereNdGroupBy = "where m.Status=1 and  m.Name LIKE '%" + txtsearch.Text + "%'";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);

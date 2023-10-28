@@ -104,7 +104,7 @@ namespace FoodandBeverage.Forms
             this.tlp_navbar.Name = "tlp_navbar";
             this.tlp_navbar.RowCount = 1;
             this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_navbar.Size = new System.Drawing.Size(794, 44);
+            this.tlp_navbar.Size = new System.Drawing.Size(794, 31);
             this.tlp_navbar.TabIndex = 18;
             // 
             // btnmini
@@ -116,7 +116,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.ForeColor = System.Drawing.Color.Black;
             this.btnmini.Location = new System.Drawing.Point(735, 3);
             this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(25, 36);
+            this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 9;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
@@ -131,7 +131,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.ForeColor = System.Drawing.Color.Red;
             this.btncolse.Location = new System.Drawing.Point(766, 3);
             this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(25, 36);
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 10;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
@@ -145,7 +145,7 @@ namespace FoodandBeverage.Forms
             this.tlp_submain.Controls.Add(this.tlp_outer_design, 0, 0);
             this.tlp_submain.Controls.Add(this.tlp_button, 0, 1);
             this.tlp_submain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_submain.Location = new System.Drawing.Point(3, 53);
+            this.tlp_submain.Location = new System.Drawing.Point(3, 40);
             this.tlp_submain.Name = "tlp_submain";
             this.tlp_submain.RowCount = 3;
             this.tlp_submain.RowStyles.Add(new System.Windows.Forms.RowStyle());

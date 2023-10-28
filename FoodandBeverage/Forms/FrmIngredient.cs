@@ -242,7 +242,7 @@ namespace FoodandBeverage.Forms
             return true;
         }
         private void FrmIncrediant_Load(object sender, EventArgs e)
-        {
+        {        
             cmbTaxType.SelectedIndex = 0;
             Taxfill();
             clearall();
@@ -534,7 +534,7 @@ namespace FoodandBeverage.Forms
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
             int[] columnsToRemove = { 1, 2, 3 }; 
-            int[] rowsToRemove = { 4, 5,6,7 }; 
+            int[] rowsToRemove = {  5,6,7,8 }; 
 
             foreach (int column in columnsToRemove)
             {
@@ -555,22 +555,22 @@ namespace FoodandBeverage.Forms
                 cmbIgstPrcnt.Dock = DockStyle.Fill;
 
                 //row1
-                tlp_registration.Controls.Add(lbltax, 0, 4);
-                tlp_registration.Controls.Add(lbltaxtype, 1, 4);
-                tlp_registration.Controls.Add(lbligst, 2, 4);
-                tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 4);
+                tlp_registration.Controls.Add(lbltax, 0, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                tlp_registration.Controls.Add(lbligst, 2, 5);
+                tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
 
                 //row2
-                tlp_registration.Controls.Add(cmbtax, 0, 5);
-                tlp_registration.Controls.Add(cmbTaxType, 1, 5);
-                tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 5);
-                tlp_registration.Controls.Add(tlp_S_C_text, 3, 5);
+                tlp_registration.Controls.Add(cmbtax, 0, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
+                tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
 
                 //row3
-                tlp_registration.Controls.Add(lbldes, 0, 6);
+                tlp_registration.Controls.Add(lbldes, 0, 7);
                 //row4
-                tlp_registration.Controls.Add(txtdes, 0, 7);
-                tlp_registration.Controls.Add(btn_del_ingre, 1,7);
+                tlp_registration.Controls.Add(txtdes, 0, 8);
+                tlp_registration.Controls.Add(btn_del_ingre, 1,8);
 
             }
             else if (cmbTaxType.Text == "VAT")
@@ -579,17 +579,17 @@ namespace FoodandBeverage.Forms
                 lblvat.Dock = DockStyle.Fill;
 
                 //row1
-                tlp_registration.Controls.Add(lbltax, 0, 4);
-                tlp_registration.Controls.Add(lbltaxtype, 1, 4);
-                tlp_registration.Controls.Add(lblvat, 2, 4);
-                tlp_registration.Controls.Add(lbldes, 3, 4);
+                tlp_registration.Controls.Add(lbltax, 0, 5);
+                tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                tlp_registration.Controls.Add(lblvat, 2, 5);
+                tlp_registration.Controls.Add(lbldes, 3, 5);
                 //row2
-                tlp_registration.Controls.Add(cmbtax, 0, 5);
-                tlp_registration.Controls.Add(cmbTaxType, 1, 5);
-                tlp_registration.Controls.Add(cmbVatPrcnt, 2, 5);
-                tlp_registration.Controls.Add(txtdes, 3, 5);
+                tlp_registration.Controls.Add(cmbtax, 0, 6);
+                tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
+                tlp_registration.Controls.Add(txtdes, 3, 6);
                 //row3
-                tlp_registration.Controls.Add(btn_del_ingre, 1, 7);
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
 
             }
         }
@@ -990,10 +990,10 @@ namespace FoodandBeverage.Forms
         {
             tlp_registartion_toggle.Visible = false;
             tlp_menu_Gallery_main.Visible = true;
+            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
-            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
             GalleryView(0);
         }
 

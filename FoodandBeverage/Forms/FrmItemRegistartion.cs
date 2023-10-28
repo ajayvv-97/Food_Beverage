@@ -343,8 +343,8 @@ namespace FoodandBeverage.Forms
         private void btntoggle_Click(object sender, EventArgs e)
         {
             
-            this.Width = 1025;
-            this.Height = 617;
+            //this.Width = 1025;
+            //this.Height = 617;
             tlp_registration.Visible = false;
             tlp_grid.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -355,8 +355,8 @@ namespace FoodandBeverage.Forms
 
         private void toggle_grid_Click(object sender, EventArgs e)
         {
-            this.Width = 919; 
-            this.Height = 417;
+            //this.Width = 919; 
+            //this.Height = 417;
             tlp_grid.Visible = false;
             tlp_registration.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);

@@ -382,5 +382,32 @@
   <ItemGroup>
     <None Include="Resources\bill.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restaurant1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Purchase return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Purchase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\category.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Item_reg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Product.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

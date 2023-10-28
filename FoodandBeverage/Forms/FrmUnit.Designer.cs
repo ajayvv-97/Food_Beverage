@@ -161,7 +161,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.ForeColor = System.Drawing.Color.Black;
             this.btnmini.Location = new System.Drawing.Point(658, 3);
             this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(25, 36);
+            this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 9;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
@@ -176,7 +176,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.ForeColor = System.Drawing.Color.Red;
             this.btncolse.Location = new System.Drawing.Point(689, 3);
             this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(25, 36);
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 10;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
@@ -191,12 +191,12 @@ namespace FoodandBeverage.Forms
             this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
             this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
-            this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlp_navbar.Location = new System.Drawing.Point(6, 6);
             this.tlp_navbar.Name = "tlp_navbar";
             this.tlp_navbar.RowCount = 1;
             this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_navbar.Size = new System.Drawing.Size(717, 48);
+            this.tlp_navbar.Size = new System.Drawing.Size(717, 31);
             this.tlp_navbar.TabIndex = 16;
             // 
             // label29
@@ -346,8 +346,8 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 5;
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 190F));
