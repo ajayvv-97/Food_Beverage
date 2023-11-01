@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -270,6 +271,13 @@ namespace FoodandBeverage.Forms
                 txtCgstPrcnt.Visible = true;
                 txtIgstPrcnt.Visible = true;
                 txtVatPrcnt.Visible = false;
+
+                lblcgst.Dock = DockStyle.Fill;
+                lblsgst.Dock = DockStyle.Fill;
+                lbligst.Dock = DockStyle.Fill;
+                txtSgstPrcnt.Dock = DockStyle.Fill;
+                txtCgstPrcnt.Dock = DockStyle.Fill;
+                txtIgstPrcnt.Dock = DockStyle.Fill;
                 //row1
                 tlp_registration.Controls.Add(lbltaxtype, 0, 0);
                 tlp_registration.Controls.Add(lbligst, 1, 0);
@@ -295,20 +303,17 @@ namespace FoodandBeverage.Forms
                 txtCgstPrcnt.Visible = false;
                 txtIgstPrcnt.Visible = false;
                 txtVatPrcnt.Visible = true;
+
+                lblvat.Dock = DockStyle.Fill;
+                txtVatPrcnt.Dock = DockStyle.Fill;
+
                 //row1
                 tlp_registration.Controls.Add(lbltaxtype, 0, 0);
                 tlp_registration.Controls.Add(lblvat, 1, 0);
-
                 //row2
                 tlp_registration.Controls.Add(cmbTaxType, 0, 1);
                 tlp_registration.Controls.Add(txtVatPrcnt, 1, 1);
                 tlp_registration.Controls.Add(btn_del_tax, 2, 1);
-                ////row3
-                //tlp_registration.Controls.Add(lblcgst, 0, 2);
-                ////row 4
-                //tlp_registration.Controls.Add(txtCgstPrcnt, 0, 3);
-                //tlp_registration.Controls.Add(btn_del_tax, 1, 3);
-
 
             }
      
@@ -520,9 +525,45 @@ namespace FoodandBeverage.Forms
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             cmbTaxType.SelectedIndex = 0;
+            textb_shape();
 
         }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { txtIgstPrcnt,txtVatPrcnt,txtSgstPrcnt,txtCgstPrcnt })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
 
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             filltax();

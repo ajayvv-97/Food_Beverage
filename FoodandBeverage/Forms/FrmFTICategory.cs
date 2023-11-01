@@ -242,10 +242,45 @@ namespace FoodandBeverage.Forms
             dgv_category.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_category.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_category.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
+            textb_shape();
             Fillcategory(4);
         }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { txtdescr,txtfoodCate })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
 
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
         private void cmb_cate_SelectedValueChanged(object sender, EventArgs e)
         {
             Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));

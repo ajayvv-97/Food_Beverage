@@ -181,7 +181,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtdesc
             // 
-            this.txtdesc.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtdesc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtdesc.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtdesc.Location = new System.Drawing.Point(409, 129);
             this.txtdesc.Multiline = true;
@@ -203,7 +203,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtincr_name
             // 
-            this.txtincr_name.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtincr_name.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtincr_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtincr_name.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtincr_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -254,19 +254,19 @@ namespace FoodandBeverage.Forms
             // 
             // cmbunit
             // 
-            this.cmbunit.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmbunit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbunit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbunit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbunit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbunit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbunit.FormattingEnabled = true;
             this.cmbunit.Location = new System.Drawing.Point(238, 240);
             this.cmbunit.Name = "cmbunit";
-            this.cmbunit.Size = new System.Drawing.Size(202, 26);
+            this.cmbunit.Size = new System.Drawing.Size(202, 28);
             this.cmbunit.TabIndex = 1;
             // 
             // txtprate
             // 
-            this.txtprate.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtprate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtprate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtprate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtprate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -281,7 +281,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtqty
             // 
-            this.txtqty.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtqty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtqty.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtqty.Location = new System.Drawing.Point(564, 92);
@@ -428,7 +428,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtbarcode
             // 
-            this.txtbarcode.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtbarcode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtbarcode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtbarcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtbarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -517,7 +517,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtmrp
             // 
-            this.txtmrp.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtmrp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtmrp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtmrp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtmrp.Location = new System.Drawing.Point(377, 92);
@@ -543,7 +543,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtsrate
             // 
-            this.txtsrate.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtsrate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtsrate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtsrate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtsrate.Location = new System.Drawing.Point(190, 92);
@@ -556,11 +556,11 @@ namespace FoodandBeverage.Forms
             // 
             // cmb_inc_categ
             // 
-            this.cmb_inc_categ.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmb_inc_categ.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmb_inc_categ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmb_inc_categ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_inc_categ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmb_inc_categ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.cmb_inc_categ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmb_inc_categ.ForeColor = System.Drawing.SystemColors.WindowText;
             this.cmb_inc_categ.FormattingEnabled = true;
             this.cmb_inc_categ.Items.AddRange(new object[] {
@@ -588,17 +588,17 @@ namespace FoodandBeverage.Forms
             // 
             this.cmbTaxType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTaxType.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmbTaxType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTaxType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbTaxType.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbTaxType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbTaxType.FormattingEnabled = true;
             this.cmbTaxType.Items.AddRange(new object[] {
             "GST",
             "VAT"});
             this.cmbTaxType.Location = new System.Drawing.Point(36, 186);
             this.cmbTaxType.Name = "cmbTaxType";
-            this.cmbTaxType.Size = new System.Drawing.Size(33, 26);
+            this.cmbTaxType.Size = new System.Drawing.Size(11, 28);
             this.cmbTaxType.TabIndex = 260;
             this.cmbTaxType.SelectedValueChanged += new System.EventHandler(this.cmbTaxType_SelectedValueChanged);
             // 
@@ -618,17 +618,17 @@ namespace FoodandBeverage.Forms
             // 
             this.cmbtax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbtax.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmbtax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbtax.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbtax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbtax.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbtax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbtax.FormattingEnabled = true;
             this.cmbtax.Items.AddRange(new object[] {
             "Inclusive",
             "Exclusive"});
             this.cmbtax.Location = new System.Drawing.Point(254, 208);
             this.cmbtax.Name = "cmbtax";
-            this.cmbtax.Size = new System.Drawing.Size(33, 26);
+            this.cmbtax.Size = new System.Drawing.Size(0, 28);
             this.cmbtax.TabIndex = 259;
             // 
             // btn_del_ingre
@@ -672,27 +672,27 @@ namespace FoodandBeverage.Forms
             // 
             // cmbIgstPrcnt
             // 
-            this.cmbIgstPrcnt.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmbIgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbIgstPrcnt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbIgstPrcnt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbIgstPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbIgstPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbIgstPrcnt.FormattingEnabled = true;
             this.cmbIgstPrcnt.Location = new System.Drawing.Point(21, 154);
             this.cmbIgstPrcnt.Name = "cmbIgstPrcnt";
-            this.cmbIgstPrcnt.Size = new System.Drawing.Size(202, 26);
+            this.cmbIgstPrcnt.Size = new System.Drawing.Size(202, 28);
             this.cmbIgstPrcnt.TabIndex = 13;
             this.cmbIgstPrcnt.SelectedIndexChanged += new System.EventHandler(this.cmbIgstPrcnt_SelectedIndexChanged);
             // 
             // cmbVatPrcnt
             // 
-            this.cmbVatPrcnt.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.cmbVatPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbVatPrcnt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVatPrcnt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbVatPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbVatPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbVatPrcnt.FormattingEnabled = true;
             this.cmbVatPrcnt.Location = new System.Drawing.Point(28, 240);
             this.cmbVatPrcnt.Name = "cmbVatPrcnt";
-            this.cmbVatPrcnt.Size = new System.Drawing.Size(202, 26);
+            this.cmbVatPrcnt.Size = new System.Drawing.Size(202, 28);
             this.cmbVatPrcnt.TabIndex = 0;
             // 
             // tlp_s_c_gst
@@ -750,7 +750,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtCgstPrcnt
             // 
-            this.txtCgstPrcnt.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtCgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtCgstPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCgstPrcnt.Location = new System.Drawing.Point(69, 3);
             this.txtCgstPrcnt.Multiline = true;
@@ -761,7 +761,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtSgstPrcnt
             // 
-            this.txtSgstPrcnt.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtSgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtSgstPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSgstPrcnt.Location = new System.Drawing.Point(3, 3);
             this.txtSgstPrcnt.Multiline = true;
@@ -1294,7 +1294,7 @@ namespace FoodandBeverage.Forms
             this.pnl_tax.Controls.Add(this.lbldes);
             this.pnl_tax.Location = new System.Drawing.Point(0, 0);
             this.pnl_tax.Name = "pnl_tax";
-            this.pnl_tax.Size = new System.Drawing.Size(85, 31);
+            this.pnl_tax.Size = new System.Drawing.Size(63, 34);
             this.pnl_tax.TabIndex = 11;
             this.pnl_tax.Visible = false;
             // 

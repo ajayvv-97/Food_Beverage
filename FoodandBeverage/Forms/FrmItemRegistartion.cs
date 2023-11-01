@@ -78,14 +78,12 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Prate;
                         dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Srate;
                         dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].MRP;
-
                         dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
                         dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
                         if(itemSource[i].TaxType=="GST")                        
                             dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].IgstPrcnt;
                         else
                             dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].VatPrcnt;
-
                         dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
                         dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
                         dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;

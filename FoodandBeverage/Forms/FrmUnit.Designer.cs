@@ -29,9 +29,9 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnsave = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnrefresh = new System.Windows.Forms.Button();
@@ -237,15 +237,17 @@ namespace FoodandBeverage.Forms
             // 
             // txtunit
             // 
-            this.txtunit.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtunit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtunit.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtunit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtunit.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtunit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtunit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.txtunit.Location = new System.Drawing.Point(14, 37);
+            this.txtunit.Multiline = true;
             this.txtunit.Name = "txtunit";
-            this.txtunit.Size = new System.Drawing.Size(335, 19);
+            this.txtunit.Size = new System.Drawing.Size(335, 31);
             this.txtunit.TabIndex = 0;
+            this.txtunit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtunit_KeyPress);
             // 
             // label27
             // 
@@ -321,7 +323,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtdescr
             // 
-            this.txtdescr.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtdescr.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtdescr.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtdescr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtdescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -361,14 +363,14 @@ namespace FoodandBeverage.Forms
             this.dgv_unit.AllowUserToDeleteRows = false;
             this.dgv_unit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_unit.BackgroundColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_unit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_unit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgv_unit.ColumnHeadersHeight = 46;
             this.dgv_unit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Slno,
@@ -382,8 +384,8 @@ namespace FoodandBeverage.Forms
             this.dgv_unit.Name = "dgv_unit";
             this.dgv_unit.ReadOnly = true;
             this.dgv_unit.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgv_unit.RowTemplate.Height = 30;
             this.dgv_unit.Size = new System.Drawing.Size(717, 370);
             this.dgv_unit.TabIndex = 1;
@@ -397,9 +399,9 @@ namespace FoodandBeverage.Forms
             // 
             // Id
             // 
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Id.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = "0";
+            this.Id.DefaultCellStyle = dataGridViewCellStyle8;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;

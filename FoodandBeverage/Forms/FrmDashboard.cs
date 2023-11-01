@@ -515,288 +515,289 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-        private void MyButtonClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                string commandName="";
-                if (sender is Button clickedButton)
-                    commandName = Convert.ToString(clickedButton.Tag);     
-                else if (sender is PictureBox clickedPicture)
-                    commandName = Convert.ToString(clickedPicture.Tag);
+        //private void MyButtonClickEventHandler(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        string commandName="";
+        //        if (sender is Button clickedButton)
+        //            commandName = Convert.ToString(clickedButton.Tag);     
+        //        else if (sender is PictureBox clickedPicture)
+        //            commandName = Convert.ToString(clickedPicture.Tag);
                 
-                switch (commandName)
-                {
-                    case "1":
+        //        switch (commandName)
+        //        {
+        //            case "1":
                        
-                        if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
-                        {
-                            FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
-                            _instanceFrmFTICategory.Dock = DockStyle.None;
-                            _instanceFrmFTICategory.Margin = new Padding(10);
-                            if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
-                                _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceFrmFTICategory.Dock = DockStyle.None;
-                                _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                                _instanceFrmFTICategory.Show();
-                                _instanceFrmFTICategory.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
-                            _instanceFrmFTICategory.Dock = DockStyle.None;
-                            _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-                            _instanceFrmFTICategory.TopLevel = false;
+        //                if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
+        //                {
+        //                    FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
+        //                    _instanceFrmFTICategory.Dock = DockStyle.None;
+        //                    _instanceFrmFTICategory.Margin = new Padding(10);
+        //                    if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
+        //                        _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceFrmFTICategory.Dock = DockStyle.None;
+        //                        _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceFrmFTICategory);
+        //                        _instanceFrmFTICategory.Show();
+        //                        _instanceFrmFTICategory.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
+        //                    _instanceFrmFTICategory.Dock = DockStyle.None;
+        //                    _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+        //                    _instanceFrmFTICategory.TopLevel = false;
                           
-                            panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                            panelDesktop.Padding= new Padding(20);
-                            _instanceFrmFTICategory.Show();
-                            _instanceFrmFTICategory.BringToFront();
-                        }
-                        break;
-                    case "2":
-                        if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
-                        {
-                            FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
-                            if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
-                                _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceItemRegistartion.Dock = DockStyle.None;
-                                _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceItemRegistartion);
-                                _instanceItemRegistartion.Show();
-                                _instanceItemRegistartion.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
-                            _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                    panelDesktop.Controls.Add(_instanceFrmFTICategory);
+        //                    panelDesktop.Padding= new Padding(20);
+        //                    _instanceFrmFTICategory.Show();
+        //                    _instanceFrmFTICategory.BringToFront();
+        //                }
+        //                break;
+        //            case "2":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
+        //                {
+        //                    FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
+        //                    if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
+        //                        _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceItemRegistartion.Dock = DockStyle.None;
+        //                        _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceItemRegistartion);
+        //                        _instanceItemRegistartion.Show();
+        //                        _instanceItemRegistartion.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
+        //                    _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceItemRegistartion.TopLevel = false;
-                            _instanceItemRegistartion.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceItemRegistartion);
-                            _instanceItemRegistartion.Show();
-                            _instanceItemRegistartion.BringToFront();
-                        }
-                        break;
-                    case "3":
-                        if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
-                        {
-                            FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
-                            if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
-                                _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceFrmIngredient.Dock = DockStyle.None;
-                                _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmIngredient);
-                                _instanceFrmIngredient.Show();
-                                _instanceFrmIngredient.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                            _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                    _instanceItemRegistartion.TopLevel = false;
+        //                    _instanceItemRegistartion.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceItemRegistartion);
+        //                    _instanceItemRegistartion.Show();
+        //                    _instanceItemRegistartion.BringToFront();
+        //                }
+        //                break;
+        //            case "3":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
+        //                {
+        //                    FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
+        //                    if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
+        //                        _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceFrmIngredient.Dock = DockStyle.None;
+        //                        _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceFrmIngredient);
+        //                        _instanceFrmIngredient.Show();
+        //                        _instanceFrmIngredient.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmIngredient _instanceFrmIngredient = new FrmIngredient();
+        //                    _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceFrmIngredient.TopLevel = false;
-                            _instanceFrmIngredient.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceFrmIngredient);
-                            _instanceFrmIngredient.Show();
-                            _instanceFrmIngredient.BringToFront();
-                        }
-                        break;
-                    case "4":
-                        if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
-                        {
-                            FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
-                            if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
-                                _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceFrmMenu.Dock = DockStyle.None;
-                                _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmMenu);
-                                _instanceFrmMenu.Show();
-                                _instanceFrmMenu.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmMenu _instanceFrmMenu = new FrmMenu();
-                            _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                    _instanceFrmIngredient.TopLevel = false;
+        //                    _instanceFrmIngredient.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceFrmIngredient);
+        //                    _instanceFrmIngredient.Show();
+        //                    _instanceFrmIngredient.BringToFront();
+        //                }
+        //                break;
+        //            case "4":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
+        //                {
+        //                    FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
+        //                    if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
+        //                        _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceFrmMenu.Dock = DockStyle.None;
+        //                        _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceFrmMenu);
+        //                        _instanceFrmMenu.Show();
+        //                        _instanceFrmMenu.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmMenu _instanceFrmMenu = new FrmMenu();
+        //                    _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceFrmMenu.TopLevel = false;
-                            _instanceFrmMenu.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceFrmMenu);
-                            _instanceFrmMenu.Show();
-                            _instanceFrmMenu.BringToFront();
-                        }
-                        break;
-                    case "5":
-                        if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
-                        {
-                            FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
-                            if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
-                                _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceFrmUnit.Dock = DockStyle.None;
-                                _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmUnit);
-                                _instanceFrmUnit.Show();
-                                _instanceFrmUnit.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmUnit _instanceFrmUnit = new FrmUnit();
-                            _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                    _instanceFrmMenu.TopLevel = false;
+        //                    _instanceFrmMenu.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceFrmMenu);
+        //                    _instanceFrmMenu.Show();
+        //                    _instanceFrmMenu.BringToFront();
+        //                }
+        //                break;
+        //            case "5":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
+        //                {
+        //                    FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
+        //                    if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
+        //                        _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceFrmUnit.Dock = DockStyle.None;
+        //                        _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceFrmUnit);
+        //                        _instanceFrmUnit.Show();
+        //                        _instanceFrmUnit.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmUnit _instanceFrmUnit = new FrmUnit();
+        //                    _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceFrmUnit.TopLevel = false;
-                            _instanceFrmUnit.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceFrmUnit);
-                            _instanceFrmUnit.Show();
-                            _instanceFrmUnit.BringToFront();
-                        }
-                        break;
+        //                    _instanceFrmUnit.TopLevel = false;
+        //                    _instanceFrmUnit.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceFrmUnit);
+        //                    _instanceFrmUnit.Show();
+        //                    _instanceFrmUnit.BringToFront();
+        //                }
+        //                break;
 
-                    case "6":
-                        if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
-                        {
-                            FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
-                            if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
-                                _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceTableInfo.Dock = DockStyle.None;
-                                _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceTableInfo);
-                                _instanceTableInfo.Show();
-                                _instanceTableInfo.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmTableInfo _instanceTableInfo = new FrmTableInfo();
-                            _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //            case "6":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
+        //                {
+        //                    FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
+        //                    if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
+        //                        _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceTableInfo.Dock = DockStyle.None;
+        //                        _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceTableInfo);
+        //                        _instanceTableInfo.Show();
+        //                        _instanceTableInfo.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmTableInfo _instanceTableInfo = new FrmTableInfo();
+        //                    _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceTableInfo.TopLevel = false;
-                            _instanceTableInfo.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceTableInfo);
-                            _instanceTableInfo.Show();
-                            _instanceTableInfo.BringToFront();
-                        }
-                        break;
-                    case "7":
+        //                    _instanceTableInfo.TopLevel = false;
+        //                    _instanceTableInfo.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceTableInfo);
+        //                    _instanceTableInfo.Show();
+        //                    _instanceTableInfo.BringToFront();
+        //                }
+        //                break;
+        //            case "7":
 
-                        if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
-                        {
-                            FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
-                            _instanceFrmPurchase.Dock = DockStyle.None;
-                            _instanceFrmPurchase.Margin = new Padding(10);
-                            if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
-                                _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceFrmPurchase.Dock = DockStyle.None;
-                                _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceFrmPurchase);
-                                _instanceFrmPurchase.Show();
-                                _instanceFrmPurchase.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmPurchase _instanceFrmPurchase = new FrmPurchase();
-                            _instanceFrmPurchase.Dock = DockStyle.None;
-                            _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
-                            _instanceFrmPurchase.TopLevel = false;
+        //                if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
+        //                {
+        //                    FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
+        //                    _instanceFrmPurchase.Dock = DockStyle.None;
+        //                    _instanceFrmPurchase.Margin = new Padding(10);
+        //                    if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
+        //                        _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceFrmPurchase.Dock = DockStyle.None;
+        //                        _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceFrmPurchase);
+        //                        _instanceFrmPurchase.Show();
+        //                        _instanceFrmPurchase.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmPurchase _instanceFrmPurchase = new FrmPurchase();
+        //                    _instanceFrmPurchase.Dock = DockStyle.None;
+        //                    _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
+        //                    _instanceFrmPurchase.TopLevel = false;
 
-                            panelDesktop.Controls.Add(_instanceFrmPurchase);
-                            panelDesktop.Padding = new Padding(20);
-                            _instanceFrmPurchase.Show();
-                            _instanceFrmPurchase.BringToFront();
-                        }
+        //                    panelDesktop.Controls.Add(_instanceFrmPurchase);
+        //                    panelDesktop.Padding = new Padding(20);
+        //                    _instanceFrmPurchase.Show();
+        //                    _instanceFrmPurchase.BringToFront();
+        //                }
 
-                        break;
-                    case "8":
-                        if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
-                        {
-                            FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
-                            _instancePurchaseReturn.Dock = DockStyle.None;
-                            _instancePurchaseReturn.Margin = new Padding(10);
-                            if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instancePurchaseReturn.Dock = DockStyle.None;
-                                _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instancePurchaseReturn);
-                                _instancePurchaseReturn.Show();
-                                _instancePurchaseReturn.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
-                            _instancePurchaseReturn.Dock = DockStyle.None;
-                            _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
-                            _instancePurchaseReturn.TopLevel = false;
+        //                break;
+        //            case "8":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
+        //                {
+        //                    FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
+        //                    _instancePurchaseReturn.Dock = DockStyle.None;
+        //                    _instancePurchaseReturn.Margin = new Padding(10);
+        //                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+        //                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instancePurchaseReturn.Dock = DockStyle.None;
+        //                        _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instancePurchaseReturn);
+        //                        _instancePurchaseReturn.Show();
+        //                        _instancePurchaseReturn.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
+        //                    _instancePurchaseReturn.Dock = DockStyle.None;
+        //                    _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
+        //                    _instancePurchaseReturn.TopLevel = false;
 
-                            panelDesktop.Controls.Add(_instancePurchaseReturn);
-                            panelDesktop.Padding = new Padding(20);
-                            _instancePurchaseReturn.Show();
-                            _instancePurchaseReturn.BringToFront();
-                        }
+        //                    panelDesktop.Controls.Add(_instancePurchaseReturn);
+        //                    panelDesktop.Padding = new Padding(20);
+        //                    _instancePurchaseReturn.Show();
+        //                    _instancePurchaseReturn.BringToFront();
+        //                }
 
-                        break;
+        //                break;
 
-                    case "9":
-                        if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
-                        {
-                            FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
-                            if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
-                                _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            else
-                            {
-                                _instanceTaxSetting.Dock = DockStyle.None;
-                                _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                                panelDesktop.Controls.Add(_instanceTaxSetting);
-                                _instanceTaxSetting.Show();
-                                _instanceTaxSetting.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
-                            _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //            case "9":
+        //                if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
+        //                {
+        //                    FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
+        //                    if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
+        //                        _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+        //                    else
+        //                    {
+        //                        _instanceTaxSetting.Dock = DockStyle.None;
+        //                        _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+        //                        panelDesktop.Controls.Add(_instanceTaxSetting);
+        //                        _instanceTaxSetting.Show();
+        //                        _instanceTaxSetting.BringToFront();
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
+        //                    _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-                            _instanceTaxSetting.TopLevel = false;
-                            _instanceTaxSetting.Dock = DockStyle.None;
-                            panelDesktop.Controls.Add(_instanceTaxSetting);
-                            _instanceTaxSetting.Show();
-                            _instanceTaxSetting.BringToFront();
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        //                    _instanceTaxSetting.TopLevel = false;
+        //                    _instanceTaxSetting.Dock = DockStyle.None;
+        //                    panelDesktop.Controls.Add(_instanceTaxSetting);
+        //                    _instanceTaxSetting.Show();
+        //                    _instanceTaxSetting.BringToFront();
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
         private void Menubilling_Click(object sender, EventArgs e)
         {
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
             }
+            TableStaus(0);
         }
 
         private void Menureport_Click(object sender, EventArgs e)

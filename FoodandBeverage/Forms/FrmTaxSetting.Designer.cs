@@ -409,20 +409,24 @@ namespace FoodandBeverage.Forms
             // 
             // txtSgstPrcnt
             // 
-            this.txtSgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtSgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtSgstPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSgstPrcnt.Location = new System.Drawing.Point(102, 232);
+            this.txtSgstPrcnt.Multiline = true;
             this.txtSgstPrcnt.Name = "txtSgstPrcnt";
-            this.txtSgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtSgstPrcnt.Size = new System.Drawing.Size(183, 28);
             this.txtSgstPrcnt.TabIndex = 259;
             this.txtSgstPrcnt.TextChanged += new System.EventHandler(this.txtSgstPrcnt_TextChanged);
             this.txtSgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
             // 
             // txtCgstPrcnt
             // 
-            this.txtCgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtCgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtCgstPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCgstPrcnt.Location = new System.Drawing.Point(39, 140);
+            this.txtCgstPrcnt.Multiline = true;
             this.txtCgstPrcnt.Name = "txtCgstPrcnt";
-            this.txtCgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtCgstPrcnt.Size = new System.Drawing.Size(183, 28);
             this.txtCgstPrcnt.TabIndex = 258;
             this.txtCgstPrcnt.TextChanged += new System.EventHandler(this.txtCgstPrcnt_TextChanged);
             this.txtCgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
@@ -477,34 +481,42 @@ namespace FoodandBeverage.Forms
             // 
             // txtIgstPrcnt
             // 
-            this.txtIgstPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtIgstPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtIgstPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtIgstPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtIgstPrcnt.Location = new System.Drawing.Point(115, 40);
+            this.txtIgstPrcnt.Multiline = true;
             this.txtIgstPrcnt.Name = "txtIgstPrcnt";
-            this.txtIgstPrcnt.Size = new System.Drawing.Size(30, 20);
+            this.txtIgstPrcnt.Size = new System.Drawing.Size(183, 28);
             this.txtIgstPrcnt.TabIndex = 0;
             this.txtIgstPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtIgstPrcnt_Validating);
             // 
             // cmbTaxType
             // 
+            this.cmbTaxType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbTaxType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTaxType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbTaxType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmbTaxType.FormattingEnabled = true;
             this.cmbTaxType.Items.AddRange(new object[] {
             "GST",
             "VAT"});
             this.cmbTaxType.Location = new System.Drawing.Point(0, 0);
             this.cmbTaxType.Name = "cmbTaxType";
-            this.cmbTaxType.Size = new System.Drawing.Size(30, 21);
+            this.cmbTaxType.Size = new System.Drawing.Size(73, 28);
             this.cmbTaxType.TabIndex = 10;
             this.cmbTaxType.SelectedIndexChanged += new System.EventHandler(this.cmbTaxType_SelectedIndexChanged);
             // 
             // txtVatPrcnt
             // 
-            this.txtVatPrcnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVatPrcnt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtVatPrcnt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtVatPrcnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtVatPrcnt.Location = new System.Drawing.Point(0, 0);
+            this.txtVatPrcnt.Location = new System.Drawing.Point(364, 96);
             this.txtVatPrcnt.MaxLength = 5;
+            this.txtVatPrcnt.Multiline = true;
             this.txtVatPrcnt.Name = "txtVatPrcnt";
-            this.txtVatPrcnt.Size = new System.Drawing.Size(30, 26);
+            this.txtVatPrcnt.Size = new System.Drawing.Size(258, 31);
             this.txtVatPrcnt.TabIndex = 256;
             this.txtVatPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtVatPrcnt_Validating);
             // 
@@ -534,7 +546,7 @@ namespace FoodandBeverage.Forms
             this.pnl_all_controls.Controls.Add(this.lblsgst);
             this.pnl_all_controls.Location = new System.Drawing.Point(0, 0);
             this.pnl_all_controls.Name = "pnl_all_controls";
-            this.pnl_all_controls.Size = new System.Drawing.Size(30, 19);
+            this.pnl_all_controls.Size = new System.Drawing.Size(73, 10);
             this.pnl_all_controls.TabIndex = 260;
             this.pnl_all_controls.Visible = false;
             // 

@@ -7,6 +7,7 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -248,6 +249,7 @@ namespace FoodandBeverage.Forms
             clearall();
             combofill();
             rearrange_slno();
+            textb_shape();
 
             dgv_registartion.BorderStyle = BorderStyle.None;
             dgv_registartion.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
@@ -673,6 +675,11 @@ namespace FoodandBeverage.Forms
 
         private void txtDisPer_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
+
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
@@ -694,6 +701,8 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    if (string.IsNullOrWhiteSpace(txtmrp.Text))
+                        txtmrp.Text = "0";
                     decimal discountAmnt = Convert.ToDecimal(txtDisPer.Text.Trim()) * Convert.ToDecimal(txtmrp.Text) / 100;
                     txtDiscAmnt.Text = discountAmnt.ToString("N2");
                 }
@@ -997,12 +1006,6 @@ namespace FoodandBeverage.Forms
             GalleryView(0);
         }
 
-        private void cmbSearchlist_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            comboBoxChanged = true;
-            GalleryView(Convert.ToInt32(cmbSearchlist.SelectedValue));
-        }
-
         private void btn_back_reg_Click(object sender, EventArgs e)
         {
             tlp_menu_Gallery_main.Visible = false;
@@ -1031,6 +1034,8 @@ namespace FoodandBeverage.Forms
 
         private void txtprice_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
@@ -1082,6 +1087,8 @@ namespace FoodandBeverage.Forms
 
         private void txtqty_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
@@ -1369,6 +1376,54 @@ namespace FoodandBeverage.Forms
         private void btn_refreshlist_Click(object sender, EventArgs e)
         {
             GalleryView(0);
+        }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { txtpid, txtprice, txtproductname, txtSgstPrcnt, txtCgstPrcnt, txtmrp, txtDiscAmnt, txtDisPer, txtdes, txtsearch, txtqty, txtitemcode })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
+
+        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            comboBoxChanged = true;
+            GalleryView(Convert.ToInt32(cmbSearchlist.SelectedValue));
+        }
+
+        private void txtproductname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
         }
     }
 }
