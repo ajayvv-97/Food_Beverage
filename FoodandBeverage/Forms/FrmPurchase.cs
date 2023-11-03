@@ -543,6 +543,8 @@ namespace FoodandBeverage.Forms
             tlp_grid_registartion.Controls.Remove(controlToRemove);
             tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
             tlp_textboxes.Dock = DockStyle.Fill;
+            pnl_barcode.Visible = false;
+            txtbarcode.Text = "";
         }
         private void Btn_view_menu_Click(object sender, EventArgs e)
         {
@@ -582,6 +584,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmPurchase_Load(object sender, EventArgs e)
         {
+         
             ClearAll();
             FillCombobox();
             tlp_textboxes.Visible = true;
@@ -916,6 +919,10 @@ namespace FoodandBeverage.Forms
 
         private void oaamount_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
                 e.Handled = true;
@@ -1086,6 +1093,14 @@ namespace FoodandBeverage.Forms
 
         private void discountper_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
                 e.Handled = true;
@@ -1247,6 +1262,10 @@ namespace FoodandBeverage.Forms
         private void btn_vendor_close_Click(object sender, EventArgs e)
         {
             pnlCustomer.Visible = false;
+            txtVendorName.Text = "";
+            txtVendorAddress.Text = "";
+            txtVendorEmail.Text = "";
+            txtVendorTel.Text = "";
         }
 
         private void btnSaveCust_Click(object sender, EventArgs e)
@@ -1291,6 +1310,10 @@ namespace FoodandBeverage.Forms
         private void btnCloseCst_Click(object sender, EventArgs e)
         {
             pnlCustomer.Visible = false;
+            txtVendorName.Text = "";
+            txtVendorAddress.Text = "";
+            txtVendorEmail.Text = "";
+            txtVendorTel.Text = "";
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -1453,6 +1476,10 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyChar == '\r') // Check for Enter key            
                 e.Handled = true; // Suppress the Enter key
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
         }
 
         private void txtEmail_KeyPress(object sender, KeyPressEventArgs e)

@@ -400,5 +400,32 @@
   <ItemGroup>
     <None Include="Resources\Product.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchbutton_gif.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search-Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Project.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Project %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Untitled-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Closebutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SearchButton.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

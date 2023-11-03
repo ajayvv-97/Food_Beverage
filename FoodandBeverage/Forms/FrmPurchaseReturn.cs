@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +97,8 @@ namespace FoodandBeverage.Forms
             tlp_grid_registartion.Controls.Remove(controlToRemove);
             tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
             tlp_textboxes.Dock = DockStyle.Fill;
+            txtbarcode.Text = "";
+            pnl_barcode.Visible = false;
         }
 
         private void btn_grid_regitartion_Click(object sender, EventArgs e)
@@ -869,10 +872,51 @@ namespace FoodandBeverage.Forms
             dgvItemPop.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            textb_shape();
         }
 
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] {invoiceno,txtdocno,address,contactno,txtEmail,odamt,oddesc,oaamount,oadesc,discountper,totaldiscountamt,sterms,remarks,netamount,rcvamt,txtpurchaseentry,txtvedorname})
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                    textBox.BackColor = Color.FromArgb(196, 223, 223);
+                }
+                rcvamt.Font = new Font(rcvamt.Font.FontFamily, 14);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
         private void discountper_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
 
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
@@ -1925,6 +1969,12 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
             }
+        }
+
+        private void txtdocno_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
         }
     }
 }

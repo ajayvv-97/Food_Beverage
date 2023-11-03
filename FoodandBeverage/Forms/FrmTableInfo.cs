@@ -403,5 +403,10 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
             }
         }
+
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
