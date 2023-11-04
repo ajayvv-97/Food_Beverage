@@ -259,7 +259,7 @@ namespace FoodandBeverage.Forms
             if (txtincr_name.Text == "" || txtincr_name.Text == null)
             {
                 CMessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtitemid.Focus();
+                txtincr_name.Focus();
                 return false;
             }
             else if (Convert.ToInt32(cmb_inc_categ.SelectedValue) == -1)
@@ -340,15 +340,22 @@ namespace FoodandBeverage.Forms
 
         private void btntoggle_Click(object sender, EventArgs e)
         {
+            try
+            {          
+                dgv_item.CurrentCell = dgv_item[0, 0];
+                dgv_item.Focus();
+                tlp_registration.Visible = false;
+                tlp_grid.Visible = true;
+                Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                tlp_main.Controls.Remove(controlToRemove);
+                tlp_main.Controls.Add(tlp_grid, 1, 0);
+                tlp_grid.Dock = DockStyle.Fill;
+            }
+            catch(Exception ex)
+            {
+
+            }
             
-            //this.Width = 1025;
-            //this.Height = 617;
-            tlp_registration.Visible = false;
-            tlp_grid.Visible = true;
-            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
-            tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_grid, 1, 0);
-            tlp_grid.Dock = DockStyle.Fill;
         }
 
         private void toggle_grid_Click(object sender, EventArgs e)
@@ -490,6 +497,7 @@ namespace FoodandBeverage.Forms
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {           
+            
             int[] columnsToRemove1 = { 0,1, 2, 3 };
             int[] rowsToRemove1 = { 5,6,7,8 };
 
@@ -538,6 +546,7 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Controls.Add(txtdesc, 1, 8);
                 tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
 
+                cmbIgstPrcnt.Focus();
             }
             else if (cmbTaxType.Text == "VAT")
             {
@@ -557,8 +566,10 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
 
                 //row3
+                tlp_registration.Controls.Add(txtdesc, 0, 8);
                 tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
 
+                cmbVatPrcnt.Focus();
             }
         }
 
@@ -872,6 +883,111 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:   
+
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
+        public void Movefocus(int keytype)
+        {
+            if (txtincr_name.Focused)
+                txtbarcode.Focus();
+            else if (txtincr_name.Focused)
+                txtbarcode.Focus();
+            else if (txtbarcode.Focused)
+
+                cmb_inc_categ.Focus();
+            else if (cmb_inc_categ.Focused)
+                rdb_dsale.Focus();
+            else if (rdb_dsale.Focused)
+            {
+                //if (keytype == 0)
+                //{
+                //    if (rdb_dsale.Checked)
+                //        rdb_dsale.Checked = true;
+                //    else
+                //        rdb_dsale.Checked = false;
+                //}
+                //else if (keytype == 1)
+                    rdb_notsale.Focus();
+            }
+            else if (rdb_notsale.Focused)
+            {
+                //if (keytype == 0)
+                //{
+                //    if (rdb_notsale.Checked)
+                //        rdb_notsale.Checked = true;
+                //    else
+                //        rdb_notsale.Checked = false;
+                //}
+                //else if (keytype == 1)
+                    txtprate.Focus();
+            }
+         
+            else if (txtprate.Focused)
+                txtsrate.Focus();
+            else if (txtsrate.Focused)
+                txtmrp.Focus();
+            else if (txtmrp.Focused)
+                txtqty.Focus();
+            else if (txtqty.Focused)
+                cmbunit.Focus();
+            else if (cmbunit.Focused)
+                cmbtax.Focus();
+            else if (cmbtax.Focused)
+                cmbTaxType.Focus();
+            else if (cmbTaxType.Focused)
+            {
+                if (cmbTaxType.Text == "GST")
+                {
+                    cmbIgstPrcnt.Focus();
+                }
+                if (cmbTaxType.Text == "VAT")
+                {
+                    cmbVatPrcnt.Focus();
+                }
+            }
+            else if (cmbIgstPrcnt.Focused)
+                txtdesc.Focus();
+            else if (cmbVatPrcnt.Focused)
+                txtdesc.Focus();
+            else if (txtdesc.Focused)            
+                btnsave.Focus();
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
         }
     }
 }

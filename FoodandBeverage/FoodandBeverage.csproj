@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AYJ_CardLib_Mi">
+      <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Mi.dll</HintPath>
+    </Reference>
+    <Reference Include="AYJ_CardLib_Ul">
+      <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Ul.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Dapper.dll</HintPath>
@@ -103,6 +109,12 @@
     <Compile Include="Forms\FrmItemRegistartion.Designer.cs">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +150,12 @@
     </Compile>
     <Compile Include="Forms\FrmUnit.Designer.cs">
       <DependentUpon>FrmUnit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmVendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmVendor.Designer.cs">
+      <DependentUpon>FrmVendor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserControls\FrmDataGridView.cs">
       <SubType>Form</SubType>
@@ -179,6 +197,9 @@
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnit.resx">
       <DependentUpon>FrmUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmVendor.resx">
+      <DependentUpon>FrmVendor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -426,6 +450,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SearchButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Login_BG.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginCancelButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Textbox_BG.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vedoricon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

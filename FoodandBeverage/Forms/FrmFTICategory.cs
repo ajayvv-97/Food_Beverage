@@ -338,5 +338,22 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void txtfoodCate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                cmb_cate.Focus();
+            }
+        }
+
+        private void cmb_cate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtdescr.Focus();
+            }
+            
+        }
     }
 }

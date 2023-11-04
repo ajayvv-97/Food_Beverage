@@ -143,8 +143,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmUnit_Load(object sender, EventArgs e)
         {
-            Fillunit();
-            dgv_unit.BorderStyle = BorderStyle.None;
+            Fillunit(); dgv_unit.BorderStyle = BorderStyle.None;
             dgv_unit.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_unit.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgv_unit.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
@@ -193,6 +192,7 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+           
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();

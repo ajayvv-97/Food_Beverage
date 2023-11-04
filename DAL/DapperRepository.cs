@@ -274,8 +274,9 @@ namespace DAL
         public static IDbConnection OpenConnection()
         {
             IDbConnection connection = new SqlConnection("Data Source=192.168.0.5;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=iapsIT@234#");
+            //IDbConnection connection = new SqlConnection("Data Source=192.168.0.159;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=,rhsm098");
             connection.Open();
-            return connection;
+            return connection; 
         }
         #endregion OpenConnection
     }

@@ -38,19 +38,27 @@ namespace FoodandBeverage.Forms
         public int desiredWidth = 32;
         public int desiredHeight = 32;
 
-        public int HdesiredWidth = 10; 
-        public int HdesiredHeight = 10; 
+        public int HdesiredWidth = 10;
+        public int HdesiredHeight = 10;
         #endregion
 
 
 
         private void Menulogout_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
+            if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
+            {
+                FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
+                _instanceFrmLogin.Show();
+                _instanceFrmLogin.BringToFront();
+                _instanceFrmLogin.Visible = true;
+            }
         }
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
+            Menuhome.Focus();
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             RoundPictureBoxCorners(pb_appicon, 10);
@@ -84,8 +92,7 @@ namespace FoodandBeverage.Forms
             ib_purchase.BackColor = menubuttoncolor;
             ib_purchasereturn.BackColor = menubuttoncolor;
             ib_tax.BackColor = menubuttoncolor;
-
-    
+            ib_vendor.BackColor = menubuttoncolor;
         }
         public void SetButtonImage(Button button, Image originalImage, int desiredWidth, int desiredHeight)
         {
@@ -94,7 +101,7 @@ namespace FoodandBeverage.Forms
         }
 
         public void button_imageset()
-        {         
+        {
 
             SetButtonImage(Menuhome, FoodandBeverage.Properties.Resources.icons8_home_50, desiredWidth, desiredHeight);
             SetButtonImage(Menuoperation, FoodandBeverage.Properties.Resources.operation, desiredWidth, desiredHeight);
@@ -113,16 +120,18 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
             SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
             SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
+            SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
 
             SetRoundedButton(ib_Category, 70);
             SetRoundedButton(ib_Item, 70);
             SetRoundedButton(ib_ingrediant, 70);
             SetRoundedButton(ib_menu, 70);
             SetRoundedButton(ib_unit, 70);
-            SetRoundedButton(ib_table, 70);                
+            SetRoundedButton(ib_table, 70);
             SetRoundedButton(ib_purchase, 70);
             SetRoundedButton(ib_purchasereturn, 70);
             SetRoundedButton(ib_tax, 70);
+            SetRoundedButton(ib_vendor, 70);
 
         }
 
@@ -156,7 +165,7 @@ namespace FoodandBeverage.Forms
         }
 
         private void Menuhome_Click(object sender, EventArgs e)
-        {            
+        {
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
@@ -165,7 +174,7 @@ namespace FoodandBeverage.Forms
         }
         public void TableStaus(int serachmode)
         {
-            
+
             BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
             DmnSearch dmnSearch = new DmnSearch();
             dmnSearch.Select = "*";
@@ -187,7 +196,7 @@ namespace FoodandBeverage.Forms
                     break;
 
             }
-        
+
             dmnSearch.OrderBy = "";
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource.Count > 0)
@@ -250,7 +259,7 @@ namespace FoodandBeverage.Forms
                         lbltablename.BackColor = Color.Yellow;
                     else
                         lbltablename.BackColor = Color.Green;
-                    tlp_table_inner.Name= gridSource[i].TableCode; 
+                    tlp_table_inner.Name = gridSource[i].TableCode;
                     //tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                     tlp_table_inner.Dock = DockStyle.None;
                     tlp_table_inner.Margin = new Padding(20, 10, 20, 10);
@@ -310,7 +319,7 @@ namespace FoodandBeverage.Forms
                         lbl.BackColor = Color.LightGray;
                     }
                 }
-                
+
             }
         }
 
@@ -327,7 +336,7 @@ namespace FoodandBeverage.Forms
                         lbl.BackColor = originalBackColor;
                     }
                 }
-              
+
             }
         }
         private void RoundPictureBoxCorners(PictureBox pictureBox, int cornerRadius)
@@ -346,8 +355,8 @@ namespace FoodandBeverage.Forms
         private void CollapseMenu()
         {
             if (Menuhome.Width > 150) //Collapse menu
-            {    
-                flp_menu.Dock = DockStyle.None;   
+            {
+                flp_menu.Dock = DockStyle.None;
                 flp_menu.Width = 108;
                 panelMenu.Width = 108;
                 panelMenu.Dock = DockStyle.Fill;
@@ -360,7 +369,7 @@ namespace FoodandBeverage.Forms
                     menuButton.Text = "";
                     menuButton.Width = 80;
                     menuButton.ImageAlign = ContentAlignment.MiddleLeft;
-                    menuButton.Padding = new Padding(20,0,0,0);
+                    menuButton.Padding = new Padding(20, 0, 0, 0);
                 }
                 tlp_main.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
                 tlp_main.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
@@ -397,75 +406,6 @@ namespace FoodandBeverage.Forms
             panelDesktop.Controls.Add(flp_operations);
             flp_operations.Dock = DockStyle.Fill;
             flp_operations.Visible = true;
-
-            //#region Dynamic Button Creation Operation
-            //for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
-            //{
-            //    if ((Application.OpenForms[i].Name != "FrmDashboard") && (Application.OpenForms[i].Name != "frmLogin"))
-            //    {
-            //        Application.OpenForms[i].MinimumSize = new Size(10, 20); // Set the minimum size here
-            //    }
-            //}
-            //tlp_button.Controls.Clear();
-            //tlp_button.Dock = DockStyle.Fill;
-            //tlp_button.AutoScroll = true;
-
-            //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            //DmnSearch dmnSearch = new DmnSearch();
-            //dmnSearch.Select = "Caption as Field1,GTypeSubId as Field2";
-            //dmnSearch.Table = "tblGeneralOptions";
-            //dmnSearch.WhereNdGroupBy = "where GTypeId=66";
-            //dmnSearch.OrderBy = "";
-            //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-            //int rowIndex = 0;
-            //if (gridSource.Count > 1)
-            //{
-            //    int columnIndex = 0;
-            //    for (int i = 0; i < gridSource.Count; i++)
-            //    {
-            //        if (columnIndex == 6)
-            //        {
-            //            columnIndex = 0;
-            //            rowIndex++;
-            //        }
-            //        Button button_type = new Button();
-            //        button_type.Text = gridSource[i].Field1;
-            //        button_type.Name = gridSource[i].Field1;
-            //        button_type.Tag = gridSource[i].Field2;
-            //        //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-            //        //button_type.BackgroundImageLayout = ImageLayout.Stretch;
-            //        button_type.FlatStyle = FlatStyle.Flat;
-            //        button_type.BackColor = menubuttoncolor;
-            //        button_type.ForeColor = System.Drawing.Color.White;
-            //        button_type.Font = new Font("Georgia", 9);
-            //        button_type.Width = 100;
-            //        button_type.Height = 70;
-            //        // Add the event handler for the button
-            //       button_type.Click += new EventHandler(MyButtonClickEventHandler);
-
-            //        PictureBox pictureBox = new PictureBox();
-            //        pictureBox.Name = gridSource[i].Field1;
-            //        pictureBox.Image = FoodandBeverage.Properties.Resources.cate_registration; // Set the image you want to display
-            //        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            //        pictureBox.Tag = gridSource[i].Field2;
-            //        pictureBox.Click += new EventHandler(MyButtonClickEventHandler);
-            //        pictureBox.Visible = true;
-            //        button_type.MouseHover += new EventHandler(MouseEnterEventHandler);
-            //        pictureBox.MouseLeave += new EventHandler(MouseLeaveEventHandler);
-
-            //        Panel panel = new Panel();
-            //        panel.Width = 100;
-            //        panel.Height = 70;
-            //        panel.Margin = new Padding(25, 30, 0, 0);
-            //        panel.Controls.Add(button_type);
-            //        panel.Controls.Add(pictureBox);
-            //        tlp_button.Controls.Add(panel, columnIndex, rowIndex);
-
-            //        columnIndex++;
-            //    }
-            //    panelDesktop.Controls.Add(tlp_button);
-            //}
-            //#endregion
         }
         private void MouseEnterEventHandler(object sender, EventArgs e)
         {
@@ -515,282 +455,7 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-        //private void MyButtonClickEventHandler(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        string commandName="";
-        //        if (sender is Button clickedButton)
-        //            commandName = Convert.ToString(clickedButton.Tag);     
-        //        else if (sender is PictureBox clickedPicture)
-        //            commandName = Convert.ToString(clickedPicture.Tag);
-                
-        //        switch (commandName)
-        //        {
-        //            case "1":
-                       
-        //                if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
-        //                {
-        //                    FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
-        //                    _instanceFrmFTICategory.Dock = DockStyle.None;
-        //                    _instanceFrmFTICategory.Margin = new Padding(10);
-        //                    if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
-        //                        _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceFrmFTICategory.Dock = DockStyle.None;
-        //                        _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceFrmFTICategory);
-        //                        _instanceFrmFTICategory.Show();
-        //                        _instanceFrmFTICategory.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
-        //                    _instanceFrmFTICategory.Dock = DockStyle.None;
-        //                    _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-        //                    _instanceFrmFTICategory.TopLevel = false;
-                          
-        //                    panelDesktop.Controls.Add(_instanceFrmFTICategory);
-        //                    panelDesktop.Padding= new Padding(20);
-        //                    _instanceFrmFTICategory.Show();
-        //                    _instanceFrmFTICategory.BringToFront();
-        //                }
-        //                break;
-        //            case "2":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
-        //                {
-        //                    FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
-        //                    if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
-        //                        _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceItemRegistartion.Dock = DockStyle.None;
-        //                        _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceItemRegistartion);
-        //                        _instanceItemRegistartion.Show();
-        //                        _instanceItemRegistartion.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
-        //                    _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
-        //                    _instanceItemRegistartion.TopLevel = false;
-        //                    _instanceItemRegistartion.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceItemRegistartion);
-        //                    _instanceItemRegistartion.Show();
-        //                    _instanceItemRegistartion.BringToFront();
-        //                }
-        //                break;
-        //            case "3":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
-        //                {
-        //                    FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
-        //                    if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
-        //                        _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceFrmIngredient.Dock = DockStyle.None;
-        //                        _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceFrmIngredient);
-        //                        _instanceFrmIngredient.Show();
-        //                        _instanceFrmIngredient.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-        //                    _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
-        //                    _instanceFrmIngredient.TopLevel = false;
-        //                    _instanceFrmIngredient.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceFrmIngredient);
-        //                    _instanceFrmIngredient.Show();
-        //                    _instanceFrmIngredient.BringToFront();
-        //                }
-        //                break;
-        //            case "4":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
-        //                {
-        //                    FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
-        //                    if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
-        //                        _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceFrmMenu.Dock = DockStyle.None;
-        //                        _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceFrmMenu);
-        //                        _instanceFrmMenu.Show();
-        //                        _instanceFrmMenu.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmMenu _instanceFrmMenu = new FrmMenu();
-        //                    _instanceFrmMenu.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
-        //                    _instanceFrmMenu.TopLevel = false;
-        //                    _instanceFrmMenu.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceFrmMenu);
-        //                    _instanceFrmMenu.Show();
-        //                    _instanceFrmMenu.BringToFront();
-        //                }
-        //                break;
-        //            case "5":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
-        //                {
-        //                    FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
-        //                    if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
-        //                        _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceFrmUnit.Dock = DockStyle.None;
-        //                        _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceFrmUnit);
-        //                        _instanceFrmUnit.Show();
-        //                        _instanceFrmUnit.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmUnit _instanceFrmUnit = new FrmUnit();
-        //                    _instanceFrmUnit.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
-        //                    _instanceFrmUnit.TopLevel = false;
-        //                    _instanceFrmUnit.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceFrmUnit);
-        //                    _instanceFrmUnit.Show();
-        //                    _instanceFrmUnit.BringToFront();
-        //                }
-        //                break;
-
-        //            case "6":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
-        //                {
-        //                    FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
-        //                    if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
-        //                        _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceTableInfo.Dock = DockStyle.None;
-        //                        _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceTableInfo);
-        //                        _instanceTableInfo.Show();
-        //                        _instanceTableInfo.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmTableInfo _instanceTableInfo = new FrmTableInfo();
-        //                    _instanceTableInfo.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
-        //                    _instanceTableInfo.TopLevel = false;
-        //                    _instanceTableInfo.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceTableInfo);
-        //                    _instanceTableInfo.Show();
-        //                    _instanceTableInfo.BringToFront();
-        //                }
-        //                break;
-        //            case "7":
-
-        //                if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
-        //                {
-        //                    FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
-        //                    _instanceFrmPurchase.Dock = DockStyle.None;
-        //                    _instanceFrmPurchase.Margin = new Padding(10);
-        //                    if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
-        //                        _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceFrmPurchase.Dock = DockStyle.None;
-        //                        _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceFrmPurchase);
-        //                        _instanceFrmPurchase.Show();
-        //                        _instanceFrmPurchase.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmPurchase _instanceFrmPurchase = new FrmPurchase();
-        //                    _instanceFrmPurchase.Dock = DockStyle.None;
-        //                    _instanceFrmPurchase.Margin = new Padding(20); // Adjust these values as needed
-        //                    _instanceFrmPurchase.TopLevel = false;
-
-        //                    panelDesktop.Controls.Add(_instanceFrmPurchase);
-        //                    panelDesktop.Padding = new Padding(20);
-        //                    _instanceFrmPurchase.Show();
-        //                    _instanceFrmPurchase.BringToFront();
-        //                }
-
-        //                break;
-        //            case "8":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
-        //                {
-        //                    FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
-        //                    _instancePurchaseReturn.Dock = DockStyle.None;
-        //                    _instancePurchaseReturn.Margin = new Padding(10);
-        //                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-        //                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instancePurchaseReturn.Dock = DockStyle.None;
-        //                        _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instancePurchaseReturn);
-        //                        _instancePurchaseReturn.Show();
-        //                        _instancePurchaseReturn.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
-        //                    _instancePurchaseReturn.Dock = DockStyle.None;
-        //                    _instancePurchaseReturn.Margin = new Padding(20); // Adjust these values as needed
-        //                    _instancePurchaseReturn.TopLevel = false;
-
-        //                    panelDesktop.Controls.Add(_instancePurchaseReturn);
-        //                    panelDesktop.Padding = new Padding(20);
-        //                    _instancePurchaseReturn.Show();
-        //                    _instancePurchaseReturn.BringToFront();
-        //                }
-
-        //                break;
-
-        //            case "9":
-        //                if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
-        //                {
-        //                    FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
-        //                    if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
-        //                        _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-        //                    else
-        //                    {
-        //                        _instanceTaxSetting.Dock = DockStyle.None;
-        //                        _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-        //                        panelDesktop.Controls.Add(_instanceTaxSetting);
-        //                        _instanceTaxSetting.Show();
-        //                        _instanceTaxSetting.BringToFront();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
-        //                    _instanceTaxSetting.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
-        //                    _instanceTaxSetting.TopLevel = false;
-        //                    _instanceTaxSetting.Dock = DockStyle.None;
-        //                    panelDesktop.Controls.Add(_instanceTaxSetting);
-        //                    _instanceTaxSetting.Show();
-        //                    _instanceTaxSetting.BringToFront();
-        //                }
-        //                break;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
         private void Menubilling_Click(object sender, EventArgs e)
         {
             if (sender is Button button)
@@ -815,7 +480,7 @@ namespace FoodandBeverage.Forms
                 ChangeButtonBorder(button);
             }
             panelDesktop.Controls.Clear();
-           flpcolor.Controls.Clear();
+            flpcolor.Controls.Clear();
             flpcolor.Dock = DockStyle.Fill;
             flpcolor.AutoScroll = true;
             int rowIndex = 0;
@@ -852,7 +517,7 @@ namespace FoodandBeverage.Forms
         }
         private void btnclose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
 
@@ -868,7 +533,7 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Minimized;
         }
-        public  void Roundform(int size)
+        public void Roundform(int size)
         {
             int borderRadius = size; // Adjust this value as needed for your desired corner radius
 
@@ -888,7 +553,7 @@ namespace FoodandBeverage.Forms
 
         private void navibar_MouseMove(object sender, MouseEventArgs e)
         {
-            if(e.Button==MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 Point mousepos = Control.MousePosition;
                 mousepos.Offset(MouseLocation.X, MouseLocation.Y);
@@ -898,7 +563,7 @@ namespace FoodandBeverage.Forms
 
         private void navibar_MouseDown(object sender, MouseEventArgs e)
         {
-            MouseLocation = new Point(-e.X,-e.Y);
+            MouseLocation = new Point(-e.X, -e.Y);
 
         }
 
@@ -961,39 +626,35 @@ namespace FoodandBeverage.Forms
 
         private void ib_Category_Click(object sender, EventArgs e)
         {
-          
-
-                    if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
-                    {
-                        FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
-                        _instanceFrmFTICategory.Dock = DockStyle.None;
-                        _instanceFrmFTICategory.Margin = new Padding(10);
-                        if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
-                            _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        else
-                        {
-                            _instanceFrmFTICategory.Dock = DockStyle.None;
-                            _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-                            panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                            _instanceFrmFTICategory.Show();
-                            _instanceFrmFTICategory.BringToFront();
-                        }
-                    }
-                    else
-                    {
-                        FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
-                        _instanceFrmFTICategory.Dock = DockStyle.None;
-                        _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
-                        _instanceFrmFTICategory.TopLevel = false;
-
-                        panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                        panelDesktop.Padding = new Padding(20);
-                        _instanceFrmFTICategory.Show();
-                        _instanceFrmFTICategory.BringToFront();
-                    }
-
-                    
+            if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
+            {
+                FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
+                _instanceFrmFTICategory.Dock = DockStyle.None;
+                _instanceFrmFTICategory.Margin = new Padding(10);
+                if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
+                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instanceFrmFTICategory.Dock = DockStyle.None;
+                    _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+                    panelDesktop.Controls.Add(_instanceFrmFTICategory);
+                    _instanceFrmFTICategory.Show();
+                    _instanceFrmFTICategory.BringToFront();
+                }
             }
+            else
+            {
+                FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
+                _instanceFrmFTICategory.Dock = DockStyle.None;
+                _instanceFrmFTICategory.Margin = new Padding(20); // Adjust these values as needed
+                _instanceFrmFTICategory.TopLevel = false;
+
+                panelDesktop.Controls.Add(_instanceFrmFTICategory);
+                _instanceFrmFTICategory.Show();
+                _instanceFrmFTICategory.BringToFront();
+            }
+
+        }
 
         private void ib_Item_Click(object sender, EventArgs e)
         {
@@ -1022,13 +683,13 @@ namespace FoodandBeverage.Forms
                 _instanceItemRegistartion.Show();
                 _instanceItemRegistartion.BringToFront();
             }
-           
+
         }
 
         private void ib_ingrediant_Click(object sender, EventArgs e)
         {
-           
-                    if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
+
+            if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
             {
                 FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
                 if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
@@ -1053,12 +714,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmIngredient.Show();
                 _instanceFrmIngredient.BringToFront();
             }
-            
+
         }
 
         private void ib_menu_Click(object sender, EventArgs e)
         {
-                    if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
+            if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
             {
                 FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
                 if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
@@ -1084,7 +745,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmMenu.BringToFront();
             }
 
-          
+
         }
 
         private void ib_unit_Click(object sender, EventArgs e)
@@ -1115,7 +776,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmUnit.BringToFront();
             }
 
-                  
+
         }
 
         private void ib_table_Click(object sender, EventArgs e)
@@ -1174,13 +835,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPurchase.TopLevel = false;
 
                 panelDesktop.Controls.Add(_instanceFrmPurchase);
-                panelDesktop.Padding = new Padding(20);
                 _instanceFrmPurchase.Show();
                 _instanceFrmPurchase.BringToFront();
             }
 
 
-                    
+
         }
 
         private void ib_purchasereturn_Click(object sender, EventArgs e)
@@ -1209,7 +869,6 @@ namespace FoodandBeverage.Forms
                 _instancePurchaseReturn.TopLevel = false;
 
                 panelDesktop.Controls.Add(_instancePurchaseReturn);
-                panelDesktop.Padding = new Padding(20);
                 _instancePurchaseReturn.Show();
                 _instancePurchaseReturn.BringToFront();
             }
@@ -1375,6 +1034,9 @@ namespace FoodandBeverage.Forms
                     case "ib_tax":
                         originalImage = FoodandBeverage.Properties.Resources.tax;
                         break;
+                    case "ib_vendor":
+                        originalImage = FoodandBeverage.Properties.Resources.vendericon;
+                        break;
                 }
 
                 if (originalImage != null)
@@ -1384,12 +1046,46 @@ namespace FoodandBeverage.Forms
                     button.BackgroundImageLayout = ImageLayout.Center;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-            
+
         }
 
+        private void ib_vendor_Click(object sender, EventArgs e)
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
+            {
+                FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
+                if (_instanceFrmVendor.WindowState == FormWindowState.Minimized)
+                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instanceFrmVendor.Dock = DockStyle.None;
+                    _instanceFrmVendor.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                    panelDesktop.Controls.Add(_instanceFrmVendor);
+                    _instanceFrmVendor.Show();
+                    _instanceFrmVendor.BringToFront();
+                }
+            }
+            else
+            {
+                FrmVendor _instanceFrmVendor = new FrmVendor();
+                _instanceFrmVendor.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+
+                _instanceFrmVendor.TopLevel = false;
+                _instanceFrmVendor.Dock = DockStyle.None;
+                panelDesktop.Controls.Add(_instanceFrmVendor);
+                _instanceFrmVendor.Show();
+                _instanceFrmVendor.BringToFront();
+            }
+        }
+
+        private void ib_vendor_MouseLeave(object sender, EventArgs e)
+        {
+            ib_vendor.Text = Convert.ToString(ib_vendor.Tag);
+            SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
+        }
     }
 }

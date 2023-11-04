@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Forms;
@@ -37,7 +38,7 @@ namespace FoodandBeverage.Forms
         TableLayoutPanel tlp_Gallery_Main = new TableLayoutPanel();
         TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
         TableLayoutPanel tlp_gallery_sub = new TableLayoutPanel();
-        ToolTip toolTip_gallery = new  ToolTip();
+        ToolTip toolTip_gallery = new ToolTip();
         private bool comboBoxChanged = false;
         private Color originalBackColor; // Variable to store the original background color
         private void btnsave_Click(object sender, EventArgs e)
@@ -52,13 +53,13 @@ namespace FoodandBeverage.Forms
                     Bllincrediant bllincr = new Bllincrediant();
 
                     DmnProducts dmnproduct = new DmnProducts();
-                    BllProducts  bllProduct = new BllProducts();                   
-                    
+                    BllProducts bllProduct = new BllProducts();
+
                     dmnproduct.ProductId = Convert.ToInt32(txtpid.Text);
                     dmnproduct.Product = Convert.ToString(txtproductname.Text);
                     dmnproduct.Price = Convert.ToDecimal(txtprice.Text);
-                    dmnproduct.Tax= Convert.ToString(cmbtax.Text);
-                    if (Convert.ToInt32(cmbTaxType.SelectedIndex)==0)
+                    dmnproduct.Tax = Convert.ToString(cmbtax.Text);
+                    if (Convert.ToInt32(cmbTaxType.SelectedIndex) == 0)
                         dmnproduct.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt.SelectedValue);
                     else
                         dmnproduct.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
@@ -83,7 +84,7 @@ namespace FoodandBeverage.Forms
                         dmnproduct.Status = 0;
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
 
-                    if(prostatus.ProductId > 0)
+                    if (prostatus.ProductId > 0)
                     {
                         for (int i = 0; i < dgv_registartion.RowCount; i++)
                         {
@@ -91,7 +92,7 @@ namespace FoodandBeverage.Forms
                                 ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" || (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) <= 0)
                                 )
 
-                            dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
+                                dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
                             dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
                             dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                             dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
@@ -107,7 +108,7 @@ namespace FoodandBeverage.Forms
                             status = bllincr.AddData("prdInsert_upd_Incrediant", dmnincr);
                         }
                     }
-                      
+
 
                     if (status.ItemId > 0)
                     {
@@ -167,7 +168,7 @@ namespace FoodandBeverage.Forms
             cmbTaxType.SelectedIndex = 0;
             cmbIgstPrcnt.SelectedIndex = 0;
             CmbCategory.SelectedIndex = 0;
-            cmbTaxType.SelectedIndex = 0;    
+            cmbTaxType.SelectedIndex = 0;
             dgv_registartion.Rows.Clear();
             dgv_registartion.Rows.Add();
             btn_del_ingre.Visible = false;
@@ -243,7 +244,7 @@ namespace FoodandBeverage.Forms
             return true;
         }
         private void FrmIncrediant_Load(object sender, EventArgs e)
-        {        
+        {
             cmbTaxType.SelectedIndex = 0;
             Taxfill();
             clearall();
@@ -293,13 +294,13 @@ namespace FoodandBeverage.Forms
 
         private void btnmini_Click(object sender, EventArgs e)
         {
-            this.WindowState= FormWindowState.Minimized;
+            this.WindowState = FormWindowState.Minimized;
         }
 
 
         public void combofill()
         {
-            
+
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
@@ -307,7 +308,7 @@ namespace FoodandBeverage.Forms
                 objSearch.Select = "fcid,CategoryName";
                 objSearch.Table = " tblCategory_FTI";
                 objSearch.WhereNdGroupBy = "where Status=1 and CategoryType =0";
-                objSearch.OrderBy = "";                
+                objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 CmbCategory.DataSource = gridSource;
                 CmbCategory.ValueMember = "Id";
@@ -333,9 +334,9 @@ namespace FoodandBeverage.Forms
         }
         public void rearrange_slno()
         {
-            for(int i=0;i< dgv_registartion.RowCount;i++)
+            for (int i = 0; i < dgv_registartion.RowCount; i++)
             {
-                dgv_registartion.Rows[i].Cells[Rslno].Value = i+1;
+                dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
             }
         }
 
@@ -354,7 +355,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (IsValidData(e.RowIndex))
                         return;
-                 
+
                 }
             }
         }
@@ -371,7 +372,7 @@ namespace FoodandBeverage.Forms
                 return true;
             }
             DataGridViewTextBoxCell cell1 = dgv_registartion[Rqtyno, rowno] as DataGridViewTextBoxCell;
-            if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty )
+            if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty)
             {
                 CMessageBox.Show("Please Enter the Quantity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Rqtyno];
@@ -392,7 +393,7 @@ namespace FoodandBeverage.Forms
             return false;
         }
 
-        
+
         private void dgv_registartion_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 4)
@@ -408,10 +409,10 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-             
+
         public void FillData(int Pid)
         {
-            try 
+            try
             {
                 BllSearch<DmnProducts> bllSearchproduct = new BllSearch<DmnProducts>();
                 DmnSearch objSearch = new DmnSearch();
@@ -448,13 +449,13 @@ namespace FoodandBeverage.Forms
                     {
                         imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
                         if (imageExist)
-                        {   
+                        {
                             pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
                             pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
                             pb_view_pic.Image = null;
                             empImgExt = imageName;
                         }
-                            
+
                     }
 
                     if (cmbTaxType.Text == "GST")
@@ -480,7 +481,7 @@ namespace FoodandBeverage.Forms
                     dgv_registartion.Rows.Add(gridSource_pro.Count);
                     for (int i = 0; i < gridSource_pro.Count; i++)
                     {
-                        dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);      
+                        dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);
                         dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToString(gridSource_pro[i].Field2);
                         dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
                         dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
@@ -490,12 +491,12 @@ namespace FoodandBeverage.Forms
                     rearrange_slno();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-           
-            
+
+
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
@@ -535,8 +536,8 @@ namespace FoodandBeverage.Forms
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
-            int[] columnsToRemove = { 1, 2, 3 }; 
-            int[] rowsToRemove = {  5,6,7,8 }; 
+            int[] columnsToRemove = { 1, 2, 3 };
+            int[] rowsToRemove = { 5, 6, 7, 8 };
 
             foreach (int column in columnsToRemove)
             {
@@ -572,7 +573,7 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Controls.Add(lbldes, 0, 7);
                 //row4
                 tlp_registration.Controls.Add(txtdes, 0, 8);
-                tlp_registration.Controls.Add(btn_del_ingre, 1,8);
+                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
 
             }
             else if (cmbTaxType.Text == "VAT")
@@ -790,16 +791,16 @@ namespace FoodandBeverage.Forms
             DmnSearch dmnSearch = new DmnSearch();
             dmnSearch.Select = "*";
             dmnSearch.Table = "tblProduct p";// LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId";
-            if(comboBoxChanged)
+            if (comboBoxChanged)
             {
                 comboBoxChanged = false;
-                if (cmbSearchlist.SelectedIndex==0)
+                if (cmbSearchlist.SelectedIndex == 0)
                     dmnSearch.WhereNdGroupBy = "where p.Status=1";
                 else
-                    dmnSearch.WhereNdGroupBy = "where p.Status=1 and  Fcid = " + serachmode;                
-            }                
+                    dmnSearch.WhereNdGroupBy = "where p.Status=1 and  Fcid = " + serachmode;
+            }
             else
-                dmnSearch.WhereNdGroupBy = "where p.Status=1";          
+                dmnSearch.WhereNdGroupBy = "where p.Status=1";
             dmnSearch.OrderBy = "";
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -815,14 +816,14 @@ namespace FoodandBeverage.Forms
                         columnIndex = 0;
                         rowIndex++;
                     }
-                    string info = gridSource[i].Product + "," + gridSource[i].Price + "," + gridSource[i].MRP + "," + gridSource[i].Tax + "," + gridSource[i].TaxType + "," + gridSource[i].DiscountPer+"," + gridSource[i].DiscountAmt;
+                    string info = gridSource[i].Product + "," + gridSource[i].Price + "," + gridSource[i].MRP + "," + gridSource[i].Tax + "," + gridSource[i].TaxType + "," + gridSource[i].DiscountPer + "," + gridSource[i].DiscountAmt;
 
                     TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
                     PictureBox pictureBox = new PictureBox();
                     Label lbltablename = new Label();
 
                     // Configure the PictureBox
-                    string imageName =Convert.ToString(gridSource[i].ProductId)+".jpeg"; 
+                    string imageName = Convert.ToString(gridSource[i].ProductId) + ".jpeg";
                     bool imageExist, brLogoExist;
                     if (imageName != "" && imageName != null)
                     {
@@ -832,15 +833,15 @@ namespace FoodandBeverage.Forms
                         else
                             pictureBox.Image = FoodandBeverage.Properties.Resources.Deafult_food_pic;
                     }
-                    pictureBox.Name = Convert.ToString(gridSource[i].ProductId);        
+                    pictureBox.Name = Convert.ToString(gridSource[i].ProductId);
                     pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     pictureBox.Width = 150;
                     pictureBox.Height = 150;
-                    pictureBox.Tag= info;
+                    pictureBox.Tag = info;
 
                     // Configure the Label
                     lbltablename.Name = Convert.ToString(gridSource[i].ProductId);
-                     tlp_Gallery_Box.Tag = info;
+                    tlp_Gallery_Box.Tag = info;
                     lbltablename.Text = Convert.ToString(gridSource[i].Product);
                     lbltablename.ForeColor = Color.Black;
                     lbltablename.AutoSize = true;
@@ -855,7 +856,7 @@ namespace FoodandBeverage.Forms
                     tlp_Gallery_Box.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
                     tlp_Gallery_Box.Controls.Add(lbltablename, 0, 1); // Label in the second row
                     tlp_Gallery_Box.Name = Convert.ToString(gridSource[i].ProductId);
-                    tlp_Gallery_Box.Tag =info;
+                    tlp_Gallery_Box.Tag = info;
                     tlp_Gallery_Box.Dock = DockStyle.None;
                     tlp_Gallery_Box.Margin = new Padding(20, 10, 20, 10);
                     tlp_Gallery_Box.Width = 150;
@@ -889,11 +890,11 @@ namespace FoodandBeverage.Forms
                 tlp_gallery_sub.Dock = DockStyle.Fill;
                 tlp_menu_Gallery_main.Dock = DockStyle.Fill;
                 tlp_gallery_sub.AutoScroll = true;
-                tlp_menu_Gallery_main.Controls.Add(tlp_gallery_sub,0,1);
+                tlp_menu_Gallery_main.Controls.Add(tlp_gallery_sub, 0, 1);
             }
             else
                 CMessageBox.Show("No Products For This Category");
-         
+
         }
         private void ProductMousehoverEventHandler(object sender, EventArgs e)
         {
@@ -1102,11 +1103,18 @@ namespace FoodandBeverage.Forms
 
         private void dgv_registartion_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                int currentRowIndex = dgv_registartion.CurrentCell.RowIndex;
+                int currentColumnIndex = dgv_registartion.CurrentCell.ColumnIndex;
+
+                if (currentColumnIndex == dgv_registartion.ColumnCount - 1 && currentRowIndex == dgv_registartion.RowCount - 1)
+                {
+                    // You are in the last column and last row, so set focus to btnsave
+                    btnsave.Focus();
+                }
             }
+
             else if (e.KeyData == Keys.F8 && dgv_registartion.CurrentCell.ColumnIndex == Ritemno)
             {
                 int cno = dgv_registartion.CurrentCell.ColumnIndex;
@@ -1118,6 +1126,7 @@ namespace FoodandBeverage.Forms
                 dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentCell.RowIndex);
             }
         }
+
 
         private void dgv_registartion_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
@@ -1202,7 +1211,7 @@ namespace FoodandBeverage.Forms
         private void btnSearch_Click(object sender, EventArgs e)
         {
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            int returnValue=0;
+            int returnValue = 0;
             DataTable dtColumnAlign = new DataTable();
             dtColumnAlign.Columns.Add();
             DmnSearch _objSearch = new DmnSearch();
@@ -1226,7 +1235,7 @@ namespace FoodandBeverage.Forms
                         returnValue = Convert.ToInt32(search._retValue);
                     }
                 }
-                if (returnValue >0)
+                if (returnValue > 0)
                 {
                     FillData(returnValue);
                 }
@@ -1235,8 +1244,8 @@ namespace FoodandBeverage.Forms
 
         private void txtsearch_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')           
-                btn_Searchitem.Focus(); 
+            if (e.KeyChar == '\r')
+                btn_Searchitem.Focus();
         }
 
         private void btn_Searchitem_Click(object sender, EventArgs e)
@@ -1348,11 +1357,11 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("No Products For This Category");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-           
+
         }
 
         private void txtsearch_Enter(object sender, EventArgs e)
@@ -1425,5 +1434,134 @@ namespace FoodandBeverage.Forms
             if (e.KeyChar == '\r') // Check for Enter key            
                 e.Handled = true; // Suppress the Enter key
         }
+
+        private void txtitemcode_Leave(object sender, EventArgs e)
+        {
+            if (txtitemcode.Text != "")
+            {
+                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblProduct";
+                objSearch.WhereNdGroupBy = "Where status=1 and ItemCode = '" + txtitemcode.Text + "' ";// and BranchId = " + branch; ; ;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    CMessageBox.Show(itemSource[0].ItemCode + " Already Exist on " + itemSource[0].Product, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtitemcode.Text = "";
+                    txtitemcode.Focus();
+                }
+            }
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    if (pnl_menupic.Visible)
+                        pnl_menupic.Visible = false;
+
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
+        public void Movefocus(int keytype)
+        {
+            if (txtproductname.Focused)
+            {
+                txtitemcode.Focus();
+            }
+            else if (txtitemcode.Focused)
+            {
+                txtprice.Focus();
+            }
+            else if (txtprice.Focused)
+            {
+                txtmrp.Focus();
+            }
+            else if (txtmrp.Focused)
+            {
+                CmbCategory.Focus();
+            }
+            else if (CmbCategory.Focused)
+            {
+                txtqty.Focus();
+            }
+            else if (txtqty.Focused)
+            {
+                txtDisPer.Focus();
+            }
+            else if (txtDisPer.Focused)
+            {
+                txtDiscAmnt.Focus();
+            }
+            else if (txtDiscAmnt.Focused)
+            {
+                cmbtax.Focus();
+            }
+            else if (cmbtax.Focused)
+            {
+                cmbTaxType.Focus();
+            }
+            else if (cmbTaxType.Focused)
+            {
+                if (cmbTaxType.Text == "GST")
+                {
+                    cmbIgstPrcnt.Focus();
+                }
+                if (cmbTaxType.Text == "VAT")
+                {
+                    cmbVatPrcnt.Focus();
+                }
+            }
+            else if (cmbIgstPrcnt.Focused)
+                txtdes.Focus();
+            else if (cmbVatPrcnt.Focused)
+                txtdes.Focus();
+            else if (txtdes.Focused)
+            {
+                dgv_registartion.Focus();
+                dgv_registartion.CurrentCell = dgv_registartion[0, 0];
+            }
+                
+            else if(dgv_registartion.Focused)
+            {
+                int currentRowIndex = dgv_registartion.CurrentCell.RowIndex;
+                int currentColumnIndex = 4;
+                if (currentColumnIndex == 4 && currentRowIndex == dgv_registartion.RowCount - 1)
+                    btnsave.Focus();                
+            }
+           else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();              
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
+        }
+
     }
 }
