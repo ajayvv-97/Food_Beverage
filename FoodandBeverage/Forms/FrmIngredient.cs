@@ -1467,13 +1467,20 @@ namespace FoodandBeverage.Forms
                 case Keys.Escape:
                     if (pnl_menupic.Visible)
                         pnl_menupic.Visible = false;
-
+                    if(tlp_menu_Gallery_main.Visible)
+                    {
+                        tlp_menu_Gallery_main.Visible = false;
+                        tlp_registartion_toggle.Visible = true;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
+                        tlp_registartion_toggle.Dock = DockStyle.Fill;
+                    }            
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
         }
-
         public void Movefocus(int keytype)
         {
             if (txtproductname.Focused)

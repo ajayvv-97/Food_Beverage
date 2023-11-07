@@ -149,6 +149,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmTableInfo_Load(object sender, EventArgs e)
         {
+            txttablecode.Focus();
             Fillcombo();
             Filltable();
             dgv_table.BorderStyle = BorderStyle.None;
@@ -208,12 +209,11 @@ namespace FoodandBeverage.Forms
             Filltable();
          
         }
-
-        private void dgv_table_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void Filldetails(int tableid)
         {
             try
             {
-                int tableid = Convert.ToInt32(dgv_table.Rows[e.RowIndex].Cells[tidno].Value);
+              
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
@@ -225,7 +225,7 @@ namespace FoodandBeverage.Forms
                 {
                     txttid.Text = Convert.ToString(tableid);
                     txtdesc.Text = Convert.ToString(itemSource[0].Description);
-                    cmb_category.SelectedValue= Convert.ToInt64(itemSource[0].Fcid);
+                    cmb_category.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                     txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
                     txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
                     txtrate.Text = Convert.ToString(itemSource[0].Price);
@@ -237,6 +237,11 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+        private void dgv_table_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int tableid = Convert.ToInt32(dgv_table.Rows[e.RowIndex].Cells[tidno].Value);
+            Filldetails(tableid);
         }
 
         private void btn_del_table_Click(object sender, EventArgs e)
@@ -408,5 +413,92 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
+
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if(dgv_table.Focused)
+                    {
+                        int tableid = Convert.ToInt32(dgv_table.Rows[dgv_table.CurrentCell.RowIndex].Cells[tidno].Value);
+                        Filldetails(tableid);
+                    }                   
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:        
+                    return true;
+                case Keys.End:
+                    int lastColumnIndex = tdesno;
+                    int lastRowIndex = dgv_table.Rows.Count - 1;
+                    dgv_table.CurrentCell = dgv_table[lastColumnIndex, lastRowIndex];
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        public void Movefocus(int keytype)
+        {
+            if (txttablecode.Focused)
+            {
+                txtcapcity.Focus();
+            }
+            else if (txtcapcity.Focused)
+            {
+                cmb_category.Focus();
+            }
+            else if (cmb_category.Focused)
+            {
+                txtdesc.Focus();
+            }
+            else if (txtdesc.Focused)
+            {
+                txtrate.Focus();
+            }
+            else if (txtrate.Focused)
+            {
+                if(btn_del_table.Visible)
+                    btn_del_table.Focus();
+                else
+                    btnsave.Focus();
+            }
+            else if (btn_del_table.Focused)
+            {
+                if (keytype == 1)
+                    btnsave.Focus();
+                else if (keytype == 0)
+                    btn_del_table.PerformClick();
+            }
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+                else if (btnclose.Focused)
+                {
+                    dgv_table.Focus();
+                    dgv_table.CurrentCell = dgv_table[0, 0];
+                }
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+         
+            }
     }
 }

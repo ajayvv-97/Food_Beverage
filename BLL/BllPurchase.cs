@@ -90,7 +90,7 @@ namespace BLL
             parms.Add("Address", objTestClass.Address);
             parms.Add("Telephone", objTestClass.ContactNo);
             parms.Add("Email", objTestClass.Email);
-            parms.Add("Description", objTestClass.OaDesc);
+            parms.Add("Description", objTestClass.Description);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
             parms.Add("BranchId", objTestClass.BranchId);

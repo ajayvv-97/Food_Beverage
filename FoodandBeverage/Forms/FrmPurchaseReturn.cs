@@ -103,19 +103,29 @@ namespace FoodandBeverage.Forms
 
         private void btn_grid_regitartion_Click(object sender, EventArgs e)
         {
-            tlp_grid_registartion.Visible = true;
-            tlp_registartion_main.Visible = false;
-            Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-            tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_grid_registartion, 1, 0);
-            tlp_grid_registartion.Dock = DockStyle.Fill;
-            tlp_registartion_main.Dock = DockStyle.Fill;
+            try
+            {
+                tlp_grid_registartion.Visible = true;
+                tlp_registartion_main.Visible = false;
+                Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                tlp_main.Controls.Remove(controlToRemove);
+                tlp_main.Controls.Add(tlp_grid_registartion, 1, 0);
+                tlp_grid_registartion.Dock = DockStyle.Fill;
+                tlp_registartion_main.Dock = DockStyle.Fill;
 
-            tlp_textboxes.Visible = true;
-            controlToRemove = tlp_regform_downtlp.GetControlFromPosition(0, 3);
-            tlp_regform_downtlp.Controls.Remove(controlToRemove);
-            tlp_grid_registartion.Controls.Add(tlp_textboxes, 0, 3);
-            tlp_textboxes.Dock = DockStyle.Fill;
+                tlp_textboxes.Visible = true;
+                controlToRemove = tlp_regform_downtlp.GetControlFromPosition(0, 3);
+                tlp_regform_downtlp.Controls.Remove(controlToRemove);
+                tlp_grid_registartion.Controls.Add(tlp_textboxes, 0, 3);
+                tlp_textboxes.Dock = DockStyle.Fill;
+                dgvProduct.Focus();
+                dgvProduct.CurrentCell = dgvProduct[0, 0];
+            }
+            catch(Exception ex)
+            {
+
+            }
+          
         }
         public bool MandatoryCheck()
         {
@@ -278,6 +288,7 @@ namespace FoodandBeverage.Forms
             netamount.Text = "0.00";
             lblGrandTot.Text = "0.00";
             lblBalAmt.Text = "0.00";
+            txtdocno.Focus();
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -842,6 +853,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmPurchaseReturn_Load(object sender, EventArgs e)
         {
+            txtdocno.Focus();
             ClearAll();
             tlp_textboxes.Visible = true;
             Control controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
@@ -1012,6 +1024,21 @@ namespace FoodandBeverage.Forms
                             if (purchaseID == null || purchaseID == "")
                             {
                                 CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                tlp_grid_registartion.Visible = false;
+                                tlp_registartion_main.Visible = true;
+                                Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                                tlp_main.Controls.Remove(controlToRemove);
+                                tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                                tlp_registartion_main.Dock = DockStyle.Fill;
+
+                                tlp_textboxes.Visible = true;
+                                controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                                tlp_grid_registartion.Controls.Remove(controlToRemove);
+                                tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                                tlp_textboxes.Dock = DockStyle.Fill;
+                                txtbarcode.Text = "";
+                                pnl_barcode.Visible = false;
+                                txtpurchaseentry.Focus();
                                 return;
                             }
                             txtpurchaseentry.Enabled = false;
@@ -1975,6 +2002,98 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyChar == '\r') // Check for Enter key            
                 e.Handled = true; // Suppress the Enter key
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                        Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    if (tlp_grid_registartion.Visible)
+                    {
+                        tlp_grid_registartion.Visible = false;
+                        tlp_registartion_main.Visible = true;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                        tlp_registartion_main.Dock = DockStyle.Fill;
+
+                        tlp_textboxes.Visible = true;
+                        controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                        tlp_grid_registartion.Controls.Remove(controlToRemove);
+                        tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                        tlp_textboxes.Dock = DockStyle.Fill;
+                        pnl_barcode.Visible = false;
+                        txtbarcode.Text = "";
+                    }
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        public void Movefocus(int keytype)
+        {
+            //int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+            //int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+            if (txtdocno.Focused)
+                txtpurchaseentry.Focus();
+            else if (txtpurchaseentry.Focused)
+                discountper.Focus();
+            else if (discountper.Focused)
+                totaldiscountamt.Focus();
+            else if (totaldiscountamt.Focused)
+                remarks.Focus();
+            else if (remarks.Focused)
+                oaamount.Focus();
+            else if (oaamount.Focused)
+                oadesc.Focus();
+            else if (oadesc.Focused)
+                odamt.Focus();
+            else if (odamt.Focused)
+                oddesc.Focus();
+            else if (oadesc.Focused)
+                oddesc.Focus();
+            else if (oddesc.Focused)
+                sterms.Focus();
+            else if (sterms.Focused)
+                rcvamt.Focus();
+            else if (rcvamt.Focused)
+                btnsave.Focus();
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+                else if (btnclose.Focused)
+                    btn_grid_regitartion.Focus();
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+                else if (btn_grid_regitartion.Focused)
+                    btn_grid_regitartion.PerformClick();
+            }
+            // if (keytype == )
+            //{
+            //    if (currentColumnIndex == imrp && currentRowIndex == dgvProduct.RowCount - 1)
+            //        discountper.Focus();
+            //}
+
         }
     }
 }

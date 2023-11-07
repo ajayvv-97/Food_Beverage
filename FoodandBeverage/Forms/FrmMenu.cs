@@ -237,6 +237,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
+            cmbMenu_category.Focus();
             Fillmenu(0);
             dgv_menu.BorderStyle = BorderStyle.None;
             dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
@@ -538,6 +539,7 @@ namespace FoodandBeverage.Forms
             tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
             tlp_menu_Gallery_main.Dock = DockStyle.Fill;
             GalleryView(0);
+            cmbSearchlist.Focus();
         } 
 
         private void cmbMenu_SelectionChangeCommitted(object sender, EventArgs e)
@@ -796,6 +798,154 @@ namespace FoodandBeverage.Forms
         {
             comboBoxChanged = true;
             GalleryView(Convert.ToInt32(cmbSearchlist.SelectedValue));
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    if (tlp_menu_Gallery_main.Visible)
+                    {
+                        tlp_menu_Gallery_main.Visible = false;
+                        tlp_registartion_main.Visible = true;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                        tlp_registartion_main.Dock = DockStyle.Fill;
+                    }
+                    return true;
+                case Keys.End:
+                    if (tlp_menu_Gallery_main.Visible != true)
+                    {
+                        int lastColumnIndex = 6;
+                        int lastRowIndex = dgv_menu.Rows.Count - 1;
+                        dgv_menu.CurrentCell = dgv_menu[lastColumnIndex, lastRowIndex];
+                    }
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
+        public void Movefocus(int keytype)
+        {
+            try
+            {
+                if (tlp_menu_Gallery_main.Visible)
+                {
+                    if (cmbSearchlist.Focused)
+                    {
+                        btn_refresh_list2.Focus();
+                    }
+                    else if (btn_refresh_list2.Focused)
+                    {
+                        if (keytype == 1)
+                            txtsearch.Focus();
+                        else
+                            btn_refresh_list2.PerformClick();
+                    }
+                    else if (txtsearch.Focused)
+                    {
+                        Search.Focus();
+                    }
+
+                    else if (Search.Focused)
+                    {
+                        if (keytype == 1)
+                        {
+                            tlp_menu_Gallery_main.Focus();
+                        }
+                        else
+                            Search.PerformClick();
+                    }
+                }
+                else
+                {
+                    if (cmbMenu_category.Focused)
+                    {
+                        btn_refresh_list.Focus();
+                    }
+                    else if (btn_refresh_list.Focused)
+                    {
+                        if (keytype == 1)
+                            txtsearchlist.Focus();
+                        else
+                            btn_refresh_list.PerformClick();
+                    }
+                    else if (txtsearchlist.Focused)
+                    {
+                        btnseach_menu.Focus();
+                    }
+
+                    else if (btnseach_menu.Focused)
+                    {
+                        if (keytype == 1)
+                        {
+                            dgv_menu.Focus();
+                            dgv_menu.CurrentCell = dgv_menu[0, 0];
+                        }
+                        else
+                            btnseach_menu.PerformClick();
+                    }
+
+                    else if (dgv_menu.Focused)
+                    {
+                        int currentRowIndex = dgv_menu.CurrentCell.RowIndex;
+                        if (keytype == 1)
+                        {
+                            int currentColumnIndex = 4;
+                            if (currentColumnIndex == 4 && currentRowIndex == dgv_menu.RowCount - 1)
+                                btnsave.Focus();                           
+                        }
+                        else
+                        {
+                            DataGridViewCell currentCell = dgv_menu.CurrentCell;
+                            if (dgv_menu.CurrentCell.ColumnIndex == pstatusno)
+                            {
+                                DataGridViewCheckBoxCell checkboxCell = currentCell as DataGridViewCheckBoxCell;
+                                checkboxCell.Value = !(bool)checkboxCell.Value;
+                                dgv_menu.CurrentCell = dgv_menu.Rows[currentRowIndex].Cells[ppriceno];
+                                dgv_menu.CurrentCell = dgv_menu.Rows[currentRowIndex].Cells[pstatusno];
+                            }
+                        }
+
+                    }
+                    else if (keytype == 1)
+                    {
+                        if (btnsave.Focused)
+                            btnSearch.Focus();
+                        else if (btnSearch.Focused)
+                            btnrefresh.Focus();
+                        else if (btnrefresh.Focused)
+                            btnclose.Focus();
+                    }
+                    else if (keytype == 0)
+                    {
+                        if (btnsave.Focused)
+                            btnsave.PerformClick();
+                        else if (btnrefresh.Focused)
+                            btnrefresh.PerformClick();
+                        else if (btnSearch.Focused)
+                            btnSearch.PerformClick();
+                        else if (btnclose.Focused)
+                            btnclose.PerformClick();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+  
+           
+
         }
     }
 }

@@ -456,12 +456,10 @@ namespace FoodandBeverage.Forms
                 filltax();
             }
         }
-
-        private void dgvTaxSettings_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void filldetails( int taxid)
         {
             try
             {
-                int taxid = Convert.ToInt32(dgvTaxSettings.Rows[e.RowIndex].Cells[ttidno].Value);
                 BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "* ";
@@ -471,13 +469,13 @@ namespace FoodandBeverage.Forms
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
                 {
-                    TaxSettingsId =taxid;
+                    TaxSettingsId = taxid;
                     cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
                     txtCgstPrcnt.Text = Convert.ToString(itemSource[0].CgstPrcnt);
                     txtSgstPrcnt.Text = Convert.ToString(itemSource[0].SgstPrcnt);
                     txtIgstPrcnt.Text = Convert.ToString(itemSource[0].IgstPrcnt);
                     txtVatPrcnt.Text = Convert.ToString(itemSource[0].VatPrcnt);
-                    btn_del_tax.Visible = true;              
+                    btn_del_tax.Visible = true;
                     if (cmbTaxType.Text == "VAT")
                     {
                         lblcgst.Visible = false;
@@ -509,8 +507,15 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void dgvTaxSettings_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int taxid = Convert.ToInt32(dgvTaxSettings.Rows[e.RowIndex].Cells[ttidno].Value);
+            filldetails(taxid);
+        }
+
         private void FrmTaxSetting_Load(object sender, EventArgs e)
         {
+            cmbTaxType.Focus();
             filltax();
             dgvTaxSettings.BorderStyle = BorderStyle.None;
             dgvTaxSettings.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
@@ -567,6 +572,11 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             filltax();
+            cmbTaxType.SelectedIndex = 0;
+            txtSgstPrcnt.Text = "";
+            txtIgstPrcnt.Text = "";
+            txtCgstPrcnt.Text = "";
+            txtVatPrcnt.Text = "";
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -642,5 +652,89 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if (dgvTaxSettings.Focused)
+                    {
+                        int taxid = Convert.ToInt32(dgvTaxSettings.Rows[dgvTaxSettings.CurrentCell.RowIndex].Cells[ttidno].Value);
+                        filldetails(taxid);
+                    }
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
         }
+        public void Movefocus(int keytype)
+        {
+            if (cmbTaxType.Focused)
+            {
+                if (cmbTaxType.Text == "GST")
+                    txtIgstPrcnt.Focus();
+                else if (cmbTaxType.Text == "VAT")
+                    txtVatPrcnt.Focus();
+            }
+            else if (txtIgstPrcnt.Focused)
+                txtSgstPrcnt.Focus();
+            else if (txtSgstPrcnt.Focused)
+                txtCgstPrcnt.Focus();
+            else if (txtCgstPrcnt.Focused)
+            {
+                if (btn_del_tax.Visible)
+                    btn_del_tax.Focus();
+                else
+                    btnsave.Focus();
+            }
+            else if (txtVatPrcnt.Focused)
+            {
+                if (btn_del_tax.Visible)
+                    btn_del_tax.Focus();
+                else
+                    btnsave.Focus();
+            }
+            else if (btn_del_tax.Focused)
+            {
+                if (keytype == 1)
+                    btnsave.Focus();
+                else if (keytype == 0)
+                    btn_del_tax.PerformClick();
+            }
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+                else if (btnclose.Focused)
+                {
+                    dgvTaxSettings.Focus();
+                    dgvTaxSettings.CurrentCell = dgvTaxSettings[0, 0];
+                }
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
+        }
+
+    }
     }

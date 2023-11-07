@@ -217,6 +217,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmVendor_Load(object sender, EventArgs e)
         {
+            txtVendorName.Focus();
             Fillvendor();
             clearall();
             dgv_vendor.BorderStyle = BorderStyle.None;
@@ -294,12 +295,10 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
             }
         }
-
-        private void dgv_vendor_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void Filldetails(int vid)
         {
             try
-            {
-                int vid = Convert.ToInt32(dgv_vendor.Rows[e.RowIndex].Cells[idno].Value);
+            {                
                 BllSearch<DmnVendor> bllSearch1 = new BllSearch<DmnVendor>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "* ";
@@ -317,7 +316,91 @@ namespace FoodandBeverage.Forms
                     btn_del_vendor.Visible = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void dgv_vendor_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int vid = Convert.ToInt32(dgv_vendor.Rows[e.RowIndex].Cells[idno].Value);
+            Filldetails(vid);
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if (dgv_vendor.Focused)
+                    {
+                        int vid = Convert.ToInt32(dgv_vendor.Rows[dgv_vendor.CurrentCell.RowIndex].Cells[idno].Value);
+                        Filldetails(vid);
+                    }
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        public void Movefocus(int keytype)
+        {
+            try
+            {
+                if (txtVendorName.Focused)
+                    txtVendorTel.Focus();
+                else if (txtVendorTel.Focused)
+                    txtVendorEmail.Focus();
+                else if (txtVendorEmail.Focused)
+                    txtVenderAddress.Focus();
+                else if (txtVenderAddress.Focused)
+                    txtdesc.Focus();
+                else if (txtdesc.Focused)
+                {
+                    if (btn_del_vendor.Visible)
+                        btn_del_vendor.Focus();
+                    else
+                        btnsave.Focus();
+                }
+                else if (btn_del_vendor.Focused)
+                {
+                    if (keytype == 1)
+                        btnsave.Focus();
+                    else if (keytype == 0)
+                        btn_del_vendor.PerformClick();
+                }
+                else if (keytype == 1)
+                {
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
+                    else if (btnclose.Focused)
+                    {
+                        dgv_vendor.Focus();
+                        dgv_vendor.CurrentCell = dgv_vendor[1, 0];
+                    }
+                }
+                else if (keytype == 0)
+                {
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
+                }
+
+            }
+            catch (Exception ex)
             {
 
             }

@@ -360,24 +360,12 @@ namespace FoodandBeverage.Forms
 
         private void toggle_grid_Click(object sender, EventArgs e)
         {
-            //this.Width = 919; 
-            //this.Height = 417;
             tlp_grid.Visible = false;
             tlp_registration.Visible = true;
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
             tlp_registartion_toggle.Dock = DockStyle.Fill;
-        }
-
-        private void txtprice_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtqty_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void tlp_registration_Paint(object sender, PaintEventArgs e)
@@ -894,8 +882,16 @@ namespace FoodandBeverage.Forms
                 case Keys.Enter:
                     Movefocus(0);
                     return true; // Mark the key as handled
-                case Keys.Escape:   
-
+                case Keys.Escape:
+                    if(tlp_grid.Visible)
+                    {
+                        tlp_grid.Visible = false;
+                        tlp_registration.Visible = true;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
+                        tlp_registartion_toggle.Dock = DockStyle.Fill;
+                    }      
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);

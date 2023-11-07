@@ -143,6 +143,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmUnit_Load(object sender, EventArgs e)
         {
+            txtunit.Focus();
             Fillunit(); dgv_unit.BorderStyle = BorderStyle.None;
             dgv_unit.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_unit.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -227,12 +228,11 @@ namespace FoodandBeverage.Forms
                 Fillunit();
             }
         }
-
-        private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void Filldetails(int unitid)
         {
             try
             {
-                int unitid = Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[idno].Value);
+
                 BllSearch<DmnUnit> bllSearch = new BllSearch<DmnUnit>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
@@ -252,6 +252,11 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+        private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int unitid = Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[idno].Value);
+            Filldetails(unitid);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -308,6 +313,72 @@ namespace FoodandBeverage.Forms
             {
                 e.Handled = true; // Suppress the Enter key
             }
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if (dgv_unit.Focused)
+                    {
+                        int unitid = Convert.ToInt32(dgv_unit.Rows[dgv_unit.CurrentCell.RowIndex].Cells[idno].Value);
+                        Filldetails(unitid);
+                    }
+                    Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        public void Movefocus(int keytype)
+        {
+            if (txtunit.Focused)
+                txtdescr.Focus(); 
+            else if (txtdescr.Focused)
+            {       
+                if (btn_del_unit.Visible)
+                    btn_del_unit.Focus();
+                else
+                    btnsave.Focus();
+            }
+            else if (btn_del_unit.Focused)
+            {
+                if (keytype == 1)
+                    btnsave.Focus();
+                else if (keytype == 0)
+                    btn_del_unit.PerformClick();
+            }
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+                else if (btnclose.Focused)
+                {
+                    dgv_unit.Focus();
+                    dgv_unit.CurrentCell = dgv_unit[0, 0];
+                }
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
         }
     }
 }

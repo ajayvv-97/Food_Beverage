@@ -64,6 +64,7 @@ namespace FoodandBeverage.Forms
         {
             pnlCustomer.Visible = true;
             pnlCustomer.Location = new Point(this.ClientSize.Width / 2 - pnlCustomer.Size.Width / 2, this.ClientSize.Height / 2 - pnlCustomer.Size.Height / 2);
+            txtVendorName.Focus();
         }
 
         private void btncolse_Click(object sender, EventArgs e)
@@ -108,6 +109,7 @@ namespace FoodandBeverage.Forms
             netamount.Text = "0.00";
             lblGrandTot.Text = "0.00";
             lblBalAmt.Text = "0.00";
+            txtdocno.Focus();
         }
 
             #region Grid Calulation Function  totalcellamount cellTaxAmount cellDiscountAmount cellDiscountPercentage  grandTotal totQty totDisc discountAmnt discountPer netAmount
@@ -328,19 +330,19 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtVendorName.Text))
             {
-                CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Name Is Mandatory" , "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtVendorAddress.Text))
             {
-                CMessageBox.Show("Vendor Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Address Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtVendorTel.Text))
             {
-                CMessageBox.Show("Vendor PhNo Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor PhNo Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
@@ -527,6 +529,8 @@ namespace FoodandBeverage.Forms
             tlp_regform_downtlp.Controls.Remove(controlToRemove);
             tlp_grid_registartion.Controls.Add(tlp_textboxes, 0, 3);
             tlp_textboxes.Dock = DockStyle.Fill;
+            dgvProduct.Focus();
+            dgvProduct.CurrentCell = dgvProduct[0, 0];
         }      
 
         private void btn_back_registration_Click(object sender, EventArgs e)
@@ -584,7 +588,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmPurchase_Load(object sender, EventArgs e)
         {
-         
+            txtdocno.Focus();
             ClearAll();
             FillCombobox();
             tlp_textboxes.Visible = true;
@@ -612,7 +616,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { invoiceno,txtdocno,address,contactno,txtEmail,txtVendorAddress,txtVendorEmail,txtVendorTel,txtVendorName,odamt,oddesc,oaamount,oadesc,discountper,totaldiscountamt,sterms,remarks,netamount,rcvamt,txtbarcode })
+                foreach (TextBox textBox in new TextBox[] { invoiceno,txtdocno,address,contactno,txtEmail,txtVendorAddress,txtVendorEmail,txtVendorTel,txtVendorName,odamt,oddesc,oaamount,oadesc,discountper,totaldiscountamt,sterms,remarks,netamount,rcvamt,txtbarcode,txtdes })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -1266,6 +1270,7 @@ namespace FoodandBeverage.Forms
             txtVendorAddress.Text = "";
             txtVendorEmail.Text = "";
             txtVendorTel.Text = "";
+            btn_vendor_add.Focus();
         }
 
         private void btnSaveCust_Click(object sender, EventArgs e)
@@ -1278,6 +1283,7 @@ namespace FoodandBeverage.Forms
                 dmnPurchase.Address = txtVendorAddress.Text;
                 dmnPurchase.Email = txtVendorEmail.Text;
                 dmnPurchase.ContactNo = txtVendorTel.Text;
+                dmnPurchase.Description = txtdes.Text;
                 dmnPurchase.BranchId =1;
                 dmnPurchase.CreatedBy =1;
                 dmnPurchase.Status = 1;
@@ -1314,6 +1320,7 @@ namespace FoodandBeverage.Forms
             txtVendorAddress.Text = "";
             txtVendorEmail.Text = "";
             txtVendorTel.Text = "";
+            btn_vendor_add.Focus();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -1493,5 +1500,134 @@ namespace FoodandBeverage.Forms
             if (e.KeyChar == '\r') // Check for Enter key            
                 e.Handled = true; // Suppress the Enter key
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:
+                    Movefocus(1);
+                    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if (panelProductPopup.Visible)
+                        FillDetails();
+                    else
+                        Movefocus(0);
+                    return true; // Mark the key as handled
+                case Keys.Escape:
+                    if (pnlCustomer.Visible)
+                        pnlCustomer.Visible = false;
+                    if (tlp_grid_registartion.Visible)
+                    {
+                        tlp_grid_registartion.Visible = false;
+                        tlp_registartion_main.Visible = true;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                        tlp_registartion_main.Dock = DockStyle.Fill;
+
+                        tlp_textboxes.Visible = true;
+                        controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                        tlp_grid_registartion.Controls.Remove(controlToRemove);
+                        tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                        tlp_textboxes.Dock = DockStyle.Fill;
+                        pnl_barcode.Visible = false;
+                        txtbarcode.Text = "";
+                    }
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        public void Movefocus(int keytype)
+        {
+            if(pnlCustomer.Visible)
+            {                
+                if (txtVendorName.Focused)
+                    txtVendorTel.Focus();
+                else if (txtVendorTel.Focused)
+                    txtVendorAddress.Focus();
+                else if (txtVendorAddress.Focused)
+                    txtVendorEmail.Focus();
+                else if (txtVendorEmail.Focused)
+                    txtdes.Focus();
+                else if (txtdes.Focused)
+                    btnSaveCust.Focus();
+                else if (keytype == 1)
+                {
+                    if (btnSaveCust.Focused)
+                        btnCloseCst.Focus();
+                }
+                else if (keytype == 0)
+                {
+                    if (btnSaveCust.Focused)
+                        btnSaveCust.PerformClick();
+                    else if (btnCloseCst.Focused)
+                        btnCloseCst.PerformClick();
+                }
+            }
+            else
+            {
+                if (txtdocno.Focused)
+                    custname.Focus();
+                else if (custname.Focused)
+                    btn_vendor_add.Focus();
+                else if (btn_vendor_add.Focused)
+                {
+                    if (keytype == 1)
+                        address.Focus();
+                    else if (keytype == 0)
+                        btn_vendor_add.PerformClick();
+                }
+                else if (address.Focused)
+                    contactno.Focus();
+                else if (contactno.Focused)
+                    txtEmail.Focus();
+                else if (txtEmail.Focused)
+                    discountper.Focus();
+                else if (discountper.Focused)
+                    totaldiscountamt.Focus();
+                else if (totaldiscountamt.Focused)
+                    remarks.Focus();
+                else if (remarks.Focused)
+                    oaamount.Focus();
+                else if (oaamount.Focused)
+                    oadesc.Focus();
+                else if (oadesc.Focused)
+                    odamt.Focus();
+                else if (odamt.Focused)
+                    oddesc.Focus();
+                else if (oadesc.Focused)
+                    oddesc.Focus();
+                else if (oddesc.Focused)
+                    sterms.Focus();
+                else if (sterms.Focused)
+                    rcvamt.Focus();
+                else if (rcvamt.Focused)
+                    btnsave.Focus();
+                else if (keytype == 1)
+                {
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
+                }
+                else if (keytype == 0)
+                {
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
+                }
+            }
+           
+        }
+
+       
     }
 }

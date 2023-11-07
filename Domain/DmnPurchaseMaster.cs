@@ -111,6 +111,7 @@ namespace Domain
         public decimal BalanceAmount { get; set; }
         public string purmasterEntryNo { get; set; }
         public string SalesTerms { get; set; }
-        
+        public string Description { get; set; }
+
     }
 }
