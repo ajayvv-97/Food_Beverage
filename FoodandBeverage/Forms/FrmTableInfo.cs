@@ -500,5 +500,25 @@ namespace FoodandBeverage.Forms
             }
          
             }
+
+        private void txttablecode_Leave(object sender, EventArgs e)
+        {
+            if (txttablecode.Text != "" && ( txttid.Text=="" || Convert.ToInt32(txttid.Text) == 0))
+            {
+                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblTable_info";
+                objSearch.WhereNdGroupBy = "Where status=1 and TableCode = '" + txttablecode.Text + "' ";// and BranchId = " + branch; ; ;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    CMessageBox.Show(itemSource[0].TableCode + " Already Exist","Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txttablecode.Text = "";
+                    txttablecode.Focus();
+                }
+            }
+        }
     }
 }

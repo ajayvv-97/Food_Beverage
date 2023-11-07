@@ -121,6 +121,12 @@
     <Compile Include="Forms\FrmMenu.Designer.cs">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmOfferDiscount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmOfferDiscount.Designer.cs">
+      <DependentUpon>FrmOfferDiscount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPurchase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmOfferDiscount.resx">
+      <DependentUpon>FrmOfferDiscount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPurchase.resx">
       <DependentUpon>FrmPurchase.cs</DependentUpon>
@@ -324,9 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\table %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\restaurant.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\reserve.png" />
@@ -465,6 +471,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\vedoricon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restaurant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\withdraw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\discount.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
