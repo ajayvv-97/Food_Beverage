@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Domain
+{
+    public class DmnOfferMaster
+    {
+        public int Omid { get; set; }
+        public string OfferName { get; set; }
+        public int OfferType { get; set; }
+        public decimal Discountper { get; set; }
+        public decimal DiscountAmt { get; set; }
+        public decimal FinalPrice { get; set; }
+        public long CreatedBy { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public long ModifiedBy { get; set; }
+        public DateTime ModifiedDateTime { get; set; }
+        public int Status { get; set; }
+        public int BranchId { get; set; }
+
+    }
+}

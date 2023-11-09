@@ -48,6 +48,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Fo
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmItemRegistartion.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmLogin.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmMenu.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOfferDiscount.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPurchase.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPurchaseReturn.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmTableInfo.resources
@@ -60,4 +61,3 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOfferDiscount.resources
