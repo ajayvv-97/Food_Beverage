@@ -55,8 +55,6 @@ namespace FoodandBeverage.Forms
             try
             {
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
-
-
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "i.*,t.*,u.UnitName,c.CategoryName";
                 objSearch.Table = "tblItem i LEFT JOIN tblTaxSettings t on t.TaxSettingsId=i.TaxSettingsId LEFT JOIN tblUnit u on u.UId=i.unit LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";

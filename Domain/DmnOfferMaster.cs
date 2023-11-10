@@ -18,6 +18,8 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public int BranchId { get; set; }
+        public decimal TotalPrice { get; set; }
+        
 
     }
 }

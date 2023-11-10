@@ -481,5 +481,14 @@
   <ItemGroup>
     <None Include="Resources\discount.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\offer_Add_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\productoffer_Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Combo_Button.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

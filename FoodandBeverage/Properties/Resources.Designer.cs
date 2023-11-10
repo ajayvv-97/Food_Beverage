@@ -183,6 +183,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Combo_Button {
+            get {
+                object obj = ResourceManager.GetObject("Combo_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Deafult_food_pic {
             get {
                 object obj = ResourceManager.GetObject("Deafult_food_pic", resourceCulture);
@@ -413,6 +423,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap offer_Add_button {
+            get {
+                object obj = ResourceManager.GetObject("offer_Add_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap operation {
             get {
                 object obj = ResourceManager.GetObject("operation", resourceCulture);
@@ -426,6 +446,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Product {
             get {
                 object obj = ResourceManager.GetObject("Product", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap productoffer_Button {
+            get {
+                object obj = ResourceManager.GetObject("productoffer_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
