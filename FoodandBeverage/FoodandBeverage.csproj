@@ -490,5 +490,8 @@
   <ItemGroup>
     <None Include="Resources\Combo_Button.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_hide-side_panel.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
