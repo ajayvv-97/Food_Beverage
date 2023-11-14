@@ -3,17 +3,10 @@ using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -58,8 +51,6 @@ namespace FoodandBeverage.Forms
         public int HdesiredHeight = 10;
         public bool collapsemenu_click = false;
         #endregion
-
-
 
         private void Menulogout_Click(object sender, EventArgs e)
         {
@@ -400,65 +391,95 @@ namespace FoodandBeverage.Forms
                 if (clickedControl != null)
                 {
                     string tableCode = clickedControl.Name;
-                    Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-                    tlp_main.Controls.Remove(controlToRemove);
-                    tlp_main.Controls.Add(pnl_tableorder);
-                    pnl_tableorder.Dock = DockStyle.Fill;
-                    pnl_tableorder.Visible = true;
-
-                    //sidebar 
-                    tlp_main_sidebar_pnldesktop.Visible = false;
-                    pnlsidebar_searchproduct.Controls.Clear();
-                    tlp_searchproduct_sidebar.Controls.Clear();
-                    tlp_searchproduct_sidebar.Dock = DockStyle.Fill;
-                    tlp_searchproduct_sidebar.AutoScroll = true;
-                    BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "*";
-                    dmnSearch.Table = "tblCategory_FTI";
-                    dmnSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource.Count > 0)
+                    int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                    int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+                    if (screenWidth > 1024 && screenHeight > 800)
                     {
-                        int rowIndex = 0;
-                        // Configure the Button
-                        Button buttonfav = new Button();
-                        buttonfav.Text = "Favouriate Item";
-                        buttonfav.Name = "btn_fav";
-                        buttonfav.Tag =0;
-                        buttonfav.BackColor = Color.Beige;
-                        buttonfav.Width = 145;
-                        buttonfav.Height = 40;
+                        Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                        tlp_main.Controls.Remove(controlToRemove);
+                        tlp_main.Controls.Add(pnl_tableorder);
+                        pnl_tableorder.Dock = DockStyle.Fill;
+                        pnl_tableorder.Visible = true;
 
-                        buttonfav.Font = new Font(buttonfav.Font.FontFamily, 8, FontStyle.Bold);
-                        buttonfav.Click += new EventHandler(SidebuttonfavClickEventHandler);
-                        tlp_searchproduct_sidebar.Controls.Add(buttonfav, 0, rowIndex);
-                        rowIndex++;
-
-                        for (int i = 0; i < gridSource.Count; i++)
+                        #region Side Bar for Search box
+                        //sidebar 
+                        tlp_main_sidebar_pnldesktop.Visible = false;
+                        pnlsidebar_searchproduct.Controls.Clear();
+                        tlp_searchproduct_sidebar.Controls.Clear();
+                        tlp_searchproduct_sidebar.Dock = DockStyle.Fill;
+                        tlp_searchproduct_sidebar.AutoScroll = true;
+                        BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "*";
+                        dmnSearch.Table = "tblCategory_FTI";
+                        dmnSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
                         {
+                            int rowIndex = 0;
                             // Configure the Button
-                            Button button = new Button();
-                            button.Text = gridSource[i].CategoryName;
-                            button.Name = "btn" + gridSource[i].CategoryName;
-                            button.Tag = gridSource[i].Fcid;
-                            button.BackColor = Color.Beige;
-                            button.Width = 145;
-                            button.Height = 40;
+                            Button buttonfav = new Button();
+                            buttonfav.Text = "Favouriate Item";
+                            buttonfav.Name = "btn_fav";
+                            buttonfav.Tag = 0;
+                            buttonfav.BackColor = Color.Beige;
+                            buttonfav.Width = 145;
+                            buttonfav.Height = 40;
 
-                            button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
-                            button.Click += new EventHandler(SidebuttonClickEventHandler);
-                            tlp_searchproduct_sidebar.Controls.Add(button, 0, rowIndex);
+                            buttonfav.Font = new Font(buttonfav.Font.FontFamily, 8, FontStyle.Bold);
+                            buttonfav.Click += new EventHandler(SidebuttonfavClickEventHandler);
+                            tlp_searchproduct_sidebar.Controls.Add(buttonfav, 0, rowIndex);
                             rowIndex++;
+
+                            for (int i = 0; i < gridSource.Count; i++)
+                            {
+                                // Configure the Button
+                                Button button = new Button();
+                                button.Text = gridSource[i].CategoryName;
+                                button.Name = "btn" + gridSource[i].CategoryName;
+                                button.Tag = gridSource[i].Fcid;
+                                button.BackColor = Color.Beige;
+                                button.Width = 145;
+                                button.Height = 40;
+
+                                button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
+                                button.Click += new EventHandler(SidebuttonClickEventHandler);
+                                tlp_searchproduct_sidebar.Controls.Add(button, 0, rowIndex);
+                                rowIndex++;
+                            }
+                            pnlsidebar_searchproduct.Controls.Add(tlp_searchproduct_sidebar);
+                            pnl_toggle_btn.Dock = DockStyle.Fill;
+                            btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
+                            pnlsidebar_searchproduct.Visible = false;
+                            lblcategory.Visible = false;
                         }
-                        pnlsidebar_searchproduct.Controls.Add(tlp_searchproduct_sidebar);
-                        pnl_toggle_btn.Dock = DockStyle.Fill;
-                        btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
-                        pnlsidebar_searchproduct.Visible = false;
-                        lblcategory.Visible = false;
+                        #endregion
                     }
-                    //CMessageBox.Show("Clicked Table ID: " + tableCode);
+                    else
+                    {
+                        if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
+                        {
+                            FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
+                            if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
+                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            else
+                            {
+                                _instanceFrmOrder.Show();
+                                _instanceFrmOrder.BringToFront();
+                            }
+                        }
+                        else
+                        {
+                            FrmOrder _instanceFrmOrder = new FrmOrder();
+                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            _instanceFrmOrder.Show();
+                            _instanceFrmOrder.BringToFront();
+                        }
+                    }
+
+
+
                 }
             }
             catch (Exception ex)
@@ -1471,10 +1492,7 @@ namespace FoodandBeverage.Forms
             {
                 pnlsidebar_searchproduct.Visible = true;
                 lblcategory.Visible = true;
-            }
-     
-
-
+            }   
         }
 
         private void txtname_search_Enter(object sender, EventArgs e)

@@ -1004,7 +1004,6 @@ namespace FoodandBeverage.Forms
                         {
                             dgvProduct.Rows.Add(1);
                         }
-
                         dgvProduct.Rows[r1].Cells[islno].Value = r1 + 1;
                         dgvProduct.Rows[r1].Cells[ibarcode].Value = gridSource[0].ItemCode_UPC;
                         dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridSource[0].ItemCode_UPC;
