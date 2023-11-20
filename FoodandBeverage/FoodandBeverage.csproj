@@ -505,5 +505,20 @@
   <ItemGroup>
     <None Include="Resources\Delete_Grid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Price_change.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_price_change.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\discount_calc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running_table_pic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running_table_pic.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -984,7 +984,6 @@ namespace FoodandBeverage.Forms
                     bool flage = false;
                     for (i = 0; i <= dgvProduct.RowCount - 1; i++)
                     {
-
                         if (Convert.ToInt32(gridSource[0].ItemId) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
                         {
                             flage = true;
@@ -1029,7 +1028,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSource[0].TaxType;
                         dgvProduct.Rows[r1].Cells[itype].Value = gridSource[0].Fcid;
                         dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridSource[0].PrId;
+                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridSource[0].prid;
                         panelProductPopup.Visible = false;
                         totalcellamount(r1);
                     }
@@ -1235,7 +1234,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[itaxtype].Value = gridsource_multi[0].TaxType;
                         dgvProduct.Rows[r1].Cells[itype].Value = gridsource_multi[0].Fcid;
                         dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridsource_multi[0].TaxSettingsId;
-                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridsource_multi[0].PrId;
+                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridsource_multi[0].prid;
                         panelProductPopup.Visible = false;
                         totalcellamount(r1);
                     }

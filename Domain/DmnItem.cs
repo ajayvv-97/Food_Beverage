@@ -29,7 +29,7 @@ namespace Domain
         public string ItemCode_UPC { get; set; }
         public int Saletype { get; set; }
         public decimal MRP { get; set; }
-        public int PrId { get; set; }
+        public int prid { get; set; }
         public decimal QOH { get; set; }
     }
 }

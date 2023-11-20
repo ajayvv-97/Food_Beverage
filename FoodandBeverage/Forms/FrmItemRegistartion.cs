@@ -170,6 +170,8 @@ namespace FoodandBeverage.Forms
                         txtsrate.Text = "0";
                     if (string.IsNullOrWhiteSpace(txtprid.Text))
                         txtprid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtqty.Text))
+                        txtqty.Text = "0";
                     dmnitemreg.ItemId = Convert.ToInt32(txtitemid.Text);
                     dmnitemreg.Itemname = txtincr_name.Text;
                     dmnitemreg.summary = txtdesc.Text;
@@ -179,7 +181,7 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.unit = Convert.ToInt32(cmbunit.SelectedValue);
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
                     dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
-                    dmnitemreg.PrId = Convert.ToInt32(txtprid.Text);
+                    dmnitemreg.prid = Convert.ToInt32(txtprid.Text);
                     if (string.IsNullOrWhiteSpace(txtmrp.Text))
                         txtmrp.Text = "0";
                     dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
@@ -202,7 +204,7 @@ namespace FoodandBeverage.Forms
                         dmnitemreg.Status = 1;
                     else
                         dmnitemreg.Status = 0;
-                    var usertype = blltenreg.AddData("prdInsert_upd_ItemReg", dmnitemreg);
+                    var usertype = blltenreg.AddData("prdInsert_upd_ItemReg", dmnitemreg); 
 
                     if (usertype.ItemId > 0)
                     {
@@ -272,18 +274,21 @@ namespace FoodandBeverage.Forms
                 cmbunit.Focus();
                 return false;
             }  
-            else if (txtqty.Text == "" || txtqty.Text == null || Convert.ToDecimal(txtqty.Text) < 0)
+            else if(rdb_dsale.Checked!=true)
             {
-                CMessageBox.Show("Please Enter Item Quauntity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtqty.Focus();
-                return false;
-            }
-            else if (txtprate.Text == "" || txtprate.Text == null || Convert.ToDecimal(txtprate.Text) < 0)
-            {
-                CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtprate.Focus();
-                return false;
-            }
+                if (txtqty.Text == "" || txtqty.Text == null || Convert.ToDecimal(txtqty.Text) < 0)
+                {
+                    CMessageBox.Show("Please Enter Item Quauntity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtqty.Focus();
+                    return false;
+                }
+                else if (txtprate.Text == "" || txtprate.Text == null || Convert.ToDecimal(txtprate.Text) < 0)
+                {
+                    CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtprate.Focus();
+                    return false;
+                }
+            }  
             else if (cmbtax.Text == "")
             {
                 CMessageBox.Show("Please Select Tax", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -437,7 +442,7 @@ namespace FoodandBeverage.Forms
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
+                    txtprid.Text = Convert.ToString(itemSource[0].prid);
 
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                         rdb_dsale.Checked = true;
@@ -463,7 +468,7 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].prid;
                         dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
                         dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
                         dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
@@ -625,7 +630,7 @@ namespace FoodandBeverage.Forms
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
+                    txtprid.Text = Convert.ToString(itemSource[0].prid);
 
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                         rdb_dsale.Checked = true;
@@ -831,7 +836,7 @@ namespace FoodandBeverage.Forms
                         txtqty.Text = Convert.ToString(itemSource[0].quantity);
                         cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                         txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                        txtprid.Text = Convert.ToString(itemSource[0].PrId);
+                        txtprid.Text = Convert.ToString(itemSource[0].prid);
 
                         if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                             rdb_dsale.Checked = true;
@@ -857,7 +862,7 @@ namespace FoodandBeverage.Forms
                         for (int i = 0; i < itemSource.Count; i++)
                         {
                             dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                            dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                            dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].prid;
                             dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
                             dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
                             dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;

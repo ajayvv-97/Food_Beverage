@@ -287,6 +287,7 @@ namespace FoodandBeverage.Forms
                 foreach (var category in categoryList)
                 {
                     TableLayoutPanel tlp_category = new TableLayoutPanel();
+
                     tlp_category.Name = "tlp_category_" + category.CategoryName;
                     tlp_category.Tag = category.CategoryName;
                     tlp_category.Dock = DockStyle.Top;
@@ -311,7 +312,7 @@ namespace FoodandBeverage.Forms
                     int columnIndex = 0;
 
                     for (int i = 0; i < gridSource.Count; i++)
-                    {
+                    {                    
                         if(gridSource[i].Fcid== category.Fcid)
                         {
                             if (columnIndex == 7)
@@ -319,13 +320,23 @@ namespace FoodandBeverage.Forms
                                 columnIndex = 0;
                                 rowIndex++;
                             }
+         
                             TableLayoutPanel tlp_table_inner = new TableLayoutPanel(); 
                             PictureBox pictureBox = new PictureBox();
                             Label lbltablename = new Label();
 
+                            Panel pnl_box = new Panel();
+                            pnl_box.Name = "pnl_box" + gridSource[i].TableCode;
+                            pnl_box.Tag = gridSource[i].Tid;
+                            pnl_box.BackColor = Color.Transparent;
+                            pnl_box.Width = 60;
+                            pnl_box.Height = 65;
+                            pnl_box.BackColor = Color.Transparent;
+
+
                             // Configure the PictureBox
                             pictureBox.Name = "pb" + gridSource[i].TableCode;
-                            pictureBox.Tag = gridSource[i].TableCode;
+                            pictureBox.Tag = gridSource[i].Tid;
                             pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
                             //pictureBox.BackColor = menubuttoncolor;
@@ -335,7 +346,7 @@ namespace FoodandBeverage.Forms
 
                             // Configure the Label
                             lbltablename.Name = "lb" + gridSource[i].TableCode;
-                            lbltablename.Tag = gridSource[i].TableCode;
+                            lbltablename.Tag = gridSource[i].Tid;
                             lbltablename.Text = gridSource[i].TableCode;
                             lbltablename.ForeColor = Color.Black;
                             lbltablename.BackColor = Color.Transparent;
@@ -357,8 +368,8 @@ namespace FoodandBeverage.Forms
                             // Configure the TableLayoutPanel
                             tlp_table_inner.RowCount = 2;
                             tlp_table_inner.Name = "tlp" + gridSource[i].TableCode;
-                            tlp_table_inner.Tag = gridSource[i].TableCode;
-                            //tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
+                            tlp_table_inner.Tag = gridSource[i].Tid;
+                            tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                             tlp_table_inner.Dock = DockStyle.None;
                             tlp_table_inner.Margin = new Padding(20, 10, 20, 10);
                             tlp_table_inner.Width = 60;
@@ -369,7 +380,26 @@ namespace FoodandBeverage.Forms
                             lbltablename.Click += new EventHandler(tableClickEventHandler);
                             tlp_table_inner.Click += new EventHandler(tableClickEventHandler);
 
-                            tlp_category.Controls.Add(tlp_table_inner, columnIndex, rowIndex);
+                            pnl_box.Controls.Add(tlp_table_inner);
+
+                            if (gridSource[i].OrderStatus == 1)
+                            {
+                                PictureBox dynamic_pic = new PictureBox();
+                                dynamic_pic.Name = "pb" + gridSource[i].TableCode;
+                                dynamic_pic.Tag = gridSource[i].Tid;
+                                dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                                dynamic_pic.BackColor = Color.Transparent;
+                                dynamic_pic.Width = 40;
+                                dynamic_pic.Height = 35;      
+                                pnl_box.Controls.Add(dynamic_pic);
+                                dynamic_pic.BringToFront();
+                                dynamic_pic.Margin = new Padding(20, 10, 0, 0);
+                                dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+                            }
+
+
+                            tlp_category.Controls.Add(pnl_box, columnIndex, rowIndex);
                             columnIndex++;
                         }
 
@@ -462,7 +492,9 @@ namespace FoodandBeverage.Forms
                         {
                             FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
                             if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            {
+                                _instanceFrmOrder.WindowState = FormWindowState.Normal;
+                            }
                             else
                             {
                                 _instanceFrmOrder.Show();
@@ -471,15 +503,18 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder();
-                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            _instanceFrmOrder.Show();
-                            _instanceFrmOrder.BringToFront();
+                            int tagValue;
+                            if (clickedControl.Tag != null )
+                            {
+                                FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag));
+                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                _instanceFrmOrder.Show();
+                                _instanceFrmOrder.BringToFront();
+                            }
+                            
                         }
+
                     }
-
-
-
                 }
             }
             catch (Exception ex)
