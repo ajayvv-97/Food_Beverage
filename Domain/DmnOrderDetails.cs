@@ -5,8 +5,7 @@ using System.Text;
 namespace Domain
 {
     public class DmnOrderDetails
-    {
-  
+    { 
             public int OrderDetailsId { get; set; }
             public int OrderMasterId { get; set; }
             public int ItemId { get; set; }
@@ -38,8 +37,9 @@ namespace Domain
             public string Tax { get; set; }
             public int PrId { get; set; }
         public string Notes { get; set; }
+        public int OrderNo { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public string RemoveNotes { get; set; }
         
-
-
     }
 }

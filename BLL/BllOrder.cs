@@ -56,9 +56,22 @@ namespace BLL
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
             parms.Add("PrId", objTestClass.PrId);
             parms.Add("Notes", objTestClass.Notes);
+            parms.Add("OrderNo", objTestClass.OrderNo);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-       
+        public DmnOrderMaster Remove_order(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("koid", objTestClass.koid);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }

@@ -22,6 +22,9 @@ namespace Domain
         public int CreatedBy { get; set; }
         public DateTime DocumentDate { get; set; }
         public int Tid { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public int koid { get; set; }
 
-        }
+
+    }
 }

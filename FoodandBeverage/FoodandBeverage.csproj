@@ -133,6 +133,12 @@
     <Compile Include="Forms\FrmOrder.Designer.cs">
       <DependentUpon>FrmOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmOrderView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmOrderView.Designer.cs">
+      <DependentUpon>FrmOrderView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPurchase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrder.resx">
       <DependentUpon>FrmOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmOrderView.resx">
+      <DependentUpon>FrmOrderView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPurchase.resx">
       <DependentUpon>FrmPurchase.cs</DependentUpon>
@@ -519,6 +528,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\running_table_pic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_pending.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_complete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_cancelled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_remove_product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_blank_2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

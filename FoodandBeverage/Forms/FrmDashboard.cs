@@ -107,6 +107,7 @@ namespace FoodandBeverage.Forms
             ib_vendor.BackColor = menubuttoncolor;
             ib_Discount_offer.BackColor = menubuttoncolor;
             ib_withdrawal.BackColor = menubuttoncolor;
+            ib_orderview.BackColor = menubuttoncolor;
             textb_shape();
         }
         #region TexBox Round function
@@ -174,6 +175,7 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
             SetButtonImage(ib_withdrawal, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
             SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
+            SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
 
             SetRoundedButton(ib_Category, 70);
             SetRoundedButton(ib_Item, 70);
@@ -187,6 +189,7 @@ namespace FoodandBeverage.Forms
             SetRoundedButton(ib_vendor, 70);
             SetRoundedButton(ib_withdrawal, 70);
             SetRoundedButton(ib_Discount_offer, 70);
+            SetRoundedButton(ib_orderview, 70);
 
         }
 
@@ -1362,8 +1365,11 @@ namespace FoodandBeverage.Forms
                     case "ib_withdrawal":
                         originalImage = FoodandBeverage.Properties.Resources.withdraw;
                         break;
-                    case "ib_Discount":    
+                    case "ib_Discount":
                         originalImage = FoodandBeverage.Properties.Resources.discount;
+                        break;
+                    case "ib_orderview":
+                        originalImage = FoodandBeverage.Properties.Resources.orderview;
                         break;
                 }
 
@@ -1715,6 +1721,37 @@ namespace FoodandBeverage.Forms
             if (e.KeyChar == '\r') // Check for Enter key
             {
                 e.Handled = true; // Suppress the Enter key
+            }
+        }
+
+        private void ib_orderview_MouseLeave(object sender, EventArgs e)
+        {
+            ib_orderview.Text = Convert.ToString(ib_orderview.Tag);
+            SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
+        }
+
+        private void ib_orderview_Click(object sender, EventArgs e)
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+            {
+                FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                if (_instanceFrmorderview.WindowState == FormWindowState.Minimized)
+                    _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instanceFrmorderview.Dock = DockStyle.None;
+                    _instanceFrmorderview.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                    panelDesktop.Controls.Add(_instanceFrmorderview);
+                    _instanceFrmorderview.Show();
+                    _instanceFrmorderview.BringToFront();
+                }
+            }
+            else
+            {
+                FrmOrderView _instanceFrmorderview = new FrmOrderView();
+                _instanceFrmorderview.Show();
+                _instanceFrmorderview.BringToFront();
+                _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
         }
     }
