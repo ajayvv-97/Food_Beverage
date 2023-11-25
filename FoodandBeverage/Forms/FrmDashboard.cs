@@ -108,6 +108,7 @@ namespace FoodandBeverage.Forms
             ib_Discount_offer.BackColor = menubuttoncolor;
             ib_withdrawal.BackColor = menubuttoncolor;
             ib_orderview.BackColor = menubuttoncolor;
+            ib_kitchenview.BackColor = menubuttoncolor;
             textb_shape();
         }
         #region TexBox Round function
@@ -176,6 +177,7 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_withdrawal, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
             SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
             SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
+            SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
 
             SetRoundedButton(ib_Category, 70);
             SetRoundedButton(ib_Item, 70);
@@ -190,6 +192,7 @@ namespace FoodandBeverage.Forms
             SetRoundedButton(ib_withdrawal, 70);
             SetRoundedButton(ib_Discount_offer, 70);
             SetRoundedButton(ib_orderview, 70);
+            SetRoundedButton(ib_kitchenview, 70);
 
         }
 
@@ -1371,6 +1374,9 @@ namespace FoodandBeverage.Forms
                     case "ib_orderview":
                         originalImage = FoodandBeverage.Properties.Resources.orderview;
                         break;
+                    case "ib_kitchenview":
+                        originalImage = FoodandBeverage.Properties.Resources.kitchen_order_view;
+                        break;
                 }
 
                 if (originalImage != null)
@@ -1739,11 +1745,9 @@ namespace FoodandBeverage.Forms
                     _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
-                    _instanceFrmorderview.Dock = DockStyle.None;
-                    _instanceFrmorderview.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-                    panelDesktop.Controls.Add(_instanceFrmorderview);
                     _instanceFrmorderview.Show();
                     _instanceFrmorderview.BringToFront();
+                    _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 }
             }
             else
@@ -1752,6 +1756,35 @@ namespace FoodandBeverage.Forms
                 _instanceFrmorderview.Show();
                 _instanceFrmorderview.BringToFront();
                 _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            }
+        }
+
+        private void ib_kitchenview_MouseLeave(object sender, EventArgs e)
+        {
+            ib_kitchenview.Text = Convert.ToString(ib_kitchenview.Tag);
+            SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
+        }
+
+        private void ib_kitchenview_Click(object sender, EventArgs e)
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+            {
+                FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                if (_instanceFrmKitchenView.WindowState == FormWindowState.Minimized)
+                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instanceFrmKitchenView.Show();
+                    _instanceFrmKitchenView.BringToFront();
+                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+            }
+            else
+            {
+                FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView();
+                _instanceFrmKitchenView.Show();
+                _instanceFrmKitchenView.BringToFront();
+                _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
         }
     }

@@ -576,7 +576,8 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        //CalcTotalAmt_Add(Convert.ToInt32(clickedControl.Tag), 1);
+                        if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                            txtGrandTotal.Text = "0";
                         #region Grid Inseration
 
                         r1 = Dgv_Selected_Item.RowCount - 1;
@@ -2329,9 +2330,16 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            _instanceFrmdash.TableStaus(0);
+                        }
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearAll();
+                        this.Close();
                     }
-                    //ClearAll();
+
                 }
             }
             catch(Exception ex)
