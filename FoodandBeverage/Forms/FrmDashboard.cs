@@ -298,21 +298,21 @@ namespace FoodandBeverage.Forms
                     tlp_category.Tag = category.CategoryName;
                     tlp_category.Dock = DockStyle.Top;
                     tlp_category.Controls.Clear();
-                    tlp_category.BorderStyle = BorderStyle.FixedSingle;
+                    //tlp_category.BorderStyle = BorderStyle.FixedSingle;
+                    ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
                     tlp_category.MouseHover += tlp_category_MouseHover;
                     tlp_category.MouseLeave += tlp_category_MouseLeave;
 
                     //Frist Row Cateory Heading
                     // Configure the Label
                     Label lblcategory_head = new Label();
-                    lblcategory_head.Name = "lbcate_head_" + category.CategoryName;
+                    lblcategory_head.Name = "lbcate_head_" + category.CategoryName;  
                     lblcategory_head.Tag = category.Fcid;
                     lblcategory_head.Text = category.CategoryName;
                     lblcategory_head.ForeColor = Color.Black;
                     lblcategory_head.BackColor = Color.Transparent;
                     lblcategory_head.Dock = DockStyle.Top;
                     lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
-                    tlp_category.Controls.Add(lblcategory_head, 0, 0);
 
                     int rowIndex = 1;
                     int columnIndex = 0;
@@ -335,23 +335,24 @@ namespace FoodandBeverage.Forms
                             pnl_box.Name = "pnl_box" + gridSource[i].TableCode;
                             pnl_box.Tag = gridSource[i].Tid;
                             pnl_box.BackColor = Color.Transparent;
-                            pnl_box.Width = 60;
-                            pnl_box.Height = 65;
+                            pnl_box.Width = 120;
+                            pnl_box.Height = 80;
                             pnl_box.BackColor = Color.Transparent;
-
 
                             // Configure the PictureBox
                             pictureBox.Name = "pb" + gridSource[i].TableCode;
                             pictureBox.Tag = gridSource[i].Tid;
                             pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                            //pictureBox.BackColor = menubuttoncolor;
-                            pictureBox.Width = 45;
-                            pictureBox.Height = 45;
-                            pictureBox.Margin = new Padding(8, 0, 0, 0);
+                            ////pictureBox.BackColor = menubuttoncolor;
+                            //pictureBox.Width = 45;
+                            //pictureBox.Height = 45;
+                            tlp_table_inner.Dock = DockStyle.Fill;
+                            //pictureBox.Margin = new Padding(15, 0, 0, 0);
 
                             // Configure the Label
                             lbltablename.Name = "lb" + gridSource[i].TableCode;
+                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                             lbltablename.Tag = gridSource[i].Tid;
                             lbltablename.Text = gridSource[i].TableCode;
                             lbltablename.ForeColor = Color.Black;
@@ -378,8 +379,9 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                             tlp_table_inner.Dock = DockStyle.None;
                             tlp_table_inner.Margin = new Padding(20, 10, 20, 10);
-                            tlp_table_inner.Width = 60;
-                            tlp_table_inner.Height = 65;
+                            //tlp_table_inner.Width = 100;
+                            //tlp_table_inner.Height = 65;
+                            tlp_table_inner.Dock = DockStyle.Fill;
                             pictureBox.MouseHover += pictureBox_MouseHover;
                             pictureBox.MouseLeave += pictureBox_MouseLeave;
                             pictureBox.Click += new EventHandler(tableClickEventHandler);
@@ -396,20 +398,21 @@ namespace FoodandBeverage.Forms
                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
                                 dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
                                 dynamic_pic.BackColor = Color.Transparent;
-                                dynamic_pic.Width = 40;
-                                dynamic_pic.Height = 35;      
+                                dynamic_pic.Width = 50;
+                                dynamic_pic.Height = 50;      
                                 pnl_box.Controls.Add(dynamic_pic);
                                 dynamic_pic.BringToFront();
                                 dynamic_pic.Margin = new Padding(20, 10, 0, 0);
                                 dynamic_pic.Click += new EventHandler(tableClickEventHandler);
                             }
 
-
                             tlp_category.Controls.Add(pnl_box, columnIndex, rowIndex);
                             columnIndex++;
                         }
 
                     }
+                    tlp_table_dashboard.Controls.Add(lblcategory_head, 0, rowIndex_cate);
+                    rowIndex_cate++;
                     tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
                     rowIndex_cate++;
                 }

@@ -189,13 +189,19 @@ namespace FoodandBeverage.Forms
                             {
                                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
                                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_pending;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                                cell.Value = Properties.Resources.orderview_pending;
                             }
                             else if (Convert.ToInt32(gridSource[i].Field4) == 2)
                             {
                                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
                                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_complete;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                                cell.Value = Properties.Resources.food_preparation;
+                            }
+                            else if (Convert.ToInt32(gridSource[i].Field4) == 3)
+                            {
+                                DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
+                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                                cell.Value = Properties.Resources.orderview_complete;
                             }
                             rowIndex++;
                         }
@@ -550,13 +556,19 @@ namespace FoodandBeverage.Forms
                         {
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[i].Cells[dstatusno];
                             cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                            cell.Value = Properties.Resources.orderview_pending;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                            cell.Value = Properties.Resources.orderview_pending;
                         }
                         else if (Convert.ToInt32(detailslist[i].Field4) == 2)
                         {
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[i].Cells[dstatusno];
                             cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                            cell.Value = Properties.Resources.orderview_complete;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                            cell.Value = Properties.Resources.food_preparation;
+                        }
+                        else if (Convert.ToInt32(detailslist[i].Field4) == 3)
+                        {
+                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[i].Cells[dstatusno];
+                            cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                            cell.Value = Properties.Resources.orderview_complete;
                         }
                     }
                     if(count==detailslist.Count)

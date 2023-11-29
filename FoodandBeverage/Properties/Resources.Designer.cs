@@ -313,6 +313,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap food_preparation {
+            get {
+                object obj = ResourceManager.GetObject("food_preparation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FoodPic {
             get {
                 object obj = ResourceManager.GetObject("FoodPic", resourceCulture);
@@ -786,6 +796,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap show_hide_side_panel {
             get {
                 object obj = ResourceManager.GetObject("show_hide_side_panel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap start {
+            get {
+                object obj = ResourceManager.GetObject("start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

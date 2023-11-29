@@ -2335,6 +2335,16 @@ namespace FoodandBeverage.Forms
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                             _instanceFrmdash.TableStaus(0);
                         }
+                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        {
+                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                            _instanceFrmOrderView.FillOrders();
+                        }
+                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        {
+                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                            _instanceFrmKitchenView.Fillorders();
+                        }
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearAll();
                         this.Close();
