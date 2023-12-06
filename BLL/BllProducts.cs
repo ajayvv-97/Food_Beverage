@@ -22,15 +22,25 @@ namespace BLL
 			parms.Add("DiscountPer", objTestClass.DiscountPer);
 			parms.Add("OfferDescription", objTestClass.OfferDescription);
 			parms.Add("MRP", objTestClass.MRP);
-			parms.Add("upc", objTestClass.UPC); 
-			parms.Add("TaxType", objTestClass.TaxType); 
+			parms.Add("upc", objTestClass.UPC);
+			parms.Add("TaxType", objTestClass.TaxType);
 
-			parms.Add("CreatedBy", objTestClass.CreatedBy);		
+			parms.Add("CreatedBy", objTestClass.CreatedBy);
 			parms.Add("Status", objTestClass.Status);
 			parms.Add("BranchId", objTestClass.BranchId);
 
 			parms.Add("ItemCode", objTestClass.ItemCode);
 
+			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+			return lstData;
+		}
+		public DmnGridFields AddEditData_fav(string procedureName, DmnGridFields objTestClass)
+		{
+			DAL.DapperRepository<DmnGridFields> objDapperRepository = new DAL.DapperRepository<DmnGridFields>();
+			DynamicParameters parms = new DynamicParameters();
+			parms.Add("ProductId", objTestClass.Field1);
+			parms.Add("Fav_Status", objTestClass.Field2);
+			parms.Add("saletype", objTestClass.Field3);
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

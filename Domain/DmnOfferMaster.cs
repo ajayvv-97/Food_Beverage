@@ -19,7 +19,9 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public decimal TotalPrice { get; set; }
-        
+        public DateTime OfferstartDatetime { get; set; }
+        public DateTime OfferEndDatetime { get; set; }      
+
 
     }
 }

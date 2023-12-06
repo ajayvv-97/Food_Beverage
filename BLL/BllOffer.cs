@@ -20,7 +20,9 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             parms.Add("TotalPrice", objTestClass.TotalPrice);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("OfferstartDatetime", objTestClass.OfferstartDatetime);
+            parms.Add("OfferEndDatetime", objTestClass.OfferEndDatetime);
+        var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 

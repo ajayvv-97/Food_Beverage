@@ -83,7 +83,7 @@ namespace FoodandBeverage.Forms
             if (txtorderid_search.Text == "")
             {
                 txtorderid_search.Text = "Order ID .....";
-                txtorderid_search.ForeColor = Color.Black;
+                txtorderid_search.ForeColor = Color.DarkGray;
             }
         }
 
@@ -92,7 +92,7 @@ namespace FoodandBeverage.Forms
             if (txttablecode_serach.Text == "")
             {
                 txttablecode_serach.Text = "Table Code .....";
-                txttablecode_serach.ForeColor = Color.Black;
+                txttablecode_serach.ForeColor = Color.DarkGray;
             }
         }
 
@@ -145,7 +145,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
                 dgvorderview.Rows.Clear();
                 int rowIndex = 0;
-                for (int j = 1; j <= 3; j++)
+                for (int j = 1; j <= 4; j++)
                 {
                     if (j == 1)
                     {
@@ -154,12 +154,17 @@ namespace FoodandBeverage.Forms
                     }
                     else if(j==2)
                     {
-                        dmnSearch.WhereNdGroupBy = "where om.status=0";
+                        dmnSearch.WhereNdGroupBy = "where om.status=2";
                         dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
                     }
                     else if (j == 3)
                     {
-                        dmnSearch.WhereNdGroupBy = "where om.status=2";
+                        dmnSearch.WhereNdGroupBy = "where om.status=3";
+                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                    }
+                    else if (j == 4)
+                    {
+                        dmnSearch.WhereNdGroupBy = "where om.status=0";
                         dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
                     }
                     var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -210,7 +215,7 @@ namespace FoodandBeverage.Forms
                         tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
                         pnl_ordergallery.Dock = DockStyle.Fill;
                         pnl_ordergallery.Visible = true;
-                        pnl_dispaly_msg.Visible = false;
+                        pnl_empty_msg.Visible = false;
                         pnl_details_view.Visible = false;
                         #region old code
                         TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
@@ -320,13 +325,15 @@ namespace FoodandBeverage.Forms
                 }
                 if (dgvorderview.Rows.Count == 0)
                 {
-                    pnl_dispaly_msg.Visible = true;
+                    pnl_empty_msg.Visible = true;
                     pnl_ordergallery.Visible = false;
                     pnl_details_view.Visible = false;
                     Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
                     tlp_sub_main.Controls.Remove(controlToRemove);
-                    tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
-                    pnl_dispaly_msg.Dock = DockStyle.Fill;
+                    //tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
+                    //pnl_dispaly_msg.Dock = DockStyle.Fill;
+                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+
                 }
                 #endregion
             }
@@ -392,7 +399,7 @@ namespace FoodandBeverage.Forms
                         if (detailslist.Count > 0)
                         {
                             int count = 0;
-                            pnl_dispaly_msg.Visible = false;
+                            pnl_empty_msg.Visible = false;
                             pnl_ordergallery.Visible = false;
                             pnl_details_view.Visible = true;
                             Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
@@ -504,12 +511,12 @@ namespace FoodandBeverage.Forms
                     "Left Join tblTable_info  ti on ti.Tid=om.Tid " +
                     "Left Join tblkitchenOrder  ko on ko.OrderDetailsId=od.OrderDetailsId";
                 dmnSearch.WhereNdGroupBy = "where om.OrderMasterId ="+ oid;
-                dmnSearch.OrderBy = "order by  om.OrderMasterId";
+                dmnSearch.OrderBy = "order by  od.CreatedDateTime DESC";
                  var detailslist = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (detailslist.Count > 0)
                 {
                     int count = 0;
-                    pnl_dispaly_msg.Visible = false;
+                    pnl_empty_msg.Visible = false;
                     pnl_ordergallery.Visible = false;
                     pnl_details_view.Visible = true;
                     Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
@@ -594,7 +601,7 @@ namespace FoodandBeverage.Forms
                 tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
                 pnl_ordergallery.Dock = DockStyle.Fill;
                 pnl_ordergallery.Visible = true;
-                pnl_dispaly_msg.Visible = false;
+                pnl_empty_msg.Visible = false;
                 pnl_details_view.Visible = false;
                 btn_backorder.Visible = false;
                 FillOrders();
@@ -670,6 +677,11 @@ namespace FoodandBeverage.Forms
 
                     txt_product_remove_des.Text = "";
                     Filldetails(OrderMasterId);
+                    if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                    {
+                        FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                        _instanceFrmKitchenView.Fillorders();
+                    }
                 }
             }
             catch(Exception ex)
@@ -801,21 +813,23 @@ namespace FoodandBeverage.Forms
                         tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
                         pnl_ordergallery.Dock = DockStyle.Fill;
                         pnl_ordergallery.Visible = true;
-                        pnl_dispaly_msg.Visible = false;
+                        pnl_empty_msg.Visible = false;
                         pnl_details_view.Visible = false;
 
                     }
                     else
                     {
-                        pnl_dispaly_msg.Visible = true;
-                        pnl_ordergallery.Visible = false;
-                        pnl_details_view.Visible = false;
-                        Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
-                        tlp_sub_main.Controls.Remove(controlToRemove);
-                        tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
-                        pnl_dispaly_msg.Dock = DockStyle.Fill;
-                    }
-                
+                    pnl_empty_msg.Visible = true;
+                    pnl_ordergallery.Visible = false;
+                    pnl_details_view.Visible = false;
+                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                    tlp_sub_main.Controls.Remove(controlToRemove);
+                    //tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
+                    //pnl_dispaly_msg.Dock = DockStyle.Fill;
+                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+
+                }
+
                 #endregion
             }
             catch (Exception ex)

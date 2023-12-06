@@ -87,8 +87,6 @@ namespace FoodandBeverage.Forms
             this.mAction = new System.Windows.Forms.DataGridViewImageColumn();
             this.Removedes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnl_dispaly_msg = new System.Windows.Forms.Panel();
-            this.lblmsg = new System.Windows.Forms.Label();
             this.pnl_products_rem_descr = new System.Windows.Forms.Panel();
             this.tlp_products_descr_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_product_des_reg = new System.Windows.Forms.TableLayoutPanel();
@@ -99,6 +97,9 @@ namespace FoodandBeverage.Forms
             this.btn_close_prod_des = new System.Windows.Forms.Button();
             this.lblheader_product_des = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.pnl_empty_msg = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblmsg = new System.Windows.Forms.Label();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_sub_main.SuspendLayout();
@@ -107,11 +108,12 @@ namespace FoodandBeverage.Forms
             this.pnl_details_view.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_details_view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).BeginInit();
-            this.pnl_dispaly_msg.SuspendLayout();
             this.pnl_products_rem_descr.SuspendLayout();
             this.tlp_products_descr_main.SuspendLayout();
             this.tlp_product_des_reg.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.pnl_empty_msg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -235,6 +237,7 @@ namespace FoodandBeverage.Forms
             this.txtorderid_search.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtorderid_search.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtorderid_search.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtorderid_search.ForeColor = System.Drawing.Color.DarkGray;
             this.txtorderid_search.Location = new System.Drawing.Point(3, 3);
             this.txtorderid_search.Multiline = true;
             this.txtorderid_search.Name = "txtorderid_search";
@@ -251,6 +254,7 @@ namespace FoodandBeverage.Forms
             this.txttablecode_serach.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txttablecode_serach.Dock = System.Windows.Forms.DockStyle.Top;
             this.txttablecode_serach.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txttablecode_serach.ForeColor = System.Drawing.Color.DarkGray;
             this.txttablecode_serach.Location = new System.Drawing.Point(99, 3);
             this.txttablecode_serach.Multiline = true;
             this.txttablecode_serach.Name = "txttablecode_serach";
@@ -382,6 +386,7 @@ namespace FoodandBeverage.Forms
             this.dgv_details_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_details_view.Location = new System.Drawing.Point(0, 0);
             this.dgv_details_view.Name = "dgv_details_view";
+            this.dgv_details_view.ReadOnly = true;
             this.dgv_details_view.RowHeadersVisible = false;
             this.dgv_details_view.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_details_view.RowTemplate.Height = 44;
@@ -396,6 +401,7 @@ namespace FoodandBeverage.Forms
             this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Width = 66;
             // 
             // item
@@ -416,6 +422,7 @@ namespace FoodandBeverage.Forms
             this.Qty.DefaultCellStyle = dataGridViewCellStyle4;
             this.Qty.HeaderText = "Quantity";
             this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
             // 
             // detstatus
             // 
@@ -427,6 +434,7 @@ namespace FoodandBeverage.Forms
             this.detstatus.HeaderText = "Status";
             this.detstatus.MinimumWidth = 2;
             this.detstatus.Name = "detstatus";
+            this.detstatus.ReadOnly = true;
             this.detstatus.Width = 62;
             // 
             // Action
@@ -440,6 +448,7 @@ namespace FoodandBeverage.Forms
             this.Action.Image = global::FoodandBeverage.Properties.Resources.orderview_remove_product;
             this.Action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Action.Name = "Action";
+            this.Action.ReadOnly = true;
             this.Action.Width = 60;
             // 
             // Ing_DetailsId
@@ -448,6 +457,7 @@ namespace FoodandBeverage.Forms
             this.Ing_DetailsId.DefaultCellStyle = dataGridViewCellStyle7;
             this.Ing_DetailsId.HeaderText = "Ing_DetailsId";
             this.Ing_DetailsId.Name = "Ing_DetailsId";
+            this.Ing_DetailsId.ReadOnly = true;
             this.Ing_DetailsId.Visible = false;
             // 
             // order_DateTime
@@ -455,6 +465,7 @@ namespace FoodandBeverage.Forms
             this.order_DateTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.order_DateTime.HeaderText = "Order DateTime";
             this.order_DateTime.Name = "order_DateTime";
+            this.order_DateTime.ReadOnly = true;
             this.order_DateTime.Width = 134;
             // 
             // Note
@@ -462,30 +473,35 @@ namespace FoodandBeverage.Forms
             this.Note.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Note.HeaderText = "Note";
             this.Note.Name = "Note";
+            this.Note.ReadOnly = true;
             this.Note.Width = 68;
             // 
             // dgv_koid
             // 
             this.dgv_koid.HeaderText = "kitchenorderid";
             this.dgv_koid.Name = "dgv_koid";
+            this.dgv_koid.ReadOnly = true;
             this.dgv_koid.Visible = false;
             // 
             // statusvalue
             // 
             this.statusvalue.HeaderText = "statusvalue";
             this.statusvalue.Name = "statusvalue";
+            this.statusvalue.ReadOnly = true;
             this.statusvalue.Visible = false;
             // 
             // Order_masterid
             // 
             this.Order_masterid.HeaderText = "Order_masterid";
             this.Order_masterid.Name = "Order_masterid";
+            this.Order_masterid.ReadOnly = true;
             this.Order_masterid.Visible = false;
             // 
             // tableid
             // 
             this.tableid.HeaderText = "tableid";
             this.tableid.Name = "tableid";
+            this.tableid.ReadOnly = true;
             this.tableid.Visible = false;
             // 
             // dgvorderview
@@ -523,6 +539,7 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvorderview.Location = new System.Drawing.Point(0, 0);
             this.dgvorderview.Name = "dgvorderview";
+            this.dgvorderview.ReadOnly = true;
             this.dgvorderview.RowHeadersVisible = false;
             this.dgvorderview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -545,6 +562,7 @@ namespace FoodandBeverage.Forms
             this.Slno.MaxInputLength = 100;
             this.Slno.MinimumWidth = 6;
             this.Slno.Name = "Slno";
+            this.Slno.ReadOnly = true;
             this.Slno.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Slno.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Slno.Width = 52;
@@ -556,6 +574,7 @@ namespace FoodandBeverage.Forms
             this.Ordertime.DefaultCellStyle = dataGridViewCellStyle11;
             this.Ordertime.HeaderText = "Order DateTime";
             this.Ordertime.Name = "Ordertime";
+            this.Ordertime.ReadOnly = true;
             this.Ordertime.Width = 144;
             // 
             // OrderID
@@ -565,6 +584,7 @@ namespace FoodandBeverage.Forms
             this.OrderID.DefaultCellStyle = dataGridViewCellStyle12;
             this.OrderID.HeaderText = "OrderID";
             this.OrderID.Name = "OrderID";
+            this.OrderID.ReadOnly = true;
             // 
             // TableCode
             // 
@@ -573,6 +593,7 @@ namespace FoodandBeverage.Forms
             this.TableCode.DefaultCellStyle = dataGridViewCellStyle13;
             this.TableCode.HeaderText = "TableCode";
             this.TableCode.Name = "TableCode";
+            this.TableCode.ReadOnly = true;
             // 
             // totalqty
             // 
@@ -581,6 +602,7 @@ namespace FoodandBeverage.Forms
             this.totalqty.DefaultCellStyle = dataGridViewCellStyle14;
             this.totalqty.HeaderText = "Total Quantity";
             this.totalqty.Name = "totalqty";
+            this.totalqty.ReadOnly = true;
             // 
             // mAction
             // 
@@ -592,6 +614,7 @@ namespace FoodandBeverage.Forms
             this.mAction.HeaderText = "Status";
             this.mAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.mAction.Name = "mAction";
+            this.mAction.ReadOnly = true;
             this.mAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.mAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.mAction.Width = 76;
@@ -603,6 +626,7 @@ namespace FoodandBeverage.Forms
             this.Removedes.DefaultCellStyle = dataGridViewCellStyle16;
             this.Removedes.HeaderText = "Decription";
             this.Removedes.Name = "Removedes";
+            this.Removedes.ReadOnly = true;
             this.Removedes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Removedes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
@@ -611,30 +635,10 @@ namespace FoodandBeverage.Forms
             this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Status.HeaderText = "Status";
             this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
             this.Status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Status.Visible = false;
-            // 
-            // pnl_dispaly_msg
-            // 
-            this.pnl_dispaly_msg.Controls.Add(this.lblmsg);
-            this.pnl_dispaly_msg.Location = new System.Drawing.Point(28, 194);
-            this.pnl_dispaly_msg.Name = "pnl_dispaly_msg";
-            this.pnl_dispaly_msg.Size = new System.Drawing.Size(702, 88);
-            this.pnl_dispaly_msg.TabIndex = 219;
-            // 
-            // lblmsg
-            // 
-            this.lblmsg.AutoSize = true;
-            this.lblmsg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblmsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
-            this.lblmsg.ForeColor = System.Drawing.Color.Red;
-            this.lblmsg.Location = new System.Drawing.Point(0, 0);
-            this.lblmsg.Name = "lblmsg";
-            this.lblmsg.Size = new System.Drawing.Size(146, 29);
-            this.lblmsg.TabIndex = 0;
-            this.lblmsg.Text = "No Records";
-            this.lblmsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnl_products_rem_descr
             // 
@@ -765,13 +769,45 @@ namespace FoodandBeverage.Forms
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             // 
+            // pnl_empty_msg
+            // 
+            this.pnl_empty_msg.Controls.Add(this.pictureBox1);
+            this.pnl_empty_msg.Controls.Add(this.lblmsg);
+            this.pnl_empty_msg.Location = new System.Drawing.Point(0, 86);
+            this.pnl_empty_msg.Name = "pnl_empty_msg";
+            this.pnl_empty_msg.Size = new System.Drawing.Size(363, 89);
+            this.pnl_empty_msg.TabIndex = 1;
+            this.pnl_empty_msg.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.empty_orders;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblmsg
+            // 
+            this.lblmsg.AutoSize = true;
+            this.lblmsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblmsg.ForeColor = System.Drawing.Color.Red;
+            this.lblmsg.Location = new System.Drawing.Point(25, 27);
+            this.lblmsg.Name = "lblmsg";
+            this.lblmsg.Size = new System.Drawing.Size(196, 37);
+            this.lblmsg.TabIndex = 0;
+            this.lblmsg.Text = "No Records";
+            this.lblmsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FrmOrderView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pnl_empty_msg);
             this.Controls.Add(this.pnl_products_rem_descr);
-            this.Controls.Add(this.pnl_dispaly_msg);
             this.Controls.Add(this.pnl_ordergallery);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -789,14 +825,15 @@ namespace FoodandBeverage.Forms
             this.pnl_details_view.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_details_view)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).EndInit();
-            this.pnl_dispaly_msg.ResumeLayout(false);
-            this.pnl_dispaly_msg.PerformLayout();
             this.pnl_products_rem_descr.ResumeLayout(false);
             this.tlp_products_descr_main.ResumeLayout(false);
             this.tlp_products_descr_main.PerformLayout();
             this.tlp_product_des_reg.ResumeLayout(false);
             this.tlp_product_des_reg.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.pnl_empty_msg.ResumeLayout(false);
+            this.pnl_empty_msg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -814,8 +851,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txttablecode_serach;
         private System.Windows.Forms.Panel pnl_ordergallery;
         private System.Windows.Forms.DataGridView dgvorderview;
-        private System.Windows.Forms.Panel pnl_dispaly_msg;
-        private System.Windows.Forms.Label lblmsg;
         private System.Windows.Forms.Panel pnl_details_view;
         private System.Windows.Forms.DataGridView dgv_details_view;
         private System.Windows.Forms.Button btn_backorder;
@@ -853,5 +888,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_Pending_order;
         private System.Windows.Forms.Button btn_cancel_order;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.Panel pnl_empty_msg;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblmsg;
     }
 }

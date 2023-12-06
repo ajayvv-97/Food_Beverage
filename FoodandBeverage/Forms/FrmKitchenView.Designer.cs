@@ -36,7 +36,9 @@ namespace FoodandBeverage.Forms
             this.btncolse = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tlp_search = new System.Windows.Forms.TableLayoutPanel();
+            this.txttablecode = new System.Windows.Forms.TextBox();
             this.txtorderid_search = new System.Windows.Forms.TextBox();
+            this.btn_refresh = new System.Windows.Forms.Button();
             this.flp_order_view = new System.Windows.Forms.FlowLayoutPanel();
             this.pnl_products_rem_descr = new System.Windows.Forms.Panel();
             this.tlp_products_descr_main = new System.Windows.Forms.TableLayoutPanel();
@@ -47,9 +49,10 @@ namespace FoodandBeverage.Forms
             this.btn_rem_product_des = new System.Windows.Forms.Button();
             this.btn_close_prod_des = new System.Windows.Forms.Button();
             this.lblheader_product_des = new System.Windows.Forms.Label();
-            this.pnl_dispaly_msg = new System.Windows.Forms.Panel();
             this.lblmsg = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pnl_empty_msg = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -57,7 +60,8 @@ namespace FoodandBeverage.Forms
             this.tlp_products_descr_main.SuspendLayout();
             this.tlp_product_des_reg.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.pnl_dispaly_msg.SuspendLayout();
+            this.pnl_empty_msg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -138,33 +142,72 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_search
             // 
-            this.tlp_search.ColumnCount = 3;
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.65591F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.34409F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 337F));
+            this.tlp_search.ColumnCount = 5;
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tlp_search.Controls.Add(this.txttablecode, 0, 0);
             this.tlp_search.Controls.Add(this.txtorderid_search, 0, 0);
-            this.tlp_search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_search.Controls.Add(this.btn_refresh, 3, 0);
             this.tlp_search.Location = new System.Drawing.Point(3, 40);
             this.tlp_search.Name = "tlp_search";
             this.tlp_search.RowCount = 1;
-            this.tlp_search.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_search.Size = new System.Drawing.Size(791, 36);
+            this.tlp_search.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_search.Size = new System.Drawing.Size(791, 52);
             this.tlp_search.TabIndex = 20;
+            // 
+            // txttablecode
+            // 
+            this.txttablecode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txttablecode.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txttablecode.ForeColor = System.Drawing.Color.DarkGray;
+            this.txttablecode.Location = new System.Drawing.Point(310, 3);
+            this.txttablecode.Multiline = true;
+            this.txttablecode.Name = "txttablecode";
+            this.txttablecode.Size = new System.Drawing.Size(301, 46);
+            this.txttablecode.TabIndex = 2;
+            this.txttablecode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txttablecode.Enter += new System.EventHandler(this.txttablecode_Enter);
+            this.txttablecode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txttablecode_KeyDown);
+            this.txttablecode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txttablecode_KeyPress);
+            this.txttablecode.Leave += new System.EventHandler(this.txttablecode_Leave);
             // 
             // txtorderid_search
             // 
             this.txtorderid_search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtorderid_search.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtorderid_search.ForeColor = System.Drawing.Color.DarkGray;
             this.txtorderid_search.Location = new System.Drawing.Point(3, 3);
             this.txtorderid_search.Multiline = true;
             this.txtorderid_search.Name = "txtorderid_search";
-            this.txtorderid_search.Size = new System.Drawing.Size(282, 30);
+            this.txtorderid_search.Size = new System.Drawing.Size(301, 46);
             this.txtorderid_search.TabIndex = 1;
+            this.txtorderid_search.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtorderid_search.Enter += new System.EventHandler(this.txtorderid_search_Enter);
+            this.txtorderid_search.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtorderid_search_KeyDown);
+            this.txtorderid_search.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtorderid_search_KeyPress);
+            this.txtorderid_search.Leave += new System.EventHandler(this.txtorderid_search_Leave);
+            // 
+            // btn_refresh
+            // 
+            this.btn_refresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_button;
+            this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_refresh.FlatAppearance.BorderSize = 0;
+            this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_refresh.Location = new System.Drawing.Point(662, 3);
+            this.btn_refresh.Name = "btn_refresh";
+            this.btn_refresh.Size = new System.Drawing.Size(64, 46);
+            this.btn_refresh.TabIndex = 3;
+            this.btn_refresh.UseVisualStyleBackColor = true;
+            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
             // flp_order_view
             // 
             this.flp_order_view.AutoScroll = true;
             this.flp_order_view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flp_order_view.Location = new System.Drawing.Point(3, 82);
+            this.flp_order_view.Location = new System.Drawing.Point(3, 98);
             this.flp_order_view.Name = "flp_order_view";
             this.flp_order_view.Size = new System.Drawing.Size(791, 404);
             this.flp_order_view.TabIndex = 21;
@@ -172,11 +215,12 @@ namespace FoodandBeverage.Forms
             // pnl_products_rem_descr
             // 
             this.pnl_products_rem_descr.Controls.Add(this.tlp_products_descr_main);
-            this.pnl_products_rem_descr.Location = new System.Drawing.Point(0, 0);
+            this.pnl_products_rem_descr.Location = new System.Drawing.Point(99, 98);
             this.pnl_products_rem_descr.Name = "pnl_products_rem_descr";
             this.pnl_products_rem_descr.Size = new System.Drawing.Size(304, 155);
             this.pnl_products_rem_descr.TabIndex = 4;
             this.pnl_products_rem_descr.Visible = false;
+            this.pnl_products_rem_descr.Paint += new System.Windows.Forms.PaintEventHandler(this.pnl_products_rem_descr_Paint);
             // 
             // tlp_products_descr_main
             // 
@@ -286,23 +330,14 @@ namespace FoodandBeverage.Forms
             this.lblheader_product_des.Text = "Product Name";
             this.lblheader_product_des.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pnl_dispaly_msg
-            // 
-            this.pnl_dispaly_msg.Controls.Add(this.lblmsg);
-            this.pnl_dispaly_msg.Location = new System.Drawing.Point(0, 0);
-            this.pnl_dispaly_msg.Name = "pnl_dispaly_msg";
-            this.pnl_dispaly_msg.Size = new System.Drawing.Size(702, 88);
-            this.pnl_dispaly_msg.TabIndex = 220;
-            // 
             // lblmsg
             // 
             this.lblmsg.AutoSize = true;
-            this.lblmsg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblmsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
+            this.lblmsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblmsg.ForeColor = System.Drawing.Color.Red;
-            this.lblmsg.Location = new System.Drawing.Point(0, 0);
+            this.lblmsg.Location = new System.Drawing.Point(25, 27);
             this.lblmsg.Name = "lblmsg";
-            this.lblmsg.Size = new System.Drawing.Size(146, 29);
+            this.lblmsg.Size = new System.Drawing.Size(196, 37);
             this.lblmsg.TabIndex = 0;
             this.lblmsg.Text = "No Records";
             this.lblmsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -311,12 +346,32 @@ namespace FoodandBeverage.Forms
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // pnl_empty_msg
+            // 
+            this.pnl_empty_msg.Controls.Add(this.pictureBox1);
+            this.pnl_empty_msg.Controls.Add(this.lblmsg);
+            this.pnl_empty_msg.Location = new System.Drawing.Point(0, 160);
+            this.pnl_empty_msg.Name = "pnl_empty_msg";
+            this.pnl_empty_msg.Size = new System.Drawing.Size(363, 89);
+            this.pnl_empty_msg.TabIndex = 0;
+            this.pnl_empty_msg.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.empty_orders;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // FrmKitchenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 489);
-            this.Controls.Add(this.pnl_dispaly_msg);
+            this.Controls.Add(this.pnl_empty_msg);
             this.Controls.Add(this.pnl_products_rem_descr);
             this.Controls.Add(this.tlp_main);
             this.DoubleBuffered = true;
@@ -335,8 +390,9 @@ namespace FoodandBeverage.Forms
             this.tlp_product_des_reg.ResumeLayout(false);
             this.tlp_product_des_reg.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
-            this.pnl_dispaly_msg.ResumeLayout(false);
-            this.pnl_dispaly_msg.PerformLayout();
+            this.pnl_empty_msg.ResumeLayout(false);
+            this.pnl_empty_msg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -360,8 +416,11 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_rem_product_des;
         private System.Windows.Forms.Button btn_close_prod_des;
         private System.Windows.Forms.Label lblheader_product_des;
-        private System.Windows.Forms.Panel pnl_dispaly_msg;
         private System.Windows.Forms.Label lblmsg;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Panel pnl_empty_msg;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox txttablecode;
+        private System.Windows.Forms.Button btn_refresh;
     }
 }

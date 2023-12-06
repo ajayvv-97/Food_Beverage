@@ -36,6 +36,14 @@ namespace FoodandBeverage.Forms
         public static int desno = 2;
         public static int odidno = 3;
         public static int statusno = 4;
+
+        public static int didno = 0;
+        public static int dproductnameno = 1;
+        public static int dpriceno = 2;
+        public static int dcategoryname = 3;
+        public static int dcateidno = 4;
+        public static int dproductidno = 5;
+        public static int dsaletypeno = 6;
         #endregion
 
         #region Declaration 
@@ -77,6 +85,25 @@ namespace FoodandBeverage.Forms
 
         private void FrmOfferDiscount_Load(object sender, EventArgs e)
         {
+            dgv_product_list.BorderStyle = BorderStyle.None;
+            dgv_product_list.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_product_list.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_product_list.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_product_list.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_product_list.BackgroundColor = Color.White;
+
+            dgv_product_list.EnableHeadersVisualStyles = false;
+            dgv_product_list.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_product_list.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_product_list.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            dtp_to_date_s.MinDate = DateTime.Now;
+            dtp_from_date_s.MinDate = DateTime.Now;
+
+            dtp_to_date.MinDate = DateTime.Now;
+            dtp_from_date.MinDate = DateTime.Now;
+
+
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             tlp_single.Visible = true;
@@ -135,58 +162,87 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnGridFields> Searchcount = new BllSearch<DmnGridFields>();
-                string returnValue = string.Empty;
-                DataTable dtColumnAlign = new DataTable();
-                dtColumnAlign.Columns.Add();
+                tlp_product_list.Visible = true;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "Id,Product Name,Price,Discount %,Discount Amount";
-                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ";
-                _objSearch.Table = "tblProduct p" +
-                    " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId";
-                _objSearch.WhereNdGroupBy = "where p.Status=1 and m.Status=1";
-                _objSearch.OrderBy = " ORDER BY p.Product ";
-                var CheckData = Searchcount.GetSearchData("prdSearch", _objSearch);
-                if (CheckData.Count == 0)
+                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7";
+                _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 " +
+                    "union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7 from " +
+                    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
+                _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1";
+                _objSearch.OrderBy = "";
+                var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if(Datasource.Count>0)
                 {
-                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-
-                {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
+                    dgv_product_list.Rows.Clear();
+                    dgv_product_list.Rows.Add(Datasource.Count);
+                    for(int i=0;i< Datasource.Count;i++)
                     {
-                        returnValue = Convert.ToString(search._retValue);
+                        dgv_product_list.Rows[i].Cells[didno].Value = i + 1;
+                        dgv_product_list.Rows[i].Cells[dproductnameno].Value = Datasource[i].Field1;
+                        dgv_product_list.Rows[i].Cells[dpriceno].Value = Datasource[i].Field2;
+                        dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6; 
+                        dgv_product_list.Rows[i].Cells[dcateidno].Value = Datasource[i].Field7; 
+                        dgv_product_list.Rows[i].Cells[dproductidno].Value = Datasource[i].Id;
+                        dgv_product_list.Rows[i].Cells[dsaletypeno].Value = Datasource[i].Field5;
                     }
+
                 }
-                if (returnValue.ToString() != "")
-                {                  
-                    //if(checkOffer())
-                    //{
-                        ClearAll();
-                        string pid = Convert.ToString(returnValue);
-                        BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                        DmnSearch objSearch = new DmnSearch();
-                        objSearch = new DmnSearch();
-                        objSearch.Select = "*";
-                        objSearch.Table = "tblProduct";
-                        objSearch.WhereNdGroupBy = "where ProductId=" + pid;
-                        objSearch.OrderBy = "";
-                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                        if (gridSource.Count > 0)
-                        {
-                            txtpid.Text = Convert.ToString(gridSource[0].ProductId);
-                            txtproduct.Text = gridSource[0].Product;
-                            txtrprice.Text = Convert.ToString(gridSource[0].Price);
-                            txtrdisper.Text = Convert.ToString(gridSource[0].DiscountPer);
-                            txtrdisamt.Text = Convert.ToString(gridSource[0].DiscountAmt);
-                        }
-                        txtoffername.Focus();
-                    //}                   
-                }
+
+                #region msg old
+                //BllSearch<DmnGridFields> Searchcount = new BllSearch<DmnGridFields>();
+                //string returnValue = string.Empty;
+                //DataTable dtColumnAlign = new DataTable();
+                //dtColumnAlign.Columns.Add();
+                //DmnSearch _objSearch = new DmnSearch();
+                //_objSearch.ColumnHeaders = "Id,Product Name,Price,Discount %,Discount Amount, ";
+                //_objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5";
+                //_objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId where p.Status=1 and m.Status=1 " +
+                //    "union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5 from tblItem";
+                //_objSearch.WhereNdGroupBy = "where Status=1 and Saletype=1";
+                //_objSearch.OrderBy = "";
+                //var CheckData = Searchcount.GetSearchData("prdSearch", _objSearch);
+                //if (CheckData.Count == 0)
+                //{
+                //    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //    return;
+                //}
+
+                //using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+
+                //{
+                //    var dialogResult = search.ShowDialog();
+                //    if (dialogResult == DialogResult.OK)
+                //    {
+                //        returnValue = Convert.ToString(search._retValue);
+                //    }
+                //}
+                //if (returnValue.ToString() != "")
+                //{                  
+               //if(checkOffer())
+                //    //{
+                //        ClearAll();
+                //        string pid = Convert.ToString(returnValue);
+                //        BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                //        DmnSearch objSearch = new DmnSearch();
+                //        objSearch = new DmnSearch();
+                //        objSearch.Select = "*";
+                //        objSearch.Table = "tblProduct";
+                //        objSearch.WhereNdGroupBy = "where ProductId=" + pid;
+                //        objSearch.OrderBy = "";
+                //        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                //        if (gridSource.Count > 0)
+                //        {
+                //            txtpid.Text = Convert.ToString(gridSource[0].ProductId);
+                //            txtproduct.Text = gridSource[0].Product;
+                //            txtrprice.Text = Convert.ToString(gridSource[0].Price);
+                //            txtrdisper.Text = Convert.ToString(gridSource[0].DiscountPer);
+                //            txtrdisamt.Text = Convert.ToString(gridSource[0].DiscountAmt);
+                //        }
+                //        txtoffername.Focus();
+                //    //}                   
+                //}
+                #endregion
             }
             catch (Exception ex)
             {
@@ -343,6 +399,10 @@ namespace FoodandBeverage.Forms
                         BllOffer bllmaster = new BllOffer();
                         dmnOffermaster.Omid = Convert.ToInt32(txtomid.Text);
                         dmnOffermaster.OfferName = txtoffername.Text;
+
+                        dmnOffermaster.OfferstartDatetime = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
+                        dmnOffermaster.OfferEndDatetime = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+
                         dmnOffermaster.OfferType = 0;
                         dmnOffermaster.BranchId = 1;
                         dmnOffermaster.CreatedBy = 1;
@@ -393,6 +453,10 @@ namespace FoodandBeverage.Forms
                         dmnOffermaster.Omid = Convert.ToInt32(txtcombo_omid.Text);
                         dmnOffermaster.OfferName = txtcmbo_offername.Text;
                         dmnOffermaster.TotalPrice =Convert.ToDecimal(txtcombo_totalprice.Text);
+
+                        dmnOffermaster.OfferstartDatetime = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
+                        dmnOffermaster.OfferEndDatetime = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+
                         dmnOffermaster.OfferType = 1;
                         dmnOffermaster.BranchId = 1;
                         dmnOffermaster.CreatedBy = 1;       
@@ -449,7 +513,9 @@ namespace FoodandBeverage.Forms
                
             }
             catch (Exception ex)
-            { }
+            { 
+            
+            }
         }
         public bool MandatoryCheck_single()
         {
@@ -494,8 +560,8 @@ namespace FoodandBeverage.Forms
                     DataTable dtColumnAlign = new DataTable();
                     dtColumnAlign.Columns.Add();
                     DmnSearch _objSearch = new DmnSearch();
-                    _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount";
-                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3";
+                    _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
+                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
                     _objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid";
                     _objSearch.WhereNdGroupBy = "where om.Status = 1 and om.OfferType=0";
                     _objSearch.OrderBy = " ORDER BY OfferName";
@@ -519,7 +585,7 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12, om.OfferstartDatetime StartDate, om.OfferEndDatetime EndDate";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid="+ omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -542,6 +608,19 @@ namespace FoodandBeverage.Forms
                                 txtoffername.Text = Convert.ToString(itemSource[0].Field4);             
                                 txtfinalprice.Text = Convert.ToString(itemSource[0].Field7);
                                 txtdescription.Text = Convert.ToString(itemSource[0].Field10);
+
+                                DateTime fromDateTime = itemSource[0].StartDate;
+                                DateTime toDateTime = itemSource[0].EndDate;
+
+                                // Set the "from" date and time
+                                dtp_from_date_s.Value = fromDateTime.Date; 
+                                dtp_from_time_s.Value = fromDateTime;       
+
+                                // Set the "to" date and time
+                                dtp_to_date_s.Value = toDateTime.Date;     
+                                dtp_to_time_s.Value = toDateTime;           
+
+
                             }
                         }
                     }
@@ -553,8 +632,8 @@ namespace FoodandBeverage.Forms
                     DataTable dtColumnAlign = new DataTable();
                     dtColumnAlign.Columns.Add();
                     DmnSearch _objSearch = new DmnSearch();
-                    _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount";
-                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3";
+                    _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
+                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
                     _objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid";
                     _objSearch.WhereNdGroupBy = "where om.Status = 1 and om.OfferType=1";
                     _objSearch.OrderBy = " ORDER BY OfferName";
@@ -578,7 +657,7 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);                            
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -596,7 +675,21 @@ namespace FoodandBeverage.Forms
                                 txtcombo_finalprice.Text = Convert.ToString(itemSource[0].Field7);
                                 txtcombodes.Text = Convert.ToString(itemSource[0].Field10);
                                 btn_del_combo.Visible = true;
-                                
+
+                                DateTime fromDateTime = itemSource[0].StartDate; 
+                                 DateTime toDateTime = itemSource[0].EndDate;
+
+                                dtp_from_date.MinDate= fromDateTime.Date;
+                                dtp_to_date.MinDate = toDateTime.Date;
+
+                                // Set the "from" date and time
+                                dtp_from_date.Value = fromDateTime.Date;
+                                dtp_from_time.Value = fromDateTime;
+
+                                // Set the "to" date and time
+                                dtp_to_date.Value = toDateTime.Date;
+                                dtp_to_time.Value = toDateTime;
+
                                 dgv_sele_cmb_products.Rows.Add(itemSource.Count);
                                 for (int i = 0; i < itemSource.Count; i++)
                                 {
@@ -688,6 +781,7 @@ namespace FoodandBeverage.Forms
                             }
                         }
                     }
+                    
                 }
             }
             catch (Exception ex) 
@@ -1367,12 +1461,12 @@ namespace FoodandBeverage.Forms
                 txtcombo_finalprice.Focus();
                 return false;
             }
-            if (Convert.ToDecimal(txtcombo_totalprice.Text) > Convert.ToDecimal(txtcombo_finalprice))
-            {
-                CMessageBox.Show("Final amount not be greater than Tota Amount ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtcombo_finalprice.Focus();
-                return false;
-            }
+            //if (Convert.ToDecimal(txtcombo_totalprice.Text) > Convert.ToDecimal(txtcombo_finalprice.Text))
+            //{
+            //    CMessageBox.Show("Final amount not be greater than Total Amount ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    txtcombo_finalprice.Focus();
+            //    return false;
+            //}
 
             return true;
         }
@@ -1642,5 +1736,109 @@ namespace FoodandBeverage.Forms
                 btnsave.PerformClick();
             }
         }
+
+
+            private void dtp_from_date_s_ValueChanged(object sender, EventArgs e)
+            {
+                DateTime selectedDate = dtp_from_date_s.Value.Date;
+                DateTime currentDate = DateTime.Now.Date;
+                if (selectedDate < currentDate)
+                {
+                    dtp_from_date_s.Value = currentDate;
+                }
+            }
+
+        private void dtp_to_date_s_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_to_date_s.Value.Date;
+            DateTime currentDate = DateTime.Now.Date;
+            if (selectedDate < currentDate)
+            {
+                dtp_to_date_s.Value = currentDate;
+            }
+
+            DateTime fromDate = dtp_from_date_s.Value;
+            DateTime toDate = dtp_to_date_s.Value;
+            if (toDate < fromDate)
+            {
+                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
+                dtp_to_date_s.Value = fromDate;
+            }
+        }
+
+        private void dtp_from_time_s_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_from_date_s.Value.Date;
+            DateTime selectedTime = dtp_from_time_s.Value;
+
+            DateTime currentDateTime = DateTime.Now;
+            DateTime selectedDateTime = selectedDate + selectedTime.TimeOfDay;
+
+            if (selectedDateTime < currentDateTime)
+            {
+                dtp_from_time_s.Value = currentDateTime;
+            }
+        }
+
+        private void dtp_from_date_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_from_date.Value.Date;
+            DateTime currentDate = DateTime.Now.Date;
+            if (selectedDate < currentDate)
+            {
+                dtp_from_date.Value = currentDate;
+            }
+        }
+
+        private void dtp_from_time_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_from_date.Value.Date;
+            DateTime selectedTime = dtp_from_time.Value;
+
+            DateTime currentDateTime = DateTime.Now;
+            DateTime selectedDateTime = selectedDate + selectedTime.TimeOfDay;
+
+            if (selectedDateTime < currentDateTime)
+            {
+                dtp_from_time.Value = currentDateTime;
+            }
+        }
+
+        private void dtp_to_date_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_to_date.Value.Date;
+            DateTime currentDate = DateTime.Now.Date;
+            if (selectedDate < currentDate)
+            {
+                dtp_to_date.Value = currentDate;
+            }
+
+            DateTime fromDate = dtp_from_date.Value;
+            DateTime toDate = dtp_to_date.Value;
+            if (toDate < fromDate)
+            {
+                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
+                dtp_to_date.Value = fromDate;
+            }
+        }
+
+        private void btn_grid_product_close_Click(object sender, EventArgs e)
+        {
+            tlp_product_list.Visible = false;
+        }
+
+        private void dgv_product_list_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowindex = e.RowIndex;
+            if(Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dsaletypeno].Value)==1 )
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
     }
 }

@@ -57,6 +57,11 @@ namespace BLL
             parms.Add("PrId", objTestClass.PrId);
             parms.Add("Notes", objTestClass.Notes);
             parms.Add("OrderNo", objTestClass.OrderNo);
+
+            parms.Add("IGSTAmount", objTestClass.IGSTAmount); 
+            parms.Add("CGSTAmount", objTestClass.CGSTAmount);
+            parms.Add("SGSTAmount", objTestClass.SGSTAmount);
+            parms.Add("VATAmount", objTestClass.VATAmount);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

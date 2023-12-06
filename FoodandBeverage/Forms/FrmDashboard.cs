@@ -502,7 +502,7 @@ namespace FoodandBeverage.Forms
                             FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
                             if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
                             {
-                                _instanceFrmOrder.WindowState = FormWindowState.Normal;
+                                _instanceFrmOrder.WindowState = FormWindowState.Maximized;
                             }
                             else
                             {
@@ -1785,9 +1785,9 @@ namespace FoodandBeverage.Forms
             else
             {
                 FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView();
+                _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmKitchenView.Show();
                 _instanceFrmKitchenView.BringToFront();
-                _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
         }
     }

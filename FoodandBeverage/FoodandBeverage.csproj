@@ -583,5 +583,26 @@
   <ItemGroup>
     <None Include="Resources\food_preparation.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty_orders.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\food category.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yellow star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\white star.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\white star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dish_remarks_notes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\promo_code.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
