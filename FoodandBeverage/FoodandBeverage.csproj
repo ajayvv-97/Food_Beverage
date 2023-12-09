@@ -232,6 +232,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOfferDiscount.resx">
       <DependentUpon>FrmOfferDiscount.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrder.resx">
       <DependentUpon>FrmOrder.cs</DependentUpon>
@@ -603,6 +604,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\promo_code.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\offer_button_percentage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combo_button_percentage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

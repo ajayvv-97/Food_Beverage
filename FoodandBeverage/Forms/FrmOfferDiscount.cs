@@ -36,6 +36,7 @@ namespace FoodandBeverage.Forms
         public static int desno = 2;
         public static int odidno = 3;
         public static int statusno = 4;
+        public static int pridno = 5;
 
         public static int didno = 0;
         public static int dproductnameno = 1;
@@ -51,6 +52,7 @@ namespace FoodandBeverage.Forms
         TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel();
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
+        TableLayoutPanel tlp_price_list = new TableLayoutPanel();
 
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
@@ -69,7 +71,7 @@ namespace FoodandBeverage.Forms
             Control controlToRemove = tlp_main.GetControlFromPosition(0, 2);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_single.Visible = true;
-            tlp_main.Controls.Add(tlp_single,0, 2);
+            tlp_main.Controls.Add(tlp_single, 0, 2);
             tlp_single.Dock = DockStyle.Fill;
         }
 
@@ -97,6 +99,24 @@ namespace FoodandBeverage.Forms
             dgv_product_list.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_product_list.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
+            Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
+            tlp_comboproduct_view.Controls.Remove(controlToRemove1);
+            Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
+            tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+
+            cmbtaxtype.Text = "GST";
+            lbligst.Visible = true;
+            cmbIgstPrcnt.Visible = true;
+            lblvat.Visible = false;
+            cmbVatPrcnt.Visible = false;
+
+            lbligst.Dock = DockStyle.Fill;
+            cmbIgstPrcnt.Dock = DockStyle.Fill;
+            tlp_comboproduct_view.Controls.Add(lbligst, 2, 2);
+            tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2, 3);
+
+
+
             dtp_to_date_s.MinDate = DateTime.Now;
             dtp_from_date_s.MinDate = DateTime.Now;
 
@@ -114,6 +134,7 @@ namespace FoodandBeverage.Forms
             pnl_serachproducts.BackColor = Color.White; // Set the border color to white
             pnl_serachproducts.Padding = new Padding(5); // Adjust the padding to increase the border thickness
 
+            Taxfill();
         }
         #region TexBox Round function
         public void textb_shape()
@@ -121,7 +142,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtdescription, txtfinalprice, discountamt, discountper, txtoffername, txtrdisamt, txtrdisper, txtrprice, txtproduct, txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txtcombo_run_disamt, txtcombo_run_disper, txtcombo_run_price })
+                foreach (TextBox textBox in new TextBox[] { txtdescription, txtfinalprice, discountamt, discountper, txtoffername, txtrdisamt, txtrdisper, txtrprice, txtproduct, txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -153,7 +174,7 @@ namespace FoodandBeverage.Forms
         #endregion
         private void txtproduct_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.F8)
+            if (e.KeyCode == Keys.F8)
             {
                 ProductPopup();
             }
@@ -172,17 +193,17 @@ namespace FoodandBeverage.Forms
                 _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1";
                 _objSearch.OrderBy = "";
                 var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
-                if(Datasource.Count>0)
+                if (Datasource.Count > 0)
                 {
                     dgv_product_list.Rows.Clear();
                     dgv_product_list.Rows.Add(Datasource.Count);
-                    for(int i=0;i< Datasource.Count;i++)
+                    for (int i = 0; i < Datasource.Count; i++)
                     {
                         dgv_product_list.Rows[i].Cells[didno].Value = i + 1;
                         dgv_product_list.Rows[i].Cells[dproductnameno].Value = Datasource[i].Field1;
                         dgv_product_list.Rows[i].Cells[dpriceno].Value = Datasource[i].Field2;
-                        dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6; 
-                        dgv_product_list.Rows[i].Cells[dcateidno].Value = Datasource[i].Field7; 
+                        dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6;
+                        dgv_product_list.Rows[i].Cells[dcateidno].Value = Datasource[i].Field7;
                         dgv_product_list.Rows[i].Cells[dproductidno].Value = Datasource[i].Id;
                         dgv_product_list.Rows[i].Cells[dsaletypeno].Value = Datasource[i].Field5;
                     }
@@ -219,7 +240,7 @@ namespace FoodandBeverage.Forms
                 //}
                 //if (returnValue.ToString() != "")
                 //{                  
-               //if(checkOffer())
+                //if(checkOffer())
                 //    //{
                 //        ClearAll();
                 //        string pid = Convert.ToString(returnValue);
@@ -265,22 +286,66 @@ namespace FoodandBeverage.Forms
             }
             return true;
         }
+        public void Taxfill()
+        {
+            BllSearch<DmnComboBox> fiilgst = new BllSearch<DmnComboBox>();
+            BllSearch<DmnComboBox> fiilvat = new BllSearch<DmnComboBox>();
+            DmnSearch objSearch1 = new DmnSearch();
+            DmnSearch objSearch2 = new DmnSearch();
+
+            objSearch1.Select = " TaxSettingsId as Id, IgstPrcnt as Value";
+            objSearch1.Table = " tblTaxSettings";
+            objSearch1.WhereNdGroupBy = " where status=1 and TaxType='GST'";
+            objSearch1.OrderBy = "order by value";
+
+            objSearch2.Select = " TaxSettingsId as Id, VatPrcnt as Value ";
+            objSearch2.Table = " tblTaxSettings";
+            objSearch2.WhereNdGroupBy = " where isnull(status,0)=1 and TaxType='VAT'";
+            objSearch2.OrderBy = " order by value";
+
+            var gridSource1 = fiilgst.GetSearchData("prdComboFill", objSearch1);
+            var gridSource2 = fiilvat.GetSearchData("prdComboFill", objSearch2);
+
+            cmbVatPrcnt.DataSource = gridSource2;
+            cmbVatPrcnt.ValueMember = "Id";
+            cmbVatPrcnt.DisplayMember = "Value";
+
+            cmbIgstPrcnt.DataSource = gridSource1;
+            cmbIgstPrcnt.ValueMember = "Id";
+            cmbIgstPrcnt.DisplayMember = "Value";
+        }
         public void ClearAll()
-        {           
-            if(tlp_combo.Visible)
+        {
+            if (tlp_combo.Visible)
             {
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
-                foreach (TextBox textBox in new TextBox[] {txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txtcombo_run_disamt, txtcombo_run_disper, txtcombo_run_price })
-                {                    
+                foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername })
+                {
                     textBox.Text = "";
                 }
                 flp_selected_item_combo.Controls.Clear();
                 dgv_sele_cmb_products.Rows.Clear();
                 txtcombo_omid.Text = "";
                 btn_del_combo.Visible = false;
+
+                Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
+                tlp_comboproduct_view.Controls.Remove(controlToRemove1);
+                Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
+                tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+
+                cmbtaxtype.Text = "GST";
+                lbligst.Visible = true;
+                cmbIgstPrcnt.Visible = true;
+                lblvat.Visible = false;
+                cmbVatPrcnt.Visible = false;
+
+                lbligst.Dock = DockStyle.Fill;
+                cmbIgstPrcnt.Dock = DockStyle.Fill;
+                tlp_comboproduct_view.Controls.Add(lbligst, 2, 2);
+                tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2, 3);
             }
-            else if(tlp_single.Visible)
+            else if (tlp_single.Visible)
             {
                 btn_del_single.Visible = false;
                 txtpid.Text = "0";
@@ -390,7 +455,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if(tlp_single.Visible)
+                if (tlp_single.Visible)
                 {
                     if (MandatoryCheck_single())
                     {
@@ -399,9 +464,9 @@ namespace FoodandBeverage.Forms
                         BllOffer bllmaster = new BllOffer();
                         dmnOffermaster.Omid = Convert.ToInt32(txtomid.Text);
                         dmnOffermaster.OfferName = txtoffername.Text;
-
                         dmnOffermaster.OfferstartDatetime = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
                         dmnOffermaster.OfferEndDatetime = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+                        dmnOffermaster.FinalPrice = Convert.ToDecimal(txtfinalprice.Text);
 
                         dmnOffermaster.OfferType = 0;
                         dmnOffermaster.BranchId = 1;
@@ -420,8 +485,13 @@ namespace FoodandBeverage.Forms
                             dmnOfferdetails.ProductId = Convert.ToInt32(txtpid.Text);
                             dmnOfferdetails.Discountper = Convert.ToDecimal(discountper.Text);
                             dmnOfferdetails.DiscountAmt = Convert.ToDecimal(discountamt.Text);
-                            dmnOfferdetails.FinalPrice = Convert.ToDecimal(txtfinalprice.Text);
+                            dmnOfferdetails.Productname = Convert.ToString(txtproductname.Text);
                             dmnOfferdetails.Description = txtdescription.Text;
+                            dmnOfferdetails.Prid = Convert.ToInt32(txtprid_s.Text);
+                            if(Convert.ToInt32(txtprid_s.Text)==0)
+                                dmnOfferdetails.Saletype =0;
+                            else
+                                dmnOfferdetails.Saletype = 1;
                             dmnOfferdetails.BranchId = 1;
                             dmnOfferdetails.CreatedBy = 1;
                             dmnOfferdetails.Status = 1;
@@ -434,14 +504,14 @@ namespace FoodandBeverage.Forms
                                     CMessageBox.Show("Saved Successfuly ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 ClearAll();
                             }
-                            else                            
-                                CMessageBox.Show("Saved Failed", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);                           
+                            else
+                                CMessageBox.Show("Saved Failed", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         }
 
                     }
                 }
-                else if(tlp_combo.Visible)
+                else if (tlp_combo.Visible)
                 {
                     if (MandatoryCheck_Combo())
                     {
@@ -452,15 +522,24 @@ namespace FoodandBeverage.Forms
 
                         dmnOffermaster.Omid = Convert.ToInt32(txtcombo_omid.Text);
                         dmnOffermaster.OfferName = txtcmbo_offername.Text;
-                        dmnOffermaster.TotalPrice =Convert.ToDecimal(txtcombo_totalprice.Text);
-
+                        dmnOffermaster.TotalPrice = Convert.ToDecimal(txtcombo_totalprice.Text);
+                        dmnOffermaster.FinalPrice = Convert.ToDecimal(txtcombo_finalprice.Text);
                         dmnOffermaster.OfferstartDatetime = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
                         dmnOffermaster.OfferEndDatetime = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+                        dmnOffermaster.Discountper = Convert.ToDecimal(txtcombo_disper.Text);
+                        dmnOffermaster.DiscountAmt = Convert.ToDecimal(txtcombo_disamt.Text);
+                        dmnOffermaster.Tax = Convert.ToString(cmbtax.Text);
+                        dmnOffermaster.TaxType = Convert.ToString(cmbtaxtype.Text);
+
+                        if(cmbtaxtype.Text=="GST")
+                            dmnOffermaster.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt.SelectedValue);
+                        else
+                            dmnOffermaster.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
 
                         dmnOffermaster.OfferType = 1;
                         dmnOffermaster.BranchId = 1;
-                        dmnOffermaster.CreatedBy = 1;       
-                        if(chk_combo_status.Checked)
+                        dmnOffermaster.CreatedBy = 1;
+                        if (chk_combo_status.Checked)
                             dmnOffermaster.Status = 1;
                         else
                             dmnOffermaster.Status = 0;
@@ -477,9 +556,12 @@ namespace FoodandBeverage.Forms
                                     dmnOfferdetails.Omid = Convert.ToInt32(InsertStatusM.Omid);
                                     dmnOfferdetails.ProductId = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value);
                                     dmnOfferdetails.Quantity = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value);
-                                    dmnOfferdetails.Discountper = Convert.ToDecimal(txtcombo_disper.Text);
-                                    dmnOfferdetails.DiscountAmt = Convert.ToDecimal(txtcombo_disamt.Text);
-                                    dmnOfferdetails.FinalPrice = Convert.ToDecimal(txtcombo_finalprice.Text);
+                                    dmnOfferdetails.Prid = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value);
+                                    if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value) == 0)
+                                        dmnOfferdetails.Saletype = 0;
+                                    else
+                                        dmnOfferdetails.Saletype = 1;
+                                    dmnOfferdetails.Productname = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[desno].Value);           
                                     dmnOfferdetails.Description = txtcombodes.Text;
                                     dmnOfferdetails.BranchId = 1;
                                     dmnOfferdetails.CreatedBy = 1;
@@ -498,7 +580,7 @@ namespace FoodandBeverage.Forms
                             }
                             if (insflag == 1)
                             {
-                                if(Convert.ToInt32(txtcombo_omid.Text)>0)
+                                if (Convert.ToInt32(txtcombo_omid.Text) > 0)
                                     CMessageBox.Show("Update Successfuly", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 else
                                     CMessageBox.Show("Saved Successfuly ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -510,11 +592,11 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-               
+
             }
             catch (Exception ex)
-            { 
-            
+            {
+
             }
         }
         public bool MandatoryCheck_single()
@@ -527,7 +609,11 @@ namespace FoodandBeverage.Forms
                 discountamt.Text = "0";
             if (string.IsNullOrEmpty(discountper.Text))
                 discountper.Text = "0";
-            if (string.IsNullOrEmpty(txtpid.Text))
+            if (string.IsNullOrEmpty(txtfinalprice.Text))
+                txtfinalprice.Text = "0";
+            if (string.IsNullOrEmpty(txtprid_s.Text))
+                txtprid_s.Text = "0";
+            if (string.IsNullOrEmpty(txtpid.Text)) 
             {
                 CMessageBox.Show("Please Select the Product ", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtproduct.Focus();
@@ -561,7 +647,7 @@ namespace FoodandBeverage.Forms
                     dtColumnAlign.Columns.Add();
                     DmnSearch _objSearch = new DmnSearch();
                     _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
-                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
+                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,od.Discountper as Field2,od.DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
                     _objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid";
                     _objSearch.WhereNdGroupBy = "where om.Status = 1 and om.OfferType=0";
                     _objSearch.OrderBy = " ORDER BY OfferName";
@@ -585,9 +671,9 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12, om.OfferstartDatetime StartDate, om.OfferEndDatetime EndDate";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,om.FinalPrice as Field7,od.Productname as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12, om.OfferstartDatetime StartDate, om.OfferEndDatetime EndDate";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
-                            objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid="+ omid;
+                            objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
                             var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                             if (itemSource.Count > 0)
@@ -605,20 +691,20 @@ namespace FoodandBeverage.Forms
                                 discountper.Text = Convert.ToString(itemSource[0].Field5);
                                 discountamt.Text = Convert.ToString(itemSource[0].Field6);
 
-                                txtoffername.Text = Convert.ToString(itemSource[0].Field4);             
+                                txtoffername.Text = Convert.ToString(itemSource[0].Field4);
                                 txtfinalprice.Text = Convert.ToString(itemSource[0].Field7);
                                 txtdescription.Text = Convert.ToString(itemSource[0].Field10);
 
-                                DateTime fromDateTime = itemSource[0].StartDate;
-                                DateTime toDateTime = itemSource[0].EndDate;
-
+                                //DateTime fromDateTime = itemSource[0].StartDate;
+                                //DateTime toDateTime = itemSource[0].EndDate;
+                                dtp_from_date_s.MinDate = itemSource[0].StartDate.Date;
                                 // Set the "from" date and time
-                                dtp_from_date_s.Value = fromDateTime.Date; 
-                                dtp_from_time_s.Value = fromDateTime;       
+                                dtp_from_date_s.Value = itemSource[0].StartDate.Date;
+                                dtp_from_time_s.Value = itemSource[0].StartDate;
 
                                 // Set the "to" date and time
-                                dtp_to_date_s.Value = toDateTime.Date;     
-                                dtp_to_time_s.Value = toDateTime;           
+                                dtp_to_date_s.Value = itemSource[0].EndDate.Date;
+                                dtp_to_time_s.Value = itemSource[0].EndDate;
 
 
                             }
@@ -633,9 +719,9 @@ namespace FoodandBeverage.Forms
                     dtColumnAlign.Columns.Add();
                     DmnSearch _objSearch = new DmnSearch();
                     _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
-                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
-                    _objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid";
-                    _objSearch.WhereNdGroupBy = "where om.Status = 1 and om.OfferType=1";
+                    _objSearch.Select = "Omid as ID,OfferName as Field1,Discountper as Field2,DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
+                    _objSearch.Table = "tblOfferMaster";
+                    _objSearch.WhereNdGroupBy = "where Status = 1 and OfferType=1";
                     _objSearch.OrderBy = " ORDER BY OfferName";
                     var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                     if (gridSource.Count == 0)
@@ -654,10 +740,10 @@ namespace FoodandBeverage.Forms
                         }
                         if (returnValue != "")
                         {
-                            int omid = Convert.ToInt32(returnValue);                            
+                            int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,od.Discountper as Field5,od.DiscountAmt as Field6,FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -676,10 +762,10 @@ namespace FoodandBeverage.Forms
                                 txtcombodes.Text = Convert.ToString(itemSource[0].Field10);
                                 btn_del_combo.Visible = true;
 
-                                DateTime fromDateTime = itemSource[0].StartDate; 
-                                 DateTime toDateTime = itemSource[0].EndDate;
+                                DateTime fromDateTime = itemSource[0].StartDate;
+                                DateTime toDateTime = itemSource[0].EndDate;
 
-                                dtp_from_date.MinDate= fromDateTime.Date;
+                                dtp_from_date.MinDate = fromDateTime.Date;
                                 dtp_to_date.MinDate = toDateTime.Date;
 
                                 // Set the "from" date and time
@@ -693,16 +779,29 @@ namespace FoodandBeverage.Forms
                                 dgv_sele_cmb_products.Rows.Add(itemSource.Count);
                                 for (int i = 0; i < itemSource.Count; i++)
                                 {
-                                    if (Convert.ToInt32(itemSource[i].Field15)==1)
+                                    if (Convert.ToInt32(itemSource[i].Field15) == 1)
                                     {
                                         dgv_sele_cmb_products.Rows[i].Cells[odidno].Value = itemSource[i].Field2;
                                         dgv_sele_cmb_products.Rows[i].Cells[pidno].Value = itemSource[i].Field3;
                                         dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = itemSource[i].Field14;
                                         dgv_sele_cmb_products.Rows[i].Cells[statusno].Value = itemSource[i].Field15;
+                                        dgv_sele_cmb_products.Rows[i].Cells[pridno].Value = itemSource[i].Field16;
+                                        dgv_sele_cmb_products.Rows[i].Cells[desno].Value = itemSource[i].Field17;
+
 
                                         TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
+                                        if(Convert.ToInt32(itemSource[i].Field16)>0)
+                                        {
+                                            tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field16;
+                                            tlp_selected_Item_Box.AccessibleDescription = "1";
+                                        }
+                                        else
+                                        {
+                                            tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field17;
+                                            tlp_selected_Item_Box.AccessibleDescription = "0";
+                                            tlp_selected_Item_Box.Tag = itemSource[i].Field3;
+                                        }
 
-                                        tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field8;
                                         tlp_selected_Item_Box.Width = 245;
                                         tlp_selected_Item_Box.Height = 60;
                                         tlp_selected_Item_Box.ColumnCount = 4;
@@ -711,9 +810,19 @@ namespace FoodandBeverage.Forms
 
                                         //Item Button   
                                         Button Button_Item = new Button();
-                                        Button_Item.Text = itemSource[i].Field8;
-                                        Button_Item.Name = "btn_sele_" + itemSource[i].Field8;
-                                        Button_Item.Tag = itemSource[i].Field3;
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
+                                        {
+                                            Button_Item.Text = itemSource[i].Field17;
+                                            Button_Item.Name = "btn_sele_" + itemSource[i].Field16;
+                                            Button_Item.Tag = itemSource[i].Field16;
+                                        }
+                                        else
+                                        {
+                                            Button_Item.Text = itemSource[i].Field17;
+                                            Button_Item.Name = "btn_sele_" + itemSource[i].Field17;
+                                            Button_Item.Tag = itemSource[i].Field3;
+                                        }
+
                                         Button_Item.Width = 150;
                                         Button_Item.Height = 50;
                                         Button_Item.FlatAppearance.BorderSize = 0;
@@ -727,10 +836,20 @@ namespace FoodandBeverage.Forms
 
                                         // Creating the label for the Qty
                                         Label label = new Label();
-                                        int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
-                                        label.Text = Convert.ToString(intValue);
-                                        label.Name = "lbl_selected_" + itemSource[i].Field8;
-                                        label.Tag = itemSource[i].Field3;
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
+                                        {
+                                            int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
+                                            label.Text = Convert.ToString(intValue);
+                                            label.Name = "lbl_selected_" + itemSource[i].Field16;
+                                            label.Tag = itemSource[i].Field3;
+                                        }
+                                        else
+                                        {
+                                            int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
+                                            label.Text = Convert.ToString(intValue);
+                                            label.Name = "lbl_selected_" + itemSource[i].Field17;
+                                            label.Tag = itemSource[i].Field3;
+                                        }            
                                         label.AutoSize = true;
                                         label.Dock = DockStyle.Fill;
                                         label.ForeColor = Color.White;
@@ -741,9 +860,18 @@ namespace FoodandBeverage.Forms
 
                                         //Add Button
                                         Button Button_Add = new Button();
-                                        Button_Add.Text = "+";
-                                        Button_Add.Name = "btn_sele_add_" + itemSource[i].Field8;
-                                        Button_Add.Tag = itemSource[i].Field8;
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
+                                        {
+                                            Button_Add.Name = "btn_sele_add_" + itemSource[i].Field16;
+                                            Button_Add.Tag = itemSource[i].Field16;
+                                        }
+                                        else
+                                        {
+                                            Button_Add.Name = "btn_sele_add_" + itemSource[i].Field17;
+                                            Button_Add.Tag = itemSource[i].Field8;
+                                        }
+
+                                        Button_Add.Text = "+";                         
                                         Button_Add.Width = 20;
                                         Button_Add.Height = 50;
                                         Button_Add.FlatAppearance.BorderSize = 0;
@@ -758,9 +886,17 @@ namespace FoodandBeverage.Forms
 
                                         //Remove Button
                                         Button Button_Remove = new Button();
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
+                                        {
+                                            Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field16;
+                                            Button_Remove.Tag = itemSource[i].Field16;
+                                        }
+                                        else
+                                        {
+                                            Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field8;
+                                            Button_Remove.Tag = itemSource[i].Field17;
+                                        }
                                         Button_Remove.Text = "-";
-                                        Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field8;
-                                        Button_Remove.Tag = itemSource[i].Field8;
                                         Button_Remove.Width = 20;
                                         Button_Remove.Height = 50;
                                         Button_Remove.Dock = DockStyle.Left;
@@ -781,11 +917,11 @@ namespace FoodandBeverage.Forms
                             }
                         }
                     }
-                    
+
                 }
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
             }
 
         }
@@ -802,10 +938,10 @@ namespace FoodandBeverage.Forms
         public void netAmount()
         {
             try
-            {           
-                 decimal netAmount = Convert.ToDecimal(txtrprice.Text) - Convert.ToDecimal(discountamt.Text);
+            {
+                decimal netAmount = Convert.ToDecimal(txtrprice.Text) - Convert.ToDecimal(discountamt.Text);
                 txtfinalprice.Text = netAmount.ToString("N2");
-                
+
             }
             catch (Exception ex)
             {
@@ -816,7 +952,7 @@ namespace FoodandBeverage.Forms
 
         private void txtproduct_Leave(object sender, EventArgs e)
         {
-            lblinforF8.Visible = false;           
+            lblinforF8.Visible = false;
         }
 
         private void txtproduct_Enter(object sender, EventArgs e)
@@ -827,7 +963,7 @@ namespace FoodandBeverage.Forms
         private void btn_AddcomboProduct_Click(object sender, EventArgs e)
         {
             txtitemcode_serach.Text = "";
-            txtname_search.Text="";
+            txtname_search.Text = "";
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             pnl_serachproducts.Location = new Point(this.ClientSize.Width / 2 - pnl_serachproducts.Size.Width / 2, this.ClientSize.Height / 2 - pnl_serachproducts.Size.Height / 2);
@@ -850,13 +986,13 @@ namespace FoodandBeverage.Forms
                 {
                     // Configure the Button
                     Button button = new Button();
-                    button.Text =  gridSource[i].CategoryName;
+                    button.Text = gridSource[i].CategoryName;
                     button.Name = "btn" + gridSource[i].CategoryName;
                     button.Tag = gridSource[i].Fcid;
                     button.BackColor = Color.Beige;
                     button.Width = 160;
                     button.Height = 40;
-              
+
                     button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
                     button.Click += new EventHandler(SidebuttonClickEventHandler);
                     tlp_searchproduct_sidebar.Controls.Add(button, 0, rowIndex);
@@ -870,13 +1006,15 @@ namespace FoodandBeverage.Forms
             try
             {
                 Control clickedControl = sender as Control;
-                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "*";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId ";
-                dmnSearch.WhereNdGroupBy = " where p.Status=1 and p.Fcid= "+ clickedControl.Tag + "and m.Status=1";
+                dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3";
+                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1 " +
+                    " Union Select Itemname as Field1,ItemId as Field2,Saletype as Field3 from tblItem";
+                dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                 pnl_serachproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
@@ -894,9 +1032,10 @@ namespace FoodandBeverage.Forms
                         }
                         // Configure the Button
                         Button button = new Button();
-                        button.Text = gridSource[i].Product;
-                        button.Name = "btn" + gridSource[i].Product;
-                        button.Tag = gridSource[i].ProductId;
+                        button.Text = gridSource[i].Field1;
+                        button.Name = "btn" + gridSource[i].Field1;
+                        button.Tag = gridSource[i].Field2;
+                        button.AccessibleDescription = gridSource[i].Field3;
                         button.Width = 170;
                         button.Height = 50;
 
@@ -952,103 +1091,115 @@ namespace FoodandBeverage.Forms
             try
             {
                 Control clickedControl = sender as Control;
-                string buttonname = "btn_sele_" + clickedControl.Text;
-                Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button; 
-                if(buttonitem!=null)
+
+                if (Convert.ToInt32(clickedControl.AccessibleDescription) == 1)
                 {
-                    string lblname = "lbl_selected_" + clickedControl.Text;
-                    Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                    int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
-                    lblqty.Text = Convert.ToString(cur_qty);
-                    CalcTotalAmtCombo(Convert.ToInt32(buttonitem.Tag),1);
-                    pnl_serachproducts.Visible = false;
+                    CheckMultiplePrice(Convert.ToInt32(clickedControl.Tag));
                 }
                 else
                 {
-                    dgv_sele_cmb_products.Rows.Add();
-                    int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;  
-                    dgv_sele_cmb_products.Rows[rowIndex].Cells[pidno].Value = clickedControl.Tag;
-                    dgv_sele_cmb_products.Rows[rowIndex].Cells[statusno].Value = 1;
+                    string buttonname = "btn_sele_" + clickedControl.Text;
+                    Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
+                    if (buttonitem != null)
+                    {
+                        string lblname = "lbl_selected_" + clickedControl.Text;
+                        Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                        int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                        lblqty.Text = Convert.ToString(cur_qty);
+                        CalcTotalAmtCombo(Convert.ToInt32(buttonitem.Tag), 1);
+                        pnl_serachproducts.Visible = false;
+                    }
+                    else
+                    {
+                        dgv_sele_cmb_products.Rows.Add();
+                        int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[desno].Value = clickedControl.Text;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[pidno].Value = clickedControl.Tag;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[statusno].Value = 1;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[pridno].Value = 0;
 
-                    CalcTotalAmtCombo(Convert.ToInt32(clickedControl.Tag),1);
-                    TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
-                   
-                    tlp_selected_Item_Box.Name = "tlp_sele_" + clickedControl.Text;
-                    tlp_selected_Item_Box.Width = 245;
-                    tlp_selected_Item_Box.Height = 60;
-                    tlp_selected_Item_Box.ColumnCount = 4;
-                    tlp_selected_Item_Box.BorderStyle = BorderStyle.FixedSingle;
-                    tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
+                        CalcTotalAmtCombo(Convert.ToInt32(clickedControl.Tag), 1);
+                        TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
 
-                     //Item Button   
-                     Button Button_Item = new Button();
-                    Button_Item.Text = clickedControl.Text;
-                    Button_Item.Name = "btn_sele_" + clickedControl.Text;
-                    Button_Item.Tag = clickedControl.Tag;
-                    Button_Item.Width = 150;
-                    Button_Item.Height = 50;
-                    Button_Item.FlatAppearance.BorderSize = 0;
-                    Button_Item.FlatAppearance.BorderColor = Button_Item.BackColor;
-                    Button_Item.FlatStyle = FlatStyle.Flat;
-                    Button_Item.BackColor = Color.White;
-                    Button_Item.Click += new EventHandler(Button_ItemClickEventHandler);
-                    Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
-                    // Adding the button to the third column
-                    tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
+                        tlp_selected_Item_Box.Name = "tlp_sele_" + clickedControl.Text;
+                        tlp_selected_Item_Box.AccessibleDescription = "0";
+                        tlp_selected_Item_Box.Tag = clickedControl.Tag;
+                        tlp_selected_Item_Box.Width = 245;
+                        tlp_selected_Item_Box.Height = 60;
+                        tlp_selected_Item_Box.ColumnCount = 4;
+                        tlp_selected_Item_Box.BorderStyle = BorderStyle.FixedSingle;
+                        tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
 
-                    // Creating the label for the Qty
-                    Label label = new Label();
-                    label.Text = "1";  // Set your desired text
-                    label.Name = "lbl_selected_" + clickedControl.Text;
-                    label.Tag = clickedControl.Text;
-                    label.AutoSize = true;
-                    label.Dock = DockStyle.Fill;
-                    label.ForeColor = Color.White;
-                    label.TextAlign = ContentAlignment.MiddleCenter;
-                    label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
-                    // Adding the label to the second column
-                    tlp_selected_Item_Box.Controls.Add(label, 1, 0);
+                        //Item Button   
+                        Button Button_Item = new Button();
+                        Button_Item.Text = clickedControl.Text;
+                        Button_Item.Name = "btn_sele_" + clickedControl.Text;
+                        Button_Item.Tag = clickedControl.Tag;
+                        Button_Item.Width = 150;
+                        Button_Item.Height = 50;
+                        Button_Item.FlatAppearance.BorderSize = 0;
+                        Button_Item.FlatAppearance.BorderColor = Button_Item.BackColor;
+                        Button_Item.FlatStyle = FlatStyle.Flat;
+                        Button_Item.BackColor = Color.White;
+                        Button_Item.Click += new EventHandler(Button_ItemClickEventHandler);
+                        Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
 
-                    //Add Button
-                    Button Button_Add = new Button();
-                    Button_Add.Text = "+";
-                    Button_Add.Name = "btn_sele_add_" + clickedControl.Text;
-                    Button_Add.Tag = clickedControl.Text;
-                    Button_Add.Width = 20;
-                    Button_Add.Height = 50;
-                    Button_Add.FlatAppearance.BorderSize = 0;
-                    Button_Add.FlatAppearance.BorderColor = Button_Add.BackColor;
-                    Button_Add.FlatStyle = FlatStyle.Flat;
-                    Button_Add.BackColor = Color.White;
-                    Button_Add.Click += new EventHandler(Button_AddClickEventHandler);
-                    Button_Add.Font = new Font(Button_Add.Font.FontFamily, 10, FontStyle.Bold);
-                    Button_Add.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0,0, Button_Add.Width, Button_Add.Height, Button_Add.Width, Button_Add.Height));
-                    // Adding the button to the third column
-                    tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
+                        // Creating the label for the Qty
+                        Label label = new Label();
+                        label.Text = "1";  // Set your desired text
+                        label.Name = "lbl_selected_" + clickedControl.Text;
+                        label.Tag = clickedControl.Text;
+                        label.AutoSize = true;
+                        label.Dock = DockStyle.Fill;
+                        label.ForeColor = Color.White;
+                        label.TextAlign = ContentAlignment.MiddleCenter;
+                        label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
+                        // Adding the label to the second column
+                        tlp_selected_Item_Box.Controls.Add(label, 1, 0);
 
-                    //Remove Button
-                    Button Button_Remove = new Button();
-                    Button_Remove.Text = "-";
-                    Button_Remove.Name = "btn_sele_rem_" + clickedControl.Text;
-                    Button_Remove.Tag = clickedControl.Text;
-                    Button_Remove.Width = 20;
-                    Button_Remove.Height = 50;
-                    Button_Remove.Dock = DockStyle.Left;
-                    Button_Remove.FlatAppearance.BorderSize = 0;
-                    Button_Remove.FlatAppearance.BorderColor = Button_Remove.BackColor;
-                    Button_Remove.FlatStyle = FlatStyle.Flat;
-                    Button_Remove.BackColor = Color.White;
-                    Button_Remove.Click += new EventHandler(Button_RemoveClickEventHandler);
-                    Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
-                    Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, Button_Remove.Width, Button_Remove.Height));
-                    // Adding the button to the third column
-                    tlp_selected_Item_Box.Controls.Add(Button_Remove, 3, 0);
-                    flp_selected_item_combo.Controls.Add(tlp_selected_Item_Box);
-                    tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
-                    pnl_serachproducts.Visible = false;
-                    discountAmnt_combo();
-                    discountPer_combo();
-                    netAmount_combo();
+                        //Add Button
+                        Button Button_Add = new Button();
+                        Button_Add.Text = "+";
+                        Button_Add.Name = "btn_sele_add_" + clickedControl.Text;
+                        Button_Add.Tag = clickedControl.Text;
+                        Button_Add.Width = 20;
+                        Button_Add.Height = 50;
+                        Button_Add.FlatAppearance.BorderSize = 0;
+                        Button_Add.FlatAppearance.BorderColor = Button_Add.BackColor;
+                        Button_Add.FlatStyle = FlatStyle.Flat;
+                        Button_Add.BackColor = Color.White;
+                        Button_Add.Click += new EventHandler(Button_AddClickEventHandler);
+                        Button_Add.Font = new Font(Button_Add.Font.FontFamily, 10, FontStyle.Bold);
+                        Button_Add.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Add.Width, Button_Add.Height, Button_Add.Width, Button_Add.Height));
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
+
+                        //Remove Button
+                        Button Button_Remove = new Button();
+                        Button_Remove.Text = "-";
+                        Button_Remove.Name = "btn_sele_rem_" + clickedControl.Text;
+                        Button_Remove.Tag = clickedControl.Text;
+                        Button_Remove.Width = 20;
+                        Button_Remove.Height = 50;
+                        Button_Remove.Dock = DockStyle.Left;
+                        Button_Remove.FlatAppearance.BorderSize = 0;
+                        Button_Remove.FlatAppearance.BorderColor = Button_Remove.BackColor;
+                        Button_Remove.FlatStyle = FlatStyle.Flat;
+                        Button_Remove.BackColor = Color.White;
+                        Button_Remove.Click += new EventHandler(Button_RemoveClickEventHandler);
+                        Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
+                        Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, Button_Remove.Width, Button_Remove.Height));
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Remove, 3, 0);
+                        flp_selected_item_combo.Controls.Add(tlp_selected_Item_Box);
+                        tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
+                        pnl_serachproducts.Visible = false;
+                        discountAmnt_combo();
+                        discountPer_combo();
+                        netAmount_combo();
+                    }
                 }
 
             }
@@ -1056,27 +1207,235 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-        private void Button_ItemClickEventHandler(object sender, EventArgs e)
+
+        public void CheckMultiplePrice(int id)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "i.Itemname Field1, pr.SRate Field2, pr.QOH Field3,pr.Id Field4,i.ItemId Field5";
+                objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
+                objSearch.WhereNdGroupBy = "where i.status = 1 and pr.QOH>0 and i.itemid=" + id;
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 1)
+                {
+                    pnl_serachproducts.Visible = false;
+                    Control controlclose;
+                    pnlprice.Controls.Clear();
+                    tlp_price_list.Controls.Clear();
+                    tlp_price_list.Dock = DockStyle.Fill;
+                    tlp_price_list.ColumnCount = 1;
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+                    Button closebutton = new Button();
+                    closebutton.Text = "X";
+                    controlclose = closebutton;
+                    closebutton.BackgroundImage = FoodandBeverage.Properties.Resources.close_price_change;
+                    closebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                    closebutton.FlatStyle = FlatStyle.Flat;
+                    closebutton.ForeColor = System.Drawing.Color.White;
+                    closebutton.Font = new Font("Georgia", 14);
+                    closebutton.Width = 50;
+                    closebutton.Height = 50;
+                    closebutton.Dock = DockStyle.Right;
+                    closebutton.Click += new EventHandler(closebuttonClickEventHandler);
+                    tlp_price_list.RowCount++;
+                    tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                    tlp_price_list.Controls.Add(controlclose, 0, 0);
+
+                    Control control1, controlsrate, controlqty;
+                    int rowIndex = 2;
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        Button pricebutton = new Button();
+                        pricebutton.Text = "RS. " + (gridSource[i].Field2).ToString() + "  QTY : " + (gridSource[i].Field3).ToString(); ;
+                        pricebutton.Name = (gridSource[i].Field1).ToString();
+                        pricebutton.Tag = gridSource[i].Field5;
+                        pricebutton.AccessibleDescription = gridSource[i].Field4;
+
+                        control1 = pricebutton;
+                        //pricebutton.Dock = DockStyle.Fill;
+                        pricebutton.BackgroundImage = FoodandBeverage.Properties.Resources.Button_Price_change;
+                        pricebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                        pricebutton.FlatStyle = FlatStyle.Flat;
+                        pricebutton.ForeColor = System.Drawing.Color.White;
+                        pricebutton.Font = new Font("Georgia", 14);
+                        pricebutton.Width = 300;
+                        pricebutton.Height = 70;
+                        // Add the event handler for the button
+                        pricebutton.Click += new EventHandler(MyButtonComboClickEventHandler);
+                        // Add the controls to the row
+                        tlp_price_list.RowCount++;
+                        tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                        tlp_price_list.Controls.Add(control1, 0, rowIndex);
+                        rowIndex++;
+                    }
+                    // Add the TableLayoutPanel to the form
+
+                    pnlprice.Visible = true;
+                    pnlprice.Location = new Point(this.ClientSize.Width / 2 - pnlprice.Size.Width / 2, this.ClientSize.Height / 2 - pnlprice.Size.Height / 2);
+                    pnlprice.Controls.Add(tlp_price_list);
+
+                }
+                else
+                {
+
+                    string buttonname = "btn_sele_" + gridSource[0].Field4;
+                    Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
+                    if (buttonitem != null)
+                    {
+                        string lblname = "lbl_selected_" + gridSource[0].Field4;
+                        Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                        int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                        lblqty.Text = Convert.ToString(cur_qty);
+                        CalcTotalAmtCombo_prid(Convert.ToInt32(gridSource[0].Field4), 1);
+                        pnl_serachproducts.Visible = false;
+                    }
+                    else
+                    {
+                        dgv_sele_cmb_products.Rows.Add();
+                        int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[pidno].Value = gridSource[0].Field5;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[desno].Value = gridSource[0].Field1;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[statusno].Value = 1;
+                        dgv_sele_cmb_products.Rows[rowIndex].Cells[pridno].Value = gridSource[0].Field4;
+
+                        CalcTotalAmtCombo_prid(Convert.ToInt32(gridSource[0].Field4), 1);
+                        TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
+
+                        tlp_selected_Item_Box.Name = "tlp_sele_" + gridSource[0].Field4;
+                        tlp_selected_Item_Box.AccessibleDescription = "1";
+                        tlp_selected_Item_Box.Width = 245;
+                        tlp_selected_Item_Box.Height = 60;
+                        tlp_selected_Item_Box.ColumnCount = 4;
+                        tlp_selected_Item_Box.BorderStyle = BorderStyle.FixedSingle;
+                        tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
+
+                        //Item Button   
+                        Button Button_Item = new Button();
+                        Button_Item.Text = gridSource[0].Field1;
+                        Button_Item.Name = "btn_sele_" + gridSource[0].Field4;
+                        Button_Item.Tag = gridSource[0].Field4;
+                        Button_Item.Width = 150;
+                        Button_Item.Height = 50;
+                        Button_Item.FlatAppearance.BorderSize = 0;
+                        Button_Item.FlatAppearance.BorderColor = Button_Item.BackColor;
+                        Button_Item.FlatStyle = FlatStyle.Flat;
+                        Button_Item.BackColor = Color.White;
+                        Button_Item.Click += new EventHandler(Button_ItemClickEventHandler);
+                        Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
+
+                        // Creating the label for the Qty
+                        Label label = new Label();
+                        label.Text = "1";  // Set your desired text
+                        label.Name = "lbl_selected_" + gridSource[0].Field4;
+                        label.Tag = gridSource[0].Field4;
+                        label.AutoSize = true;
+                        label.Dock = DockStyle.Fill;
+                        label.ForeColor = Color.White;
+                        label.TextAlign = ContentAlignment.MiddleCenter;
+                        label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
+                        // Adding the label to the second column
+                        tlp_selected_Item_Box.Controls.Add(label, 1, 0);
+
+                        //Add Button
+                        Button Button_Add = new Button();
+                        Button_Add.Text = "+";
+                        Button_Add.Name = "btn_sele_add_" + gridSource[0].Field4;
+                        Button_Add.Tag = gridSource[0].Field4;
+                        Button_Add.Width = 20;
+                        Button_Add.Height = 50;
+                        Button_Add.FlatAppearance.BorderSize = 0;
+                        Button_Add.FlatAppearance.BorderColor = Button_Add.BackColor;
+                        Button_Add.FlatStyle = FlatStyle.Flat;
+                        Button_Add.BackColor = Color.White;
+                        Button_Add.Click += new EventHandler(Button_AddClickEventHandler);
+                        Button_Add.Font = new Font(Button_Add.Font.FontFamily, 10, FontStyle.Bold);
+                        Button_Add.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Add.Width, Button_Add.Height, Button_Add.Width, Button_Add.Height));
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
+
+                        //Remove Button
+                        Button Button_Remove = new Button();
+                        Button_Remove.Text = "-";
+                        Button_Remove.Name = "btn_sele_rem_" + gridSource[0].Field4;
+                        Button_Remove.Tag = gridSource[0].Field4;
+                        Button_Remove.Width = 20;
+                        Button_Remove.Height = 50;
+                        Button_Remove.Dock = DockStyle.Left;
+                        Button_Remove.FlatAppearance.BorderSize = 0;
+                        Button_Remove.FlatAppearance.BorderColor = Button_Remove.BackColor;
+                        Button_Remove.FlatStyle = FlatStyle.Flat;
+                        Button_Remove.BackColor = Color.White;
+                        Button_Remove.Click += new EventHandler(Button_RemoveClickEventHandler);
+                        Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
+                        Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, Button_Remove.Width, Button_Remove.Height));
+                        // Adding the button to the third column
+                        tlp_selected_Item_Box.Controls.Add(Button_Remove, 3, 0);
+                        flp_selected_item_combo.Controls.Add(tlp_selected_Item_Box);
+                        tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
+                        pnl_serachproducts.Visible = false;
+                        discountAmnt_combo();
+                        discountPer_combo();
+                        netAmount_combo();
+                        pnlprice.Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+      private void Button_ItemClickEventHandler(object sender, EventArgs e)
         {
             try
             {
                 Control clickedControl = sender as Control;
-                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblProduct";
-                objSearch.WhereNdGroupBy = "where ProductId=" + clickedControl.Tag;
-                objSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (gridSource.Count > 0)
-                {
-                    //txtpid.Text = Convert.ToString(gridSource[0].ProductId);
-                    //txtproduct.Text = gridSource[0].Product;
-                    txtcombo_run_price.Text = Convert.ToString(gridSource[0].Price);
-                    txtcombo_run_disper.Text = Convert.ToString(gridSource[0].DiscountPer);
-                    txtcombo_run_disamt.Text = Convert.ToString(gridSource[0].DiscountAmt);
-                }
+                string tlpname = "tlp_sele_" + clickedControl.Text;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                //if (tlp_sele != null)
+                //{
+                //    if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 0)
+                //    {
+                //        BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                //        DmnSearch objSearch = new DmnSearch();
+                //        objSearch = new DmnSearch();
+                //        objSearch.Select = "*";
+                //        objSearch.Table = "tblProduct";
+                //        objSearch.WhereNdGroupBy = "where ProductId=" + clickedControl.Tag;
+                //        objSearch.OrderBy = "";
+                //        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                //        if (gridSource.Count > 0)
+                //        {
+                //            txtcombo_run_price.Text = Convert.ToString(gridSource[0].Price);
+                //            txtcombo_run_disper.Text = Convert.ToString(gridSource[0].DiscountPer);
+                //            txtcombo_run_disamt.Text = Convert.ToString(gridSource[0].DiscountAmt);
+                //        }
+
+                //    }
+                //    else
+                //    {
+                //        for (int i = 0; i < dgv_sele_cmb_products.RowCount; i++)
+                //        {
+                //            if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value) == Convert.ToInt32(clickedControl.Tag))
+                //            {
+                //                txtcombo_run_price.Text = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value);
+                //                txtcombo_run_disper.Text = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value);
+                //                txtcombo_run_disamt.Text = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value);
+                //                break;
+                //            }
+                //        }
+                //    }
+
+                //}
 
             }
             catch (Exception ex)
@@ -1087,31 +1446,73 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-       
                 Control clickedControl = sender as Control;
                 string lblname = "lbl_selected_" + clickedControl.Tag;
-                string buttonname = "btn_sele_" + clickedControl.Tag;
+                string tlpname = "tlp_sele_" + clickedControl.Tag;
                 // Find the TableLayoutPanel control by name
                 Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                if(lblqty != null)
+                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                if (lblqty != null)
                 {
                     int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
                     lblqty.Text = Convert.ToString(cur_qty);
-                    Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
-                    if (buttonitem != null)                    
-                        CalcTotalAmtCombo(Convert.ToInt32(buttonitem.Tag), cur_qty);
+                    if (tlp_sele != null)
+                    {
+                        if(Convert.ToInt32(tlp_sele.AccessibleDescription)==0)
+                            CalcTotalAmtCombo(Convert.ToInt32(tlp_sele.Tag), cur_qty);
+                        else
+                            CalcTotalAmtCombo_prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
+                    }              
                     discountAmnt_combo();
                     discountPer_combo();
                     netAmount_combo();
                 }
-  
+
             }
             catch (Exception ex)
             {
                 // Handle exceptions
             }
         }
-        public void CalcTotalAmtCombo(int pid,int qty)
+
+        #region ADD Total Amount single Price and Multiple Price
+        public void CalcTotalAmtCombo_prid(int prid, int qty)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch = new DmnSearch();
+                objSearch.Select = "SRate as Field1";
+                objSearch.Table = "tblProductRate";
+                objSearch.WhereNdGroupBy = "where id = " + prid;
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 0)
+                {
+                    if (string.IsNullOrEmpty(txtcombo_totalprice.Text))
+                        txtcombo_totalprice.Text = "0";
+
+                    for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
+                    {
+
+                        if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value))
+                        {
+                            dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value) + 1;
+                            break;
+                        }
+                    }
+                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(txtcombo_totalprice.Text);
+                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void CalcTotalAmtCombo(int pid, int qty)
         {
             try
             {
@@ -1127,9 +1528,9 @@ namespace FoodandBeverage.Forms
                 {
                     if (string.IsNullOrEmpty(txtcombo_totalprice.Text))
                         txtcombo_totalprice.Text = "0";
-                    for(int i=0;i< dgv_sele_cmb_products.Rows.Count;i++)
+                    for (int i = 0; i < dgv_sele_cmb_products.Rows.Count; i++)
                     {
-                        if(Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value)== pid)
+                        if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value) == pid)
                         {
                             dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = qty;
                             break;
@@ -1140,18 +1541,130 @@ namespace FoodandBeverage.Forms
                             dgv_sele_cmb_products.Rows[rowIndex].Cells[qtynoo].Value = qty;
                             break;
                         }
-                    }               
+                    }
                     decimal totalamt = Convert.ToDecimal(gridSource[0].Price) + Convert.ToDecimal(txtcombo_totalprice.Text);
-                    txtcombo_totalprice.Text = Convert.ToString(totalamt);               
+                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-            
+
         }
-        public void CalcTotalAmtCombo_remove(int pid,int qty)
+        #endregion
+
+        private void Button_RemoveClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                string lblname = "lbl_selected_" + clickedControl.Tag;
+                string itemname = "tlp_sele_" + clickedControl.Tag;
+                string tlpname = "tlp_sele_" + clickedControl.Tag;
+                // Find the TableLayoutPanel control by name
+                Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                if (lblqty != null)
+                {
+                    int cur_qty = Convert.ToInt32(lblqty.Text) - 1;
+                    if (cur_qty == 0)
+                    {
+                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_sele != null)
+                        {
+                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 0)
+                                CalcTotalAmtCombo_remove(Convert.ToInt32(tlp_sele.Tag), cur_qty);
+                            else
+                                CalcTotalAmtCombo_remove_Prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
+                        }
+                        foreach (Control control in flp_selected_item_combo.Controls)
+                        {
+                            if (control.Name == itemname)
+                            {
+                                flp_selected_item_combo.Controls.Remove(control);
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        lblqty.Text = Convert.ToString(cur_qty);
+                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_sele != null)
+                        {
+                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 0)
+                                CalcTotalAmtCombo_remove(Convert.ToInt32(tlp_sele.Tag), cur_qty);
+                            else
+                                CalcTotalAmtCombo_remove_Prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #region REMOVE Total Amount single Price and Multiple Price
+        public void CalcTotalAmtCombo_remove_Prid(int prid, int qty)
+        {
+            try
+            {
+                string lblqtyname = "lbl_selected_" + + prid;
+                Label lblqty = this.Controls.Find(lblqtyname, true).FirstOrDefault() as Label;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch = new DmnSearch();
+                objSearch.Select = "SRate as Field1";
+                objSearch.Table = "tblProductRate";
+                objSearch.WhereNdGroupBy = "where id = " + prid;
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 0)
+                {
+                    if (string.IsNullOrEmpty(txtcombo_totalprice.Text))
+                        txtcombo_totalprice.Text = "0";
+                    if (qty == 0)
+                    {
+                        decimal TotalPrice = Convert.ToDecimal(gridSource[0].Field1) * Convert.ToDecimal(lblqty.Text);
+                        decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - TotalPrice;
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                        for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
+                        {
+                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value) )//&& Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[istatusno].Value) == 1
+                            {
+                                dgv_sele_cmb_products.Rows.RemoveAt(i);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(lblqty != null)
+                            lblqty.Text = Convert.ToString(qty);
+                        for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
+                        {
+                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pridno].Value))
+                            {
+                                dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value) - 1;
+                                break;
+                            }
+                        }
+                        decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(gridSource[0].Field1);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        public void CalcTotalAmtCombo_remove(int pid, int qty)
         {
             try
             {
@@ -1164,30 +1677,29 @@ namespace FoodandBeverage.Forms
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (gridSource.Count > 0)
-                {
+                {                  
                     bool flag = true;
                     if (string.IsNullOrEmpty(txtcombo_totalprice.Text))
                         txtcombo_totalprice.Text = "0";
-     
+
                     for (int i = 0; i < dgv_sele_cmb_products.Rows.Count; i++)
-                    {                        
-                       if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value) == pid)
+                    {
+                        if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[pidno].Value) == pid)
                         {
                             flag = false;
                             if (qty == 0)
                             {
-                                dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = qty;
-                                dgv_sele_cmb_products.Rows[i].Cells[statusno].Value = 0;
+                                dgv_sele_cmb_products.Rows.RemoveAt(i);
                                 break;
                             }
                             else
                             {
                                 dgv_sele_cmb_products.Rows[i].Cells[qtynoo].Value = qty;
                                 break;
-                            }                
-                        }                       
+                            }
+                        }
                     }
-                    if(flag)
+                    if (flag)
                     {
                         int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
                         dgv_sele_cmb_products.Rows[rowIndex].Cells[qtynoo].Value = qty;
@@ -1205,48 +1717,10 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        private void Button_RemoveClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                Control clickedControl = sender as Control;
-                string lblname = "lbl_selected_" + clickedControl.Tag;
-                string itemname = "tlp_sele_" + clickedControl.Tag;
-                string buttonname = "btn_sele_" + clickedControl.Tag;
-                // Find the TableLayoutPanel control by name
-                Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                if (lblqty != null)
-                {
-                    int cur_qty = Convert.ToInt32(lblqty.Text) - 1;
-                    if(cur_qty==0)
-                    {
-                        Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
-                        if (buttonitem != null)
-                            CalcTotalAmtCombo_remove(Convert.ToInt32(buttonitem.Tag), cur_qty);
-                        foreach (Control control in flp_selected_item_combo.Controls)
-                        {
-                            if (control.Name == itemname)
-                            {
-                                flp_selected_item_combo.Controls.Remove(control);
-                                break; 
-                            }
-                        }
+        #endregion
 
-                    }
-                    else
-                    {
-                        lblqty.Text = Convert.ToString(cur_qty);
-                        Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
-                        if (buttonitem != null)
-                            CalcTotalAmtCombo_remove(Convert.ToInt32(buttonitem.Tag), cur_qty);
-                    }
-                      
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+
+
         private void btn_AddcomboProduct_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F8)
@@ -1269,7 +1743,7 @@ namespace FoodandBeverage.Forms
                 //case Keys.Enter:
                 //    return true; // Mark the key as handled
                 case Keys.Escape:
-                    if(pnl_serachproducts.Visible)
+                    if (pnl_serachproducts.Visible)
                         pnl_serachproducts.Visible = false;
                     return true;
                 default:
@@ -1434,33 +1908,48 @@ namespace FoodandBeverage.Forms
                     chk_combo_status.Checked = false;
                     return true;
                 }
+                else                
+                    return false;
+                
             }
-                if (flp_selected_item_combo.Controls.Count == 1)
+            else if (flp_selected_item_combo.Controls.Count == 1)
             {
                 CMessageBox.Show("Minimium Two Products Added To The List", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btn_AddcomboProduct.Focus();
                 return false;
             }
 
-            if (flp_selected_item_combo.Controls.Count==0 && Convert.ToInt32(txtcombo_omid.Text)==0 )
+            else if(flp_selected_item_combo.Controls.Count == 0 && Convert.ToInt32(txtcombo_omid.Text) == 0)
             {
                 CMessageBox.Show("Please Select the Products", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btn_AddcomboProduct.Focus();
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtcmbo_offername.Text))
+            else if(string.IsNullOrEmpty(txtcmbo_offername.Text))
             {
                 CMessageBox.Show("Please Enter the Offer Name", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcmbo_offername.Focus();
                 return false;
             }
-            if (string.IsNullOrEmpty(txtcombo_finalprice.Text))
+            else if (string.IsNullOrEmpty(txtcmbo_offername.Text))
             {
-                CMessageBox.Show("Please Enter the Final price", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtcombo_finalprice.Focus();
+                CMessageBox.Show("Please Enter the Offer Name", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcmbo_offername.Focus();
                 return false;
             }
+            else if (string.IsNullOrEmpty(txtcombo_disper.Text) || Convert.ToDecimal(txtcombo_disper.Text)==0)
+            {
+                CMessageBox.Show("Please Enter the Discount %", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcombo_disper.Focus();
+                return false;
+            }
+            //if (string.IsNullOrEmpty(txtcombo_finalprice.Text))
+            //{
+            //    CMessageBox.Show("Please Enter the Final price", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtcombo_finalprice.Focus();
+            //    return false;
+            //}
             //if (Convert.ToDecimal(txtcombo_totalprice.Text) > Convert.ToDecimal(txtcombo_finalprice.Text))
             //{
             //    CMessageBox.Show("Final amount not be greater than Total Amount ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1615,7 +2104,7 @@ namespace FoodandBeverage.Forms
                         CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -1632,7 +2121,7 @@ namespace FoodandBeverage.Forms
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "*";
                     dmnSearch.Table = "tblProduct";
-                    dmnSearch.WhereNdGroupBy = "where Status=1 and ItemCode = '" + txtitemcode_serach.Text+"'";
+                    dmnSearch.WhereNdGroupBy = "where Status=1 and ItemCode = '" + txtitemcode_serach.Text + "'";
                     dmnSearch.OrderBy = "";
                     var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     pnl_serachproduct_dashboard.Controls.Clear();
@@ -1685,7 +2174,7 @@ namespace FoodandBeverage.Forms
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -1694,14 +2183,14 @@ namespace FoodandBeverage.Forms
 
         private void txtname_search_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')         
-                e.Handled = true; 
+            if (e.KeyChar == '\r')
+                e.Handled = true;
         }
 
         private void txtitemcode_serach_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')         
-                e.Handled = true; 
+            if (e.KeyChar == '\r')
+                e.Handled = true;
         }
 
         private void btn_del_combo_Click(object sender, EventArgs e)
@@ -1720,11 +2209,11 @@ namespace FoodandBeverage.Forms
                 txtcombo_totalprice.Text = "0";
             if (string.IsNullOrEmpty(txtcombo_finalprice.Text))
                 txtcombo_finalprice.Text = "0";
-            if ( Convert.ToDecimal(txtcombo_totalprice.Text)>Convert.ToDecimal(txtcombo_finalprice.Text))
-            {
-                CMessageBox.Show("Final amount not be greater than Tota Amount ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtcombo_finalprice.Focus();
-            }
+            //if (Convert.ToDecimal(txtcombo_totalprice.Text) > Convert.ToDecimal(txtcombo_finalprice.Text))
+            //{
+            //    CMessageBox.Show("Final amount not be greater than Tota Amount ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    txtcombo_finalprice.Focus();
+            //}
         }
 
         private void btn_del_single_Click(object sender, EventArgs e)
@@ -1738,15 +2227,15 @@ namespace FoodandBeverage.Forms
         }
 
 
-            private void dtp_from_date_s_ValueChanged(object sender, EventArgs e)
+        private void dtp_from_date_s_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_from_date_s.Value.Date;
+            DateTime currentDate = DateTime.Now.Date;
+            if (selectedDate < currentDate)
             {
-                DateTime selectedDate = dtp_from_date_s.Value.Date;
-                DateTime currentDate = DateTime.Now.Date;
-                if (selectedDate < currentDate)
-                {
-                    dtp_from_date_s.Value = currentDate;
-                }
+                dtp_from_date_s.Value = currentDate;
             }
+        }
 
         private void dtp_to_date_s_ValueChanged(object sender, EventArgs e)
         {
@@ -1830,15 +2319,316 @@ namespace FoodandBeverage.Forms
         private void dgv_product_list_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowindex = e.RowIndex;
-            if(Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dsaletypeno].Value)==1 )
+            if (Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dsaletypeno].Value) == 1)
+            {
+                #region Check MultiplePrice
+                BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "i.Itemname Field1, pr.SRate Field2, pr.QOH Field3,pr.Id Field4,i.ItemId Field5";
+                objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
+                objSearch.WhereNdGroupBy = "where i.status = 1 and  pr.QOH>0 and i.itemid=" + Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dproductidno].Value);
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 1)
+                {
+                    tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
+                    tlp_product_list.Visible = false;
+                    Control controlclose;
+                    pnlprice.Controls.Clear();
+                    tlp_price_list.Controls.Clear();
+                    tlp_price_list.Dock = DockStyle.Fill;
+                    tlp_price_list.ColumnCount = 1;
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                    tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+                    Button closebutton = new Button();
+                    closebutton.Text = "X";
+                    controlclose = closebutton;
+                    closebutton.BackgroundImage = FoodandBeverage.Properties.Resources.close_price_change;
+                    closebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                    closebutton.FlatStyle = FlatStyle.Flat;
+                    closebutton.ForeColor = System.Drawing.Color.White;
+                    closebutton.Font = new Font("Georgia", 14);
+                    closebutton.Width = 50;
+                    closebutton.Height = 50;
+                    closebutton.Dock = DockStyle.Right;
+                    closebutton.Click += new EventHandler(closebuttonClickEventHandler);
+                    tlp_price_list.RowCount++;
+                    tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                    tlp_price_list.Controls.Add(controlclose, 0, 0);
+
+                    Control control1, controlsrate, controlqty;
+                    int rowIndex = 2;
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        Button pricebutton = new Button();
+                        pricebutton.Text = "RS. " + (gridSource[i].Field2).ToString() + "  QTY : " + (gridSource[i].Field3).ToString(); ;
+                        pricebutton.Name = (gridSource[i].Field1).ToString();
+                        pricebutton.Tag = gridSource[i].Field5;
+                        pricebutton.AccessibleDescription = gridSource[i].Field4;
+
+                        control1 = pricebutton;
+                        //pricebutton.Dock = DockStyle.Fill;
+                        pricebutton.BackgroundImage = FoodandBeverage.Properties.Resources.Button_Price_change;
+                        pricebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                        pricebutton.FlatStyle = FlatStyle.Flat;
+                        pricebutton.ForeColor = System.Drawing.Color.White;
+                        pricebutton.Font = new Font("Georgia", 14);
+                        pricebutton.Width = 300;
+                        pricebutton.Height = 70;
+                        // Add the event handler for the button
+                        pricebutton.Click += new EventHandler(MyButtonClickEventHandler);
+                        // Add the controls to the row
+                        tlp_price_list.RowCount++;
+                        tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                        tlp_price_list.Controls.Add(control1, 0, rowIndex);
+                        rowIndex++;
+                    }
+                    // Add the TableLayoutPanel to the form
+
+                    pnlprice.Visible = true;
+                    pnlprice.Location = new Point(this.ClientSize.Width / 2 - pnlprice.Size.Width / 2, this.ClientSize.Height / 2 - pnlprice.Size.Height / 2);
+                    pnlprice.Controls.Add(tlp_price_list);
+
+                }
+                else
+                {
+                    tlp_product_list.Visible = false;
+                    txtpid.Text = Convert.ToString(gridSource[0].Field5);
+                    txtproduct.Text = gridSource[0].Field1;
+                    txtrprice.Text = Convert.ToString(gridSource[0].Field2);
+                    txtprid_s.Text = Convert.ToString(gridSource[0].Field4);
+                    txtproductname.Text = Convert.ToString(gridSource[0].Field1);
+                    txtrdisper.Text = "0";
+                    txtrdisamt.Text = "0";
+                    pnlprice.Visible = false;
+                    txtoffername.Focus();
+                }
+                #endregion
+            }
+            else
+            {
+                tlp_product_list.Visible = false;
+                if (checkOffer())
+                {
+                    ClearAll();
+                    BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblProduct";
+                    objSearch.WhereNdGroupBy = "where ProductId=" + Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dproductidno].Value);
+                    objSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (gridSource.Count > 0)
+                    {
+                        txtpid.Text = Convert.ToString(gridSource[0].ProductId);
+                        txtproduct.Text = gridSource[0].Product;
+                        txtrprice.Text = Convert.ToString(gridSource[0].Price);
+                        txtrdisper.Text = Convert.ToString(gridSource[0].DiscountPer);
+                        txtrdisamt.Text = Convert.ToString(gridSource[0].DiscountAmt);
+                        pnlprice.Visible = false;
+                    }
+                    txtoffername.Focus();
+                }
+            }
+        }
+
+        private void closebuttonClickEventHandler(object sender, EventArgs e)
+        {
+            pnlprice.Visible = false;
+        }
+
+        private void MyButtonComboClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                string buttonname = "btn_sele_" + clickedControl.AccessibleDescription;
+                Button buttonitem = this.Controls.Find(buttonname, true).FirstOrDefault() as Button;
+                if (buttonitem != null)
+                {
+                    string lblname = "lbl_selected_" + clickedControl.AccessibleDescription;
+                    Label lblqty = this.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                    int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                    lblqty.Text = Convert.ToString(cur_qty);
+                    CalcTotalAmtCombo_prid(Convert.ToInt32(clickedControl.AccessibleDescription), 1);
+                    pnl_serachproducts.Visible = false;
+                }
+                else
+                {
+                    dgv_sele_cmb_products.Rows.Add();
+                    int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
+                    dgv_sele_cmb_products.Rows[rowIndex].Cells[pidno].Value = clickedControl.Tag;
+                    dgv_sele_cmb_products.Rows[rowIndex].Cells[desno].Value = clickedControl.Name;
+                    dgv_sele_cmb_products.Rows[rowIndex].Cells[statusno].Value = 1;
+                    dgv_sele_cmb_products.Rows[rowIndex].Cells[pridno].Value = clickedControl.AccessibleDescription;
+
+                   CalcTotalAmtCombo_prid(Convert.ToInt32(clickedControl.AccessibleDescription), 1);
+                    TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
+
+                    tlp_selected_Item_Box.Name = "tlp_sele_" + clickedControl.AccessibleDescription;
+                    tlp_selected_Item_Box.AccessibleDescription = "1";
+                    tlp_selected_Item_Box.Width = 245;
+                    tlp_selected_Item_Box.Height = 60;
+                    tlp_selected_Item_Box.ColumnCount = 4;
+                    tlp_selected_Item_Box.BorderStyle = BorderStyle.FixedSingle;
+                    tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
+
+                    //Item Button   
+                    Button Button_Item = new Button();
+                    Button_Item.Text = clickedControl.Name;
+                    Button_Item.Name = "btn_sele_" + clickedControl.AccessibleDescription;
+                    Button_Item.Tag = clickedControl.AccessibleDescription;
+                    Button_Item.Width = 150;
+                    Button_Item.Height = 50;
+                    Button_Item.FlatAppearance.BorderSize = 0;
+                    Button_Item.FlatAppearance.BorderColor = Button_Item.BackColor;
+                    Button_Item.FlatStyle = FlatStyle.Flat;
+                    Button_Item.BackColor = Color.White;
+                    Button_Item.Click += new EventHandler(Button_ItemClickEventHandler);
+                    Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
+                    // Adding the button to the third column
+                    tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
+
+                    // Creating the label for the Qty
+                    Label label = new Label();
+                    label.Text = "1";  // Set your desired text
+                    label.Name = "lbl_selected_" + clickedControl.AccessibleDescription;
+                    label.Tag = clickedControl.AccessibleDescription;
+                    label.AutoSize = true;
+                    label.Dock = DockStyle.Fill;
+                    label.ForeColor = Color.White;
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+                    label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
+                    // Adding the label to the second column
+                    tlp_selected_Item_Box.Controls.Add(label, 1, 0);
+
+                    //Add Button
+                    Button Button_Add = new Button();
+                    Button_Add.Text = "+";
+                    Button_Add.Name = "btn_sele_add_" + clickedControl.AccessibleDescription;
+                    Button_Add.Tag = clickedControl.AccessibleDescription;
+                    Button_Add.Width = 20;
+                    Button_Add.Height = 50;
+                    Button_Add.FlatAppearance.BorderSize = 0;
+                    Button_Add.FlatAppearance.BorderColor = Button_Add.BackColor;
+                    Button_Add.FlatStyle = FlatStyle.Flat;
+                    Button_Add.BackColor = Color.White;
+                    Button_Add.Click += new EventHandler(Button_AddClickEventHandler);
+                    Button_Add.Font = new Font(Button_Add.Font.FontFamily, 10, FontStyle.Bold);
+                    Button_Add.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Add.Width, Button_Add.Height, Button_Add.Width, Button_Add.Height));
+                    // Adding the button to the third column
+                    tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
+
+                    //Remove Button
+                    Button Button_Remove = new Button();
+                    Button_Remove.Text = "-";
+                    Button_Remove.Name = "btn_sele_rem_" + clickedControl.AccessibleDescription;
+                    Button_Remove.Tag = clickedControl.AccessibleDescription;
+                    Button_Remove.Width = 20;
+                    Button_Remove.Height = 50;
+                    Button_Remove.Dock = DockStyle.Left;
+                    Button_Remove.FlatAppearance.BorderSize = 0;
+                    Button_Remove.FlatAppearance.BorderColor = Button_Remove.BackColor;
+                    Button_Remove.FlatStyle = FlatStyle.Flat;
+                    Button_Remove.BackColor = Color.White;
+                    Button_Remove.Click += new EventHandler(Button_RemoveClickEventHandler);
+                    Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
+                    Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, Button_Remove.Width, Button_Remove.Height));
+                    // Adding the button to the third column
+                    tlp_selected_Item_Box.Controls.Add(Button_Remove, 3, 0);
+                    flp_selected_item_combo.Controls.Add(tlp_selected_Item_Box);
+                    tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
+                    pnl_serachproducts.Visible = false;
+                    discountAmnt_combo();
+                    discountPer_combo();
+                    netAmount_combo();
+                    pnlprice.Visible = false;
+                }
+            }
+            catch(Exception ex)
             {
 
             }
-            else
+
+        }
+
+        private void MyButtonClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                int Productrate_ID = Convert.ToInt32(clickedControl.Tag);
+                pnlprice.Visible = false;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "Itemname as Field1,ItemId as Field2,pr.srate as Field3,pr.id Field4";
+                dmnSearch.Table = "tblItem i LEFT JOIN tblProductRate pr on  pr.ProductId=i.ItemId LEFT JOIN tblUnit u on  u.UId=i.unit";
+                dmnSearch.WhereNdGroupBy = "where i.Status=1 and pr.ProductId = " + clickedControl.Tag + " and pr.id = " + Convert.ToInt32(clickedControl.AccessibleDescription);
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if(gridSource.Count>0)
+                {
+                    txtpid.Text = Convert.ToString(gridSource[0].Field2);
+                    txtproduct.Text = gridSource[0].Field1;
+                    txtrprice.Text = Convert.ToString(gridSource[0].Field3);
+                    txtprid_s.Text = Convert.ToString(gridSource[0].Field4);
+                    txtproductname.Text = Convert.ToString(gridSource[0].Field1);
+                    txtrdisper.Text ="0";
+                    txtrdisamt.Text = "0";
+                    pnlprice.Visible = false;
+                    txtoffername.Focus();
+                }
+            }
+            catch (Exception ex)
             {
 
             }
         }
 
+        private void btn_view_Click(object sender, EventArgs e)
+        {
+            if (dgv_sele_cmb_products.Visible)
+                dgv_sele_cmb_products.Visible = false;
+            else
+                dgv_sele_cmb_products.Visible = true;
+        }
+
+        private void cmbtaxtype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2,2);
+            tlp_comboproduct_view.Controls.Remove(controlToRemove1);
+            Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2,3);
+            tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+            if (cmbtaxtype.Text == "GST")
+            {
+                lbligst.Visible = true;
+                cmbIgstPrcnt.Visible = true;
+
+                lblvat.Visible = false;
+                cmbVatPrcnt.Visible = false; 
+
+                lbligst.Dock = DockStyle.Fill;
+                cmbIgstPrcnt.Dock = DockStyle.Fill;
+                tlp_comboproduct_view.Controls.Add(lbligst, 2,2);
+                tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2,3);
+                cmbIgstPrcnt.Focus();
+            }
+            else if (cmbtaxtype.Text == "VAT")
+            {
+                lbligst.Visible = false;
+                cmbIgstPrcnt.Visible = false;
+
+                lblvat.Visible = true;
+                cmbVatPrcnt.Visible = true;
+                lblvat.Dock = DockStyle.Fill;
+                cmbVatPrcnt.Dock = DockStyle.Fill;
+                tlp_comboproduct_view.Controls.Add(lblvat,2,2);
+                tlp_comboproduct_view.Controls.Add(cmbVatPrcnt,2,3);
+                cmbVatPrcnt.Focus();
+            }
+        }
     }
 }

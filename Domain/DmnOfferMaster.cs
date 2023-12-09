@@ -20,8 +20,10 @@ namespace Domain
         public int BranchId { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime OfferstartDatetime { get; set; }
-        public DateTime OfferEndDatetime { get; set; }      
-
+        public DateTime OfferEndDatetime { get; set; }
+        public int TaxSettingsId { get; set; }
+        public string Tax { get; set; }
+        public string TaxType { get; set; }
 
     }
 }
