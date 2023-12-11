@@ -611,5 +611,8 @@
   <ItemGroup>
     <None Include="Resources\combo_button_percentage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rotating_earth_animated.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,7 +43,11 @@ namespace Domain
         public DateTime CreatedDateTime { get; set; }
         public string RemoveNotes { get; set; }
         public int ProductType { get; set; }
+        public int TableType { get; set; }
+        public decimal MarketPrice { get; set; }
         
+
+
 
     }
 }

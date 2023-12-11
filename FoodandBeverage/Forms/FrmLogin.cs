@@ -98,7 +98,7 @@ namespace FoodandBeverage.Forms
             if (txtUserName.Text == "User Name .....")
             {
                 txtUserName.Text = "";
-                txtUserName.ForeColor = Color.White;
+                txtUserName.ForeColor = Color.Black;
             }
         }
 
@@ -107,7 +107,7 @@ namespace FoodandBeverage.Forms
             if (txtPwd.Text == "Password .....")
             {
                 txtPwd.Text = "";
-                txtPwd.ForeColor = Color.White;
+                txtPwd.ForeColor = Color.Black;
             }
         }
 
@@ -116,7 +116,7 @@ namespace FoodandBeverage.Forms
             if (txtUserName.Text == "")
             {
                 txtUserName.Text = "User Name .....";
-                txtUserName.ForeColor = Color.White;
+                txtUserName.ForeColor = Color.DarkGray;
             }
         }
 
@@ -125,7 +125,7 @@ namespace FoodandBeverage.Forms
             if (txtPwd.Text == "")
             {
                 txtPwd.Text = "Password .....";
-                txtPwd.ForeColor = Color.White;
+                txtPwd.ForeColor = Color.DarkGray;
             }
         }
 

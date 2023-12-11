@@ -19,16 +19,17 @@ namespace FoodandBeverage.Forms
         #region Declaration Grid
         public static int dslno = 0;
         public static int dactionno = 1;
-        public static int ditemno = 2;
-        public static int dqtyno = 3;
-        public static int dnotes = 4;
-        public static int dremnoteno = 5;
-        public static int ddetailsidno = 6;
-        public static int dkoidno = 7;
-        public static int dtidno = 8;
-        public static int dordermasteridno = 9;
-        public static int ddatetimeno = 10;
-        public static int dstatusno = 11;
+        public static int dptypeno = 2;
+        public static int ditemno = 3;
+        public static int dqtyno =4;
+        public static int dnotes = 5;
+        public static int dremnoteno = 6;
+        public static int ddetailsidno = 7;
+        public static int dkoidno = 8;
+        public static int dtidno = 9;
+        public static int dordermasteridno = 10;
+        public static int ddatetimeno = 11;
+        public static int dstatusno = 12;
         #endregion
 
         Color boxcolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -132,7 +133,7 @@ namespace FoodandBeverage.Forms
 
                     foreach (var orders in distinctOrders)
                     { 
-                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12";
+                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,od.tabletype Field13";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -232,6 +233,7 @@ namespace FoodandBeverage.Forms
                             // Add columns with specific cell type
                             DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
                             DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
+                            DataGridViewTextBoxColumn columnptype = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
@@ -246,6 +248,7 @@ namespace FoodandBeverage.Forms
 
                             dgv_product_details.Columns.Add(columnSlno);
                             dgv_product_details.Columns.Add(pbremove);
+                            dgv_product_details.Columns.Add(columnptype);
                             dgv_product_details.Columns.Add(columnItemName);
                             dgv_product_details.Columns.Add(columnQty);
                             dgv_product_details.Columns.Add(columnNotes);
@@ -259,6 +262,7 @@ namespace FoodandBeverage.Forms
 
                             dgv_product_details.Columns[dslno].HeaderText = "Slno";
                             dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
+                            dgv_product_details.Columns[dptypeno].HeaderText = "PType";
                             dgv_product_details.Columns[dqtyno].HeaderText = "Qty";
                             dgv_product_details.Columns[dnotes].HeaderText = "Notes";
                             dgv_product_details.Columns[dremnoteno].HeaderText = "Remove Notes";
@@ -273,6 +277,7 @@ namespace FoodandBeverage.Forms
 
                             dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -284,7 +289,6 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[ddatetimeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dstatusno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
-                            dgv_product_details.Columns[dstatusno].Frozen = true;
 
                             dgv_product_details.Columns[dslno].Visible = false;
                             dgv_product_details.Columns[ddetailsidno].Visible = false;
@@ -304,6 +308,11 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Rows.Add();
                                 dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
                                 dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
+
+                                if (Convert.ToInt32(gridSourcedetails[k].Field13) == 3)
+                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "COMBO";
+                                else
+                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "";
 
                                 decimal originalValue = Convert.ToDecimal(gridSourcedetails[k].Field5);
                                 dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);           
@@ -532,7 +541,7 @@ namespace FoodandBeverage.Forms
                 int tid = 0;
                 for (int i = 0; i < dgv_product_details.RowCount; i++)
                 {
-                    if (Convert.ToInt32(dgv_product_details.Rows[i].Cells[dstatusno].Value) == 1)
+                    if (Convert.ToInt32(dgv_product_details.Rows[i].Cells[dstatusno].Value) == 2)
                     {
                         tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
                         dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[ddetailsidno].Value);
@@ -555,10 +564,6 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
-
-
-
-
 
         private void txt_product_remove_des_Enter(object sender, EventArgs e)
         {

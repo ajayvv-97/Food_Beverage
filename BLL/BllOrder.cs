@@ -39,7 +39,7 @@ namespace BLL
             parms.Add("Amount", objTestClass.Amount);
             parms.Add("DisPer", objTestClass.DiscountPer);
             parms.Add("DisAmnt", objTestClass.DiscountAmount);
-            parms.Add("TotalAmnt", objTestClass.Amount);
+            parms.Add("TotalAmnt", objTestClass.NetAmount);
             parms.Add("UnitId", objTestClass.UnitId);
             parms.Add("ItemId", objTestClass.ItemId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
@@ -62,6 +62,8 @@ namespace BLL
             parms.Add("CGSTAmount", objTestClass.CGSTAmount);
             parms.Add("SGSTAmount", objTestClass.SGSTAmount);
             parms.Add("VATAmount", objTestClass.VATAmount);
+            parms.Add("TableType", objTestClass.TableType);
+            parms.Add("MarketPrice", objTestClass.MarketPrice);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

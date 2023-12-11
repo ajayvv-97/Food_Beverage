@@ -783,6 +783,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Rotating_earth_animated {
+            get {
+                object obj = ResourceManager.GetObject("Rotating_earth_animated", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap running_table_pic {
             get {
                 object obj = ResourceManager.GetObject("running_table_pic", resourceCulture);
