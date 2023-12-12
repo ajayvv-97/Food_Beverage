@@ -30,6 +30,7 @@ namespace Domain
         public string Field21 { get; set; }
         public DateTime Fielddatetime { get; set; }
         public DateTime StartDate { get; set; }
+
         public DateTime EndDate { get; set; }
 
     }

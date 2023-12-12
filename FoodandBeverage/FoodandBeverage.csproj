@@ -145,6 +145,12 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPromo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPromo.Designer.cs">
+      <DependentUpon>FrmPromo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPurchase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrderView.resx">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPromo.resx">
+      <DependentUpon>FrmPromo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPurchase.resx">
       <DependentUpon>FrmPurchase.cs</DependentUpon>

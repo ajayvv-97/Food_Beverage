@@ -597,7 +597,7 @@ namespace FoodandBeverage.Forms
             "VAT"});
             this.cmbTaxType.Location = new System.Drawing.Point(36, 186);
             this.cmbTaxType.Name = "cmbTaxType";
-            this.cmbTaxType.Size = new System.Drawing.Size(553, 28);
+            this.cmbTaxType.Size = new System.Drawing.Size(132, 28);
             this.cmbTaxType.TabIndex = 260;
             this.cmbTaxType.SelectedValueChanged += new System.EventHandler(this.cmbTaxType_SelectedValueChanged);
             // 
@@ -627,7 +627,7 @@ namespace FoodandBeverage.Forms
             "Exclusive"});
             this.cmbtax.Location = new System.Drawing.Point(254, 208);
             this.cmbtax.Name = "cmbtax";
-            this.cmbtax.Size = new System.Drawing.Size(542, 28);
+            this.cmbtax.Size = new System.Drawing.Size(121, 28);
             this.cmbtax.TabIndex = 259;
             // 
             // btn_del_ingre
@@ -1305,7 +1305,7 @@ namespace FoodandBeverage.Forms
             this.pnl_tax.Controls.Add(this.lbldes);
             this.pnl_tax.Location = new System.Drawing.Point(0, 0);
             this.pnl_tax.Name = "pnl_tax";
-            this.pnl_tax.Size = new System.Drawing.Size(605, 356);
+            this.pnl_tax.Size = new System.Drawing.Size(184, 27);
             this.pnl_tax.TabIndex = 11;
             this.pnl_tax.Visible = false;
             // 

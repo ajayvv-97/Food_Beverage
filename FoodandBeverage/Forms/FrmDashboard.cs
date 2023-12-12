@@ -377,7 +377,7 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner.Tag = gridSource[i].Tid;
                             tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                             tlp_table_inner.Dock = DockStyle.None;
-                            tlp_table_inner.Margin = new Padding(20, 10, 20, 10);
+                            tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
                             //tlp_table_inner.Width = 100;
                             //tlp_table_inner.Height = 65;
                             tlp_table_inner.Dock = DockStyle.Fill;

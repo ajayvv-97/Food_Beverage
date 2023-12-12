@@ -84,8 +84,12 @@ namespace Domain
             public decimal CardPrice { get; set; }
             public int NewCardCount { get; set; }
             public int NameFlag { get; set; }
-            public int PayId { get; set; }
+        public int PayId { get; set; }
+        public int PromoDId { get; set; }
+        public int PromoMId { get; set; }
+        public int Promostatus { get; set; }
 
-        
+
+
     }
 }

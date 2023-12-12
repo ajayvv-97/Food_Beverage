@@ -113,7 +113,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2";
                 dmnSearch.Table = " tblkitchenOrder ";
-                dmnSearch.WhereNdGroupBy = "where status=1 or status=2";
+                dmnSearch.WhereNdGroupBy = "where status in(1,2)";
                 dmnSearch.OrderBy = "";
                 var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSourcemaster.Count > 0)
@@ -310,9 +310,17 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
 
                                 if (Convert.ToInt32(gridSourcedetails[k].Field13) == 3)
+                                {
                                     dgv_product_details.Rows[k].Cells[dptypeno].Value = "COMBO";
+                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = Color.DarkBlue;
+                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                }
                                 else
+                                {
                                     dgv_product_details.Rows[k].Cells[dptypeno].Value = "";
+                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = dgv_product_details.DefaultCellStyle.ForeColor;
+                                }
+
 
                                 decimal originalValue = Convert.ToDecimal(gridSourcedetails[k].Field5);
                                 dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);           
@@ -374,6 +382,7 @@ namespace FoodandBeverage.Forms
                                 Width = 60,
                                 Tag = gridSourcedetails[0].Field8,
                             };
+                            
                             pb_start.Click += pbstart_Click;
 
                             PictureBox pb_ready = new PictureBox()
@@ -385,9 +394,20 @@ namespace FoodandBeverage.Forms
                                 Height = 30,
                                 Width = 60,
                                 Tag = gridSourcedetails[0].Field8,
-                                Visible = false,
+  
                             };
                             pb_ready.Click += pbreadyfood_Click;
+
+                            if(Convert.ToInt32(gridSourcedetails[0].Field12)==1)
+                            {
+                                pb_start.Visible = true;
+                                pb_ready.Visible = false;
+                            }
+                            else if (Convert.ToInt32(gridSourcedetails[0].Field12) == 2)
+                            {
+                                pb_start.Visible = false;
+                                pb_ready.Visible = true;
+                            }
 
                             PictureBox pb_cancelfood = new PictureBox()
                             {
@@ -518,6 +538,7 @@ namespace FoodandBeverage.Forms
                         var InsertStatusP = bll_order.Remove_order("prd_remove_KitchenOrder", dmnRemove_order);
                     }
                 }
+                Fillorders();
                 if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                 {
                     FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
