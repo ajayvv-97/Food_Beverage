@@ -92,7 +92,7 @@ namespace FoodandBeverage.Forms
                                 ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" || (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) <= 0)
                                 )
 
-                                dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
+                            dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
                             dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
                             dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                             dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
@@ -342,22 +342,32 @@ namespace FoodandBeverage.Forms
 
         private void dgv_registartion_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == Raction)
+            try
             {
-                if (e.RowIndex == dgv_registartion.Rows.Count - 1)
+                if (e.ColumnIndex == Raction)
                 {
-                    if (IsValidData(e.RowIndex))
-                        return;
-                    dgv_registartion.Rows.Add();
-                    rearrange_slno();
-                }
-                else
-                {
-                    if (IsValidData(e.RowIndex))
-                        return;
+                    if (e.RowIndex == dgv_registartion.Rows.Count - 1)
+                    {
+                        if (IsValidData(e.RowIndex))
+                            return;
+                        dgv_registartion.Rows.Add();
+                        rearrange_slno();
+                        dgv_registartion.CurrentCell = dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[1];
+                        dgv_registartion.Focus();
+                    }
+                    else
+                    {
+                        if (IsValidData(e.RowIndex))
+                            return;
 
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+
+            }
+
         }
         private bool IsValidData(int rowno)
         {
@@ -952,7 +962,7 @@ namespace FoodandBeverage.Forms
                 {
                     string pid = clickedControl.Name;
                     FillData(Convert.ToInt32(pid));
-                    CMessageBox.Show("Clicked Table ID: " + pid);
+                    //CMessageBox.Show("Clicked Table ID: " + pid);
                 }
             }
             catch (Exception ex)

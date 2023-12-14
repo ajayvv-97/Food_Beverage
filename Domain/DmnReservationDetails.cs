@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Domain
+{
+    public class DmnReservationDetails
+    {
+        public int MTID { get; set; }
+        public int BookdetailId { get; set; }
+        public string Name { get; set; }
+        public int Price { get; set; }
+        public int Quantity { get; set; }
+        public string Description { get; set; }
+        public int CreatedBy { get; set; }
+        public int BranchId { get; set; }
+        public int Rid { get; set; }
+        public int modifiedby { get; set; }
+        public int Status { get; set; }
+        public int Branchid { get; set; }
+        public long BookmasterId { get; set; }
+        public decimal Net { get; set; }
+
+
+    }
+}

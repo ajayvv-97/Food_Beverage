@@ -1,0 +1,29 @@
+﻿
+using Dapper;
+using Domain;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BLL
+{
+    public class BllSettins
+    {
+        public DmnSetting AddEditDataSetting(string procedureName, DmnSetting objTestClass)
+        {
+            DAL.DapperRepository<DmnSetting> dapperRepository = new DAL.DapperRepository<DmnSetting>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("SId", objTestClass.SId);
+            parms.Add("APPColor", objTestClass.APPColor);
+            parms.Add("MenuButtonColor", objTestClass.MenuButtonColor);
+            parms.Add("OperationButtonColor", objTestClass.OperationButtonColor);
+            parms.Add("Description", objTestClass.Description);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+    }
+}

@@ -39,7 +39,8 @@ namespace FoodandBeverage.Interfaces
             BranchLogo,
             Game,
             ReaderImages,
-            FoodPhoto
+            FoodPhoto,
+            HotelRegistrationProofPics
 
 
         };
@@ -130,6 +131,18 @@ namespace FoodandBeverage.Interfaces
             CREDIT = 8,
             NEFTRTGS = 9,
             COMPLEMENTRY = 10
+        };
+        public enum Reservation
+        {
+            TableBooking = 1,
+            Restaurant = 2
+
+
+        };
+        public enum TableMenu
+        {
+            Rid = 0,
+            Mid = 1
         };
     }
 }
