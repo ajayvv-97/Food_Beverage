@@ -94,8 +94,8 @@ namespace FoodandBeverage.Forms
                             dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                             dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                             dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                            dmnmenu.CreatedBy = 1;
-                            dmnmenu.BranchId = 1;
+                            dmnmenu.CreatedBy = FrmDashboard.UserId;
+                            dmnmenu.BranchId = FrmDashboard.BranchId;
                             if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) ==true)
                                 dmnmenu.Status =1;
                             else

@@ -197,8 +197,8 @@ namespace FoodandBeverage.Forms
                         dmnitemreg.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
                     dmnitemreg.TaxType = Convert.ToString(cmbTaxType.Text);
 
-                    dmnitemreg.CreatedBy = 1;
-                    dmnitemreg.BranchId = 1;
+                    dmnitemreg.CreatedBy =   FrmDashboard.UserId;
+                    dmnitemreg.BranchId = FrmDashboard.BranchId;
 
                     if (chb_active.Checked)
                         dmnitemreg.Status = 1;

@@ -92,7 +92,7 @@ namespace FoodandBeverage.Forms
                     dmntableinfo.RevStatus = 0;
                     dmntableinfo.OrderStatus = 0;
                     dmntableinfo.CreatedBy = 1;
-                    dmntableinfo.BranchId = 1;
+                    dmntableinfo.BranchId = FrmDashboard.BranchId;
                     if (chb_active.Checked)
                         dmntableinfo.Status = 1;
                     else

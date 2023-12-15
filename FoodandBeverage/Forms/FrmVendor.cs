@@ -64,9 +64,9 @@ namespace FoodandBeverage.Forms
                 dmnvendor.Email = txtVendorEmail.Text;
                 dmnvendor.Telephone = txtVendorTel.Text;
                 dmnvendor.Description = txtdesc.Text;
-                dmnvendor.BranchId = 1;
-                dmnvendor.CreatedBy = 1;
-                if(chk_active.Checked)
+                dmnvendor.BranchId = FrmDashboard.BranchId;
+                dmnvendor.CreatedBy = FrmDashboard.UserId; 
+                if (chk_active.Checked)
                     dmnvendor.Status = 1;
                 else
                     dmnvendor.Status = 0;

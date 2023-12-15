@@ -61,8 +61,8 @@ namespace FoodandBeverage.Forms
                     dmnfood.CategoryName = txtfoodCate.Text;
                     dmnfood.CategoryType = Convert.ToInt32(cmb_cate.SelectedIndex);
                     dmnfood.Description = txtdescr.Text;
-                    dmnfood.CreatedBy = 1;
-                    dmnfood.BranchId = 1;
+                    dmnfood.CreatedBy = FrmDashboard.UserId;
+                    dmnfood.BranchId = FrmDashboard.BranchId;
                     if (chk_active.Checked)
                         dmnfood.Status = 1;
                     else

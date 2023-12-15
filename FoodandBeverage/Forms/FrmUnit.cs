@@ -65,8 +65,8 @@ namespace FoodandBeverage.Forms
                         dmnunit.UId = Convert.ToInt32(txtUid.Text);
                         dmnunit.UnitName = txtunit.Text;
                         dmnunit.Description = txtdescr.Text;
-                        dmnunit.CreatedBy = 1;
-                        dmnunit.BranchId = 1;
+                        dmnunit.CreatedBy = FrmDashboard.UserId;
+                        dmnunit.BranchId = FrmDashboard.BranchId;
                         if (chk_active.Checked)
                             dmnunit.Status = 1;
                         else

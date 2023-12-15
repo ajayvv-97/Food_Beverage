@@ -4194,7 +4194,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.EntryNo = "";
                     dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
                     dmnordermaster.Remarks = txtentrie_descr.Text;
-                    dmnordermaster.BranchId = 1;
+                    dmnordermaster.BranchId = FrmDashboard.BranchId;
                     dmnordermaster.CreatedBy = 1;
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
@@ -4242,7 +4242,7 @@ namespace FoodandBeverage.Forms
                                 dmnorderdetail.TableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
                                 dmnorderdetail.MarketPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
 
-                                dmnorderdetail.BranchId = 1;
+                                dmnorderdetail.BranchId = FrmDashboard.BranchId;
                                 dmnorderdetail.CreatedBy = 1;
                                 dmnorderdetail.Status = 1;
 
@@ -4572,7 +4572,7 @@ namespace FoodandBeverage.Forms
                     }
 
                     //dmnsalemaster.Remark = txtRemark.Text; 
-                    dmnsalemaster.BranchId = 1;
+                    dmnsalemaster.BranchId = FrmDashboard.BranchId;
                     dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
                     dmnsalemaster.CreatedBy = 1;
                     dmnsalemaster.Status = 1;
@@ -4620,7 +4620,7 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
                                     dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
 
-                                    dmnsaledetails.BranchId = 1;
+                                    dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                     dmnsaledetails.CreatedBy = 1;
                                     dmnsaledetails.Status = 1;
 

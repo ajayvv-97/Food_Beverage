@@ -381,7 +381,7 @@ namespace FoodandBeverage.Forms
                     dmnPurchase.BalAmnt = Convert.ToDecimal(lblBalAmt.Text);
                     dmnPurchase.Remark = remarks.Text;
                     dmnPurchase.Terms = sterms.Text;
-                    dmnPurchase.BranchId = 1;
+                    dmnPurchase.BranchId = FrmDashboard.BranchId;
                     dmnPurchase.PurchaseMasterId = Convert.ToInt32("0");
                     dmnPurchase.CreatedBy = 1;
                     dmnPurchase.Status = 1;
@@ -410,7 +410,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.MRP = Convert.ToDecimal(dgvProduct.Rows[i].Cells[imrp].Value);
                             dmnPurchase.Fcid = Convert.ToInt32(dgvProduct.Rows[i].Cells[itype].Value);
                             dmnPurchase.BranchId =1;
-                            dmnPurchase.CreatedBy =1;
+                            dmnPurchase.CreatedBy =FrmDashboard.UserId;
                             dmnPurchase.Status = 1;
                             dmnPurchase.PurchaseDetailId = Convert.ToInt32("0");
                             dmnPurchase.Amount = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iamount].Value);
@@ -1282,8 +1282,8 @@ namespace FoodandBeverage.Forms
                 dmnPurchase.Email = txtVendorEmail.Text;
                 dmnPurchase.ContactNo = txtVendorTel.Text;
                 dmnPurchase.Description = txtdes.Text;
-                dmnPurchase.BranchId =1;
-                dmnPurchase.CreatedBy =1;
+                dmnPurchase.BranchId = FrmDashboard.BranchId;
+                dmnPurchase.CreatedBy =FrmDashboard.UserId;
                 dmnPurchase.Status = 1;
                 dmnPurchase.CustomerId = Convert.ToInt32("0");
                 dmnPurchase.CustomerId = Convert.ToInt32(custname.SelectedValue);

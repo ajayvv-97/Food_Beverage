@@ -469,7 +469,7 @@ namespace FoodandBeverage.Forms
                         dmnOffermaster.FinalPrice = Convert.ToDecimal(txtfinalprice.Text);
 
                         dmnOffermaster.OfferType = 0;
-                        dmnOffermaster.BranchId = 1;
+                        dmnOffermaster.BranchId = FrmDashboard.BranchId;
                         dmnOffermaster.CreatedBy = 1;
                         if (chk_single_status.Checked)
                             dmnOffermaster.Status = 1;
@@ -492,7 +492,7 @@ namespace FoodandBeverage.Forms
                                 dmnOfferdetails.Saletype =0;
                             else
                                 dmnOfferdetails.Saletype = 1;
-                            dmnOfferdetails.BranchId = 1;
+                            dmnOfferdetails.BranchId = FrmDashboard.BranchId;
                             dmnOfferdetails.CreatedBy = 1;
                             dmnOfferdetails.Status = 1;
                             var InsertStatusD = blldetails.AddEditDataD("[prdInsert_Upd_offerdetails]", dmnOfferdetails);
@@ -539,7 +539,7 @@ namespace FoodandBeverage.Forms
                             dmnOffermaster.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
 
                         dmnOffermaster.OfferType = 1;
-                        dmnOffermaster.BranchId = 1;
+                        dmnOffermaster.BranchId = FrmDashboard.BranchId;
                         dmnOffermaster.CreatedBy = 1;
                         if (chk_combo_status.Checked)
                             dmnOffermaster.Status = 1;
@@ -565,7 +565,7 @@ namespace FoodandBeverage.Forms
                                         dmnOfferdetails.Saletype = 1;
                                     dmnOfferdetails.Productname = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[desno].Value);           
                                     dmnOfferdetails.Description = txtcombodes.Text;
-                                    dmnOfferdetails.BranchId = 1;
+                                    dmnOfferdetails.BranchId = FrmDashboard.BranchId;
                                     dmnOfferdetails.CreatedBy = 1;
                                     dmnOfferdetails.Status = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[statusno].Value);
                                     var InsertStatusD = blldetails.AddEditDataD("prdInsert_Upd_offerdetails", dmnOfferdetails);

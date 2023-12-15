@@ -23,9 +23,6 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         #region Declarations
-
-
-
         //ClsGeneral objGeneral = new ClsGeneral();// for validation
         BllEncryption bllEncryption = new BllEncryption();
         //BllUserAccount bllUserAccount = new BllUserAccount();

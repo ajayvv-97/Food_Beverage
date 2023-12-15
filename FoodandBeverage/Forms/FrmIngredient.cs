@@ -75,8 +75,8 @@ namespace FoodandBeverage.Forms
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
                     dmnproduct.ItemCode = Convert.ToString(txtitemcode.Text);
                     dmnproduct.UPC = "";
-                    dmnproduct.CreatedBy = 1;
-                    dmnproduct.BranchId = 1;
+                    dmnproduct.CreatedBy = FrmDashboard.UserId;
+                    dmnproduct.BranchId = FrmDashboard.BranchId;
 
                     if (chb_active.Checked)
                         dmnproduct.Status = 1;
@@ -98,8 +98,8 @@ namespace FoodandBeverage.Forms
                             dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
                             dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
                             // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
-                            dmnincr.CreatedBy = 1;
-                            dmnincr.BranchId = 1;
+                            dmnincr.CreatedBy = FrmDashboard.UserId;
+                            dmnincr.BranchId = FrmDashboard.BranchId; 
 
                             if (chb_active.Checked)
                                 dmnincr.Status = 1;

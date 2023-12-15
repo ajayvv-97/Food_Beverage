@@ -179,7 +179,7 @@ namespace FoodandBeverage.Forms
                     dmnPurchase.BalAmnt = Convert.ToDecimal(lblBalAmt.Text);
                     dmnPurchase.Remark = remarks.Text;
                     dmnPurchase.Terms = sterms.Text;
-                    dmnPurchase.BranchId = 1;
+                    dmnPurchase.BranchId = FrmDashboard.BranchId;
                     dmnPurchase.CreatedBy = 1;
                     dmnPurchase.Status = 1;
 
@@ -202,7 +202,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.TotalAmnt = Convert.ToDecimal(dgvProduct.Rows[i].Cells[inetamount].Value.ToString());
                             dmnPurchase.Type = dgvProduct.Rows[i].Cells[iproducttype].Value.ToString();
                             dmnPurchase.CreatedBy = 1;
-                            dmnPurchase.BranchId = 1;
+                            dmnPurchase.BranchId = FrmDashboard.BranchId;
                             dmnPurchase.Status = 1;
                             dmnPurchase.PurchaseMasterId = Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchasemasterid].Value.ToString());
                             dmnPurchase.EntryNo = dgvProduct.Rows[i].Cells[ipurchasemasterentryno].Value.ToString();

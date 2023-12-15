@@ -15,9 +15,19 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmDashboard : Form
     {
+
+        public static int BranchId = 0;
+        public static int UserId = 0;
+        public static int UserType = 0;
+        public static int Allaccess = 0;
+
+
         public FrmDashboard()
         {
             InitializeComponent();
+            UserId = Convert.ToInt32(FrmLogin.UserId);
+            BranchId = Convert.ToInt32(FrmLogin.BranchId);
+            UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
         }
         // Function to create a rounded rectangle region
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -1033,8 +1043,8 @@ namespace FoodandBeverage.Forms
             dmnsettingr.OperationButtonColor = txtoperbuttoncolorname.Text;
             //dmnsettingr.Description = txtdesc.Text;
             dmnsettingr.Status = 1;
-            dmnsettingr.BranchId = 1;
-            dmnsettingr.CreatedBy = 1;
+            dmnsettingr.BranchId = FrmDashboard.BranchId;
+            dmnsettingr.CreatedBy = FrmDashboard.UserId;
             var InsertStatus = BllSettin.AddEditDataSetting("prdInsert_Upd_Setting", dmnsettingr);
             if (InsertStatus == null)
             {

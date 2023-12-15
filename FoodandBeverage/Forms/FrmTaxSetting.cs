@@ -223,7 +223,7 @@ namespace FoodandBeverage.Forms
                             dmnTaxSettings.Status = 1;
                         else
                             dmnTaxSettings.Status = 0;
-                        dmnTaxSettings.BranchId = 1;
+                        dmnTaxSettings.BranchId = FrmDashboard.BranchId;
                         dmnTaxSettings.CreatedBy = 1;
 
                         var lstData = bllTaxSettings.AddData("prdInsert_Upd_TaxSettings", dmnTaxSettings);
