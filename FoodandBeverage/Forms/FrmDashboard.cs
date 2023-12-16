@@ -20,8 +20,6 @@ namespace FoodandBeverage.Forms
         public static int UserId = 0;
         public static int UserType = 0;
         public static int Allaccess = 0;
-
-
         public FrmDashboard()
         {
             InitializeComponent();
@@ -76,8 +74,9 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
         private void FrmDashboard_Load(object sender, EventArgs e)
-        {
+        {     
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             tlp_main.BackColor = menubuttoncolor;
@@ -85,11 +84,10 @@ namespace FoodandBeverage.Forms
             btn_minimium.BackColor = menubuttoncolor;
             Menuhome.Focus();
             this.DoubleBuffered = true;
-            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             RoundPictureBoxCorners(pb_appicon, 10);
             TableStaus(0);
             //pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
-            Roundform(30);
+           Roundform(30);
             // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
             //set color on solidebar header
             pnl_header.BackColor = menubuttoncolor;
@@ -107,7 +105,7 @@ namespace FoodandBeverage.Forms
             Menusetting.BackColor = menubuttoncolor;
             menuEmployee.BackColor = menubuttoncolor;
             button_imageset();
-            flp_menu.BackColor = Color.White;
+            //flp_menu.BackColor = Color.White;
             tlp_main_sidebar_pnldesktop.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
 
             //operation button color 
@@ -848,9 +846,10 @@ namespace FoodandBeverage.Forms
                 panelMenu.Width = 108;
                 panelMenu.Dock = DockStyle.Fill;
                 flp_menu.Dock = DockStyle.Fill;
-                pnl_header.Width = 95;
-                pb_appicon.Width = 30;
-                RoundPictureBoxCorners(pb_appicon, 10);
+                pnl_header.Width = 95; 
+                pb_appicon.Dock = DockStyle.Fill;
+
+
                 foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
                 {
                     menuButton.Text = "";
@@ -860,6 +859,7 @@ namespace FoodandBeverage.Forms
                 }
                 tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
                 tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+                RoundPictureBoxCorners(pb_appicon, 10);
             }
             else
             { //Expand menu
@@ -867,7 +867,7 @@ namespace FoodandBeverage.Forms
                 pnl_header.Width = 179;
                 panelMenu.Width = 180;
                 pb_appicon.Width = 97;
-                RoundPictureBoxCorners(pb_appicon, 10);
+
                 foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
                 {
                     menuButton.Width = 162;
@@ -875,6 +875,10 @@ namespace FoodandBeverage.Forms
                     menuButton.ImageAlign = ContentAlignment.MiddleLeft;
                     menuButton.Padding = new Padding(10, 0, 0, 0);
                 }
+                tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
+                tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 81.27f);
+                RoundPictureBoxCorners(pb_appicon, 10);
+
             }
             TableStaus(0);
         }
@@ -882,7 +886,7 @@ namespace FoodandBeverage.Forms
         private void pnl_header_Click(object sender, EventArgs e)
         {
             collapsemenu_click = !collapsemenu_click;
-            CollapseMenu();
+            //CollapseMenu();
         }
 
         private void Menuoperation_Click(object sender, EventArgs e)
@@ -969,8 +973,7 @@ namespace FoodandBeverage.Forms
         #region TaskBar Time
         private void timer1_Tick(object sender, EventArgs e)
         {
-            lblTime.Text = DateTime.Now.ToLongTimeString();
-            datelbl.Text = DateTime.Now.ToShortDateString();
+            //lbldateTime.Text = DateTime.Now.ToLongTimeString()+"      "+ DateTime.Now.ToShortDateString(); 
         }
         #endregion
 
@@ -1132,7 +1135,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
                 if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
-                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Normal;
                 else
                 {
                     _instanceItemRegistartion.Dock = DockStyle.None;
@@ -1148,26 +1151,41 @@ namespace FoodandBeverage.Forms
                 _instanceItemRegistartion.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
 
                 _instanceItemRegistartion.TopLevel = false;
-                _instanceItemRegistartion.Dock = DockStyle.None;
+                _instanceItemRegistartion.Dock = DockStyle.Fill;
                 panelDesktop.Controls.Add(_instanceItemRegistartion);
                 _instanceItemRegistartion.Show();
                 _instanceItemRegistartion.BringToFront();
             }
 
         }
+        private void ResizeForm(Form form)
+        {
+            // Set the size based on your conditions
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+            if (screenWidth >= 1366 && screenHeight >= 768)
+            {
+                form.Height = 699;
+                form.Width = 1000;
+            }
+            else
+                form.Dock = DockStyle.Fill;
+        }
 
         private void ib_ingrediant_Click(object sender, EventArgs e)
         {
-
             if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
             {
                 FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
                 if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
-                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                {
+                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    //ResizeForm(_instanceFrmIngredient);
+                } 
                 else
                 {
-                    _instanceFrmIngredient.Dock = DockStyle.Fill;
-                    _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
+                    _instanceFrmIngredient.Dock = DockStyle.None;
+                    ResizeForm(_instanceFrmIngredient);
                     panelDesktop.Controls.Add(_instanceFrmIngredient);
                     _instanceFrmIngredient.Show();
                     _instanceFrmIngredient.BringToFront();
@@ -1176,13 +1194,14 @@ namespace FoodandBeverage.Forms
             else
             {
                 FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0); // Adjust these values as needed
-
+                ResizeForm(_instanceFrmIngredient);
+                _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0);            
                 _instanceFrmIngredient.TopLevel = false;
-                _instanceFrmIngredient.Dock = DockStyle.None;
                 panelDesktop.Controls.Add(_instanceFrmIngredient);
                 _instanceFrmIngredient.Show();
+                _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Normal;
                 _instanceFrmIngredient.BringToFront();
+
             }
 
         }
@@ -2360,6 +2379,11 @@ namespace FoodandBeverage.Forms
         {
             ib_userpermission.Text = Convert.ToString(ib_userpermission.Tag);
             SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+        }
+
+        private void pb_appicon_Click(object sender, EventArgs e)
+        {
+            CollapseMenu();
         }
     }
 }

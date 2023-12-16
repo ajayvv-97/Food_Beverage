@@ -390,12 +390,13 @@ namespace FoodandBeverage.Forms
 
         private void FrmItemRegistartion_Load(object sender, EventArgs e)
         {
-            textb_shape();
+
             Fillitem();
             combofill();
             Taxfill();
             dgv_item.BorderStyle = BorderStyle.None;
             cmbTaxType.SelectedIndex = 0;
+
             //dgv_item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             //dgv_item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             //dgv_item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
@@ -406,6 +407,7 @@ namespace FoodandBeverage.Forms
             dgv_item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
         }
 
         private void btn_del_ingre_Click(object sender, EventArgs e)
@@ -508,6 +510,7 @@ namespace FoodandBeverage.Forms
             lblunit.Dock = DockStyle.Fill;
             lbltax.Dock = DockStyle.Fill;
             lbltaxtype.Dock = DockStyle.Fill;
+            txtdesc.Dock = DockStyle.Fill;
             if (cmbTaxType.Text == "GST")
             {
                 lbligst.Dock = DockStyle.Fill;
@@ -711,7 +714,6 @@ namespace FoodandBeverage.Forms
             path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
             path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
             path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
             textBox.Region = new Region(path);
         }
 
@@ -987,6 +989,11 @@ namespace FoodandBeverage.Forms
                     btnclose.PerformClick();
             }
 
+        }
+
+        private void FrmItemRegistartion_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }

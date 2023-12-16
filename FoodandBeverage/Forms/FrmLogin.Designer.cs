@@ -121,7 +121,6 @@ namespace FoodandBeverage.Forms
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
             // 
             // label2
             // 
@@ -133,7 +132,6 @@ namespace FoodandBeverage.Forms
             this.label2.Size = new System.Drawing.Size(180, 36);
             this.label2.TabIndex = 6;
             this.label2.Text = "Midas Fun";
-            this.label2.Visible = false;
             // 
             // label1
             // 
@@ -145,7 +143,6 @@ namespace FoodandBeverage.Forms
             this.label1.Size = new System.Drawing.Size(259, 36);
             this.label1.TabIndex = 7;
             this.label1.Text = "Food  Beverage";
-            this.label1.Visible = false;
             // 
             // FrmLogin
             // 
