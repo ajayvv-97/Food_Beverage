@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using Microsoft.AspNet.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static FoodandBeverage.Interfaces.Interfaces;
 
@@ -22,6 +24,11 @@ namespace FoodandBeverage.Forms
         {
             tableId = tid;
             InitializeComponent();
+
+            // Replace the URL with your SignalR hub URL
+            _hubConnection = new HubConnection("http://192.168.0.5:80/");
+            _hubProxy = _hubConnection.CreateHubProxy("OrderHub");
+
         }
         // Function to create a rounded rectangle region
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -104,17 +111,42 @@ namespace FoodandBeverage.Forms
         public decimal TotalSGST = 0;
         public decimal TotalVAT = 0;
         public decimal Totaldis = 0;
+        public int ordercount = 0;
+
+        private readonly HubConnection _hubConnection;
+        private readonly IHubProxy _hubProxy;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void FrmOrder_Load(object sender, EventArgs e)
+        private async Task StartHubConnection()
         {
             try
             {
+                await _hubConnection.Start();
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, display an error message, etc.)
+                MessageBox.Show($"Error starting SignalR connection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async void  FrmOrder_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                //try
+                //{
+                //    await StartHubConnection();
+                //}
+                //catch (Exception ex)
+                //{
+                //    // Handle the exception (log it, display an error message, etc.)
+                //    MessageBox.Show($"Error starting SignalR connection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
+
                 tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
                 tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
                 tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
@@ -332,7 +364,7 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster.Count > 0)
                 {
                     txtGrandTotal.Text = "0";
-                    int ordercount = 0;         
+                     ordercount = 0;
                     OrderRunning_Status = true;
                     tlp_seletedItem_main.Controls.Clear();
                     FillExistingProducts();
@@ -602,27 +634,47 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
+                    int rowToRemove = 0;
+                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+                    if (ordercount==gridSourcemaster.Count)
+                    {
+                        foreach (int column in columnsToRemove)
+                        {
+                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
 
-                    if(ordercount==gridSourcemaster.Count)
-                    {   
-                        Control controlToRemove1 = tlp_buttons.GetControlFromPosition(3, 0);
-                        tlp_buttons.Controls.Remove(controlToRemove1);
-                        Control controlToRemove2 = tlp_buttons.GetControlFromPosition(5, 0);
-                        tlp_buttons.Controls.Remove(controlToRemove2);
-                        tlp_buttons.Controls.Add(btn_print_bill, 3, 0);
-                        tlp_buttons.Controls.Add(btn_refresh, 5, 0);
-                        btn_print_bill.Dock = DockStyle.Fill;
+                            if (controlToRemove != null)
+                            {
+                                tlp_buttons.Controls.Remove(controlToRemove);
+                            }
+                        }
+                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
+                        btn_print_bill.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
                         btn_refresh.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                        btn_frm_close.Dock = DockStyle.Left;
+                        btn_saveKOT.Visible = false;
                         btn_print_bill.Visible = true;
                     }
                     else
                     {
-                        Control controlToRemove1 = tlp_buttons.GetControlFromPosition(3, 0);
-                        tlp_buttons.Controls.Remove(controlToRemove1);
-                        Control controlToRemove2 = tlp_buttons.GetControlFromPosition(5, 0);
-                        tlp_buttons.Controls.Remove(controlToRemove2);
-                        tlp_buttons.Controls.Add(btn_refresh, 3, 0);
+                        foreach (int column in columnsToRemove)
+                        {
+                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                            if (controlToRemove != null)
+                            {
+                                tlp_buttons.Controls.Remove(controlToRemove);
+                            }
+                        }
+                        tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
+                        btn_saveKOT.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
                         btn_refresh.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                        btn_frm_close.Dock = DockStyle.Left;
+
+                        btn_saveKOT.Visible = true;
                         btn_print_bill.Visible = false;
 
                     }
@@ -631,12 +683,26 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     OrderRunning_Status = false;
-                    Control controlToRemove1 = tlp_buttons.GetControlFromPosition(3, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove1);
-                    Control controlToRemove2 = tlp_buttons.GetControlFromPosition(5, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove2);
-                    tlp_buttons.Controls.Add(btn_refresh, 3, 0);
+
+                    int rowToRemove = 0;
+                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+
+                    foreach (int column in columnsToRemove)
+                    {
+                        Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                        if (controlToRemove != null)
+                        {
+                            tlp_buttons.Controls.Remove(controlToRemove);
+                        }
+                    }
+                    tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
+                    btn_saveKOT.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
                     btn_refresh.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                    btn_frm_close.Dock = DockStyle.Left;
+                    btn_saveKOT.Visible = true;
                     btn_print_bill.Visible = false;
 
                     lblorderid.Visible = false;
@@ -932,42 +998,87 @@ namespace FoodandBeverage.Forms
                 Dgv_Selected_Item.Refresh();
                 for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
                 {
-                    if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null)
+                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value)>0 && Dgv_Selected_Item.Rows[i].Cells[iitemid].Value!=null)
                     {
                         count = count + 1;
                         break;
                     }
 
                 }
+                int rowToRemove = 0;
+                List<int> columnsToRemove = new List<int> { 1, 2, 3 };
                 if (count ==1)
                 {
-                    Control controlToRemove1 = tlp_buttons.GetControlFromPosition(3, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove1);
-                    Control controlToRemove2 = tlp_buttons.GetControlFromPosition(5, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove2);
-                    tlp_buttons.Controls.Add(btn_refresh, 3, 0);
+                    foreach (int column in columnsToRemove)
+                    {
+                        Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                        if (controlToRemove != null)
+                        {
+                            tlp_buttons.Controls.Remove(controlToRemove);
+                        }
+                    }
+                    tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
+                    btn_saveKOT.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
                     btn_refresh.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                    btn_frm_close.Dock = DockStyle.Left;
+                    btn_saveKOT.Visible = true;
                     btn_print_bill.Visible = false;
                 }
                 else 
                 {
-                    Control controlToRemove1 = tlp_buttons.GetControlFromPosition(3, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove1);
-                    Control controlToRemove2 = tlp_buttons.GetControlFromPosition(5, 0);
-                    tlp_buttons.Controls.Remove(controlToRemove2);
-                    tlp_buttons.Controls.Add(btn_print_bill, 3, 0);
-                    tlp_buttons.Controls.Add(btn_refresh, 5, 0);
-                    btn_print_bill.Dock = DockStyle.Fill;
-                    btn_refresh.Dock = DockStyle.Left;
-                    btn_print_bill.Visible = true;
+                    if (ordercount == gridSourcemaster.Count && OrderRunning_Status)                        
+                    {
+                        foreach (int column in columnsToRemove)
+                        {
+                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                            if (controlToRemove != null)
+                            {
+                                tlp_buttons.Controls.Remove(controlToRemove);
+                            }
+                        }
+
+                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
+                        btn_print_bill.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
+                        btn_refresh.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                        btn_frm_close.Dock = DockStyle.Left;
+                        btn_saveKOT.Visible = false;
+                        btn_print_bill.Visible = true;
+                    }
+                    else
+                    {
+                        foreach (int column in columnsToRemove)
+                        {
+                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                            if (controlToRemove != null)
+                            {
+                                tlp_buttons.Controls.Remove(controlToRemove);
+                            }
+                        }
+                        tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
+                        btn_saveKOT.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
+                        btn_refresh.Dock = DockStyle.Left;
+                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                        btn_frm_close.Dock = DockStyle.Left;
+
+                        btn_saveKOT.Visible = true;
+                        btn_print_bill.Visible = false;
+
+                    }
                 }
             }
             catch(Exception ex)
             {
 
             }
-
-            }
+        }
 
         public bool Checkoffer(int id)
         {
@@ -2586,12 +2697,14 @@ namespace FoodandBeverage.Forms
                         tlp_box_combo.Width = 190;
                         tlp_box_combo.Height = 50;
 
+
                         // Configure the Button
                         Button button = new Button();
                         button.Text = gridSource[i].Field1;
                         button.Name = "btn" + gridSource[i].Field1;
                         button.Tag = gridSource[i].Field2;
                         button.Padding = new Padding(16, 0, 0, 0);
+                        //button.Margin = new Padding(0);
                         button.AccessibleDescription = "3";
                         button.FlatAppearance.BorderSize = 0;
                         button.FlatAppearance.BorderColor = button.BackColor;
@@ -2616,6 +2729,7 @@ namespace FoodandBeverage.Forms
                         btnviewmore.Tag = gridSource[i].Field2;
                         btnviewmore.AccessibleDescription = "3";
                         btnviewmore.FlatAppearance.BorderSize = 0;
+                        btnviewmore.Margin = new Padding(0);
                         btnviewmore.FlatAppearance.BorderColor = btnviewmore.BackColor;
                         btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
                         btnviewmore.Width = 30;
@@ -3698,14 +3812,14 @@ namespace FoodandBeverage.Forms
                 case Keys.Escape:
                     if (pnlproductviewmore.Visible)
                         pnlproductviewmore.Visible = false;
-                    else if(tlp_gridview.Visible)
+                    else if (tlp_gridview.Visible)
                         pnlproductviewmore.Visible = false;
                     else
-                        this.Close();
-                    return true;
-                //case Keys.LWin:
-                //    this.WindowState = FormWindowState.Minimized;
-                //    return true;
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
+                        return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
@@ -4282,6 +4396,9 @@ namespace FoodandBeverage.Forms
                             _instanceFrmKitchenView.Fillorders();
                         }
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Notify the kitchen view to refresh
+                        _hubProxy.Invoke("SendOrderNotification").Wait();
+
                         ClearAll();
                         this.Close();
                     }
@@ -4348,6 +4465,26 @@ namespace FoodandBeverage.Forms
                 ResetFlagvalue = 0;
                 Promodetailsid = 0;
                 Promomasterid = 0;
+                int rowToRemove = 0;
+                List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+
+                foreach (int column in columnsToRemove)
+                {
+                    Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                    if (controlToRemove != null)
+                    {
+                        tlp_buttons.Controls.Remove(controlToRemove);
+                    }
+                }
+                tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
+                btn_saveKOT.Dock = DockStyle.Left;
+                tlp_buttons.Controls.Add(btn_refresh, 2, 0);
+                btn_refresh.Dock = DockStyle.Left;
+                tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                btn_frm_close.Dock = DockStyle.Left;
+                btn_saveKOT.Visible = true;
+                btn_print_bill.Visible = false;
             }
             catch (Exception)
             {
@@ -4380,6 +4517,7 @@ namespace FoodandBeverage.Forms
             }
             else if (tlp_seletedItem_main.Controls.Count==0)
             {
+
                 CMessageBox.Show("Product cart is Empty", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
@@ -4557,7 +4695,8 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                     dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                     dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
-
+                    dmnsalemaster.Tid = tableId;
+                    dmnsalemaster.PayId = payid;
                     if (Promomasterid > 0 && Promodetailsid > 0)
                     {
                         dmnsalemaster.PromoMId = Promomasterid;
@@ -4642,7 +4781,12 @@ namespace FoodandBeverage.Forms
                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId);
                         frmSalesInvoice.ShowDialog();
                         MessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ///ClearAll();
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            _instanceFrmdash.TableStaus(0);
+                        }
+                        ClearAll();
                     }
                 }
                 #endregion
@@ -4785,6 +4929,11 @@ namespace FoodandBeverage.Forms
             {
             }
 
+        }
+
+        private void btn_frm_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

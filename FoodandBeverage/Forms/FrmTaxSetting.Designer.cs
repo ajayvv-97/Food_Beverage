@@ -268,8 +268,8 @@ namespace FoodandBeverage.Forms
             this.tlp_outer_design.BackColor = System.Drawing.Color.AliceBlue;
             this.tlp_outer_design.ColumnCount = 3;
             this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
-            this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 171F));
+            this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98F));
+            this.tlp_outer_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2F));
             this.tlp_outer_design.Controls.Add(this.tlp_registration, 1, 1);
             this.tlp_outer_design.Controls.Add(this.chb_active, 2, 1);
             this.tlp_outer_design.Controls.Add(this.btn_del_tax, 1, 2);
@@ -299,7 +299,7 @@ namespace FoodandBeverage.Forms
             this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registration.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_registration.Size = new System.Drawing.Size(741, 172);
+            this.tlp_registration.Size = new System.Drawing.Size(747, 172);
             this.tlp_registration.TabIndex = 4;
             // 
             // chb_active
@@ -308,10 +308,10 @@ namespace FoodandBeverage.Forms
             this.chb_active.Checked = true;
             this.chb_active.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chb_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chb_active.Location = new System.Drawing.Point(866, 23);
+            this.chb_active.Location = new System.Drawing.Point(872, 23);
             this.chb_active.Margin = new System.Windows.Forms.Padding(100, 15, 3, 3);
             this.chb_active.Name = "chb_active";
-            this.chb_active.Size = new System.Drawing.Size(15, 14);
+            this.chb_active.Size = new System.Drawing.Size(1, 14);
             this.chb_active.TabIndex = 9;
             this.chb_active.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chb_active.UseVisualStyleBackColor = true;

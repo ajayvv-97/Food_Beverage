@@ -163,7 +163,6 @@ namespace FoodandBeverage.Forms
             dgv_table.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_table.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_table.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            textb_shape();
         }
         #region TexBox Round function
         public void textb_shape()
@@ -430,7 +429,9 @@ namespace FoodandBeverage.Forms
                     }                   
                     Movefocus(0);
                     return true; // Mark the key as handled
-                case Keys.Escape:        
+                case Keys.Escape:  
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();                    
                     return true;
                 case Keys.End:
                     int lastColumnIndex = tdesno;
@@ -519,6 +520,11 @@ namespace FoodandBeverage.Forms
                     txttablecode.Focus();
                 }
             }
+        }
+
+        private void FrmTableInfo_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }

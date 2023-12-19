@@ -56,7 +56,7 @@ namespace FoodandBeverage.Forms
             this.ib_tax = new FontAwesome.Sharp.IconButton();
             this.ib_vendor = new FontAwesome.Sharp.IconButton();
             this.ib_Discount_offer = new FontAwesome.Sharp.IconButton();
-            this.ib_withdrawal = new FontAwesome.Sharp.IconButton();
+            this.ib_Expence = new FontAwesome.Sharp.IconButton();
             this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
             this.ib_Company = new FontAwesome.Sharp.IconButton();
             this.ib_reservation = new FontAwesome.Sharp.IconButton();
@@ -408,6 +408,7 @@ namespace FoodandBeverage.Forms
             // 
             // flp_operations
             // 
+            this.flp_operations.AutoScroll = true;
             this.flp_operations.Controls.Add(this.ib_orderview);
             this.flp_operations.Controls.Add(this.ib_kitchenview);
             this.flp_operations.Controls.Add(this.ib_Category);
@@ -421,14 +422,14 @@ namespace FoodandBeverage.Forms
             this.flp_operations.Controls.Add(this.ib_tax);
             this.flp_operations.Controls.Add(this.ib_vendor);
             this.flp_operations.Controls.Add(this.ib_Discount_offer);
-            this.flp_operations.Controls.Add(this.ib_withdrawal);
+            this.flp_operations.Controls.Add(this.ib_Expence);
             this.flp_operations.Controls.Add(this.ib_PromoCode);
             this.flp_operations.Controls.Add(this.ib_Company);
             this.flp_operations.Controls.Add(this.ib_reservation);
             this.flp_operations.Location = new System.Drawing.Point(-6, 0);
             this.flp_operations.Name = "flp_operations";
             this.flp_operations.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.flp_operations.Size = new System.Drawing.Size(820, 696);
+            this.flp_operations.Size = new System.Drawing.Size(867, 687);
             this.flp_operations.TabIndex = 9;
             this.flp_operations.Visible = false;
             // 
@@ -770,31 +771,31 @@ namespace FoodandBeverage.Forms
             this.ib_Discount_offer.MouseLeave += new System.EventHandler(this.ib_Discount_MouseLeave);
             this.ib_Discount_offer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_withdrawal
+            // ib_Expence
             // 
-            this.ib_withdrawal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_withdrawal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_withdrawal.FlatAppearance.BorderSize = 0;
-            this.ib_withdrawal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_withdrawal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_withdrawal.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_withdrawal.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_withdrawal.IconColor = System.Drawing.Color.White;
-            this.ib_withdrawal.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_withdrawal.IconSize = 30;
-            this.ib_withdrawal.Location = new System.Drawing.Point(328, 539);
-            this.ib_withdrawal.Margin = new System.Windows.Forms.Padding(43, 35, 10, 2);
-            this.ib_withdrawal.Name = "ib_withdrawal";
-            this.ib_withdrawal.Size = new System.Drawing.Size(212, 89);
-            this.ib_withdrawal.TabIndex = 15;
-            this.ib_withdrawal.Tag = "withdrawal";
-            this.ib_withdrawal.Text = "withdrawal";
-            this.ib_withdrawal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_withdrawal, "Tax Registartion");
-            this.ib_withdrawal.UseVisualStyleBackColor = false;
-            this.ib_withdrawal.Click += new System.EventHandler(this.ib_withdrawal_Click);
-            this.ib_withdrawal.MouseLeave += new System.EventHandler(this.ib_withdrawal_MouseLeave);
-            this.ib_withdrawal.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_Expence.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Expence.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Expence.FlatAppearance.BorderSize = 0;
+            this.ib_Expence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Expence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Expence.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Expence.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Expence.IconColor = System.Drawing.Color.White;
+            this.ib_Expence.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Expence.IconSize = 30;
+            this.ib_Expence.Location = new System.Drawing.Point(328, 539);
+            this.ib_Expence.Margin = new System.Windows.Forms.Padding(43, 35, 10, 2);
+            this.ib_Expence.Name = "ib_Expence";
+            this.ib_Expence.Size = new System.Drawing.Size(212, 89);
+            this.ib_Expence.TabIndex = 15;
+            this.ib_Expence.Tag = "Expence";
+            this.ib_Expence.Text = "Expence";
+            this.ib_Expence.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Expence, "Tax Registartion");
+            this.ib_Expence.UseVisualStyleBackColor = false;
+            this.ib_Expence.Click += new System.EventHandler(this.ib_withdrawal_Click);
+            this.ib_Expence.MouseLeave += new System.EventHandler(this.ib_withdrawal_MouseLeave);
+            this.ib_Expence.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // ib_PromoCode
             // 
@@ -880,7 +881,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 199F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -913,7 +914,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(83, 3);
+            this.btn_avial.Location = new System.Drawing.Point(82, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -927,7 +928,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(244, 3);
+            this.btn_rev.Location = new System.Drawing.Point(240, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -941,7 +942,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(168, 3);
+            this.btn_running.Location = new System.Drawing.Point(165, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -1530,7 +1531,7 @@ namespace FoodandBeverage.Forms
             this.flpEmployee.Controls.Add(this.ib_designation);
             this.flpEmployee.Controls.Add(this.ib_useraccount);
             this.flpEmployee.Controls.Add(this.ib_userpermission);
-            this.flpEmployee.Location = new System.Drawing.Point(794, 8);
+            this.flpEmployee.Location = new System.Drawing.Point(1039, 8);
             this.flpEmployee.Name = "flpEmployee";
             this.flpEmployee.Size = new System.Drawing.Size(262, 391);
             this.flpEmployee.TabIndex = 11;
@@ -1610,6 +1611,7 @@ namespace FoodandBeverage.Forms
             this.Text = "FrmDashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmDashboard_Load);
+            this.Resize += new System.EventHandler(this.FrmDashboard_Resize);
             this.panelMenu.ResumeLayout(false);
             this.flp_menu.ResumeLayout(false);
             this.pnl_header.ResumeLayout(false);
@@ -1682,7 +1684,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_tableorder;
         private System.Windows.Forms.Label label1;
         private FontAwesome.Sharp.IconButton ib_Discount_offer;
-        private FontAwesome.Sharp.IconButton ib_withdrawal;
+        private FontAwesome.Sharp.IconButton ib_Expence;
         private System.Windows.Forms.TableLayoutPanel tlp_reg_payment;
         private System.Windows.Forms.TableLayoutPanel tlp_serach_main;
         private System.Windows.Forms.TableLayoutPanel tlp_payment;

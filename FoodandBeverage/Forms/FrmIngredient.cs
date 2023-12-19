@@ -367,7 +367,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
         }
         private bool IsValidData(int rowno)
         {
@@ -402,8 +401,6 @@ namespace FoodandBeverage.Forms
             }
             return false;
         }
-
-
         private void dgv_registartion_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 4)
@@ -1485,8 +1482,15 @@ namespace FoodandBeverage.Forms
                         tlp_main.Controls.Remove(controlToRemove);
                         tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
                         tlp_registartion_toggle.Dock = DockStyle.Fill;
-                    }            
+                    }           
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
+
                     return true;
+
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }

@@ -346,13 +346,13 @@ namespace FoodandBeverage.Forms
             try
             {          
                 dgv_item.CurrentCell = dgv_item[0, 0];
-                dgv_item.Focus();
                 tlp_registration.Visible = false;
                 tlp_grid.Visible = true;
                 Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
                 tlp_main.Controls.Remove(controlToRemove);
                 tlp_main.Controls.Add(tlp_grid, 1, 0);
                 tlp_grid.Dock = DockStyle.Fill;
+                dgv_item.Focus();
             }
             catch(Exception ex)
             {
@@ -420,11 +420,11 @@ namespace FoodandBeverage.Forms
                 Fillitem();
             }
         }
-        private void dgv_item_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void filldata(int rowno)
         {
             try
             {
-                int incgreid = Convert.ToInt32(dgv_item.Rows[e.RowIndex].Cells[idno].Value);
+                int incgreid = Convert.ToInt32(dgv_item.Rows[rowno].Cells[idno].Value);
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.Id as PrId";
@@ -452,7 +452,7 @@ namespace FoodandBeverage.Forms
                         rdb_notsale.Checked = true;
                     cmbtax.Text = Convert.ToString(itemSource[0].Tax);
                     cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
-                    if (cmbTaxType.Text=="GST")
+                    if (cmbTaxType.Text == "GST")
                         cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
                     else
                         cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
@@ -486,6 +486,10 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+        private void dgv_item_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            filldata(e.RowIndex);
         }
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
@@ -560,6 +564,9 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
 
                 //row3
+                tlp_registration.Controls.Add(lbldes, 0, 7);
+
+                //row4
                 tlp_registration.Controls.Add(txtdesc, 0, 8);
                 tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
 
@@ -885,7 +892,13 @@ namespace FoodandBeverage.Forms
                     Movefocus(1);
                     return true; // Mark the key as handled
                 case Keys.Enter:
-                    Movefocus(0);
+                    if(dgv_item.Visible)
+                    {
+                        int rowIndex = dgv_item.CurrentRow.Index;
+                        filldata(rowIndex);
+                    }
+                    else
+                        Movefocus(0);
                     return true; // Mark the key as handled
                 case Keys.Escape:
                     if(tlp_grid.Visible)
@@ -896,7 +909,12 @@ namespace FoodandBeverage.Forms
                         tlp_main.Controls.Remove(controlToRemove);
                         tlp_main.Controls.Add(tlp_registartion_toggle, 1, 0);
                         tlp_registartion_toggle.Dock = DockStyle.Fill;
-                    }      
+                    }
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -995,5 +1013,8 @@ namespace FoodandBeverage.Forms
         {
             textb_shape();
         }
+
+
+
     }
 }

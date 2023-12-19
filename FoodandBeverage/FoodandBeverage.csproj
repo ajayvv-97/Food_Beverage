@@ -62,6 +62,12 @@
     <Reference Include="MetroFramework.Fonts">
       <HintPath>..\..\MidasFun_Game\Game\bin\Debug\MetroFramework.Fonts.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -69,6 +75,7 @@
     <Reference Include="System.Data.SqlClient">
       <HintPath>..\pLocker\bin\Debug\System.Data.SqlClient.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xaml" />
@@ -259,6 +266,12 @@
     <Compile Include="Forms\FrmVendor.Designer.cs">
       <DependentUpon>FrmVendor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmExpence.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmExpence.Designer.cs">
+      <DependentUpon>FrmExpence.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserControls\FrmDataGridView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,6 +313,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDesignation.resx">
+      <DependentUpon>FrmDesignation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmFTICategory.resx">
       <DependentUpon>FrmFTICategory.cs</DependentUpon>
@@ -352,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmVendor.resx">
       <DependentUpon>FrmVendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmExpence.resx">
+      <DependentUpon>FrmExpence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

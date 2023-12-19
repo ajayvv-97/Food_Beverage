@@ -838,5 +838,18 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Escape:
+                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    _instancedash.Closeform();
+                    return true;
+
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
     }
 }

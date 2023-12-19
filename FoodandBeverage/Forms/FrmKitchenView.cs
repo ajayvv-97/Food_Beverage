@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using BLL;
 using CustomMessageBox;
 using Domain;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace FoodandBeverage.Forms
 {
@@ -15,6 +16,7 @@ namespace FoodandBeverage.Forms
         public FrmKitchenView()
         {
             InitializeComponent();
+
         }
         #region Declaration Grid
         public static int dslno = 0;
@@ -37,6 +39,8 @@ namespace FoodandBeverage.Forms
         public string dgv_view_name = "";
         public List<datagrid> orderbox = new List<datagrid>();
         public bool pbcancelfoodclciked = false;
+        private readonly HubConnection _hubConnection;
+        private readonly IHubProxy _hubProxy;
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -1492,6 +1496,19 @@ namespace FoodandBeverage.Forms
             path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
             path.CloseFigure();
             pnl_products_rem_descr.Region = new Region(path);
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {     
+                case Keys.Escape:
+                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    _instancedash.Closeform();
+                    return true;
+
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
         }
     }
 }

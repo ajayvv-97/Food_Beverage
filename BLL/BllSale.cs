@@ -39,9 +39,10 @@ namespace BLL
             parms.Add("@mDeviceIP", objTestClass.mDeviceIP);
             parms.Add("@PayId", objTestClass.PayId);
             parms.Add("PromoDId", objTestClass.PromoDId);
-            parms.Add("PromoMId", objTestClass.PromoMId); 
-            parms.Add("Promostatus", objTestClass.Promostatus); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("PromoMId", objTestClass.PromoMId);
+            parms.Add("Promostatus", objTestClass.Promostatus);
+            parms.Add("Tid", objTestClass.Tid);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 

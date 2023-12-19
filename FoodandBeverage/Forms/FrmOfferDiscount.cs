@@ -66,13 +66,14 @@ namespace FoodandBeverage.Forms
         }
 
         private void btnsingle_Click(object sender, EventArgs e)
-        {
+        {    
             tlp_combo.Visible = false;
             Control controlToRemove = tlp_main.GetControlFromPosition(0, 2);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_single.Visible = true;
             tlp_main.Controls.Add(tlp_single, 0, 2);
             tlp_single.Dock = DockStyle.Fill;
+            textb_shape();
         }
 
         private void btn_combo_Click(object sender, EventArgs e)
@@ -83,6 +84,7 @@ namespace FoodandBeverage.Forms
             tlp_combo.Visible = true;
             tlp_main.Controls.Add(tlp_combo, 0, 2);
             tlp_combo.Dock = DockStyle.Fill;
+            textb_shape();
         }
 
         private void FrmOfferDiscount_Load(object sender, EventArgs e)
@@ -114,9 +116,6 @@ namespace FoodandBeverage.Forms
             cmbIgstPrcnt.Dock = DockStyle.Fill;
             tlp_comboproduct_view.Controls.Add(lbligst, 2, 2);
             tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2, 3);
-
-
-
             dtp_to_date_s.MinDate = DateTime.Now;
             dtp_from_date_s.MinDate = DateTime.Now;
 
@@ -129,12 +128,12 @@ namespace FoodandBeverage.Forms
             tlp_single.Visible = true;
             tlp_main.Controls.Add(tlp_single);
             tlp_single.Dock = DockStyle.Fill;
-            textb_shape();
+
             pnl_serachproducts.BorderStyle = BorderStyle.FixedSingle; // or BorderStyle.Fixed3D
             pnl_serachproducts.BackColor = Color.White; // Set the border color to white
             pnl_serachproducts.Padding = new Padding(5); // Adjust the padding to increase the border thickness
-
             Taxfill();
+            textb_shape();
         }
         #region TexBox Round function
         public void textb_shape()
@@ -1748,6 +1747,11 @@ namespace FoodandBeverage.Forms
                 case Keys.Escape:
                     if (pnl_serachproducts.Visible)
                         pnl_serachproducts.Visible = false;
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -1778,7 +1782,7 @@ namespace FoodandBeverage.Forms
             if (txtname_search.Text == "")
             {
                 txtname_search.Text = "Food Name .....";
-                txtname_search.ForeColor = Color.Black;
+                txtname_search.ForeColor = Color.DarkGray;
             }
         }
 
@@ -1787,7 +1791,7 @@ namespace FoodandBeverage.Forms
             if (txtitemcode_serach.Text == "")
             {
                 txtitemcode_serach.Text = "Item Code .....";
-                txtitemcode_serach.ForeColor = Color.Black;
+                txtitemcode_serach.ForeColor = Color.DarkGray;
             }
         }
 
@@ -2670,6 +2674,21 @@ namespace FoodandBeverage.Forms
                 tlp_comboproduct_view.Controls.Add(cmbVatPrcnt,2,3);
                 cmbVatPrcnt.Focus();
             }
+        }
+
+        private void FrmOfferDiscount_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
+        }
+
+        private void btn_refresh_productlist_Click(object sender, EventArgs e)
+        {
+            pnl_serachproduct_dashboard.Controls.Clear();
+            txtitemcode_serach.Text = "Item Code ....."; 
+            txtname_search.Text = "Food Name .....";
+            txtitemcode_serach.BackColor = Color.DarkGray;
+            txtname_search.BackColor = Color.DarkGray;
+
         }
     }
 }

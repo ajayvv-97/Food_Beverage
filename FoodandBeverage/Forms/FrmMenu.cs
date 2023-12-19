@@ -820,6 +820,11 @@ namespace FoodandBeverage.Forms
                         tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
                         tlp_registartion_main.Dock = DockStyle.Fill;
                     }
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
                     return true;
                 case Keys.End:
                     if (tlp_menu_Gallery_main.Visible != true)

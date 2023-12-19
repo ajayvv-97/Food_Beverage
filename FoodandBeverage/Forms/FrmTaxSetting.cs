@@ -669,7 +669,13 @@ namespace FoodandBeverage.Forms
                     Movefocus(0);
                     return true; // Mark the key as handled
                 case Keys.Escape:
+                    System.Windows.Forms.Form _instancedash = System.Windows.Forms.Application.OpenForms["FrmDashboard"] as System.Windows.Forms.Form;
+                    if (_instancedash != null)
+                    {
+                        (_instancedash as FrmDashboard)?.Closeform();
+                    }
                     return true;
+
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }

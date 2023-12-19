@@ -88,6 +88,7 @@ namespace Domain
         public int PromoDId { get; set; }
         public int PromoMId { get; set; }
         public int Promostatus { get; set; }
+        public int Tid { get; set; }
 
 
 

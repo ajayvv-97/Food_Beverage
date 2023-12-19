@@ -409,7 +409,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.Srate = Convert.ToDecimal(dgvProduct.Rows[i].Cells[israte].Value);
                             dmnPurchase.MRP = Convert.ToDecimal(dgvProduct.Rows[i].Cells[imrp].Value);
                             dmnPurchase.Fcid = Convert.ToInt32(dgvProduct.Rows[i].Cells[itype].Value);
-                            dmnPurchase.BranchId =1;
+                            dmnPurchase.BranchId =0;
                             dmnPurchase.CreatedBy =FrmDashboard.UserId;
                             dmnPurchase.Status = 1;
                             dmnPurchase.PurchaseDetailId = Convert.ToInt32("0");
@@ -1530,6 +1530,11 @@ namespace FoodandBeverage.Forms
                         tlp_textboxes.Dock = DockStyle.Fill;
                         pnl_barcode.Visible = false;
                         txtbarcode.Text = "";
+                    }
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
                     }
                     return true;
                 default:

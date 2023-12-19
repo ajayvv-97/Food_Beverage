@@ -2031,6 +2031,11 @@ namespace FoodandBeverage.Forms
                         pnl_barcode.Visible = false;
                         txtbarcode.Text = "";
                     }
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
