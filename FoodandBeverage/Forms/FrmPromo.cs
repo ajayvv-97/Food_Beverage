@@ -387,5 +387,9 @@ namespace FoodandBeverage.Forms
 
 		#endregion
 
+		private void FrmPromo_Resize(object sender, EventArgs e)
+		{
+			textb_shape();
+		}
 	}
 }

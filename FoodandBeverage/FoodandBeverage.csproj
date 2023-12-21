@@ -145,6 +145,12 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPromo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPromo.Designer.cs">
+      <DependentUpon>FrmPromo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPurchase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,9 @@
     <EmbeddedResource Include="Forms\FrmOrderView.resx">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPromo.resx">
+      <DependentUpon>FrmPromo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPurchase.resx">
       <DependentUpon>FrmPurchase.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,10 +299,6 @@
     <None Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Downloads\CustomMessageBox\CustomMessageBox.csproj">
-      <Project>{68255BFA-DB01-4583-9578-F9DBD47F37D8}</Project>
-      <Name>CustomMessageBox</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{CE5B651E-3CE7-4312-ADDE-BF242DAF1197}</Project>
       <Name>BLL</Name>

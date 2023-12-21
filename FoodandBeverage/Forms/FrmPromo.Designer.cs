@@ -654,6 +654,7 @@ namespace FoodandBeverage.Forms
 			this.Name = "FrmPromo";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Load += new System.EventHandler(this.FrmPromo_Load);
+			this.Resize += new System.EventHandler(this.FrmPromo_Resize);
 			this.tlp_navbar.ResumeLayout(false);
 			this.tlp_navbar.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvProCode)).EndInit();
