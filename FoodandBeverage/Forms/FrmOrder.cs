@@ -24,11 +24,6 @@ namespace FoodandBeverage.Forms
         {
             tableId = tid;
             InitializeComponent();
-
-            // Replace the URL with your SignalR hub URL
-            _hubConnection = new HubConnection("http://192.168.0.5:80/");
-            _hubProxy = _hubConnection.CreateHubProxy("OrderHub");
-
         }
         // Function to create a rounded rectangle region
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -115,6 +110,10 @@ namespace FoodandBeverage.Forms
 
         private readonly HubConnection _hubConnection;
         private readonly IHubProxy _hubProxy;
+        // Set the size based on your conditions
+        public int R_screenWidth = Screen.PrimaryScreen.Bounds.Width;
+        public int R_screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -133,22 +132,23 @@ namespace FoodandBeverage.Forms
                 MessageBox.Show($"Error starting SignalR connection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #region please wait loading
+        private async void ShowLoadingdGif()
+        {
+            this.Opacity = 0;
+            LoadingGif gifForm = new LoadingGif();
+            gifForm.StartPosition = FormStartPosition.CenterScreen;
+            gifForm.ShowDialog();
+            this.Opacity = 100;
+        }
+        #endregion
         private async void  FrmOrder_Load(object sender, EventArgs e)
         {
             try
-            {
-                //try
-                //{
-                //    await StartHubConnection();
-                //}
-                //catch (Exception ex)
-                //{
-                //    // Handle the exception (log it, display an error message, etc.)
-                //    MessageBox.Show($"Error starting SignalR connection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
-
-                tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
-                tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+            {              
+                ShowLoadingdGif();
+                //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
+                //tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
                 tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
                 settablecode();
                 CheckRe_order();
@@ -156,10 +156,6 @@ namespace FoodandBeverage.Forms
                 tlp_calculation_main.Controls.Remove(controlToRemove);
                 tlp_calculation_main.Controls.Add(tlp_calculation_total, 0, 0);
                 tlp_calculation_total.Visible = true;
-
-                Screen primaryScreen = Screen.PrimaryScreen;
-                screenWidth = primaryScreen.Bounds.Width;
-                screenHeight = primaryScreen.Bounds.Height;
 
                 Dgv_Selected_Item.Rows.Add(1);
                 Dgv_Selected_Item.BorderStyle = BorderStyle.None;
@@ -221,8 +217,13 @@ namespace FoodandBeverage.Forms
                     buttonfav.Name = "btn_fav";
                     buttonfav.Tag = 0;
                     buttonfav.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    buttonfav.Width = 145;
-                    buttonfav.Height = 40;
+                    if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    {
+                        buttonfav.Height = 50;
+                    }
+                    else
+                        buttonfav.Height = 80;
+                    buttonfav.Dock = DockStyle.Top;
                     tooltip.SetToolTip(buttonfav, "Favourite Item");
                     ApplyRoundedCornersToButton(buttonfav);
                     buttonfav.FlatStyle = FlatStyle.Flat;
@@ -242,8 +243,13 @@ namespace FoodandBeverage.Forms
                     tooltip.SetToolTip(buttonOffer, "Special Offer");
                     buttonOffer.Tag = 0;
                     buttonOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    buttonOffer.Width = 145;
-                    buttonOffer.Height = 40;
+                    if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    {
+                        buttonOffer.Height = 50;
+                    }
+                    else
+                        buttonOffer.Height = 80;
+                    buttonOffer.Dock = DockStyle.Top;
                     ApplyRoundedCornersToButton(buttonOffer);
                     buttonOffer.FlatStyle = FlatStyle.Flat;
                     buttonOffer.FlatAppearance.BorderSize = 0;
@@ -262,8 +268,14 @@ namespace FoodandBeverage.Forms
                     tooltip.SetToolTip(buttonComboOffer, "Combo Offer");
                     buttonComboOffer.Tag = 0;
                     buttonComboOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    buttonComboOffer.Width = 145;
-                    buttonComboOffer.Height = 40;
+                    if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    {
+                        buttonComboOffer.Height = 50;
+                    }
+                    else
+                        buttonComboOffer.Height = 80;
+
+                    buttonComboOffer.Dock = DockStyle.Top;
                     ApplyRoundedCornersToButton(buttonComboOffer);
                     buttonComboOffer.FlatStyle = FlatStyle.Flat;
                     buttonComboOffer.FlatAppearance.BorderSize = 0;
@@ -286,8 +298,13 @@ namespace FoodandBeverage.Forms
                         button.ForeColor = Color.White;
                         button.FlatStyle = FlatStyle.Flat;
                         button.FlatAppearance.BorderSize = 0;
-                        button.Width = 145;
-                        button.Height = 40;
+                        if (R_screenWidth > 1365 && R_screenHeight > 767)
+                        {
+                            button.Height = 50;
+                        }
+                        else
+                            button.Height = 80;
+                        button.Dock = DockStyle.Top;
                         button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
                         button.Click += new EventHandler(SidebuttonClickEventHandler);
                         ApplyRoundedCornersToButton(button);
@@ -299,6 +316,7 @@ namespace FoodandBeverage.Forms
                     btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
                 }
                 #endregion Main 
+                ShowLoadingdGif();
             }
             catch (Exception ex)
             {
@@ -941,7 +959,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -2283,6 +2300,44 @@ namespace FoodandBeverage.Forms
                 Proid_Prid = Convert.ToInt32(clickedControl.Tag);
                 txt_product_des.Text = "Description Type Here .....";
                 txt_product_des.ForeColor = Color.Gray;
+                if (saletype == 1)
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "")
+                        {
+                            txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                            txt_product_des.ForeColor = Color.Black;
+                            break;
+                        }
+                    }
+                }
+                else if (saletype == 3)
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "")
+                        {
+                        txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                        txt_product_des.ForeColor = Color.Black;
+                        break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value)!=null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "")
+                        {
+                            txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                            txt_product_des.ForeColor = Color.Black;
+                            break;
+                        }
+                    }
+                }
+
                 lblheader_product_des.Text = clickedControl.Text;
                 Control parentControl = tlp_seletedItem_main;
                 pnl_products_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_descr.Size.Height / 2);
@@ -3753,19 +3808,56 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
             }
         }
+        private void AdjustLabelFontSize(System.Windows.Forms.Label label)
+        {
+            int originalFontSize = (int)label.Font.Size;
+            Size textSize = TextRenderer.MeasureText(label.Text, label.Font);
+            float originalSize = 0;
+            bool flag = false;
+            // Check if the text exceeds a single line
+            if (textSize.Width > label.Width)
+            {
+                originalSize = label.Font.Size; // Store the original font size
+                // Reduce the font size until it fits within a single line
+                while (textSize.Width > label.Width && label.Font.Size > 1)
+                {
+                    label.Font = new Font(label.Font.FontFamily, label.Font.Size - 1);
+                    textSize = TextRenderer.MeasureText(label.Text, label.Font);
+                }
 
+                flag = true;
+            }
+            //if (flag)
+            //{
+            //    labelsWithMultilineText.Add(new LabelInfo
+            //    {
+            //        LabelName = label.Name,
+            //        OriginalFontSize = originalSize,
+            //        ReduceFontSize = label.Font.Size
+            //    });
+            //}
+        }
         private void btn_sidebar_toggle_Click(object sender, EventArgs e)
         {
             if (pnlsidebar_searchproduct.Visible)
             {
                 pnlsidebar_searchproduct.Visible = false;
                 tlp_food_cate.Visible = false;
+
+                tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.AutoSize);
+                tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
                 textb_shape();
+
             }
             else
             {
                 pnlsidebar_searchproduct.Visible = true;
+                tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,27.22F);
+                tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,6.50f);
+                tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.Percent,66.21f);
                 tlp_food_cate.Visible = true;
+                textb_shape();
             }
         }
         #region TexBox Round function
@@ -3774,7 +3866,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode })
+                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -3899,7 +3991,8 @@ namespace FoodandBeverage.Forms
                     if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
                     {
                         string name = Dgv_Selected_Item.Rows[i].Cells[iname].Value.ToString();
-                        Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                        if (txt_product_des.Text != "Description Type Here .....")
+                            Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
                         break;
                     }
                 }
@@ -3911,7 +4004,8 @@ namespace FoodandBeverage.Forms
                     if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
                     {
                         string name = Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value.ToString();
-                        Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                        if (txt_product_des.Text != "Description Type Here .....")
+                            Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
                         break;
                     }
                 }
@@ -3923,7 +4017,8 @@ namespace FoodandBeverage.Forms
                     if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
                     {
                         string name = Dgv_Selected_Item.Rows[i].Cells[iname].Value.ToString();
-                        Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                        if (txt_product_des.Text != "Description Type Here .....")
+                            Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
                         break;
                     }
                 }
@@ -4044,8 +4139,7 @@ namespace FoodandBeverage.Forms
                 tlp_calculation_total.Dock = DockStyle.Fill;
                 tlp_calculation_total.Visible = true;
                 tlp_discount_calc.Visible = false;
-
-            }       
+            }               
             else
             {
                 tlp_calculation_main.Controls.Add(tlp_discount_calc, 0, 0);
@@ -4053,6 +4147,10 @@ namespace FoodandBeverage.Forms
                 tlp_discount_calc.Visible = true;
                 tlp_calculation_total.Visible = false;
             }
+            AdjustLabelFontSize(label3);
+            AdjustLabelFontSize(label4);
+            AdjustLabelFontSize(label6);
+            AdjustLabelFontSize(label5);
             textb_shape();
         }
 
@@ -4292,6 +4390,8 @@ namespace FoodandBeverage.Forms
                 txtentrie_descr.Visible = false;
             else
                 txtentrie_descr.Visible = true;
+
+            //tlp_payment_main
         }
 
         private void btn_saveKOT_Click(object sender, EventArgs e)
@@ -4491,10 +4591,31 @@ namespace FoodandBeverage.Forms
 
             }
         }
-            
+        private void ChangeRowColor(TableLayoutPanel tableLayoutPanel, int rowIndex, Color backgroundColor)
+        {
+            // Iterate through controls in the specified row
+            foreach (Control control in tableLayoutPanel.Controls)
+            {
+                TableLayoutPanelCellPosition cellPosition = tableLayoutPanel.GetCellPosition(control);
+
+                if (cellPosition.Row == rowIndex)
+                {
+                    // Set the background color of the control in the specified row
+                    control.BackColor = backgroundColor;
+                }
+            }
+        }
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
+            //ChangeRowColor(tlp_payment_main, 0, Color.White);
+            //ChangeRowColor(tlp_payment_main, 1, Color.White);
+
+            //ChangeRowColor(tlp_payment_main, 2, Color.CornflowerBlue);
+            //ChangeRowColor(tlp_payment_main, 3, Color.CornflowerBlue);
+            //ChangeRowColor(tlp_payment_main, 4, Color.CornflowerBlue);
+            //ChangeRowColor(tlp_payment_main, 5, ColorTranslator.FromHtml("#205072"));
+
             if (OrderRunning_Status)
             {
                 Promodetailsid = 0;
@@ -4580,6 +4701,12 @@ namespace FoodandBeverage.Forms
 
         private void btn_save_promo_Click(object sender, EventArgs e)
         {
+            if(txtpromocode.Text=="" || txtpromocode.Text == null)
+            {
+                CMessageBox.Show("Enter Promo code ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtpromocode.Focus();
+                return;
+            }
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             DmnSearch dmnSearch = new DmnSearch();
             dmnSearch.Select = "pm.MinBillAmt Field1,pm.StartDate as StartDate,pm.EnDDate EndDate,pm.MaxDiscount Field2,pd.PromoDId Field3, pm.PromoMId Field4,pm.DiscountPer Field5";
@@ -4918,6 +5045,12 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.CREDIT);
                         break;
                     case "btnothers":
+                        payid = Convert.ToInt32(PaymentType.OTHERS);
+                        break;
+                    case "Btnpartpayment":
+                        payid = Convert.ToInt32(PaymentType.OTHERS);
+                        break;
+                    case "btn_splitpayment":
                         payid = Convert.ToInt32(PaymentType.OTHERS);
                         break;
 

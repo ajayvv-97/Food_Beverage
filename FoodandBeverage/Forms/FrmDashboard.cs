@@ -38,6 +38,10 @@ namespace FoodandBeverage.Forms
             int nHeightEllipse
         );
         #region Declaration
+        public int desiredWidth = 0;
+        public int desiredHeight = 0;
+        public int HdesiredWidth = 0;
+        public int HdesiredHeight = 0;
 
         private bool isClicked = false;
         Color menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -54,12 +58,12 @@ namespace FoodandBeverage.Forms
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
 
-        public int desiredWidth = 32;
-        public int desiredHeight = 32;
-
-        public int HdesiredWidth = 40;
-        public int HdesiredHeight = 40;
+      
         public bool collapsemenu_click = false;
+        // Set the size based on your conditions
+        public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+        public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
         #endregion
 
         private void Menulogout_Click(object sender, EventArgs e)
@@ -76,7 +80,41 @@ namespace FoodandBeverage.Forms
 
 
         private void FrmDashboard_Load(object sender, EventArgs e)
-        {     
+        {
+
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                desiredWidth = 52;
+                desiredHeight = 52;
+
+                HdesiredWidth = 60;
+                HdesiredHeight = 60;
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button button)
+                    {
+                        button.Size = new Size(300, 120);
+                        button.Margin = new Padding(90, 35, 10, 2);
+                        button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style); 
+                    }
+                }
+
+            }
+            else
+            {
+                desiredWidth = 32;
+                desiredHeight = 32;
+
+                HdesiredWidth = 40;
+                HdesiredHeight = 40;
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button button)
+                    {
+                        button.Size = new Size(212, 89);
+                    }
+                }
+            }
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             tlp_main.BackColor = menubuttoncolor;
@@ -336,6 +374,27 @@ namespace FoodandBeverage.Forms
 
         private void Menuhome_Click(object sender, EventArgs e)
         {
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(300, 120);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(212, 89);
+                    }
+                }
+            }
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
@@ -623,15 +682,17 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             int tagValue;
-                            if (clickedControl.Tag != null )
-                            {
-                                FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag));
-                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                _instanceFrmOrder.Show();
-                                _instanceFrmOrder.BringToFront();
-                            }
-                            
+                        if (clickedControl.Tag != null)
+                        {
+                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag));
+                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            _instanceFrmOrder.Opacity = 0;
+                            _instanceFrmOrder.Visible = false;
+                            _instanceFrmOrder.Show();
+                            _instanceFrmOrder.BringToFront();
                         }
+
+                    }
 
                    // }
                 }
@@ -640,6 +701,7 @@ namespace FoodandBeverage.Forms
             {
             }
         }
+
         private void SidebuttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -900,6 +962,39 @@ namespace FoodandBeverage.Forms
             panelDesktop.Controls.Add(flp_operations);
             flp_operations.Dock = DockStyle.Fill;
             flp_operations.Visible = true;
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                desiredWidth = 52;
+                desiredHeight = 52;
+
+                HdesiredWidth = 60;
+                HdesiredHeight = 60;
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(300, 120);
+                        buttonm.Margin = new Padding(105, 35, 10, 2);
+                        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+                    }
+                }
+
+            }
+            else
+            {
+                desiredWidth = 32;
+                desiredHeight = 32;
+
+                HdesiredWidth = 40;
+                HdesiredHeight = 40;
+                foreach (Control control in flp_operations.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(212, 89);
+                    }
+                }
+            }
         } 
        
 
@@ -942,9 +1037,19 @@ namespace FoodandBeverage.Forms
             button_type.FlatStyle = FlatStyle.Flat;
             button_type.BackColor = menubuttoncolor;
             button_type.ForeColor = System.Drawing.Color.White;
-            button_type.Font = new Font("Georgia", 9);
-            button_type.Width = 100;
-            button_type.Height = 70;
+            button_type.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+
+                button_type.Width = 350;
+                button_type.Height = 120; 
+
+            }
+            else
+            {
+                button_type.Width = 212; 
+                button_type.Height = 89;
+            }
             button_type.Margin = new Padding(20, 10, 0, 0);
             // Add the event handler for the button
             button_type.Click += new EventHandler(BgClickEventHandler);
@@ -1103,7 +1208,7 @@ namespace FoodandBeverage.Forms
             if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)            {
                 FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
                 if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
-                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmFTICategory.Dock = DockStyle.None;
@@ -1120,7 +1225,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmFTICategory.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmFTICategory);
                 _instanceFrmFTICategory.Show();
-                _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmFTICategory.BringToFront();
             }
 
@@ -1132,7 +1237,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
                 if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
-                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceItemRegistartion.Dock = DockStyle.None;
@@ -1149,22 +1254,20 @@ namespace FoodandBeverage.Forms
                 _instanceItemRegistartion.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceItemRegistartion);
                 _instanceItemRegistartion.Show();
-                _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceItemRegistartion.BringToFront();
             }
 
         }
         private void ResizeForm(Form form)
         {
-            // Set the size based on your conditions
-            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-            if (screenWidth >= 1366 && screenHeight >= 768)
-            {
-                form.Height = 699;
-                form.Width = 1080;
-            }
-            else
+    
+            //if (screenWidth > 1367 && screenHeight > 769)
+            //{
+            //    form.Height = 768;
+            //    form.Width = 1367;
+            //}
+            //else
                 form.Dock = DockStyle.Fill;
         }
 
@@ -1175,7 +1278,7 @@ namespace FoodandBeverage.Forms
                 FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
                 if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
                 {
-                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     //ResizeForm(_instanceFrmIngredient);
                 } 
                 else
@@ -1190,12 +1293,11 @@ namespace FoodandBeverage.Forms
             else
             {
                 FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                ResizeForm(_instanceFrmIngredient);
-                _instanceFrmIngredient.Margin = new Padding(20, 10, 0, 0);            
+                ResizeForm(_instanceFrmIngredient);         
                 _instanceFrmIngredient.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmIngredient);
                 _instanceFrmIngredient.Show();
-                _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmIngredient.BringToFront();
 
             }
@@ -1207,7 +1309,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
                 if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
-                    _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmMenu.Dock = DockStyle.None;
@@ -1225,7 +1327,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmMenu.Dock = DockStyle.Fill;
                 panelDesktop.Controls.Add(_instanceFrmMenu);
                 _instanceFrmMenu.Show();
-                _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmMenu.BringToFront();
             }
 
@@ -1238,7 +1340,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
                 if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
-                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmUnit.Dock = DockStyle.None;
@@ -1255,7 +1357,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmUnit.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmUnit);
                 _instanceFrmUnit.Show();
-                _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmUnit.BringToFront();
             }
 
@@ -1268,7 +1370,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
                 if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
-                    _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceTableInfo.Dock = DockStyle.None;
@@ -1285,7 +1387,7 @@ namespace FoodandBeverage.Forms
                 _instanceTableInfo.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceTableInfo);
                 _instanceTableInfo.Show();
-                _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceTableInfo.BringToFront();
             }
         }
@@ -1297,7 +1399,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
                 if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
-                    _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmPurchase.Dock = DockStyle.None;
@@ -1314,7 +1416,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPurchase.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmPurchase);
                 _instanceFrmPurchase.Show();
-                _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmPurchase.BringToFront();
             }
 
@@ -1328,7 +1430,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
                 if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instancePurchaseReturn.Dock = DockStyle.None;
@@ -1346,7 +1448,7 @@ namespace FoodandBeverage.Forms
                 _instancePurchaseReturn.TopLevel = false;
                 panelDesktop.Controls.Add(_instancePurchaseReturn);
                 _instancePurchaseReturn.Show();
-                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instancePurchaseReturn.BringToFront();
             }
         }
@@ -1357,7 +1459,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
                 if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
-                    _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceTaxSetting.Dock = DockStyle.None;
@@ -1375,7 +1477,7 @@ namespace FoodandBeverage.Forms
                 _instanceTaxSetting.Dock = DockStyle.None;
                 panelDesktop.Controls.Add(_instanceTaxSetting);
                 _instanceTaxSetting.Show();
-                _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceTaxSetting.BringToFront();
             }
         }
@@ -1574,7 +1676,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
                 if (_instanceFrmVendor.WindowState == FormWindowState.Minimized)
-                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmVendor.Dock = DockStyle.None;
@@ -1591,7 +1693,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmVendor.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmVendor);
                 _instanceFrmVendor.Show();
-                _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmVendor.BringToFront();
             }
         }
@@ -1649,7 +1751,7 @@ namespace FoodandBeverage.Forms
                                     "FrmMenu", "FrmOfferDiscount", "FrmOrder", "FrmOrderView", "FrmPromo",
                                     "FrmPurchase", "FrmPurchaseReturn", "FrmRegistration", "FrmReservation",
                                     "FrmTableInfo", "FrmTaxSetting", "FrmUnit", "FrmUserAccount",
-                                    "FrmUserPermission", "FrmVendor"
+                                    "FrmUserPermission", "FrmVendor,FrmExpence"
                                 };
 
                         if (formsToCheck.Contains(formName))
@@ -1684,7 +1786,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmOfferDiscount _instanceFrmOfferDiscountr = Application.OpenForms["FrmOfferDiscount"] as FrmOfferDiscount;
                 if (_instanceFrmOfferDiscountr.WindowState == FormWindowState.Minimized)
-                    _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmOfferDiscountr.Dock = DockStyle.None;
@@ -1702,7 +1804,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmOfferDiscountr.Dock = DockStyle.None;
                 panelDesktop.Controls.Add(_instanceFrmOfferDiscountr);
                 _instanceFrmOfferDiscountr.Show();
-                _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmOfferDiscountr.BringToFront();
             }
         }
@@ -1713,7 +1815,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmExpence _instanceFrmexpence = Application.OpenForms["FrmExpence"] as FrmExpence;
                 if (_instanceFrmexpence.WindowState == FormWindowState.Minimized)
-                    _instanceFrmexpence.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmexpence.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmexpence.Dock = DockStyle.None;
@@ -2001,7 +2103,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmPromo _instanceFrmPromo = Application.OpenForms["FrmPromo"] as FrmPromo;
                 if (_instanceFrmPromo.WindowState == FormWindowState.Minimized)
-                    _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmPromo.Dock = DockStyle.None;
@@ -2018,7 +2120,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPromo.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmPromo);
                 _instanceFrmPromo.Show();
-                _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmPromo.BringToFront();
             }
         }
@@ -2152,7 +2254,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmRegistration _instanceFrmreg = Application.OpenForms["FrmRegistration"] as FrmRegistration;
                 if (_instanceFrmreg.WindowState == FormWindowState.Minimized)
-                    _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmreg.Dock = DockStyle.None;
@@ -2186,6 +2288,29 @@ namespace FoodandBeverage.Forms
             flpEmployee.Dock = DockStyle.Fill;
             panelDesktop.Controls.Add(flpEmployee);
             flpEmployee.Visible = true;
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                foreach (Control control in flpEmployee.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(300, 120);
+                        buttonm.Margin = new Padding(105, 35, 10, 2);
+                        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (Control control in flpEmployee.Controls)
+                {
+                    if (control is Button buttonm)
+                    {
+                        buttonm.Size = new Size(212, 89);
+                    }
+                }
+            }
         }
 
         private void ib_employee_Click(object sender, EventArgs e)
@@ -2194,7 +2319,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmEmployeeShort _instanceFrmEmp = Application.OpenForms["FrmEmployeeShort"] as FrmEmployeeShort;
                 if (_instanceFrmEmp.WindowState == FormWindowState.Minimized)
-                    _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmEmp.Dock = DockStyle.None;
@@ -2223,7 +2348,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmDepartment _instanceFrmDep = Application.OpenForms["FrmDepartment"] as FrmDepartment;
                 if (_instanceFrmDep.WindowState == FormWindowState.Minimized)
-                    _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmDep.Dock = DockStyle.None;
@@ -2252,7 +2377,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmDesignation _instanceFrmDesig = Application.OpenForms["FrmDesignation"] as FrmDesignation;
                 if (_instanceFrmDesig.WindowState == FormWindowState.Minimized)
-                    _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmDesig.Dock = DockStyle.None;
@@ -2280,7 +2405,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmUserAccount _instanceFrmuser = Application.OpenForms["FrmUserAccount"] as FrmUserAccount;
                 if (_instanceFrmuser.WindowState == FormWindowState.Minimized)
-                    _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmuser.Dock = DockStyle.None;
@@ -2332,7 +2457,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmReservation _instanceFrmres = Application.OpenForms["FrmReservation"] as FrmReservation;
                 if (_instanceFrmres.WindowState == FormWindowState.Minimized)
-                    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmres.Dock = DockStyle.None;
@@ -2366,7 +2491,7 @@ namespace FoodandBeverage.Forms
             {
                 FrmUserPermission _instanceFrmuserper = Application.OpenForms["FrmUserPermission"] as FrmUserPermission;
                 if (_instanceFrmuserper.WindowState == FormWindowState.Minimized)
-                    _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                    _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
                     _instanceFrmuserper.Dock = DockStyle.None;

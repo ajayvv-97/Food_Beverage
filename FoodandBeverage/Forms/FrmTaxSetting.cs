@@ -530,7 +530,7 @@ namespace FoodandBeverage.Forms
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             cmbTaxType.SelectedIndex = 0;
-            textb_shape();
+
 
         }
         #region TexBox Round function
@@ -742,5 +742,9 @@ namespace FoodandBeverage.Forms
 
         }
 
+        private void FrmTaxSetting_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
+        }
     }
     }

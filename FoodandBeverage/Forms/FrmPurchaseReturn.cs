@@ -885,7 +885,7 @@ namespace FoodandBeverage.Forms
             dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            textb_shape();
+
         }
 
         #region TexBox Round function
@@ -2099,6 +2099,11 @@ namespace FoodandBeverage.Forms
             //        discountper.Focus();
             //}
 
+        }
+
+        private void FrmPurchaseReturn_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }

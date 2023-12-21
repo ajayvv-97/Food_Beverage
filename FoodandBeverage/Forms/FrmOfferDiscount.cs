@@ -66,7 +66,8 @@ namespace FoodandBeverage.Forms
         }
 
         private void btnsingle_Click(object sender, EventArgs e)
-        {    
+        {
+            tlp_button.Visible = false;
             tlp_combo.Visible = false;
             Control controlToRemove = tlp_main.GetControlFromPosition(0, 2);
             tlp_main.Controls.Remove(controlToRemove);
@@ -74,10 +75,12 @@ namespace FoodandBeverage.Forms
             tlp_main.Controls.Add(tlp_single, 0, 2);
             tlp_single.Dock = DockStyle.Fill;
             textb_shape();
+            tlp_button.Visible = true;
         }
 
         private void btn_combo_Click(object sender, EventArgs e)
         {
+            tlp_button.Visible = false;
             tlp_single.Visible = false;
             Control controlToRemove = tlp_main.GetControlFromPosition(0, 2);
             tlp_main.Controls.Remove(controlToRemove);
@@ -85,6 +88,7 @@ namespace FoodandBeverage.Forms
             tlp_main.Controls.Add(tlp_combo, 0, 2);
             tlp_combo.Dock = DockStyle.Fill;
             textb_shape();
+            tlp_button.Visible = true;
         }
 
         private void FrmOfferDiscount_Load(object sender, EventArgs e)
@@ -316,7 +320,12 @@ namespace FoodandBeverage.Forms
         public void ClearAll()
         {
             if (tlp_combo.Visible)
-            {
+            {                
+                dtp_to_date.Value = DateTime.Now;
+                dtp_from_date.MinDate = DateTime.Now;
+                dtp_from_time.Value = DateTime.Now;
+                dtp_to_time.Value = DateTime.Now;
+
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
                 foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername })
@@ -346,6 +355,11 @@ namespace FoodandBeverage.Forms
             }
             else if (tlp_single.Visible)
             {
+                dtp_to_date_s.Value = DateTime.Now;
+                dtp_from_date_s.Value = DateTime.Now;
+                dtp_from_time_s.Value = DateTime.Now;
+                dtp_to_time_s.Value = DateTime.Now;
+
                 btn_del_single.Visible = false;
                 txtpid.Text = "0";
                 txtproduct.Text = "";
@@ -621,16 +635,16 @@ namespace FoodandBeverage.Forms
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtoffername.Text))
+            //if (string.IsNullOrEmpty(txtoffername.Text))
+            //{
+            //    CMessageBox.Show("Please Enter the Offer Name", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtoffername.Focus();
+            //    return false;
+            //}
+            if (Convert.ToDecimal(discountper.Text)==0)
             {
-                CMessageBox.Show("Please Enter the Offer Name", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtoffername.Focus();
-                return false;
-            }
-            else if (string.IsNullOrEmpty(txtoffername.Text))
-            {
-                CMessageBox.Show("Please Enter the Offer Name", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtoffername.Focus();
+                CMessageBox.Show("Please Enter the Discount %", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                discountper.Focus();
                 return false;
             }
 
@@ -747,7 +761,11 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,p.Product as Field8,p.Price as Field9,od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4," +
+                                "om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,p.Product as Field8,p.Price as Field9," +
+                                "od.Description as Field10,p.DiscountPer as Field11,p.DiscountAmt as Field12,om.TotalPrice as Field13," +
+                                "od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate," +
+                                "om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19,om.TaxType as Field20";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -770,7 +788,7 @@ namespace FoodandBeverage.Forms
                                 DateTime toDateTime = itemSource[0].EndDate;
 
                                 dtp_from_date.MinDate = fromDateTime.Date;
-                                dtp_to_date.MinDate = toDateTime.Date;
+                                dtp_to_date.Value = toDateTime.Date;
 
                                 // Set the "from" date and time
                                 dtp_from_date.Value = fromDateTime.Date;
@@ -780,6 +798,14 @@ namespace FoodandBeverage.Forms
                                 dtp_to_date.Value = toDateTime.Date;
                                 dtp_to_time.Value = toDateTime;
 
+                                cmbtaxtype.Text= itemSource[0].Field20;
+                                cmbtax.Text= itemSource[0].Field19;
+                                if (itemSource[0].Field20 == "GST")
+                                    cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
+                                else
+                                    cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
+
+                                #region Fill combo products
                                 dgv_sele_cmb_products.Rows.Add(itemSource.Count);
                                 for (int i = 0; i < itemSource.Count; i++)
                                 {
@@ -917,6 +943,7 @@ namespace FoodandBeverage.Forms
                                         tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
                                     }
                                 }
+                                #endregion
                                 pnl_serachproducts.Visible = false;
                             }
                         }

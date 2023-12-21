@@ -130,7 +130,9 @@ namespace FoodandBeverage.Interfaces
             OTHERS = 7,
             CREDIT = 8,
             NEFTRTGS = 9,
-            COMPLEMENTRY = 10
+            COMPLEMENTRY = 10,
+            PART = 11,
+            SPLIT = 12
         };
         public enum Reservation
         {

@@ -231,7 +231,6 @@ namespace FoodandBeverage.Forms
             dgv_vendor.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_vendor.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_vendor.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            textb_shape();
         }
         #region TexBox Round function
         public void textb_shape()
@@ -409,6 +408,11 @@ namespace FoodandBeverage.Forms
 
             }
             
+        }
+
+        private void FrmVendor_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }

@@ -41,6 +41,9 @@ namespace FoodandBeverage.Forms
         public bool pbcancelfoodclciked = false;
         private readonly HubConnection _hubConnection;
         private readonly IHubProxy _hubProxy;
+        public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+        public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+        
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -152,8 +155,17 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_product_box = new TableLayoutPanel();
                             tlp_product_box.Name = "tlp_product_box" + gridSourcedetails[0].Field8;
                             tlp_product_box.Dock = DockStyle.Top;
-                            tlp_product_box.Width = 300;
-                            tlp_product_box.Height = 300;
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                tlp_product_box.Width = 600;
+                                tlp_product_box.Height = 400;
+                            }
+                            else
+                            {
+                                tlp_product_box.Width = 300;
+                                tlp_product_box.Height = 300;
+                            }
+
                             tlp_product_box.BackColor = boxcolor;
                             tlp_product_box.RowCount = 3;
                             //tlp_product_box.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
@@ -169,20 +181,31 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
                             tlp_product_heading.Name = "tlp_product_heading" + gridSourcedetails[0].Field8;
                             tlp_product_heading.Dock = DockStyle.Top;
-                            tlp_product_heading.Height = 20;
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                tlp_product_heading.Height = 50;
+                            }
+                            else
+                            {
+                                tlp_product_heading.Height = 20;
+                            }
+
                             tlp_product_heading.ColumnCount = 2;
                             tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
                             tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
 
-                            // Labels in Heading
                             Label lbl_tablecode = new Label()
                             {
                                 Text = gridSourcedetails[0].Field2,
                                 Name = "lbl_tablecode" + gridSourcedetails[0].Field8,
                                 Dock = DockStyle.Fill,
                                 ForeColor = Color.White,
-                                Font = new Font("Arial", 10, FontStyle.Bold)
+ 
                             };
+                            if (screenWidth > 1367 && screenHeight > 769)                           
+                                lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);                        
+                            else
+                                lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
 
                             DateTime startTime = gridSourcedetails[0].Fielddatetime;
                             DateTime currentTime = DateTime.Now;
@@ -197,10 +220,13 @@ namespace FoodandBeverage.Forms
                                 Text = timeDifferenceString,
                                 Name = "lbl_time" + gridSourcedetails[0].Field8,
                                 Dock = DockStyle.Fill,
-                                ForeColor = Color.White,
-                                Font = new Font("Arial", 8, FontStyle.Bold),
+                                ForeColor = Color.White,                  
 
                             };
+                            if (screenWidth > 1367 && screenHeight > 769)
+                                lbl_time.Font = new Font("Arial", 13, FontStyle.Bold);
+                            else
+                                lbl_time.Font = new Font("Arial", 8, FontStyle.Bold);
 
                             tlp_product_heading.Controls.Add(lbl_tablecode, 0, 0);
                             tlp_product_heading.Controls.Add(lbl_time, 1, 0);
@@ -230,8 +256,17 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                             dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                            dgv_product_details.ColumnHeadersHeight = 30;
-                            dgv_product_details.RowTemplate.Height = 30;
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                dgv_product_details.ColumnHeadersHeight = 50;
+                                dgv_product_details.RowTemplate.Height = 50;
+                            }
+                            else
+                            {
+                                dgv_product_details.ColumnHeadersHeight = 30;
+                                dgv_product_details.RowTemplate.Height = 30;
+                            }
+      
 
                             dgv_product_details.RowHeadersVisible = false;
                             // Add columns with specific cell type
@@ -283,7 +318,7 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                             dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[ddetailsidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dkoidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -370,7 +405,15 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_buttons = new TableLayoutPanel();
                             tlp_buttons.Name = "tlp_buttons" + gridSourcedetails[0].Field8;
                             tlp_buttons.Dock = DockStyle.Top;
-                            tlp_buttons.Height = 30;
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                tlp_buttons.Height = 45;
+                            }
+                            else
+                            {
+                                tlp_buttons.Height = 30;
+                            }
+
                             tlp_buttons.ColumnCount = 3;
                             tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
                             tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -381,12 +424,19 @@ namespace FoodandBeverage.Forms
                                 Name = "pb_start" + gridSourcedetails[0].Field8,
                                 Image = Properties.Resources.start,
                                 SizeMode = PictureBoxSizeMode.StretchImage,
-                                Dock = DockStyle.None,
-                                Height = 30,
-                                Width = 60,
+                                Dock = DockStyle.None,            
                                 Tag = gridSourcedetails[0].Field8,
                             };
-                            
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                pb_start.Height = 40;
+                                pb_start.Width = 120;
+                            }
+                            else
+                            {
+                                pb_start.Height = 30;
+                                pb_start.Width = 60;
+                            }
                             pb_start.Click += pbstart_Click;
 
                             PictureBox pb_ready = new PictureBox()
@@ -395,11 +445,19 @@ namespace FoodandBeverage.Forms
                                 Image = Properties.Resources.ready_button,
                                 SizeMode = PictureBoxSizeMode.StretchImage,
                                 Dock = DockStyle.None,
-                                Height = 30,
-                                Width = 60,
                                 Tag = gridSourcedetails[0].Field8,
   
                             };
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                pb_ready.Height = 40;
+                                pb_ready.Width = 120;
+                            }
+                            else
+                            {
+                                pb_ready.Height = 30;
+                                pb_ready.Width = 60;
+                            }
                             pb_ready.Click += pbreadyfood_Click;
 
                             if(Convert.ToInt32(gridSourcedetails[0].Field12)==1)
@@ -419,10 +477,18 @@ namespace FoodandBeverage.Forms
                                 Image = Properties.Resources.close_price_change,  // Replace "YourRemoveImage" with the name of your resource image
                                 SizeMode = PictureBoxSizeMode.StretchImage,
                                 Dock = DockStyle.None,
-                                Height = 30,
-                                Width = 60,
                                 Tag = gridSourcedetails[0].Field8,
                             };
+                            if (screenWidth > 1367 && screenHeight > 769)
+                            {
+                                pb_cancelfood.Height = 40;
+                                pb_cancelfood.Width = 120;
+                            }
+                            else
+                            {
+                                pb_cancelfood.Height = 30;
+                                pb_cancelfood.Width = 60;
+                            }
                             pb_cancelfood.Click += pbcancelfood_Click;
 
                             tlp_buttons.Controls.Add(pb_start, 0, 0);

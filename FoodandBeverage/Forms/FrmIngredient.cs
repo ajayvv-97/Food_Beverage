@@ -1007,10 +1007,11 @@ namespace FoodandBeverage.Forms
         {
             tlp_registartion_toggle.Visible = false;
             tlp_menu_Gallery_main.Visible = true;
-            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
+
             Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
             tlp_main.Controls.Remove(controlToRemove);
             tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
+            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
             GalleryView(0);
         }
 
