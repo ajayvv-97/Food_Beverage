@@ -13,12 +13,15 @@ using FastMember;
 using System.Data;
 using CrystalDecisions.CrystalReports.Engine;
 using BLL;
+using CustomMessageBox;
 
 namespace FoodandBeverage.SaleBill
 {
     public partial class FrmSaleInvoice : Form
     {
         public int SalesMasterId = 0;
+        public int paytypeid = 0;
+        public int paymentid = 0;
         public static int BranchId = 0;
         public static int UserId = 0;
         public string folderPath = Application.StartupPath + "\\Barcode";
@@ -31,9 +34,11 @@ namespace FoodandBeverage.SaleBill
         public string invoiceno_api;
         public string pdfPath = "";
 
-        public FrmSaleInvoice(int masterId)
+        public FrmSaleInvoice(int masterId,int paytype,int paytid)
         {
             SalesMasterId = masterId;
+            paymentid = paytid;
+            paytypeid = paytype;
             InitializeComponent();
             httpClient = new HttpClient();
 
@@ -47,13 +52,19 @@ namespace FoodandBeverage.SaleBill
 
         private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
-            PrintBill();
+            //if (paytypeid == 12)
+            //    PrintBill_Split();
+            //else
+                PrintBill();
         }
+        #region Print Bill for Normal & Part 
         public void PrintBill()
         {
             try
             {
                 string reportPath;
+                decimal cashamount = 0, othetamount = 0, splitamount=0;
+                string payname = "";
                 #region Crystal Report Dclaration
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
@@ -113,6 +124,62 @@ namespace FoodandBeverage.SaleBill
                 {
                     dtSalesDetail.Load(reader);
                 }
+                if (paytypeid == 11)
+                {
+                    DmnSearch obj = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                    obj.Select = "PayType Field1, Amount Field2";
+                    obj.Table = "tblpayment";
+                    obj.WhereNdGroupBy = " where salemasterid=" + SalesMasterId;
+                    var invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                    if (invpayment.Count > 0)
+                    {
+
+                        for (int i = 0; i < invpayment.Count; i++)
+                        {
+                            switch (Convert.ToInt32(invpayment[i].Field1))
+                            {
+                                case 1:
+                                    cashamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    break;
+                                case 5:
+                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    payname = "DEBITCARD";
+                                    break;
+                                case 4:
+                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    payname = "UPI";
+                                    break;
+                                case 6:
+                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    payname = "BANKINGONLINE";
+                                    break;
+                                case 8:
+                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    payname = "CREDIT";
+                                    break;
+                                case 7:
+                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    payname = "OTHERS";
+                                    break;
+                            }
+                        }
+
+
+                    }
+
+                }
+                else if (paytypeid == 12)
+                {
+                    DmnSearch obj = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                    obj.Select = "PayType Field1, Amount Field2";
+                    obj.Table = "tblpayment";
+                    obj.WhereNdGroupBy = " where payid=" + paymentid;
+                    var invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                    if (invpayment.Count > 0)
+                        splitamount = Convert.ToDecimal(invpayment[0].Field2);                       
+                }
 
                 dsReport.Tables.Add(dtSalesDetail);
                 dsReport.Tables.Add(dtSalesHeader);
@@ -121,6 +188,12 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
 
                 reportDocument.SetDataSource(dsReport);
+
+                reportDocument.SetParameterValue("payname", payname);
+                reportDocument.SetParameterValue("cashamount",cashamount);
+                reportDocument.SetParameterValue("otheramount", othetamount);
+                reportDocument.SetParameterValue("splitamount", splitamount);
+
                 crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;
 
@@ -142,9 +215,13 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+
+
+
         private void GenerateBarcode(string barcodeText)
         {
             try

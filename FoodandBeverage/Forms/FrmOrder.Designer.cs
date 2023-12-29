@@ -73,6 +73,14 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmOrder));
             this.pnl_tableorder = new System.Windows.Forms.Panel();
             this.tlp_tableorder = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
@@ -246,16 +254,91 @@ namespace FoodandBeverage.Forms
             this.lblviewmore = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tlp_payment_option = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_splitpayment = new System.Windows.Forms.Button();
             this.btncash = new System.Windows.Forms.Button();
-            this.btnothers = new System.Windows.Forms.Button();
             this.btndebit = new System.Windows.Forms.Button();
             this.btncreditcard = new System.Windows.Forms.Button();
             this.btnupi = new System.Windows.Forms.Button();
             this.btnnetbanking = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_frm_close = new System.Windows.Forms.Button();
             this.Btnpartpayment = new System.Windows.Forms.Button();
-            this.btn_splitpayment = new System.Windows.Forms.Button();
+            this.btnothers = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnl_partpayment = new System.Windows.Forms.Panel();
+            this.tlp_main_part = new System.Windows.Forms.TableLayoutPanel();
+            this.flppart_paymentbutton = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnupi_part = new System.Windows.Forms.Button();
+            this.btnother_part = new System.Windows.Forms.Button();
+            this.btndebit_part = new System.Windows.Forms.Button();
+            this.btncreditcard_part = new System.Windows.Forms.Button();
+            this.btnnetbanking_part = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.btn_part_close = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.tlp_part_control = new System.Windows.Forms.TableLayoutPanel();
+            this.btnclose_part = new System.Windows.Forms.Button();
+            this.btnconfirm_part = new System.Windows.Forms.Button();
+            this.dgv_part = new System.Windows.Forms.DataGridView();
+            this.pslno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ppaymenttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paction = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Ppayid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_frm_close = new System.Windows.Forms.Button();
+            this.txtsalemasterid = new System.Windows.Forms.TextBox();
+            this.pnl_split = new System.Windows.Forms.Panel();
+            this.tlp_main_split = new System.Windows.Forms.TableLayoutPanel();
+            this.flp_split_options = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_split_number = new System.Windows.Forms.Button();
+            this.btn_itemwise = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.btn_close_split = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_close_split2 = new System.Windows.Forms.Button();
+            this.btn_confirm_split = new System.Windows.Forms.Button();
+            this.dgv_split = new System.Windows.Forms.DataGridView();
+            this.tlp_numberwise = new System.Windows.Forms.TableLayoutPanel();
+            this.label27 = new System.Windows.Forms.Label();
+            this.txtnumber_split = new System.Windows.Forms.TextBox();
+            this.btn_con_nosplit = new System.Windows.Forms.Button();
+            this.tlp_itemwise_split = new System.Windows.Forms.TableLayoutPanel();
+            this.flp_itemwise_products = new System.Windows.Forms.FlowLayoutPanel();
+            this.flp_itemwise_por_sort = new System.Windows.Forms.FlowLayoutPanel();
+            this.ib_add_categ_itemwise = new FontAwesome.Sharp.IconButton();
+            this.btn_split_itemwiseclose = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btns_itemwise_confirm = new System.Windows.Forms.Button();
+            this.btn_close_pnlitemwise = new System.Windows.Forms.Button();
+            this.tlp_split_payment_button = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_split_cash = new System.Windows.Forms.Button();
+            this.btn_split_debit = new System.Windows.Forms.Button();
+            this.btn_split_credit = new System.Windows.Forms.Button();
+            this.btn_split_upi = new System.Windows.Forms.Button();
+            this.btn_split_netbanking = new System.Windows.Forms.Button();
+            this.btn_split_others = new System.Windows.Forms.Button();
+            this.flp_splitpaycontrol_nav = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_split_payclose = new System.Windows.Forms.Button();
+            this.pnl_split_itemwise = new System.Windows.Forms.Panel();
+            this.dataGridViewTextBoxColumn33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitAction = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn35 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn36 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sbillno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -291,6 +374,27 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.SuspendLayout();
             this.tlp_payment_option.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.pnl_partpayment.SuspendLayout();
+            this.tlp_main_part.SuspendLayout();
+            this.flppart_paymentbutton.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tlp_part_control.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_part)).BeginInit();
+            this.pnl_split.SuspendLayout();
+            this.tlp_main_split.SuspendLayout();
+            this.flp_split_options.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).BeginInit();
+            this.tlp_numberwise.SuspendLayout();
+            this.tlp_itemwise_split.SuspendLayout();
+            this.flp_itemwise_por_sort.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tlp_split_payment_button.SuspendLayout();
+            this.flp_splitpaycontrol_nav.SuspendLayout();
+            this.pnl_split_itemwise.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_tableorder
@@ -1870,7 +1974,7 @@ namespace FoodandBeverage.Forms
             this.tlp_promo_code.Controls.Add(this.btn_save_promo, 2, 0);
             this.tlp_promo_code.Controls.Add(this.txtdiscountamt_promo, 1, 1);
             this.tlp_promo_code.Controls.Add(this.txtdisamt_promo, 1, 2);
-            this.tlp_promo_code.Location = new System.Drawing.Point(465, 33);
+            this.tlp_promo_code.Location = new System.Drawing.Point(0, 0);
             this.tlp_promo_code.Name = "tlp_promo_code";
             this.tlp_promo_code.RowCount = 3;
             this.tlp_promo_code.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -2569,13 +2673,25 @@ namespace FoodandBeverage.Forms
             this.tlp_payment_option.Controls.Add(this.btnothers, 3, 0);
             this.tlp_payment_option.Location = new System.Drawing.Point(26, 58);
             this.tlp_payment_option.Name = "tlp_payment_option";
-            this.tlp_payment_option.RowCount = 2;
+            this.tlp_payment_option.RowCount = 3;
             this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_payment_option.Size = new System.Drawing.Size(577, 273);
             this.tlp_payment_option.TabIndex = 274;
             this.tlp_payment_option.Visible = false;
+            // 
+            // btn_splitpayment
+            // 
+            this.btn_splitpayment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_splitpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_splitpayment.Location = new System.Drawing.Point(435, 129);
+            this.btn_splitpayment.Name = "btn_splitpayment";
+            this.btn_splitpayment.Size = new System.Drawing.Size(139, 120);
+            this.btn_splitpayment.TabIndex = 68;
+            this.btn_splitpayment.Text = "Split";
+            this.btn_splitpayment.UseVisualStyleBackColor = true;
+            this.btn_splitpayment.Click += new System.EventHandler(this.btncash_Click);
             // 
             // btncash
             // 
@@ -2589,26 +2705,10 @@ namespace FoodandBeverage.Forms
             this.btncash.ForeColor = System.Drawing.Color.White;
             this.btncash.Location = new System.Drawing.Point(3, 3);
             this.btncash.Name = "btncash";
-            this.btncash.Size = new System.Drawing.Size(138, 130);
+            this.btncash.Size = new System.Drawing.Size(138, 120);
             this.btncash.TabIndex = 66;
             this.btncash.UseVisualStyleBackColor = false;
             this.btncash.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btnothers
-            // 
-            this.btnothers.BackColor = System.Drawing.Color.Transparent;
-            this.btnothers.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
-            this.btnothers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnothers.FlatAppearance.BorderSize = 0;
-            this.btnothers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnothers.ForeColor = System.Drawing.Color.White;
-            this.btnothers.Location = new System.Drawing.Point(435, 3);
-            this.btnothers.Name = "btnothers";
-            this.btnothers.Size = new System.Drawing.Size(138, 130);
-            this.btnothers.TabIndex = 65;
-            this.btnothers.UseVisualStyleBackColor = false;
-            this.btnothers.Click += new System.EventHandler(this.btncash_Click);
             // 
             // btndebit
             // 
@@ -2623,7 +2723,7 @@ namespace FoodandBeverage.Forms
             this.btndebit.ForeColor = System.Drawing.Color.White;
             this.btndebit.Location = new System.Drawing.Point(147, 3);
             this.btndebit.Name = "btndebit";
-            this.btndebit.Size = new System.Drawing.Size(138, 130);
+            this.btndebit.Size = new System.Drawing.Size(138, 120);
             this.btndebit.TabIndex = 61;
             this.btndebit.UseVisualStyleBackColor = false;
             this.btndebit.Click += new System.EventHandler(this.btncash_Click);
@@ -2639,9 +2739,9 @@ namespace FoodandBeverage.Forms
             this.btncreditcard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncreditcard.ForeColor = System.Drawing.Color.White;
-            this.btncreditcard.Location = new System.Drawing.Point(147, 139);
+            this.btncreditcard.Location = new System.Drawing.Point(147, 129);
             this.btncreditcard.Name = "btncreditcard";
-            this.btncreditcard.Size = new System.Drawing.Size(138, 131);
+            this.btncreditcard.Size = new System.Drawing.Size(138, 120);
             this.btncreditcard.TabIndex = 63;
             this.btncreditcard.UseVisualStyleBackColor = false;
             this.btncreditcard.Click += new System.EventHandler(this.btncash_Click);
@@ -2659,7 +2759,7 @@ namespace FoodandBeverage.Forms
             this.btnupi.ForeColor = System.Drawing.Color.White;
             this.btnupi.Location = new System.Drawing.Point(291, 3);
             this.btnupi.Name = "btnupi";
-            this.btnupi.Size = new System.Drawing.Size(138, 130);
+            this.btnupi.Size = new System.Drawing.Size(138, 120);
             this.btnupi.TabIndex = 64;
             this.btnupi.UseVisualStyleBackColor = false;
             this.btnupi.Click += new System.EventHandler(this.btncash_Click);
@@ -2674,16 +2774,44 @@ namespace FoodandBeverage.Forms
             this.btnnetbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnnetbanking.ForeColor = System.Drawing.Color.White;
-            this.btnnetbanking.Location = new System.Drawing.Point(3, 139);
+            this.btnnetbanking.Location = new System.Drawing.Point(3, 129);
             this.btnnetbanking.Name = "btnnetbanking";
-            this.btnnetbanking.Size = new System.Drawing.Size(138, 131);
+            this.btnnetbanking.Size = new System.Drawing.Size(138, 120);
             this.btnnetbanking.TabIndex = 62;
             this.btnnetbanking.UseVisualStyleBackColor = false;
             this.btnnetbanking.Click += new System.EventHandler(this.btncash_Click);
             // 
+            // Btnpartpayment
+            // 
+            this.Btnpartpayment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btnpartpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btnpartpayment.Location = new System.Drawing.Point(291, 129);
+            this.Btnpartpayment.Name = "Btnpartpayment";
+            this.Btnpartpayment.Size = new System.Drawing.Size(138, 120);
+            this.Btnpartpayment.TabIndex = 67;
+            this.Btnpartpayment.Text = "Part";
+            this.Btnpartpayment.UseVisualStyleBackColor = true;
+            this.Btnpartpayment.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnothers
+            // 
+            this.btnothers.BackColor = System.Drawing.Color.Transparent;
+            this.btnothers.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
+            this.btnothers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnothers.FlatAppearance.BorderSize = 0;
+            this.btnothers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnothers.ForeColor = System.Drawing.Color.White;
+            this.btnothers.Location = new System.Drawing.Point(435, 3);
+            this.btnothers.Name = "btnothers";
+            this.btnothers.Size = new System.Drawing.Size(138, 120);
+            this.btnothers.TabIndex = 65;
+            this.btnothers.UseVisualStyleBackColor = false;
+            this.btnothers.Click += new System.EventHandler(this.btncash_Click);
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.tlp_promo_code);
+            this.panel1.Controls.Add(this.pnl_partpayment);
             this.panel1.Controls.Add(this.tlp_calculation_total);
             this.panel1.Controls.Add(this.pnlproductviewmore);
             this.panel1.Controls.Add(this.tlp_discount_calc);
@@ -2691,9 +2819,379 @@ namespace FoodandBeverage.Forms
             this.panel1.Controls.Add(this.pnlprice);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(87, 32);
+            this.panel1.Size = new System.Drawing.Size(624, 137);
             this.panel1.TabIndex = 275;
             this.panel1.Visible = false;
+            // 
+            // pnl_partpayment
+            // 
+            this.pnl_partpayment.Controls.Add(this.tlp_main_part);
+            this.pnl_partpayment.Location = new System.Drawing.Point(461, 8);
+            this.pnl_partpayment.Name = "pnl_partpayment";
+            this.pnl_partpayment.Size = new System.Drawing.Size(529, 486);
+            this.pnl_partpayment.TabIndex = 9;
+            this.pnl_partpayment.Visible = false;
+            // 
+            // tlp_main_part
+            // 
+            this.tlp_main_part.ColumnCount = 1;
+            this.tlp_main_part.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_main_part.Controls.Add(this.flppart_paymentbutton, 0, 3);
+            this.tlp_main_part.Controls.Add(this.label20, 0, 2);
+            this.tlp_main_part.Controls.Add(this.tableLayoutPanel3, 0, 0);
+            this.tlp_main_part.Controls.Add(this.label19, 0, 1);
+            this.tlp_main_part.Controls.Add(this.tlp_part_control, 0, 5);
+            this.tlp_main_part.Controls.Add(this.dgv_part, 0, 4);
+            this.tlp_main_part.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_main_part.Location = new System.Drawing.Point(0, 0);
+            this.tlp_main_part.Name = "tlp_main_part";
+            this.tlp_main_part.RowCount = 6;
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.676517F));
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.676517F));
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.35115F));
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.45293F));
+            this.tlp_main_part.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tlp_main_part.Size = new System.Drawing.Size(529, 486);
+            this.tlp_main_part.TabIndex = 0;
+            // 
+            // flppart_paymentbutton
+            // 
+            this.flppart_paymentbutton.Controls.Add(this.btnupi_part);
+            this.flppart_paymentbutton.Controls.Add(this.btnother_part);
+            this.flppart_paymentbutton.Controls.Add(this.btndebit_part);
+            this.flppart_paymentbutton.Controls.Add(this.btncreditcard_part);
+            this.flppart_paymentbutton.Controls.Add(this.btnnetbanking_part);
+            this.flppart_paymentbutton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flppart_paymentbutton.Location = new System.Drawing.Point(3, 85);
+            this.flppart_paymentbutton.Name = "flppart_paymentbutton";
+            this.flppart_paymentbutton.Size = new System.Drawing.Size(523, 131);
+            this.flppart_paymentbutton.TabIndex = 66;
+            // 
+            // btnupi_part
+            // 
+            this.btnupi_part.BackColor = System.Drawing.Color.Transparent;
+            this.btnupi_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.upi;
+            this.btnupi_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnupi_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnupi_part.FlatAppearance.BorderSize = 0;
+            this.btnupi_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnupi_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnupi_part.ForeColor = System.Drawing.Color.White;
+            this.btnupi_part.Location = new System.Drawing.Point(3, 3);
+            this.btnupi_part.Name = "btnupi_part";
+            this.btnupi_part.Size = new System.Drawing.Size(165, 59);
+            this.btnupi_part.TabIndex = 64;
+            this.btnupi_part.UseVisualStyleBackColor = false;
+            this.btnupi_part.Click += new System.EventHandler(this.btncash_part_Click);
+            // 
+            // btnother_part
+            // 
+            this.btnother_part.BackColor = System.Drawing.Color.Transparent;
+            this.btnother_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
+            this.btnother_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnother_part.FlatAppearance.BorderSize = 0;
+            this.btnother_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnother_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnother_part.ForeColor = System.Drawing.Color.White;
+            this.btnother_part.Location = new System.Drawing.Point(174, 3);
+            this.btnother_part.Name = "btnother_part";
+            this.btnother_part.Size = new System.Drawing.Size(165, 59);
+            this.btnother_part.TabIndex = 65;
+            this.btnother_part.UseVisualStyleBackColor = false;
+            this.btnother_part.Click += new System.EventHandler(this.btncash_part_Click);
+            // 
+            // btndebit_part
+            // 
+            this.btndebit_part.BackColor = System.Drawing.Color.Transparent;
+            this.btndebit_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.rupay;
+            this.btndebit_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btndebit_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btndebit_part.FlatAppearance.BorderSize = 0;
+            this.btndebit_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btndebit_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btndebit_part.ForeColor = System.Drawing.Color.White;
+            this.btndebit_part.Location = new System.Drawing.Point(345, 3);
+            this.btndebit_part.Name = "btndebit_part";
+            this.btndebit_part.Size = new System.Drawing.Size(165, 59);
+            this.btndebit_part.TabIndex = 61;
+            this.btndebit_part.UseVisualStyleBackColor = false;
+            this.btndebit_part.Click += new System.EventHandler(this.btncash_part_Click);
+            // 
+            // btncreditcard_part
+            // 
+            this.btncreditcard_part.BackColor = System.Drawing.Color.Transparent;
+            this.btncreditcard_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.credit_card;
+            this.btncreditcard_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncreditcard_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btncreditcard_part.FlatAppearance.BorderSize = 0;
+            this.btncreditcard_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncreditcard_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncreditcard_part.ForeColor = System.Drawing.Color.White;
+            this.btncreditcard_part.Location = new System.Drawing.Point(3, 68);
+            this.btncreditcard_part.Name = "btncreditcard_part";
+            this.btncreditcard_part.Size = new System.Drawing.Size(165, 59);
+            this.btncreditcard_part.TabIndex = 63;
+            this.btncreditcard_part.UseVisualStyleBackColor = false;
+            this.btncreditcard_part.Click += new System.EventHandler(this.btncash_part_Click);
+            // 
+            // btnnetbanking_part
+            // 
+            this.btnnetbanking_part.BackColor = System.Drawing.Color.Transparent;
+            this.btnnetbanking_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.Internet_Banking;
+            this.btnnetbanking_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnnetbanking_part.FlatAppearance.BorderSize = 0;
+            this.btnnetbanking_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnnetbanking_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnnetbanking_part.ForeColor = System.Drawing.Color.White;
+            this.btnnetbanking_part.Location = new System.Drawing.Point(174, 68);
+            this.btnnetbanking_part.Name = "btnnetbanking_part";
+            this.btnnetbanking_part.Size = new System.Drawing.Size(165, 59);
+            this.btnnetbanking_part.TabIndex = 62;
+            this.btnnetbanking_part.UseVisualStyleBackColor = false;
+            this.btnnetbanking_part.Click += new System.EventHandler(this.btncash_part_Click);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(3, 60);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(523, 22);
+            this.label20.TabIndex = 22;
+            this.label20.Text = "label20";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btn_part_close, 2, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(523, 32);
+            this.tableLayoutPanel3.TabIndex = 20;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 4;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.55556F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.22222F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel4.Controls.Add(this.label15, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label16, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label17, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label18, 3, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(450, 28);
+            this.tableLayoutPanel4.TabIndex = 4;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(115, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(73, 28);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "label9";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(194, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(139, 28);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "ORDER ID ";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(3, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(106, 28);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "TABLE CODE ";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(339, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(108, 28);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "label9";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_part_close
+            // 
+            this.btn_part_close.BackColor = System.Drawing.Color.White;
+            this.btn_part_close.FlatAppearance.BorderSize = 0;
+            this.btn_part_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_part_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_part_close.ForeColor = System.Drawing.Color.Red;
+            this.btn_part_close.Location = new System.Drawing.Point(494, 4);
+            this.btn_part_close.Name = "btn_part_close";
+            this.btn_part_close.Size = new System.Drawing.Size(25, 25);
+            this.btn_part_close.TabIndex = 10;
+            this.btn_part_close.Text = "X";
+            this.btn_part_close.UseVisualStyleBackColor = false;
+            this.btn_part_close.Click += new System.EventHandler(this.btn_part_close_Click);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(3, 38);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(523, 22);
+            this.label19.TabIndex = 21;
+            this.label19.Text = "Part Payment";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tlp_part_control
+            // 
+            this.tlp_part_control.ColumnCount = 2;
+            this.tlp_part_control.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_part_control.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_part_control.Controls.Add(this.btnclose_part, 1, 0);
+            this.tlp_part_control.Controls.Add(this.btnconfirm_part, 0, 0);
+            this.tlp_part_control.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tlp_part_control.Location = new System.Drawing.Point(326, 440);
+            this.tlp_part_control.Name = "tlp_part_control";
+            this.tlp_part_control.RowCount = 1;
+            this.tlp_part_control.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_part_control.Size = new System.Drawing.Size(200, 43);
+            this.tlp_part_control.TabIndex = 276;
+            // 
+            // btnclose_part
+            // 
+            this.btnclose_part.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnclose_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclose_part.Location = new System.Drawing.Point(103, 3);
+            this.btnclose_part.Name = "btnclose_part";
+            this.btnclose_part.Size = new System.Drawing.Size(94, 37);
+            this.btnclose_part.TabIndex = 1;
+            this.btnclose_part.Text = "Close";
+            this.btnclose_part.UseVisualStyleBackColor = true;
+            this.btnclose_part.Click += new System.EventHandler(this.btnclose_part_Click);
+            // 
+            // btnconfirm_part
+            // 
+            this.btnconfirm_part.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnconfirm_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnconfirm_part.Location = new System.Drawing.Point(3, 3);
+            this.btnconfirm_part.Name = "btnconfirm_part";
+            this.btnconfirm_part.Size = new System.Drawing.Size(94, 37);
+            this.btnconfirm_part.TabIndex = 0;
+            this.btnconfirm_part.Text = "Confirm";
+            this.btnconfirm_part.UseVisualStyleBackColor = true;
+            this.btnconfirm_part.Click += new System.EventHandler(this.btnconfirm_part_Click);
+            // 
+            // dgv_part
+            // 
+            this.dgv_part.AllowUserToAddRows = false;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle45.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle45.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle45.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle45.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle45.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle45.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_part.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
+            this.dgv_part.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_part.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.pslno,
+            this.pamount,
+            this.ppaymenttype,
+            this.paction,
+            this.Ppayid});
+            this.dgv_part.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_part.Location = new System.Drawing.Point(3, 222);
+            this.dgv_part.Name = "dgv_part";
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle47.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle47.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle47.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle47.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_part.RowHeadersDefaultCellStyle = dataGridViewCellStyle47;
+            this.dgv_part.RowHeadersVisible = false;
+            this.dgv_part.RowHeadersWidth = 42;
+            this.dgv_part.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_part.RowTemplate.Height = 30;
+            this.dgv_part.Size = new System.Drawing.Size(523, 212);
+            this.dgv_part.TabIndex = 277;
+            this.dgv_part.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_part_CellContentClick);
+            this.dgv_part.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_part_CellEndEdit);
+            this.dgv_part.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_part_CellFormatting);
+            this.dgv_part.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_part_EditingControlShowing);
+            this.dgv_part.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_part_KeyDown);
+            // 
+            // pslno
+            // 
+            this.pslno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.pslno.HeaderText = "Slno";
+            this.pslno.Name = "pslno";
+            this.pslno.Width = 70;
+            // 
+            // pamount
+            // 
+            this.pamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle46.NullValue = "0";
+            this.pamount.DefaultCellStyle = dataGridViewCellStyle46;
+            this.pamount.HeaderText = "Amount";
+            this.pamount.Name = "pamount";
+            // 
+            // ppaymenttype
+            // 
+            this.ppaymenttype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ppaymenttype.HeaderText = "Payment Type";
+            this.ppaymenttype.Name = "ppaymenttype";
+            // 
+            // paction
+            // 
+            this.paction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.paction.HeaderText = "Action ";
+            this.paction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.paction.Name = "paction";
+            this.paction.Width = 71;
+            // 
+            // Ppayid
+            // 
+            this.Ppayid.HeaderText = "payid";
+            this.Ppayid.Name = "Ppayid";
+            this.Ppayid.Visible = false;
             // 
             // btn_frm_close
             // 
@@ -2706,35 +3204,703 @@ namespace FoodandBeverage.Forms
             this.btn_frm_close.UseVisualStyleBackColor = true;
             this.btn_frm_close.Click += new System.EventHandler(this.btn_frm_close_Click);
             // 
-            // Btnpartpayment
+            // txtsalemasterid
             // 
-            this.Btnpartpayment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btnpartpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btnpartpayment.Location = new System.Drawing.Point(291, 139);
-            this.Btnpartpayment.Name = "Btnpartpayment";
-            this.Btnpartpayment.Size = new System.Drawing.Size(138, 131);
-            this.Btnpartpayment.TabIndex = 67;
-            this.Btnpartpayment.Text = "Part";
-            this.Btnpartpayment.UseVisualStyleBackColor = true;
-            this.Btnpartpayment.Click += new System.EventHandler(this.btncash_Click);
+            this.txtsalemasterid.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtsalemasterid.Location = new System.Drawing.Point(744, 3);
+            this.txtsalemasterid.Name = "txtsalemasterid";
+            this.txtsalemasterid.ReadOnly = true;
+            this.txtsalemasterid.Size = new System.Drawing.Size(57, 20);
+            this.txtsalemasterid.TabIndex = 277;
+            this.txtsalemasterid.Visible = false;
             // 
-            // btn_splitpayment
+            // pnl_split
             // 
-            this.btn_splitpayment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_splitpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_splitpayment.Location = new System.Drawing.Point(435, 139);
-            this.btn_splitpayment.Name = "btn_splitpayment";
-            this.btn_splitpayment.Size = new System.Drawing.Size(139, 131);
-            this.btn_splitpayment.TabIndex = 68;
-            this.btn_splitpayment.Text = "Split";
-            this.btn_splitpayment.UseVisualStyleBackColor = true;
-            this.btn_splitpayment.Click += new System.EventHandler(this.btncash_Click);
+            this.pnl_split.BackColor = System.Drawing.Color.Lime;
+            this.pnl_split.Controls.Add(this.tlp_main_split);
+            this.pnl_split.Location = new System.Drawing.Point(184, 53);
+            this.pnl_split.Name = "pnl_split";
+            this.pnl_split.Size = new System.Drawing.Size(692, 466);
+            this.pnl_split.TabIndex = 10;
+            this.pnl_split.Visible = false;
+            // 
+            // tlp_main_split
+            // 
+            this.tlp_main_split.ColumnCount = 1;
+            this.tlp_main_split.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_main_split.Controls.Add(this.flp_split_options, 0, 3);
+            this.tlp_main_split.Controls.Add(this.label21, 0, 2);
+            this.tlp_main_split.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tlp_main_split.Controls.Add(this.label26, 0, 1);
+            this.tlp_main_split.Controls.Add(this.tableLayoutPanel7, 0, 6);
+            this.tlp_main_split.Controls.Add(this.dgv_split, 0, 5);
+            this.tlp_main_split.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_main_split.Location = new System.Drawing.Point(0, 0);
+            this.tlp_main_split.Name = "tlp_main_split";
+            this.tlp_main_split.RowCount = 7;
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.78481F));
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.70886F));
+            this.tlp_main_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.18987F));
+            this.tlp_main_split.Size = new System.Drawing.Size(692, 466);
+            this.tlp_main_split.TabIndex = 0;
+            // 
+            // flp_split_options
+            // 
+            this.flp_split_options.Controls.Add(this.btn_split_number);
+            this.flp_split_options.Controls.Add(this.btn_itemwise);
+            this.flp_split_options.Location = new System.Drawing.Point(3, 79);
+            this.flp_split_options.Name = "flp_split_options";
+            this.flp_split_options.Size = new System.Drawing.Size(523, 68);
+            this.flp_split_options.TabIndex = 66;
+            // 
+            // btn_split_number
+            // 
+            this.btn_split_number.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_number.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_number.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_split_number.FlatAppearance.BorderSize = 0;
+            this.btn_split_number.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_number.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_number.ForeColor = System.Drawing.Color.White;
+            this.btn_split_number.Location = new System.Drawing.Point(3, 3);
+            this.btn_split_number.Name = "btn_split_number";
+            this.btn_split_number.Size = new System.Drawing.Size(117, 59);
+            this.btn_split_number.TabIndex = 64;
+            this.btn_split_number.Text = "Number";
+            this.btn_split_number.UseVisualStyleBackColor = false;
+            this.btn_split_number.Click += new System.EventHandler(this.btn_split_number_Click);
+            // 
+            // btn_itemwise
+            // 
+            this.btn_itemwise.BackColor = System.Drawing.Color.Transparent;
+            this.btn_itemwise.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_itemwise.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_itemwise.FlatAppearance.BorderSize = 0;
+            this.btn_itemwise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_itemwise.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_itemwise.ForeColor = System.Drawing.Color.White;
+            this.btn_itemwise.Location = new System.Drawing.Point(126, 3);
+            this.btn_itemwise.Name = "btn_itemwise";
+            this.btn_itemwise.Size = new System.Drawing.Size(165, 59);
+            this.btn_itemwise.TabIndex = 61;
+            this.btn_itemwise.Text = "Item Wise";
+            this.btn_itemwise.UseVisualStyleBackColor = false;
+            this.btn_itemwise.Click += new System.EventHandler(this.btn_itemwise_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(3, 58);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(686, 18);
+            this.label21.TabIndex = 22;
+            this.label21.Text = "label21";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel5.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btn_close_split, 2, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(686, 32);
+            this.tableLayoutPanel5.TabIndex = 20;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 4;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.55556F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.22222F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel6.Controls.Add(this.label22, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label23, 2, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label24, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label25, 3, 0);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(450, 28);
+            this.tableLayoutPanel6.TabIndex = 4;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(115, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(73, 28);
+            this.label22.TabIndex = 2;
+            this.label22.Text = "label9";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(194, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(139, 28);
+            this.label23.TabIndex = 1;
+            this.label23.Text = "ORDER ID ";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(3, 0);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(106, 28);
+            this.label24.TabIndex = 3;
+            this.label24.Text = "TABLE CODE ";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.White;
+            this.label25.Location = new System.Drawing.Point(339, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(108, 28);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "label9";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_close_split
+            // 
+            this.btn_close_split.BackColor = System.Drawing.Color.White;
+            this.btn_close_split.FlatAppearance.BorderSize = 0;
+            this.btn_close_split.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close_split.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_close_split.ForeColor = System.Drawing.Color.Red;
+            this.btn_close_split.Location = new System.Drawing.Point(657, 4);
+            this.btn_close_split.Name = "btn_close_split";
+            this.btn_close_split.Size = new System.Drawing.Size(25, 25);
+            this.btn_close_split.TabIndex = 10;
+            this.btn_close_split.Text = "X";
+            this.btn_close_split.UseVisualStyleBackColor = false;
+            this.btn_close_split.Click += new System.EventHandler(this.btn_close_split_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(3, 38);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(686, 20);
+            this.label26.TabIndex = 21;
+            this.label26.Text = "Split Payment";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.btn_close_split2, 1, 0);
+            this.tableLayoutPanel7.Controls.Add(this.btn_confirm_split, 0, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(489, 420);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(200, 43);
+            this.tableLayoutPanel7.TabIndex = 276;
+            // 
+            // btn_close_split2
+            // 
+            this.btn_close_split2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btn_close_split2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_close_split2.Location = new System.Drawing.Point(103, 3);
+            this.btn_close_split2.Name = "btn_close_split2";
+            this.btn_close_split2.Size = new System.Drawing.Size(94, 37);
+            this.btn_close_split2.TabIndex = 1;
+            this.btn_close_split2.Text = "Close";
+            this.btn_close_split2.UseVisualStyleBackColor = true;
+            this.btn_close_split2.Click += new System.EventHandler(this.btn_close_split2_Click);
+            // 
+            // btn_confirm_split
+            // 
+            this.btn_confirm_split.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btn_confirm_split.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_confirm_split.Location = new System.Drawing.Point(3, 3);
+            this.btn_confirm_split.Name = "btn_confirm_split";
+            this.btn_confirm_split.Size = new System.Drawing.Size(94, 37);
+            this.btn_confirm_split.TabIndex = 0;
+            this.btn_confirm_split.Text = "Confirm";
+            this.btn_confirm_split.UseVisualStyleBackColor = true;
+            this.btn_confirm_split.Click += new System.EventHandler(this.btn_confirm_split_Click);
+            // 
+            // dgv_split
+            // 
+            this.dgv_split.AllowUserToAddRows = false;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle48.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle48.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_split.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle48;
+            this.dgv_split.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_split.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn33,
+            this.dataGridViewTextBoxColumn34,
+            this.splitAction,
+            this.dataGridViewTextBoxColumn35,
+            this.dataGridViewTextBoxColumn36,
+            this.splitStatus,
+            this.completestatus,
+            this.sbillno});
+            this.dgv_split.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_split.Location = new System.Drawing.Point(3, 225);
+            this.dgv_split.Name = "dgv_split";
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle51.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle51.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle51.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle51.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle51.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_split.RowHeadersDefaultCellStyle = dataGridViewCellStyle51;
+            this.dgv_split.RowHeadersVisible = false;
+            this.dgv_split.RowHeadersWidth = 42;
+            this.dgv_split.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_split.RowTemplate.Height = 30;
+            this.dgv_split.Size = new System.Drawing.Size(686, 189);
+            this.dgv_split.TabIndex = 278;
+            this.dgv_split.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_split_CellContentClick);
+            // 
+            // tlp_numberwise
+            // 
+            this.tlp_numberwise.ColumnCount = 3;
+            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.63107F));
+            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.36893F));
+            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tlp_numberwise.Controls.Add(this.label27, 0, 0);
+            this.tlp_numberwise.Controls.Add(this.txtnumber_split, 1, 0);
+            this.tlp_numberwise.Controls.Add(this.btn_con_nosplit, 2, 0);
+            this.tlp_numberwise.Location = new System.Drawing.Point(0, 0);
+            this.tlp_numberwise.Name = "tlp_numberwise";
+            this.tlp_numberwise.RowCount = 1;
+            this.tlp_numberwise.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.02564F));
+            this.tlp_numberwise.Size = new System.Drawing.Size(449, 51);
+            this.tlp_numberwise.TabIndex = 277;
+            this.tlp_numberwise.Visible = false;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(3, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(148, 51);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Enter Number ";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtnumber_split
+            // 
+            this.txtnumber_split.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtnumber_split.Location = new System.Drawing.Point(157, 3);
+            this.txtnumber_split.Multiline = true;
+            this.txtnumber_split.Name = "txtnumber_split";
+            this.txtnumber_split.Size = new System.Drawing.Size(178, 45);
+            this.txtnumber_split.TabIndex = 1;
+            // 
+            // btn_con_nosplit
+            // 
+            this.btn_con_nosplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_con_nosplit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_con_nosplit.Location = new System.Drawing.Point(341, 3);
+            this.btn_con_nosplit.Name = "btn_con_nosplit";
+            this.btn_con_nosplit.Size = new System.Drawing.Size(105, 45);
+            this.btn_con_nosplit.TabIndex = 2;
+            this.btn_con_nosplit.Text = "Confirm";
+            this.btn_con_nosplit.UseVisualStyleBackColor = true;
+            this.btn_con_nosplit.Click += new System.EventHandler(this.btn_con_nosplit_Click);
+            // 
+            // tlp_itemwise_split
+            // 
+            this.tlp_itemwise_split.BackColor = System.Drawing.Color.White;
+            this.tlp_itemwise_split.ColumnCount = 2;
+            this.tlp_itemwise_split.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.37584F));
+            this.tlp_itemwise_split.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.624161F));
+            this.tlp_itemwise_split.Controls.Add(this.flp_itemwise_products, 0, 1);
+            this.tlp_itemwise_split.Controls.Add(this.flp_itemwise_por_sort, 0, 3);
+            this.tlp_itemwise_split.Controls.Add(this.btn_split_itemwiseclose, 1, 0);
+            this.tlp_itemwise_split.Controls.Add(this.tableLayoutPanel2, 0, 4);
+            this.tlp_itemwise_split.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_itemwise_split.Location = new System.Drawing.Point(0, 0);
+            this.tlp_itemwise_split.Name = "tlp_itemwise_split";
+            this.tlp_itemwise_split.RowCount = 5;
+            this.tlp_itemwise_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.576402F));
+            this.tlp_itemwise_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.39652F));
+            this.tlp_itemwise_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.868472F));
+            this.tlp_itemwise_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.16248F));
+            this.tlp_itemwise_split.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.769826F));
+            this.tlp_itemwise_split.Size = new System.Drawing.Size(926, 517);
+            this.tlp_itemwise_split.TabIndex = 277;
+            // 
+            // flp_itemwise_products
+            // 
+            this.flp_itemwise_products.AutoScroll = true;
+            this.flp_itemwise_products.BackColor = System.Drawing.Color.Silver;
+            this.flp_itemwise_products.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flp_itemwise_products.Location = new System.Drawing.Point(3, 36);
+            this.flp_itemwise_products.Name = "flp_itemwise_products";
+            this.flp_itemwise_products.Size = new System.Drawing.Size(886, 175);
+            this.flp_itemwise_products.TabIndex = 13;
+            // 
+            // flp_itemwise_por_sort
+            // 
+            this.flp_itemwise_por_sort.AutoScroll = true;
+            this.flp_itemwise_por_sort.BackColor = System.Drawing.Color.Silver;
+            this.flp_itemwise_por_sort.Controls.Add(this.ib_add_categ_itemwise);
+            this.flp_itemwise_por_sort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_itemwise_por_sort.Location = new System.Drawing.Point(3, 236);
+            this.flp_itemwise_por_sort.Name = "flp_itemwise_por_sort";
+            this.flp_itemwise_por_sort.Size = new System.Drawing.Size(886, 241);
+            this.flp_itemwise_por_sort.TabIndex = 12;
+            // 
+            // ib_add_categ_itemwise
+            // 
+            this.ib_add_categ_itemwise.BackColor = System.Drawing.Color.White;
+            this.ib_add_categ_itemwise.FlatAppearance.BorderSize = 0;
+            this.ib_add_categ_itemwise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_add_categ_itemwise.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_add_categ_itemwise.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.ib_add_categ_itemwise.IconColor = System.Drawing.Color.Black;
+            this.ib_add_categ_itemwise.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_add_categ_itemwise.Location = new System.Drawing.Point(10, 10);
+            this.ib_add_categ_itemwise.Margin = new System.Windows.Forms.Padding(10, 10, 3, 3);
+            this.ib_add_categ_itemwise.Name = "ib_add_categ_itemwise";
+            this.ib_add_categ_itemwise.Size = new System.Drawing.Size(157, 54);
+            this.ib_add_categ_itemwise.TabIndex = 0;
+            this.ib_add_categ_itemwise.Text = "ADD BILL";
+            this.ib_add_categ_itemwise.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.ib_add_categ_itemwise.UseVisualStyleBackColor = false;
+            this.ib_add_categ_itemwise.Click += new System.EventHandler(this.ib_add_categ_itemwise_Click);
+            // 
+            // btn_split_itemwiseclose
+            // 
+            this.btn_split_itemwiseclose.BackColor = System.Drawing.Color.White;
+            this.btn_split_itemwiseclose.FlatAppearance.BorderSize = 0;
+            this.btn_split_itemwiseclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_itemwiseclose.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_itemwiseclose.ForeColor = System.Drawing.Color.Red;
+            this.btn_split_itemwiseclose.Location = new System.Drawing.Point(895, 3);
+            this.btn_split_itemwiseclose.Name = "btn_split_itemwiseclose";
+            this.btn_split_itemwiseclose.Size = new System.Drawing.Size(28, 27);
+            this.btn_split_itemwiseclose.TabIndex = 11;
+            this.btn_split_itemwiseclose.Text = "X";
+            this.btn_split_itemwiseclose.UseVisualStyleBackColor = false;
+            this.btn_split_itemwiseclose.Click += new System.EventHandler(this.btn_split_itemwiseclose_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.btns_itemwise_confirm, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btn_close_pnlitemwise, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(689, 483);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(200, 31);
+            this.tableLayoutPanel2.TabIndex = 14;
+            // 
+            // btns_itemwise_confirm
+            // 
+            this.btns_itemwise_confirm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btns_itemwise_confirm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btns_itemwise_confirm.Location = new System.Drawing.Point(3, 3);
+            this.btns_itemwise_confirm.Name = "btns_itemwise_confirm";
+            this.btns_itemwise_confirm.Size = new System.Drawing.Size(94, 25);
+            this.btns_itemwise_confirm.TabIndex = 0;
+            this.btns_itemwise_confirm.Text = "Confrim";
+            this.btns_itemwise_confirm.UseVisualStyleBackColor = true;
+            this.btns_itemwise_confirm.Click += new System.EventHandler(this.btns_itemwise_confirm_Click);
+            // 
+            // btn_close_pnlitemwise
+            // 
+            this.btn_close_pnlitemwise.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_close_pnlitemwise.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_close_pnlitemwise.Location = new System.Drawing.Point(103, 3);
+            this.btn_close_pnlitemwise.Name = "btn_close_pnlitemwise";
+            this.btn_close_pnlitemwise.Size = new System.Drawing.Size(94, 25);
+            this.btn_close_pnlitemwise.TabIndex = 1;
+            this.btn_close_pnlitemwise.Text = "Close";
+            this.btn_close_pnlitemwise.UseVisualStyleBackColor = true;
+            this.btn_close_pnlitemwise.Click += new System.EventHandler(this.btn_close_pnlitemwise_Click);
+            // 
+            // tlp_split_payment_button
+            // 
+            this.tlp_split_payment_button.BackColor = System.Drawing.Color.White;
+            this.tlp_split_payment_button.ColumnCount = 3;
+            this.tlp_split_payment_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_split_payment_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_split_payment_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_cash, 0, 1);
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_debit, 1, 1);
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_credit, 1, 2);
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_upi, 2, 1);
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_netbanking, 0, 2);
+            this.tlp_split_payment_button.Controls.Add(this.btn_split_others, 2, 2);
+            this.tlp_split_payment_button.Controls.Add(this.flp_splitpaycontrol_nav, 2, 0);
+            this.tlp_split_payment_button.Location = new System.Drawing.Point(121, 277);
+            this.tlp_split_payment_button.Name = "tlp_split_payment_button";
+            this.tlp_split_payment_button.RowCount = 3;
+            this.tlp_split_payment_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlp_split_payment_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_split_payment_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_split_payment_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_split_payment_button.Size = new System.Drawing.Size(367, 233);
+            this.tlp_split_payment_button.TabIndex = 275;
+            this.tlp_split_payment_button.Visible = false;
+            // 
+            // btn_split_cash
+            // 
+            this.btn_split_cash.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_cash.BackgroundImage = global::FoodandBeverage.Properties.Resources.cash;
+            this.btn_split_cash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_cash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_cash.FlatAppearance.BorderSize = 0;
+            this.btn_split_cash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_cash.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_cash.ForeColor = System.Drawing.Color.White;
+            this.btn_split_cash.Location = new System.Drawing.Point(3, 39);
+            this.btn_split_cash.Name = "btn_split_cash";
+            this.btn_split_cash.Size = new System.Drawing.Size(116, 92);
+            this.btn_split_cash.TabIndex = 66;
+            this.btn_split_cash.UseVisualStyleBackColor = false;
+            this.btn_split_cash.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // btn_split_debit
+            // 
+            this.btn_split_debit.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_debit.BackgroundImage = global::FoodandBeverage.Properties.Resources.rupay;
+            this.btn_split_debit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_debit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_debit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_split_debit.FlatAppearance.BorderSize = 0;
+            this.btn_split_debit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_debit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_debit.ForeColor = System.Drawing.Color.White;
+            this.btn_split_debit.Location = new System.Drawing.Point(125, 39);
+            this.btn_split_debit.Name = "btn_split_debit";
+            this.btn_split_debit.Size = new System.Drawing.Size(116, 92);
+            this.btn_split_debit.TabIndex = 61;
+            this.btn_split_debit.UseVisualStyleBackColor = false;
+            this.btn_split_debit.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // btn_split_credit
+            // 
+            this.btn_split_credit.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_credit.BackgroundImage = global::FoodandBeverage.Properties.Resources.credit_card;
+            this.btn_split_credit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_credit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_credit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_split_credit.FlatAppearance.BorderSize = 0;
+            this.btn_split_credit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_credit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_credit.ForeColor = System.Drawing.Color.White;
+            this.btn_split_credit.Location = new System.Drawing.Point(125, 137);
+            this.btn_split_credit.Name = "btn_split_credit";
+            this.btn_split_credit.Size = new System.Drawing.Size(116, 93);
+            this.btn_split_credit.TabIndex = 63;
+            this.btn_split_credit.UseVisualStyleBackColor = false;
+            this.btn_split_credit.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // btn_split_upi
+            // 
+            this.btn_split_upi.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_upi.BackgroundImage = global::FoodandBeverage.Properties.Resources.upi;
+            this.btn_split_upi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_upi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_upi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_split_upi.FlatAppearance.BorderSize = 0;
+            this.btn_split_upi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_upi.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_upi.ForeColor = System.Drawing.Color.White;
+            this.btn_split_upi.Location = new System.Drawing.Point(247, 39);
+            this.btn_split_upi.Name = "btn_split_upi";
+            this.btn_split_upi.Size = new System.Drawing.Size(117, 92);
+            this.btn_split_upi.TabIndex = 64;
+            this.btn_split_upi.UseVisualStyleBackColor = false;
+            this.btn_split_upi.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // btn_split_netbanking
+            // 
+            this.btn_split_netbanking.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_netbanking.BackgroundImage = global::FoodandBeverage.Properties.Resources.Internet_Banking;
+            this.btn_split_netbanking.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_netbanking.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_netbanking.FlatAppearance.BorderSize = 0;
+            this.btn_split_netbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_netbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_netbanking.ForeColor = System.Drawing.Color.White;
+            this.btn_split_netbanking.Location = new System.Drawing.Point(3, 137);
+            this.btn_split_netbanking.Name = "btn_split_netbanking";
+            this.btn_split_netbanking.Size = new System.Drawing.Size(116, 93);
+            this.btn_split_netbanking.TabIndex = 62;
+            this.btn_split_netbanking.UseVisualStyleBackColor = false;
+            this.btn_split_netbanking.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // btn_split_others
+            // 
+            this.btn_split_others.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_others.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
+            this.btn_split_others.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_others.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_split_others.FlatAppearance.BorderSize = 0;
+            this.btn_split_others.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_others.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_split_others.ForeColor = System.Drawing.Color.White;
+            this.btn_split_others.Location = new System.Drawing.Point(247, 137);
+            this.btn_split_others.Name = "btn_split_others";
+            this.btn_split_others.Size = new System.Drawing.Size(117, 93);
+            this.btn_split_others.TabIndex = 65;
+            this.btn_split_others.UseVisualStyleBackColor = false;
+            this.btn_split_others.Click += new System.EventHandler(this.btn_split_cash_Click);
+            // 
+            // flp_splitpaycontrol_nav
+            // 
+            this.flp_splitpaycontrol_nav.Controls.Add(this.btn_split_payclose);
+            this.flp_splitpaycontrol_nav.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_splitpaycontrol_nav.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flp_splitpaycontrol_nav.Location = new System.Drawing.Point(247, 3);
+            this.flp_splitpaycontrol_nav.Name = "flp_splitpaycontrol_nav";
+            this.flp_splitpaycontrol_nav.Size = new System.Drawing.Size(117, 30);
+            this.flp_splitpaycontrol_nav.TabIndex = 68;
+            // 
+            // btn_split_payclose
+            // 
+            this.btn_split_payclose.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btn_split_payclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_split_payclose.FlatAppearance.BorderSize = 0;
+            this.btn_split_payclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_split_payclose.Location = new System.Drawing.Point(73, 3);
+            this.btn_split_payclose.Name = "btn_split_payclose";
+            this.btn_split_payclose.Size = new System.Drawing.Size(41, 30);
+            this.btn_split_payclose.TabIndex = 67;
+            this.btn_split_payclose.UseVisualStyleBackColor = true;
+            this.btn_split_payclose.Click += new System.EventHandler(this.btn_split_payclose_Click);
+            // 
+            // pnl_split_itemwise
+            // 
+            this.pnl_split_itemwise.Controls.Add(this.tlp_itemwise_split);
+            this.pnl_split_itemwise.Location = new System.Drawing.Point(54, 244);
+            this.pnl_split_itemwise.Name = "pnl_split_itemwise";
+            this.pnl_split_itemwise.Size = new System.Drawing.Size(926, 517);
+            this.pnl_split_itemwise.TabIndex = 0;
+            this.pnl_split_itemwise.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn33
+            // 
+            this.dataGridViewTextBoxColumn33.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn33.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
+            this.dataGridViewTextBoxColumn33.ReadOnly = true;
+            this.dataGridViewTextBoxColumn33.Width = 70;
+            // 
+            // dataGridViewTextBoxColumn34
+            // 
+            this.dataGridViewTextBoxColumn34.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle49.NullValue = "0";
+            this.dataGridViewTextBoxColumn34.DefaultCellStyle = dataGridViewCellStyle49;
+            this.dataGridViewTextBoxColumn34.HeaderText = "Amount";
+            this.dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
+            this.dataGridViewTextBoxColumn34.ReadOnly = true;
+            // 
+            // splitAction
+            // 
+            this.splitAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle50.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle50.NullValue")));
+            dataGridViewCellStyle50.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.splitAction.DefaultCellStyle = dataGridViewCellStyle50;
+            this.splitAction.HeaderText = "Action";
+            this.splitAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.splitAction.Name = "splitAction";
+            this.splitAction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.splitAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.splitAction.Width = 85;
+            // 
+            // dataGridViewTextBoxColumn35
+            // 
+            this.dataGridViewTextBoxColumn35.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn35.HeaderText = "Payment Type";
+            this.dataGridViewTextBoxColumn35.Name = "dataGridViewTextBoxColumn35";
+            this.dataGridViewTextBoxColumn35.ReadOnly = true;
+            this.dataGridViewTextBoxColumn35.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn35.ToolTipText = "Pay Type";
+            // 
+            // dataGridViewTextBoxColumn36
+            // 
+            this.dataGridViewTextBoxColumn36.HeaderText = "payid";
+            this.dataGridViewTextBoxColumn36.Name = "dataGridViewTextBoxColumn36";
+            this.dataGridViewTextBoxColumn36.Visible = false;
+            // 
+            // splitStatus
+            // 
+            this.splitStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.splitStatus.HeaderText = "Status";
+            this.splitStatus.Name = "splitStatus";
+            this.splitStatus.ReadOnly = true;
+            // 
+            // completestatus
+            // 
+            this.completestatus.HeaderText = "completestatus";
+            this.completestatus.Name = "completestatus";
+            this.completestatus.Visible = false;
+            // 
+            // sbillno
+            // 
+            this.sbillno.HeaderText = "BILLNO";
+            this.sbillno.Name = "sbillno";
+            this.sbillno.Visible = false;
             // 
             // FrmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 557);
+            this.Controls.Add(this.pnl_split_itemwise);
+            this.Controls.Add(this.tlp_promo_code);
+            this.Controls.Add(this.tlp_split_payment_button);
+            this.Controls.Add(this.tlp_numberwise);
+            this.Controls.Add(this.pnl_split);
+            this.Controls.Add(this.txtsalemasterid);
             this.Controls.Add(this.tlp_payment_option);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_saveKOT);
@@ -2803,6 +3969,32 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.PerformLayout();
             this.tlp_payment_option.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.pnl_partpayment.ResumeLayout(false);
+            this.tlp_main_part.ResumeLayout(false);
+            this.tlp_main_part.PerformLayout();
+            this.flppart_paymentbutton.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            this.tlp_part_control.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_part)).EndInit();
+            this.pnl_split.ResumeLayout(false);
+            this.tlp_main_split.ResumeLayout(false);
+            this.tlp_main_split.PerformLayout();
+            this.flp_split_options.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).EndInit();
+            this.tlp_numberwise.ResumeLayout(false);
+            this.tlp_numberwise.PerformLayout();
+            this.tlp_itemwise_split.ResumeLayout(false);
+            this.flp_itemwise_por_sort.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tlp_split_payment_button.ResumeLayout(false);
+            this.flp_splitpaycontrol_nav.ResumeLayout(false);
+            this.pnl_split_itemwise.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2993,5 +4185,80 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_frm_close;
         private System.Windows.Forms.Button btn_splitpayment;
         private System.Windows.Forms.Button Btnpartpayment;
+        private System.Windows.Forms.Panel pnl_partpayment;
+        private System.Windows.Forms.TableLayoutPanel tlp_main_part;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btn_part_close;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button btndebit_part;
+        private System.Windows.Forms.Button btncreditcard_part;
+        private System.Windows.Forms.Button btnupi_part;
+        private System.Windows.Forms.Button btnnetbanking_part;
+        private System.Windows.Forms.Button btnother_part;
+        private System.Windows.Forms.TableLayoutPanel tlp_part_control;
+        private System.Windows.Forms.Button btnclose_part;
+        private System.Windows.Forms.Button btnconfirm_part;
+        private System.Windows.Forms.DataGridView dgv_part;
+        private System.Windows.Forms.TextBox txtsalemasterid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pslno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pamount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ppaymenttype;
+        private System.Windows.Forms.DataGridViewImageColumn paction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ppayid;
+        private System.Windows.Forms.FlowLayoutPanel flppart_paymentbutton;
+        private System.Windows.Forms.Panel pnl_split;
+        private System.Windows.Forms.TableLayoutPanel tlp_main_split;
+        private System.Windows.Forms.FlowLayoutPanel flp_split_options;
+        private System.Windows.Forms.Button btn_split_number;
+        private System.Windows.Forms.Button btn_itemwise;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button btn_close_split;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.Button btn_close_split2;
+        private System.Windows.Forms.Button btn_confirm_split;
+        private System.Windows.Forms.TableLayoutPanel tlp_numberwise;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox txtnumber_split;
+        private System.Windows.Forms.TableLayoutPanel tlp_itemwise_split;
+        private System.Windows.Forms.Button btn_con_nosplit;
+        private System.Windows.Forms.DataGridView dgv_split;
+        private System.Windows.Forms.TableLayoutPanel tlp_split_payment_button;
+        private System.Windows.Forms.Button btn_split_cash;
+        private System.Windows.Forms.Button btn_split_debit;
+        private System.Windows.Forms.Button btn_split_credit;
+        private System.Windows.Forms.Button btn_split_upi;
+        private System.Windows.Forms.Button btn_split_netbanking;
+        private System.Windows.Forms.Button btn_split_others;
+        private System.Windows.Forms.FlowLayoutPanel flp_splitpaycontrol_nav;
+        private System.Windows.Forms.Button btn_split_payclose;
+        private System.Windows.Forms.Panel pnl_split_itemwise;
+        private System.Windows.Forms.Button btn_split_itemwiseclose;
+        private System.Windows.Forms.FlowLayoutPanel flp_itemwise_products;
+        private System.Windows.Forms.FlowLayoutPanel flp_itemwise_por_sort;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button btns_itemwise_confirm;
+        private System.Windows.Forms.Button btn_close_pnlitemwise;
+        private FontAwesome.Sharp.IconButton ib_add_categ_itemwise;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn33;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn34;
+        private System.Windows.Forms.DataGridViewImageColumn splitAction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn35;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn36;
+        private System.Windows.Forms.DataGridViewTextBoxColumn splitStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completestatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sbillno;
     }
 }

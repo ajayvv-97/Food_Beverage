@@ -108,11 +108,18 @@ namespace FoodandBeverage.Forms
         public decimal Totaldis = 0;
         public int ordercount = 0;
 
+        public int desiredWidth = 40;
+        public int desiredHeight = 40;
+
         private readonly HubConnection _hubConnection;
         private readonly IHubProxy _hubProxy;
         // Set the size based on your conditions
         public int R_screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int R_screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+        public List<Namelist> CheckedNames = new List<Namelist>();
+        public List<Namelist> BillList = new List<Namelist>();
+        public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>(); 
 
         #endregion
 
@@ -146,7 +153,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {              
-                ShowLoadingdGif();
+                //ShowLoadingdGif();
                 //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
                 //tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
                 tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
@@ -182,6 +189,20 @@ namespace FoodandBeverage.Forms
                 dgv_viewmore.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
                 dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+
+
+                dgv_split.BorderStyle = BorderStyle.None;
+                dgv_split.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_split.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_split.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_split.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_split.BackgroundColor = Color.White;
+
+                dgv_split.EnableHeadersVisualStyles = false;
+                dgv_split.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_split.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_split.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
                 textb_shape();
                 txtname_search.Text = "Food Name .....";
@@ -361,6 +382,8 @@ namespace FoodandBeverage.Forms
                 if (gridSource.Count > 0)
                 {
                     lbltablecode.Text = Convert.ToString(gridSource[0].Field1);
+                    label15.Text = Convert.ToString(gridSource[0].Field1);
+                    label22.Text = Convert.ToString(gridSource[0].Field1);
                 }
             }
             catch (Exception ex)
@@ -387,6 +410,9 @@ namespace FoodandBeverage.Forms
                     tlp_seletedItem_main.Controls.Clear();
                     FillExistingProducts();
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+                    label18.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+                    label25.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+
                     lblorderid.Visible = true;
                     label10.Visible = true;
 
@@ -4209,6 +4235,8 @@ namespace FoodandBeverage.Forms
                     decimal netAmount = 0;
                     netAmount = (Convert.ToDecimal(txtGrandTotal.Text) + Convert.ToDecimal(txtotheraddamt.Text)) - (Convert.ToDecimal(txtdis_amt.Text) + Convert.ToDecimal(txtotherdedamt.Text) + Convert.ToDecimal(txtdiscountamt_promo.Text));
                     txtnetamount.Text = netAmount.ToString("N2");
+                    label20.Text = "Net Amount : " + txtnetamount.Text;
+                    label21.Text = "Net Amount : " + txtnetamount.Text;
                     decimal balAmnt = netAmount - Convert.ToDecimal(txtpaidamount.Text);
                     txtrecvamount.Text = balAmnt.ToString("N2");
                 }
@@ -4497,8 +4525,6 @@ namespace FoodandBeverage.Forms
                         }
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // Notify the kitchen view to refresh
-                        _hubProxy.Invoke("SendOrderNotification").Wait();
-
                         ClearAll();
                         this.Close();
                     }
@@ -4823,7 +4849,8 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                     dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
                     dmnsalemaster.Tid = tableId;
-                    dmnsalemaster.PayId = payid;
+                    dmnsalemaster.PayId = payid; 
+
                     if (Promomasterid > 0 && Promodetailsid > 0)
                     {
                         dmnsalemaster.PromoMId = Promomasterid;
@@ -4852,11 +4879,28 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.TotalVAT = TotalVAT;
                     dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                     ////dmnsalemaster.mDevice = clsGeneral.FetchMacId();
-
                     var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                     #region details
                     if (InsertStatusP.SalesMasterId != 0)
-                    {      
+                    {
+                        if (payid == 11)
+                        {
+                            DmnPayment dmnpayment = new DmnPayment();
+                            Bllpayment bllpay = new Bllpayment();
+                            for (int i = 0; i < dgv_part.RowCount; i++)
+                            {
+                                dmnpayment.PayId = 0;
+                                dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
+                                dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
+                                dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
+                                dmnpayment.Tid = tableId;
+                                dmnpayment.BranchId = FrmDashboard.BranchId;
+                                dmnpayment.CreatedBy = FrmDashboard.UserId;
+                                dmnpayment.Status = 1;
+                                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                            }
+                        }
                         if (gridSourcemaster.Count > 0)
                         {
                   
@@ -4866,6 +4910,7 @@ namespace FoodandBeverage.Forms
                                 {
                                     dmnsaledetails.SalesRate = Convert.ToDecimal(gridSourcemaster[i].Srate);
                                     dmnsaledetails.ItemBarcode = Convert.ToString(gridSourcemaster[i].ItemBarCode);
+                                    txtsalemasterid.Text= Convert.ToString(InsertStatusP.SalesMasterId);
                                     dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
                                     dmnsaledetails.ItemName = Convert.ToString(gridSourcemaster[i].ItemName);
                                     dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
@@ -4905,15 +4950,18 @@ namespace FoodandBeverage.Forms
                     }
                     if (gridSourcemaster.Count == countflag)
                     {
-                       FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId);
-                        frmSalesInvoice.ShowDialog();
-                        MessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        if (payid != 12)
                         {
-                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.TableStaus(0);
+                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid,0);
+                            frmSalesInvoice.ShowDialog();
+                            CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                            {
+                                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                                _instanceFrmdash.TableStaus(0);
+                            }
+                            ClearAll();
                         }
-                        ClearAll();
                     }
                 }
                 #endregion
@@ -5048,15 +5096,44 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.OTHERS);
                         break;
                     case "Btnpartpayment":
-                        payid = Convert.ToInt32(PaymentType.OTHERS);
+                        payid = Convert.ToInt32(PaymentType.PART);
+
+                        dgv_part.BorderStyle = BorderStyle.None;
+                        dgv_part.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                        dgv_part.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                        dgv_part.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                        dgv_part.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                        dgv_part.BackgroundColor = Color.White;
+
+                        dgv_part.EnableHeadersVisualStyles = false;
+                        dgv_part.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                        dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                        dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                        pnl_partpayment.Location = new Point(this.ClientSize.Width / 2 - pnl_partpayment.Size.Width / 2, this.ClientSize.Height / 2 - pnl_partpayment.Size.Height / 2);
+                        pnl_partpayment.Visible = true;
+                        dgv_part.Rows.Clear();
+                        foreach (Control control in flppart_paymentbutton.Controls)
+                        {
+                            if (control is Button)
+                            {
+                                ((Button)control).Visible = true;
+                                ((Button)control).Enabled = true;
+                            }
+                        }
                         break;
                     case "btn_splitpayment":
-                        payid = Convert.ToInt32(PaymentType.OTHERS);
+                        payid = Convert.ToInt32(PaymentType.SPLIT);
+                        pnl_split.Visible = true;
+                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                        dgv_split.Rows.Clear();
                         break;
+
 
                 }
                 tlp_payment_option.Visible = false;
-                paybillcal(payid);
+                if(clickedButton.Name!= "Btnpartpayment")
+                    paybillcal(payid);
             }
             catch (Exception ex)
             {
@@ -5067,6 +5144,837 @@ namespace FoodandBeverage.Forms
         private void btn_frm_close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btncash_part_Click(object sender, EventArgs e)
+        {   
+            try
+            {
+                dgv_part.Rows.Add();
+                rearrange_slno_part();
+                int rowno = dgv_part.RowCount - 1;
+                Button clickedButton = sender as Button;
+                switch (clickedButton.Name)
+                {                   
+                    case "btndebit_part":
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.DEBITCARD);
+                        dgv_part.Rows[rowno].Cells[2].Value = "DEBITCARD";
+                        clickedButton.Enabled = false;
+                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        break;
+                    case "btnupi_part":
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.UPI);
+                        dgv_part.Rows[rowno].Cells[2].Value = "UPI";
+                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        clickedButton.Enabled = false;
+                        break;
+                    case "btnnetbanking_part":
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.BANKINGONLINE);
+                        dgv_part.Rows[rowno].Cells[2].Value = "BANKINGONLINE";
+                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        clickedButton.Enabled = false;
+                        break;
+                    case "btncreditcard_part":
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.CREDIT);
+                        dgv_part.Rows[rowno].Cells[2].Value = "CREDIT";
+                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        clickedButton.Enabled = false;
+                        break;
+                    case "btnother_part":
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.OTHERS);
+                        dgv_part.Rows[rowno].Cells[2].Value = "OTHERS";
+                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        clickedButton.Enabled = false;
+                        break;
+                }
+                foreach (Control control in flppart_paymentbutton.Controls)
+                {
+                    if (control is Button && control.Name!= clickedButton.Name)
+                    {
+                        ((Button)control).Visible = false;
+
+                    }
+                }
+                dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[1];
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+
+        private void btn_part_close_Click(object sender, EventArgs e)
+        {
+            pnl_partpayment.Visible = false;
+        }
+
+        private void btnclose_part_Click(object sender, EventArgs e)
+        {
+            pnl_partpayment.Visible = false;
+        }
+
+        private void btnconfirm_part_Click(object sender, EventArgs e)
+        {   
+            decimal netAmount = Convert.ToDecimal(txtnetamount.Text);
+            if (Convert.ToDecimal(dgv_part.Rows[0].Cells[1].Value)== 0 || dgv_part.Rows[0].Cells[1].Value == null)
+            {
+                CMessageBox.Show("Please Enter the " + Convert.ToString(dgv_part.Rows[0].Cells[2].Value)+" Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgv_part.Rows[0].Cells[1].Value = 0;
+                dgv_part.CurrentCell = dgv_part.Rows[0].Cells[1];
+                return;
+            }
+            else
+            {
+                pnl_partpayment.Visible = false;
+                paybillcal(Convert.ToInt32(PaymentType.PART));
+            }
+             
+        }
+
+        private void dgv_part_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 3)
+                {
+                    //int btnid = Convert.ToInt32(dgv_part.Rows[dgv_part.CurrentRow.Index].Cells[4].Value);
+                    foreach (Control control in flppart_paymentbutton.Controls)
+                    {
+                        if (control is Button )
+                        {
+                            ((Button)control).Visible = true;
+                            ((Button)control).Enabled = true;
+                        }
+                    }
+                    dgv_part.Rows.Clear();               
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void rearrange_slno_part()
+        {
+            for (int i = 0; i < dgv_part.RowCount; i++)
+            {
+                dgv_part.Rows[i].Cells[0].Value = i + 1;
+            }
+        }
+
+        private void dgv_part_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgv_part.CurrentCell.ColumnIndex == 1)
+            {
+                e.Control.KeyPress -= new KeyPressEventHandler(dgv_part_KeyPress);
+                System.Windows.Forms.TextBox tb = e.Control as System.Windows.Forms.TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(dgv_part_KeyPress);
+                }
+            }
+        }
+        private void dgv_part_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (dgv_part.CurrentCell.ColumnIndex == 1)
+            {
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                {
+                    e.Handled = true;
+                }
+                // only allow one decimal point
+                if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void dgv_part_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyData == Keys.Delete)
+                {
+                    foreach (Control control in flppart_paymentbutton.Controls)
+                    {
+                        if (control is Button)
+                        {
+                            ((Button)control).Visible = true;
+                            ((Button)control).Enabled = true;
+                        }
+                    }
+                    dgv_part.Rows.Clear();
+
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        private void dgv_part_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 3)
+            {
+               e.Value = Properties.Resources.Delete_Grid;
+            }
+        }
+
+        private void dgv_part_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 1 && e.RowIndex == 0)
+                {
+                    decimal netAmount = Convert.ToDecimal(txtnetamount.Text);
+                    decimal cellValue = Convert.ToDecimal(dgv_part.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                    if (cellValue > netAmount)
+                    {
+                        CMessageBox.Show("Entered value cannot be greater than net amount.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dgv_part.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
+                        dgv_part.CurrentCell = dgv_part.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    }
+                    else
+                    {
+                        if (dgv_part.RowCount == 2)
+                        {
+                            dgv_part.Rows[1].Cells[4].Value = Convert.ToInt32(PaymentType.CASH);
+                            dgv_part.Rows[1].Cells[2].Value = "CASH";
+                            dgv_part.Rows[1].Cells[e.ColumnIndex].Value = netAmount - cellValue;
+                            dgv_part.Rows[1].ReadOnly = true;
+                        }
+                        else
+                        {
+                            dgv_part.Rows.Add();
+                            dgv_part.Rows[1].Cells[4].Value = Convert.ToInt32(PaymentType.CASH);
+                            dgv_part.Rows[1].Cells[2].Value = "CASH";
+                            dgv_part.Rows[1].Cells[e.ColumnIndex].Value = netAmount - cellValue;
+                            dgv_part.Rows[1].ReadOnly = true;
+                        }
+                        rearrange_slno_part();
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            
+        }
+
+        private void btn_split_number_Click(object sender, EventArgs e)
+        {          
+            Control controlToRemove = tlp_main_split.GetControlFromPosition(0,4);
+            tlp_main_split.Controls.Remove(controlToRemove);
+            tlp_main_split.Controls.Add(tlp_numberwise, 0,4);
+            tlp_numberwise.Dock = DockStyle.Fill;
+            tlp_numberwise.Visible = true;
+        }
+        public void SetButtonImage(Button button, Image originalImage, int desiredWidth, int desiredHeight)
+        {
+            Image resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
+            button.Image = resizedImage;
+        }
+        private void SetRoundedButton(Button button, int cornerRadius)
+        {
+            using (var path = new GraphicsPath())
+            {
+                Rectangle rect = new Rectangle(0, 0, button.Width, button.Height);
+                path.StartFigure();
+                path.AddArc(rect.Left, rect.Top, cornerRadius, cornerRadius, 180, 90);
+                path.AddArc(rect.Right - cornerRadius, rect.Top, cornerRadius, cornerRadius, 270, 90);
+                path.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
+                path.AddArc(rect.Left, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+                path.CloseFigure();
+                button.Region = new Region(path);
+            }
+        }
+        private void btn_itemwise_Click(object sender, EventArgs e)
+        {
+            pnl_split.Visible = false;
+            pnl_split_itemwise.Visible = true;
+            pnl_split_itemwise.Location = new Point(this.ClientSize.Width / 2 - pnl_split_itemwise.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split_itemwise.Size.Height / 2);
+            pnl_split_itemwise.BringToFront();
+            SetButtonImage(ib_add_categ_itemwise, FoodandBeverage.Properties.Resources.plus, desiredWidth, desiredHeight);
+            SetRoundedButton(ib_add_categ_itemwise, 70);
+            flp_itemwise_products.Controls.Clear();
+            dgv_split.Rows.Clear();
+            CheckedNames.Clear();
+            orderDetailsInfoList.Clear();
+            BillList.Clear();
+            foreach (Control control in flp_itemwise_por_sort.Controls.Cast<Control>().ToList())
+            {
+                if (control != ib_add_categ_itemwise)
+                {
+                    flp_itemwise_por_sort.Controls.Remove(control);
+                    control.Dispose(); // Optionally dispose of the removed control
+                }
+            }
+            foreach (var item in gridSourcemaster)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Name = "chk_pro_"+ item.OrderDetailsId;
+                checkBox.Text = item.ItemName;
+                checkBox.Tag = item.OrderDetailsId;
+                checkBox.AutoSize = true;
+                checkBox.Margin = new Padding(10,10,0,0);
+                checkBox.ForeColor = Color.Black;
+                checkBox.BackColor = Color.Yellow;
+                checkBox.Size = new Size(150, 30);
+                checkBox.Font = new Font("Arial", 14, FontStyle.Bold); 
+                flp_itemwise_products.Controls.Add(checkBox);
+            }
+        }
+
+
+        private void btn_close_split_Click(object sender, EventArgs e)
+        {
+            pnl_split.Visible = false;
+        }
+
+        private void btn_close_split2_Click(object sender, EventArgs e)
+        {
+            pnl_split.Visible = false;
+        }
+
+        private void btn_confirm_split_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+
+        private void btn_con_nosplit_Click(object sender, EventArgs e)
+        {
+            decimal shareamount = Convert.ToDecimal(txtnetamount.Text) / Convert.ToInt32(txtnumber_split.Text);
+            dgv_split.Rows.Clear();
+            dgv_split.Rows.Add(Convert.ToInt32(txtnumber_split.Text));
+            for (int i=0;i< Convert.ToInt32(txtnumber_split.Text);i++)
+            {
+                dgv_split.Rows[i].Cells[0].Value = i + 1; ;
+                dgv_split.Rows[i].Cells[1].Value = shareamount;
+                dgv_split.Rows[i].Cells[6].Value = 1;
+                DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
+                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                cell.Value = Properties.Resources.pay_per_click;
+            }
+        }
+
+        private void dgv_split_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 2 && Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[6].Value) == 1)
+                {
+                   tlp_split_payment_button.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button.Size.Height );
+                    tlp_split_payment_button.Visible = true;
+                   tlp_split_payment_button.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+     
+        public void rearrange_slno_split()
+        {
+            for (int i = 0; i < dgv_part.RowCount; i++)
+            {
+                dgv_split.Rows[i].Cells[0].Value = i + 1;
+            }
+        }
+
+        private void btn_split_cash_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int payid = 0;
+                int rowno = Convert.ToInt32(dgv_split.CurrentCell.RowIndex);
+                Button clickedButton = sender as Button;
+                switch (clickedButton.Name)
+                {
+                    case "btn_split_cash":
+                        payid = Convert.ToInt32(PaymentType.CASH);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.CASH);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "CASH";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+                    case "btn_split_debit":
+                        payid = Convert.ToInt32(PaymentType.DEBITCARD);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.DEBITCARD);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "DEBITCARD";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+                    case "btnupi":
+                        payid = Convert.ToInt32(PaymentType.UPI);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.UPI);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "UPI";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+                    case "btnnetbanking":
+                        payid = Convert.ToInt32(PaymentType.BANKINGONLINE);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.BANKINGONLINE);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "BANKINGONLINE";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+                    case "btncreditcard":
+                        payid = Convert.ToInt32(PaymentType.CREDIT);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.CREDIT);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "CREDIT";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+
+                }
+                tlp_split_payment_button.Visible = false;
+                DmnPayment dmnpayment = new DmnPayment();
+                Bllpayment bllpay = new Bllpayment();
+
+                dmnpayment.PayId = 0;
+                dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
+                dmnpayment.SalemasterId = Convert.ToInt32(txtsalemasterid.Text);
+                dmnpayment.PayType = Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value);
+                dmnpayment.Amount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[1].Value);
+                dmnpayment.Tid = tableId;
+               // dmnpayment.OrderDetailsId = tableId;
+                dmnpayment.BranchId = FrmDashboard.BranchId;
+                dmnpayment.CreatedBy = FrmDashboard.UserId;
+                dmnpayment.Status = 1;
+                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                if(InsertStatus.PayId>0)
+                {
+                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
+                    frmSalesInvoice.ShowDialog();
+                    dgv_split.Rows[rowno].Cells[5].Value = "Print Complete";
+                    dgv_split.Rows[rowno].Cells[6].Value = 2;
+
+                    DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_split.Rows[rowno].Cells[2];
+                    cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    cell1.Value = Properties.Resources.orderview_complete;
+
+                    //for (int i = 0; i < Convert.ToInt32(txtnumber_split.Text); i++)
+                    //{
+                    //    dgv_split.Rows[i].Cells[2].Value = null;
+
+                    //        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
+                    //        if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 1)
+                    //        {
+                    //            cell1.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                    //            cell1.Value = Properties.Resources.pay_per_click;
+                    //        }
+                    //        else
+                    //        {
+                    //            cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    //            cell1.Value = Properties.Resources.orderview_complete;
+                    //        }
+                        
+                    //}
+
+                }
+                //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                //{
+                //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                //    _instanceFrmdash.TableStaus(0);
+                //}
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+        }
+
+        private void btn_split_payclose_Click(object sender, EventArgs e)
+        {
+
+            //for (int i = 0; i < Convert.ToInt32(txtnumber_split.Text); i++)
+            //{              
+            //        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
+            //        dgv_split.Rows[i].Cells[2].Value = null;
+            //        if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 1)
+            //        {
+            //            cell1.ImageLayout = DataGridViewImageCellLayout.Stretch;
+            //            cell1.Value = Properties.Resources.pay_per_click;
+            //        }
+            //        else
+            //        {
+            //            cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            //            cell1.Value = Properties.Resources.orderview_complete;
+            //        }
+                
+            //}
+            tlp_split_payment_button.Visible = false;
+        }
+
+        private void btn_split_itemwiseclose_Click(object sender, EventArgs e)
+        {
+            pnl_split_itemwise.Visible = false;
+           pnl_split.Visible = true;
+        }
+
+        private void btns_itemwise_confirm_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int count = flp_itemwise_products.Controls.OfType<CheckBox>().Count();
+                if (count > 0)
+                {
+                    CMessageBox.Show("Please add products to the bill before Confirm.", "Incomplete Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else
+                {
+                    int j = 0;
+                    decimal amount = 0, tamt = 0,promoamt=0;
+                    dgv_split.Rows.Clear();
+                    BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "*";
+                    dmnSearch.Table = "tblOrderDetails";
+                    dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + Convert.ToInt32(lblorderid.Text) + " and Status IN (3)";
+                    dmnSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    if (gridSource.Count > 0)
+                    {
+                        foreach (Namelist nameInfo in BillList)
+                        {
+                            tamt = 0;
+                            promoamt = 0;
+                            string controlName = nameInfo.Cnames;
+                            Control control = flp_itemwise_por_sort.Controls.Find(controlName, true).OfType<DataGridView>().FirstOrDefault();
+
+                            if (control != null)
+                            {
+                                DataGridView dgv = (DataGridView)control;
+                                foreach (DmnOrderDetails orderDetails in gridSource)
+                                {
+                                    foreach (DataGridViewRow row in dgv.Rows)
+                                    {
+                                        if (row.Cells[2].Value != null && Convert.ToInt32(row.Cells[2].Value) == orderDetails.OrderDetailsId)
+                                        {
+                                             amount = Convert.ToDecimal(orderDetails.NetAmount);
+                                             tamt = tamt + amount;
+                                        }
+                                    }                
+                                }
+                            }
+
+                            dgv_split.Rows.Add();
+                            if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
+                                txtdiscountamt_promo.Text = "0";
+                            decimal discountAmnt = Convert.ToDecimal(txtdis_per.Text.Trim()) * tamt / 100;
+                            if(Convert.ToDecimal(txtdiscountamt_promo.Text)>0)
+                            {
+                                promoamt = Convert.ToDecimal(txtdiscountamt_promo.Text) / Convert.ToInt32(BillList.Count);
+                            }
+                            decimal finalamt = tamt - (discountAmnt + promoamt);
+                            dgv_split.Rows[j].Cells[0].Value = j + 1; ;
+                            dgv_split.Rows[j].Cells[1].Value = finalamt;
+                            dgv_split.Rows[j].Cells[6].Value = 1;
+                            dgv_split.Rows[j].Cells[7].Value = nameInfo.Id;
+                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[j].Cells[2];
+                            cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                            cell.Value = Properties.Resources.pay_per_click;
+                            j = j + 1;
+                        }
+                    }
+                    pnl_split_itemwise.Visible = false;
+                    pnl_split.Visible = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+        }
+
+        private void btn_close_pnlitemwise_Click(object sender, EventArgs e)
+        {
+            pnl_split_itemwise.Visible = false;
+            pnl_split.Visible = true;
+        }
+
+        private void ib_add_categ_itemwise_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //foreach (Control control in flp_itemwise_por_sort.Controls.Cast<Control>().ToList())
+                //{
+                //    if (control != ib_add_categ_itemwise)
+                //    {
+                //        flp_itemwise_por_sort.Controls.Remove(control);
+                //        control.Dispose(); // Optionally dispose of the removed control
+                //    }
+                //}
+                int count = flp_itemwise_por_sort.Controls.OfType<Panel>().Count();
+                if (count == 0)
+                    count = count + 1;
+                else
+                    count = count + 1;
+
+                Panel mainPanel = new Panel();
+                mainPanel.Name = "BILL_pnl" + count;
+                mainPanel.Tag =  count;
+                mainPanel.BackColor = Color.LightGray;
+                mainPanel.Dock = DockStyle.None;
+                mainPanel.Height = 50;
+                mainPanel.Width = 280;
+                mainPanel.Margin = new Padding(10, 10, 0, 0);
+
+                TableLayoutPanel mainTableLayoutPanel = new TableLayoutPanel();
+                mainTableLayoutPanel.Name = "BILL_tlp_box" + count;
+                mainTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
+                mainTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 75));
+                mainTableLayoutPanel.Dock = DockStyle.Fill;
+                mainTableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+
+                TableLayoutPanel downArrowTableLayoutPanel = new TableLayoutPanel();
+                downArrowTableLayoutPanel.Name = "BILL_tlp_navbar" + count;
+                downArrowTableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                downArrowTableLayoutPanel.Dock = DockStyle.Fill;
+                downArrowTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
+                downArrowTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
+                downArrowTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
+
+                Label label = new Label();
+                label.Text = "BILL" + count;
+                label.Tag = count;
+                label.Dock = DockStyle.Fill;
+                label.Click += BILLName_Click;
+                label.Font = new Font(label.Font, FontStyle.Bold);
+                label.TextAlign = ContentAlignment.MiddleCenter;
+                downArrowTableLayoutPanel.Controls.Add(label, 0, 0);
+
+                PictureBox downArrowIcon = new PictureBox();
+                downArrowIcon.Name = "BILL_downarrow" + count;
+                downArrowIcon.Tag = count;
+                downArrowIcon.Image = Properties.Resources.down_arrow;
+                downArrowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                downArrowIcon.Size = new Size(20, 20);
+                downArrowIcon.Dock = DockStyle.Fill;
+                downArrowTableLayoutPanel.Controls.Add(downArrowIcon, 1, 0);
+                downArrowIcon.Click += DownArrowIcon_Click;
+
+                PictureBox close_product_cart = new PictureBox();
+                close_product_cart.Name = "BILLclose" + count;
+                close_product_cart.Tag = count;
+                close_product_cart.Image = Properties.Resources.Delete_Grid;
+                close_product_cart.SizeMode = PictureBoxSizeMode.StretchImage;
+                close_product_cart.Size = new Size(20, 20);
+                close_product_cart.Dock = DockStyle.Fill;
+                downArrowTableLayoutPanel.Controls.Add(close_product_cart, 2, 0);
+                close_product_cart.Click += close_product_cart_Click;
+
+                DataGridView dataGridView = new DataGridView();
+                dataGridView.Name = "BILLdgv" + count;
+
+                BillList.Add(new Namelist
+                {
+                    Id = Convert.ToInt32(count),
+                    Cnames = "BILLdgv" + count
+                });
+
+                dataGridView.Tag = count;
+                dataGridView.AllowUserToDeleteRows = true;
+                dataGridView.AllowUserToAddRows = false;
+
+                dataGridView.BorderStyle = BorderStyle.None;
+                dataGridView.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dataGridView.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dataGridView.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dataGridView.BackgroundColor = Color.White;
+
+                dataGridView.EnableHeadersVisualStyles = false;
+                dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                dataGridView.RowHeadersVisible = false;
+                DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
+                DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
+                DataGridViewTextBoxColumn columnorderdetailsid = new DataGridViewTextBoxColumn();
+                dataGridView.Columns.Add(columnSlno);
+                dataGridView.Columns.Add(columnItemName);
+                dataGridView.Columns.Add(columnorderdetailsid);
+
+                dataGridView.Columns[0].HeaderText = "Slno";
+                dataGridView.Columns[1].HeaderText = "Item Name";
+                dataGridView.Columns[2].HeaderText = "orderdetailsid";
+
+                dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dataGridView.Columns[2].Visible = false;
+                dataGridView.Rows.Add();
+                dataGridView.Visible = false;
+
+                mainTableLayoutPanel.Controls.Add(downArrowTableLayoutPanel, 0, 0);
+                mainTableLayoutPanel.Controls.Add(dataGridView, 0, 1);
+
+                mainPanel.Controls.Add(mainTableLayoutPanel);
+                flp_itemwise_por_sort.Controls.Add(mainPanel);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+        }
+        // Event handler for the PictureBox Click event
+        private void DownArrowIcon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                string dgvname = "BILLdgv" + clickedControl.Tag;
+                string pnlname = "BILL_pnl" + clickedControl.Tag;
+                string BILL_tlp_box_name = "BILL_tlp_box" + clickedControl.Tag;
+                string BILL_tlp_navbar_name = "BILL_tlp_navbar" + clickedControl.Tag;
+                DataGridView dgvcontrol = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
+                Panel pnlcontrol = this.Controls.Find(pnlname, true).FirstOrDefault() as Panel;
+                TableLayoutPanel tlp_control = this.Controls.Find(BILL_tlp_box_name, true).FirstOrDefault() as TableLayoutPanel;
+                TableLayoutPanel BILL_tlp_navbar_control = this.Controls.Find(BILL_tlp_navbar_name, true).FirstOrDefault() as TableLayoutPanel;
+
+                if (dgvcontrol != null)
+                {
+                    if (dgvcontrol.Visible)
+                    {
+                        dgvcontrol.Visible = false;
+                        dgvcontrol.Dock = DockStyle.None;
+                        dgvcontrol.ScrollBars = ScrollBars.None;
+                        BILL_tlp_navbar_control.Dock = DockStyle.Fill;
+                        pnlcontrol.Height = 50;
+                    }
+                    else
+                    {
+                        dgvcontrol.Visible = true;
+                        dgvcontrol.ScrollBars = ScrollBars.Both;
+                        dgvcontrol.Dock = DockStyle.Fill;
+                        pnlcontrol.Height = 150;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+
+        private void BILLName_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CheckedNames.Clear();
+                Control clickedControl = sender as Control;
+                string dgvname = "BILLdgv" + clickedControl.Tag;
+                DataGridView dgvcontrol = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
+                if (dgvcontrol != null)
+                {                  
+                    int i = dgvcontrol.RowCount - 1;
+                    int totalcount = flp_itemwise_products.Controls.Count;
+                    for (int index = 0; index < totalcount; index++)
+                    {
+                        Control control = flp_itemwise_products.Controls[index];
+                        if (control is CheckBox checkBox && checkBox.Checked)
+                        {
+                            dgvcontrol.Rows[i].Cells[0].Value = i + 1;
+                            dgvcontrol.Rows[i].Cells[1].Value = checkBox.Text;
+                            dgvcontrol.Rows[i].Cells[2].Value = Convert.ToInt32(checkBox.Tag);
+                            CheckedNames.Add(new Namelist
+                            {
+                                Id = Convert.ToInt32(checkBox.Tag),
+                                Cnames = "chk_pro_"+ Convert.ToInt32(checkBox.Tag)
+                            });
+
+                            orderDetailsInfoList.Add(new OrderDetailsInfo
+                            {
+                                OrderDetailsId = Convert.ToInt32(checkBox.Tag),
+                                BillNumber =Convert.ToInt32(clickedControl.Tag),                                                                   
+                            });
+
+                            dgvcontrol.Rows.Add();
+                            i = i + 1;
+                        }
+
+                    }
+
+                    foreach (Namelist nameInfo in CheckedNames)
+                    {
+                        string controlNameToRemove = nameInfo.Cnames;
+                        Control controlToRemove = flp_itemwise_products.Controls.Find(controlNameToRemove, true).FirstOrDefault();
+                        if (controlToRemove != null)
+                        {
+                            flp_itemwise_products.Controls.Remove(controlToRemove);
+                        }
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }            
+        }
+        public class Namelist
+        {
+            public int Id { get; set; }
+            public string Cnames { get; set; }
+        }
+        public class OrderDetailsInfo
+        {             
+            public int OrderDetailsId { get; set; }
+            public int BillNumber { get; set; }
+        }       
+
+        private void close_product_cart_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CheckedNames.Clear();
+                Control clickedControl = sender as Control;
+                string pnlname = "BILL_pnl" + clickedControl.Tag;
+                string dgvname = "BILLdgv" + clickedControl.Tag;
+                DataGridView dgvcontrol = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
+                Panel pnlcontrol = this.Controls.Find(pnlname, true).FirstOrDefault() as Panel;
+                if (pnlcontrol != null)
+                {
+                    for(int i=0;i< dgvcontrol.RowCount;i++)
+                    {
+                        if(Convert.ToInt32(dgvcontrol.Rows[i].Cells[2].Value)>0)
+                        {
+                            CheckBox checkBox = new CheckBox();
+                            checkBox.Name = "chk_pro_" + Convert.ToInt32(dgvcontrol.Rows[i].Cells[2].Value);
+                            checkBox.Text = Convert.ToString(dgvcontrol.Rows[i].Cells[1].Value);
+                            checkBox.Tag = Convert.ToInt32(dgvcontrol.Rows[i].Cells[2].Value);
+                            checkBox.AutoSize = true;
+                            checkBox.Margin = new Padding(10, 10, 0, 0);
+                            checkBox.ForeColor = Color.Black;
+                            checkBox.BackColor = Color.Yellow;
+                            checkBox.Size = new Size(150, 30);
+                            checkBox.Font = new Font("Arial", 14, FontStyle.Bold);
+                            flp_itemwise_products.Controls.Add(checkBox);
+                        }
+        
+                    }
+                    flp_itemwise_por_sort.Controls.Remove(pnlcontrol);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

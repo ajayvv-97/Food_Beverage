@@ -252,7 +252,6 @@ namespace FoodandBeverage.Forms
                     {
                         if (IsValidData(e.RowIndex))
                             return;
-
                     }
                 }
             }

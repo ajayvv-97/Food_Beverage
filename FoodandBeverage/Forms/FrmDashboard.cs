@@ -324,7 +324,7 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
             SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
             SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight); 
-            //SetRoundedButton(ib_Category, 70);
+           // SetRoundedButton(ib_Category, 70);
             //SetRoundedButton(ib_Item, 70);
             //SetRoundedButton(ib_ingrediant, 70);
             //SetRoundedButton(ib_menu, 70);
@@ -2299,7 +2299,6 @@ namespace FoodandBeverage.Forms
                         buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
                     }
                 }
-
             }
             else
             {
