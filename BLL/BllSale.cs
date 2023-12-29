@@ -42,7 +42,8 @@ namespace BLL
             parms.Add("PromoMId", objTestClass.PromoMId);
             parms.Add("Promostatus", objTestClass.Promostatus);
             parms.Add("Tid", objTestClass.Tid);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("OrderMasterid", objTestClass.OrderMasterid);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }
 

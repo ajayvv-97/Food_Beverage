@@ -119,8 +119,9 @@ namespace FoodandBeverage.Forms
 
         public List<Namelist> CheckedNames = new List<Namelist>();
         public List<Namelist> BillList = new List<Namelist>();
-        public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>(); 
-
+        public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
+        public int Splitypeno = 0;
+        public int Existingsalemasterid = 0;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -4591,6 +4592,8 @@ namespace FoodandBeverage.Forms
                 ResetFlagvalue = 0;
                 Promodetailsid = 0;
                 Promomasterid = 0;
+                Splitypeno = 0;
+                Existingsalemasterid = 0;
                 int rowToRemove = 0;
                 List<int> columnsToRemove = new List<int> { 1, 2, 3 };
 
@@ -4848,6 +4851,7 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                     dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                     dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
+                    dmnsalemaster.OrderMasterid = Convert.ToInt32(lblorderid.Text);
                     dmnsalemaster.Tid = tableId;
                     dmnsalemaster.PayId = payid; 
 
@@ -5368,7 +5372,8 @@ namespace FoodandBeverage.Forms
         }
 
         private void btn_split_number_Click(object sender, EventArgs e)
-        {          
+        {
+            Splitypeno = 1;
             Control controlToRemove = tlp_main_split.GetControlFromPosition(0,4);
             tlp_main_split.Controls.Remove(controlToRemove);
             tlp_main_split.Controls.Add(tlp_numberwise, 0,4);
@@ -5396,6 +5401,7 @@ namespace FoodandBeverage.Forms
         }
         private void btn_itemwise_Click(object sender, EventArgs e)
         {
+            Splitypeno = 2;
             pnl_split.Visible = false;
             pnl_split_itemwise.Visible = true;
             pnl_split_itemwise.Location = new Point(this.ClientSize.Width / 2 - pnl_split_itemwise.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split_itemwise.Size.Height / 2);
@@ -5415,19 +5421,30 @@ namespace FoodandBeverage.Forms
                     control.Dispose(); // Optionally dispose of the removed control
                 }
             }
-            foreach (var item in gridSourcemaster)
+            BllSearch<DmnGridFields> bllSearchmaster = new BllSearch<DmnGridFields>();
+            DmnSearch dmnSearchmaster = new DmnSearch();
+            dmnSearchmaster.Select = "sd.ItemName Field1,sd.SalesDetailsId Field2,sd.SalesMasterId Field3";
+            dmnSearchmaster.Table = "  tblSalesMaster sm LEFT JOIN tblSalesDetails sd on sd.SalesMasterId= sm.SalesMasterId";
+            dmnSearchmaster.WhereNdGroupBy = "where sm.tid= " + tableId + " and sm.Status=1 and sm.OrderMasterid= "+ Convert.ToInt32(lblorderid.Text);
+            dmnSearchmaster.OrderBy = "";
+            var CheckSource = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
+            if (CheckSource.Count > 0)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Name = "chk_pro_"+ item.OrderDetailsId;
-                checkBox.Text = item.ItemName;
-                checkBox.Tag = item.OrderDetailsId;
-                checkBox.AutoSize = true;
-                checkBox.Margin = new Padding(10,10,0,0);
-                checkBox.ForeColor = Color.Black;
-                checkBox.BackColor = Color.Yellow;
-                checkBox.Size = new Size(150, 30);
-                checkBox.Font = new Font("Arial", 14, FontStyle.Bold); 
-                flp_itemwise_products.Controls.Add(checkBox);
+                Existingsalemasterid =Convert.ToInt32(CheckSource[0].Field3);
+                foreach (var item in CheckSource)
+                {
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Name = "chk_pro_" + item.Field2;
+                    checkBox.Text = item.Field1;
+                    checkBox.Tag = item.Field2;
+                    checkBox.AutoSize = true;
+                    checkBox.Margin = new Padding(10, 10, 0, 0);
+                    checkBox.ForeColor = Color.Black;
+                    checkBox.BackColor = Color.Yellow;
+                    checkBox.Size = new Size(150, 30);
+                    checkBox.Font = new Font("Arial", 14, FontStyle.Bold);
+                    flp_itemwise_products.Controls.Add(checkBox);
+                }
             }
         }
 
@@ -5495,6 +5512,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 int payid = 0;
+                string matchingOrderDetailsIds = "";
                 int rowno = Convert.ToInt32(dgv_split.CurrentCell.RowIndex);
                 Button clickedButton = sender as Button;
                 switch (clickedButton.Name)
@@ -5534,14 +5552,22 @@ namespace FoodandBeverage.Forms
                 tlp_split_payment_button.Visible = false;
                 DmnPayment dmnpayment = new DmnPayment();
                 Bllpayment bllpay = new Bllpayment();
-
                 dmnpayment.PayId = 0;
                 dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
                 dmnpayment.SalemasterId = Convert.ToInt32(txtsalemasterid.Text);
                 dmnpayment.PayType = Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value);
                 dmnpayment.Amount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[1].Value);
                 dmnpayment.Tid = tableId;
-               // dmnpayment.OrderDetailsId = tableId;
+
+                foreach (OrderDetailsInfo orderDetailsInfo in orderDetailsInfoList)
+                { 
+                    if (Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[7].Value) == orderDetailsInfo.BillNumber)
+                    {
+                        matchingOrderDetailsIds += orderDetailsInfo.OrderDetailsId + ",";
+                    }
+                }                
+                dmnpayment.SplitType = Splitypeno;
+                dmnpayment.OrderDetailsId = matchingOrderDetailsIds;
                 dmnpayment.BranchId = FrmDashboard.BranchId;
                 dmnpayment.CreatedBy = FrmDashboard.UserId;
                 dmnpayment.Status = 1;
@@ -5550,6 +5576,7 @@ namespace FoodandBeverage.Forms
                 {
                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
                     frmSalesInvoice.ShowDialog();
+
                     dgv_split.Rows[rowno].Cells[5].Value = "Print Complete";
                     dgv_split.Rows[rowno].Cells[6].Value = 2;
 
@@ -5576,6 +5603,7 @@ namespace FoodandBeverage.Forms
                     //}
 
                 }
+
                 //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 //{
@@ -5633,11 +5661,11 @@ namespace FoodandBeverage.Forms
                     int j = 0;
                     decimal amount = 0, tamt = 0,promoamt=0;
                     dgv_split.Rows.Clear();
-                    BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
+                    BllSearch<DmnSaledetails> bllSearch = new BllSearch<DmnSaledetails>();
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "*";
-                    dmnSearch.Table = "tblOrderDetails";
-                    dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + Convert.ToInt32(lblorderid.Text) + " and Status IN (3)";
+                    dmnSearch.Table = "tblSalesDetails";
+                    dmnSearch.WhereNdGroupBy = "where SalesMasterId = " + Existingsalemasterid + " and Status IN (1)";
                     dmnSearch.OrderBy = "";
                     var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     if (gridSource.Count > 0)
@@ -5652,13 +5680,13 @@ namespace FoodandBeverage.Forms
                             if (control != null)
                             {
                                 DataGridView dgv = (DataGridView)control;
-                                foreach (DmnOrderDetails orderDetails in gridSource)
+                                foreach (DmnSaledetails saleDetails in gridSource)
                                 {
                                     foreach (DataGridViewRow row in dgv.Rows)
                                     {
-                                        if (row.Cells[2].Value != null && Convert.ToInt32(row.Cells[2].Value) == orderDetails.OrderDetailsId)
+                                        if (row.Cells[2].Value != null && Convert.ToInt32(row.Cells[2].Value) == saleDetails.SalesDetailsId)
                                         {
-                                             amount = Convert.ToDecimal(orderDetails.NetAmount);
+                                             amount = Convert.ToDecimal(saleDetails.Amount);
                                              tamt = tamt + amount;
                                         }
                                     }                

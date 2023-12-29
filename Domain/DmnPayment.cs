@@ -21,9 +21,10 @@ namespace Domain
         public int ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
         public string OrderDetailsId { get; set; }
-        
-    }
+        public int SplitType { get; set; }
 
+    }
+    
 
 }
 
