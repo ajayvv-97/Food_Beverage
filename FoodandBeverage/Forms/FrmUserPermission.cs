@@ -217,10 +217,10 @@ namespace FoodandBeverage.Forms
                 {
                     dmnForms.CreatedBy = 1;//FrmDashboard.UserType;
                     dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
-                    if (cmbapptype.Text == "BackOffice")
-                        dmnForms.FormType = 1;
-                    else
-                        dmnForms.FormType = 2;
+                    //if (cmbapptype.Text == "BackOffice")
+                    //    dmnForms.FormType = 1;
+                    //else
+                    //    dmnForms.FormType = 2;
                     for (int i = 0; i < dgvforms.Rows.Count; i++)
                     {
 
@@ -281,7 +281,7 @@ namespace FoodandBeverage.Forms
             
             cmbUsreAccount.SelectedItem = 0;
             txtUserTypeNote.Text = "";
-            cmbapptype.SelectedItem = 0;
+            
             dgvforms.Rows.Clear();
             EmployeeId = 0;
             UserAccountId = 0;
@@ -318,6 +318,17 @@ namespace FoodandBeverage.Forms
         {
             FillCombo();
             FillComboUserType();
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Permission)))
+            {
+                btnSave.Enabled = true;
+
+            }
+            else
+            {
+                btnSave.Enabled = false;
+
+            }
         }
         public void FillComboUserType()
         {
@@ -335,6 +346,12 @@ namespace FoodandBeverage.Forms
 
             
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public void FillForms(int id)
         {
 
@@ -356,18 +373,11 @@ namespace FoodandBeverage.Forms
             BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
             DmnSearch dmnforms = new DmnSearch();
             dmnforms.Select = "f.Id,g.Caption,g.GTypeSubId,[Read],Write,f.UserType,f.Status,Note";
-            if (cmbapptype.Text == "BackOffice")
-            {
+           
                 dmnforms.Table = " tblGeneralOptions g" +
-                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and Formtype=1 and f.UserType=" + id;
+                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and f.UserType=" + id;
                 dmnforms.WhereNdGroupBy = " where g.GTypeId=55 and g.Status=0  ";
-            }
-            else
-            {
-                dmnforms.Table = " tblGeneralOptions g" +
-                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and Formtype=2 and f.UserType=" + id;
-                dmnforms.WhereNdGroupBy = " where g.GTypeId=65 and g.Status=0 ";
-            }
+            
             dmnforms.OrderBy = "order by GTypeSubId";
             var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
             if (gridesource.Count > 0)

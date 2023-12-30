@@ -72,7 +72,7 @@ namespace BLL
             parms.Add("@UserType", objTestClass.UserType);
             parms.Add("@CreatedBy", objTestClass.CreatedBy);
             parms.Add("@Note", objTestClass.Note);
-            parms.Add("@FormType", objTestClass.FormType);
+            
             return objdapperRepository.Add(procedure, parms);
         }
         public bool AddUserType(string procedure, DmnUserAccountType objTestClass)

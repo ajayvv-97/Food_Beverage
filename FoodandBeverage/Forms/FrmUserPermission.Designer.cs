@@ -41,8 +41,6 @@ namespace FoodandBeverage.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.cmbUsreAccount = new System.Windows.Forms.ComboBox();
             this.btnaddusertype = new System.Windows.Forms.Button();
-            this.cmbapptype = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgvforms = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -90,7 +88,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox10
             // 
-           
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox10.Location = new System.Drawing.Point(10, 17);
@@ -146,7 +144,7 @@ namespace FoodandBeverage.Forms
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F);
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(70, 125);
+            this.label3.Location = new System.Drawing.Point(415, 93);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 22);
             this.label3.TabIndex = 280;
@@ -155,7 +153,7 @@ namespace FoodandBeverage.Forms
             // txtUserTypeNote
             // 
             this.txtUserTypeNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUserTypeNote.Location = new System.Drawing.Point(146, 125);
+            this.txtUserTypeNote.Location = new System.Drawing.Point(505, 93);
             this.txtUserTypeNote.Multiline = true;
             this.txtUserTypeNote.Name = "txtUserTypeNote";
             this.txtUserTypeNote.Size = new System.Drawing.Size(199, 76);
@@ -188,7 +186,8 @@ namespace FoodandBeverage.Forms
             // 
             // btnaddusertype
             // 
-            this.btnaddusertype.BackColor = System.Drawing.Color.Transparent;           
+            this.btnaddusertype.BackColor = System.Drawing.Color.Transparent;
+            this.btnaddusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnaddusertype.BackgroundImage")));
             this.btnaddusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnaddusertype.FlatAppearance.BorderSize = 0;
             this.btnaddusertype.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
@@ -202,32 +201,6 @@ namespace FoodandBeverage.Forms
             this.btnaddusertype.TabIndex = 283;
             this.btnaddusertype.UseVisualStyleBackColor = false;
             this.btnaddusertype.Click += new System.EventHandler(this.btnaddusertype_Click);
-            // 
-            // cmbapptype
-            // 
-            this.cmbapptype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbapptype.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbapptype.FormattingEnabled = true;
-            this.cmbapptype.Items.AddRange(new object[] {
-            "BackOffice",
-            "PosScreen"});
-            this.cmbapptype.Location = new System.Drawing.Point(544, 89);
-            this.cmbapptype.Name = "cmbapptype";
-            this.cmbapptype.Size = new System.Drawing.Size(181, 26);
-            this.cmbapptype.TabIndex = 282;
-            this.cmbapptype.SelectionChangeCommitted += new System.EventHandler(this.cmbapptype_SelectionChangeCommitted);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F);
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(428, 94);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(110, 22);
-            this.label5.TabIndex = 281;
-            this.label5.Text = "AppType  :";
             // 
             // panel1
             // 
@@ -310,10 +283,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(820, 33);
             this.tableLayoutPanel1.TabIndex = 224;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
+            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -330,6 +305,7 @@ namespace FoodandBeverage.Forms
             // 
             this.btnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
+            this.btnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRefresh.BackgroundImage")));
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnRefresh.FlatAppearance.BorderSize = 0;
             this.btnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -345,6 +321,7 @@ namespace FoodandBeverage.Forms
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Transparent;
+            this.btnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnClose.BackgroundImage")));
             this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnClose.FlatAppearance.BorderSize = 0;
             this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -378,6 +355,7 @@ namespace FoodandBeverage.Forms
             // btnusertype
             // 
             this.btnusertype.BackColor = System.Drawing.Color.Transparent;
+            this.btnusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnusertype.BackgroundImage")));
             this.btnusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnusertype.Enabled = false;
             this.btnusertype.FlatAppearance.BorderSize = 0;
@@ -406,7 +384,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox1
             // 
-
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Location = new System.Drawing.Point(18, 7);
             this.pictureBox1.Name = "pictureBox1";
@@ -509,8 +487,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnaddusertype);
-            this.Controls.Add(this.cmbapptype);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtUserTypeNote);
             this.Controls.Add(this.label2);
@@ -548,8 +524,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbUsreAccount;
         private System.Windows.Forms.Button btnaddusertype;
-        private System.Windows.Forms.ComboBox cmbapptype;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dgvforms;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;

@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using static FoodandBeverage.Interfaces.Interfaces;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Classes
 {

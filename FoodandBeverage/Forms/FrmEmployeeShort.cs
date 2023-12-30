@@ -11,8 +11,8 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
-using static FoodandBeverage.Interfaces.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -46,41 +46,18 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsGeneral = new ClsGeneral();
 
         public int VideoCaptureDevice_NewFrame { get; private set; }
-        public object FilterCategory { get; private set; }
+      
 
         public FrmEmployeeShort()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnMin_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void guna2GradientTileButton1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+       
 
         private void mbtnClose_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void guna2Button2_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
-        }
-
-        private void guna2Button3_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
         }
 
         private void txtempcode_KeyDown(object sender, KeyEventArgs e)
@@ -925,10 +902,10 @@ namespace FoodandBeverage.Forms
                             {
                                 dmnForms.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                                 dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
-                                if (cmbapptype.Text == "BackOffice")
-                                    dmnForms.FormType = 1;
-                                else
-                                    dmnForms.FormType = 2;
+                                //if (cmbapptype.Text == "BackOffice")
+                                //    dmnForms.FormType = 1;
+                                //else
+                                //    dmnForms.FormType = 2;
                                 for (int i = 0; i < dgvforms.Rows.Count; i++)
                                 {
 
@@ -1066,7 +1043,7 @@ namespace FoodandBeverage.Forms
             txtICardNo1.Text = "";
             txtnote.Text = "";
             pbCust.BackgroundImage = null;
-            cmbapptype.SelectedIndex = 0;
+            //cmbapptype.SelectedIndex = 0;
             //pbCust.Image = Game.Properties.Resources.webcam;
             pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
             fillcmbcame();
@@ -1287,7 +1264,7 @@ namespace FoodandBeverage.Forms
                             bool flag = false;
                             foreach (DataGridViewRow row in dgvforms.Rows)
                             {
-                                if (Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1 || Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1)
+                                if (Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1 || Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iwrite].Value) == 1)
                                 {
                                     flag = true;
                                     break;
@@ -1297,12 +1274,12 @@ namespace FoodandBeverage.Forms
                             }
                             if (flag == true && MandatoryCheck())
                             {
-                                dmnForms.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
+                                dmnForms.CreatedBy = 1;
                                 dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
-                                if (cmbapptype.Text == "BackOffice")
-                                    dmnForms.FormType = 1;
-                                else
-                                    dmnForms.FormType = 2;
+                                //if (cmbapptype.Text == "BackOffice")
+                                //    dmnForms.FormType = 1;
+                                //else
+                                //    dmnForms.FormType = 2;
                                 for (int i = 0; i < dgvforms.Rows.Count; i++)
                                 {
 
@@ -1682,35 +1659,34 @@ namespace FoodandBeverage.Forms
         private void FrmEmployeeShort_Load(object sender, EventArgs e)
         {
             LocationFill();
-            FrmDashboard frmDash = new FrmDashboard();
+           
             BranchId = 1030;
-            //if (frmDash.Allaccess == 1)
-            //{
-            //    pnl_branch.Visible = true;
-            //}
-            //else
-            //    pnl_branch.Visible = false;
 
-            //if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Employee)))
-            //{
-            //    btnSave.Enabled = true;
-            //}
-            //else
-            //{
-            //    btnSave.Enabled = false;
-            //}
-            //if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Role_Registartion)))
-            //{
-                btnSave.Enabled = true;
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Employee)))
+            {
+                mbtnSave.Enabled = true;
+               
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
+                
+
+            }
+
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Permission)))
+            {
+                mbtnSave.Enabled = true;
                 btnusertype.Enabled = true;
-                BranchId=1030;
-            //}
-            //else
-            //{
-            //    btnSave.Enabled = false;
-            //    btnusertype.Enabled = false;
-            //    BranchId = 1030;
-            //}
+                BranchId = 1030;
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
+                btnusertype.Enabled = false;
+                BranchId = 1030;
+            }
             clear();
             txtEmpName.Focus();
 
@@ -1901,10 +1877,10 @@ namespace FoodandBeverage.Forms
                             {
                                 dmnForms.CreatedBy = 1;
                                 dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
-                                if (cmbapptype.Text == "BackOffice")
-                                    dmnForms.FormType = 1;
-                                else
-                                    dmnForms.FormType = 2;
+                                //if (cmbapptype.Text == "BackOffice")
+                                //    dmnForms.FormType = 1;
+                                //else
+                                //    dmnForms.FormType = 2;
                                 for (int i = 0; i < dgvforms.Rows.Count; i++)
                                 {
 
@@ -2271,37 +2247,27 @@ namespace FoodandBeverage.Forms
 
         public void FillForms(int id)
         {
-
             dgvforms.Rows.Clear();
             headerCheckBoxwrite.Checked = false;
             headerCheckBoxread.Checked = false;
             int x = dgvforms.Width;
-            headerCheckBoxwrite.Location = new Point(x - 420, 10);
+            headerCheckBoxwrite.Location = new Point(x - 350, 10);
             headerCheckBoxwrite.BackColor = Color.White;
             headerCheckBoxwrite.Size = new Size(18, 18);
             headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
             dgvforms.Controls.Add(headerCheckBoxwrite);
-            headerCheckBoxread.Location = new Point(x - 140, 10);
+            headerCheckBoxread.Location = new Point(x - 110, 10);
             headerCheckBoxread.BackColor = Color.White;
             headerCheckBoxread.Size = new Size(18, 18);
             headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
             dgvforms.Controls.Add(headerCheckBoxread);
-            //dgvforms.Rows[].
             BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
             DmnSearch dmnforms = new DmnSearch();
             dmnforms.Select = "f.Id,g.Caption,g.GTypeSubId,[Read],Write,f.UserType,f.Status,Note";
-            if (cmbapptype.Text == "BackOffice")
-            {
+           
                 dmnforms.Table = " tblGeneralOptions g" +
-                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and Formtype=1 and f.UserType=" + id;
-                dmnforms.WhereNdGroupBy = " where g.GTypeId=55 and g.Status=0  ";
-            }
-            else
-            {
-                dmnforms.Table = " tblGeneralOptions g" +
-                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and Formtype=2 and f.UserType=" + id;
-                dmnforms.WhereNdGroupBy = " where g.GTypeId=65 and g.Status=0 ";
-            }
+                " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and f.UserType=" + id;
+                dmnforms.WhereNdGroupBy = " where g.GTypeId=55 and g.Status=0";
             dmnforms.OrderBy = "order by GTypeSubId";
             var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
             if (gridesource.Count > 0)

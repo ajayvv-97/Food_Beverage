@@ -280,6 +280,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // mbtnClose
             // 
+            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
             this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnClose.FlatAppearance.BorderSize = 0;
             this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -294,6 +295,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // mbtnRefresh
             // 
+            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -308,6 +310,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // mbtnList
             // 
+            this.mbtnList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnList.BackgroundImage")));
             this.mbtnList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnList.FlatAppearance.BorderSize = 0;
             this.mbtnList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -322,6 +325,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // mbtnSave
             // 
+            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
             this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnSave.FlatAppearance.BorderSize = 0;
             this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -353,6 +357,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // pictureBox10
             // 
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox10.Location = new System.Drawing.Point(8, 3);
             this.pictureBox10.Name = "pictureBox10";

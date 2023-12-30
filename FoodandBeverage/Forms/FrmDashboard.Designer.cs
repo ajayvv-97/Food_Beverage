@@ -429,7 +429,7 @@ namespace FoodandBeverage.Forms
             this.flp_operations.Location = new System.Drawing.Point(-6, 0);
             this.flp_operations.Name = "flp_operations";
             this.flp_operations.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.flp_operations.Size = new System.Drawing.Size(867, 687);
+            this.flp_operations.Size = new System.Drawing.Size(870, 687);
             this.flp_operations.TabIndex = 9;
             this.flp_operations.Visible = false;
             // 
@@ -455,6 +455,7 @@ namespace FoodandBeverage.Forms
             this.ib_orderview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_orderview, "Tax Registartion");
             this.ib_orderview.UseVisualStyleBackColor = false;
+            this.ib_orderview.Visible = false;
             this.ib_orderview.Click += new System.EventHandler(this.ib_orderview_Click);
             this.ib_orderview.MouseLeave += new System.EventHandler(this.ib_orderview_MouseLeave);
             this.ib_orderview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -481,6 +482,7 @@ namespace FoodandBeverage.Forms
             this.ib_kitchenview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_kitchenview, "Tax Registartion");
             this.ib_kitchenview.UseVisualStyleBackColor = false;
+            this.ib_kitchenview.Visible = false;
             this.ib_kitchenview.Click += new System.EventHandler(this.ib_kitchenview_Click);
             this.ib_kitchenview.MouseLeave += new System.EventHandler(this.ib_kitchenview_MouseLeave);
             this.ib_kitchenview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -507,6 +509,7 @@ namespace FoodandBeverage.Forms
             this.ib_Category.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_Category, "Category Registartion");
             this.ib_Category.UseVisualStyleBackColor = false;
+            this.ib_Category.Visible = false;
             this.ib_Category.Click += new System.EventHandler(this.ib_Category_Click);
             this.ib_Category.MouseLeave += new System.EventHandler(this.ib_Category_MouseLeave);
             this.ib_Category.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -533,6 +536,7 @@ namespace FoodandBeverage.Forms
             this.ib_Item.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_Item, "Item Registartion");
             this.ib_Item.UseVisualStyleBackColor = false;
+            this.ib_Item.Visible = false;
             this.ib_Item.Click += new System.EventHandler(this.ib_Item_Click);
             this.ib_Item.MouseLeave += new System.EventHandler(this.ib_Item_MouseLeave);
             this.ib_Item.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -559,6 +563,7 @@ namespace FoodandBeverage.Forms
             this.ib_ingrediant.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_ingrediant, "Product Registartion");
             this.ib_ingrediant.UseVisualStyleBackColor = false;
+            this.ib_ingrediant.Visible = false;
             this.ib_ingrediant.Click += new System.EventHandler(this.ib_ingrediant_Click);
             this.ib_ingrediant.MouseLeave += new System.EventHandler(this.ib_ingrediant_MouseLeave);
             this.ib_ingrediant.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -585,6 +590,7 @@ namespace FoodandBeverage.Forms
             this.ib_menu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_menu, "Menu Registartion");
             this.ib_menu.UseVisualStyleBackColor = false;
+            this.ib_menu.Visible = false;
             this.ib_menu.Click += new System.EventHandler(this.ib_menu_Click);
             this.ib_menu.MouseLeave += new System.EventHandler(this.ib_menu_MouseLeave);
             this.ib_menu.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -611,6 +617,7 @@ namespace FoodandBeverage.Forms
             this.ib_unit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_unit, "Unit Registartion");
             this.ib_unit.UseVisualStyleBackColor = false;
+            this.ib_unit.Visible = false;
             this.ib_unit.Click += new System.EventHandler(this.ib_unit_Click);
             this.ib_unit.MouseLeave += new System.EventHandler(this.ib_unit_MouseLeave);
             this.ib_unit.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -637,6 +644,7 @@ namespace FoodandBeverage.Forms
             this.ib_table.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_table, "Table Registartion");
             this.ib_table.UseVisualStyleBackColor = false;
+            this.ib_table.Visible = false;
             this.ib_table.Click += new System.EventHandler(this.ib_table_Click);
             this.ib_table.MouseLeave += new System.EventHandler(this.ib_table_MouseLeave);
             this.ib_table.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -663,6 +671,7 @@ namespace FoodandBeverage.Forms
             this.ib_purchase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_purchase, "Purchase Registartion");
             this.ib_purchase.UseVisualStyleBackColor = false;
+            this.ib_purchase.Visible = false;
             this.ib_purchase.Click += new System.EventHandler(this.ib_purchase_Click);
             this.ib_purchase.MouseLeave += new System.EventHandler(this.ib_purchase_MouseLeave);
             this.ib_purchase.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -689,6 +698,7 @@ namespace FoodandBeverage.Forms
             this.ib_purchasereturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_purchasereturn, "Purchase Return Registartion");
             this.ib_purchasereturn.UseVisualStyleBackColor = false;
+            this.ib_purchasereturn.Visible = false;
             this.ib_purchasereturn.Click += new System.EventHandler(this.ib_purchasereturn_Click);
             this.ib_purchasereturn.MouseLeave += new System.EventHandler(this.ib_purchasereturn_MouseLeave);
             this.ib_purchasereturn.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -715,6 +725,7 @@ namespace FoodandBeverage.Forms
             this.ib_tax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_tax, "Tax Registartion");
             this.ib_tax.UseVisualStyleBackColor = false;
+            this.ib_tax.Visible = false;
             this.ib_tax.Click += new System.EventHandler(this.ib_tax_Click);
             this.ib_tax.MouseLeave += new System.EventHandler(this.ib_tax_MouseLeave);
             this.ib_tax.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -741,6 +752,7 @@ namespace FoodandBeverage.Forms
             this.ib_vendor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_vendor, "Tax Registartion");
             this.ib_vendor.UseVisualStyleBackColor = false;
+            this.ib_vendor.Visible = false;
             this.ib_vendor.Click += new System.EventHandler(this.ib_vendor_Click);
             this.ib_vendor.MouseLeave += new System.EventHandler(this.ib_vendor_MouseLeave);
             this.ib_vendor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -845,6 +857,7 @@ namespace FoodandBeverage.Forms
             this.ib_Company.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_Company, "Table Registartion");
             this.ib_Company.UseVisualStyleBackColor = false;
+            this.ib_Company.Visible = false;
             this.ib_Company.Click += new System.EventHandler(this.ib_Company_Click);
             this.ib_Company.MouseLeave += new System.EventHandler(this.ib_Company_MouseLeave);
             this.ib_Company.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -871,6 +884,7 @@ namespace FoodandBeverage.Forms
             this.ib_reservation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip1.SetToolTip(this.ib_reservation, "Reservation Registartion");
             this.ib_reservation.UseVisualStyleBackColor = false;
+            this.ib_reservation.Visible = false;
             this.ib_reservation.Click += new System.EventHandler(this.ib_reservation_Click);
             this.ib_reservation.MouseLeave += new System.EventHandler(this.ib_reservation_MouseLeave);
             this.ib_reservation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
@@ -881,7 +895,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 203F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -914,7 +928,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(81, 3);
+            this.btn_avial.Location = new System.Drawing.Point(80, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -928,7 +942,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(238, 3);
+            this.btn_rev.Location = new System.Drawing.Point(235, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -942,7 +956,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(164, 3);
+            this.btn_running.Location = new System.Drawing.Point(162, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -1382,7 +1396,6 @@ namespace FoodandBeverage.Forms
             this.tlp_reg_payment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_reg_payment.Controls.Add(this.tlp_serach_main, 0, 0);
             this.tlp_reg_payment.Controls.Add(this.tlp_payment, 1, 0);
-            this.tlp_reg_payment.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_reg_payment.Location = new System.Drawing.Point(3, 32);
             this.tlp_reg_payment.Name = "tlp_reg_payment";
             this.tlp_reg_payment.RowCount = 1;
@@ -1419,7 +1432,7 @@ namespace FoodandBeverage.Forms
             this.tlp_serachproduct_controls.Controls.Add(this.txtname_search, 0, 0);
             this.tlp_serachproduct_controls.Controls.Add(this.txtitemcode_serach, 1, 0);
             this.tlp_serachproduct_controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_serachproduct_controls.Location = new System.Drawing.Point(208, 3);
+            this.tlp_serachproduct_controls.Location = new System.Drawing.Point(281, 3);
             this.tlp_serachproduct_controls.Name = "tlp_serachproduct_controls";
             this.tlp_serachproduct_controls.RowCount = 1;
             this.tlp_serachproduct_controls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1458,16 +1471,15 @@ namespace FoodandBeverage.Forms
             // 
             // pnlsidebar_searchproduct
             // 
-            this.pnlsidebar_searchproduct.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlsidebar_searchproduct.Location = new System.Drawing.Point(3, 45);
             this.pnlsidebar_searchproduct.Name = "pnlsidebar_searchproduct";
-            this.pnlsidebar_searchproduct.Size = new System.Drawing.Size(153, 310);
+            this.pnlsidebar_searchproduct.Size = new System.Drawing.Size(226, 310);
             this.pnlsidebar_searchproduct.TabIndex = 0;
             // 
             // pnl_serachproduct_dashboard
             // 
             this.pnl_serachproduct_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_serachproduct_dashboard.Location = new System.Drawing.Point(208, 45);
+            this.pnl_serachproduct_dashboard.Location = new System.Drawing.Point(281, 45);
             this.pnl_serachproduct_dashboard.Name = "pnl_serachproduct_dashboard";
             this.pnl_serachproduct_dashboard.Size = new System.Drawing.Size(344, 310);
             this.pnl_serachproduct_dashboard.TabIndex = 1;
@@ -1477,7 +1489,7 @@ namespace FoodandBeverage.Forms
             this.pnl_toggle_btn.BackColor = System.Drawing.Color.White;
             this.pnl_toggle_btn.Controls.Add(this.btn_sidebar_toggle);
             this.pnl_toggle_btn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_toggle_btn.Location = new System.Drawing.Point(162, 45);
+            this.pnl_toggle_btn.Location = new System.Drawing.Point(235, 45);
             this.pnl_toggle_btn.Name = "pnl_toggle_btn";
             this.pnl_toggle_btn.Size = new System.Drawing.Size(40, 310);
             this.pnl_toggle_btn.TabIndex = 3;
@@ -1503,7 +1515,7 @@ namespace FoodandBeverage.Forms
             this.lblcategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblcategory.Location = new System.Drawing.Point(3, 0);
             this.lblcategory.Name = "lblcategory";
-            this.lblcategory.Size = new System.Drawing.Size(153, 42);
+            this.lblcategory.Size = new System.Drawing.Size(226, 42);
             this.lblcategory.TabIndex = 4;
             this.lblcategory.Text = "Food Category";
             this.lblcategory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
