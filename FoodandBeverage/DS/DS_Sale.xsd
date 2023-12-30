@@ -52,6 +52,8 @@
               <xs:element name="OaAmount" msprop:Generator_ColumnVarNameInTable="columnOaAmount" msprop:Generator_ColumnPropNameInRow="OaAmount" msprop:Generator_ColumnPropNameInTable="OaAmountColumn" msprop:Generator_UserColumnName="OaAmount" type="xs:decimal" minOccurs="0" />
               <xs:element name="OdAmount" msprop:Generator_ColumnVarNameInTable="columnOdAmount" msprop:Generator_ColumnPropNameInRow="OdAmount" msprop:Generator_ColumnPropNameInTable="OdAmountColumn" msprop:Generator_UserColumnName="OdAmount" type="xs:decimal" minOccurs="0" />
               <xs:element name="DiscountAmount" msprop:Generator_ColumnVarNameInTable="columnDiscountAmount" msprop:Generator_ColumnPropNameInRow="DiscountAmount" msprop:Generator_ColumnPropNameInTable="DiscountAmountColumn" msprop:Generator_UserColumnName="DiscountAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PromoDId" msprop:Generator_ColumnVarNameInTable="columnPromoDId" msprop:Generator_ColumnPropNameInRow="PromoDId" msprop:Generator_ColumnPropNameInTable="PromoDIdColumn" msprop:Generator_UserColumnName="PromoDId" type="xs:int" minOccurs="0" />
+              <xs:element name="PromoAmount" msprop:Generator_ColumnVarNameInTable="columnPromoAmount" msprop:Generator_ColumnPropNameInRow="PromoAmount" msprop:Generator_ColumnPropNameInTable="PromoAmountColumn" msprop:Generator_UserColumnName="PromoAmount" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -133,6 +133,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap billcomplete_GIF {
+            get {
+                object obj = ResourceManager.GetObject("billcomplete_GIF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BillType {
             get {
                 object obj = ResourceManager.GetObject("BillType", resourceCulture);

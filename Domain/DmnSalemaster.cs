@@ -90,7 +90,7 @@ namespace Domain
         public int Promostatus { get; set; }
         public int Tid { get; set; }
         public int OrderMasterid { get; set; }
-
+        public decimal PromoAmount  { get; set; }
 
 
     }

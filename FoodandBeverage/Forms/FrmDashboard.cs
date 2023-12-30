@@ -561,10 +561,23 @@ namespace FoodandBeverage.Forms
 
                             if (gridSource[i].OrderStatus == 1)
                             {
+
+                                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                                dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
+                                dmnSearch.Table = "tblOrderDetails";
+                                dmnSearch.WhereNdGroupBy = " WHERE OrderMasterId = " + gridSource[i].OrderMasterId;
+                                dmnSearch.OrderBy = "";
+                                var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);                        
+
                                 PictureBox dynamic_pic = new PictureBox();
                                 dynamic_pic.Name = "pb" + gridSource[i].TableCode;
                                 dynamic_pic.Tag = gridSource[i].Tid;
-                                dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+
+                                if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                else
+                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
+
                                 dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
                                 dynamic_pic.BackColor = Color.Transparent;
                                 dynamic_pic.Width = 50;

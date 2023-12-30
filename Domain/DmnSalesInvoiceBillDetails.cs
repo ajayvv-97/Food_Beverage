@@ -23,5 +23,6 @@ namespace Domain
         public decimal TotalTax { get; set; }
         public decimal TotalCGST { get; set; }
         public decimal TotalSGST { get; set; }
+
     }
 }

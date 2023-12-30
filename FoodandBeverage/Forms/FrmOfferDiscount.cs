@@ -788,7 +788,7 @@ namespace FoodandBeverage.Forms
                                 DateTime toDateTime = itemSource[0].EndDate;
 
                                 dtp_from_date.MinDate = fromDateTime.Date;
-                                dtp_to_date.Value = toDateTime.Date;
+                                dtp_to_date.MinDate = toDateTime.Date;
 
                                 // Set the "from" date and time
                                 dtp_from_date.Value = fromDateTime.Date;
