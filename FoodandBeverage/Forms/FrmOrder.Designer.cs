@@ -309,6 +309,14 @@ namespace FoodandBeverage.Forms
             this.btn_close_split2 = new System.Windows.Forms.Button();
             this.btn_confirm_split = new System.Windows.Forms.Button();
             this.dgv_split = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitAction = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn35 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn36 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sbillno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_numberwise = new System.Windows.Forms.TableLayoutPanel();
             this.label27 = new System.Windows.Forms.Label();
             this.txtnumber_split = new System.Windows.Forms.TextBox();
@@ -331,14 +339,6 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_split_payclose = new System.Windows.Forms.Button();
             this.pnl_split_itemwise = new System.Windows.Forms.Panel();
-            this.dataGridViewTextBoxColumn33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitAction = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewTextBoxColumn35 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn36 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.completestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sbillno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -1974,7 +1974,7 @@ namespace FoodandBeverage.Forms
             this.tlp_promo_code.Controls.Add(this.btn_save_promo, 2, 0);
             this.tlp_promo_code.Controls.Add(this.txtdiscountamt_promo, 1, 1);
             this.tlp_promo_code.Controls.Add(this.txtdisamt_promo, 1, 2);
-            this.tlp_promo_code.Location = new System.Drawing.Point(0, 0);
+            this.tlp_promo_code.Location = new System.Drawing.Point(0, 7);
             this.tlp_promo_code.Name = "tlp_promo_code";
             this.tlp_promo_code.RowCount = 3;
             this.tlp_promo_code.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -3226,6 +3226,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_main_split
             // 
+            this.tlp_main_split.BackColor = System.Drawing.Color.White;
             this.tlp_main_split.ColumnCount = 1;
             this.tlp_main_split.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main_split.Controls.Add(this.flp_split_options, 0, 3);
@@ -3259,7 +3260,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_split_number
             // 
-            this.btn_split_number.BackColor = System.Drawing.Color.Transparent;
+            this.btn_split_number.BackColor = System.Drawing.Color.DimGray;
             this.btn_split_number.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_split_number.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btn_split_number.FlatAppearance.BorderSize = 0;
@@ -3276,7 +3277,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_itemwise
             // 
-            this.btn_itemwise.BackColor = System.Drawing.Color.Transparent;
+            this.btn_itemwise.BackColor = System.Drawing.Color.DimGray;
             this.btn_itemwise.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_itemwise.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btn_itemwise.FlatAppearance.BorderSize = 0;
@@ -3497,12 +3498,77 @@ namespace FoodandBeverage.Forms
             this.dgv_split.TabIndex = 278;
             this.dgv_split.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_split_CellContentClick);
             // 
+            // dataGridViewTextBoxColumn33
+            // 
+            this.dataGridViewTextBoxColumn33.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn33.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
+            this.dataGridViewTextBoxColumn33.ReadOnly = true;
+            this.dataGridViewTextBoxColumn33.Width = 70;
+            // 
+            // dataGridViewTextBoxColumn34
+            // 
+            this.dataGridViewTextBoxColumn34.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle49.NullValue = "0";
+            this.dataGridViewTextBoxColumn34.DefaultCellStyle = dataGridViewCellStyle49;
+            this.dataGridViewTextBoxColumn34.HeaderText = "Amount";
+            this.dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
+            this.dataGridViewTextBoxColumn34.ReadOnly = true;
+            // 
+            // splitAction
+            // 
+            this.splitAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle50.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle50.NullValue")));
+            dataGridViewCellStyle50.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.splitAction.DefaultCellStyle = dataGridViewCellStyle50;
+            this.splitAction.HeaderText = "Action";
+            this.splitAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.splitAction.Name = "splitAction";
+            this.splitAction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.splitAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.splitAction.Width = 85;
+            // 
+            // dataGridViewTextBoxColumn35
+            // 
+            this.dataGridViewTextBoxColumn35.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn35.HeaderText = "Payment Type";
+            this.dataGridViewTextBoxColumn35.Name = "dataGridViewTextBoxColumn35";
+            this.dataGridViewTextBoxColumn35.ReadOnly = true;
+            this.dataGridViewTextBoxColumn35.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn35.ToolTipText = "Pay Type";
+            // 
+            // dataGridViewTextBoxColumn36
+            // 
+            this.dataGridViewTextBoxColumn36.HeaderText = "payid";
+            this.dataGridViewTextBoxColumn36.Name = "dataGridViewTextBoxColumn36";
+            this.dataGridViewTextBoxColumn36.Visible = false;
+            // 
+            // splitStatus
+            // 
+            this.splitStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.splitStatus.HeaderText = "Status";
+            this.splitStatus.Name = "splitStatus";
+            this.splitStatus.ReadOnly = true;
+            // 
+            // completestatus
+            // 
+            this.completestatus.HeaderText = "completestatus";
+            this.completestatus.Name = "completestatus";
+            this.completestatus.Visible = false;
+            // 
+            // sbillno
+            // 
+            this.sbillno.HeaderText = "BILLNO";
+            this.sbillno.Name = "sbillno";
+            this.sbillno.Visible = false;
+            // 
             // tlp_numberwise
             // 
             this.tlp_numberwise.ColumnCount = 3;
             this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.63107F));
             this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.36893F));
-            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
             this.tlp_numberwise.Controls.Add(this.label27, 0, 0);
             this.tlp_numberwise.Controls.Add(this.txtnumber_split, 1, 0);
             this.tlp_numberwise.Controls.Add(this.btn_con_nosplit, 2, 0);
@@ -3532,16 +3598,16 @@ namespace FoodandBeverage.Forms
             this.txtnumber_split.Location = new System.Drawing.Point(157, 3);
             this.txtnumber_split.Multiline = true;
             this.txtnumber_split.Name = "txtnumber_split";
-            this.txtnumber_split.Size = new System.Drawing.Size(178, 45);
+            this.txtnumber_split.Size = new System.Drawing.Size(177, 45);
             this.txtnumber_split.TabIndex = 1;
             // 
             // btn_con_nosplit
             // 
             this.btn_con_nosplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_con_nosplit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_con_nosplit.Location = new System.Drawing.Point(341, 3);
+            this.btn_con_nosplit.Location = new System.Drawing.Point(340, 3);
             this.btn_con_nosplit.Name = "btn_con_nosplit";
-            this.btn_con_nosplit.Size = new System.Drawing.Size(105, 45);
+            this.btn_con_nosplit.Size = new System.Drawing.Size(106, 45);
             this.btn_con_nosplit.TabIndex = 2;
             this.btn_con_nosplit.Text = "Confirm";
             this.btn_con_nosplit.UseVisualStyleBackColor = true;
@@ -3824,71 +3890,6 @@ namespace FoodandBeverage.Forms
             this.pnl_split_itemwise.Size = new System.Drawing.Size(926, 517);
             this.pnl_split_itemwise.TabIndex = 0;
             this.pnl_split_itemwise.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn33
-            // 
-            this.dataGridViewTextBoxColumn33.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn33.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
-            this.dataGridViewTextBoxColumn33.ReadOnly = true;
-            this.dataGridViewTextBoxColumn33.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn34
-            // 
-            this.dataGridViewTextBoxColumn34.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle49.NullValue = "0";
-            this.dataGridViewTextBoxColumn34.DefaultCellStyle = dataGridViewCellStyle49;
-            this.dataGridViewTextBoxColumn34.HeaderText = "Amount";
-            this.dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
-            this.dataGridViewTextBoxColumn34.ReadOnly = true;
-            // 
-            // splitAction
-            // 
-            this.splitAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle50.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle50.NullValue")));
-            dataGridViewCellStyle50.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.splitAction.DefaultCellStyle = dataGridViewCellStyle50;
-            this.splitAction.HeaderText = "Action";
-            this.splitAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.splitAction.Name = "splitAction";
-            this.splitAction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.splitAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.splitAction.Width = 85;
-            // 
-            // dataGridViewTextBoxColumn35
-            // 
-            this.dataGridViewTextBoxColumn35.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn35.HeaderText = "Payment Type";
-            this.dataGridViewTextBoxColumn35.Name = "dataGridViewTextBoxColumn35";
-            this.dataGridViewTextBoxColumn35.ReadOnly = true;
-            this.dataGridViewTextBoxColumn35.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn35.ToolTipText = "Pay Type";
-            // 
-            // dataGridViewTextBoxColumn36
-            // 
-            this.dataGridViewTextBoxColumn36.HeaderText = "payid";
-            this.dataGridViewTextBoxColumn36.Name = "dataGridViewTextBoxColumn36";
-            this.dataGridViewTextBoxColumn36.Visible = false;
-            // 
-            // splitStatus
-            // 
-            this.splitStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.splitStatus.HeaderText = "Status";
-            this.splitStatus.Name = "splitStatus";
-            this.splitStatus.ReadOnly = true;
-            // 
-            // completestatus
-            // 
-            this.completestatus.HeaderText = "completestatus";
-            this.completestatus.Name = "completestatus";
-            this.completestatus.Visible = false;
-            // 
-            // sbillno
-            // 
-            this.sbillno.HeaderText = "BILLNO";
-            this.sbillno.Name = "sbillno";
-            this.sbillno.Visible = false;
             // 
             // FrmOrder
             // 

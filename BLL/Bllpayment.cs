@@ -22,7 +22,8 @@ namespace BLL
             parameters.Add("CreatedBy", payment.CreatedBy);
             parameters.Add("Status", payment.Status);
             parameters.Add("OrderDetailsId", payment.OrderDetailsId);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parameters);
+            parameters.Add("SplitType", payment.SplitType); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parameters);
             return lstData;
         }
       

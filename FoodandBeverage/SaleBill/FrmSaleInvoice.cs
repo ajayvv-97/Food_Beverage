@@ -62,9 +62,10 @@ namespace FoodandBeverage.SaleBill
         {
             try
             {
-                string reportPath;
+                string reportPath,orderdetailsids="";
                 decimal cashamount = 0, othetamount = 0, splitamount=0;
                 string payname = "";
+                int splittype = 0;
                 #region Crystal Report Dclaration
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
@@ -79,51 +80,7 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchInvoiceHeaders = new DmnSearch();
                 #endregion
 
-                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,LocId,GSTNO";
-                dmnSearchInvoiceHeaders.Table = "tblLocationDetails";
-                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where LocId=" + BranchId;
-                var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
-                //locationname_api = invoiceBillHeaders[0].Name;
-                DmnSearch dmnSearchInvoiceBill = new DmnSearch();
-                dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
-                                              " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
-                                              " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
-                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode";
-                dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
-                dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
-                var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
-                netamount_api = invoiceBillMasters[0].NetAmount;
-                invoiceno_api = invoiceBillMasters[0].EntryNo;
-                cusname_api = invoiceBillMasters[0].CusName;
-                if (cusname_api == "" || cusname_api == null)
-                    cusname_api = "Sir / Mam";
-                //stroe barcode_img path header
-                var imagePath = folderPath + "\\" + invoiceBillMasters[0].EntryNo + ".png";
-                //invoiceBillHeaders[0].barcode_img_path = imagePath;
-                GenerateBarcode(invoiceBillMasters[0].EntryNo);
-
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-                    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode"))
-                {
-                    dtSalesMaster.Load(reader);
-                }
-
-                //header part set data to dataset
-                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo"))
-                {
-                    dtSalesHeader.Load(reader);
-                }
-
-                DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount";
-                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
-                dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
-                var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
-                using (var reader = ObjectReader.Create(invoiceBillDetails,
-                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
-                {
-                    dtSalesDetail.Load(reader);
-                }
+                #region PayType Check
                 if (paytypeid == 11)
                 {
                     DmnSearch obj = new DmnSearch();
@@ -173,14 +130,72 @@ namespace FoodandBeverage.SaleBill
                 {
                     DmnSearch obj = new DmnSearch();
                     BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                    obj.Select = "PayType Field1, Amount Field2";
+                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4";
                     obj.Table = "tblpayment";
                     obj.WhereNdGroupBy = " where payid=" + paymentid;
                     var invpayment = bllpayments.GetSearchData("prdSearch", obj);
                     if (invpayment.Count > 0)
-                        splitamount = Convert.ToDecimal(invpayment[0].Field2);                       
+                    {
+                        splitamount = Convert.ToDecimal(invpayment[0].Field2);
+                        splittype= Convert.ToInt32(invpayment[0].Field3);
+                        orderdetailsids= Convert.ToString(invpayment[0].Field4);
+                    }
+
+                }
+                #endregion
+
+                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,LocId,GSTNO";
+                dmnSearchInvoiceHeaders.Table = "tblLocationDetails";
+                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where LocId=" + BranchId;
+                var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
+                //locationname_api = invoiceBillHeaders[0].Name;
+                DmnSearch dmnSearchInvoiceBill = new DmnSearch();
+                dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
+                                              " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
+                                              " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
+                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode";
+                dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
+                //if (splittype == 2)
+                //    dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";
+                //else
+                    dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
+                var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
+                netamount_api = invoiceBillMasters[0].NetAmount;
+                invoiceno_api = invoiceBillMasters[0].EntryNo;
+                cusname_api = invoiceBillMasters[0].CusName;
+                if (cusname_api == "" || cusname_api == null)
+                    cusname_api = "Sir / Mam";
+                //stroe barcode_img path header
+                var imagePath = folderPath + "\\" + invoiceBillMasters[0].EntryNo + ".png";
+                //invoiceBillHeaders[0].barcode_img_path = imagePath;
+                GenerateBarcode(invoiceBillMasters[0].EntryNo);
+
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
+                    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode"))
+                {
+                    dtSalesMaster.Load(reader);
                 }
 
+                //header part set data to dataset
+                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo"))
+                {
+                    dtSalesHeader.Load(reader);
+                }
+
+                DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount,s.SGSTAmount,s.VatAmount as TotalVAT";
+                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
+                if (splittype==2)                
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";        
+                else
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
+
+                var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
+                using (var reader = ObjectReader.Create(invoiceBillDetails,
+                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
+                {
+                    dtSalesDetail.Load(reader);
+                }
                 dsReport.Tables.Add(dtSalesDetail);
                 dsReport.Tables.Add(dtSalesHeader);
                 dsReport.Tables.Add(dtSalesMaster);
@@ -193,6 +208,23 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("cashamount",cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("splitamount", splitamount);
+                if (splittype == 2 && invoiceBillDetails.Count>0)
+                {
+                    decimal I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0, I_VatAmount = 0;
+
+                    for (int i = 0; i < invoiceBillDetails.Count; i++)
+                    {
+                        I_TaxAmount = I_TaxAmount + invoiceBillDetails[i].TotalTax;
+                        I_CGSTAmount = I_CGSTAmount + invoiceBillDetails[i].TotalCGST;
+                        I_SGSTAmount = I_SGSTAmount + invoiceBillDetails[i].TotalSGST;
+                        I_VatAmount = I_VatAmount + invoiceBillDetails[i].TotalVAT;
+                    }
+                    //reportDocument.SetParameterValue("I_TaxAmount", I_TaxAmount); 
+                    //reportDocument.SetParameterValue("I_CGSTAmount", I_CGSTAmount);
+                    //reportDocument.SetParameterValue("I_SGSTAmount", I_SGSTAmount);
+                    //reportDocument.SetParameterValue("I_VatAmount", I_VatAmount);
+                    //reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+                }
 
                 crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;

@@ -16,5 +16,12 @@ namespace Domain
         public decimal Taxper { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal Amount { get; set; }
+
+        public decimal TotalVAT { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal TotalDiscount { get; set; }
+        public decimal TotalTax { get; set; }
+        public decimal TotalCGST { get; set; }
+        public decimal TotalSGST { get; set; }
     }
 }
