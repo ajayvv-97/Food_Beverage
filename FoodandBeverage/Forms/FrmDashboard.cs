@@ -9,6 +9,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using FoodandBeverage.Classes;
+using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 
 namespace FoodandBeverage.Forms
@@ -172,6 +174,16 @@ namespace FoodandBeverage.Forms
             ib_userpermission.BackColor = opbuttoncolor;
             textb_shape();
             AppColorSetting();
+            //flpEmployee.Visible = false;
+            //ib_employee.Visible = false;
+            ib_designation.Visible = false;
+            ib_department.Visible = false;
+            ib_useraccount.Visible = false;
+            ib_userpermission.Visible = false;
+            ib_Discount_offer.Visible= false;
+            ib_Expence.Visible = false;
+            ib_PromoCode.Visible = false;
+            FormPermissionChecking();
 
         }
         #region Color Setting
@@ -2549,5 +2561,144 @@ namespace FoodandBeverage.Forms
                 control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);           
 
         }
+        public void FormPermissionChecking()
+        {
+
+            BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+            DmnSearch dmnforms = new DmnSearch();
+            dmnforms.Select = "*";
+            dmnforms.Table = " tblforms ";
+            dmnforms.WhereNdGroupBy = " where  Status=1 and UserType=" + UserType;
+            dmnforms.OrderBy = "order by Form";
+            var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
+            if (gridesource.Count > 0)
+            {
+                for (int i = gridesource.Count() - 1; i >= 0; i--)
+                {
+                    if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
+                    {
+                        ib_orderview.Visible = true;
+
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
+                    {
+                        ib_kitchenview.Visible = true;
+
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
+                    {
+                        ib_Category.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
+                    {
+                        ib_Item.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
+                    {
+                        ib_ingrediant.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
+                    {
+                        ib_menu.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
+                    {
+                        ib_unit.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
+                    {
+                        ib_table.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
+                    {
+                        ib_purchase.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
+                    {
+                        ib_purchasereturn.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
+                    {
+                        ib_tax.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
+                    {
+                        ib_vendor.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
+                    {
+                        ib_Discount_offer.Visible = true;
+
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Withdrawal) && gridesource[i].Status == 1)
+                    {
+                        //ib_withdrawal.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
+                    {
+                        ib_PromoCode.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
+                    {
+                        ib_Company.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
+                    {
+                        ib_reservation.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
+                    {
+                        ib_employee.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
+                    {
+                        ib_department.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
+                    {
+                        ib_designation.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
+                    {
+                        ib_useraccount.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
+                    {
+                        ib_userpermission.Visible = true;
+                    }
+                }
+            }
+        }
+
+        public bool ChkWritePermission(int formid)
+        {
+            //int UserType = 1;
+            BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+            DmnSearch dmnforms = new DmnSearch();
+            dmnforms.Select = "*";
+            dmnforms.Table = " tblforms ";
+            dmnforms.WhereNdGroupBy = " where UserType=" + UserType + " and Status=1   and Form=" + formid;
+            dmnforms.OrderBy = "order by Form";
+            var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
+            if (gridesource.Count > 0)
+            {
+                if (gridesource[0].Write == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+
     }
 }

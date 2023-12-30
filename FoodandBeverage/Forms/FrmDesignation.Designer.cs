@@ -252,6 +252,7 @@
             // 
             // mbtnClose
             // 
+            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
             this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnClose.FlatAppearance.BorderSize = 0;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -266,6 +267,7 @@
             // 
             // mbtnRefresh
             // 
+            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -280,6 +282,7 @@
             // 
             // mbtnSave
             // 
+            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
             this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnSave.FlatAppearance.BorderSize = 0;
             this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -329,6 +332,7 @@
             // 
             // pictureBox10
             // 
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox10.Location = new System.Drawing.Point(16, 14);
             this.pictureBox10.Name = "pictureBox10";

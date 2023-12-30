@@ -5,7 +5,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using static FoodandBeverage.Interfaces.Interfaces;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -22,14 +22,14 @@ namespace FoodandBeverage.Forms
         long AccID;
         public static string empImgExt = "";
 
-        int LedgerId;
+        public int Id = 0;
         public FrmRegistration()
         {
             InitializeComponent();
         }
         private void FrmRegistration_Load(object sender, EventArgs e)
         {
-
+           
 
 
 
@@ -131,30 +131,36 @@ namespace FoodandBeverage.Forms
             }
         }
         private void Refreshform()
+        {
+            //txtid.Text = LedgerId;
+            if (txtid.Text != null && txtid.Text !="")
             {
+                filldetails();
+            }
+            else
+            {
+                txtname.Text = "";
+                txtaddress.Text = "";
 
-            txtname.Text = "";
-            txtaddress.Text = "";
-
-            txtpin.Text = "";
-            txtph.Text = "";
-            certi1.Text = "";
-            certi2.Text = "";
-            certi3.Text = "";
-            comboBox3.Text = "select";
-            cmdstate.Text = "select";
-            cmdcity.Text = "select";
-            certipic1.Text = "select";
-            certipic2.Text = "select";
-            certipic3.Text = "select";
-            pb1.BackgroundImage = null;
-            pb1.Image = null;
-            pb2.Image = null;
-            pb2.Image = null;
-            pb3.BackgroundImage = null;
-            pb3.BackgroundImage = null;
-            FillCombo();
-
+                txtpin.Text = "";
+                txtph.Text = "";
+                certi1.Text = "";
+                certi2.Text = "";
+                certi3.Text = "";
+                comboBox3.Text = "select";
+                cmdstate.Text = "select";
+                cmdcity.Text = "select";
+                certipic1.Text = "select";
+                certipic2.Text = "select";
+                certipic3.Text = "select";
+                pb1.BackgroundImage = null;
+                pb1.Image = null;
+                pb2.Image = null;
+                pb2.Image = null;
+                pb3.BackgroundImage = null;
+                pb3.BackgroundImage = null;
+                FillCombo();
+            }
             }
             private void getNewAccNo()
             {
@@ -192,15 +198,16 @@ namespace FoodandBeverage.Forms
 
                 BllSearch<DmnComboBox> bllSearch_City = new BllSearch<DmnComboBox>();
                 objSearch = new DmnSearch();
-                objSearch.Select = "city as Value";
-                objSearch.Table = " tblCustomer";
-                objSearch.WhereNdGroupBy = "where city is NOT NULL and ISNUMERIC(city)=0 and city !=''";
-                objSearch.OrderBy = "group By city";
-                gridSource = bllSearch_City.GetSearchData("prdSearch", objSearch);
+                objSearch.Select = "GTypeSubId,Caption";
+                objSearch.Table = " tblGeneralOptions";
+                objSearch.WhereNdGroupBy = "where isnull(status,0)=0 and GTypeId=44";
+                objSearch.OrderBy = "order by value";
+                gridSource = bllSearch_City.GetSearchData("prdComboFill", objSearch);
             cmdcity.DataSource = gridSource;
+            cmdcity.ValueMember = "Id";
             cmdcity.DisplayMember = "Value";
-            cmdcity.SelectedIndex = -1;
-            }
+            cmdcity.SelectedIndex = 0;
+        }
             private void btnRefresh_Click(object sender, EventArgs e)
             {
                 Refreshform();
@@ -223,13 +230,14 @@ namespace FoodandBeverage.Forms
                 _objSearch.OrderBy = " ORDER BY L.LedgerName ASC";
                 if (returnValue.ToString() != "")
                 {
-                    LedgerId = Convert.ToInt32(returnValue.ToString());
+                txtid.Text = Convert.ToString(returnValue);
+                Id = Convert.ToInt32(txtid.Text);
                     BllSearch<DmnCustAccount> bllSearch = new BllSearch<DmnCustAccount>();
                     DmnSearch objSearch = new DmnSearch();
                     objSearch = new DmnSearch();
                     objSearch.Select = "*";
                     objSearch.Table = " tblCustomer ";
-                    objSearch.WhereNdGroupBy = "Where LedgerId = " + LedgerId;
+                    objSearch.WhereNdGroupBy = "Where LedgerId = " + Id;
                     objSearch.OrderBy = "Order By LedgerName ";
                     var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 txtname.Text = Convert.ToString(gridSource[0].LedgerName);
@@ -240,9 +248,9 @@ namespace FoodandBeverage.Forms
                 comboBox3.SelectedValue = Convert.ToInt64(gridSource[0].cCountry);//change
                 cmdstate.SelectedValue = Convert.ToInt64(gridSource[0].State);//change
                 cmdcity.Text = gridSource[0].City;
-                    var imageExist = clsDocument.FileExistOrNot(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                    var imageExist = clsDocument.FileExistOrNot(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
                     if (imageExist)
-                    pb1.BackgroundImage = clsDocument.DownloadImage(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                    pb1.BackgroundImage = clsDocument.DownloadImage(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
                 pb1.BackgroundImageLayout = ImageLayout.Stretch;
 
                 }
@@ -586,12 +594,71 @@ namespace FoodandBeverage.Forms
 
             private void FrmRegistration_Load_1(object sender, EventArgs e)
             {
-                ActiveControl = txtname;
+            //Refreshform();
+            ActiveControl = txtname;
             txtname.Focus();
                 FillCombo();
-                Refreshform();
+            filldetails();
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Company)))
+            {
+                btsave.Enabled = true;
+
+            }
+            else
+            {
+                btsave.Enabled = false;
+
+
+            }
+        }
+        public void filldetails()
+        {
+           
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnHRegistration> _bllSearch = new BllSearch<DmnHRegistration>();
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId =" + 1030;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+            if (gridSource1.Count > 0)
+            {
+                txtid.Text = Convert.ToString(gridSource1[0].Id);
+                txtname.Text = Convert.ToString(gridSource1[0].Name);
+                txtaddress.Text = Convert.ToString(gridSource1[0].Address);
+                txtph.Text = Convert.ToString(gridSource1[0].Phone);
+                txtpin.Text = Convert.ToString(gridSource1[0].ZipCode);
+                txtg.Text = Convert.ToString(gridSource1[0].GstNo);
+                certi1.Text = Convert.ToString(gridSource1[0].Certificate);
+                certi2.Text = Convert.ToString(gridSource1[0].Certificate1);
+                certi3.Text = Convert.ToString(gridSource1[0].Certificate2);
+                comboBox3.SelectedValue = Convert.ToInt64(gridSource1[0].Country);
+                cmdstate.SelectedValue = Convert.ToInt64(gridSource1[0].State);
+                cmdcity.SelectedValue = Convert.ToInt64(gridSource1[0].City);
+                bool imageExist = clsDocument.FileExistOrNot(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                if (imageExist)
+                {
+                    pb1.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb1.BackgroundImageLayout = ImageLayout.Stretch;
+                    pb1.Image = null;
+                }
+                if (imageExist)
+                {
+                    pb2.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Photo + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb2.BackgroundImageLayout = ImageLayout.Stretch;
+                    pb2.Image = null;
+                }
+                if (imageExist)
+                {
+                    pb3.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Photo + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb3.BackgroundImageLayout = ImageLayout.Stretch;
+                    pb3.Image = null;
+                }
+
             }
 
+        }
         private void txtZipcode_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsLetter(e.KeyChar))
@@ -854,6 +921,8 @@ namespace FoodandBeverage.Forms
 
                 DmnHRegistration dmnRegistration = new DmnHRegistration();
                 BllHotelRegistration bllregistration = new BllHotelRegistration();
+
+                dmnRegistration.Id = Id;
                 dmnRegistration.Name = Convert.ToString(txtname.Text);
                 dmnRegistration.Address = Convert.ToString(txtaddress.Text);
                 dmnRegistration.Phone = Convert.ToString(txtph.Text);
@@ -906,7 +975,7 @@ namespace FoodandBeverage.Forms
                     else
                         MessageBox.Show(this, "  ", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
-                    Refreshform();
+                    //Refreshform();
                 }
                 else
                 {
@@ -928,6 +997,11 @@ namespace FoodandBeverage.Forms
         private void btclose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

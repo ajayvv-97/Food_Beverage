@@ -7,14 +7,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using static FoodandBeverage.Interfaces.Interfaces;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
     public partial class FrmReservation : Form
     {
         ClsGeneral ClsGeneral = new ClsGeneral();
-        public int BookdetailId { get; set; }
         ClsDocument clsDocument = new ClsDocument();
         long BranchId = 1030;
 
@@ -45,6 +44,19 @@ namespace FoodandBeverage.Forms
             dgvforms.Rows.Add(1);
             dgvmenu.Rows.Add(1);
             dtpBooking.MinDate = DateTime.Today;
+
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Reservation)))
+            {
+                mbtnSave.Enabled = true;
+
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
+
+
+            }
 
         }
         public void clear()

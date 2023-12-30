@@ -18,6 +18,6 @@ namespace Domain
 		public DateTime CreatedIn { get; set; }
 		public int ModifiedBy { get; set; }
 		public DateTime ModifiedOn { get; set; }
-		public int FormType { get; set; }
+		
 	}
 }

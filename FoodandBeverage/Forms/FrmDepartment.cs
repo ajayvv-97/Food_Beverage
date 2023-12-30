@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using FoodandBeverage.Interfaces;
 using System.Threading;
 namespace FoodandBeverage.Forms
 {
@@ -201,6 +202,17 @@ namespace FoodandBeverage.Forms
         #region Events
         private void FrmDepartment_Load(object sender, EventArgs e)
         {
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Department)))
+            {
+                mbtnSave.Enabled = true;
+
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
+
+            }
             try
             {
                 

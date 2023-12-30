@@ -23,7 +23,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using FoodandBeverage.Classes;
 using ClsGeneral = FoodandBeverage.Classes.ClsGeneral;
-using static FoodandBeverage.Interfaces.Interfaces;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Forms.UserAccount
 {
@@ -46,16 +46,16 @@ namespace FoodandBeverage.Forms.UserAccount
         {
             clear();
             FrmDashboard frmDash = new FrmDashboard();
-            //if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.UserRegistration)))
-            //{
-            //    mbtnSave.Enabled = true;
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Account)))
+            {
+                mbtnSave.Enabled = true;
 
-            //}
-            //else
-            //{
-            //    mbtnSave.Enabled = false;
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
 
-            //}
+            }
         }
         public bool MandatoryCheck()
         {

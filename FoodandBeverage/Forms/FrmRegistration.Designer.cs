@@ -30,11 +30,6 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRegistration));
-            this.pbCust2 = new System.Windows.Forms.PictureBox();
-            this.pbCust1 = new System.Windows.Forms.PictureBox();
-            this.cboProof2 = new System.Windows.Forms.PictureBox();
-            this.cboProof1 = new System.Windows.Forms.PictureBox();
-            this.cboProof = new System.Windows.Forms.PictureBox();
             this.txtcerti3 = new System.Windows.Forms.TextBox();
             this.txtcerti2 = new System.Windows.Forms.TextBox();
             this.txtcerti1 = new System.Windows.Forms.TextBox();
@@ -47,7 +42,6 @@ namespace FoodandBeverage.Forms
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnsavepic = new System.Windows.Forms.Button();
-            this.pbCust = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -63,15 +57,9 @@ namespace FoodandBeverage.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
-            this.pb3 = new System.Windows.Forms.PictureBox();
-            this.pb2 = new System.Windows.Forms.PictureBox();
-            this.certipic3 = new System.Windows.Forms.PictureBox();
-            this.certipic2 = new System.Windows.Forms.PictureBox();
-            this.certipic1 = new System.Windows.Forms.PictureBox();
             this.certi3 = new System.Windows.Forms.TextBox();
             this.certi2 = new System.Windows.Forms.TextBox();
             this.certi1 = new System.Windows.Forms.TextBox();
@@ -79,8 +67,6 @@ namespace FoodandBeverage.Forms
             this.txtpin = new System.Windows.Forms.TextBox();
             this.txtph = new System.Windows.Forms.TextBox();
             this.txtaddress = new System.Windows.Forms.TextBox();
-            this.save = new System.Windows.Forms.Button();
-            this.pb1 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -95,89 +81,43 @@ namespace FoodandBeverage.Forms
             this.label18 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.btclose = new System.Windows.Forms.Button();
-            this.btfresh = new System.Windows.Forms.Button();
-            this.btsave = new System.Windows.Forms.Button();
             this.txtname = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtid = new System.Windows.Forms.TextBox();
+            this.pb3 = new System.Windows.Forms.PictureBox();
+            this.btclose = new System.Windows.Forms.Button();
+            this.pb2 = new System.Windows.Forms.PictureBox();
+            this.btfresh = new System.Windows.Forms.Button();
+            this.pb1 = new System.Windows.Forms.PictureBox();
+            this.btsave = new System.Windows.Forms.Button();
+            this.certipic1 = new System.Windows.Forms.PictureBox();
+            this.certipic3 = new System.Windows.Forms.PictureBox();
+            this.certipic2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.pbCust2 = new System.Windows.Forms.PictureBox();
+            this.pbCust1 = new System.Windows.Forms.PictureBox();
+            this.cboProof2 = new System.Windows.Forms.PictureBox();
+            this.cboProof1 = new System.Windows.Forms.PictureBox();
+            this.cboProof = new System.Windows.Forms.PictureBox();
+            this.pbCust = new System.Windows.Forms.PictureBox();
+            this.panel5.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust)).BeginInit();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pbCust2
-            // 
-            this.pbCust2.BackColor = System.Drawing.Color.Transparent;
-            this.pbCust2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbCust2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCust2.Location = new System.Drawing.Point(645, 141);
-            this.pbCust2.Name = "pbCust2";
-            this.pbCust2.Size = new System.Drawing.Size(72, 48);
-            this.pbCust2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbCust2.TabIndex = 192;
-            this.pbCust2.TabStop = false;
-            // 
-            // pbCust1
-            // 
-            this.pbCust1.BackColor = System.Drawing.Color.Transparent;
-            this.pbCust1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbCust1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCust1.Location = new System.Drawing.Point(645, 78);
-            this.pbCust1.Name = "pbCust1";
-            this.pbCust1.Size = new System.Drawing.Size(72, 48);
-            this.pbCust1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbCust1.TabIndex = 191;
-            this.pbCust1.TabStop = false;
-            // 
-            // cboProof2
-            // 
-            this.cboProof2.BackColor = System.Drawing.Color.Transparent;
-            this.cboProof2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cboProof2.Location = new System.Drawing.Point(601, 151);
-            this.cboProof2.Name = "cboProof2";
-            this.cboProof2.Size = new System.Drawing.Size(38, 27);
-            this.cboProof2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.cboProof2.TabIndex = 190;
-            this.cboProof2.TabStop = false;
-            this.cboProof2.Click += new System.EventHandler(this.cboProof2_Click);
-            // 
-            // cboProof1
-            // 
-            this.cboProof1.BackColor = System.Drawing.Color.Transparent;
-            this.cboProof1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cboProof1.Location = new System.Drawing.Point(601, 88);
-            this.cboProof1.Name = "cboProof1";
-            this.cboProof1.Size = new System.Drawing.Size(38, 27);
-            this.cboProof1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.cboProof1.TabIndex = 189;
-            this.cboProof1.TabStop = false;
-            this.cboProof1.Click += new System.EventHandler(this.cboProof1_Click);
-            // 
-            // cboProof
-            // 
-            this.cboProof.BackColor = System.Drawing.Color.Transparent;
-            this.cboProof.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cboProof.Location = new System.Drawing.Point(601, 33);
-            this.cboProof.Name = "cboProof";
-            this.cboProof.Size = new System.Drawing.Size(38, 27);
-            this.cboProof.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.cboProof.TabIndex = 188;
-            this.cboProof.TabStop = false;
-            this.cboProof.Click += new System.EventHandler(this.pbAdd_Click);
             // 
             // txtcerti3
             // 
@@ -308,19 +248,6 @@ namespace FoodandBeverage.Forms
             this.btnsavepic.Size = new System.Drawing.Size(51, 29);
             this.btnsavepic.TabIndex = 174;
             this.btnsavepic.UseVisualStyleBackColor = false;
-            // 
-            // pbCust
-            // 
-            this.pbCust.BackColor = System.Drawing.Color.Transparent;
-            this.pbCust.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbCust.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCust.Location = new System.Drawing.Point(645, 22);
-            this.pbCust.Name = "pbCust";
-            this.pbCust.Size = new System.Drawing.Size(72, 48);
-            this.pbCust.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbCust.TabIndex = 172;
-            this.pbCust.TabStop = false;
-            this.pbCust.DoubleClick += new System.EventHandler(this.pbCust_DoubleClick);
             // 
             // label7
             // 
@@ -507,17 +434,6 @@ namespace FoodandBeverage.Forms
             this.panel5.Size = new System.Drawing.Size(820, 59);
             this.panel5.TabIndex = 275;
             // 
-            // pictureBox10
-            // 
-            //this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox10.Location = new System.Drawing.Point(16, 11);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(47, 29);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
@@ -536,7 +452,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(688, 17);
+            this.btncolse.Location = new System.Drawing.Point(766, 17);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -551,7 +467,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(657, 17);
+            this.btnmini.Location = new System.Drawing.Point(735, 17);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 10;
@@ -559,79 +475,14 @@ namespace FoodandBeverage.Forms
             this.btnmini.UseVisualStyleBackColor = false;
             this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
-            // pb3
-            // 
-            this.pb3.BackColor = System.Drawing.Color.Transparent;
-            //this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
-            this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb3.Location = new System.Drawing.Point(301, 179);
-            this.pb3.Name = "pb3";
-            this.pb3.Size = new System.Drawing.Size(55, 29);
-            this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb3.TabIndex = 307;
-            this.pb3.TabStop = false;
-            // 
-            // pb2
-            // 
-            this.pb2.BackColor = System.Drawing.Color.Transparent;
-            //this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
-            this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb2.Location = new System.Drawing.Point(301, 104);
-            this.pb2.Name = "pb2";
-            this.pb2.Size = new System.Drawing.Size(55, 27);
-            this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb2.TabIndex = 306;
-            this.pb2.TabStop = false;
-            // 
-            // certipic3
-            // 
-            this.certipic3.BackColor = System.Drawing.Color.Transparent;
-            //this.certipic3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic3.BackgroundImage")));
-            this.certipic3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.certipic3.Location = new System.Drawing.Point(251, 179);
-            this.certipic3.Name = "certipic3";
-            this.certipic3.Size = new System.Drawing.Size(38, 27);
-            this.certipic3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.certipic3.TabIndex = 305;
-            this.certipic3.TabStop = false;
-            this.certipic3.Click += new System.EventHandler(this.certipic3_Click);
-            // 
-            // certipic2
-            // 
-            this.certipic2.BackColor = System.Drawing.Color.Transparent;
-            //this.certipic2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic2.BackgroundImage")));
-            this.certipic2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.certipic2.Location = new System.Drawing.Point(251, 104);
-            this.certipic2.Name = "certipic2";
-            this.certipic2.Size = new System.Drawing.Size(38, 29);
-            this.certipic2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.certipic2.TabIndex = 304;
-            this.certipic2.TabStop = false;
-            this.certipic2.Click += new System.EventHandler(this.certipic2_Click);
-            // 
-            // certipic1
-            // 
-            this.certipic1.BackColor = System.Drawing.Color.Transparent;
-            //this.certipic1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic1.BackgroundImage")));
-            this.certipic1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.certipic1.Location = new System.Drawing.Point(251, 20);
-            this.certipic1.Name = "certipic1";
-            this.certipic1.Size = new System.Drawing.Size(38, 29);
-            this.certipic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.certipic1.TabIndex = 303;
-            this.certipic1.TabStop = false;
-            this.certipic1.Click += new System.EventHandler(this.certipic1_Click);
-            // 
             // certi3
             // 
             this.certi3.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.certi3.Location = new System.Drawing.Point(141, 179);
-            this.certi3.MaxLength = 13;
+            this.certi3.MaxLength = 20;
             this.certi3.Multiline = true;
             this.certi3.Name = "certi3";
-            this.certi3.Size = new System.Drawing.Size(95, 29);
+            this.certi3.Size = new System.Drawing.Size(224, 29);
             this.certi3.TabIndex = 2;
             this.certi3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.certi3_KeyDown);
             // 
@@ -639,10 +490,10 @@ namespace FoodandBeverage.Forms
             // 
             this.certi2.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.certi2.Location = new System.Drawing.Point(141, 104);
-            this.certi2.MaxLength = 13;
+            this.certi2.MaxLength = 20;
             this.certi2.Multiline = true;
             this.certi2.Name = "certi2";
-            this.certi2.Size = new System.Drawing.Size(95, 29);
+            this.certi2.Size = new System.Drawing.Size(224, 29);
             this.certi2.TabIndex = 1;
             this.certi2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.certi2_KeyDown);
             // 
@@ -650,10 +501,10 @@ namespace FoodandBeverage.Forms
             // 
             this.certi1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.certi1.Location = new System.Drawing.Point(141, 20);
-            this.certi1.MaxLength = 13;
+            this.certi1.MaxLength = 20;
             this.certi1.Multiline = true;
             this.certi1.Name = "certi1";
-            this.certi1.Size = new System.Drawing.Size(95, 29);
+            this.certi1.Size = new System.Drawing.Size(224, 29);
             this.certi1.TabIndex = 0;
             this.certi1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.certi1_KeyDown);
             // 
@@ -698,31 +549,6 @@ namespace FoodandBeverage.Forms
             this.txtaddress.Size = new System.Drawing.Size(207, 52);
             this.txtaddress.TabIndex = 1;
             this.txtaddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtaddress_KeyDown);
-            // 
-            // save
-            // 
-            this.save.BackColor = System.Drawing.Color.Transparent;
-            //this.save.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("save.BackgroundImage")));
-            this.save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.save.Location = new System.Drawing.Point(305, 233);
-            this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(51, 29);
-            this.save.TabIndex = 294;
-            this.save.UseVisualStyleBackColor = false;
-            // 
-            // pb1
-            // 
-            this.pb1.BackColor = System.Drawing.Color.Transparent;
-            //this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
-            this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb1.Location = new System.Drawing.Point(301, 20);
-            this.pb1.Name = "pb1";
-            this.pb1.Size = new System.Drawing.Size(55, 29);
-            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb1.TabIndex = 293;
-            this.pb1.TabStop = false;
             // 
             // label8
             // 
@@ -769,7 +595,7 @@ namespace FoodandBeverage.Forms
             this.cmdstate.IntegralHeight = false;
             this.cmdstate.Location = new System.Drawing.Point(179, 424);
             this.cmdstate.Name = "cmdstate";
-            this.cmdstate.Size = new System.Drawing.Size(127, 30);
+            this.cmdstate.Size = new System.Drawing.Size(157, 30);
             this.cmdstate.TabIndex = 6;
             this.cmdstate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
             this.cmdstate.Leave += new System.EventHandler(this.cmdstate_Leave);
@@ -794,7 +620,7 @@ namespace FoodandBeverage.Forms
             this.cmdcity.IntegralHeight = false;
             this.cmdcity.Location = new System.Drawing.Point(20, 359);
             this.cmdcity.Name = "cmdcity";
-            this.cmdcity.Size = new System.Drawing.Size(128, 30);
+            this.cmdcity.Size = new System.Drawing.Size(203, 30);
             this.cmdcity.TabIndex = 7;
             this.cmdcity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
             this.cmdcity.Leave += new System.EventHandler(this.cmdcity_Leave);
@@ -817,10 +643,11 @@ namespace FoodandBeverage.Forms
             this.comboBox3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.IntegralHeight = false;
-            this.comboBox3.Location = new System.Drawing.Point(12, 424);
+            this.comboBox3.Location = new System.Drawing.Point(2, 424);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(127, 30);
+            this.comboBox3.Size = new System.Drawing.Size(171, 30);
             this.comboBox3.TabIndex = 5;
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
             this.comboBox3.Leave += new System.EventHandler(this.comboBox3_Leave);
             // 
@@ -896,44 +723,6 @@ namespace FoodandBeverage.Forms
             this.label22.TabIndex = 282;
             this.label22.Text = "Name :";
             // 
-            // btclose
-            // 
-            this.btclose.BackColor = System.Drawing.Color.Transparent;
-            //this.btclose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btclose.BackgroundImage")));
-            this.btclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btclose.Location = new System.Drawing.Point(261, 429);
-            this.btclose.Name = "btclose";
-            this.btclose.Size = new System.Drawing.Size(82, 26);
-            this.btclose.TabIndex = 5;
-            this.btclose.UseVisualStyleBackColor = false;
-            this.btclose.Click += new System.EventHandler(this.btclose_Click);
-            // 
-            // btfresh
-            // 
-            this.btfresh.BackColor = System.Drawing.Color.Transparent;
-            //this.btfresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btfresh.BackgroundImage")));
-            this.btfresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btfresh.FlatAppearance.BorderSize = 0;
-            this.btfresh.Location = new System.Drawing.Point(141, 429);
-            this.btfresh.Name = "btfresh";
-            this.btfresh.Size = new System.Drawing.Size(82, 26);
-            this.btfresh.TabIndex = 4;
-            this.btfresh.UseVisualStyleBackColor = false;
-            this.btfresh.Click += new System.EventHandler(this.btfresh_Click);
-            // 
-            // btsave
-            // 
-            this.btsave.BackColor = System.Drawing.Color.Transparent;
-            //this.btsave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btsave.BackgroundImage")));
-            this.btsave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btsave.FlatAppearance.BorderSize = 0;
-            this.btsave.Location = new System.Drawing.Point(20, 429);
-            this.btsave.Name = "btsave";
-            this.btsave.Size = new System.Drawing.Size(82, 26);
-            this.btsave.TabIndex = 3;
-            this.btsave.UseVisualStyleBackColor = false;
-            this.btsave.Click += new System.EventHandler(this.btsave_Click);
-            // 
             // txtname
             // 
             this.txtname.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
@@ -964,9 +753,9 @@ namespace FoodandBeverage.Forms
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.txtid);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.certi1);
-            this.panel2.Controls.Add(this.save);
             this.panel2.Controls.Add(this.pb3);
             this.panel2.Controls.Add(this.btclose);
             this.panel2.Controls.Add(this.pb2);
@@ -987,6 +776,214 @@ namespace FoodandBeverage.Forms
             this.panel2.Size = new System.Drawing.Size(478, 525);
             this.panel2.TabIndex = 0;
             // 
+            // txtid
+            // 
+            this.txtid.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
+            this.txtid.Location = new System.Drawing.Point(20, 270);
+            this.txtid.Name = "txtid";
+            this.txtid.Size = new System.Drawing.Size(13, 33);
+            this.txtid.TabIndex = 308;
+            this.txtid.Visible = false;
+            // 
+            // pb3
+            // 
+            this.pb3.BackColor = System.Drawing.Color.Transparent;
+            this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
+            this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb3.Location = new System.Drawing.Point(424, 179);
+            this.pb3.Name = "pb3";
+            this.pb3.Size = new System.Drawing.Size(39, 29);
+            this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb3.TabIndex = 307;
+            this.pb3.TabStop = false;
+            // 
+            // btclose
+            // 
+            this.btclose.BackColor = System.Drawing.Color.Transparent;
+            this.btclose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btclose.BackgroundImage")));
+            this.btclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btclose.Location = new System.Drawing.Point(261, 429);
+            this.btclose.Name = "btclose";
+            this.btclose.Size = new System.Drawing.Size(82, 26);
+            this.btclose.TabIndex = 5;
+            this.btclose.UseVisualStyleBackColor = false;
+            this.btclose.Click += new System.EventHandler(this.btclose_Click);
+            // 
+            // pb2
+            // 
+            this.pb2.BackColor = System.Drawing.Color.Transparent;
+            this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
+            this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb2.Location = new System.Drawing.Point(424, 102);
+            this.pb2.Name = "pb2";
+            this.pb2.Size = new System.Drawing.Size(39, 29);
+            this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb2.TabIndex = 306;
+            this.pb2.TabStop = false;
+            // 
+            // btfresh
+            // 
+            this.btfresh.BackColor = System.Drawing.Color.Transparent;
+            this.btfresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btfresh.BackgroundImage")));
+            this.btfresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btfresh.FlatAppearance.BorderSize = 0;
+            this.btfresh.Location = new System.Drawing.Point(141, 429);
+            this.btfresh.Name = "btfresh";
+            this.btfresh.Size = new System.Drawing.Size(82, 26);
+            this.btfresh.TabIndex = 4;
+            this.btfresh.UseVisualStyleBackColor = false;
+            this.btfresh.Click += new System.EventHandler(this.btfresh_Click);
+            // 
+            // pb1
+            // 
+            this.pb1.BackColor = System.Drawing.Color.Transparent;
+            this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
+            this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb1.Location = new System.Drawing.Point(424, 20);
+            this.pb1.Name = "pb1";
+            this.pb1.Size = new System.Drawing.Size(42, 29);
+            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb1.TabIndex = 293;
+            this.pb1.TabStop = false;
+            // 
+            // btsave
+            // 
+            this.btsave.BackColor = System.Drawing.Color.Transparent;
+            this.btsave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btsave.BackgroundImage")));
+            this.btsave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btsave.FlatAppearance.BorderSize = 0;
+            this.btsave.Location = new System.Drawing.Point(20, 429);
+            this.btsave.Name = "btsave";
+            this.btsave.Size = new System.Drawing.Size(82, 26);
+            this.btsave.TabIndex = 3;
+            this.btsave.UseVisualStyleBackColor = false;
+            this.btsave.Click += new System.EventHandler(this.btsave_Click);
+            // 
+            // certipic1
+            // 
+            this.certipic1.BackColor = System.Drawing.Color.Transparent;
+            this.certipic1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic1.BackgroundImage")));
+            this.certipic1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.certipic1.Location = new System.Drawing.Point(371, 20);
+            this.certipic1.Name = "certipic1";
+            this.certipic1.Size = new System.Drawing.Size(38, 29);
+            this.certipic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.certipic1.TabIndex = 303;
+            this.certipic1.TabStop = false;
+            this.certipic1.Click += new System.EventHandler(this.certipic1_Click);
+            // 
+            // certipic3
+            // 
+            this.certipic3.BackColor = System.Drawing.Color.Transparent;
+            this.certipic3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic3.BackgroundImage")));
+            this.certipic3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.certipic3.Location = new System.Drawing.Point(371, 179);
+            this.certipic3.Name = "certipic3";
+            this.certipic3.Size = new System.Drawing.Size(38, 27);
+            this.certipic3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.certipic3.TabIndex = 305;
+            this.certipic3.TabStop = false;
+            this.certipic3.Click += new System.EventHandler(this.certipic3_Click);
+            // 
+            // certipic2
+            // 
+            this.certipic2.BackColor = System.Drawing.Color.Transparent;
+            this.certipic2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic2.BackgroundImage")));
+            this.certipic2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.certipic2.Location = new System.Drawing.Point(371, 102);
+            this.certipic2.Name = "certipic2";
+            this.certipic2.Size = new System.Drawing.Size(38, 29);
+            this.certipic2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.certipic2.TabIndex = 304;
+            this.certipic2.TabStop = false;
+            this.certipic2.Click += new System.EventHandler(this.certipic2_Click);
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox10.Location = new System.Drawing.Point(16, 11);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(47, 31);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
+            // 
+            // pbCust2
+            // 
+            this.pbCust2.BackColor = System.Drawing.Color.Transparent;
+            this.pbCust2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbCust2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbCust2.Location = new System.Drawing.Point(645, 141);
+            this.pbCust2.Name = "pbCust2";
+            this.pbCust2.Size = new System.Drawing.Size(72, 48);
+            this.pbCust2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCust2.TabIndex = 192;
+            this.pbCust2.TabStop = false;
+            // 
+            // pbCust1
+            // 
+            this.pbCust1.BackColor = System.Drawing.Color.Transparent;
+            this.pbCust1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbCust1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbCust1.Location = new System.Drawing.Point(645, 78);
+            this.pbCust1.Name = "pbCust1";
+            this.pbCust1.Size = new System.Drawing.Size(72, 48);
+            this.pbCust1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCust1.TabIndex = 191;
+            this.pbCust1.TabStop = false;
+            // 
+            // cboProof2
+            // 
+            this.cboProof2.BackColor = System.Drawing.Color.Transparent;
+            this.cboProof2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cboProof2.Location = new System.Drawing.Point(601, 151);
+            this.cboProof2.Name = "cboProof2";
+            this.cboProof2.Size = new System.Drawing.Size(38, 27);
+            this.cboProof2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.cboProof2.TabIndex = 190;
+            this.cboProof2.TabStop = false;
+            this.cboProof2.Click += new System.EventHandler(this.cboProof2_Click);
+            // 
+            // cboProof1
+            // 
+            this.cboProof1.BackColor = System.Drawing.Color.Transparent;
+            this.cboProof1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cboProof1.Location = new System.Drawing.Point(601, 88);
+            this.cboProof1.Name = "cboProof1";
+            this.cboProof1.Size = new System.Drawing.Size(38, 27);
+            this.cboProof1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.cboProof1.TabIndex = 189;
+            this.cboProof1.TabStop = false;
+            this.cboProof1.Click += new System.EventHandler(this.cboProof1_Click);
+            // 
+            // cboProof
+            // 
+            this.cboProof.BackColor = System.Drawing.Color.Transparent;
+            this.cboProof.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cboProof.Location = new System.Drawing.Point(601, 33);
+            this.cboProof.Name = "cboProof";
+            this.cboProof.Size = new System.Drawing.Size(38, 27);
+            this.cboProof.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.cboProof.TabIndex = 188;
+            this.cboProof.TabStop = false;
+            this.cboProof.Click += new System.EventHandler(this.pbAdd_Click);
+            // 
+            // pbCust
+            // 
+            this.pbCust.BackColor = System.Drawing.Color.Transparent;
+            this.pbCust.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbCust.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbCust.Location = new System.Drawing.Point(645, 22);
+            this.pbCust.Name = "pbCust";
+            this.pbCust.Size = new System.Drawing.Size(72, 48);
+            this.pbCust.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCust.TabIndex = 172;
+            this.pbCust.TabStop = false;
+            this.pbCust.DoubleClick += new System.EventHandler(this.pbCust_DoubleClick);
+            // 
             // FrmRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1004,25 +1001,25 @@ namespace FoodandBeverage.Forms
             this.Name = "FrmRegistration";
             this.Text = "FrmRegistration";
             this.Load += new System.EventHandler(this.FrmRegistration_Load_1);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.certipic2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust)).EndInit();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.certipic1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1078,7 +1075,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtpin;
         private System.Windows.Forms.TextBox txtph;
         private System.Windows.Forms.TextBox txtaddress;
-        private System.Windows.Forms.Button save;
         private System.Windows.Forms.PictureBox pb1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
@@ -1102,5 +1098,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox txtid;
     }
 }

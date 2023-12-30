@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
+using FoodandBeverage.Interfaces;
 
 
 
@@ -243,6 +244,17 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            FrmDashboard frmDash = new FrmDashboard();
+            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Designation)))
+            {
+                mbtnSave.Enabled = true;
+
+            }
+            else
+            {
+                mbtnSave.Enabled = false;
+
             }
         }
        

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoodandBeverage.Interfaces
 {
-   public class Interfaces
-    {
+  
         public enum DateTimeReturnType
         {
             Date,
@@ -146,5 +145,32 @@ namespace FoodandBeverage.Interfaces
             Rid = 0,
             Mid = 1
         };
-    }
+        public enum formsenum
+        {
+            Order = 1,
+            Kitchen_View = 2,
+            Category = 3,
+            Item = 4,
+            Product = 5,
+            Menu = 6,
+            Unit = 7,
+            Table = 8,
+            Purchase = 9,
+            Purchase_Return = 10,
+            Tax = 11,
+            Vendor = 12,
+            Discount_And_Offer = 13,
+            Withdrawal = 14,
+            PromoCode = 15,
+            Company = 16,
+            Reservation = 17,
+            Employee = 18,
+            Department = 19,
+            Designation = 20,
+            User_Account = 21,
+            User_Permission = 22,
+            AllLocationAccess = 23
+
+        };
+    
 }
