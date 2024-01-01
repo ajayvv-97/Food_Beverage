@@ -2327,6 +2327,17 @@ namespace FoodandBeverage.Forms
                 Proid_Prid = Convert.ToInt32(clickedControl.Tag);
                 txt_product_des.Text = "Description Type Here .....";
                 txt_product_des.ForeColor = Color.Gray;
+
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    pnl_products_descr.Height = 304;
+                    pnl_products_descr.Width = 155;
+                }
+                else
+                {
+                    pnl_products_descr.Height = 600;
+                    pnl_products_descr.Width = 300;
+                }
                 if (saletype == 1)
                 {
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
@@ -5830,12 +5841,6 @@ namespace FoodandBeverage.Forms
                 DataGridView dataGridView = new DataGridView();
                 dataGridView.Name = "BILLdgv" + count;
 
-                BillList.Add(new Namelist
-                {
-                    Id = Convert.ToInt32(count),
-                    Cnames = "BILLdgv" + count
-                });
-
                 dataGridView.Tag = count;
                 dataGridView.AllowUserToDeleteRows = true;
                 dataGridView.AllowUserToAddRows = false;
@@ -5948,7 +5953,14 @@ namespace FoodandBeverage.Forms
                                 Id = Convert.ToInt32(checkBox.Tag),
                                 Cnames = "chk_pro_"+ Convert.ToInt32(checkBox.Tag)
                             });
-
+                            if (!BillList.Any(item => item.Id == Convert.ToInt32(clickedControl.Tag)))
+                            {
+                                BillList.Add(new Namelist
+                                {
+                                    Id = Convert.ToInt32(clickedControl.Tag),
+                                    Cnames = "BILLdgv" + clickedControl.Tag
+                                });
+                            }
                             orderDetailsInfoList.Add(new OrderDetailsInfo
                             {
                                 OrderDetailsId = Convert.ToInt32(checkBox.Tag),

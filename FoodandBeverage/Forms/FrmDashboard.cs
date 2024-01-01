@@ -573,11 +573,10 @@ namespace FoodandBeverage.Forms
 
                             if (gridSource[i].OrderStatus == 1)
                             {
-
                                 BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                 dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
                                 dmnSearch.Table = "tblOrderDetails";
-                                dmnSearch.WhereNdGroupBy = " WHERE OrderMasterId = " + gridSource[i].OrderMasterId;
+                                dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].OrderMasterId;
                                 dmnSearch.OrderBy = "";
                                 var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);                        
 
@@ -1290,7 +1289,7 @@ namespace FoodandBeverage.Forms
             //if (screenWidth > 1367 && screenHeight > 769)
             //{
             //    form.Height = 768;
-            //    form.Width = 1367;
+            //    form.Width = 1367;pnl_products_descr
             //}
             //else
                 form.Dock = DockStyle.Fill;
