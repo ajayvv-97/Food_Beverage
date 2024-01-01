@@ -543,12 +543,20 @@ namespace FoodandBeverage.Forms
                 panel.Region = new Region(path);
             };
         }
-
-
         private void dgv_product_details_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == dactionno)
             {
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    pnl_products_rem_descr.Height = 304;
+                    pnl_products_rem_descr.Width = 155;
+                }
+                else
+                {
+                    pnl_products_rem_descr.Height = 600;
+                    pnl_products_rem_descr.Width = 300;
+                }
                 DataGridView clickedDataGridView = sender as DataGridView;
                 if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value)==1 )
                 {
