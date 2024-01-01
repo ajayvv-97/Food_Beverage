@@ -178,6 +178,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
+                                    BranchId = Convert.ToInt16(userDetails["Field3", 0].Value);
                                     UserId = Convert.ToInt64(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);

@@ -85,12 +85,12 @@ namespace FoodandBeverage.Forms
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtid = new System.Windows.Forms.TextBox();
-            this.pb3 = new System.Windows.Forms.PictureBox();
             this.btclose = new System.Windows.Forms.Button();
-            this.pb2 = new System.Windows.Forms.PictureBox();
             this.btfresh = new System.Windows.Forms.Button();
-            this.pb1 = new System.Windows.Forms.PictureBox();
             this.btsave = new System.Windows.Forms.Button();
+            this.pb3 = new System.Windows.Forms.PictureBox();
+            this.pb2 = new System.Windows.Forms.PictureBox();
+            this.pb1 = new System.Windows.Forms.PictureBox();
             this.certipic1 = new System.Windows.Forms.PictureBox();
             this.certipic3 = new System.Windows.Forms.PictureBox();
             this.certipic2 = new System.Windows.Forms.PictureBox();
@@ -785,19 +785,6 @@ namespace FoodandBeverage.Forms
             this.txtid.TabIndex = 308;
             this.txtid.Visible = false;
             // 
-            // pb3
-            // 
-            this.pb3.BackColor = System.Drawing.Color.Transparent;
-            this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
-            this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb3.Location = new System.Drawing.Point(424, 179);
-            this.pb3.Name = "pb3";
-            this.pb3.Size = new System.Drawing.Size(39, 29);
-            this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb3.TabIndex = 307;
-            this.pb3.TabStop = false;
-            // 
             // btclose
             // 
             this.btclose.BackColor = System.Drawing.Color.Transparent;
@@ -809,19 +796,6 @@ namespace FoodandBeverage.Forms
             this.btclose.TabIndex = 5;
             this.btclose.UseVisualStyleBackColor = false;
             this.btclose.Click += new System.EventHandler(this.btclose_Click);
-            // 
-            // pb2
-            // 
-            this.pb2.BackColor = System.Drawing.Color.Transparent;
-            this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
-            this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb2.Location = new System.Drawing.Point(424, 102);
-            this.pb2.Name = "pb2";
-            this.pb2.Size = new System.Drawing.Size(39, 29);
-            this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb2.TabIndex = 306;
-            this.pb2.TabStop = false;
             // 
             // btfresh
             // 
@@ -836,19 +810,6 @@ namespace FoodandBeverage.Forms
             this.btfresh.UseVisualStyleBackColor = false;
             this.btfresh.Click += new System.EventHandler(this.btfresh_Click);
             // 
-            // pb1
-            // 
-            this.pb1.BackColor = System.Drawing.Color.Transparent;
-            this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
-            this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb1.Location = new System.Drawing.Point(424, 20);
-            this.pb1.Name = "pb1";
-            this.pb1.Size = new System.Drawing.Size(42, 29);
-            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb1.TabIndex = 293;
-            this.pb1.TabStop = false;
-            // 
             // btsave
             // 
             this.btsave.BackColor = System.Drawing.Color.Transparent;
@@ -861,6 +822,45 @@ namespace FoodandBeverage.Forms
             this.btsave.TabIndex = 3;
             this.btsave.UseVisualStyleBackColor = false;
             this.btsave.Click += new System.EventHandler(this.btsave_Click);
+            // 
+            // pb3
+            // 
+            this.pb3.BackColor = System.Drawing.Color.Transparent;
+            this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
+            this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb3.Location = new System.Drawing.Point(424, 179);
+            this.pb3.Name = "pb3";
+            this.pb3.Size = new System.Drawing.Size(39, 29);
+            this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb3.TabIndex = 307;
+            this.pb3.TabStop = false;
+            // 
+            // pb2
+            // 
+            this.pb2.BackColor = System.Drawing.Color.Transparent;
+            this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
+            this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb2.Location = new System.Drawing.Point(424, 102);
+            this.pb2.Name = "pb2";
+            this.pb2.Size = new System.Drawing.Size(39, 29);
+            this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb2.TabIndex = 306;
+            this.pb2.TabStop = false;
+            // 
+            // pb1
+            // 
+            this.pb1.BackColor = System.Drawing.Color.Transparent;
+            this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
+            this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb1.Location = new System.Drawing.Point(424, 20);
+            this.pb1.Name = "pb1";
+            this.pb1.Size = new System.Drawing.Size(42, 29);
+            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb1.TabIndex = 293;
+            this.pb1.TabStop = false;
             // 
             // certipic1
             // 
