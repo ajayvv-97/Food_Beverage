@@ -1594,32 +1594,7 @@ namespace FoodandBeverage.Forms
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (MandatoryCheckuser())
-            {
-                if (clsGeneral.NameExist_UserType(txtusertype.Text))
-                {
-                    if (txtusertype.Text != "")
-                    {
-                        foreach (Control control in this.Controls)
-                        {
-                            control.Enabled = true;
-                        }
-                        DmnUserAccountType dmnUser = new DmnUserAccountType();
-                        BllUserAccount bllUser = new BllUserAccount();
-                        dmnUser.UserAccountType = txtusertype.Text;
-                        dmnUser.Note = txtdescr.Text;
-                        dmnUser.CreatedBy = FrmLogin.UserId;
-                        dmnUser.Status = 1;
-                        bool usertype = bllUser.AddUserType("prdInsertUserType", dmnUser);
-                        FillComboUserType();
-                        pnlusertype.Hide();
-                        txtusertype.Text = "";
-                        txtdescr.Text = "";
-                    }
-                }
-                else
-                    txtusertype.Focus();
-            }
+
         }
         private void HeaderCheckBoxwrite_Clicked(object sender, EventArgs e)
         {
@@ -2243,6 +2218,11 @@ namespace FoodandBeverage.Forms
         private void button2_Click_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
         }
 
         public void FillForms(int id)

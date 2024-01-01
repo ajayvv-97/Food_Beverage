@@ -37,29 +37,31 @@
             this.mtxtEmpSrlNo = new MetroFramework.Controls.MetroTextBox();
             this.dgvDepartment = new System.Windows.Forms.DataGridView();
             this.mtxtCode = new MetroFramework.Controls.MetroTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
             this.mbtnClose = new System.Windows.Forms.Button();
             this.mbtnRefresh = new System.Windows.Forms.Button();
             this.metroLabel1 = new System.Windows.Forms.Label();
-            this.mbtnSave = new System.Windows.Forms.Button();
             this.mlblName = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.mbtnSave = new System.Windows.Forms.Button();
+            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // mtxtName
@@ -77,7 +79,7 @@
             this.mtxtName.CustomButton.UseSelectable = true;
             this.mtxtName.CustomButton.Visible = false;
             this.mtxtName.Lines = new string[0];
-            this.mtxtName.Location = new System.Drawing.Point(193, 33);
+            this.mtxtName.Location = new System.Drawing.Point(187, 49);
             this.mtxtName.MaxLength = 50;
             this.mtxtName.Name = "mtxtName";
             this.mtxtName.PasswordChar = '\0';
@@ -102,7 +104,7 @@
             // 
             // 
             this.mtxtEmpSrlNo.CustomButton.Image = null;
-            this.mtxtEmpSrlNo.CustomButton.Location = new System.Drawing.Point(155, 1);
+            this.mtxtEmpSrlNo.CustomButton.Location = new System.Drawing.Point(149, 1);
             this.mtxtEmpSrlNo.CustomButton.Name = "";
             this.mtxtEmpSrlNo.CustomButton.Size = new System.Drawing.Size(27, 27);
             this.mtxtEmpSrlNo.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -111,7 +113,7 @@
             this.mtxtEmpSrlNo.CustomButton.UseSelectable = true;
             this.mtxtEmpSrlNo.CustomButton.Visible = false;
             this.mtxtEmpSrlNo.Lines = new string[0];
-            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(193, 161);
+            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(187, 3);
             this.mtxtEmpSrlNo.MaxLength = 15;
             this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
             this.mtxtEmpSrlNo.PasswordChar = '\0';
@@ -120,7 +122,7 @@
             this.mtxtEmpSrlNo.SelectionLength = 0;
             this.mtxtEmpSrlNo.SelectionStart = 0;
             this.mtxtEmpSrlNo.ShortcutsEnabled = true;
-            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(183, 29);
+            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(177, 29);
             this.mtxtEmpSrlNo.TabIndex = 2;
             this.mtxtEmpSrlNo.Tag = "Employee Srl.No.";
             this.mtxtEmpSrlNo.UseSelectable = true;
@@ -159,7 +161,7 @@
             this.dgvDepartment.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvDepartment.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvDepartment.EnableHeadersVisualStyles = false;
-            this.dgvDepartment.Location = new System.Drawing.Point(3, 59);
+            this.dgvDepartment.Location = new System.Drawing.Point(0, 62);
             this.dgvDepartment.Name = "dgvDepartment";
             this.dgvDepartment.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -183,7 +185,7 @@
             this.dgvDepartment.ShowCellErrors = false;
             this.dgvDepartment.ShowCellToolTips = false;
             this.dgvDepartment.ShowEditingIcon = false;
-            this.dgvDepartment.Size = new System.Drawing.Size(393, 491);
+            this.dgvDepartment.Size = new System.Drawing.Size(325, 488);
             this.dgvDepartment.TabIndex = 3;
             this.dgvDepartment.TabStop = false;
             this.dgvDepartment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDepartment_CellContentClick);
@@ -206,7 +208,7 @@
             this.mtxtCode.CustomButton.UseSelectable = true;
             this.mtxtCode.CustomButton.Visible = false;
             this.mtxtCode.Lines = new string[0];
-            this.mtxtCode.Location = new System.Drawing.Point(193, 93);
+            this.mtxtCode.Location = new System.Drawing.Point(187, 106);
             this.mtxtCode.MaxLength = 15;
             this.mtxtCode.Name = "mtxtCode";
             this.mtxtCode.PasswordChar = '\0';
@@ -223,44 +225,12 @@
             this.mtxtCode.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(552, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(12, 15);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "*";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(552, 105);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(12, 15);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "*";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(552, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(12, 15);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "*";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.AliceBlue;
+            this.panel1.Controls.Add(this.tableLayoutPanel2);
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -271,40 +241,10 @@
             // 
             this.panel3.Controls.Add(this.dgvDepartment);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(382, 0);
+            this.panel3.Location = new System.Drawing.Point(451, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(404, 550);
+            this.panel3.Size = new System.Drawing.Size(335, 550);
             this.panel3.TabIndex = 29;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.mtxtCode);
-            this.panel2.Controls.Add(this.mlblEmpSrlNo);
-            this.panel2.Controls.Add(this.mbtnClose);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.mbtnRefresh);
-            this.panel2.Controls.Add(this.metroLabel1);
-            this.panel2.Controls.Add(this.mbtnSave);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.mlblName);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.mtxtEmpSrlNo);
-            this.panel2.Controls.Add(this.mtxtName);
-            this.panel2.Location = new System.Drawing.Point(0, 59);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(383, 491);
-            this.panel2.TabIndex = 28;
-            // 
-            // mlblEmpSrlNo
-            // 
-            this.mlblEmpSrlNo.AutoSize = true;
-            this.mlblEmpSrlNo.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
-            this.mlblEmpSrlNo.Location = new System.Drawing.Point(12, 165);
-            this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
-            this.mlblEmpSrlNo.Size = new System.Drawing.Size(155, 25);
-            this.mlblEmpSrlNo.TabIndex = 27;
-            this.mlblEmpSrlNo.Text = "Employee Code :";
             // 
             // mbtnClose
             // 
@@ -315,7 +255,7 @@
             this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(281, 293);
+            this.mbtnClose.Location = new System.Drawing.Point(175, 3);
             this.mbtnClose.Name = "mbtnClose";
             this.mbtnClose.Size = new System.Drawing.Size(77, 23);
             this.mbtnClose.TabIndex = 24;
@@ -332,7 +272,7 @@
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(159, 293);
+            this.mbtnRefresh.Location = new System.Drawing.Point(86, 3);
             this.mbtnRefresh.Name = "mbtnRefresh";
             this.mbtnRefresh.Size = new System.Drawing.Size(77, 23);
             this.mbtnRefresh.TabIndex = 23;
@@ -344,34 +284,18 @@
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(3, 97);
+            this.metroLabel1.Location = new System.Drawing.Point(3, 103);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(181, 25);
+            this.metroLabel1.Size = new System.Drawing.Size(176, 25);
             this.metroLabel1.TabIndex = 26;
             this.metroLabel1.Text = "Department Code : ";
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.BackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
-            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnSave.FlatAppearance.BorderSize = 0;
-            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(37, 293);
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
-            this.mbtnSave.TabIndex = 22;
-            this.mbtnSave.UseVisualStyleBackColor = false;
-            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
             // 
             // mlblName
             // 
             this.mlblName.AutoSize = true;
             this.mlblName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(40, 33);
+            this.mlblName.Location = new System.Drawing.Point(3, 46);
             this.mlblName.Name = "mlblName";
             this.mlblName.Size = new System.Drawing.Size(127, 25);
             this.mlblName.TabIndex = 25;
@@ -380,22 +304,30 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.SteelBlue;
-            this.panel5.Controls.Add(this.pictureBox10);
-            this.panel5.Controls.Add(this.label23);
-            this.panel5.Controls.Add(this.btncolse);
-            this.panel5.Controls.Add(this.btnmini);
+            this.panel5.Controls.Add(this.tableLayoutPanel3);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(786, 59);
             this.panel5.TabIndex = 277;
             // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(20, 27);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
+            // 
             // label23
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label23.Location = new System.Drawing.Point(58, 14);
+            this.label23.Location = new System.Drawing.Point(29, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(139, 25);
             this.label23.TabIndex = 277;
@@ -408,7 +340,7 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(751, 17);
+            this.btncolse.Location = new System.Drawing.Point(746, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -423,7 +355,7 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(720, 17);
+            this.btnmini.Location = new System.Drawing.Point(673, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 10;
@@ -431,16 +363,106 @@
             this.btnmini.UseVisualStyleBackColor = false;
             this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
-            // pictureBox10
+            // mbtnSave
             // 
-            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox10.Location = new System.Drawing.Point(16, 14);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(38, 27);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
+            this.mbtnSave.BackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
+            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnSave.FlatAppearance.BorderSize = 0;
+            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
+            this.mbtnSave.TabIndex = 22;
+            this.mbtnSave.UseVisualStyleBackColor = false;
+            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
+            // 
+            // mlblEmpSrlNo
+            // 
+            this.mlblEmpSrlNo.AutoSize = true;
+            this.mlblEmpSrlNo.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
+            this.mlblEmpSrlNo.Location = new System.Drawing.Point(3, 0);
+            this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
+            this.mlblEmpSrlNo.Size = new System.Drawing.Size(155, 25);
+            this.mlblEmpSrlNo.TabIndex = 27;
+            this.mlblEmpSrlNo.Text = "Employee Code :";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.74107F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.25893F));
+            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 0, 2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 65);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.66019F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.33981F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 207);
+            this.tableLayoutPanel1.TabIndex = 30;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 270F));
+            this.tableLayoutPanel2.Controls.Add(this.mbtnSave, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.mbtnClose, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.mbtnRefresh, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 278);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 120);
+            this.tableLayoutPanel2.TabIndex = 31;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 5;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.5F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 644F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel3.Controls.Add(this.button1, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.pictureBox10, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnmini, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label23, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btncolse, 4, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(786, 44);
+            this.tableLayoutPanel3.TabIndex = 279;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(710, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(25, 25);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "-";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmDepartment
             // 
@@ -463,11 +485,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -477,15 +501,10 @@
         private MetroFramework.Controls.MetroTextBox mtxtEmpSrlNo;
         private System.Windows.Forms.DataGridView dgvDepartment;
         private MetroFramework.Controls.MetroTextBox mtxtCode;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button mbtnSave;
         private System.Windows.Forms.Button mbtnRefresh;
         private System.Windows.Forms.Button mbtnClose;
         
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label mlblEmpSrlNo;
         private System.Windows.Forms.Label metroLabel1;
         private System.Windows.Forms.Label mlblName;
         private System.Windows.Forms.Panel panel5;
@@ -494,6 +513,11 @@
         private System.Windows.Forms.Button btncolse;
         private System.Windows.Forms.Button btnmini;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button mbtnSave;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label mlblEmpSrlNo;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button button1;
     }
 }
