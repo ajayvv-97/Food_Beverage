@@ -30,14 +30,24 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEmployeeShort));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.txtCardnumber = new System.Windows.Forms.TextBox();
             this.btnrfid = new System.Windows.Forms.Button();
+            this.mbtnClose = new System.Windows.Forms.Button();
+            this.btnCapture = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.mpbRemove = new System.Windows.Forms.PictureBox();
+            this.mbtnRefresh = new System.Windows.Forms.Button();
             this.cmbcam = new System.Windows.Forms.ComboBox();
+            this.mbtnSave = new System.Windows.Forms.Button();
+            this.mpbAdd = new System.Windows.Forms.PictureBox();
+            this.pbCust = new System.Windows.Forms.PictureBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.btnDesgtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chk_Rfid_Login = new System.Windows.Forms.CheckBox();
             this.chkactive = new System.Windows.Forms.CheckBox();
@@ -65,7 +75,12 @@ namespace FoodandBeverage.Forms
             this.txtempcode = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnaddusertype = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.mbtnList = new System.Windows.Forms.Button();
             this.dgvforms = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.formid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,6 +93,10 @@ namespace FoodandBeverage.Forms
             this.cmbUsreAccount = new System.Windows.Forms.ComboBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.chkshowpassword = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -93,7 +112,9 @@ namespace FoodandBeverage.Forms
             this.txtcconpassword = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.pnlusertype = new System.Windows.Forms.Panel();
+            this.btnusertype = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblsubcatclose = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
@@ -102,35 +123,17 @@ namespace FoodandBeverage.Forms
             this.txtdescr = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label19 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
-            this.btnusertype = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.mbtnClose = new System.Windows.Forms.Button();
-            this.btnCapture = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.mpbRemove = new System.Windows.Forms.PictureBox();
-            this.mbtnRefresh = new System.Windows.Forms.Button();
-            this.mbtnSave = new System.Windows.Forms.Button();
-            this.mpbAdd = new System.Windows.Forms.PictureBox();
-            this.pbCust = new System.Windows.Forms.PictureBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.btnDesgtn = new System.Windows.Forms.Button();
-            this.btnaddusertype = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.mbtnList = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mpbRemove)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpbAdd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCust)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -139,12 +142,9 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.SuspendLayout();
             this.pnlusertype.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpbRemove)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpbAdd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCust)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -237,6 +237,81 @@ namespace FoodandBeverage.Forms
             this.btnrfid.UseVisualStyleBackColor = false;
             this.btnrfid.Click += new System.EventHandler(this.btnrfid_Click);
             // 
+            // mbtnClose
+            // 
+            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
+            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnClose.FlatAppearance.BorderSize = 0;
+            this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnClose.Location = new System.Drawing.Point(677, 329);
+            this.mbtnClose.Name = "mbtnClose";
+            this.mbtnClose.Size = new System.Drawing.Size(75, 23);
+            this.mbtnClose.TabIndex = 15;
+            this.mbtnClose.UseVisualStyleBackColor = true;
+            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
+            // 
+            // btnCapture
+            // 
+            this.btnCapture.BackColor = System.Drawing.Color.Transparent;
+            this.btnCapture.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCapture.BackgroundImage")));
+            this.btnCapture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnCapture.FlatAppearance.BorderSize = 0;
+            this.btnCapture.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnCapture.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCapture.Location = new System.Drawing.Point(702, 166);
+            this.btnCapture.Name = "btnCapture";
+            this.btnCapture.Size = new System.Drawing.Size(48, 20);
+            this.btnCapture.TabIndex = 246;
+            this.btnCapture.UseVisualStyleBackColor = false;
+            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
+            // 
+            // button5
+            // 
+            this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
+            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(579, 329);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(70, 23);
+            this.button5.TabIndex = 14;
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click_1);
+            // 
+            // mpbRemove
+            // 
+            this.mpbRemove.BackColor = System.Drawing.Color.Transparent;
+            this.mpbRemove.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mpbRemove.BackgroundImage")));
+            this.mpbRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mpbRemove.Location = new System.Drawing.Point(783, 59);
+            this.mpbRemove.Name = "mpbRemove";
+            this.mpbRemove.Size = new System.Drawing.Size(30, 40);
+            this.mpbRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.mpbRemove.TabIndex = 245;
+            this.mpbRemove.TabStop = false;
+            this.mpbRemove.Click += new System.EventHandler(this.mpbRemove_Click);
+            // 
+            // mbtnRefresh
+            // 
+            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
+            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
+            this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnRefresh.Location = new System.Drawing.Point(474, 329);
+            this.mbtnRefresh.Name = "mbtnRefresh";
+            this.mbtnRefresh.Size = new System.Drawing.Size(70, 23);
+            this.mbtnRefresh.TabIndex = 13;
+            this.mbtnRefresh.UseVisualStyleBackColor = true;
+            this.mbtnRefresh.Click += new System.EventHandler(this.mbtnRefresh_Click);
+            // 
             // cmbcam
             // 
             this.cmbcam.FormattingEnabled = true;
@@ -244,6 +319,74 @@ namespace FoodandBeverage.Forms
             this.cmbcam.Name = "cmbcam";
             this.cmbcam.Size = new System.Drawing.Size(100, 26);
             this.cmbcam.TabIndex = 244;
+            // 
+            // mbtnSave
+            // 
+            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
+            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnSave.FlatAppearance.BorderSize = 0;
+            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnSave.Location = new System.Drawing.Point(363, 329);
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
+            this.mbtnSave.TabIndex = 12;
+            this.mbtnSave.UseVisualStyleBackColor = true;
+            this.mbtnSave.Click += new System.EventHandler(this.mbtnSave_Click);
+            // 
+            // mpbAdd
+            // 
+            this.mpbAdd.BackColor = System.Drawing.Color.Transparent;
+            this.mpbAdd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mpbAdd.BackgroundImage")));
+            this.mpbAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.mpbAdd.Location = new System.Drawing.Point(783, 27);
+            this.mpbAdd.Name = "mpbAdd";
+            this.mpbAdd.Size = new System.Drawing.Size(30, 21);
+            this.mpbAdd.TabIndex = 243;
+            this.mpbAdd.TabStop = false;
+            this.mpbAdd.Click += new System.EventHandler(this.mpbAdd_Click_1);
+            // 
+            // pbCust
+            // 
+            this.pbCust.BackColor = System.Drawing.Color.Transparent;
+            this.pbCust.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbCust.BackgroundImage")));
+            this.pbCust.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbCust.Location = new System.Drawing.Point(677, 59);
+            this.pbCust.Name = "pbCust";
+            this.pbCust.Size = new System.Drawing.Size(100, 99);
+            this.pbCust.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCust.TabIndex = 242;
+            this.pbCust.TabStop = false;
+            // 
+            // button4
+            // 
+            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(638, 75);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(40, 28);
+            this.button4.TabIndex = 241;
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // btnDesgtn
+            // 
+            this.btnDesgtn.BackColor = System.Drawing.Color.Transparent;
+            this.btnDesgtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDesgtn.BackgroundImage")));
+            this.btnDesgtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnDesgtn.FlatAppearance.BorderSize = 0;
+            this.btnDesgtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDesgtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDesgtn.Location = new System.Drawing.Point(639, 26);
+            this.btnDesgtn.Name = "btnDesgtn";
+            this.btnDesgtn.Size = new System.Drawing.Size(40, 28);
+            this.btnDesgtn.TabIndex = 240;
+            this.btnDesgtn.UseVisualStyleBackColor = false;
+            this.btnDesgtn.Click += new System.EventHandler(this.btnDesgtn_Click);
             // 
             // panel2
             // 
@@ -579,6 +722,24 @@ namespace FoodandBeverage.Forms
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Role Registration";
             // 
+            // btnaddusertype
+            // 
+            this.btnaddusertype.BackColor = System.Drawing.Color.Transparent;
+            this.btnaddusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnaddusertype.BackgroundImage")));
+            this.btnaddusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnaddusertype.FlatAppearance.BorderSize = 0;
+            this.btnaddusertype.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnaddusertype.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnaddusertype.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnaddusertype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnaddusertype.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnaddusertype.Location = new System.Drawing.Point(351, 18);
+            this.btnaddusertype.Name = "btnaddusertype";
+            this.btnaddusertype.Size = new System.Drawing.Size(27, 32);
+            this.btnaddusertype.TabIndex = 224;
+            this.btnaddusertype.UseVisualStyleBackColor = false;
+            this.btnaddusertype.Click += new System.EventHandler(this.btnaddusertype_Click);
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 5;
@@ -600,6 +761,70 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Size = new System.Drawing.Size(811, 34);
             this.tableLayoutPanel1.TabIndex = 223;
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.Transparent;
+            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Location = new System.Drawing.Point(131, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(70, 23);
+            this.btnSave.TabIndex = 19;
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
+            this.btnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRefresh.BackgroundImage")));
+            this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRefresh.FlatAppearance.BorderSize = 0;
+            this.btnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Location = new System.Drawing.Point(235, 3);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(70, 23);
+            this.btnRefresh.TabIndex = 20;
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.Transparent;
+            this.btnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnClose.BackgroundImage")));
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Location = new System.Drawing.Point(449, 3);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(70, 23);
+            this.btnClose.TabIndex = 21;
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // mbtnList
+            // 
+            this.mbtnList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnList.BackgroundImage")));
+            this.mbtnList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnList.FlatAppearance.BorderSize = 0;
+            this.mbtnList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnList.Location = new System.Drawing.Point(343, 3);
+            this.mbtnList.Name = "mbtnList";
+            this.mbtnList.Size = new System.Drawing.Size(70, 23);
+            this.mbtnList.TabIndex = 57;
+            this.mbtnList.UseVisualStyleBackColor = true;
+            this.mbtnList.Click += new System.EventHandler(this.mbtnList_Click);
+            // 
             // dgvforms
             // 
             this.dgvforms.AllowUserToAddRows = false;
@@ -614,8 +839,8 @@ namespace FoodandBeverage.Forms
             this.dgvforms.Location = new System.Drawing.Point(6, 82);
             this.dgvforms.Name = "dgvforms";
             this.dgvforms.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvforms.RowTemplate.Height = 35;
             this.dgvforms.Size = new System.Drawing.Size(789, 223);
             this.dgvforms.TabIndex = 222;
@@ -746,6 +971,70 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(811, 38);
             this.tableLayoutPanel8.TabIndex = 259;
+            // 
+            // button7
+            // 
+            this.button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button7.BackColor = System.Drawing.Color.Transparent;
+            this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
+            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button7.FlatAppearance.BorderSize = 0;
+            this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Location = new System.Drawing.Point(240, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(77, 23);
+            this.button7.TabIndex = 20;
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.Transparent;
+            this.button6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button6.BackgroundImage")));
+            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Location = new System.Drawing.Point(113, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(77, 23);
+            this.button6.TabIndex = 19;
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button9
+            // 
+            this.button9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button9.BackgroundImage")));
+            this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button9.FlatAppearance.BorderSize = 0;
+            this.button9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button9.Location = new System.Drawing.Point(368, 3);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(77, 23);
+            this.button9.TabIndex = 57;
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.Color.Transparent;
+            this.button8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button8.BackgroundImage")));
+            this.button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Location = new System.Drawing.Point(494, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(77, 23);
+            this.button8.TabIndex = 21;
+            this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // chkshowpassword
             // 
@@ -924,11 +1213,29 @@ namespace FoodandBeverage.Forms
             this.pnlusertype.Controls.Add(this.txtdescr);
             this.pnlusertype.Controls.Add(this.label27);
             this.pnlusertype.ForeColor = System.Drawing.Color.Black;
-            this.pnlusertype.Location = new System.Drawing.Point(140, 38);
+            this.pnlusertype.Location = new System.Drawing.Point(140, 37);
             this.pnlusertype.Name = "pnlusertype";
             this.pnlusertype.Size = new System.Drawing.Size(458, 265);
             this.pnlusertype.TabIndex = 250;
             this.pnlusertype.Visible = false;
+            // 
+            // btnusertype
+            // 
+            this.btnusertype.BackColor = System.Drawing.Color.Transparent;
+            this.btnusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnusertype.BackgroundImage")));
+            this.btnusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnusertype.Enabled = false;
+            this.btnusertype.FlatAppearance.BorderSize = 0;
+            this.btnusertype.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnusertype.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnusertype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnusertype.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnusertype.Location = new System.Drawing.Point(191, 215);
+            this.btnusertype.Name = "btnusertype";
+            this.btnusertype.Size = new System.Drawing.Size(70, 23);
+            this.btnusertype.TabIndex = 234;
+            this.btnusertype.UseVisualStyleBackColor = false;
+            this.btnusertype.Click += new System.EventHandler(this.btnusertype_Click_1);
             // 
             // panel1
             // 
@@ -941,6 +1248,16 @@ namespace FoodandBeverage.Forms
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(454, 44);
             this.panel1.TabIndex = 233;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(18, 7);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(34, 30);
+            this.pictureBox1.TabIndex = 279;
+            this.pictureBox1.TabStop = false;
             // 
             // lblsubcatclose
             // 
@@ -1043,6 +1360,16 @@ namespace FoodandBeverage.Forms
             this.panel5.Size = new System.Drawing.Size(829, 59);
             this.panel5.TabIndex = 275;
             // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox10.Location = new System.Drawing.Point(15, 22);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(34, 30);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -1112,333 +1439,6 @@ namespace FoodandBeverage.Forms
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
             // 
-            // btnusertype
-            // 
-            this.btnusertype.BackColor = System.Drawing.Color.Transparent;
-            this.btnusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnusertype.BackgroundImage")));
-            this.btnusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnusertype.Enabled = false;
-            this.btnusertype.FlatAppearance.BorderSize = 0;
-            this.btnusertype.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnusertype.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnusertype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnusertype.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnusertype.Location = new System.Drawing.Point(191, 215);
-            this.btnusertype.Name = "btnusertype";
-            this.btnusertype.Size = new System.Drawing.Size(70, 23);
-            this.btnusertype.TabIndex = 234;
-            this.btnusertype.UseVisualStyleBackColor = false;
-            this.btnusertype.Click += new System.EventHandler(this.btnusertype_Click_1);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(18, 7);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(34, 30);
-            this.pictureBox1.TabIndex = 279;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox10.Location = new System.Drawing.Point(15, 22);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(34, 30);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
-            // 
-            // mbtnClose
-            // 
-            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
-            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnClose.FlatAppearance.BorderSize = 0;
-            this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(677, 329);
-            this.mbtnClose.Name = "mbtnClose";
-            this.mbtnClose.Size = new System.Drawing.Size(75, 23);
-            this.mbtnClose.TabIndex = 15;
-            this.mbtnClose.UseVisualStyleBackColor = true;
-            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
-            // 
-            // btnCapture
-            // 
-            this.btnCapture.BackColor = System.Drawing.Color.Transparent;
-            this.btnCapture.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCapture.BackgroundImage")));
-            this.btnCapture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnCapture.FlatAppearance.BorderSize = 0;
-            this.btnCapture.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnCapture.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCapture.Location = new System.Drawing.Point(702, 166);
-            this.btnCapture.Name = "btnCapture";
-            this.btnCapture.Size = new System.Drawing.Size(48, 20);
-            this.btnCapture.TabIndex = 246;
-            this.btnCapture.UseVisualStyleBackColor = false;
-            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
-            // 
-            // button5
-            // 
-            this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(579, 329);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(70, 23);
-            this.button5.TabIndex = 14;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click_1);
-            // 
-            // mpbRemove
-            // 
-            this.mpbRemove.BackColor = System.Drawing.Color.Transparent;
-            this.mpbRemove.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mpbRemove.BackgroundImage")));
-            this.mpbRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mpbRemove.Location = new System.Drawing.Point(783, 59);
-            this.mpbRemove.Name = "mpbRemove";
-            this.mpbRemove.Size = new System.Drawing.Size(30, 40);
-            this.mpbRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.mpbRemove.TabIndex = 245;
-            this.mpbRemove.TabStop = false;
-            this.mpbRemove.Click += new System.EventHandler(this.mpbRemove_Click);
-            // 
-            // mbtnRefresh
-            // 
-            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
-            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
-            this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(474, 329);
-            this.mbtnRefresh.Name = "mbtnRefresh";
-            this.mbtnRefresh.Size = new System.Drawing.Size(70, 23);
-            this.mbtnRefresh.TabIndex = 13;
-            this.mbtnRefresh.UseVisualStyleBackColor = true;
-            this.mbtnRefresh.Click += new System.EventHandler(this.mbtnRefresh_Click);
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
-            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnSave.FlatAppearance.BorderSize = 0;
-            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(363, 329);
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
-            this.mbtnSave.TabIndex = 12;
-            this.mbtnSave.UseVisualStyleBackColor = true;
-            this.mbtnSave.Click += new System.EventHandler(this.mbtnSave_Click);
-            // 
-            // mpbAdd
-            // 
-            this.mpbAdd.BackColor = System.Drawing.Color.Transparent;
-            this.mpbAdd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mpbAdd.BackgroundImage")));
-            this.mpbAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.mpbAdd.Location = new System.Drawing.Point(783, 27);
-            this.mpbAdd.Name = "mpbAdd";
-            this.mpbAdd.Size = new System.Drawing.Size(30, 21);
-            this.mpbAdd.TabIndex = 243;
-            this.mpbAdd.TabStop = false;
-            this.mpbAdd.Click += new System.EventHandler(this.mpbAdd_Click_1);
-            // 
-            // pbCust
-            // 
-            this.pbCust.BackColor = System.Drawing.Color.Transparent;
-            this.pbCust.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbCust.BackgroundImage")));
-            this.pbCust.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbCust.Location = new System.Drawing.Point(677, 59);
-            this.pbCust.Name = "pbCust";
-            this.pbCust.Size = new System.Drawing.Size(100, 99);
-            this.pbCust.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbCust.TabIndex = 242;
-            this.pbCust.TabStop = false;
-            // 
-            // button4
-            // 
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(638, 75);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(40, 28);
-            this.button4.TabIndex = 241;
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // btnDesgtn
-            // 
-            this.btnDesgtn.BackColor = System.Drawing.Color.Transparent;
-            this.btnDesgtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDesgtn.BackgroundImage")));
-            this.btnDesgtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnDesgtn.FlatAppearance.BorderSize = 0;
-            this.btnDesgtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDesgtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDesgtn.Location = new System.Drawing.Point(639, 26);
-            this.btnDesgtn.Name = "btnDesgtn";
-            this.btnDesgtn.Size = new System.Drawing.Size(40, 28);
-            this.btnDesgtn.TabIndex = 240;
-            this.btnDesgtn.UseVisualStyleBackColor = false;
-            this.btnDesgtn.Click += new System.EventHandler(this.btnDesgtn_Click);
-            // 
-            // btnaddusertype
-            // 
-            this.btnaddusertype.BackColor = System.Drawing.Color.Transparent;
-            this.btnaddusertype.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnaddusertype.BackgroundImage")));
-            this.btnaddusertype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnaddusertype.FlatAppearance.BorderSize = 0;
-            this.btnaddusertype.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btnaddusertype.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnaddusertype.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnaddusertype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnaddusertype.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnaddusertype.Location = new System.Drawing.Point(351, 18);
-            this.btnaddusertype.Name = "btnaddusertype";
-            this.btnaddusertype.Size = new System.Drawing.Size(27, 32);
-            this.btnaddusertype.TabIndex = 224;
-            this.btnaddusertype.UseVisualStyleBackColor = false;
-            this.btnaddusertype.Click += new System.EventHandler(this.btnaddusertype_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.Color.Transparent;
-            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
-            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSave.FlatAppearance.BorderSize = 0;
-            this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(131, 3);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(70, 23);
-            this.btnSave.TabIndex = 19;
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
-            this.btnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRefresh.BackgroundImage")));
-            this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Location = new System.Drawing.Point(235, 3);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(70, 23);
-            this.btnRefresh.TabIndex = 20;
-            this.btnRefresh.UseVisualStyleBackColor = false;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.Transparent;
-            this.btnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnClose.BackgroundImage")));
-            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Location = new System.Drawing.Point(449, 3);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(70, 23);
-            this.btnClose.TabIndex = 21;
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // mbtnList
-            // 
-            this.mbtnList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnList.BackgroundImage")));
-            this.mbtnList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnList.FlatAppearance.BorderSize = 0;
-            this.mbtnList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnList.Location = new System.Drawing.Point(343, 3);
-            this.mbtnList.Name = "mbtnList";
-            this.mbtnList.Size = new System.Drawing.Size(70, 23);
-            this.mbtnList.TabIndex = 57;
-            this.mbtnList.UseVisualStyleBackColor = true;
-            this.mbtnList.Click += new System.EventHandler(this.mbtnList_Click);
-            // 
-            // button7
-            // 
-            this.button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button7.BackColor = System.Drawing.Color.Transparent;
-            this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
-            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button7.FlatAppearance.BorderSize = 0;
-            this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(240, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(77, 23);
-            this.button7.TabIndex = 20;
-            this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button6.BackgroundImage")));
-            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(113, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(77, 23);
-            this.button6.TabIndex = 19;
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button9
-            // 
-            this.button9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button9.BackgroundImage")));
-            this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button9.FlatAppearance.BorderSize = 0;
-            this.button9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.Location = new System.Drawing.Point(368, 3);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(77, 23);
-            this.button9.TabIndex = 57;
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button8
-            // 
-            this.button8.BackColor = System.Drawing.Color.Transparent;
-            this.button8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button8.BackgroundImage")));
-            this.button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(494, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(77, 23);
-            this.button8.TabIndex = 21;
-            this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
             // FrmEmployeeShort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1454,6 +1454,9 @@ namespace FoodandBeverage.Forms
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mpbRemove)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpbAdd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCust)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -1467,13 +1470,10 @@ namespace FoodandBeverage.Forms
             this.pnlusertype.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpbRemove)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpbAdd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCust)).EndInit();
             this.ResumeLayout(false);
 
         }

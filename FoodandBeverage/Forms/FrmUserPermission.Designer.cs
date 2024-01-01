@@ -395,7 +395,6 @@ namespace FoodandBeverage.Forms
             // lblsubcatclose
             // 
             this.lblsubcatclose.BackColor = System.Drawing.Color.Transparent;
-            this.lblsubcatclose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lblsubcatclose.BackgroundImage")));
             this.lblsubcatclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lblsubcatclose.FlatAppearance.BorderSize = 0;
             this.lblsubcatclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

@@ -326,6 +326,9 @@
     <EmbeddedResource Include="Forms\FrmDesignation.resx">
       <DependentUpon>FrmDesignation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmEmployeeShort.resx">
+      <DependentUpon>FrmEmployeeShort.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmFTICategory.resx">
       <DependentUpon>FrmFTICategory.cs</DependentUpon>
     </EmbeddedResource>
@@ -365,6 +368,12 @@
       <DependentUpon>FrmPurchaseReturn.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRegistration.resx">
+      <DependentUpon>FrmRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReservation.resx">
+      <DependentUpon>FrmReservation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTableInfo.resx">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -374,6 +383,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnit.resx">
       <DependentUpon>FrmUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUserAccount.resx">
+      <DependentUpon>FrmUserAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUserPermission.resx">
+      <DependentUpon>FrmUserPermission.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmVendor.resx">
       <DependentUpon>FrmVendor.cs</DependentUpon>
