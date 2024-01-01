@@ -39,10 +39,11 @@ namespace FoodandBeverage.Interfaces
             Game,
             ReaderImages,
             FoodPhoto,
-            HotelRegistrationProofPics
+            HotelRegistrationProofPics,
+            DocumentType
 
 
-        };
+    };
         public enum ItemTaxMode
         {
             Exclusive = 0,

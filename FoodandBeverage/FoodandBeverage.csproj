@@ -819,5 +819,8 @@
   <ItemGroup>
     <None Include="Resources\down-arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\billcomplete_GIF.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

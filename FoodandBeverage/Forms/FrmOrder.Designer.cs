@@ -317,6 +317,10 @@ namespace FoodandBeverage.Forms
             this.splitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.completestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sbillno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OaAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OdAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PromoAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscountAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_numberwise = new System.Windows.Forms.TableLayoutPanel();
             this.label27 = new System.Windows.Forms.Label();
             this.txtnumber_split = new System.Windows.Forms.TextBox();
@@ -2812,9 +2816,7 @@ namespace FoodandBeverage.Forms
             // panel1
             // 
             this.panel1.Controls.Add(this.pnl_partpayment);
-            this.panel1.Controls.Add(this.tlp_calculation_total);
             this.panel1.Controls.Add(this.pnlproductviewmore);
-            this.panel1.Controls.Add(this.tlp_discount_calc);
             this.panel1.Controls.Add(this.pnl_products_descr);
             this.panel1.Controls.Add(this.pnlprice);
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -3478,7 +3480,11 @@ namespace FoodandBeverage.Forms
             this.dataGridViewTextBoxColumn36,
             this.splitStatus,
             this.completestatus,
-            this.sbillno});
+            this.sbillno,
+            this.OaAmount,
+            this.OdAmount,
+            this.PromoAmt,
+            this.DiscountAmount});
             this.dgv_split.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_split.Location = new System.Drawing.Point(3, 225);
             this.dgv_split.Name = "dgv_split";
@@ -3563,12 +3569,36 @@ namespace FoodandBeverage.Forms
             this.sbillno.Name = "sbillno";
             this.sbillno.Visible = false;
             // 
+            // OaAmount
+            // 
+            this.OaAmount.HeaderText = "OaAmount ";
+            this.OaAmount.Name = "OaAmount";
+            this.OaAmount.Visible = false;
+            // 
+            // OdAmount
+            // 
+            this.OdAmount.HeaderText = "OdAmount ";
+            this.OdAmount.Name = "OdAmount";
+            this.OdAmount.Visible = false;
+            // 
+            // PromoAmt
+            // 
+            this.PromoAmt.HeaderText = "PromoAmt";
+            this.PromoAmt.Name = "PromoAmt";
+            this.PromoAmt.Visible = false;
+            // 
+            // DiscountAmount
+            // 
+            this.DiscountAmount.HeaderText = "DiscountAmount";
+            this.DiscountAmount.Name = "DiscountAmount";
+            this.DiscountAmount.Visible = false;
+            // 
             // tlp_numberwise
             // 
             this.tlp_numberwise.ColumnCount = 3;
             this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.63107F));
             this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.36893F));
-            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
+            this.tlp_numberwise.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
             this.tlp_numberwise.Controls.Add(this.label27, 0, 0);
             this.tlp_numberwise.Controls.Add(this.txtnumber_split, 1, 0);
             this.tlp_numberwise.Controls.Add(this.btn_con_nosplit, 2, 0);
@@ -3587,7 +3617,7 @@ namespace FoodandBeverage.Forms
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.Location = new System.Drawing.Point(3, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(148, 51);
+            this.label27.Size = new System.Drawing.Size(147, 51);
             this.label27.TabIndex = 0;
             this.label27.Text = "Enter Number ";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3595,19 +3625,19 @@ namespace FoodandBeverage.Forms
             // txtnumber_split
             // 
             this.txtnumber_split.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtnumber_split.Location = new System.Drawing.Point(157, 3);
+            this.txtnumber_split.Location = new System.Drawing.Point(156, 3);
             this.txtnumber_split.Multiline = true;
             this.txtnumber_split.Name = "txtnumber_split";
-            this.txtnumber_split.Size = new System.Drawing.Size(177, 45);
+            this.txtnumber_split.Size = new System.Drawing.Size(176, 45);
             this.txtnumber_split.TabIndex = 1;
             // 
             // btn_con_nosplit
             // 
             this.btn_con_nosplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_con_nosplit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_con_nosplit.Location = new System.Drawing.Point(340, 3);
+            this.btn_con_nosplit.Location = new System.Drawing.Point(338, 3);
             this.btn_con_nosplit.Name = "btn_con_nosplit";
-            this.btn_con_nosplit.Size = new System.Drawing.Size(106, 45);
+            this.btn_con_nosplit.Size = new System.Drawing.Size(108, 45);
             this.btn_con_nosplit.TabIndex = 2;
             this.btn_con_nosplit.Text = "Confirm";
             this.btn_con_nosplit.UseVisualStyleBackColor = true;
@@ -3896,6 +3926,8 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 557);
+            this.Controls.Add(this.tlp_discount_calc);
+            this.Controls.Add(this.tlp_calculation_total);
             this.Controls.Add(this.pnl_split_itemwise);
             this.Controls.Add(this.tlp_promo_code);
             this.Controls.Add(this.tlp_split_payment_button);
@@ -4261,5 +4293,9 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn splitStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn completestatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn sbillno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OaAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OdAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PromoAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DiscountAmount;
     }
 }

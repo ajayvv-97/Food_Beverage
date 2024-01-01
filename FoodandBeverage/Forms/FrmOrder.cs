@@ -13,7 +13,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static FoodandBeverage.Interfaces.Interfaces;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Forms
 {
@@ -4837,6 +4837,8 @@ namespace FoodandBeverage.Forms
                     BllSale bllSales = new BllSale();
                     if (string.IsNullOrEmpty(txtdis_per.Text))
                         txtdis_per.Text = "0";
+                    if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
+                        txtdiscountamt_promo.Text = "0";
                     finaltotalqty();
                     //dmnsalemaster.EntryNo = txtinvoiceno.Text;
                     dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
@@ -4852,6 +4854,7 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                     dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
                     dmnsalemaster.OrderMasterid = Convert.ToInt32(lblorderid.Text);
+                    dmnsalemaster.PromoAmount = Convert.ToDecimal(txtdiscountamt_promo.Text);
                     dmnsalemaster.Tid = tableId;
                     dmnsalemaster.PayId = payid; 
 
@@ -4867,7 +4870,6 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.PromoDId = 0;
                         dmnsalemaster.Promostatus = 0;
                     }
-
                     //dmnsalemaster.Remark = txtRemark.Text; 
                     dmnsalemaster.BranchId = FrmDashboard.BranchId;
                     dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
@@ -4883,7 +4885,7 @@ namespace FoodandBeverage.Forms
                     dmnsalemaster.TotalVAT = TotalVAT;
                     dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                     ////dmnsalemaster.mDevice = clsGeneral.FetchMacId();
-                    var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
+                    var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
                     #region details
                     if (InsertStatusP.SalesMasterId != 0)
                     {
@@ -4920,9 +4922,11 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
                                     dmnsaledetails.Quantity = Convert.ToInt32(gridSourcemaster[i].Quantity);
                                     dmnsaledetails.DiscountPer = Convert.ToDecimal(gridSourcemaster[i].DiscountPer);
+                                    dmnsaledetails.DiscountAmount = Convert.ToDecimal(gridSourcemaster[i].DiscountAmount);
                                     dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
                                     dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
                                     dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
+                                    dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
                                     dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
                                     dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
                                     dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
@@ -4934,13 +4938,14 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
                                     dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
                                     dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+                                    dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
 
                                     dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                     dmnsaledetails.CreatedBy = 1;
                                     dmnsaledetails.Status = 1;
 
                                     dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
-                                    var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
+                                    var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails); 
                                     if (InsertStatus == null)
                                     {
                                         MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -5132,8 +5137,6 @@ namespace FoodandBeverage.Forms
                         pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
                         dgv_split.Rows.Clear();
                         break;
-
-
                 }
                 tlp_payment_option.Visible = false;
                 if(clickedButton.Name!= "Btnpartpayment")
@@ -5565,14 +5568,21 @@ namespace FoodandBeverage.Forms
                     {
                         matchingOrderDetailsIds += orderDetailsInfo.OrderDetailsId + ",";
                     }
-                }                
+                }
+                dmnpayment.BillCount = BillList.Count;
                 dmnpayment.SplitType = Splitypeno;
+
+                dmnpayment.OaAmount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[8].Value);
+                dmnpayment.OdAmount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[9].Value);
+                dmnpayment.PromoAmt = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[10].Value);
+                dmnpayment.DiscountAmount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[11].Value);
+
                 dmnpayment.OrderDetailsId = matchingOrderDetailsIds;
                 dmnpayment.BranchId = FrmDashboard.BranchId;
                 dmnpayment.CreatedBy = FrmDashboard.UserId;
                 dmnpayment.Status = 1;
-                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
-                if(InsertStatus.PayId>0)
+                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment); 
+                if (InsertStatus.PayId>0)
                 {
                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
                     frmSalesInvoice.ShowDialog();
@@ -5686,26 +5696,41 @@ namespace FoodandBeverage.Forms
                                     {
                                         if (row.Cells[2].Value != null && Convert.ToInt32(row.Cells[2].Value) == saleDetails.SalesDetailsId)
                                         {
-                                             amount = Convert.ToDecimal(saleDetails.Amount);
+                                             amount = Convert.ToDecimal(saleDetails.NetAmount);
                                              tamt = tamt + amount;
                                         }
                                     }                
                                 }
                             }
-
+                            decimal otheraddamt=0, otherdedamt=0;
                             dgv_split.Rows.Add();
                             if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
                                 txtdiscountamt_promo.Text = "0";
+                            if (string.IsNullOrEmpty(txtotheraddamt.Text))
+                                txtotheraddamt.Text = "0";
+                            if (string.IsNullOrEmpty(txtotherdedamt.Text))
+                                txtotherdedamt.Text = "0";
                             decimal discountAmnt = Convert.ToDecimal(txtdis_per.Text.Trim()) * tamt / 100;
-                            if(Convert.ToDecimal(txtdiscountamt_promo.Text)>0)
+
+                            if(Convert.ToDecimal(txtotheraddamt.Text) >0)
+                                 otheraddamt = Convert.ToDecimal(txtotheraddamt.Text) / Convert.ToInt32(BillList.Count);
+                            if (Convert.ToDecimal(txtotherdedamt.Text) > 0)
+                                 otherdedamt = Convert.ToDecimal(txtotherdedamt.Text) / Convert.ToInt32(BillList.Count);
+
+                            if (Convert.ToDecimal(txtdiscountamt_promo.Text)>0)
                             {
                                 promoamt = Convert.ToDecimal(txtdiscountamt_promo.Text) / Convert.ToInt32(BillList.Count);
-                            }
-                            decimal finalamt = tamt - (discountAmnt + promoamt);
+                            }                            
+                            decimal finalamt = (tamt + otheraddamt) - (discountAmnt + promoamt + otherdedamt);
                             dgv_split.Rows[j].Cells[0].Value = j + 1; ;
                             dgv_split.Rows[j].Cells[1].Value = finalamt;
                             dgv_split.Rows[j].Cells[6].Value = 1;
                             dgv_split.Rows[j].Cells[7].Value = nameInfo.Id;
+
+                            dgv_split.Rows[j].Cells[8].Value = otheraddamt;
+                            dgv_split.Rows[j].Cells[9].Value = otherdedamt;
+                            dgv_split.Rows[j].Cells[10].Value = promoamt;
+                            dgv_split.Rows[j].Cells[11].Value = discountAmnt;
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[j].Cells[2];
                             cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
                             cell.Value = Properties.Resources.pay_per_click;

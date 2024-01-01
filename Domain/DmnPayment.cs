@@ -22,6 +22,12 @@ namespace Domain
         public DateTime ModifiedOn { get; set; }
         public string OrderDetailsId { get; set; }
         public int SplitType { get; set; }
+        public int BillCount { get; set; }
+        public decimal OaAmount { get; set; }
+        public decimal OdAmount { get; set; }
+        public decimal PromoAmt { get; set; }
+        public decimal DiscountAmount { get; set; }
+
 
     }
     

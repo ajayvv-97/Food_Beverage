@@ -41,6 +41,7 @@ namespace Domain
         public int Prid { get; set; }
         public int itemid { get; set; }
         public string ItemBarcode { get; set; }
+        public decimal MarketPrice { get; set; }
         
 
 

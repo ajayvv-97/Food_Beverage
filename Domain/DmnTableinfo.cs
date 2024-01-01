@@ -22,6 +22,8 @@ namespace Domain
         public int OrderStatus { get; set; }
         public string CategoryName { get; set; }
         public decimal Price { get; set; }
+        public int OrderMasterId { get; set; }
+        
 
     }
 }
