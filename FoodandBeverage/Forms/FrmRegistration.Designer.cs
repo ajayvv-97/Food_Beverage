@@ -57,6 +57,7 @@ namespace FoodandBeverage.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
@@ -94,7 +95,6 @@ namespace FoodandBeverage.Forms
             this.certipic1 = new System.Windows.Forms.PictureBox();
             this.certipic3 = new System.Windows.Forms.PictureBox();
             this.certipic2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.pbCust2 = new System.Windows.Forms.PictureBox();
             this.pbCust1 = new System.Windows.Forms.PictureBox();
             this.cboProof2 = new System.Windows.Forms.PictureBox();
@@ -102,6 +102,7 @@ namespace FoodandBeverage.Forms
             this.cboProof = new System.Windows.Forms.PictureBox();
             this.pbCust = new System.Windows.Forms.PictureBox();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
@@ -110,7 +111,6 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.certipic1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.certipic3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.certipic2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).BeginInit();
@@ -433,6 +433,16 @@ namespace FoodandBeverage.Forms
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(820, 59);
             this.panel5.TabIndex = 275;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox10.Location = new System.Drawing.Point(16, 11);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(47, 31);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
             // 
             // label23
             // 
@@ -901,16 +911,6 @@ namespace FoodandBeverage.Forms
             this.certipic2.TabStop = false;
             this.certipic2.Click += new System.EventHandler(this.certipic2_Click);
             // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox10.Location = new System.Drawing.Point(16, 11);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(47, 31);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
-            // 
             // pbCust2
             // 
             this.pbCust2.BackColor = System.Drawing.Color.Transparent;
@@ -1003,6 +1003,7 @@ namespace FoodandBeverage.Forms
             this.Load += new System.EventHandler(this.FrmRegistration_Load_1);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -1013,7 +1014,6 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.certipic1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.certipic3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.certipic2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).EndInit();
