@@ -31,7 +31,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDesignation));
             this.mtxtName = new MetroFramework.Controls.MetroTextBox();
             this.mcmbDepartment = new MetroFramework.Controls.MetroComboBox();
             this.dgvDesignation = new System.Windows.Forms.DataGridView();
@@ -39,32 +38,32 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.mlblEmpSrlNo = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel1 = new System.Windows.Forms.Label();
+            this.mlblName = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.mbtnClose = new System.Windows.Forms.Button();
             this.mbtnRefresh = new System.Windows.Forms.Button();
             this.mbtnSave = new System.Windows.Forms.Button();
-            this.mlblName = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btncolse = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDesignation)).BeginInit();
             this.mlblEmpSrlNo.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.SuspendLayout();
             // 
             // mtxtName
@@ -82,7 +81,7 @@
             this.mtxtName.CustomButton.UseSelectable = true;
             this.mtxtName.CustomButton.Visible = false;
             this.mtxtName.Lines = new string[0];
-            this.mtxtName.Location = new System.Drawing.Point(142, 38);
+            this.mtxtName.Location = new System.Drawing.Point(141, 38);
             this.mtxtName.MaxLength = 50;
             this.mtxtName.Name = "mtxtName";
             this.mtxtName.PasswordChar = '\0';
@@ -108,7 +107,7 @@
             this.mcmbDepartment.FormattingEnabled = true;
             this.mcmbDepartment.IntegralHeight = false;
             this.mcmbDepartment.ItemHeight = 23;
-            this.mcmbDepartment.Location = new System.Drawing.Point(142, 3);
+            this.mcmbDepartment.Location = new System.Drawing.Point(141, 3);
             this.mcmbDepartment.Name = "mcmbDepartment";
             this.mcmbDepartment.Size = new System.Drawing.Size(207, 29);
             this.mcmbDepartment.TabIndex = 0;
@@ -192,7 +191,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(128, 0);
+            this.label1.Location = new System.Drawing.Point(127, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(8, 15);
             this.label1.TabIndex = 10;
@@ -203,7 +202,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(128, 35);
+            this.label2.Location = new System.Drawing.Point(127, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(8, 15);
             this.label2.TabIndex = 11;
@@ -220,159 +219,12 @@
             this.mlblEmpSrlNo.Size = new System.Drawing.Size(794, 557);
             this.mlblEmpSrlNo.TabIndex = 14;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.dgvDesignation);
-            this.panel2.Location = new System.Drawing.Point(479, 60);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(312, 491);
-            this.panel2.TabIndex = 20;
-            // 
-            // metroLabel1
-            // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(3, 0);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(117, 35);
-            this.metroLabel1.TabIndex = 13;
-            this.metroLabel1.Text = "Department :";
-            // 
-            // mbtnClose
-            // 
-            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
-            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnClose.FlatAppearance.BorderSize = 0;
-            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(177, 3);
-            this.mbtnClose.Name = "mbtnClose";
-            this.mbtnClose.Size = new System.Drawing.Size(77, 23);
-            this.mbtnClose.TabIndex = 18;
-            this.mbtnClose.UseVisualStyleBackColor = true;
-            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
-            this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
-            this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
-            // 
-            // mbtnRefresh
-            // 
-            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
-            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
-            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(89, 3);
-            this.mbtnRefresh.Name = "mbtnRefresh";
-            this.mbtnRefresh.Size = new System.Drawing.Size(77, 23);
-            this.mbtnRefresh.TabIndex = 17;
-            this.mbtnRefresh.UseVisualStyleBackColor = true;
-            this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
-            this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
-            this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
-            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnSave.FlatAppearance.BorderSize = 0;
-            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
-            this.mbtnSave.TabIndex = 16;
-            this.mbtnSave.UseVisualStyleBackColor = true;
-            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
-            this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
-            this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
-            // 
-            // mlblName
-            // 
-            this.mlblName.AutoSize = true;
-            this.mlblName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(3, 35);
-            this.mlblName.Name = "mlblName";
-            this.mlblName.Size = new System.Drawing.Size(115, 35);
-            this.mlblName.TabIndex = 14;
-            this.mlblName.Text = "Designation :";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(151, 25);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "Working Hours :";
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.SteelBlue;
-            this.panel5.Controls.Add(this.tableLayoutPanel4);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(794, 59);
-            this.panel5.TabIndex = 276;
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(38, 27);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
-            this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label23.Location = new System.Drawing.Point(47, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(136, 25);
-            this.label23.TabIndex = 277;
-            this.label23.Text = "Designation";
-            // 
-            // btncolse
-            // 
-            this.btncolse.BackColor = System.Drawing.Color.White;
-            this.btncolse.FlatAppearance.BorderSize = 0;
-            this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(765, 3);
-            this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(25, 25);
-            this.btncolse.TabIndex = 11;
-            this.btncolse.Text = "X";
-            this.btncolse.UseVisualStyleBackColor = false;
-            this.btncolse.Click += new System.EventHandler(this.btncolse_Click);
-            // 
-            // btnmini
-            // 
-            this.btnmini.BackColor = System.Drawing.Color.White;
-            this.btnmini.FlatAppearance.BorderSize = 0;
-            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(705, 3);
-            this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(23, 25);
-            this.btnmini.TabIndex = 10;
-            this.btnmini.Text = "-";
-            this.btnmini.UseVisualStyleBackColor = false;
-            this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.47369F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.52632F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 334F));
             this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.mcmbDepartment, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 1);
@@ -391,6 +243,28 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(473, 382);
             this.tableLayoutPanel1.TabIndex = 21;
             // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroLabel1.ForeColor = System.Drawing.Color.Black;
+            this.metroLabel1.Location = new System.Drawing.Point(3, 0);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(117, 35);
+            this.metroLabel1.TabIndex = 13;
+            this.metroLabel1.Text = "Department :";
+            // 
+            // mlblName
+            // 
+            this.mlblName.AutoSize = true;
+            this.mlblName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mlblName.ForeColor = System.Drawing.Color.Black;
+            this.mlblName.Location = new System.Drawing.Point(3, 35);
+            this.mlblName.Name = "mlblName";
+            this.mlblName.Size = new System.Drawing.Size(115, 35);
+            this.mlblName.TabIndex = 14;
+            this.mlblName.Text = "Designation :";
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
@@ -398,45 +272,102 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dtpWorkingHrs, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(142, 73);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(141, 73);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(328, 99);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(151, 25);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Working Hours :";
+            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.42529F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.57471F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
             this.tableLayoutPanel3.Controls.Add(this.mbtnClose, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.mbtnRefresh, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.mbtnSave, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(142, 178);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(141, 178);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(328, 32);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
-            // button1
+            // mbtnClose
             // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(734, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(25, 25);
-            this.button1.TabIndex = 279;
-            this.button1.Text = "-";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.mbtnClose.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
+            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnClose.FlatAppearance.BorderSize = 0;
+            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnClose.Location = new System.Drawing.Point(176, 3);
+            this.mbtnClose.Name = "mbtnClose";
+            this.mbtnClose.Size = new System.Drawing.Size(77, 23);
+            this.mbtnClose.TabIndex = 18;
+            this.mbtnClose.UseVisualStyleBackColor = true;
+            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
+            this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
+            this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
+            // 
+            // mbtnRefresh
+            // 
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
+            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnRefresh.Location = new System.Drawing.Point(89, 3);
+            this.mbtnRefresh.Name = "mbtnRefresh";
+            this.mbtnRefresh.Size = new System.Drawing.Size(77, 23);
+            this.mbtnRefresh.TabIndex = 17;
+            this.mbtnRefresh.UseVisualStyleBackColor = true;
+            this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
+            this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
+            this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
+            // 
+            // mbtnSave
+            // 
+            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
+            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnSave.FlatAppearance.BorderSize = 0;
+            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
+            this.mbtnSave.TabIndex = 16;
+            this.mbtnSave.UseVisualStyleBackColor = true;
+            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
+            this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
+            this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.dgvDesignation);
+            this.panel2.Location = new System.Drawing.Point(479, 60);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(312, 491);
+            this.panel2.TabIndex = 20;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel5.Controls.Add(this.tableLayoutPanel4);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(794, 59);
+            this.panel5.TabIndex = 276;
             // 
             // tableLayoutPanel4
             // 
@@ -445,7 +376,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.64162F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel4.Controls.Add(this.btncolse, 4, 0);
             this.tableLayoutPanel4.Controls.Add(this.button1, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.pictureBox10, 0, 0);
@@ -458,6 +389,76 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(794, 49);
             this.tableLayoutPanel4.TabIndex = 22;
+            // 
+            // btncolse
+            // 
+            this.btncolse.BackColor = System.Drawing.Color.White;
+            this.btncolse.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btncolse.FlatAppearance.BorderSize = 0;
+            this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncolse.ForeColor = System.Drawing.Color.Red;
+            this.btncolse.Location = new System.Drawing.Point(764, 3);
+            this.btncolse.Name = "btncolse";
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
+            this.btncolse.TabIndex = 11;
+            this.btncolse.Text = "X";
+            this.btncolse.UseVisualStyleBackColor = false;
+            this.btncolse.Click += new System.EventHandler(this.btncolse_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.BackgroundImage = global::FoodandBeverage.Properties.Resources.icons8_maximize_window_48;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(733, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(25, 25);
+            this.button1.TabIndex = 279;
+            this.button1.Text = "-";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackgroundImage = global::FoodandBeverage.Properties.Resources.white_star1;
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(38, 27);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label23.Location = new System.Drawing.Point(47, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(136, 25);
+            this.label23.TabIndex = 277;
+            this.label23.Text = "Designation";
+            // 
+            // btnmini
+            // 
+            this.btnmini.BackColor = System.Drawing.Color.White;
+            this.btnmini.BackgroundImage = global::FoodandBeverage.Properties.Resources.minimize_button;
+            this.btnmini.FlatAppearance.BorderSize = 0;
+            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnmini.ForeColor = System.Drawing.Color.Black;
+            this.btnmini.Location = new System.Drawing.Point(704, 3);
+            this.btnmini.Name = "btnmini";
+            this.btnmini.Size = new System.Drawing.Size(23, 25);
+            this.btnmini.TabIndex = 10;
+            this.btnmini.Text = "-";
+            this.btnmini.UseVisualStyleBackColor = false;
+            this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // FrmDesignation
             // 
@@ -476,16 +477,16 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FrmDesignation_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDesignation)).EndInit();
             this.mlblEmpSrlNo.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.ResumeLayout(false);
 
         }
