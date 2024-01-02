@@ -257,7 +257,7 @@
             // 
             this.mbtnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mbtnRefresh.BackColor = System.Drawing.Color.Transparent;
-            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;

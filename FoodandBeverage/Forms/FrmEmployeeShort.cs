@@ -243,7 +243,7 @@ namespace FoodandBeverage.Forms
             dmnlocation.Table = " tblLocationDetails ";
             dmnlocation.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
             dmnlocation.OrderBy = "order by Value";
-            var location = blllocation.GetSearchData("prdComboFill", dmnlocation);
+            ///var location = blllocation.GetSearchData("prdComboFill", dmnlocation);
             //mcmblocation.DataSource = location;
             //mcmblocation.DisplayMember = "Value";
             //mcmblocation.ValueMember = "Id";
@@ -1088,7 +1088,7 @@ namespace FoodandBeverage.Forms
             dmnlocation.Table = " tblLocationDetails ";
             dmnlocation.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
             dmnlocation.OrderBy = "order by Value";
-            var location = blllocation.GetSearchData("prdComboFill", dmnlocation);
+            //var location = blllocation.GetSearchData("prdComboFill", dmnlocation);
             //mcmblocation.DataSource = location;
             //mcmblocation.DisplayMember = "Value";
             //mcmblocation.ValueMember = "Id";

@@ -1334,7 +1334,7 @@ namespace FoodandBeverage.Forms
             // 
             // button5
             // 
-            this.button5.BackgroundImage = global::FoodandBeverage.Properties.Resources.SearchButton;
+            this.button5.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -1349,7 +1349,7 @@ namespace FoodandBeverage.Forms
             // 
             // mbtnRefresh
             // 
-            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -1432,7 +1432,7 @@ namespace FoodandBeverage.Forms
             // 
             this.btnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
-            this.btnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.btnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnRefresh.FlatAppearance.BorderSize = 0;
             this.btnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -1463,7 +1463,7 @@ namespace FoodandBeverage.Forms
             // 
             // mbtnList
             // 
-            this.mbtnList.BackgroundImage = global::FoodandBeverage.Properties.Resources.SearchButton;
+            this.mbtnList.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
             this.mbtnList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnList.FlatAppearance.BorderSize = 0;
             this.mbtnList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -1480,7 +1480,7 @@ namespace FoodandBeverage.Forms
             // 
             this.button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button7.BackColor = System.Drawing.Color.Transparent;
-            this.button7.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.button7.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -1511,7 +1511,7 @@ namespace FoodandBeverage.Forms
             // 
             // button9
             // 
-            this.button9.BackgroundImage = global::FoodandBeverage.Properties.Resources.Search_Button;
+            this.button9.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
             this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button9.FlatAppearance.BorderSize = 0;
             this.button9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;

@@ -840,5 +840,8 @@
   <ItemGroup>
     <None Include="Resources\pay-per-click.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-maximize-window-48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -323,7 +323,7 @@
             // 
             // mbtnRefresh
             // 
-            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -425,7 +425,7 @@
             // 
             // pictureBox10
             // 
-            this.pictureBox10.BackgroundImage = global::FoodandBeverage.Properties.Resources.white_star1;
+            this.pictureBox10.BackgroundImage = global::FoodandBeverage.Properties.Resources.white_star;
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox10.Location = new System.Drawing.Point(3, 3);
             this.pictureBox10.Name = "pictureBox10";

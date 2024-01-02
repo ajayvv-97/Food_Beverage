@@ -96,3 +96,9 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmDepartment.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmEmployeeShort.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmRegistration.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmReservation.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.UserAccount.FrmUserAccount.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmUserPermission.resources

@@ -1487,7 +1487,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.lbltotvat);
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FrmReservation";
             this.Text = "FrmReservation";
             this.Load += new System.EventHandler(this.FrmReservation_Load);
             this.tabControl1.ResumeLayout(false);

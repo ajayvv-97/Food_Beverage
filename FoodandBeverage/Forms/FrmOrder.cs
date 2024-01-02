@@ -6132,10 +6132,6 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
-
-        private void cmb_itemcategory_split_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-          
-        }
+      
     }
 }
