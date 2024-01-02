@@ -4669,17 +4669,16 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtordermasterid.Text))
                 txtordermasterid.Text = "0";
-
-            if (string.IsNullOrEmpty(txtpaidamount.Text))
-            {
-                CMessageBox.Show("Please Enter Paid Amount Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtpaidamount.Focus();
-                return false;
-            }
-            else if (tlp_seletedItem_main.Controls.Count==0)
+            if (tlp_seletedItem_main.Controls.Count == 0)
             {
 
                 CMessageBox.Show("Product cart is Empty", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            else if (string.IsNullOrEmpty(txtpaidamount.Text))
+            {
+                CMessageBox.Show("Please Enter Paid Amount Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtpaidamount.Focus();
                 return false;
             }
             return true;

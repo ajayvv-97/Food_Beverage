@@ -826,19 +826,19 @@
     <None Include="Resources\userpermisson.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\loading_gif.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pay-per-click.png" />
+    <None Include="Resources\billcomplete_GIF.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\plus.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\loading_gif.gif" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\down-arrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\billcomplete_GIF.gif" />
+    <None Include="Resources\pay-per-click.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
