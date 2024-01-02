@@ -38,30 +38,30 @@
             this.dgvDepartment = new System.Windows.Forms.DataGridView();
             this.mtxtCode = new MetroFramework.Controls.MetroTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.mbtnClose = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.mbtnRefresh = new System.Windows.Forms.Button();
-            this.metroLabel1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
             this.mlblName = new System.Windows.Forms.Label();
+            this.metroLabel1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnmini = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.btncolse = new System.Windows.Forms.Button();
-            this.btnmini = new System.Windows.Forms.Button();
-            this.mbtnSave = new System.Windows.Forms.Button();
-            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.mbtnSave = new System.Windows.Forms.Button();
+            this.mbtnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).BeginInit();
             this.panel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.SuspendLayout();
             // 
             // mtxtName
@@ -237,36 +237,27 @@
             this.panel1.Size = new System.Drawing.Size(786, 550);
             this.panel1.TabIndex = 26;
             // 
-            // panel3
+            // tableLayoutPanel2
             // 
-            this.panel3.Controls.Add(this.dgvDepartment);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(451, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(335, 550);
-            this.panel3.TabIndex = 29;
-            // 
-            // mbtnClose
-            // 
-            this.mbtnClose.BackColor = System.Drawing.Color.Transparent;
-            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnClose.BackgroundImage")));
-            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnClose.FlatAppearance.BorderSize = 0;
-            this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(175, 3);
-            this.mbtnClose.Name = "mbtnClose";
-            this.mbtnClose.Size = new System.Drawing.Size(77, 23);
-            this.mbtnClose.TabIndex = 24;
-            this.mbtnClose.UseVisualStyleBackColor = false;
-            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click_1);
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 270F));
+            this.tableLayoutPanel2.Controls.Add(this.mbtnSave, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.mbtnClose, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.mbtnRefresh, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 278);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 120);
+            this.tableLayoutPanel2.TabIndex = 31;
             // 
             // mbtnRefresh
             // 
             this.mbtnRefresh.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mbtnRefresh.BackColor = System.Drawing.Color.Transparent;
-            this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnRefresh.BackgroundImage")));
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button;
             this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -279,16 +270,36 @@
             this.mbtnRefresh.UseVisualStyleBackColor = false;
             this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
             // 
-            // metroLabel1
+            // tableLayoutPanel1
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(3, 103);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(176, 25);
-            this.metroLabel1.TabIndex = 26;
-            this.metroLabel1.Text = "Department Code : ";
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.74107F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.25893F));
+            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 0, 2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 65);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.66019F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.33981F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 207);
+            this.tableLayoutPanel1.TabIndex = 30;
+            // 
+            // mlblEmpSrlNo
+            // 
+            this.mlblEmpSrlNo.AutoSize = true;
+            this.mlblEmpSrlNo.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
+            this.mlblEmpSrlNo.Location = new System.Drawing.Point(3, 0);
+            this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
+            this.mlblEmpSrlNo.Size = new System.Drawing.Size(155, 25);
+            this.mlblEmpSrlNo.TabIndex = 27;
+            this.mlblEmpSrlNo.Text = "Employee Code :";
             // 
             // mlblName
             // 
@@ -301,6 +312,26 @@
             this.mlblName.TabIndex = 25;
             this.mlblName.Text = "Department :";
             // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroLabel1.ForeColor = System.Drawing.Color.Black;
+            this.metroLabel1.Location = new System.Drawing.Point(3, 103);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(176, 25);
+            this.metroLabel1.TabIndex = 26;
+            this.metroLabel1.Text = "Department Code : ";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.dgvDepartment);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel3.Location = new System.Drawing.Point(451, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(335, 550);
+            this.panel3.TabIndex = 29;
+            // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.SteelBlue;
@@ -311,16 +342,41 @@
             this.panel5.Size = new System.Drawing.Size(786, 59);
             this.panel5.TabIndex = 277;
             // 
-            // pictureBox10
+            // tableLayoutPanel3
             // 
-            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(20, 27);
-            this.pictureBox10.TabIndex = 278;
-            this.pictureBox10.TabStop = false;
+            this.tableLayoutPanel3.ColumnCount = 5;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.5F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 644F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel3.Controls.Add(this.button1, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.pictureBox10, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnmini, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label23, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btncolse, 4, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(786, 44);
+            this.tableLayoutPanel3.TabIndex = 279;
+            // 
+            // btnmini
+            // 
+            this.btnmini.BackColor = System.Drawing.Color.White;
+            this.btnmini.FlatAppearance.BorderSize = 0;
+            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnmini.ForeColor = System.Drawing.Color.Black;
+            this.btnmini.Location = new System.Drawing.Point(673, 3);
+            this.btnmini.Name = "btnmini";
+            this.btnmini.Size = new System.Drawing.Size(25, 25);
+            this.btnmini.TabIndex = 10;
+            this.btnmini.Text = "-";
+            this.btnmini.UseVisualStyleBackColor = false;
+            this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // label23
             // 
@@ -348,109 +404,10 @@
             this.btncolse.UseVisualStyleBackColor = false;
             this.btncolse.Click += new System.EventHandler(this.btncolse_Click);
             // 
-            // btnmini
-            // 
-            this.btnmini.BackColor = System.Drawing.Color.White;
-            this.btnmini.FlatAppearance.BorderSize = 0;
-            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(673, 3);
-            this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(25, 25);
-            this.btnmini.TabIndex = 10;
-            this.btnmini.Text = "-";
-            this.btnmini.UseVisualStyleBackColor = false;
-            this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.BackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mbtnSave.BackgroundImage")));
-            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnSave.FlatAppearance.BorderSize = 0;
-            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
-            this.mbtnSave.TabIndex = 22;
-            this.mbtnSave.UseVisualStyleBackColor = false;
-            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
-            // 
-            // mlblEmpSrlNo
-            // 
-            this.mlblEmpSrlNo.AutoSize = true;
-            this.mlblEmpSrlNo.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
-            this.mlblEmpSrlNo.Location = new System.Drawing.Point(3, 0);
-            this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
-            this.mlblEmpSrlNo.Size = new System.Drawing.Size(155, 25);
-            this.mlblEmpSrlNo.TabIndex = 27;
-            this.mlblEmpSrlNo.Text = "Employee Code :";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.74107F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.25893F));
-            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 0, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 65);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.66019F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.33981F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 103F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 207);
-            this.tableLayoutPanel1.TabIndex = 30;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 270F));
-            this.tableLayoutPanel2.Controls.Add(this.mbtnSave, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.mbtnClose, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.mbtnRefresh, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 278);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 120);
-            this.tableLayoutPanel2.TabIndex = 31;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 5;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.5F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 644F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel3.Controls.Add(this.button1, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.pictureBox10, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnmini, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label23, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btncolse, 4, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(786, 44);
-            this.tableLayoutPanel3.TabIndex = 279;
-            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.BackgroundImage = global::FoodandBeverage.Properties.Resources.show_hide_side_panel;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -463,6 +420,49 @@
             this.button1.Text = "-";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(20, 27);
+            this.pictureBox10.TabIndex = 278;
+            this.pictureBox10.TabStop = false;
+            // 
+            // mbtnSave
+            // 
+            this.mbtnSave.BackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
+            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnSave.FlatAppearance.BorderSize = 0;
+            this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.Size = new System.Drawing.Size(77, 23);
+            this.mbtnSave.TabIndex = 22;
+            this.mbtnSave.UseVisualStyleBackColor = false;
+            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
+            // 
+            // mbtnClose
+            // 
+            this.mbtnClose.BackColor = System.Drawing.Color.Transparent;
+            this.mbtnClose.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
+            this.mbtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnClose.FlatAppearance.BorderSize = 0;
+            this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnClose.Location = new System.Drawing.Point(175, 3);
+            this.mbtnClose.Name = "mbtnClose";
+            this.mbtnClose.Size = new System.Drawing.Size(77, 23);
+            this.mbtnClose.TabIndex = 24;
+            this.mbtnClose.UseVisualStyleBackColor = false;
+            this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click_1);
             // 
             // FrmDepartment
             // 
@@ -484,14 +484,14 @@
             this.Leave += new System.EventHandler(this.FrmDepartment_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.ResumeLayout(false);
 
         }

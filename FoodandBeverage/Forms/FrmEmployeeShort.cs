@@ -13,7 +13,6 @@ using System.Security.Principal;
 using System.Text.RegularExpressions;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Interfaces;
-
 namespace FoodandBeverage.Forms
 {
     public partial class FrmEmployeeShort : Form
@@ -325,10 +324,10 @@ namespace FoodandBeverage.Forms
                 {
                     pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
                     if (Convert.ToInt32(cboGender.SelectedValue) == 1)
-                        pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicmale;
+                        pbCust.Image = null;
 
                     else if (Convert.ToInt32(cboGender.SelectedValue) == 2)
-                        pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicfemale;
+                        pbCust.Image =null;
                 }
                 if (gridSource[0].UserAccountTypeId != null)
                 {
