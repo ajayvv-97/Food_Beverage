@@ -14,6 +14,7 @@ using System.Data;
 using CrystalDecisions.CrystalReports.Engine;
 using BLL;
 using CustomMessageBox;
+using FoodandBeverage.Forms;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -84,9 +85,9 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchInvoiceHeaders = new DmnSearch();
                 #endregion
 
-                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,LocId,GSTNO";
-                dmnSearchInvoiceHeaders.Table = "tblLocationDetails";
-                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where LocId=" + BranchId;
+                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,Id,GSTNO";
+                dmnSearchInvoiceHeaders.Table = "tblHotelRegistration";
+                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where Id=" + FrmDashboard.BranchId;
                 var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
                 //locationname_api = invoiceBillHeaders[0].Name;
                 DmnSearch dmnSearchInvoiceBill = new DmnSearch();

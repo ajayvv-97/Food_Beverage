@@ -146,6 +146,16 @@ namespace FoodandBeverage.Forms
                             if(txtUserName.Text== "test" && txtPwd.Text == "test")
                             {
                                 this.Visible = false;
+                                DmnSearch obj = new DmnSearch();
+                                BllSearch<DmnHRegistration> bllpayments = new BllSearch<DmnHRegistration>();
+                                obj.Select = "*";
+                                obj.Table = "tblHotelRegistration";
+                                obj.WhereNdGroupBy = " where status=1";;
+                                var result = bllpayments.GetSearchData("prdSearch", obj);
+                                if (result.Count > 0)                                
+                                    BranchId = Convert.ToInt16(result[0].Id);
+                                else
+                                    BranchId =0;
                                 Forms.FrmDashboard DashBoard = new FrmDashboard();
                                 DashBoard.MdiParent = this.MdiParent;
                                 DashBoard.ShowDialog();

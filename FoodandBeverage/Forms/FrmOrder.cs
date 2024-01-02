@@ -3904,7 +3904,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo })
+                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo, txtnumber_split })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -4591,6 +4591,8 @@ namespace FoodandBeverage.Forms
                 {
                     textBox.Text = "";
                 }
+                btn_itemwise.Visible = true;
+                btn_split_number.Visible = true;
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
                 txtother_descr.Text = "Description Type Here ...";
@@ -4661,6 +4663,8 @@ namespace FoodandBeverage.Forms
                 Promodetailsid = 0;
                 Promomasterid = 0;
                 CheckRe_order();
+                btn_itemwise.Visible = true;
+                btn_split_number.Visible = true;
             }
             else
                 ClearAll();
@@ -5142,6 +5146,7 @@ namespace FoodandBeverage.Forms
                         }
                         break;
                     case "btn_splitpayment":
+                        tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
                         payid = Convert.ToInt32(PaymentType.SPLIT);
                         pnl_split.Visible = true;
                         pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
@@ -5387,6 +5392,7 @@ namespace FoodandBeverage.Forms
         private void btn_split_number_Click(object sender, EventArgs e)
         {
             Splitypeno = 1;
+            tlp_main_split.RowStyles[4] = new RowStyle(SizeType.Percent,15);
             Control controlToRemove = tlp_main_split.GetControlFromPosition(0,4);
             tlp_main_split.Controls.Remove(controlToRemove);
             tlp_main_split.Controls.Add(tlp_numberwise, 0,4);
@@ -5414,6 +5420,10 @@ namespace FoodandBeverage.Forms
         }
         private void btn_itemwise_Click(object sender, EventArgs e)
         {
+            btn_split_number.Visible = false;
+            tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+            Control controlToRemove = tlp_main_split.GetControlFromPosition(0, 4);
+            tlp_main_split.Controls.Remove(controlToRemove);
             Splitypeno = 2;
             pnl_split.Visible = false;
             pnl_split_itemwise.Visible = true;
@@ -5436,20 +5446,32 @@ namespace FoodandBeverage.Forms
             }
             BllSearch<DmnGridFields> bllSearchmaster = new BllSearch<DmnGridFields>();
             DmnSearch dmnSearchmaster = new DmnSearch();
-            dmnSearchmaster.Select = "sd.ItemName Field1,sd.SalesDetailsId Field2,sd.SalesMasterId Field3";
-            dmnSearchmaster.Table = "  tblSalesMaster sm LEFT JOIN tblSalesDetails sd on sd.SalesMasterId= sm.SalesMasterId";
+            dmnSearchmaster.Select = "sd.ItemName Field1,sd.SalesDetailsId Field2,sd.SalesMasterId Field3,sd.ProductType Field4,c.CategoryName Field5";
+            dmnSearchmaster.Table = "  tblSalesMaster sm " +
+                "LEFT JOIN tblSalesDetails sd on sd.SalesMasterId= sm.SalesMasterId " +
+                "LEFT JOIN tblCategory_FTI c on sd.ProductType= c.Fcid";
             dmnSearchmaster.WhereNdGroupBy = "where sm.tid= " + tableId + " and sm.Status=1 and sm.OrderMasterid= "+ Convert.ToInt32(lblorderid.Text);
             dmnSearchmaster.OrderBy = "";
             var CheckSource = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
             if (CheckSource.Count > 0)
             {
-                Existingsalemasterid =Convert.ToInt32(CheckSource[0].Field3);
+                var distinctCheckSource = CheckSource
+                    .GroupBy(x => x.Field4)
+                    .Select(g => g.First())
+                    .ToList();
+                distinctCheckSource.Insert(0, new DmnGridFields { Field4 = "-1", Field5 = "None" });
+                cmb_itemcategory_split.DataSource = distinctCheckSource;
+                cmb_itemcategory_split.ValueMember = "Field4";
+                cmb_itemcategory_split.DisplayMember = "Field5";
+                cmb_itemcategory_split.SelectedIndex = 0; 
+                Existingsalemasterid = Convert.ToInt32(CheckSource[0].Field3);
                 foreach (var item in CheckSource)
                 {
                     CheckBox checkBox = new CheckBox();
                     checkBox.Name = "chk_pro_" + item.Field2;
                     checkBox.Text = item.Field1;
                     checkBox.Tag = item.Field2;
+                    checkBox.AccessibleDescription = item.Field4;
                     checkBox.AutoSize = true;
                     checkBox.Margin = new Padding(10, 10, 0, 0);
                     checkBox.ForeColor = Color.Black;
@@ -5486,7 +5508,7 @@ namespace FoodandBeverage.Forms
             for (int i=0;i< Convert.ToInt32(txtnumber_split.Text);i++)
             {
                 dgv_split.Rows[i].Cells[0].Value = i + 1; ;
-                dgv_split.Rows[i].Cells[1].Value = shareamount;
+                dgv_split.Rows[i].Cells[1].Value = shareamount.ToString("N");
                 dgv_split.Rows[i].Cells[6].Value = 1;
                 DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
@@ -5733,7 +5755,7 @@ namespace FoodandBeverage.Forms
                             }                            
                             decimal finalamt = (tamt + otheraddamt) - (discountAmnt + promoamt + otherdedamt);
                             dgv_split.Rows[j].Cells[0].Value = j + 1; ;
-                            dgv_split.Rows[j].Cells[1].Value = finalamt;
+                            dgv_split.Rows[j].Cells[1].Value = finalamt.ToString("N");
                             dgv_split.Rows[j].Cells[6].Value = 1;
                             dgv_split.Rows[j].Cells[7].Value = nameInfo.Id;
 
@@ -5860,18 +5882,23 @@ namespace FoodandBeverage.Forms
                 DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
                 DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
                 DataGridViewTextBoxColumn columnorderdetailsid = new DataGridViewTextBoxColumn();
+                DataGridViewTextBoxColumn columncateid = new DataGridViewTextBoxColumn();
                 dataGridView.Columns.Add(columnSlno);
                 dataGridView.Columns.Add(columnItemName);
                 dataGridView.Columns.Add(columnorderdetailsid);
+                dataGridView.Columns.Add(columncateid);
 
                 dataGridView.Columns[0].HeaderText = "Slno";
                 dataGridView.Columns[1].HeaderText = "Item Name";
                 dataGridView.Columns[2].HeaderText = "orderdetailsid";
+                dataGridView.Columns[3].HeaderText = "categid";
 
                 dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
                 dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dataGridView.Columns[2].Visible = false;
+                dataGridView.Columns[3].Visible = false;
                 dataGridView.Rows.Add();
                 dataGridView.Visible = false;
 
@@ -5947,6 +5974,7 @@ namespace FoodandBeverage.Forms
                             dgvcontrol.Rows[i].Cells[0].Value = i + 1;
                             dgvcontrol.Rows[i].Cells[1].Value = checkBox.Text;
                             dgvcontrol.Rows[i].Cells[2].Value = Convert.ToInt32(checkBox.Tag);
+                            dgvcontrol.Rows[i].Cells[3].Value = Convert.ToInt32(checkBox.AccessibleDescription);
                             CheckedNames.Add(new Namelist
                             {
                                 Id = Convert.ToInt32(checkBox.Tag),
@@ -6020,6 +6048,7 @@ namespace FoodandBeverage.Forms
                             checkBox.Name = "chk_pro_" + Convert.ToInt32(dgvcontrol.Rows[i].Cells[2].Value);
                             checkBox.Text = Convert.ToString(dgvcontrol.Rows[i].Cells[1].Value);
                             checkBox.Tag = Convert.ToInt32(dgvcontrol.Rows[i].Cells[2].Value);
+                            checkBox.AccessibleDescription = Convert.ToString(dgvcontrol.Rows[i].Cells[3].Value);
                             checkBox.AutoSize = true;
                             checkBox.Margin = new Padding(10, 10, 0, 0);
                             checkBox.ForeColor = Color.Black;
@@ -6039,6 +6068,74 @@ namespace FoodandBeverage.Forms
 
             }
 
+        }
+
+        private void txtnumber_split_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void chk_itemwise_pro_selectall_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_itemwise_pro_selectall.Checked)
+            {
+                if (cmb_itemcategory_split.SelectedIndex == 0)
+                {
+                    foreach (Control control in flp_itemwise_products.Controls)
+                    {
+                        if (control is CheckBox checkBox)
+                        {
+                            checkBox.Checked = true;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Control control in flp_itemwise_products.Controls)
+                    {
+                        if (control is CheckBox checkBox && (Convert.ToInt32(checkBox.AccessibleDescription) == Convert.ToInt32(cmb_itemcategory_split.SelectedValue)))
+                        {
+                            checkBox.Checked = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (cmb_itemcategory_split.SelectedIndex == 0)
+                {
+                    foreach (Control control in flp_itemwise_products.Controls)
+                    {
+                        if (control is CheckBox checkBox)
+                        {
+                            checkBox.Checked = false;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Control control in flp_itemwise_products.Controls)
+                    {
+                        if (control is CheckBox checkBox && (Convert.ToInt32(checkBox.AccessibleDescription) == Convert.ToInt32(cmb_itemcategory_split.SelectedValue)))
+                        {
+                            checkBox.Checked = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void cmb_itemcategory_split_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+          
         }
     }
 }
