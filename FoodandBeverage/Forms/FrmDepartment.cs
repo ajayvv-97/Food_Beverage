@@ -635,5 +635,20 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Maximized;
         }
+
+        private void btnmini_Click_1(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btncolse_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
     }
 }
