@@ -212,6 +212,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmVendor_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Vendor)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             txtVendorName.Focus();
             Fillvendor();
             clearall();

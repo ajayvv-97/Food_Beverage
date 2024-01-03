@@ -510,6 +510,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmTaxSetting_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Tax)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             cmbTaxType.Focus();
             filltax();
             dgvTaxSettings.BorderStyle = BorderStyle.None;

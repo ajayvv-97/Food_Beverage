@@ -1661,6 +1661,12 @@ namespace FoodandBeverage.Forms
                 btnusertype.Enabled = false;
                 BranchId = 1030;
             }
+            if(FrmLogin.UserId==1 && Convert.ToString(FrmLogin.EmployeName) == "test")
+            {
+                mbtnSave.Enabled = true;
+                btnusertype.Enabled = true;
+            }
+
             clear();
             txtEmpName.Focus();
 

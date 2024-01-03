@@ -256,6 +256,12 @@ namespace FoodandBeverage.Forms
                 mbtnSave.Enabled = false;
 
             }
+            if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
+            {
+                mbtnSave.Enabled = true;
+            }
+
+
         }
        
         private void DgvDesignation_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

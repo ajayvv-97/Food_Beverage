@@ -153,7 +153,15 @@ namespace FoodandBeverage.Forms
         private async void  FrmOrder_Load(object sender, EventArgs e)
         {
             try
-            {              
+            {
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Order)))
+                        btn_saveKOT.Enabled = true;
+                    else
+                        btn_saveKOT.Enabled = false;
+                }
                 //ShowLoadingdGif();
                 //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
                 //tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");

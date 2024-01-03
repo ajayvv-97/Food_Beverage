@@ -112,6 +112,8 @@ namespace FoodandBeverage.Forms
             this.btnclose = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
+            this.pnl_complebill_prevbill = new System.Windows.Forms.Panel();
+            this.tlp_compl_pre_bill = new System.Windows.Forms.TableLayoutPanel();
             this.panelMenu.SuspendLayout();
             this.flp_menu.SuspendLayout();
             this.pnl_header.SuspendLayout();
@@ -134,6 +136,7 @@ namespace FoodandBeverage.Forms
             this.flpEmployee.SuspendLayout();
             this.flp_navbar.SuspendLayout();
             this.tlp_main.SuspendLayout();
+            this.pnl_complebill_prevbill.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -895,7 +898,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 203F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -928,7 +931,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(80, 3);
+            this.btn_avial.Location = new System.Drawing.Point(79, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -942,7 +945,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(235, 3);
+            this.btn_rev.Location = new System.Drawing.Point(232, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -956,7 +959,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(162, 3);
+            this.btn_running.Location = new System.Drawing.Point(160, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -1606,11 +1609,34 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Size = new System.Drawing.Size(783, 634);
             this.tlp_main.TabIndex = 10;
             // 
+            // pnl_complebill_prevbill
+            // 
+            this.pnl_complebill_prevbill.Controls.Add(this.tlp_compl_pre_bill);
+            this.pnl_complebill_prevbill.Location = new System.Drawing.Point(214, 34);
+            this.pnl_complebill_prevbill.Name = "pnl_complebill_prevbill";
+            this.pnl_complebill_prevbill.Size = new System.Drawing.Size(639, 350);
+            this.pnl_complebill_prevbill.TabIndex = 1;
+            this.pnl_complebill_prevbill.Visible = false;
+            // 
+            // tlp_compl_pre_bill
+            // 
+            this.tlp_compl_pre_bill.ColumnCount = 1;
+            this.tlp_compl_pre_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.30516F));
+            this.tlp_compl_pre_bill.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_compl_pre_bill.Location = new System.Drawing.Point(0, 0);
+            this.tlp_compl_pre_bill.Name = "tlp_compl_pre_bill";
+            this.tlp_compl_pre_bill.RowCount = 2;
+            this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.28571F));
+            this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 308F));
+            this.tlp_compl_pre_bill.Size = new System.Drawing.Size(639, 350);
+            this.tlp_compl_pre_bill.TabIndex = 0;
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 748);
+            this.Controls.Add(this.pnl_complebill_prevbill);
             this.Controls.Add(this.flpEmployee);
             this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.pnl_tableorder);
@@ -1650,6 +1676,7 @@ namespace FoodandBeverage.Forms
             this.flpEmployee.ResumeLayout(false);
             this.flp_navbar.ResumeLayout(false);
             this.tlp_main.ResumeLayout(false);
+            this.pnl_complebill_prevbill.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1738,5 +1765,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel flp_menu;
         private System.Windows.Forms.TableLayoutPanel pnl_header;
         private System.Windows.Forms.PictureBox pb_appicon;
+        private System.Windows.Forms.Panel pnl_complebill_prevbill;
+        private System.Windows.Forms.TableLayoutPanel tlp_compl_pre_bill;
     }
 }

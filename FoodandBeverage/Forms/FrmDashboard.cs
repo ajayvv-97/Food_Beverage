@@ -187,6 +187,19 @@ namespace FoodandBeverage.Forms
 
         }
         #region Color Setting
+        private bool IsValidHtmlColor(string color)
+        {
+            try
+            {
+                ColorTranslator.FromHtml(color);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public void AppColorSetting()
         {
             BllSearch<DmnSetting> bllSearch = new BllSearch<DmnSetting>();
@@ -198,9 +211,25 @@ namespace FoodandBeverage.Forms
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource.Count > 0)
             {
-                Color colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
-                Color coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
-                Color colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
+                Color colorapp, coloropera, colormenu;
+                if (IsValidHtmlColor(gridSource[0].APPColor))                
+                    colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);                
+                else
+                    colorapp = Color.FromArgb(34, 46, 80);
+                // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+
+                if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
+                    coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
+                else
+                    coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
+
+                if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
+                    colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
+                else
+                    colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
+
+
+
                 opbuttoncolor = coloropera;
                 menubuttoncolor = colormenu;
                 txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
@@ -979,6 +1008,9 @@ namespace FoodandBeverage.Forms
         private void Menuoperation_Click(object sender, EventArgs e)
         {
             panelDesktop.Controls.Clear();
+
+            ib_Company.Visible = true;
+
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
@@ -990,7 +1022,6 @@ namespace FoodandBeverage.Forms
             {
                 desiredWidth = 52;
                 desiredHeight = 52;
-
                 HdesiredWidth = 60;
                 HdesiredHeight = 60;
                 foreach (Control control in flp_operations.Controls)
@@ -1008,7 +1039,6 @@ namespace FoodandBeverage.Forms
             {
                 desiredWidth = 32;
                 desiredHeight = 32;
-
                 HdesiredWidth = 40;
                 HdesiredHeight = 40;
                 foreach (Control control in flp_operations.Controls)
@@ -1028,7 +1058,10 @@ namespace FoodandBeverage.Forms
             {
                 ChangeButtonBorder(button);
             }
-            TableStaus(0);
+
+            panelDesktop.Controls.Clear();
+            panelDesktop.Controls.Add(pnl_complebill_prevbill);
+            pnl_complebill_prevbill.Dock = DockStyle.Fill;
         }
 
         private void Menureport_Click(object sender, EventArgs e)
@@ -2291,8 +2324,9 @@ namespace FoodandBeverage.Forms
             else
             {
                 FrmRegistration _instanceFrmreg = new FrmRegistration();
-                ResizeForm(_instanceFrmreg);
+                _instanceFrmreg.Margin = new Padding(20, 10, 0, 0);
                 _instanceFrmreg.TopLevel = false;
+                _instanceFrmreg.Dock = DockStyle.None;
                 panelDesktop.Controls.Add(_instanceFrmreg);
                 _instanceFrmreg.Show();
                 _instanceFrmreg.BringToFront();
@@ -2642,9 +2676,9 @@ namespace FoodandBeverage.Forms
                         ib_Discount_offer.Visible = true;
 
                     }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Withdrawal) && gridesource[i].Status == 1)
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
                     {
-                        //ib_withdrawal.Visible = true;
+                        ib_Expence.Visible = true;
                     }
                     else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
                     {
@@ -2677,6 +2711,10 @@ namespace FoodandBeverage.Forms
                     else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
                     {
                         ib_userpermission.Visible = true;
+                    }
+                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
+                    {
+                        ib_orderview.Visible = true;
                     }
                 }
             }

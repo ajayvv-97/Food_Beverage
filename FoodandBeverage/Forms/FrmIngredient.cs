@@ -244,6 +244,14 @@ namespace FoodandBeverage.Forms
         }
         private void FrmIncrediant_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Product)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             cmbTaxType.SelectedIndex = 0;
             Taxfill();
             clearall();

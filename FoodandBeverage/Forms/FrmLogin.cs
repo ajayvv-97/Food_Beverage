@@ -153,9 +153,11 @@ namespace FoodandBeverage.Forms
                                 obj.WhereNdGroupBy = " where status=1";;
                                 var result = bllpayments.GetSearchData("prdSearch", obj);
                                 if (result.Count > 0)                                
-                                    BranchId = Convert.ToInt16(result[0].Id);
+                                    BranchId = Convert.ToInt16(result[0].BranchId);
                                 else
                                     BranchId =0;
+                                UserId =1;
+                                EmployeName = "test";
                                 Forms.FrmDashboard DashBoard = new FrmDashboard();
                                 DashBoard.MdiParent = this.MdiParent;
                                 DashBoard.ShowDialog();
@@ -218,6 +220,19 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private bool IsValidHtmlColor(string color)
+        {
+            try
+            {
+                ColorTranslator.FromHtml(color);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public bool IsUsernameValid()
         {
             if (txtUserName.Text == "test")

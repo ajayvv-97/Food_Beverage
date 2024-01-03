@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +35,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmExpence_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instancedash.ChkWritePermission(Convert.ToInt32(formsenum.Expence)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             dgv_expense.Rows.Add(1);
             rearrange_slno();
             dgv_expense.BorderStyle = BorderStyle.None;

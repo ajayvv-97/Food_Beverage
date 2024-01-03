@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,6 +44,8 @@ namespace FoodandBeverage.Forms
         public int dgv_details_view_rowno = 0;
         public int OrderMasterId = 0;
         public bool Total_Order_Flag = false;
+        public bool PermissionFlag = false;
+
         public FrmOrderView()
         {
             InitializeComponent();
@@ -100,6 +103,15 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.OrderView)))                    
+                        PermissionFlag = true;                    
+                    else                    
+                        PermissionFlag = false;                    
+
+                }
                 dgvorderview.BorderStyle = BorderStyle.None;
                 dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -320,6 +332,7 @@ namespace FoodandBeverage.Forms
                         //// Add the new TableLayoutPanel to tlp_seletedItem_main
                         //pnl_ordergallery.Controls.Add(tlp_seletedItem_col);
                         #endregion
+
                     }
              
                 }
@@ -492,9 +505,13 @@ namespace FoodandBeverage.Forms
 
         private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
-            btn_backorder.Visible = true;
-            Filldetails(oid);
+            if(PermissionFlag)
+            {
+                int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
+                btn_backorder.Visible = true;
+                Filldetails(oid);
+            }
+
         }
 
         public void Filldetails(int oid)
@@ -582,6 +599,9 @@ namespace FoodandBeverage.Forms
                         dgv_details_view.Columns[dactionno].Visible = false;
                     else
                         dgv_details_view.Columns[dactionno].Visible = true;
+
+      
+
 
                 }
 

@@ -153,6 +153,8 @@ namespace FoodandBeverage.Forms
                         else
                             dgv_menu.Rows[i].Cells[pstatusno].Value = false;
                     }
+
+
                 }
                 else
                     CMessageBox.Show("No Products For This Category");
@@ -236,6 +238,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
+                    dgv_menu.Enabled = true;
+                else
+                    dgv_menu.Enabled = false;
+            }
             cmbMenu_category.Focus();
             Fillmenu(0);
             dgv_menu.BorderStyle = BorderStyle.None;
@@ -252,7 +262,6 @@ namespace FoodandBeverage.Forms
             clearall();
             Fillcombo();
             textb_shape();
-
             #region menu Picture Folder 
             if (!Directory.Exists(Compressedimg))
             {
@@ -273,8 +282,6 @@ namespace FoodandBeverage.Forms
             }
             #endregion
         }
-
-
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -527,8 +534,6 @@ namespace FoodandBeverage.Forms
             }
         }
         #endregion
-
-
         private void Btn_view_menu_Click(object sender, EventArgs e)
         {
             tlp_registartion_main.Visible = false;
@@ -554,10 +559,7 @@ namespace FoodandBeverage.Forms
             tlp_main.Controls.Remove(controlToRemove);
             tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
             tlp_registartion_main.Dock = DockStyle.Fill;
-        }
-
-
-     
+        }     
 
         private void txtsearch_Leave(object sender, EventArgs e)
         {

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Interfaces;
 using Microsoft.AspNet.SignalR.Client;
 
 namespace FoodandBeverage.Forms
@@ -155,6 +156,14 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_product_box = new TableLayoutPanel();
                             tlp_product_box.Name = "tlp_product_box" + gridSourcedetails[0].Field8;
                             tlp_product_box.Dock = DockStyle.Top;
+                            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                            {
+                                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
+                                    tlp_product_box.Enabled = true;
+                                else
+                                    tlp_product_box.Enabled = false;
+                            }
                             if (screenWidth > 1367 && screenHeight > 769)
                             {
                                 tlp_product_box.Width = 600;

@@ -386,7 +386,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmItemRegistartion_Load(object sender, EventArgs e)
         {
-
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Item)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             Fillitem();
             combofill();
             Taxfill();

@@ -161,7 +161,7 @@ namespace FoodandBeverage.Interfaces
             Tax = 11,
             Vendor = 12,
             Discount_And_Offer = 13,
-            Withdrawal = 14,
+            Expence = 14,
             PromoCode = 15,
             Company = 16,
             Reservation = 17,
@@ -169,8 +169,9 @@ namespace FoodandBeverage.Interfaces
             Department = 19,
             Designation = 20,
             User_Account = 21,
-            User_Permission = 22,
-            AllLocationAccess = 23
+        User_Permission = 22,
+        OrderView = 23,
+        AllLocationAccess = 24
 
         };
     

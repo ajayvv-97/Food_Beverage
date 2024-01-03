@@ -93,6 +93,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmOfferDiscount_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Discount_And_Offer)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             dgv_product_list.BorderStyle = BorderStyle.None;
             dgv_product_list.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_product_list.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;

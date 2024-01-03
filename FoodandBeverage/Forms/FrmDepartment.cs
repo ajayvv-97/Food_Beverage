@@ -215,8 +215,10 @@ namespace FoodandBeverage.Forms
             }
             try
             {
-                
-
+                if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
+                {
+                    mbtnSave.Enabled = true;
+                }
                 mtxtName.Focus();
                 RefreshForm();
                 //fillGridView();

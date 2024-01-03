@@ -231,6 +231,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmFTICategory_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmexpence = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmexpence.ChkWritePermission(Convert.ToInt32(formsenum.Category)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             txtfoodCate.Focus();
             dgv_category.BorderStyle = BorderStyle.None;
             dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);

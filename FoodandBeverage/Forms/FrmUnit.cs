@@ -138,6 +138,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmUnit_Load(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Unit)))
+                    btnsave.Enabled = true;
+                else
+                    btnsave.Enabled = false;
+            }
             txtunit.Focus();
             Fillunit(); dgv_unit.BorderStyle = BorderStyle.None;
             dgv_unit.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);

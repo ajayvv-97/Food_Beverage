@@ -14,8 +14,8 @@ namespace FoodandBeverage.Forms
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsGeneral = new ClsGeneral();
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
-        long BranchId = 1;// Forms.frmLogin.BranchId;//16
-        long UserId = 1;// Forms.frmLogin.UserId;//1
+        long BranchId ;// Forms.frmLogin.BranchId;//16
+        long UserId ;// Forms.frmLogin.UserId;//1
                         //long FinancialYearId = Convert.ToInt64(FrmDashBoard.FinancialYearId);//10
         Bitmap bitmap;
         string _retValue;
@@ -593,7 +593,8 @@ namespace FoodandBeverage.Forms
             }
 
             private void FrmRegistration_Load_1(object sender, EventArgs e)
-            {
+            {    
+
             //Refreshform();
             ActiveControl = txtname;
             txtname.Focus();
@@ -608,9 +609,8 @@ namespace FoodandBeverage.Forms
             else
             {
                 btsave.Enabled = false;
-
-
             }
+                btsave.Enabled = true;
         }
         public void filldetails()
         {
@@ -969,12 +969,15 @@ namespace FoodandBeverage.Forms
                             InsertStatus.Photo = "";
                             InsertStatus.Photo = "";
                         }
+                        FrmDashboard.BranchId = 1030;
                         MessageBox.Show(this, txtAccName.Text + "  ", "Registration Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         this.Close();
                     }
                     else
+                    {
+                        FrmDashboard.BranchId = 1030;
                         MessageBox.Show(this, "  ", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-
+                    }
                     //Refreshform();
                 }
                 else
