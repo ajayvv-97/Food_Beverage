@@ -319,11 +319,11 @@ namespace FoodandBeverage.Forms
 
             if (txtIgstPrcnt.Text != "" && txtIgstPrcnt.Text != null)
             {
-                decimal value;
-                if (!decimal.TryParse(txtSgstPrcnt.Text, out value))
-                {
-                    txtSgstPrcnt.Text = "0";
-                }
+                //decimal value;
+                //if (!decimal.TryParse(txtSgstPrcnt.Text, out value))
+                //{
+                //    txtSgstPrcnt.Text = "0";
+                //}
                 if (txtSgstPrcnt.Text != "")
                 {
                     if (Convert.ToDecimal(txtIgstPrcnt.Text) < Convert.ToDecimal(txtSgstPrcnt.Text))
@@ -365,11 +365,10 @@ namespace FoodandBeverage.Forms
             if (txtIgstPrcnt.Text != "" && txtIgstPrcnt.Text != null)
             {
                 decimal value;
-                if (!decimal.TryParse(txtCgstPrcnt.Text, out value))
-                {
-                    txtCgstPrcnt.Text = "0";
-                }
-
+                //if (!decimal.TryParse(txtCgstPrcnt.Text, out value))
+                //{
+                //    txtCgstPrcnt.Text = "0";
+                //}
                 if (txtCgstPrcnt.Text != "")
                 {
                     if (Convert.ToDecimal(txtIgstPrcnt.Text) < Convert.ToDecimal(txtCgstPrcnt.Text))

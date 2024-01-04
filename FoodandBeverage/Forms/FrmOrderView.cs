@@ -511,7 +511,6 @@ namespace FoodandBeverage.Forms
                 btn_backorder.Visible = true;
                 Filldetails(oid);
             }
-
         }
 
         public void Filldetails(int oid)

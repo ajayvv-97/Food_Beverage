@@ -1180,7 +1180,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.ColumnHeaders = "ID,ItemCode_UPC,Item Name,Category Name";
                 _objSearch.Select = "ItemId as Id,ItemCode_UPC as Field1,Itemname as Field2,c.CategoryName  as Field3";
                 _objSearch.Table = "tblItem i left join tblCategory_FTI c on c.Fcid=i.Fcid";
-                _objSearch.WhereNdGroupBy = "where i.Status = 1 ";
+                _objSearch.WhereNdGroupBy = "where i.Status = 1 and i.Saletype=0";
                 _objSearch.OrderBy = " ORDER BY Itemname ";
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)

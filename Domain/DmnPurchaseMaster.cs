@@ -112,6 +112,8 @@ namespace Domain
         public string purmasterEntryNo { get; set; }
         public string SalesTerms { get; set; }
         public string Description { get; set; }
+        public string PurchasePrefix { get; set; }
+        public string PurchaseSrlNo { get; set; }
 
     }
 }

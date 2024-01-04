@@ -142,6 +142,26 @@ namespace FoodandBeverage.Forms
             }
             return true;
         }
+        public void setperficpurchaseret()
+        {
+            try
+            {
+                BllSearch<DmnPurchaseReturnMaster> bllSearch = new BllSearch<DmnPurchaseReturnMaster>();
+                DmnSearch objSearch = new DmnSearch();
+                dmnSearch.Select = "PurchaseReturnPrefix,PurchaseReturnSrlNo";
+                dmnSearch.Table = " tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId = " + FrmDashboard.BranchId;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource1.Count > 0)
+                {
+                    invoiceno.Text = gridSource1[0].PurchaseReturnPrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].PurchaseReturnSrlNo;//PERRET20221001
+                }
+            }
+            catch (Exception ex)
+            { }
+
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -285,6 +305,7 @@ namespace FoodandBeverage.Forms
             lblGrandTot.Text = "0.00";
             lblBalAmt.Text = "0.00";
             txtdocno.Focus();
+            setperficpurchaseret();
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -889,7 +910,7 @@ namespace FoodandBeverage.Forms
             dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-
+            setperficpurchaseret();
         }
 
         #region TexBox Round function

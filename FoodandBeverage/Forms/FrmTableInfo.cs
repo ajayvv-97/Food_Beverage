@@ -139,6 +139,7 @@ namespace FoodandBeverage.Forms
             txtcapcity.Text = "";
             txttablecode.Text = "";
             txtrate.Text = "";
+            txtdesc.Text = "";
             cmb_category.SelectedIndex = 0;
             btn_del_table.Visible = false;
         }

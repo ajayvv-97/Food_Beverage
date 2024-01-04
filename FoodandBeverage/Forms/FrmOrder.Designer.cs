@@ -343,6 +343,7 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_split_payclose = new System.Windows.Forms.Button();
             this.pnl_split_itemwise = new System.Windows.Forms.Panel();
+            this.txtinvoiceno = new System.Windows.Forms.TextBox();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -837,6 +838,7 @@ namespace FoodandBeverage.Forms
             this.btn_billtype.Size = new System.Drawing.Size(51, 17);
             this.btn_billtype.TabIndex = 4;
             this.btn_billtype.UseVisualStyleBackColor = true;
+            this.btn_billtype.Visible = false;
             this.btn_billtype.Click += new System.EventHandler(this.btn_billtype_Click);
             // 
             // btn_show_existing_product
@@ -851,6 +853,7 @@ namespace FoodandBeverage.Forms
             this.btn_show_existing_product.Size = new System.Drawing.Size(48, 17);
             this.btn_show_existing_product.TabIndex = 3;
             this.btn_show_existing_product.UseVisualStyleBackColor = true;
+            this.btn_show_existing_product.Visible = false;
             this.btn_show_existing_product.Click += new System.EventHandler(this.btn_show_existing_product_Click);
             // 
             // btn_sleteted_list_gridview
@@ -3725,7 +3728,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 482F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 493F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3741,7 +3744,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(248, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(237, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -3758,9 +3761,9 @@ namespace FoodandBeverage.Forms
             this.cmb_itemcategory_split.FormattingEnabled = true;
             this.cmb_itemcategory_split.Items.AddRange(new object[] {
             "None"});
-            this.cmb_itemcategory_split.Location = new System.Drawing.Point(49, 3);
+            this.cmb_itemcategory_split.Location = new System.Drawing.Point(47, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(193, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(184, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button
@@ -3925,11 +3928,23 @@ namespace FoodandBeverage.Forms
             this.pnl_split_itemwise.TabIndex = 0;
             this.pnl_split_itemwise.Visible = false;
             // 
+            // txtinvoiceno
+            // 
+            this.txtinvoiceno.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtinvoiceno.Location = new System.Drawing.Point(807, 4);
+            this.txtinvoiceno.Multiline = true;
+            this.txtinvoiceno.Name = "txtinvoiceno";
+            this.txtinvoiceno.ReadOnly = true;
+            this.txtinvoiceno.Size = new System.Drawing.Size(61, 16);
+            this.txtinvoiceno.TabIndex = 278;
+            this.txtinvoiceno.Visible = false;
+            // 
             // FrmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 557);
+            this.Controls.Add(this.txtinvoiceno);
             this.Controls.Add(this.pnl_split_itemwise);
             this.Controls.Add(this.tlp_numberwise);
             this.Controls.Add(this.pnl_split);
@@ -4305,5 +4320,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.CheckBox chk_itemwise_pro_selectall;
         private System.Windows.Forms.ComboBox cmb_itemcategory_split;
+        private System.Windows.Forms.TextBox txtinvoiceno;
     }
 }

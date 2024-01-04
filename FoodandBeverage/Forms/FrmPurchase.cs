@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using CustomMessageBox;
 using System.Drawing.Drawing2D;
 using FoodandBeverage.Interfaces;
+using FoodandBeverage.Classes;
 
 namespace FoodandBeverage.Forms
 {
@@ -75,7 +76,27 @@ namespace FoodandBeverage.Forms
 
         private void btnclose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Close();          
+        }
+        public void setperficpurchase()
+        {
+            try
+            {
+                BllSearch<DmnPurchaseMaster> bllSearch = new BllSearch<DmnPurchaseMaster>();
+                DmnSearch objSearch = new DmnSearch();
+                dmnSearch.Select = " PurchasePrefix,PurchaseSrlNo";
+                dmnSearch.Table = " tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId = " + FrmDashboard.BranchId;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource1.Count > 0)
+                {
+                    invoiceno.Text = gridSource1[0].PurchasePrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].PurchaseSrlNo;//PERRET20221001
+                }
+            }
+            catch (Exception ex)
+            { }
+
         }
         private void ClearAll()
         {
@@ -106,6 +127,8 @@ namespace FoodandBeverage.Forms
             lblGrandTot.Text = "0.00";
             lblBalAmt.Text = "0.00";
             txtdocno.Focus();
+            setperficpurchase();
+            btnsave.Visible = true;
         }
 
             #region Grid Calulation Function  totalcellamount cellTaxAmount cellDiscountAmount cellDiscountPercentage  grandTotal totQty totDisc discountAmnt discountPer netAmount
@@ -612,6 +635,8 @@ namespace FoodandBeverage.Forms
             dgvProduct.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            setperficpurchase();
 
         }
         #region TexBox Round function
@@ -1128,6 +1153,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.ColumnIndex == ibarcode)
             {
+
                 txtbarcode.Text = "";
                 pnl_barcode.Visible = true;
                 pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
@@ -1142,7 +1168,8 @@ namespace FoodandBeverage.Forms
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+
+                if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.D0)
             {
                 pnl_barcode.Visible = false;
                 dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
@@ -1290,8 +1317,6 @@ namespace FoodandBeverage.Forms
                 dmnPurchase.CreatedBy =FrmDashboard.UserId;
                 dmnPurchase.Status = 1;
                 dmnPurchase.CustomerId = Convert.ToInt32("0");
-                dmnPurchase.CustomerId = Convert.ToInt32(custname.SelectedValue);
-
                 var InsertStatus = bllPurchase.AddEditDataVendor("prdInsert_Upd_Vendor", dmnPurchase);
                 if (InsertStatus == null)
                 {
@@ -1638,6 +1663,18 @@ namespace FoodandBeverage.Forms
         private void FrmPurchase_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void txtVendorEmail_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtVendorEmail.Text != "")
+            {
+                ClsGeneral cls = new ClsGeneral();
+                if (!cls.CheckEmailId(this, txtVendorEmail.Text))
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

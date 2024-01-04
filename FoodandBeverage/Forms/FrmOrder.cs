@@ -347,6 +347,7 @@ namespace FoodandBeverage.Forms
                 }
                 #endregion Main 
                 ShowLoadingdGif();
+                setperfixsale();
             }
             catch (Exception ex)
             {
@@ -4635,6 +4636,7 @@ namespace FoodandBeverage.Forms
                 btn_frm_close.Dock = DockStyle.Left;
                 btn_saveKOT.Visible = true;
                 btn_print_bill.Visible = false;
+                setperfixsale();
             }
             catch (Exception)
             {
@@ -4844,7 +4846,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
             }
         }  
         public void paybillcal(int payid)
@@ -4853,6 +4854,7 @@ namespace FoodandBeverage.Forms
             {
                 if (MandatoryCheck_printbill())
                 {
+                    setperfixsale();
                     int countflag = 0;
                     DmnSalemaster dmnsalemaster = new DmnSalemaster();
                     DmnSaledetails dmnsaledetails = new DmnSaledetails();
@@ -4862,7 +4864,7 @@ namespace FoodandBeverage.Forms
                     if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
                         txtdiscountamt_promo.Text = "0";
                     finaltotalqty();
-                    //dmnsalemaster.EntryNo = txtinvoiceno.Text;
+                    dmnsalemaster.EntryNo = txtinvoiceno.Text;
                     dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                     dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
                     dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
@@ -5002,6 +5004,26 @@ namespace FoodandBeverage.Forms
             {
                 MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public void setperfixsale()
+        {
+            try
+            {
+                BllSearch<DmnSalemaster> bllSearch = new BllSearch<DmnSalemaster>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "SalesPrefix ,SalesSerialNo";
+                dmnSearch.Table = " tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId = " + FrmDashboard.BranchId;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource1.Count > 0)
+                {
+                    txtinvoiceno.Text = gridSource1[0].SalesPrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].SalesSerialNo;//PERRET20221001
+                }
+            }
+            catch (Exception ex)
+            { }
+
         }
         private void btn_print_bill_Click(object sender, EventArgs e)
         {

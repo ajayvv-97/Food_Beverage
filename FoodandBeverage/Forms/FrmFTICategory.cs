@@ -313,7 +313,7 @@ namespace FoodandBeverage.Forms
                 int catid = Convert.ToInt32(dgv_category.Rows[e.RowIndex].Cells[cidno].Value);
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "Fcid,CategoryName,Description,Status";
+                objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType";
                 objSearch.Table = "tblCategory_FTI";
                 objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
                 objSearch.OrderBy = "";
