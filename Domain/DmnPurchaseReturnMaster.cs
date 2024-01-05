@@ -17,8 +17,8 @@ namespace Domain
         public string ProductType { get; set; }
         public string PurchaseDetailId { get; set; }
         public string PurchaseMasterId { get; set; }
-        public string PurchaseRetPrefix { get; set; }
-        public string PurchaseRetSrlNo { get; set; }
+        public string PurchaseReturnSrlNo { get; set; }
+        public string PurchaseReturnPrefix { get; set; }        
 
         /*-----------------*/
 

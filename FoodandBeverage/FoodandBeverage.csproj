@@ -843,5 +843,26 @@
   <ItemGroup>
     <None Include="Resources\icons8-maximize-window-48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GMAIL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\viewbill_billing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reserved-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

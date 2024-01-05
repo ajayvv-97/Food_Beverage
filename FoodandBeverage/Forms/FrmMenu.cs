@@ -151,8 +151,17 @@ namespace FoodandBeverage.Forms
                         if (Convert.ToInt32(itemSource[i].Field6)==1)
                             dgv_menu.Rows[i].Cells[pstatusno].Value = true;
                         else
-                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;                   
+
                     }
+                    Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                    int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                    Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                    chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                    chk_selectall.BackColor = Color.White;
+                    chk_selectall.Size = new Size(18, 18);
+                    chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                    dgv_menu.Controls.Add(chk_selectall);
 
 
                 }
@@ -163,6 +172,22 @@ namespace FoodandBeverage.Forms
             {
 
             }
+
+        }
+        private void chk_selectall_Clicked(object sender, EventArgs e)
+        {
+            if (chk_selectall != null)
+            {
+                dgv_menu.EndEdit();
+                foreach (DataGridViewRow row in dgv_menu.Rows)
+                {
+                    DataGridViewCheckBoxCell checkBox = (row.Cells[pstatusno] as DataGridViewCheckBoxCell);
+                    checkBox.Value = chk_selectall.Checked;
+                }
+            }
+            if (dgv_menu.RowCount > 0)            
+                dgv_menu.CurrentCell = dgv_menu.Rows[0].Cells[0];
+            
 
         }
         public bool MandatoryCheck()

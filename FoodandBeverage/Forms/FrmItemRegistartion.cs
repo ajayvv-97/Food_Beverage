@@ -280,7 +280,7 @@ namespace FoodandBeverage.Forms
                 }
                 else if (txtprate.Text == "" || txtprate.Text == null || Convert.ToDecimal(txtprate.Text) < 0)
                 {
-                    CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Enter Item Purchase Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtprate.Focus();
                     return false;
                 }
@@ -312,6 +312,49 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show("Please Select VAT %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbVatPrcnt.Focus();
+                    return false;
+                }
+            }
+            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) &&
+         (Convert.ToDecimal(txtsrate.Text) > 0) && (Convert.ToDecimal(txtmrp.Text) > 0))
+            {
+                CMessageBox.Show("Please Enter Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtprate.Focus();
+                return false;
+            }
+
+            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) && (Convert.ToDecimal(txtmrp.Text) > 0))
+            {
+                CMessageBox.Show("Please Enter Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtprate.Focus();
+                return false;
+            }
+
+            if (Convert.ToDecimal(txtprate.Text) > 0)
+            {
+                if (Convert.ToDecimal(txtsrate.Text) < Convert.ToDecimal(txtprate.Text))
+                {
+                    CMessageBox.Show("Sale Rate Must be graterthan Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtsrate.Focus();
+                    return false;
+                }
+            }
+            if (Convert.ToDecimal(txtsrate.Text) > 0)
+            {
+                if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
+                {
+                    CMessageBox.Show("MRP Must be graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtmrp.Focus();
+                    return false;
+                }
+            }
+
+            if (Convert.ToDecimal(txtsrate.Text) > 0)
+            {
+                if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
+                {
+                    CMessageBox.Show("MRP Must be graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtmrp.Focus();
                     return false;
                 }
             }
@@ -608,11 +651,11 @@ namespace FoodandBeverage.Forms
                 txtmrp.Text = "0";
             if (string.IsNullOrWhiteSpace(txtsrate.Text))
                 txtsrate.Text = "0";
-            if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
-            {
-                CMessageBox.Show("MRP Rate Must be Greater than Sale Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtmrp.Focus();
-            }
+            //if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
+            //{
+            //    CMessageBox.Show("MRP Rate Must be Greater than Sale Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtmrp.Focus();
+            //}
         }
 
         private void dgvprDetails_CellClick(object sender, DataGridViewCellEventArgs e)
