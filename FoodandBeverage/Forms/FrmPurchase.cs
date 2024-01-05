@@ -822,7 +822,15 @@ namespace FoodandBeverage.Forms
             }
             else if (e.KeyData == Keys.Delete)
             {
-                dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
+                if (dgvProduct.Rows.Count == 0)
+                    dgvProduct.Rows.Add();
+                else
+                {
+                    dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
+                    if (dgvProduct.Rows.Count == 0)
+                        dgvProduct.Rows.Add();
+                }
+
             }
         }
         public void purchasepop()
@@ -1167,16 +1175,15 @@ namespace FoodandBeverage.Forms
         }
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
-        {
+        {      
 
-                if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.D0)
-            {
-                pnl_barcode.Visible = false;
-                dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
-
-                int rowno = dgvProduct.CurrentCell.RowIndex;
-                UpcScanner(rowno);
-            }
+            //if (e.KeyCode == Keys.Enter)
+            //{
+            //    pnl_barcode.Visible = false;
+            //    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
+            //    int rowno = dgvProduct.CurrentCell.RowIndex;
+            //    UpcScanner(rowno);
+            //}
         }
         public void UpcScanner(int rowno)
         {
@@ -1202,6 +1209,7 @@ namespace FoodandBeverage.Forms
                     dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSourceitem[i].Field5;
                 }
                 panelProductPopup.Show();
+                panelProductPopup.Location = new Point(this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2, (this.ClientSize.Height / 2 - panelProductPopup.Size.Height / 2));
                 pnlCustomer.Hide();
                 dgvItemPop.Focus();
             } 
@@ -1535,7 +1543,14 @@ namespace FoodandBeverage.Forms
                     Movefocus(1);
                     return true; // Mark the key as handled
                 case Keys.Enter:
-                    if (panelProductPopup.Visible)
+                    if (pnl_barcode.Visible)
+                    {
+                        pnl_barcode.Visible = false;
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
+                        int rowno = dgvProduct.CurrentCell.RowIndex;
+                        UpcScanner(rowno);
+                    }
+                    else if (panelProductPopup.Visible)
                         FillDetails();
                     else
                         Movefocus(0);

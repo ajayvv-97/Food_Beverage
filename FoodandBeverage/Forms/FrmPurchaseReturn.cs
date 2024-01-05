@@ -1536,265 +1536,273 @@ namespace FoodandBeverage.Forms
         }
         public void UpcScanner(int gridrowno)
         {
-            //string purchaseID;
-            string purchasedetailsid;
-            bool t = false;
-            decimal totalqty = 0;
-            int curre_qty = 0;
-            decimal purch_qty = 0;
-            decimal ret_qty = 0;
-            bool flag = false;
-            int rowno = 0;
-            string tablename = null;
-            t = false;
 
-            if (purchaseID == null || purchaseID == "")
+            try
             {
-                CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            BllSearch<DmnPurchaseReturnMaster> bllSearch1 = new BllSearch<DmnPurchaseReturnMaster>();
-            DmnSearch dmnSearch = new DmnSearch();
-            BllSearch<DmnGridFields> bllSearch2 = new BllSearch<DmnGridFields>();
-            DmnSearch dmnSearch1 = new DmnSearch();
-
-            dmnSearch.Select = "a.EntryNo as EntryNo,b.Itemname as Description,b.PurchaseRate as PurchaseRate,b.Quantity as Quantity,b.NetAmount as NetAmount,a.EntryDate as EntryDate,b.ItemId as ItemId,b.ProductType as ProductType,b.PurchaseDetailId as PurchaseDetailId,b.PurchaseMasterId as PurchaseMasterId,b.Prid as Prid";
-            dmnSearch.Table = "tblPurchaseMaster a " +
-                "LEFT JOIN tblPurchaseDetails b ON b.PurchaseMasterId = a.PurchaseMasterId " +
-                "";
-            dmnSearch.WhereNdGroupBy = "where a.PurchaseMasterId='" + purchaseID + "'" + " and b.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'"; ;
-            dmnSearch.OrderBy = " Order By a.EntryNo ASC ";
-            var gridSource1 = bllSearch1.GetSearchData("prdSearch", dmnSearch);
-
-
-            //total count  qty ( multiple purchasereturn entries done)
-            dmnSearch1.Select = " SUM(prd.Quantity) as field1,itemid as field2";
-            dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId ";
-            dmnSearch1.WhereNdGroupBy = "where prm.PurchaseMasterId='" + purchaseID + "'" + " and prd.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'";
-            dmnSearch1.OrderBy = "GROUP BY prd.itemid";
-            var gridSource2 = bllSearch2.GetSearchData("prdSearch", dmnSearch1);
-
-            if (gridSource1.Count > 0)
-            {
-                if (gridSource1.Count > 1)
+                //string purchaseID;
+                string purchasedetailsid;
+                bool t = false;
+                decimal totalqty = 0;
+                int curre_qty = 0;
+                decimal purch_qty = 0;
+                decimal ret_qty = 0;
+                bool flag = false;
+                int rowno = 0;
+                string tablename = null;
+                t = false;
+                if (purchaseID == null || purchaseID == "")
                 {
-                    dgvItemPop.Rows.Clear();//----------------mutiple purchase return happen --------------
-                    dgvItemPop.Rows.Add(gridSource1.Count);
-                    for (int i = 0; i < gridSource1.Count; i++)
+                    CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                BllSearch<DmnPurchaseReturnMaster> bllSearch1 = new BllSearch<DmnPurchaseReturnMaster>();
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnGridFields> bllSearch2 = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch1 = new DmnSearch();
+
+                dmnSearch.Select = "a.EntryNo as EntryNo,b.Itemname as Description,b.PurchaseRate as PurchaseRate,b.Quantity as Quantity,b.NetAmount as NetAmount,a.EntryDate as EntryDate,b.ItemId as ItemId,b.ProductType as ProductType,b.PurchaseDetailId as PurchaseDetailId,b.PurchaseMasterId as PurchaseMasterId,b.Prid as Prid";
+                dmnSearch.Table = "tblPurchaseMaster a " +
+                    "LEFT JOIN tblPurchaseDetails b ON b.PurchaseMasterId = a.PurchaseMasterId " +
+                    "";
+                dmnSearch.WhereNdGroupBy = "where a.PurchaseMasterId='" + purchaseID + "'" + " and b.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'"; ;
+                dmnSearch.OrderBy = " Order By a.EntryNo ASC ";
+                var gridSource1 = bllSearch1.GetSearchData("prdSearch", dmnSearch);
+
+
+                //total count  qty ( multiple purchasereturn entries done)
+                dmnSearch1.Select = " SUM(prd.Quantity) as field1,itemid as field2";
+                dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId ";
+                dmnSearch1.WhereNdGroupBy = "where prm.PurchaseMasterId='" + purchaseID + "'" + " and prd.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'";
+                dmnSearch1.OrderBy = "GROUP BY prd.itemid";
+                var gridSource2 = bllSearch2.GetSearchData("prdSearch", dmnSearch1);
+
+                if (gridSource1.Count > 0)
+                {
+                    if (gridSource1.Count > 1)
                     {
-                        current_qty = 0;
-                        PRDtotalqty = 0;
-
-
-                        dgvItemPop.Rows[i].Cells[ipopslno].Value = i + 1;
-                        dgvItemPop.Rows[i].Cells[ipopEntryNo].Value = gridSource1[i].EntryNo;
-                        dgvItemPop.Rows[i].Cells[ipopDescription].Value = gridSource1[i].Description;
-                        dgvItemPop.Rows[i].Cells[ipopPurchaseRate].Value = gridSource1[i].PurchaseRate;
-
-                        if (gridSource2.Count > 0)
+                        dgvItemPop.Rows.Clear();//----------------mutiple purchase return happen --------------
+                        dgvItemPop.Rows.Add(gridSource1.Count);
+                        for (int i = 0; i < gridSource1.Count; i++)
                         {
-                            for (int j = 0; j < gridSource1.Count; j++)
+                            current_qty = 0;
+                            PRDtotalqty = 0;
+
+
+                            dgvItemPop.Rows[i].Cells[ipopslno].Value = i + 1;
+                            dgvItemPop.Rows[i].Cells[ipopEntryNo].Value = gridSource1[i].EntryNo;
+                            dgvItemPop.Rows[i].Cells[ipopDescription].Value = gridSource1[i].Description;
+                            dgvItemPop.Rows[i].Cells[ipopPurchaseRate].Value = gridSource1[i].PurchaseRate;
+
+                            if (gridSource2.Count > 0)
                             {
-                                if (gridSource1[i].ItemId == gridSource2[j].Field2)
+                                for (int j = 0; j < gridSource1.Count; j++)
                                 {
-                                    PRDtotalqty = Convert.ToDecimal(gridSource1[i].Quantity) - Convert.ToDecimal(gridSource2[j].Field1);
-                                    t = true;
+                                    if (gridSource1[i].ItemId == gridSource2[j].Field2)
+                                    {
+                                        PRDtotalqty = Convert.ToDecimal(gridSource1[i].Quantity) - Convert.ToDecimal(gridSource2[j].Field1);
+                                        t = true;
+
+                                    }
 
                                 }
-
                             }
+                            else
+                            {
+                                PRDtotalqty = Convert.ToDecimal(gridSource1[i].Quantity);
+                            }//--------------------------mutiple purchase return happen end ---------------------
+
+
+                            //for (int j = 0; j < dgvProduct.RowCount; j++)//---------for products grid count quantity-------
+                            //{
+                            //    string x1;
+                            //    string x2 = gridSource1[i].PurchaseDetailId;
+                            //    if (dgvProduct.Rows[j].Cells[iPurchaseDetailsId].Value == null)
+                            //    {
+                            //        x1 = null;
+                            //    }
+                            //    else
+                            //    {
+                            //        x1 = (dgvProduct.Rows[j].Cells[iPurchaseDetailsId].Value).ToString();
+                            //    }
+
+                            //    if (x1 == x2)
+                            //    {
+                            //        current_qty = current_qty + Convert.ToDecimal(dgvProduct.Rows[j].Cells[iqty].Value);
+                            //    }
+                            //}//--------------------------------end for products grid count   quantity--------------------------
+
+                            if (PRDtotalqty == 0 && t)//qty is zero and enter loop true (happen only multiple purchase return)
+                                dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
+                            else if (PRDtotalqty == 0)//new purchase return happen
+                                dgvItemPop.Rows[i].Cells[iqty].Value = Convert.ToDecimal(gridSource1[i].Quantity) - current_qty;
+                            else//new purchase return happen no purchase return happen
+                                dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
+
+                            dgvItemPop.Rows[i].Cells[ipopNetavaQoty].Value = gridSource1[i].NetAmount;
+                            dgvItemPop.Rows[i].Cells[ipopNetAmount].Value = gridSource1[i].NetAmount;
+                            dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource1[i].EntryDate;
+                            dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource1[i].ItemId;//itemid
+                            dgvItemPop.Rows[i].Cells[ipopProductType].Value = gridSource1[i].ProductType;
+                            dgvItemPop.Rows[i].Cells[ipopPurchaseDetailId].Value = gridSource1[i].PurchaseDetailId;
+                            dgvItemPop.Rows[i].Cells[ipopPurchaseMasterId].Value = gridSource1[i].PurchaseMasterId;//purchaemasterid
+                            dgvItemPop.Rows[i].Cells[ipopPrid].Value = gridSource1[i].Prid;//purchaemasterid
+
                         }
-                        else
-                        {
-                            PRDtotalqty = Convert.ToDecimal(gridSource1[i].Quantity);
-                        }//--------------------------mutiple purchase return happen end ---------------------
+                        pnlpurchasedetails.Location = new Point(this.Width / 2 - pnlpurchasedetails.Size.Width / 2, this.Height / 2 - pnlpurchasedetails.Size.Height / 2);
+                        pnlpurchasedetails.Show();
 
-
-                        //for (int j = 0; j < dgvProduct.RowCount; j++)//---------for products grid count quantity-------
-                        //{
-                        //    string x1;
-                        //    string x2 = gridSource1[i].PurchaseDetailId;
-                        //    if (dgvProduct.Rows[j].Cells[iPurchaseDetailsId].Value == null)
-                        //    {
-                        //        x1 = null;
-                        //    }
-                        //    else
-                        //    {
-                        //        x1 = (dgvProduct.Rows[j].Cells[iPurchaseDetailsId].Value).ToString();
-                        //    }
-
-                        //    if (x1 == x2)
-                        //    {
-                        //        current_qty = current_qty + Convert.ToDecimal(dgvProduct.Rows[j].Cells[iqty].Value);
-                        //    }
-                        //}//--------------------------------end for products grid count   quantity--------------------------
-
-                        if (PRDtotalqty == 0 && t)//qty is zero and enter loop true (happen only multiple purchase return)
-                            dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
-                        else if (PRDtotalqty == 0)//new purchase return happen
-                            dgvItemPop.Rows[i].Cells[iqty].Value = Convert.ToDecimal(gridSource1[i].Quantity) - current_qty;
-                        else//new purchase return happen no purchase return happen
-                            dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
-
-                        dgvItemPop.Rows[i].Cells[ipopNetavaQoty].Value = gridSource1[i].NetAmount;
-                        dgvItemPop.Rows[i].Cells[ipopNetAmount].Value = gridSource1[i].NetAmount;
-                        dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource1[i].EntryDate;
-                        dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource1[i].ItemId;//itemid
-                        dgvItemPop.Rows[i].Cells[ipopProductType].Value = gridSource1[i].ProductType;
-                        dgvItemPop.Rows[i].Cells[ipopPurchaseDetailId].Value = gridSource1[i].PurchaseDetailId;
-                        dgvItemPop.Rows[i].Cells[ipopPurchaseMasterId].Value = gridSource1[i].PurchaseMasterId;//purchaemasterid
-                        dgvItemPop.Rows[i].Cells[ipopPrid].Value = gridSource1[i].Prid;//purchaemasterid
-
-                    }
-                    pnlpurchasedetails.Location = new Point(this.Width / 2 - pnlpurchasedetails.Size.Width / 2, this.Height / 2 - pnlpurchasedetails.Size.Height / 2);
-                    pnlpurchasedetails.Show();
-
-                }
-                else
-                {
-                    decimal totqty = 0;
-                    if (gridSource2.Count > 0)
-                    {
-                        totqty = Convert.ToDecimal(gridSource1[0].Quantity) - Convert.ToDecimal(gridSource2[0].Field1);
                     }
                     else
-                        totqty = 0;
-
-                    if (Convert.ToDecimal(gridSource1[0].Quantity) >= totqty)
                     {
-                        int n = dgvProduct.RowCount;
-
-                        for (int i = 0; i < n; i++)
+                        decimal totqty = 0;
+                        if (gridSource2.Count > 0)
                         {
-                            if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value) == Convert.ToInt32(gridSource1[0].PurchaseDetailId))
-                            {
-                                flag = true;
-                                rowno = i;
-                            }
+                            totqty = Convert.ToDecimal(gridSource1[0].Quantity) - Convert.ToDecimal(gridSource2[0].Field1);
                         }
-                        if (flag)
-                        {
-                            decimal temp = Convert.ToDecimal(dgvProduct.Rows[rowno].Cells[iqty].Value) + 1;
-                            dgvProduct.Rows[rowno].Cells[iqty].Value = temp;
-                            if (gridrowno != rowno)
-                            {
-                                if (dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
-                                {
-                                    dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value;
-                                }
-                                else
-                                {
-                                    dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
-                                }
+                        else
+                            totqty = 0;
 
+                        if (Convert.ToDecimal(gridSource1[0].Quantity) >= totqty)
+                        {
+                            int n = dgvProduct.RowCount;
+
+                            for (int i = 0; i < n; i++)
+                            {
+                                if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value) == Convert.ToInt32(gridSource1[0].PurchaseDetailId))
+                                {
+                                    flag = true;
+                                    rowno = i;
+                                }
+                            }
+                            if (flag)
+                            {
+                                decimal temp = Convert.ToDecimal(dgvProduct.Rows[rowno].Cells[iqty].Value) + 1;
+                                dgvProduct.Rows[rowno].Cells[iqty].Value = temp;
+                                if (gridrowno != rowno)
+                                {
+                                    if (dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
+                                    {
+                                        dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value;
+                                    }
+                                    else
+                                    {
+                                        dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
+                                    }
+
+                                    totalcellamount(gridrowno);
+                                    grandTotal();
+                                    totQty();
+                                    totDisc();
+                                    netAmount();
+                                }
+                                CheckQty(rowno);
+                            }
+                            else
+                            {
+                                dmnSearch.Select = "a.ItemBarCode as ItemBarCode,ItemCode as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,a.PrId as PrId,,i.TaxType";
+                                if (Convert.ToString(gridSource1[0].ProductType) == "3")
+                                    tablename = "tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblitem i ON i.ItemId = a.ItemId ";
+                                dmnSearch.Table = tablename;
+                                dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = '" + gridSource1[0].PurchaseDetailId + "'";
+                                dmnSearch.OrderBy = "";
+                                var gridSource3 = _bllSearchitem.GetSearchData("prdSearch", dmnSearch);
+
+                                dgvProduct.Rows[gridrowno].Cells[iname].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[iunit].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[iprate].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[inetamount].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[itaxper].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[itaxamt].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[iamount].ReadOnly = true;
+
+                                dgvProduct.Rows[gridrowno].Cells[inetamount].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[itax].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[israte].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[imrp].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[itaxtype].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[iname].Style.ForeColor = Color.Black;
+
+                                dgvProduct.Rows[gridrowno].Cells[islno].Value = gridrowno + 1;
+                                dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = gridSource3[0].ItemBarCode;
+                                dgvProduct.Rows[gridrowno].Cells[ibarcode].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[iname].Value = gridSource3[0].ItemName;
+                                dgvProduct.Rows[gridrowno].Cells[iqty].Value = "1";
+                                dgvProduct.Rows[gridrowno].Cells[iunit].Value = "Number";
+                                dgvProduct.Rows[gridrowno].Cells[iprate].Value = gridSource3[0].PurchaseRate;
+                                dgvProduct.Rows[gridrowno].Cells[iamount].Value = gridSource3[0].Amount;
+                                dgvProduct.Rows[gridrowno].Cells[idisper].Value = 0;
+                                dgvProduct.Rows[gridrowno].Cells[idisamt].Value = 0;
+                                dgvProduct.Rows[gridrowno].Cells[itaxper].Value = gridSource3[0].TaxPer;
+                                dgvProduct.Rows[gridrowno].Cells[itaxamt].Value = gridSource3[0].TaxAmount;
+                                dgvProduct.Rows[gridrowno].Cells[inetamount].Value = gridSource3[0].NetAmount;
+                                dgvProduct.Rows[gridrowno].Cells[itax].Value = gridSource3[0].taxname;
+                                dgvProduct.Rows[gridrowno].Cells[israte].Value = gridSource3[0].srate;
+                                dgvProduct.Rows[gridrowno].Cells[imrp].Value = gridSource3[0].MRP;
+                                dgvProduct.Rows[gridrowno].Cells[itaxtype].Value = gridSource3[0].TaxType;
+
+                                dgvProduct.Rows[gridrowno].Cells[iPurchasemasterid].Value = gridSource3[0].PurchaseMasterId;///purchasemasterid
+                                dgvProduct.Rows[gridrowno].Cells[iitemId].Value = gridSource3[0].ItemId;//item id 
+                                dgvProduct.Rows[gridrowno].Cells[iproducttype].Value = gridSource3[0].ProductType; //entype product
+                                dgvProduct.Rows[gridrowno].Cells[iPurchaseDetailsId].Value = gridSource3[0].PurchasedetailsId;
+                                dgvProduct.Rows[gridrowno].Cells[ipurchasemasterentryno].Value = gridSource3[0].EntryNo;
+                                dgvProduct.Rows[gridrowno].Cells[iprid].Value = gridSource3[0].PrId;
+                                dgvProduct.Rows[gridrowno].Cells[iorglQty].Value = gridSource1[0].Quantity;
+
+                                dgvProduct.Rows[gridrowno].Cells[ibarcode].ReadOnly = true;
                                 totalcellamount(gridrowno);
                                 grandTotal();
                                 totQty();
                                 totDisc();
                                 netAmount();
+                                dgvProduct.Rows.Add(1);
+                                dgvProduct.Focus();
                             }
-                            CheckQty(rowno);
                         }
                         else
-                        {                           
-                            dmnSearch.Select = "a.ItemBarCode as ItemBarCode,ItemCode as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,a.PrId as PrId,,i.TaxType";
-                            if (Convert.ToString(gridSource1[0].ProductType) == "3")
-                                tablename = "tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblitem i ON i.ItemId = a.ItemId ";
-                            dmnSearch.Table = tablename;
-                            dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = '" + gridSource1[0].PurchaseDetailId + "'";
-                            dmnSearch.OrderBy = "";
-                            var gridSource3 = _bllSearchitem.GetSearchData("prdSearch", dmnSearch);
-
-                            dgvProduct.Rows[gridrowno].Cells[iname].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[iunit].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[iprate].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[inetamount].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[itaxper].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[itaxamt].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[iamount].ReadOnly = true;
-
-                            dgvProduct.Rows[gridrowno].Cells[inetamount].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[itax].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[israte].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[imrp].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[itaxtype].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[iname].Style.ForeColor = Color.Black;
-
-                            dgvProduct.Rows[gridrowno].Cells[islno].Value = gridrowno + 1;
-                            dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = gridSource3[0].ItemBarCode;
-                            dgvProduct.Rows[gridrowno].Cells[ibarcode].ReadOnly = true;
-                            dgvProduct.Rows[gridrowno].Cells[iname].Value = gridSource3[0].ItemName;
-                            dgvProduct.Rows[gridrowno].Cells[iqty].Value = "1";
-                            dgvProduct.Rows[gridrowno].Cells[iunit].Value = "Number";
-                            dgvProduct.Rows[gridrowno].Cells[iprate].Value = gridSource3[0].PurchaseRate;
-                            dgvProduct.Rows[gridrowno].Cells[iamount].Value = gridSource3[0].Amount;
-                            dgvProduct.Rows[gridrowno].Cells[idisper].Value = 0;
-                            dgvProduct.Rows[gridrowno].Cells[idisamt].Value = 0;
-                            dgvProduct.Rows[gridrowno].Cells[itaxper].Value = gridSource3[0].TaxPer;
-                            dgvProduct.Rows[gridrowno].Cells[itaxamt].Value = gridSource3[0].TaxAmount;
-                            dgvProduct.Rows[gridrowno].Cells[inetamount].Value = gridSource3[0].NetAmount;
-                            dgvProduct.Rows[gridrowno].Cells[itax].Value = gridSource3[0].taxname;
-                            dgvProduct.Rows[gridrowno].Cells[israte].Value = gridSource3[0].srate;
-                            dgvProduct.Rows[gridrowno].Cells[imrp].Value = gridSource3[0].MRP;
-                            dgvProduct.Rows[gridrowno].Cells[itaxtype].Value = gridSource3[0].TaxType;
-
-                            dgvProduct.Rows[gridrowno].Cells[iPurchasemasterid].Value = gridSource3[0].PurchaseMasterId;///purchasemasterid
-                            dgvProduct.Rows[gridrowno].Cells[iitemId].Value = gridSource3[0].ItemId;//item id 
-                            dgvProduct.Rows[gridrowno].Cells[iproducttype].Value = gridSource3[0].ProductType; //entype product
-                            dgvProduct.Rows[gridrowno].Cells[iPurchaseDetailsId].Value = gridSource3[0].PurchasedetailsId;
-                            dgvProduct.Rows[gridrowno].Cells[ipurchasemasterentryno].Value = gridSource3[0].EntryNo;
-                            dgvProduct.Rows[gridrowno].Cells[iprid].Value = gridSource3[0].PrId;
-                            dgvProduct.Rows[gridrowno].Cells[iorglQty].Value = gridSource1[0].Quantity;
-
-                            dgvProduct.Rows[gridrowno].Cells[ibarcode].ReadOnly = true;
-                            totalcellamount(gridrowno);
-                            grandTotal();
-                            totQty();
-                            totDisc();
-                            netAmount();
-                            dgvProduct.Rows.Add(1);
-                            dgvProduct.Focus();
+                        {
+                            CMessageBox.Show("Avilable Quantity is " + dgvProduct.Rows[gridrowno].Cells[iorglQty].Value, "Out Of Quantity", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            return;
                         }
+                        totalcellamount(gridrowno);
+                        grandTotal();
+                        totQty();
+                        totDisc();
+                        netAmount();
+                        dgvProduct.Focus();
                     }
-                    else
-                    {
-                        CMessageBox.Show("Avilable Quantity is " + dgvProduct.Rows[gridrowno].Cells[iorglQty].Value, "Out Of Quantity", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        return;
-                    }
-                    totalcellamount(gridrowno);
-                    grandTotal();
-                    totQty();
-                    totDisc();
-                    netAmount();
-                    dgvProduct.Focus();
-                }
-            }
-            else
-            {
-                if ((dgvProduct.Rows[gridrowno].Cells[ibarcode].Value == "" || dgvProduct.Rows[gridrowno].Cells[ibarcode].Value == null) && dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
-                {
-                    dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value;
                 }
                 else
                 {
-                    CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
-                    { dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value; }
+                    if ((dgvProduct.Rows[gridrowno].Cells[ibarcode].Value == "" || dgvProduct.Rows[gridrowno].Cells[ibarcode].Value == null) && dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
+                    {
+                        dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value;
+                    }
                     else
-                        dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
+                    {
+                        CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (dgvProduct.Rows[gridrowno].Cells[iprid].Value != null)
+                        { dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = dgvProduct.Rows[gridrowno].Cells[iorgbarcode].Value; }
+                        else
+                            dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
+                    }
+                }
+                if (flag)
+                {
+                    dgvProduct.ClearSelection();
+                    dgvProduct.Rows[rowno].Selected = true;
+                }
+                else
+                {
+                    int n = dgvProduct.RowCount - 1;
+                    dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[ibarcode];
                 }
             }
-            if (flag)
+            catch(Exception ex)
             {
-                dgvProduct.ClearSelection();
-                dgvProduct.Rows[rowno].Selected = true;
+
             }
-            else
-            {
-                int n = dgvProduct.RowCount - 1;
-                dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[ibarcode];
-            }
+           
         }
         public void CheckQty(int rowid)
         {
@@ -2036,6 +2044,15 @@ namespace FoodandBeverage.Forms
                     Movefocus(1);
                     return true; // Mark the key as handled
                 case Keys.Enter:
+                    if (pnl_barcode.Visible)
+                    {
+                        pnl_barcode.Visible = false;
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
+                        txtbarcode.Text = "";
+                        int rowno = dgvProduct.CurrentCell.RowIndex;
+                        UpcScanner(rowno);
+                    }
+                    else
                         Movefocus(0);
                     return true; // Mark the key as handled
                 case Keys.Escape:

@@ -4986,6 +4986,7 @@ namespace FoodandBeverage.Forms
                         if (payid != 12)
                         {
                             FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid,0);
+                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                             frmSalesInvoice.ShowDialog();
                             CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -5647,6 +5648,7 @@ namespace FoodandBeverage.Forms
                 if (InsertStatus.PayId>0)
                 {
                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
+                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                     frmSalesInvoice.ShowDialog();
 
                     dgv_split.Rows[rowno].Cells[5].Value = "Print Complete";

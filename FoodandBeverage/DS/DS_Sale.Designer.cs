@@ -363,6 +363,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnbarcode_img_path;
             
+            private global::System.Data.DataColumn columnFull_Address;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_SaleHeaderDataTable() {
@@ -454,6 +456,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Full_AddressColumn {
+                get {
+                    return this.columnFull_Address;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -489,7 +499,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_SaleHeaderRow AddDT_SaleHeaderRow(string Name, string Address, string Phone, string Email, string GSTno, string LocId, string barcode_img_path) {
+            public DT_SaleHeaderRow AddDT_SaleHeaderRow(string Name, string Address, string Phone, string Email, string GSTno, string LocId, string barcode_img_path, string Full_Address) {
                 DT_SaleHeaderRow rowDT_SaleHeaderRow = ((DT_SaleHeaderRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
@@ -498,7 +508,8 @@ namespace FoodandBeverage.DS {
                         Email,
                         GSTno,
                         LocId,
-                        barcode_img_path};
+                        barcode_img_path,
+                        Full_Address};
                 rowDT_SaleHeaderRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_SaleHeaderRow);
                 return rowDT_SaleHeaderRow;
@@ -528,6 +539,7 @@ namespace FoodandBeverage.DS {
                 this.columnGSTno = base.Columns["GSTno"];
                 this.columnLocId = base.Columns["LocId"];
                 this.columnbarcode_img_path = base.Columns["barcode_img_path"];
+                this.columnFull_Address = base.Columns["Full_Address"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -547,6 +559,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnLocId);
                 this.columnbarcode_img_path = new global::System.Data.DataColumn("barcode_img_path", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnbarcode_img_path);
+                this.columnFull_Address = new global::System.Data.DataColumn("Full_Address", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFull_Address);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1755,6 +1769,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Full_Address {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_SaleHeader.Full_AddressColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Full_Address\' in table \'DT_SaleHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_SaleHeader.Full_AddressColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableDT_SaleHeader.NameColumn);
             }
@@ -1835,6 +1865,18 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void Setbarcode_img_pathNull() {
                 this[this.tableDT_SaleHeader.barcode_img_pathColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsFull_AddressNull() {
+                return this.IsNull(this.tableDT_SaleHeader.Full_AddressColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetFull_AddressNull() {
+                this[this.tableDT_SaleHeader.Full_AddressColumn] = global::System.Convert.DBNull;
             }
         }
         

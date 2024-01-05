@@ -146,50 +146,57 @@ namespace FoodandBeverage.Forms
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            string returnValue = string.Empty;
-            DataTable dtColumnAlign = new DataTable();
-            dtColumnAlign.Columns.Add();
-            DmnSearch _objSearch = new DmnSearch();
-            _objSearch.ColumnHeaders = "ID,Category Name,Description";
-            _objSearch.Select = "Fcid as Id,CategoryName as Field1,Description as Field2";
-            _objSearch.Table = "tblCategory_FTI";
-            _objSearch.WhereNdGroupBy = "where Status = 1";
-            _objSearch.OrderBy = " ORDER BY CategoryName";
-            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-            if (gridSource.Count == 0)
+            try
             {
-                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,Category Name,Description";
+                _objSearch.Select = "Fcid as Id,CategoryName as Field1,Description as Field2";
+                _objSearch.Table = "tblCategory_FTI";
+                _objSearch.WhereNdGroupBy = "where Status = 1";
+                _objSearch.OrderBy = " ORDER BY CategoryName";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    {
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToString(search._retValue);
+                        }
+                    }
+                    if (returnValue != "")
+                    {
+                        int catid = Convert.ToInt32(returnValue);
+                        BllSearch<DmnCategory> bllSearch1 = new BllSearch<DmnCategory>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType";
+                        objSearch.Table = "tblCategory_FTI";
+                        objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
+                        objSearch.OrderBy = "";
+                        var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (itemSource.Count > 0)
+                        {
+                            txtFcid.Text = Convert.ToString(catid);
+                            txtfoodCate.Text = Convert.ToString(itemSource[0].CategoryName);
+                            cmb_cate.SelectedIndex = Convert.ToInt32(itemSource[0].CategoryType);
+                            txtdescr.Text = itemSource[0].Description;
+                            btn_del_cate.Visible = true;
+                        }
+                    }
+                }
             }
-            else
+            catch(Exception ex)
             {
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-                {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
-                    {
-                        returnValue = Convert.ToString(search._retValue);
-                    }
-                }
-                if (returnValue != "")
-                {
-                    int catid = Convert.ToInt32(returnValue);
-                    BllSearch<DmnCategory> bllSearch1 = new BllSearch<DmnCategory>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "Fcid,CategoryName,Description,Status";
-                    objSearch.Table = "tblCategory_FTI";
-                    objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
-                    objSearch.OrderBy = "";
-                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
-                    if (itemSource.Count > 0)
-                    {
-                        txtFcid.Text = Convert.ToString(catid);
-                        txtfoodCate.Text = Convert.ToString(itemSource[0].CategoryName);
-                        cmb_cate.SelectedIndex = Convert.ToInt32(itemSource[0].CategoryType);
-                        txtdescr.Text = itemSource[0].Description;
-                        btn_del_cate.Visible = true;
-                    }
-                }
+
             }
         }
 
