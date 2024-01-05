@@ -45,6 +45,7 @@ namespace BLL
             parms.Add("BalnceAmt", objTestClass.BalnceAmt);
 
             parms.Add("FinalAmount", objTestClass.FinalAmount);
+           
 
 
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
@@ -67,6 +68,7 @@ namespace BLL
             parms.Add("MTID", objTestClass.MTID);
             parms.Add("Status", objTestClass.Status);
             parms.Add("Net", objTestClass.Net);
+            //parms.Add("RevStatus", objTestClass.RevStatus);
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
         }
@@ -89,6 +91,7 @@ namespace BLL
             parms.Add("BookingType", objTestClass.BookingType);
             parms.Add("NoOfPeople", objTestClass.NoOfPeople);
             parms.Add("BookingDateTime", objTestClass.BookingDateTime);
+            parms.Add("RevStatus", objTestClass.RevStatus);
 
             var lstData = objDapperRepository.Update(procedureName, parms);
             return lstData;

@@ -44,6 +44,8 @@ namespace FoodandBeverage.Forms
             dgvforms.Rows.Add(1);
             dgvmenu.Rows.Add(1);
             dtpBooking.MinDate = DateTime.Today;
+            dtp_from_time.Value = DateTime.Now;
+
 
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Reservation)))
@@ -597,14 +599,34 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int r = dgvforms.CurrentCell.RowIndex;
+
+                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
+
+                
+                //DateTime yourDateTime;
+                //using (IDbConnection connection = OpenConnection()) // Replace YourDbContext with your actual Entity Framework context
+                //{
+                //    // Fetching CreatedDateTime from tblOrderMaster
+                //    var orderMaster = dbContext.tblOrderMaster.FirstOrDefault(/* Add your conditions to fetch the specific record */);
+
+                //    if (orderMaster != null)
+                //    {
+                //        yourDateTime = orderMaster.CreatedDateTime;
+
+                //        // Perform the comparison
+                //        TimeSpan difference = Convert.ToDateTime(dtfrom) - yourDateTime;
+                //        bool is45MinutesBefore = difference.TotalMinutes >= 45;
+
+
+
+                        int r = dgvforms.CurrentCell.RowIndex;
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.ColumnHeaders = "Tid,TableCode,Price,Capcity,Description";
-                _objSearch.Select = "Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4";
-                _objSearch.Table = "tblTable_info";
-                _objSearch.WhereNdGroupBy = " Where Status=1";
+                _objSearch.Select = " t.Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
+                _objSearch.Table = " tblTable_info T left join tblOrderMaster o on t.OrderMasterId = o.OrderMasterId  ";
+                _objSearch.WhereNdGroupBy = " Where Status=1 and OrderStatus=0";
                 _objSearch.OrderBy = " ";
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
                 {
@@ -626,6 +648,7 @@ namespace FoodandBeverage.Forms
                 dgvforms.Rows.Add(gridSource.Count);
                 if (gridSource.Count > 0)
                 {
+                    
                     dgvforms.Rows[r].Cells[itid].Value = gridSource[0].Tid;
                     dgvforms.Rows[r].Cells[iTBookingDetailId].Value = 0;
                     dgvforms.Rows[r].Cells[itablename].Value = gridSource[0].TableCode;
@@ -1689,8 +1712,11 @@ namespace FoodandBeverage.Forms
                 {
 
                     BllReservation bllReservation = new BllReservation();
+                    BllTableinfo bllTableinfo = new BllTableinfo();
                     DmnReservation dmnReservation = new DmnReservation();
+                    DmnTableinfo dmnTableinfo = new DmnTableinfo();
                     //dmnReservation.BookmasterId = BookmasterId;
+                    string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
                     dmnReservation.Mobile = txtMob.Text;
@@ -1703,12 +1729,13 @@ namespace FoodandBeverage.Forms
                     dmnReservation.BookingType = Convert.ToString(cboBtype.SelectedValue);
                     dmnReservation.NoOfPeople = txtNOP.Text;
                     dmnReservation.BranchId = 1030;
-                    dmnReservation.BookingDateTime = dtpBooking.Value;
+                    dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
+
                     dmnReservation.ReservationTotal = Convert.ToDecimal(lblSTotal.Text);
                     dmnReservation.MenuTotal = Convert.ToDecimal(lblMTotal.Text);
                     dmnReservation.GrandTotal = Convert.ToDecimal(lblGTotal.Text);
                     dmnReservation.DiscountAmt = Convert.ToDecimal(totaldiscountamt.Text);
-
+                    //dmnTableinfo.RevStatus = 1;
                     dmnReservation.DiscountPer = Convert.ToDecimal(discountper.Text);
                     dmnReservation.OtherAdd = Convert.ToDecimal(oaamount.Text);
                     dmnReservation.OtherDed = Convert.ToDecimal(odamt.Text);
@@ -1746,7 +1773,7 @@ namespace FoodandBeverage.Forms
                     dmnReservation.CashRev = Convert.ToDecimal(rcvamt.Text);
                     dmnReservation.BalnceAmt = Convert.ToDecimal(lblBalAmt.Text);
 
-
+                  
                     var InsertStatusP = bllReservation.AddData("prdInsert_Upd_bookMaster", dmnReservation);
 
                     if (InsertStatusP.BookmasterId != 0)

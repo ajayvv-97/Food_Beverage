@@ -633,6 +633,7 @@ namespace FoodandBeverage.Forms
                 certi1.Text = Convert.ToString(gridSource1[0].Certificate);
                 certi2.Text = Convert.ToString(gridSource1[0].Certificate1);
                 certi3.Text = Convert.ToString(gridSource1[0].Certificate2);
+                tbl_BookingIn.Text = Convert.ToString(gridSource1[0].BookingInerwell);
                 comboBox3.SelectedValue = Convert.ToInt64(gridSource1[0].Country);
                 cmdstate.SelectedValue = Convert.ToInt64(gridSource1[0].State);
                 cmdcity.SelectedValue = Convert.ToInt64(gridSource1[0].City);

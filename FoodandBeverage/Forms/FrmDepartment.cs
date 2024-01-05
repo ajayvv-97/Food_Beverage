@@ -66,14 +66,14 @@ namespace FoodandBeverage.Forms
         public void RefreshForm()
         {
             DepartmentId = 0;
-           
-         
-            MetroTextBox[] listTbx = { mtxtName, mtxtCode,mtxtEmpSrlNo };
+
+
+            MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
             objGeneral.ResetSelectedMetroTextBoxes(listTbx);
             fillGridView();
             mtxtName.Focus();
             mtxtEmpSrlNo.ReadOnly = false;
-            if(string.IsNullOrWhiteSpace(mtxtName.Text))
+            if (string.IsNullOrWhiteSpace(mtxtName.Text))
             {
                 mbtnSave.Enabled = false;
 
@@ -191,7 +191,7 @@ namespace FoodandBeverage.Forms
                 mtxtCode.Text = Convert.ToString(gridSource[0].DepartmentCode);
                 mtxtEmpSrlNo.Text = Convert.ToString(gridSource[0].EmployeeSrlNoStart);
                 DepartmentId = Convert.ToInt32(gridSource[0].DepartmentId);
-               
+
                 mtxtEmpSrlNo.ReadOnly = true;
                 mtxtName.Focus();
                 mbtnSave.Enabled = true;
@@ -433,10 +433,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 objGeneral.NextConrolOnEnterPress(sender, e);
-                if (string.IsNullOrWhiteSpace(mtxtEmpSrlNo.Text))
-                {
-                    GenerateSrNo();
-                }
+               
             }
             catch (Exception ex)
             {
