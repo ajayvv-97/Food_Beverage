@@ -54,28 +54,28 @@ namespace FoodandBeverage.Forms.UserAccount
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label21 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.txtemp = new System.Windows.Forms.TextBox();
+            this.lblToolTipAccName = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.lblToolTipAccName = new System.Windows.Forms.Label();
-            this.txtemp = new System.Windows.Forms.TextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.hlTitle.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkshowpassword
@@ -324,17 +324,18 @@ namespace FoodandBeverage.Forms.UserAccount
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.045226F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90.95477F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.882591F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.11741F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox10, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label21, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(526, 32);
             this.tableLayoutPanel1.TabIndex = 243;
             // 
@@ -343,9 +344,9 @@ namespace FoodandBeverage.Forms.UserAccount
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(507, 0);
+            this.label4.Location = new System.Drawing.Point(497, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(16, 18);
+            this.label4.Size = new System.Drawing.Size(19, 18);
             this.label4.TabIndex = 8;
             this.label4.Text = "X";
             this.label4.Click += new System.EventHandler(this.label4_Click);
@@ -356,7 +357,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox10.Location = new System.Drawing.Point(3, 3);
             this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(34, 26);
+            this.pictureBox10.Size = new System.Drawing.Size(28, 26);
             this.pictureBox10.TabIndex = 279;
             this.pictureBox10.TabStop = false;
             // 
@@ -365,7 +366,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(48, 0);
+            this.label21.Location = new System.Drawing.Point(37, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(136, 24);
             this.label21.TabIndex = 7;
@@ -402,24 +403,6 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tableLayoutPanel2.Size = new System.Drawing.Size(526, 231);
             this.tableLayoutPanel2.TabIndex = 243;
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.36842F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.63158F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 269F));
-            this.tableLayoutPanel3.Controls.Add(this.mbtnSave, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.mbtnRefresh, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.mbtnList, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.mbtnClose, 3, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 270);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(529, 36);
-            this.tableLayoutPanel3.TabIndex = 244;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.label18);
@@ -429,6 +412,38 @@ namespace FoodandBeverage.Forms.UserAccount
             this.panel1.Size = new System.Drawing.Size(96, 41);
             this.panel1.TabIndex = 235;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.label11);
+            this.panel2.Location = new System.Drawing.Point(3, 50);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(96, 41);
+            this.panel2.TabIndex = 236;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(83, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(13, 17);
+            this.label2.TabIndex = 230;
+            this.label2.Text = "*";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Black;
+            this.label11.Location = new System.Drawing.Point(1, 4);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 18);
+            this.label11.TabIndex = 222;
+            this.label11.Text = "Employee :";
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label1);
@@ -437,6 +452,42 @@ namespace FoodandBeverage.Forms.UserAccount
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(96, 37);
             this.panel3.TabIndex = 237;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.txtemp);
+            this.panel4.Controls.Add(this.lblToolTipAccName);
+            this.panel4.Location = new System.Drawing.Point(105, 50);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(227, 41);
+            this.panel4.TabIndex = 238;
+            // 
+            // txtemp
+            // 
+            this.txtemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtemp.Location = new System.Drawing.Point(3, 0);
+            this.txtemp.Multiline = true;
+            this.txtemp.Name = "txtemp";
+            this.txtemp.ReadOnly = true;
+            this.txtemp.Size = new System.Drawing.Size(221, 29);
+            this.txtemp.TabIndex = 214;
+            this.txtemp.Enter += new System.EventHandler(this.txtemp_Enter);
+            this.txtemp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtemp_KeyDown);
+            this.txtemp.Leave += new System.EventHandler(this.txtemp_Leave);
+            // 
+            // lblToolTipAccName
+            // 
+            this.lblToolTipAccName.AutoSize = true;
+            this.lblToolTipAccName.BackColor = System.Drawing.Color.Transparent;
+            this.lblToolTipAccName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblToolTipAccName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblToolTipAccName.ForeColor = System.Drawing.Color.Red;
+            this.lblToolTipAccName.Location = new System.Drawing.Point(3, 27);
+            this.lblToolTipAccName.Name = "lblToolTipAccName";
+            this.lblToolTipAccName.Size = new System.Drawing.Size(133, 17);
+            this.lblToolTipAccName.TabIndex = 228;
+            this.lblToolTipAccName.Text = "[F8]-For Account List";
+            this.lblToolTipAccName.Visible = false;
             // 
             // panel5
             // 
@@ -456,73 +507,23 @@ namespace FoodandBeverage.Forms.UserAccount
             this.panel6.Size = new System.Drawing.Size(96, 29);
             this.panel6.TabIndex = 240;
             // 
-            // lblToolTipAccName
+            // tableLayoutPanel3
             // 
-            this.lblToolTipAccName.AutoSize = true;
-            this.lblToolTipAccName.BackColor = System.Drawing.Color.Transparent;
-            this.lblToolTipAccName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblToolTipAccName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblToolTipAccName.ForeColor = System.Drawing.Color.Red;
-            this.lblToolTipAccName.Location = new System.Drawing.Point(3, 27);
-            this.lblToolTipAccName.Name = "lblToolTipAccName";
-            this.lblToolTipAccName.Size = new System.Drawing.Size(133, 17);
-            this.lblToolTipAccName.TabIndex = 228;
-            this.lblToolTipAccName.Text = "[F8]-For Account List";
-            this.lblToolTipAccName.Visible = false;
-            // 
-            // txtemp
-            // 
-            this.txtemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtemp.Location = new System.Drawing.Point(3, 0);
-            this.txtemp.Multiline = true;
-            this.txtemp.Name = "txtemp";
-            this.txtemp.ReadOnly = true;
-            this.txtemp.Size = new System.Drawing.Size(221, 29);
-            this.txtemp.TabIndex = 214;
-            this.txtemp.Enter += new System.EventHandler(this.txtemp_Enter);
-            this.txtemp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtemp_KeyDown);
-            this.txtemp.Leave += new System.EventHandler(this.txtemp_Leave);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.txtemp);
-            this.panel4.Controls.Add(this.lblToolTipAccName);
-            this.panel4.Location = new System.Drawing.Point(105, 50);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(227, 41);
-            this.panel4.TabIndex = 238;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(1, 4);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 18);
-            this.label11.TabIndex = 222;
-            this.label11.Text = "Employee :";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(83, 4);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(13, 17);
-            this.label2.TabIndex = 230;
-            this.label2.Text = "*";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.label11);
-            this.panel2.Location = new System.Drawing.Point(3, 50);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(96, 41);
-            this.panel2.TabIndex = 236;
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.36842F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.63158F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 269F));
+            this.tableLayoutPanel3.Controls.Add(this.mbtnSave, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.mbtnRefresh, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.mbtnList, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.mbtnClose, 3, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 270);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(529, 36);
+            this.tableLayoutPanel3.TabIndex = 244;
             // 
             // FrmUserAccount
             // 
@@ -543,19 +544,19 @@ namespace FoodandBeverage.Forms.UserAccount
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

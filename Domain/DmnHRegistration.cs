@@ -26,6 +26,7 @@ namespace Domain
         public int Status { get; set; }
         public string Certificate1 { get; set; }
         public string Certificate2 { get; set; }
+        public int BookingInerwell { get; set; }
 
 
     }

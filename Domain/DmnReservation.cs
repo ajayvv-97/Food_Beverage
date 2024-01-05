@@ -40,6 +40,7 @@ namespace Domain
         public Decimal BalnceAmt { get; set; }
         public Decimal BalnceNeed { get; set; }
         public Decimal FinalAmount { get; set; }
+        public int RevStatus { get; set; }
 
 
 
