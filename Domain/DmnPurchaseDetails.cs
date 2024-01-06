@@ -36,6 +36,8 @@ namespace Domain
         public decimal Srate { get; set; }
         public decimal QuantitytoSubtract { get; set; }
         public decimal TotalSaveAmount { get; set; }
+        public string UnitName { get; set; }
+        
 
     }
 }

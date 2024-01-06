@@ -130,7 +130,6 @@ namespace FoodandBeverage.Forms
             this.txtdes = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtVendorAddress = new System.Windows.Forms.TextBox();
-            this.btn_vendor_close = new System.Windows.Forms.Button();
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
@@ -162,7 +161,6 @@ namespace FoodandBeverage.Forms
             this.btn_back_registration = new System.Windows.Forms.Button();
             this.lblGrandTot = new System.Windows.Forms.Label();
             this.panelProductPopup = new System.Windows.Forms.Panel();
-            this.btn_close_popupgrid = new System.Windows.Forms.Button();
             this.dgvItemPop = new System.Windows.Forms.DataGridView();
             this.itpopSlno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.itPopName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -172,6 +170,13 @@ namespace FoodandBeverage.Forms
             this.PType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_barcode = new System.Windows.Forms.Panel();
             this.txtbarcode = new System.Windows.Forms.TextBox();
+            this.txt_exist_vendorid = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.btn_vendor_close = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_productpopup_close = new System.Windows.Forms.Button();
+            this.tlp_ProductPopup = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar.SuspendLayout();
             this.tlp_textboxes.SuspendLayout();
             this.tlp_otherded.SuspendLayout();
@@ -193,6 +198,9 @@ namespace FoodandBeverage.Forms
             this.panelProductPopup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItemPop)).BeginInit();
             this.pnl_barcode.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tlp_ProductPopup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_navbar
@@ -1033,15 +1041,17 @@ namespace FoodandBeverage.Forms
             this.iprid});
             this.dgvProduct.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvProduct.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dgvProduct.Location = new System.Drawing.Point(3, 8);
+            this.dgvProduct.Location = new System.Drawing.Point(3, 11);
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.RowHeadersVisible = false;
             this.dgvProduct.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dgvProduct.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvProduct.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvProduct.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvProduct.RowTemplate.Height = 30;
             this.dgvProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvProduct.Size = new System.Drawing.Size(836, 137);
+            this.dgvProduct.Size = new System.Drawing.Size(690, 227);
             this.dgvProduct.TabIndex = 181;
             this.dgvProduct.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellClick);
             this.dgvProduct.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellEndEdit);
@@ -1296,10 +1306,10 @@ namespace FoodandBeverage.Forms
             // pnlCustomer
             // 
             this.pnlCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCustomer.Controls.Add(this.tableLayoutPanel1);
             this.pnlCustomer.Controls.Add(this.txtdes);
             this.pnlCustomer.Controls.Add(this.label16);
             this.pnlCustomer.Controls.Add(this.txtVendorAddress);
-            this.pnlCustomer.Controls.Add(this.btn_vendor_close);
             this.pnlCustomer.Controls.Add(this.label36);
             this.pnlCustomer.Controls.Add(this.label35);
             this.pnlCustomer.Controls.Add(this.label34);
@@ -1319,7 +1329,7 @@ namespace FoodandBeverage.Forms
             this.pnlCustomer.Controls.Add(this.label43);
             this.pnlCustomer.Controls.Add(this.label41);
             this.pnlCustomer.Controls.Add(this.label42);
-            this.pnlCustomer.Location = new System.Drawing.Point(810, 67);
+            this.pnlCustomer.Location = new System.Drawing.Point(171, 131);
             this.pnlCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.pnlCustomer.Name = "pnlCustomer";
             this.pnlCustomer.Size = new System.Drawing.Size(585, 272);
@@ -1354,18 +1364,6 @@ namespace FoodandBeverage.Forms
             this.txtVendorAddress.Name = "txtVendorAddress";
             this.txtVendorAddress.Size = new System.Drawing.Size(198, 63);
             this.txtVendorAddress.TabIndex = 214;
-            // 
-            // btn_vendor_close
-            // 
-            this.btn_vendor_close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_vendor_close.Location = new System.Drawing.Point(550, 11);
-            this.btn_vendor_close.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_vendor_close.Name = "btn_vendor_close";
-            this.btn_vendor_close.Size = new System.Drawing.Size(24, 31);
-            this.btn_vendor_close.TabIndex = 2;
-            this.btn_vendor_close.Text = "X";
-            this.btn_vendor_close.UseVisualStyleBackColor = true;
-            this.btn_vendor_close.Click += new System.EventHandler(this.btn_vendor_close_Click);
             // 
             // label36
             // 
@@ -1587,14 +1585,14 @@ namespace FoodandBeverage.Forms
             this.tlp_grid_registartion.Controls.Add(this.tlp_label_cal, 0, 2);
             this.tlp_grid_registartion.Controls.Add(this.pnl_grid_registration, 1, 1);
             this.tlp_grid_registartion.Controls.Add(this.dgvProduct, 0, 1);
-            this.tlp_grid_registartion.Location = new System.Drawing.Point(1195, 166);
+            this.tlp_grid_registartion.Location = new System.Drawing.Point(59, 40);
             this.tlp_grid_registartion.Name = "tlp_grid_registartion";
             this.tlp_grid_registartion.RowCount = 4;
             this.tlp_grid_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 2.325581F));
             this.tlp_grid_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.7907F));
             this.tlp_grid_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlp_grid_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.88372F));
-            this.tlp_grid_registartion.Size = new System.Drawing.Size(891, 257);
+            this.tlp_grid_registartion.Size = new System.Drawing.Size(737, 400);
             this.tlp_grid_registartion.TabIndex = 11;
             this.tlp_grid_registartion.Visible = false;
             // 
@@ -1614,7 +1612,7 @@ namespace FoodandBeverage.Forms
             this.tlp_label_cal.Controls.Add(this.label9, 4, 0);
             this.tlp_label_cal.Controls.Add(this.lblTotal, 5, 0);
             this.tlp_label_cal.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tlp_label_cal.Location = new System.Drawing.Point(222, 151);
+            this.tlp_label_cal.Location = new System.Drawing.Point(76, 244);
             this.tlp_label_cal.Name = "tlp_label_cal";
             this.tlp_label_cal.RowCount = 1;
             this.tlp_label_cal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1698,9 +1696,9 @@ namespace FoodandBeverage.Forms
             // 
             this.pnl_grid_registration.Controls.Add(this.btn_back_registration);
             this.pnl_grid_registration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_grid_registration.Location = new System.Drawing.Point(845, 8);
+            this.pnl_grid_registration.Location = new System.Drawing.Point(699, 11);
             this.pnl_grid_registration.Name = "pnl_grid_registration";
-            this.pnl_grid_registration.Size = new System.Drawing.Size(43, 137);
+            this.pnl_grid_registration.Size = new System.Drawing.Size(35, 227);
             this.pnl_grid_registration.TabIndex = 6;
             // 
             // btn_back_registration
@@ -1735,27 +1733,14 @@ namespace FoodandBeverage.Forms
             this.panelProductPopup.AutoSize = true;
             this.panelProductPopup.BackColor = System.Drawing.Color.White;
             this.panelProductPopup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelProductPopup.Controls.Add(this.btn_close_popupgrid);
-            this.panelProductPopup.Controls.Add(this.dgvItemPop);
-            this.panelProductPopup.Location = new System.Drawing.Point(836, 21);
+            this.panelProductPopup.Controls.Add(this.tlp_ProductPopup);
+            this.panelProductPopup.Location = new System.Drawing.Point(0, 85);
             this.panelProductPopup.Margin = new System.Windows.Forms.Padding(2);
             this.panelProductPopup.Name = "panelProductPopup";
             this.panelProductPopup.Padding = new System.Windows.Forms.Padding(5);
             this.panelProductPopup.Size = new System.Drawing.Size(755, 331);
             this.panelProductPopup.TabIndex = 222;
             this.panelProductPopup.Visible = false;
-            // 
-            // btn_close_popupgrid
-            // 
-            this.btn_close_popupgrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_close_popupgrid.Location = new System.Drawing.Point(720, -1);
-            this.btn_close_popupgrid.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_close_popupgrid.Name = "btn_close_popupgrid";
-            this.btn_close_popupgrid.Size = new System.Drawing.Size(24, 31);
-            this.btn_close_popupgrid.TabIndex = 2;
-            this.btn_close_popupgrid.Text = "X";
-            this.btn_close_popupgrid.UseVisualStyleBackColor = true;
-            this.btn_close_popupgrid.Click += new System.EventHandler(this.btn_close_popupgrid_Click);
             // 
             // dgvItemPop
             // 
@@ -1792,8 +1777,7 @@ namespace FoodandBeverage.Forms
             this.dgvItemPop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvItemPop.EnableHeadersVisualStyles = false;
             this.dgvItemPop.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dgvItemPop.Location = new System.Drawing.Point(5, 5);
-            this.dgvItemPop.Margin = new System.Windows.Forms.Padding(10);
+            this.dgvItemPop.Location = new System.Drawing.Point(3, 43);
             this.dgvItemPop.Name = "dgvItemPop";
             this.dgvItemPop.ReadOnly = true;
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -1810,7 +1794,7 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvItemPop.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dgvItemPop.RowTemplate.Height = 30;
-            this.dgvItemPop.Size = new System.Drawing.Size(743, 319);
+            this.dgvItemPop.Size = new System.Drawing.Size(737, 273);
             this.dgvItemPop.TabIndex = 1;
             this.dgvItemPop.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItemPop_CellClick);
             // 
@@ -1866,7 +1850,7 @@ namespace FoodandBeverage.Forms
             // pnl_barcode
             // 
             this.pnl_barcode.Controls.Add(this.txtbarcode);
-            this.pnl_barcode.Location = new System.Drawing.Point(225, 0);
+            this.pnl_barcode.Location = new System.Drawing.Point(253, 23);
             this.pnl_barcode.Name = "pnl_barcode";
             this.pnl_barcode.Size = new System.Drawing.Size(247, 51);
             this.pnl_barcode.TabIndex = 222;
@@ -1882,18 +1866,116 @@ namespace FoodandBeverage.Forms
             this.txtbarcode.TabIndex = 1;
             this.txtbarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbarcode_KeyDown);
             // 
+            // txt_exist_vendorid
+            // 
+            this.txt_exist_vendorid.Location = new System.Drawing.Point(158, 0);
+            this.txt_exist_vendorid.Name = "txt_exist_vendorid";
+            this.txt_exist_vendorid.Size = new System.Drawing.Size(27, 20);
+            this.txt_exist_vendorid.TabIndex = 2;
+            this.txt_exist_vendorid.Visible = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.label18, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btn_vendor_close, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(583, 34);
+            this.tableLayoutPanel1.TabIndex = 217;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(195, 24);
+            this.label18.TabIndex = 12;
+            this.label18.Text = "Vendor Registartion";
+            // 
+            // btn_vendor_close
+            // 
+            this.btn_vendor_close.BackColor = System.Drawing.Color.White;
+            this.btn_vendor_close.FlatAppearance.BorderSize = 0;
+            this.btn_vendor_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_vendor_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_vendor_close.ForeColor = System.Drawing.Color.Red;
+            this.btn_vendor_close.Location = new System.Drawing.Point(555, 3);
+            this.btn_vendor_close.Name = "btn_vendor_close";
+            this.btn_vendor_close.Size = new System.Drawing.Size(25, 28);
+            this.btn_vendor_close.TabIndex = 10;
+            this.btn_vendor_close.Text = "X";
+            this.btn_vendor_close.UseVisualStyleBackColor = false;
+            this.btn_vendor_close.Click += new System.EventHandler(this.btn_vendor_close_Click_1);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.btn_productpopup_close, 2, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(737, 34);
+            this.tableLayoutPanel2.TabIndex = 19;
+            // 
+            // btn_productpopup_close
+            // 
+            this.btn_productpopup_close.BackColor = System.Drawing.Color.White;
+            this.btn_productpopup_close.FlatAppearance.BorderSize = 0;
+            this.btn_productpopup_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_productpopup_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_productpopup_close.ForeColor = System.Drawing.Color.Red;
+            this.btn_productpopup_close.Location = new System.Drawing.Point(709, 3);
+            this.btn_productpopup_close.Name = "btn_productpopup_close";
+            this.btn_productpopup_close.Size = new System.Drawing.Size(25, 28);
+            this.btn_productpopup_close.TabIndex = 10;
+            this.btn_productpopup_close.Text = "X";
+            this.btn_productpopup_close.UseVisualStyleBackColor = false;
+            this.btn_productpopup_close.Click += new System.EventHandler(this.btn_productpopup_close_Click);
+            // 
+            // tlp_ProductPopup
+            // 
+            this.tlp_ProductPopup.ColumnCount = 1;
+            this.tlp_ProductPopup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_ProductPopup.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tlp_ProductPopup.Controls.Add(this.dgvItemPop, 0, 1);
+            this.tlp_ProductPopup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_ProductPopup.Location = new System.Drawing.Point(5, 5);
+            this.tlp_ProductPopup.Name = "tlp_ProductPopup";
+            this.tlp_ProductPopup.RowCount = 2;
+            this.tlp_ProductPopup.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_ProductPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_ProductPopup.Size = new System.Drawing.Size(743, 319);
+            this.tlp_ProductPopup.TabIndex = 20;
+            // 
             // FrmPurchase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 586);
-            this.Controls.Add(this.pnlCustomer);
-            this.Controls.Add(this.pnl_barcode);
-            this.Controls.Add(this.tlp_grid_registartion);
             this.Controls.Add(this.panelProductPopup);
+            this.Controls.Add(this.tlp_grid_registartion);
+            this.Controls.Add(this.txt_exist_vendorid);
+            this.Controls.Add(this.pnlCustomer);
             this.Controls.Add(this.lblGrandTot);
             this.Controls.Add(this.tlp_textboxes);
             this.Controls.Add(this.tlp_main);
+            this.Controls.Add(this.pnl_barcode);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPurchase";
             this.Text = "FrmPurchase";
@@ -1929,6 +2011,10 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgvItemPop)).EndInit();
             this.pnl_barcode.ResumeLayout(false);
             this.pnl_barcode.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tlp_ProductPopup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1967,7 +2053,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_vendor;
         private System.Windows.Forms.Button btn_vendor_add;
         private System.Windows.Forms.Panel pnlCustomer;
-        private System.Windows.Forms.Button btn_vendor_close;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label34;
@@ -2025,7 +2110,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label lblGrandTot;
         private System.Windows.Forms.Panel panelProductPopup;
-        private System.Windows.Forms.Button btn_close_popupgrid;
         private System.Windows.Forms.DataGridView dgvItemPop;
         private System.Windows.Forms.DataGridViewTextBoxColumn itpopSlno;
         private System.Windows.Forms.DataGridViewTextBoxColumn itPopName;
@@ -2062,5 +2146,12 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtdes;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txt_exist_vendorid;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btn_vendor_close;
+        private System.Windows.Forms.TableLayoutPanel tlp_ProductPopup;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button btn_productpopup_close;
     }
 }

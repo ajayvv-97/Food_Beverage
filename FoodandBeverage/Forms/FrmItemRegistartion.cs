@@ -100,7 +100,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = " tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(0,2) ";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(0) ";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 cmb_inc_categ.DataSource = gridSource;
@@ -160,14 +160,9 @@ namespace FoodandBeverage.Forms
                     BllItem blltenreg = new BllItem();
                     if (string.IsNullOrWhiteSpace(txtitemid.Text))
                         txtitemid.Text = "0";
-                    if (string.IsNullOrWhiteSpace(txtprate.Text))
-                        txtprate.Text = "0";
-                    if (string.IsNullOrWhiteSpace(txtsrate.Text))
-                        txtsrate.Text = "0";
                     if (string.IsNullOrWhiteSpace(txtprid.Text))
                         txtprid.Text = "0";
-                    if (string.IsNullOrWhiteSpace(txtqty.Text))
-                        txtqty.Text = "0";
+
                     dmnitemreg.ItemId = Convert.ToInt32(txtitemid.Text);
                     dmnitemreg.Itemname = txtincr_name.Text;
                     dmnitemreg.summary = txtdesc.Text;
@@ -178,8 +173,6 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
                     dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
                     dmnitemreg.prid = Convert.ToInt32(txtprid.Text);
-                    if (string.IsNullOrWhiteSpace(txtmrp.Text))
-                        txtmrp.Text = "0";
                     dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
                     if (rdb_dsale.Checked)
                         dmnitemreg.Saletype = 1;
@@ -252,6 +245,15 @@ namespace FoodandBeverage.Forms
 
         public bool MandatoryCheck()
         {
+            if (string.IsNullOrEmpty(txtprate.Text))
+                txtprate.Text = "0";
+            if (string.IsNullOrEmpty(txtqty.Text))
+                txtqty.Text = "0";
+            if (string.IsNullOrEmpty(txtmrp.Text))
+                txtmrp.Text = "0";
+            if (string.IsNullOrEmpty(txtsrate.Text))
+                txtsrate.Text = "0";
+
             if (txtincr_name.Text == "" || txtincr_name.Text == null)
             {
                 CMessageBox.Show("Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -454,6 +456,21 @@ namespace FoodandBeverage.Forms
             dgv_item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
+
+
+
+            dgvprDetails.BorderStyle = BorderStyle.None;
+            dgvprDetails.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvprDetails.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvprDetails.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvprDetails.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvprDetails.BackgroundColor = Color.White;
+
+            dgvprDetails.EnableHeadersVisualStyles = false;
+            dgvprDetails.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvprDetails.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvprDetails.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
         }
 
         private void btn_del_ingre_Click(object sender, EventArgs e)
@@ -473,7 +490,7 @@ namespace FoodandBeverage.Forms
                 int incgreid = Convert.ToInt32(dgv_item.Rows[rowno].Cells[idno].Value);
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.Id as PrId";
+                objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.MRP,pr.QOH,pr.Id as PrId";
                 objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
                 objSearch.WhereNdGroupBy = "where i.status = 1 and itemid=" + incgreid;
                 objSearch.OrderBy = "";
@@ -669,7 +686,7 @@ namespace FoodandBeverage.Forms
             {
                     BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "i.*,pr.QOH,pr.Id as PrId";
+                    objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId";
                     objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
                     objSearch.WhereNdGroupBy = "where i.status = 1 and pr.id=" + dgvprDetails.Rows[rowno].Cells[iprId].Value;
                     objSearch.OrderBy = "";
@@ -683,9 +700,8 @@ namespace FoodandBeverage.Forms
                     txtprate.Text = Convert.ToString(itemSource[0].Prate);
                     txtsrate.Text = Convert.ToString(itemSource[0].Srate);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtqty.Text = Convert.ToString(itemSource[0].quantity);
+                    txtqty.Text = Convert.ToString(itemSource[0].QOH);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
-                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtprid.Text = Convert.ToString(itemSource[0].prid);
 
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
@@ -711,10 +727,7 @@ namespace FoodandBeverage.Forms
 
         }
 
-        private void btnPrClose_Click(object sender, EventArgs e)
-        {
-            pnlPrRates.Visible = false;
-        }
+
 
         private void dgvprDetails_KeyDown(object sender, KeyEventArgs e)
         {
@@ -938,7 +951,12 @@ namespace FoodandBeverage.Forms
                     Movefocus(1);
                     return true; // Mark the key as handled
                 case Keys.Enter:
-                    if(dgv_item.Visible)
+                    if (dgvprDetails.Visible)
+                    {
+                        int rowno = dgvprDetails.CurrentCell.RowIndex;
+                        GridkeydownEnter(rowno);
+                    }
+                    else if (dgv_item.Visible)
                     {
                         int rowIndex = dgv_item.CurrentRow.Index;
                         filldata(rowIndex);
@@ -947,7 +965,11 @@ namespace FoodandBeverage.Forms
                         Movefocus(0);
                     return true; // Mark the key as handled
                 case Keys.Escape:
-                    if(tlp_grid.Visible)
+                    if (pnlPrRates.Visible)
+                    {
+                        pnlPrRates.Visible = false;
+                    }
+                    else if (tlp_grid.Visible)
                     {
                         tlp_grid.Visible = false;
                         tlp_registration.Visible = true;
@@ -1060,7 +1082,12 @@ namespace FoodandBeverage.Forms
             textb_shape();
         }
 
+        private void btnPrClos_Click(object sender, EventArgs e)
+        {
+           pnlPrRates.Visible = false;
+        }
 
 
+       
     }
 }

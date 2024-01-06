@@ -2092,7 +2092,7 @@ namespace FoodandBeverage.Forms
                                     "FrmMenu", "FrmOfferDiscount", "FrmOrder", "FrmOrderView", "FrmPromo",
                                     "FrmPurchase", "FrmPurchaseReturn", "FrmRegistration", "FrmReservation",
                                     "FrmTableInfo", "FrmTaxSetting", "FrmUnit", "FrmUserAccount",
-                                    "FrmUserPermission", "FrmVendor,FrmExpence"
+                                    "FrmUserPermission", "FrmVendor","FrmExpence"
                                 };
 
                         if (formsToCheck.Contains(formName))
@@ -3302,7 +3302,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_close_msg_Click(object sender, EventArgs e)
         {
-            panl_msgsettings.Visible = true;
+            panl_msgsettings.Visible = false;
         }
     }
 }

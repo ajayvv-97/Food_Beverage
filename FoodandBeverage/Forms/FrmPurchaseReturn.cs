@@ -752,10 +752,10 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Avilable Stock Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
-                dmnSearch.Select = "a.ItemBarCode as ItemBarCode,i.itemName as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,(Select Sum(QOH) from tblProductRate pr where pr.ProductId = i.itemid )as QuantityOnHand,i.TaxType";
+                dmnSearch.Select = "a.ItemBarCode as ItemBarCode,i.itemName as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,(Select Sum(QOH) from tblProductRate pr where pr.ProductId = i.itemid )as QuantityOnHand,i.TaxType,u.UnitName";
                 tablename = "tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId " +
                     " LEFT JOIN tblitem i ON i.ItemId = a.ItemId " +
-                " left join  tblProductRate pr on pr.ProductId =i.ItemId";
+                " left join  tblProductRate pr on pr.ProductId =i.ItemId LEFT JOIN tblUnit u ON u.UId=a.UnitId";
                 dmnSearch.Table = tablename;
                 dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = " + dgvItemPop.Rows[cellpopupid].Cells[ipopPurchaseDetailId].Value;
                 dmnSearch.OrderBy = "";
@@ -811,7 +811,7 @@ namespace FoodandBeverage.Forms
                     dgvProduct.Rows[cellproductid].Cells[ibarcode].Value = gridSource[0].ItemBarCode;
                     dgvProduct.Rows[cellproductid].Cells[iname].Value = gridSource[0].ItemName;
                     dgvProduct.Rows[cellproductid].Cells[iqty].Value = "1";
-                    dgvProduct.Rows[cellproductid].Cells[iunit].Value = "Number";
+                    dgvProduct.Rows[cellproductid].Cells[iunit].Value = gridSource[0].UnitName;
                     dgvProduct.Rows[cellproductid].Cells[iprate].Value = gridSource[0].PurchaseRate;
                     dgvProduct.Rows[cellproductid].Cells[iamount].Value = gridSource[0].Amount;
                     dgvProduct.Rows[cellproductid].Cells[idisper].Value = 0;
@@ -1587,8 +1587,6 @@ namespace FoodandBeverage.Forms
                         {
                             current_qty = 0;
                             PRDtotalqty = 0;
-
-
                             dgvItemPop.Rows[i].Cells[ipopslno].Value = i + 1;
                             dgvItemPop.Rows[i].Cells[ipopEntryNo].Value = gridSource1[i].EntryNo;
                             dgvItemPop.Rows[i].Cells[ipopDescription].Value = gridSource1[i].Description;
@@ -1786,6 +1784,7 @@ namespace FoodandBeverage.Forms
                         else
                             dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
                     }
+
                 }
                 if (flag)
                 {
@@ -1797,6 +1796,10 @@ namespace FoodandBeverage.Forms
                     int n = dgvProduct.RowCount - 1;
                     dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[ibarcode];
                 }
+                txtbarcode.Text = "";
+                pnl_barcode.Visible = true;
+                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                txtbarcode.Focus();
             }
             catch(Exception ex)
             {
