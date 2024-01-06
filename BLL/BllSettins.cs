@@ -25,5 +25,18 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnSetting AddEditDataSetting_msg(string procedureName, DmnSetting objTestClass)
+        {
+            DAL.DapperRepository<DmnSetting> dapperRepository = new DAL.DapperRepository<DmnSetting>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("SId", objTestClass.SId);
+            parms.Add("Gmail", objTestClass.Gmail);
+            parms.Add("Whatsapp", objTestClass.Whatsapp);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }

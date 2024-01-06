@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
+using FoodandBeverage.Forms.UserControls;
 
 namespace FoodandBeverage.Forms
 {
@@ -237,70 +238,128 @@ namespace FoodandBeverage.Forms
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource.Count > 0)
             {
-                Color colorapp, coloropera, colormenu;
-                if (IsValidHtmlColor(gridSource[0].APPColor))                
-                    colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);                
+                if(gridSource[0].APPColor==null && gridSource[0].OperationButtonColor==null && gridSource[0].MenuButtonColor==null)
+                {
+                    opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                    pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                    ib_Category.BackColor = opbuttoncolor;
+                    ib_Item.BackColor = opbuttoncolor;
+                    ib_ingrediant.BackColor = opbuttoncolor;
+                    ib_menu.BackColor = opbuttoncolor;
+                    ib_unit.BackColor = opbuttoncolor;
+                    ib_table.BackColor = opbuttoncolor;
+                    ib_purchase.BackColor = opbuttoncolor;
+                    ib_purchasereturn.BackColor = opbuttoncolor;
+                    ib_tax.BackColor = opbuttoncolor;
+                    ib_vendor.BackColor = opbuttoncolor;
+                    ib_Discount_offer.BackColor = opbuttoncolor;
+                    ib_Expence.BackColor = opbuttoncolor;
+                    ib_orderview.BackColor = opbuttoncolor;
+                    ib_kitchenview.BackColor = opbuttoncolor;
+                    ib_PromoCode.BackColor = opbuttoncolor;
+                    ib_Company.BackColor = opbuttoncolor;
+                    ib_useraccount.BackColor = opbuttoncolor;
+                    ib_designation.BackColor = opbuttoncolor;
+                    ib_department.BackColor = opbuttoncolor;
+                    ib_employee.BackColor = opbuttoncolor;
+                    ib_reservation.BackColor = opbuttoncolor;
+                    ib_userpermission.BackColor = opbuttoncolor;
+
+                    menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                    pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+                    Menuhome.BackColor = menubuttoncolor;
+                    Menuoperation.BackColor = menubuttoncolor;
+                    Menubilling.BackColor = menubuttoncolor;
+                    Menureport.BackColor = menubuttoncolor;
+                    Menulogout.BackColor = menubuttoncolor;
+                    Menusetting.BackColor = menubuttoncolor;
+                    menuEmployee.BackColor = menubuttoncolor;
+
+                    tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                    pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
+
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
+
+                    Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                    if (btnsetting != null)
+                        btnsetting.BackColor = opbuttoncolor;
+                }
                 else
-                    colorapp = Color.FromArgb(34, 46, 80);
-                // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                {
+                    Color colorapp, coloropera, colormenu;
+                    if (IsValidHtmlColor(gridSource[0].APPColor))
+                        colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
+                    else
+                        colorapp = Color.FromArgb(34, 46, 80);
+                    // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
 
-                if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
-                    coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
-                else
-                    coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
+                    if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
+                        coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
+                    else
+                        coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
 
-                if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
-                    colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
-                else
-                    colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
+                    if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
+                        colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
+                    else
+                        colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
 
+                    if (gridSource[0].Gmail)
+                        chk_gmail.Checked = true;
+                    if (gridSource[0].Whatsapp)
+                        chk_whatsapp.Checked = true;
 
-
-                opbuttoncolor = coloropera;
-                menubuttoncolor = colormenu;
-                txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
-                txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
-                txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
-                txtsid.Text = Convert.ToString(gridSource[0].SId);             
-
-
-                ib_Category.BackColor = opbuttoncolor;
-                ib_Item.BackColor = opbuttoncolor;
-                ib_ingrediant.BackColor = opbuttoncolor;
-                ib_menu.BackColor = opbuttoncolor;
-                ib_unit.BackColor = opbuttoncolor;
-                ib_table.BackColor = opbuttoncolor;
-                ib_purchase.BackColor = opbuttoncolor;
-                ib_purchasereturn.BackColor = opbuttoncolor;
-                ib_tax.BackColor = opbuttoncolor;
-                ib_vendor.BackColor = opbuttoncolor;
-                ib_Discount_offer.BackColor = opbuttoncolor;
-                ib_Expence.BackColor = opbuttoncolor;
-                ib_orderview.BackColor = opbuttoncolor;
-                ib_kitchenview.BackColor = opbuttoncolor;
-                ib_PromoCode.BackColor = opbuttoncolor;
-                ib_Company.BackColor = opbuttoncolor;
-                ib_useraccount.BackColor = opbuttoncolor;
-                ib_designation.BackColor = opbuttoncolor;
-                ib_department.BackColor = opbuttoncolor;
-                ib_employee.BackColor = opbuttoncolor;
-                ib_reservation.BackColor = opbuttoncolor;
-                ib_userpermission.BackColor = opbuttoncolor;
-                pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                    opbuttoncolor = coloropera;
+                    menubuttoncolor = colormenu;
+                    txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
+                    txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
+                    txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
+                    txtsid.Text = Convert.ToString(gridSource[0].SId);
 
 
+                    ib_Category.BackColor = opbuttoncolor;
+                    ib_Item.BackColor = opbuttoncolor;
+                    ib_ingrediant.BackColor = opbuttoncolor;
+                    ib_menu.BackColor = opbuttoncolor;
+                    ib_unit.BackColor = opbuttoncolor;
+                    ib_table.BackColor = opbuttoncolor;
+                    ib_purchase.BackColor = opbuttoncolor;
+                    ib_purchasereturn.BackColor = opbuttoncolor;
+                    ib_tax.BackColor = opbuttoncolor;
+                    ib_vendor.BackColor = opbuttoncolor;
+                    ib_Discount_offer.BackColor = opbuttoncolor;
+                    ib_Expence.BackColor = opbuttoncolor;
+                    ib_orderview.BackColor = opbuttoncolor;
+                    ib_kitchenview.BackColor = opbuttoncolor;
+                    ib_PromoCode.BackColor = opbuttoncolor;
+                    ib_Company.BackColor = opbuttoncolor;
+                    ib_useraccount.BackColor = opbuttoncolor;
+                    ib_designation.BackColor = opbuttoncolor;
+                    ib_department.BackColor = opbuttoncolor;
+                    ib_employee.BackColor = opbuttoncolor;
+                    ib_reservation.BackColor = opbuttoncolor;
+                    ib_userpermission.BackColor = opbuttoncolor;
+                    pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
-                Menuhome.BackColor = menubuttoncolor;
-                Menuoperation.BackColor = menubuttoncolor;
-                Menubilling.BackColor = menubuttoncolor;
-                Menureport.BackColor = menubuttoncolor;
-                Menulogout.BackColor = menubuttoncolor;
-                Menusetting.BackColor = menubuttoncolor;
-                menuEmployee.BackColor = menubuttoncolor;
-                pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
-                pbappcoloepicker.BackColor = colorapp;
-                tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+
+                    Menuhome.BackColor = menubuttoncolor;
+                    Menuoperation.BackColor = menubuttoncolor;
+                    Menubilling.BackColor = menubuttoncolor;
+                    Menureport.BackColor = menubuttoncolor;
+                    Menulogout.BackColor = menubuttoncolor;
+                    Menusetting.BackColor = menubuttoncolor;
+                    menuEmployee.BackColor = menubuttoncolor;
+                    pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+
+                    pbappcoloepicker.BackColor = colorapp;
+                    tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+                }
+                
             }
             else
             {
@@ -1270,6 +1329,7 @@ namespace FoodandBeverage.Forms
             int rowIndex = 0;
             Control control;
             int columnIndex = 0;
+            #region Button App Color
             Button button_type = new Button();
             button_type.Text = "Appcolor";
             button_type.Name = "Appcolor";
@@ -1293,8 +1353,50 @@ namespace FoodandBeverage.Forms
             // Add the event handler for the button
             button_type.Click += new EventHandler(BgClickEventHandler);
             flpcolor.Controls.Add(button_type);
+            #endregion
+
             columnIndex++;
+
+            #region Button Message Setting
+            Button button_message = new Button();
+            button_message.Text = "Message";
+            button_message.Name = "btn_Message";
+            //button_message.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+            //button_message.BackgroundImageLayout = ImageLayout.Stretch;
+            button_message.FlatStyle = FlatStyle.Flat;
+            button_message.BackColor = menubuttoncolor;
+            button_message.ForeColor = System.Drawing.Color.White;
+            button_message.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                button_message.Width = 350;
+                button_message.Height = 120;
+            }
+            else
+            {
+                button_message.Width = 212;
+                button_message.Height = 89;
+            }
+            button_message.Margin = new Padding(20, 10, 0, 0);
+            // Add the event handler for the button
+            button_message.Click += new EventHandler(button_messageClickEventHandler);
+            flpcolor.Controls.Add(button_message);
+            columnIndex++;
+            #endregion
+
             panelDesktop.Controls.Add(flpcolor);
+        }
+        private void button_messageClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                panl_msgsettings.Visible = true;
+                panl_msgsettings.Location = new Point(this.ClientSize.Width / 2 - panl_msgsettings.Size.Width / 2, this.ClientSize.Height / 2 - panl_msgsettings.Size.Height / 2);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         private void BgClickEventHandler(object sender, EventArgs e)
         {
@@ -3031,7 +3133,44 @@ namespace FoodandBeverage.Forms
 
         private void btn_serach_prev_bill_Click(object sender, EventArgs e)
         {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,TotalQuantity,NetAmount,RcvAmnt,BalAmnt,PaymentMode";
+                _objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.NetAmount Field5,sm.RcvAmnt Field6,sm.BalAmnt Field7,g.Caption Field8";
+                _objSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid LEFT JOIN tblGeneralOptions g ON g.GTypeSubId=sm.PaymentMode";
+                _objSearch.WhereNdGroupBy = "where sm.status=1 and  g.GTypeId=2";
+                _objSearch.OrderBy = "order by sm.SalesMasterId DESC";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    {
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToString(search._retValue);
+                        }
+                    }
+                    if (returnValue != "")
+                    {
+                        int oid = Convert.ToInt32(returnValue);
+                        printBill(oid);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
         }
 
         private void btn_backCompleorder_Click(object sender, EventArgs e)
@@ -3047,48 +3186,7 @@ namespace FoodandBeverage.Forms
                 if (e.ColumnIndex == actionno)
                 {
                     int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordermasteridno].Value);
-                    DmnSearch obj = new DmnSearch();
-                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                    obj.Select = "PaymentMode Field1,SalesMasterId Field2";
-                    obj.Table = "tblSalesMaster";
-                    obj.WhereNdGroupBy = " where status=1 and SalesMasterId=" + oid;
-                    var result = bllpayments.GetSearchData("prdSearch", obj);
-                    if (result.Count > 0)
-                    {
-                        if (Convert.ToInt32(result[0].Field1) != 12)
-                        {
-                            pnl_split.Visible = false;
-                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0);
-                            frmSalesInvoice.ShowDialog();
-                        }
-                        else
-                        {
-                            obj.Select = "Amount Field1,SplitType Field2,SalemasterId Field3,PayId Field4 ";
-                            obj.Table = "tblpayment";
-                            obj.WhereNdGroupBy = " where status=1 and SaleMasterId=" + oid;
-                            var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
-                            if (paymentresult.Count > 0)
-                            {
-                                dgv_split.Rows.Clear();
-                                dgv_split.Rows.Add(paymentresult.Count);
-                                int x = dgv_split.RowCount;
-                                for (int i = 0; i < paymentresult.Count; i++)
-                                {
-                                    dgv_split.Rows[i].Cells[0].Value = i + 1;
-                                    dgv_split.Rows[i].Cells[1].Value = paymentresult[i].Field1;
-                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
-                                    cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                    cell.Value = Properties.Resources.eye;
-                                    dgv_split.Rows[i].Cells[3].Value = paymentresult[i].Field3;
-                                    dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
-                                }
-                            }
-                            pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width +500, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
-                            pnl_split.Visible = true;
-                        }
-
-                    }
-
+                    printBill(oid);
                 }
 
             }
@@ -3098,12 +3196,65 @@ namespace FoodandBeverage.Forms
             }
             
         }
+        public void printBill(int oid)
+        {
+            try
+            {
+                DmnSearch obj = new DmnSearch();
+                BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                obj.Select = "PaymentMode Field1,SalesMasterId Field2";
+                obj.Table = "tblSalesMaster";
+                obj.WhereNdGroupBy = " where status=1 and SalesMasterId=" + oid;
+                var result = bllpayments.GetSearchData("prdSearch", obj);
+                if (result.Count > 0)
+                {
+                    if (Convert.ToInt32(result[0].Field1) != 12)
+                    {
+                        pnl_split.Visible = false;
+                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0);
+                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                        frmSalesInvoice.ShowDialog();
+                    }
+                    else
+                    {
+                        obj.Select = "Amount Field1,SplitType Field2,SalemasterId Field3,PayId Field4 ";
+                        obj.Table = "tblpayment";
+                        obj.WhereNdGroupBy = " where status=1 and SaleMasterId=" + oid;
+                        var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
+                        if (paymentresult.Count > 0)
+                        {
+                            dgv_split.Rows.Clear();
+                            dgv_split.Rows.Add(paymentresult.Count);
+                            int x = dgv_split.RowCount;
+                            for (int i = 0; i < paymentresult.Count; i++)
+                            {
+                                dgv_split.Rows[i].Cells[0].Value = i + 1;
+                                dgv_split.Rows[i].Cells[1].Value = paymentresult[i].Field1;
+                                DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
+                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                                cell.Value = Properties.Resources.eye;
+                                dgv_split.Rows[i].Cells[3].Value = paymentresult[i].Field3;
+                                dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
+                            }
+                        }
+                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width + 500, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                        pnl_split.Visible = true;
+                    }
 
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         private void dgv_split_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.ColumnIndex==2)
             {
                 FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[3].Value), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[4].Value));
+                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                 frmSalesInvoice.ShowDialog();
             }
         }
@@ -3111,6 +3262,47 @@ namespace FoodandBeverage.Forms
         private void btn_close_split_Click(object sender, EventArgs e)
         {
             pnl_split.Visible = false;
+        }
+
+        private void btn_save_msg_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtsid.Text))
+                txtsid.Text = "0";
+            DmnSetting dmnmsg = new DmnSetting();
+            BllSettins bllmessage = new BllSettins();
+            dmnmsg.SId = Convert.ToInt32(txtsid.Text);
+            if (chk_whatsapp.Checked)
+                dmnmsg.Whatsapp = true;
+            else
+                dmnmsg.Whatsapp = false;
+
+            if (chk_gmail.Checked) 
+                dmnmsg.Gmail = true;
+            else
+                dmnmsg.Gmail = false;
+            dmnmsg.BranchId = FrmDashboard.BranchId;
+            dmnmsg.CreatedBy = FrmDashboard.UserId;
+            dmnmsg.Status = 1;
+
+            var InsertStatus = bllmessage.AddEditDataSetting_msg("prdInsertMessage", dmnmsg);
+            if (InsertStatus.SId > 0)
+            {
+                if(Convert.ToInt32(txtsid.Text)>0)
+                    CMessageBox.Show("update sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    CMessageBox.Show("sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtsid.Text = Convert.ToString(InsertStatus.SId);
+                }
+                panl_msgsettings.Visible = false;
+            }
+            else
+                CMessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btn_close_msg_Click(object sender, EventArgs e)
+        {
+            panl_msgsettings.Visible = true;
         }
     }
 }

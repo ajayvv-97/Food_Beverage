@@ -17,8 +17,8 @@ namespace Domain
         public int Status { get; set; }
         public int ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public bool Whatsapp { get; set; }
+        public bool Gmail { get; set; }        
 
     }
-
-
 }

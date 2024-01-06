@@ -14,5 +14,7 @@ namespace Domain
         public string GSTNo { get; set; }
         public string barcode_img_path { get; set; }
         public string EntryNo { get; set; }
+        public string Full_Address { get; set; }
+        
     }
 }
