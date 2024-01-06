@@ -108,7 +108,6 @@ namespace FoodandBeverage.Forms
             this.pnlPrRates = new System.Windows.Forms.Panel();
             this.tlp_grid_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_titlebar = new System.Windows.Forms.Panel();
-            this.btnPrClose = new System.Windows.Forms.Button();
             this.dgvprDetails = new System.Windows.Forms.DataGridView();
             this.prId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.prslno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -124,6 +123,8 @@ namespace FoodandBeverage.Forms
             this.btn_grid_refresh = new System.Windows.Forms.Button();
             this.toggle_grid = new System.Windows.Forms.Button();
             this.pnl_tax = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnPrClos = new System.Windows.Forms.Button();
             this.tlp_button.SuspendLayout();
             this.tlp_registration.SuspendLayout();
             this.tlp_salecategory.SuspendLayout();
@@ -142,6 +143,7 @@ namespace FoodandBeverage.Forms
             this.tlp_grid.SuspendLayout();
             this.pnl_toggle_grid.SuspendLayout();
             this.pnl_tax.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbldes
@@ -1077,10 +1079,10 @@ namespace FoodandBeverage.Forms
             this.pnlPrRates.AutoSize = true;
             this.pnlPrRates.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlPrRates.Controls.Add(this.tlp_grid_main);
-            this.pnlPrRates.Location = new System.Drawing.Point(864, 0);
+            this.pnlPrRates.Location = new System.Drawing.Point(42, 55);
             this.pnlPrRates.Name = "pnlPrRates";
             this.pnlPrRates.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlPrRates.Size = new System.Drawing.Size(572, 234);
+            this.pnlPrRates.Size = new System.Drawing.Size(709, 334);
             this.pnlPrRates.TabIndex = 267;
             this.pnlPrRates.Visible = false;
             // 
@@ -1094,34 +1096,19 @@ namespace FoodandBeverage.Forms
             this.tlp_grid_main.Location = new System.Drawing.Point(5, 5);
             this.tlp_grid_main.Name = "tlp_grid_main";
             this.tlp_grid_main.RowCount = 2;
-            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.06098F));
-            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.93903F));
-            this.tlp_grid_main.Size = new System.Drawing.Size(558, 220);
+            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.26861F));
+            this.tlp_grid_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.73139F));
+            this.tlp_grid_main.Size = new System.Drawing.Size(695, 320);
             this.tlp_grid_main.TabIndex = 228;
             // 
             // pnl_titlebar
             // 
-            this.pnl_titlebar.Controls.Add(this.btnPrClose);
+            this.pnl_titlebar.Controls.Add(this.tableLayoutPanel1);
             this.pnl_titlebar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_titlebar.Location = new System.Drawing.Point(3, 3);
             this.pnl_titlebar.Name = "pnl_titlebar";
-            this.pnl_titlebar.Size = new System.Drawing.Size(552, 16);
+            this.pnl_titlebar.Size = new System.Drawing.Size(689, 36);
             this.pnl_titlebar.TabIndex = 0;
-            // 
-            // btnPrClose
-            // 
-            this.btnPrClose.BackColor = System.Drawing.Color.Silver;
-            this.btnPrClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnPrClose.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnPrClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrClose.Location = new System.Drawing.Point(525, 0);
-            this.btnPrClose.Name = "btnPrClose";
-            this.btnPrClose.Size = new System.Drawing.Size(27, 16);
-            this.btnPrClose.TabIndex = 227;
-            this.btnPrClose.Text = "X";
-            this.btnPrClose.UseVisualStyleBackColor = false;
-            this.btnPrClose.Click += new System.EventHandler(this.btnPrClose_Click);
             // 
             // dgvprDetails
             // 
@@ -1158,11 +1145,13 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvprDetails.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvprDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvprDetails.Location = new System.Drawing.Point(3, 25);
+            this.dgvprDetails.Location = new System.Drawing.Point(3, 45);
             this.dgvprDetails.Name = "dgvprDetails";
             this.dgvprDetails.ReadOnly = true;
             this.dgvprDetails.RowHeadersVisible = false;
-            this.dgvprDetails.Size = new System.Drawing.Size(552, 192);
+            this.dgvprDetails.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvprDetails.RowTemplate.Height = 25;
+            this.dgvprDetails.Size = new System.Drawing.Size(689, 272);
             this.dgvprDetails.TabIndex = 224;
             this.dgvprDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvprDetails_CellClick);
             this.dgvprDetails.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvprDetails_KeyDown);
@@ -1312,6 +1301,37 @@ namespace FoodandBeverage.Forms
             this.pnl_tax.TabIndex = 11;
             this.pnl_tax.Visible = false;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.btnPrClos, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(689, 36);
+            this.tableLayoutPanel1.TabIndex = 16;
+            // 
+            // btnPrClos
+            // 
+            this.btnPrClos.BackColor = System.Drawing.Color.White;
+            this.btnPrClos.FlatAppearance.BorderSize = 0;
+            this.btnPrClos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrClos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrClos.ForeColor = System.Drawing.Color.Red;
+            this.btnPrClos.Location = new System.Drawing.Point(661, 3);
+            this.btnPrClos.Name = "btnPrClos";
+            this.btnPrClos.Size = new System.Drawing.Size(25, 30);
+            this.btnPrClos.TabIndex = 10;
+            this.btnPrClos.Text = "X";
+            this.btnPrClos.UseVisualStyleBackColor = false;
+            this.btnPrClos.Click += new System.EventHandler(this.btnPrClos_Click);
+            // 
             // FrmItemRegistartion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1353,6 +1373,7 @@ namespace FoodandBeverage.Forms
             this.pnl_toggle_grid.ResumeLayout(false);
             this.pnl_tax.ResumeLayout(false);
             this.pnl_tax.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1420,7 +1441,6 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.Panel pnlPrRates;
         private System.Windows.Forms.TableLayoutPanel tlp_grid_main;
         private System.Windows.Forms.Panel pnl_titlebar;
-        private System.Windows.Forms.Button btnPrClose;
         private System.Windows.Forms.DataGridView dgvprDetails;
         private System.Windows.Forms.DataGridViewTextBoxColumn prId;
         private System.Windows.Forms.DataGridViewTextBoxColumn prslno;
@@ -1451,5 +1471,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn incre_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitid;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnPrClos;
     }
 }

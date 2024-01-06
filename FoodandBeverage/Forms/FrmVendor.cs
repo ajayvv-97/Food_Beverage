@@ -344,7 +344,6 @@ namespace FoodandBeverage.Forms
                     Movefocus(0);
                     return true; // Mark the key as handled
                 case Keys.Escape:
-
                         FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                         _instancedash.Closeform();
   

@@ -61,6 +61,7 @@ namespace Domain
         public string EntryNo { get; set; }
         public int PrId { get; set; }
 
+        
         /*------------------------------------*/
     }
 }
