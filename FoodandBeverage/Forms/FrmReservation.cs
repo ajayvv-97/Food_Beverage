@@ -40,6 +40,18 @@ namespace FoodandBeverage.Forms
        
         private void FrmReservation_Load(object sender, EventArgs e)
         {
+
+            BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
+            DmnSearch objSearch = new DmnSearch();
+            objSearch.Select = "BookingInerwell"; 
+            objSearch.Table = "tblHotelRegistration";
+            objSearch.WhereNdGroupBy = " where Status = 1"; 
+            objSearch.OrderBy = "";
+            var  result = bllSearch.GetSearchData("prdSearch",objSearch);
+            if (result != null)
+            {
+                txt_HR.Text = result[0].BookingInerwell.ToString();
+            }
             FillCombo();
             dgvforms.Rows.Add(1);
             dgvmenu.Rows.Add(1);
@@ -599,34 +611,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
-                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
-
-                
-                //DateTime yourDateTime;
-                //using (IDbConnection connection = OpenConnection()) // Replace YourDbContext with your actual Entity Framework context
-                //{
-                //    // Fetching CreatedDateTime from tblOrderMaster
-                //    var orderMaster = dbContext.tblOrderMaster.FirstOrDefault(/* Add your conditions to fetch the specific record */);
-
-                //    if (orderMaster != null)
-                //    {
-                //        yourDateTime = orderMaster.CreatedDateTime;
-
-                //        // Perform the comparison
-                //        TimeSpan difference = Convert.ToDateTime(dtfrom) - yourDateTime;
-                //        bool is45MinutesBefore = difference.TotalMinutes >= 45;
-
-
-
-                        int r = dgvforms.CurrentCell.RowIndex;
+                int r = dgvforms.CurrentCell.RowIndex;
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.ColumnHeaders = "Tid,TableCode,Price,Capcity,Description";
-                _objSearch.Select = " t.Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
-                _objSearch.Table = " tblTable_info T left join tblOrderMaster o on t.OrderMasterId = o.OrderMasterId  ";
-                _objSearch.WhereNdGroupBy = " Where Status=1 and OrderStatus=0";
+                _objSearch.Select = " Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
+                _objSearch.Table = " tblTable_info   ";
+                _objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId" +
+                    " WHERE BookingDateTime > DATEADD(MINUTE, -45, SYSDATETIME()) " +
+                    " AND BookingDateTime < DATEADD(MINUTE, 45, SYSDATETIME()) and m.Status= 1 ) " +
+                    " AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime > DATEADD(MINUTE, -45, SYSDATETIME()) and Status= 1 ) ";
                 _objSearch.OrderBy = " ";
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
                 {
