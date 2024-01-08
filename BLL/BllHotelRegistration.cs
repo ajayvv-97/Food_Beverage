@@ -27,6 +27,7 @@ namespace BLL
             parms.Add("Status", objTestClass.Status);
             parms.Add("Certificate1", objTestClass.Certificate1);
             parms.Add("Certificate2", objTestClass.Certificate2);
+            parms.Add("BookingInerwell", objTestClass.BookingInerwell);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

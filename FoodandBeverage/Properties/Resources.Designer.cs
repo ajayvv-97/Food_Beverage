@@ -983,6 +983,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap reserve_icon_overtime {
+            get {
+                object obj = ResourceManager.GetObject("reserve_icon_overtime", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap reserved {
             get {
                 object obj = ResourceManager.GetObject("reserved", resourceCulture);
