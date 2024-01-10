@@ -9,6 +9,11 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using FoodandBeverage.Interfaces;
 using CustomMessageBox;
+using System.Drawing;
+
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace FoodandBeverage.Forms
 {
@@ -23,6 +28,16 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+           int nLeftRect,
+           int nTopRect,
+           int nRightRect,
+           int nBottomRect,
+           int nWidthEllipse,
+           int nHeightEllipse
+       );
         public static int itid = 0;
         public static int iTBookingDetailId = 1;
         public static int itablename = 2;
@@ -37,11 +52,13 @@ namespace FoodandBeverage.Forms
         public static int imprice = 4;
         public static int iqty = 5;
         public static int isamount = 6;
+        public static int iFormType = 7;
         private int yourTargetColumnIndex = 1;    
        
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-
+            dgvItemPop.Visible = false;
+            panelProductPopup.Visible = false;
             BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
             DmnSearch objSearch = new DmnSearch();
             objSearch.Select = "BookingInerwell"; 
@@ -59,7 +76,7 @@ namespace FoodandBeverage.Forms
             dtpBooking.MinDate = DateTime.Today;
             dtp_from_time.Value = DateTime.Now;
 
-
+           
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Reservation)))
             {
@@ -74,6 +91,46 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { txtNam, txtAddress, txtMob, txtEmail, txtNOP, txtRemarks, discountper, totaldiscountamt, oaamount, oadesc, odamt, oddesc, sterms, netamount, txtadvpa, rcvamt })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
+
+
+
         public void clear()
         {
             chb_active.Checked = true;
@@ -111,6 +168,11 @@ namespace FoodandBeverage.Forms
             discountper.Text = "0";
             label21.Visible = false;
             lblBAmt.Visible = false;
+            panelProductPopup.Visible = false;
+            //pnlCustHead.Hide();
+            dgvItemPop.Visible = false;
+            dgvmenu.Enabled = true;
+            dgvmenu.Focus();
         }
         public bool CheckEmailId(Form form, string EmailId)
         {
@@ -502,101 +564,51 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
                 string returnValue = string.Empty;
-                DmnMenu dtColumnAlign = new DmnMenu();
+                
                 DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "MId,Description,Price,Name";
-                _objSearch.Select = "MId as Id,Name as Field1,p.Price as Field2,m.Description as Field4";
-                _objSearch.Table = "tblMenu m left join tblProduct p  on " +
-                 "m.ProductId = p.ProductId";
-                _objSearch.WhereNdGroupBy = " Where m.Status=1";
-                _objSearch.OrderBy = " ";
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
-                {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
-                    {
-                        returnValue = Convert.ToString(search._retValue);
-
-                    }
-                }
-                BllSearch<DmnMenu> bllSearch = new BllSearch<DmnMenu>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.Select = "MId,m.Description as Description,p.Price,Name as Title";
-                objSearch.Table = "tblMenu m left join tblProduct p " +
-                "on m.Fcid = p.Fcid";
-                objSearch.WhereNdGroupBy = " where MId = " + returnValue;
-                objSearch.OrderBy = " ";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+               
+                panelProductPopup.Location = new Point(
+                             this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2,
+                             (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 2));
+                panelProductPopup.Anchor = AnchorStyles.None;
+                panelProductPopup.Visible = true;
+                dgvItemPop.Visible = true;
+                dgvItemPop.Rows.Clear();
+                
+                _objSearch.Select = "MId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, "+Convert.ToInt32(formsenum.Menu) + " Field4 ";
+                _objSearch.Table = " tblMenu m   left join tblProduct p on m.ProductId = p.ProductId and " +
+                    "   m.BranchId =  "+FrmLogin.BranchId +" where m.Status = 1 and p.Status = 1    UNION " +
+                    "   select i.ItemId  as Id, i.Itemname as Field1,i.prate as Field2, 'Item' as Field3, " + Convert.ToInt32(formsenum.Item) + " Field4 " +
+                    " from tblItem i ";
+                _objSearch.WhereNdGroupBy = " Where i.Status=1 ";
+                _objSearch.OrderBy = "";
+                var gridSource = _bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count > 0)
                 {
-                    int qty = 1;
-                    int price = 0;
-                    bool flag = true;
-                    int i = 0;
-                    for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                    dgvmenu.Enabled = false;
+                    dgvItemPop.Rows.Add(gridSource.Count);
+                    for (int i = 0; i < gridSource.Count; i++)
                     {
-                        if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].MId)
-                        {
-                            flag = false;
-                            qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
-                            price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
-
-
-                            break;
-
-                        }
+                        dgvItemPop.Rows[i].Cells[0].Value = gridSource[i].Id;
+                        dgvItemPop.Rows[i].Cells[1].Value = i + 1;
+                        dgvItemPop.Rows[i].Cells[2].Value = gridSource[i].Field1;
+                        dgvItemPop.Rows[i].Cells[3].Value = gridSource[i].Field2;
+                        dgvItemPop.Rows[i].Cells[4].Value = gridSource[i].Field3;
+                        dgvItemPop.Rows[i].Cells[5].Value = gridSource[i].Field4;
+                        
                     }
-                    //if (gridSource[0].QOH >= qty)
-                    //{
-                    if (flag == true)
-                    {
-                        if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
-                        {
-                            dgvmenu.Rows.Add(1);
-                        }
-
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imid].Value = gridSource[0].MId;
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imBookingDetailId].Value = 0;
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imname].Value = gridSource[0].Title;
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value = gridSource[0].Price;
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value = 1;
-                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value = gridSource[0].Description;
-
-                    }
-                    else
-                    {
-                        dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                        dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
-
-                    }
-
                 }
+                panelProductPopup.Show();
+                //pnlCustHead.Hide();
+               
+                dgvItemPop.Focus();
 
-                if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
-                {
-                    // Specify the column index for which you want to calculate the sum
 
 
-                    decimal totalSum = 0;
-                    int i = 0;
-                    for (i = 0; i <= dgvmenu.RowCount - 1; i++)
-                    {
-                        if (dgvmenu.Rows[i].Cells[imprice].Value != null)
-                        {
-                            decimal cellValue;
-                            if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
-                            {
-                                totalSum += cellValue;
-                            }
-                        }
-                    }
 
-                    // Display the sum in a TextBox
-                    lblMTotal.Text = totalSum.ToString();
-
-                }
+               
                 //else
                 //{
                 //    MessageBox.Show("Avilable Stock Quanity Is " + gridSource[0].QOH, "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1004,6 +1016,7 @@ namespace FoodandBeverage.Forms
         {
             CapacityCheck();
             Sum();
+            CalNetAmt();
         }
 
         private void dgvforms_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
@@ -1597,6 +1610,7 @@ namespace FoodandBeverage.Forms
         private void dgvmenu_Leave(object sender, EventArgs e)
         {
             Sum();
+            CalNetAmt();
         }
 
         private void dgvforms_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -1722,10 +1736,10 @@ namespace FoodandBeverage.Forms
                 {
 
                     BllReservation bllReservation = new BllReservation();
-                    BllTableinfo bllTableinfo = new BllTableinfo();
+                    
                     DmnReservation dmnReservation = new DmnReservation();
-                    DmnTableinfo dmnTableinfo = new DmnTableinfo();
-                    //dmnReservation.BookmasterId = BookmasterId;
+                   
+                  
                     string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
@@ -1847,10 +1861,10 @@ namespace FoodandBeverage.Forms
                         }
                         if (chb_active.Checked == false)
                         {
-                            CMessageBox.Show("Reservation Deleted", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                            CMessageBox.Show("Reservation Cancel", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                             btn_delt.Visible = false;
                         }
-                        if (datadetails == true && chb_active.Checked == false)
+                        if (datadetails == true)
                         {
                             MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -1915,13 +1929,231 @@ namespace FoodandBeverage.Forms
         private void btn_delt_Click(object sender, EventArgs e)
         {
             
-            var result = CMessageBox.Show("Do You want Delete This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
+            var result = CMessageBox.Show("Do You want Cancel This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 chb_active.Checked = false;
                 save();
                 //Fillitem();
             }
+        }
+
+        private void lblSTotal_Leave(object sender, EventArgs e)
+        {
+            decimal value;
+            if (!decimal.TryParse(lblSTotal.Text, out value))
+            {
+                lblSTotal.Text = "0";
+
+            }
+        }
+
+        private void lblMTotal_Leave(object sender, EventArgs e)
+        {
+            decimal value;
+            if (!decimal.TryParse(lblMTotal.Text, out value))
+            {
+                lblMTotal.Text = "0";
+
+            }
+        }
+
+        private void lblGTotal_Leave(object sender, EventArgs e)
+        {
+            decimal value;
+            if (!decimal.TryParse(lblMTotal.Text, out value))
+            {
+                lblMTotal.Text = "0";
+
+            }
+        }
+
+        private void dgvItemPop_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int r = dgvItemPop.CurrentCell.RowIndex;
+                int r1 = dgvmenu.CurrentCell.RowIndex;
+                BllSearch<DmnMenu> bllSearch = new BllSearch<DmnMenu>();
+                DmnSearch objSearch = new DmnSearch();
+                if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
+                {
+                    objSearch.Select = "MId ,Name as Title,p.Price ";
+                    objSearch.Table = " tblMenu m left join tblProduct p on m.ProductId=p.ProductId ";
+                    objSearch.WhereNdGroupBy = " where MId =" + dgvItemPop.Rows[r].Cells[0].Value;
+                    objSearch.OrderBy = "";
+                }
+                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
+                {
+                    objSearch.Select = "ItemId,Itemname ,p.Price";
+                    objSearch.Table = " tblItem i left join tblProduct p on i.ItemId = p.ProductId ";
+                    objSearch.WhereNdGroupBy = " where ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
+                    objSearch.OrderBy = "";
+                }
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
+                {
+                    if (gridSource.Count > 0)
+                    {
+                        int qty = 1;
+                        int price = 0;
+                        bool flag = true;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                            if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].MId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Menu))
+                            {
+                                flag = false;
+                                qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+
+
+                                break;
+
+                            }
+                        }
+                        //if (gridSource[0].QOH >= qty)
+                        //{
+                        if (flag == true)
+                        {
+                            if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                            {
+                                dgvmenu.Rows.Add(1);
+                            }
+
+                            dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].MId;
+                            dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
+                            dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Title;
+                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
+                            dgvmenu.Rows[r1].Cells[iqty].Value = 1;
+                            dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
+                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
+                            dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Menu);
+
+
+                        }
+                        else
+                        {
+                            dgvmenu.Rows[i].Cells[iqty].Value = qty;
+                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
+
+                        }
+
+                    }
+
+                    if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                    {
+                        // Specify the column index for which you want to calculate the sum
+
+
+                        decimal totalSum = 0;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                            if (dgvmenu.Rows[i].Cells[imprice].Value != null)
+                            {
+                                decimal cellValue;
+                                if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
+                                {
+                                    totalSum += cellValue;
+                                }
+                            }
+                        }
+
+                        // Display the sum in a TextBox
+                        lblMTotal.Text = totalSum.ToString();
+
+                    }
+                }
+               else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
+                    {
+                    if (gridSource.Count > 0)
+                    {
+                        int qty = 1;
+                        int price = 0;
+                        bool flag = true;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                                if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].ItemId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Item))
+                                {
+                                flag = false;
+                                qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+
+
+                                break;
+                            }
+                            }
+                        if (flag == true)
+                        {
+                            if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                            {
+                                dgvmenu.Rows.Add(1);
+                            }
+
+                            dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
+                            dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
+                            dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
+                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
+                            dgvmenu.Rows[r1].Cells[iqty].Value = 1;
+                            //dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value = gridSource[0].Description;
+                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
+                            dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
+
+                        }
+                        else
+                        {
+                            dgvmenu.Rows[i].Cells[iqty].Value = qty;
+                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
+
+                        }
+                    }
+                    if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                    {
+                        // Specify the column index for which you want to calculate the sum
+
+
+                        decimal totalSum = 0;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                            if (dgvmenu.Rows[i].Cells[imprice].Value != null)
+                            {
+                                decimal cellValue;
+                                if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
+                                {
+                                    totalSum += cellValue;
+                                }
+                            }
+                        }
+
+                        // Display the sum in a TextBox
+                        lblMTotal.Text = totalSum.ToString();
+
+                    }
+                }
+                panelProductPopup.Visible = false;
+                //pnlCustHead.Hide();
+                dgvItemPop.Visible = false;
+                dgvmenu.Enabled = true;
+                dgvmenu.Focus();
+            }
+            
+            catch (Exception ex)
+            { }
+            }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dgvItemPop.Visible = false;
+            panelProductPopup.Visible = false;
+            dgvmenu.Enabled = true;
+        }
+
+        private void FrmReservation_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }
