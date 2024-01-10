@@ -1720,7 +1720,10 @@ namespace FoodandBeverage.Forms
                 bool CUst = false;
                 if (MandatoryCheck())
                 {
-
+                    if (string.IsNullOrEmpty(lblMTotal.Text))
+                        lblMTotal.Text = "0";
+                    if (string.IsNullOrEmpty(lblGTotal.Text))
+                        lblGTotal.Text = "0";
                     BllReservation bllReservation = new BllReservation();
                     BllTableinfo bllTableinfo = new BllTableinfo();
                     DmnReservation dmnReservation = new DmnReservation();

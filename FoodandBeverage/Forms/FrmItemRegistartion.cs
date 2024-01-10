@@ -100,7 +100,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = " tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(0) ";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(2) ";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 cmb_inc_categ.DataSource = gridSource;

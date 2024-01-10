@@ -1067,7 +1067,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_delt
             // 
-            this.btn_delt.BackgroundImage = global::FoodandBeverage.Properties.Resources.delete1;
+            this.btn_delt.BackgroundImage = global::FoodandBeverage.Properties.Resources.delete;
             this.btn_delt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_delt.Location = new System.Drawing.Point(462, 0);
             this.btn_delt.Name = "btn_delt";
