@@ -263,6 +263,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap close_price_change1 {
+            get {
+                object obj = ResourceManager.GetObject("close_price_change1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Closebutton {
             get {
                 object obj = ResourceManager.GetObject("Closebutton", resourceCulture);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnMenu
+    public class DmnMenu:DmnItem
     {
         public long MId { get; set; }
         public string Name { get; set; }

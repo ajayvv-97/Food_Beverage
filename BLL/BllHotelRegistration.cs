@@ -11,6 +11,7 @@ namespace BLL
         {
             DAL.DapperRepository<DmnHRegistration> objDapperRepository = new DAL.DapperRepository<DmnHRegistration>();
             DynamicParameters parms = new DynamicParameters();
+            parms.Add("Id", objTestClass.Id);
             parms.Add("Name", objTestClass.Name);
             parms.Add("Address", objTestClass.Address);
             parms.Add("Phone", objTestClass.Phone);
@@ -31,8 +32,9 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        
 
-    }
+        }
 }
 
 
