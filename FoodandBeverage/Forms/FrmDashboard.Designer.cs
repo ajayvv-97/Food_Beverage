@@ -970,7 +970,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -1017,7 +1017,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(218, 3);
+            this.btn_rev.Location = new System.Drawing.Point(216, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -1031,7 +1031,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(150, 3);
+            this.btn_running.Location = new System.Drawing.Point(149, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -1056,7 +1056,7 @@ namespace FoodandBeverage.Forms
             this.pnlappcolor.Controls.Add(this.chkentercolor);
             this.pnlappcolor.Controls.Add(this.pbappcoloepicker);
             this.pnlappcolor.Controls.Add(this.lblappcolor);
-            this.pnlappcolor.Location = new System.Drawing.Point(43, 52);
+            this.pnlappcolor.Location = new System.Drawing.Point(250, 52);
             this.pnlappcolor.Name = "pnlappcolor";
             this.pnlappcolor.Size = new System.Drawing.Size(421, 351);
             this.pnlappcolor.TabIndex = 0;
