@@ -41,6 +41,7 @@ namespace Domain
         public Decimal BalnceNeed { get; set; }
         public Decimal FinalAmount { get; set; }
         public int RevStatus { get; set; }
+        public int Tid { get; set; }
 
 
 
