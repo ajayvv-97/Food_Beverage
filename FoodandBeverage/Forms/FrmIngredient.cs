@@ -366,7 +366,6 @@ namespace FoodandBeverage.Forms
                     {
                         if (IsValidData(e.RowIndex))
                             return;
-
                     }
                 }
             }
@@ -1592,5 +1591,9 @@ namespace FoodandBeverage.Forms
 
         }
 
+        private void dgv_registartion_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
+        }
     }
 }

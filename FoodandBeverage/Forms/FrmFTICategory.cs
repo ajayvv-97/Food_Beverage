@@ -333,7 +333,6 @@ namespace FoodandBeverage.Forms
                     txtdescr.Text = itemSource[0].Description;
                     btn_del_cate.Visible = true;
                 }
-
             }
             catch (Exception ex)
             {

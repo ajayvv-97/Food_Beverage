@@ -110,6 +110,7 @@ namespace BLL
             DAL.DapperRepository<DmnReservation> objDapperRepository = new DAL.DapperRepository<DmnReservation>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("BookmasterId", objTestClass.BookmasterId);
+            parms.Add("Tid", objTestClass.Tid);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);
