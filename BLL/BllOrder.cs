@@ -27,6 +27,25 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnOrderMaster AddData(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("EntryNo", objTestClass.EntryNo);
+            //parms.Add("Customer", objTestClass.CustomerId);
+            //parms.Add("Address", objTestClass.Address);
+            //parms.Add("ContactNo", objTestClass.ContactNo);
+            //parms.Add("Email", objTestClass.Email);
+            parms.Add("TotQty", objTestClass.TotalQuantity);
+            parms.Add("Remark", objTestClass.Remarks);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("Tid", objTestClass.Tid);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
         public DmnOrderDetails AddEditDataDet(string procedureName, DmnOrderDetails objTestClass)
         {
             DAL.DapperRepository<DmnOrderDetails> dapperRepository = new DAL.DapperRepository<DmnOrderDetails>();

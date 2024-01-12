@@ -5,7 +5,7 @@ using System.Text;
 namespace Domain
 {
 
-    public class DmnReservation
+    public class DmnReservation:DmnOrderMaster
     {
         public int BookmasterId { get; set; }
         public string cusName { get; set; }

@@ -166,6 +166,7 @@ namespace FoodandBeverage.Forms
             dgvmenu.Rows.Add(1);
             mbtnSave.Visible = true;
             txtBookmasterId.Text = "0";
+            txtordermasterid.Text = "0";
             lblSTotal.Text = "";
             lblMTotal.Text = "";
             lblGTotal.Text = "";
@@ -887,6 +888,7 @@ namespace FoodandBeverage.Forms
                         cboBtype.SelectedValue = Convert.ToInt64(gridSource1[0].BookingType);
                         txtRemarks.Text = Convert.ToString(gridSource1[0].Remarks);
                         txtBookmasterId.Text = Convert.ToString(gridSource1[0].BookmasterId);
+
                         lblSTotal.Text = Convert.ToString(gridSource1[0].ReservationTotal);
                         lblMTotal.Text = Convert.ToString(gridSource1[0].MenuTotal);
                         lblGTotal.Text = Convert.ToString(gridSource1[0].GrandTotal);
@@ -1757,7 +1759,7 @@ namespace FoodandBeverage.Forms
                 {
                     BllOrder bllOrder = new BllOrder();
                     BllReservation bllReservation = new BllReservation();
-                   
+                    DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                     DmnOrderDetails dmnOrderDetails = new DmnOrderDetails();
                     DmnReservation dmnReservation = new DmnReservation();
 
@@ -1883,45 +1885,62 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
-                        for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
+
+                        dmnordermaster.OrderMasterId = 0;
+                        dmnordermaster.EntryNo = "";
+                        dmnordermaster.TotalQuantity = Convert.ToInt32(txtqty.Text);
+                        dmnordermaster.Remarks = txtRemarks.Text;
+                        dmnordermaster.BranchId = FrmDashboard.BranchId;
+                        dmnordermaster.CreatedBy = 1;
+                        dmnordermaster.Status = 1;
+                        dmnordermaster.Tid = 0;
+
+                        var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
+
+
+
+                        if (InsertStatusO.OrderMasterId != 0)
                         {
 
-                            if (Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != null && Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != "")
+                            for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
                             {
-                                dmnOrderDetails.ItemId = Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value);
 
-                                dmnOrderDetails.OrderMasterId=0;
-                                dmnOrderDetails.OrderDetailsId = 0;
-                                dmnOrderDetails.ItemName = Convert.ToString(dgvmenu.Rows[i].Cells[imname].Value);
-                                dmnOrderDetails.Quantity = Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
-                                dmnOrderDetails.Srate = Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
-                                dmnOrderDetails.Notes = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
-                                dmnOrderDetails.Tax = Convert.ToString(dgvmenu.Rows[i].Cells[iTax].Value);
-                                dmnOrderDetails.TaxType = Convert.ToString(dgvmenu.Rows[i].Cells[iTaxType].Value);
-                                dmnOrderDetails.TaxPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iTaxper].Value);
-                                dmnOrderDetails.TaxAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[istaxamt].Value);
-                                dmnOrderDetails.MRP = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imrp].Value);
-                                dmnOrderDetails.IGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imgst].Value);
-                                dmnOrderDetails.CGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[icgst].Value);
-                                dmnOrderDetails.SGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isgst].Value);
-                                dmnOrderDetails.PurchaseRate = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iprate].Value);
-                                dmnOrderDetails.PrId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprid].Value);
-                                dmnOrderDetails.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
-                                dmnOrderDetails.CreatedBy = 1;
-                                dmnOrderDetails.BranchId = 1030;
-                                dmnOrderDetails.Status = 1;
-                                dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
-                                dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value); 
-                                dmnOrderDetails.ProductType = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value); 
-                                dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value); 
-                                dmnOrderDetails.MarketPrice = Convert.ToInt32(dgvmenu.Rows[i].Cells[imarketprice].Value); 
-                                dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value); 
-                                
-                                dmnOrderDetails.PurchaseRate= Convert.ToInt32(dgvmenu.Rows[i].Cells[iprate].Value);
-                                dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
-                                datadetails = bllOrder.AddDetail("prdInsert_Upd_OrderDetailsUpdate", dmnOrderDetails);
+                                if (Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != null && Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != "")
+                                {
+                                    dmnOrderDetails.ItemId = Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value);
+
+                                    dmnOrderDetails.OrderMasterId = InsertStatusO.OrderMasterId;
+                                    dmnOrderDetails.OrderDetailsId = 0;
+                                    dmnOrderDetails.ItemName = Convert.ToString(dgvmenu.Rows[i].Cells[imname].Value);
+                                    dmnOrderDetails.Quantity = Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                    dmnOrderDetails.Srate = Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+                                    dmnOrderDetails.Notes = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
+                                    dmnOrderDetails.Tax = Convert.ToString(dgvmenu.Rows[i].Cells[iTax].Value);
+                                    dmnOrderDetails.TaxType = Convert.ToString(dgvmenu.Rows[i].Cells[iTaxType].Value);
+                                    dmnOrderDetails.TaxPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iTaxper].Value);
+                                    dmnOrderDetails.TaxAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[istaxamt].Value);
+                                    dmnOrderDetails.MRP = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imrp].Value);
+                                    dmnOrderDetails.IGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imgst].Value);
+                                    dmnOrderDetails.CGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[icgst].Value);
+                                    dmnOrderDetails.SGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isgst].Value);
+                                    dmnOrderDetails.PurchaseRate = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iprate].Value);
+                                    dmnOrderDetails.PrId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprid].Value);
+                                    dmnOrderDetails.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
+                                    dmnOrderDetails.CreatedBy = 1;
+                                    dmnOrderDetails.BranchId = 1030;
+                                    dmnOrderDetails.Status = 1;
+                                    dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
+                                    dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value);
+                                    dmnOrderDetails.ProductType = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
+                                    dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value);
+                                    dmnOrderDetails.MarketPrice = Convert.ToInt32(dgvmenu.Rows[i].Cells[imarketprice].Value);
+                                    dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
+
+                                    dmnOrderDetails.PurchaseRate = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprate].Value);
+                                    dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
+                                    datadetails = bllOrder.AddDetail("prdInsert_Upd_OrderDetailsUpdate", dmnOrderDetails);
+                                }
                             }
-
                             }
                             if (chb_active.Checked == false)
                         {
@@ -2301,7 +2320,7 @@ namespace FoodandBeverage.Forms
 
                         // Display the sum in a TextBox
                         lblMTotal.Text = totalSum.ToString();
-
+                        txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
                     }
                 }
                 panelProductPopup.Visible = false;
