@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnReservationDetails
+    public class DmnReservationDetails : DmnOrderDetails
     {
         public int MTID { get; set; }
         public int BookdetailId { get; set; }
@@ -20,6 +20,14 @@ namespace Domain
         public int Branchid { get; set; }
         public long BookmasterId { get; set; }
         public decimal Net { get; set; }
+        public string Tax { get; set; }
+        public string TaxType { get; set; }
+        public string TaxAmt { get; set; }
+        public decimal IgstPrcnt { get; set; }
+        public decimal CgstPrcnt { get; set; }
+        public decimal SgstPrcnt { get; set; }
+        public decimal VatPrcnt { get; set; }
+        public decimal TaxPer { get; set; }
 
 
     }

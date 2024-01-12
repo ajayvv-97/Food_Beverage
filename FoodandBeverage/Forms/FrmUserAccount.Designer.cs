@@ -50,9 +50,9 @@ namespace FoodandBeverage.Forms.UserAccount
             this.mbtnSave = new System.Windows.Forms.Button();
             this.hlTitle = new MetroFramework.Drawing.Html.HtmlLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label21 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -151,6 +151,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // txtuname
             // 
+            this.txtuname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtuname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtuname.Location = new System.Drawing.Point(105, 97);
             this.txtuname.Multiline = true;
@@ -213,6 +214,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // txtpassword
             // 
+            this.txtpassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtpassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtpassword.Location = new System.Drawing.Point(105, 140);
             this.txtpassword.Multiline = true;
@@ -224,6 +226,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // txtcconpassword
             // 
+            this.txtcconpassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtcconpassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtcconpassword.Location = new System.Drawing.Point(105, 171);
             this.txtcconpassword.Multiline = true;
@@ -326,7 +329,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.882591F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.11741F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox10, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label21, 1, 0);
@@ -339,25 +342,13 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tableLayoutPanel1.Size = new System.Drawing.Size(526, 32);
             this.tableLayoutPanel1.TabIndex = 243;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(497, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(19, 18);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "X";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
             // pictureBox10
             // 
             this.pictureBox10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox10.BackgroundImage")));
             this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox10.Location = new System.Drawing.Point(3, 3);
             this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(28, 26);
+            this.pictureBox10.Size = new System.Drawing.Size(27, 26);
             this.pictureBox10.TabIndex = 279;
             this.pictureBox10.TabStop = false;
             // 
@@ -366,14 +357,27 @@ namespace FoodandBeverage.Forms.UserAccount
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(37, 0);
+            this.label21.Location = new System.Drawing.Point(36, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(136, 24);
             this.label21.TabIndex = 7;
             this.label21.Text = "User Account";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(494, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(19, 18);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "X";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.AliceBlue;
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 233F));
@@ -464,6 +468,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // txtemp
             // 
+            this.txtemp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtemp.Location = new System.Drawing.Point(3, 0);
             this.txtemp.Multiline = true;
@@ -538,6 +543,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.Name = "FrmUserAccount";
             this.Text = "FrmUserAccount";
             this.Load += new System.EventHandler(this.FrmUserAccount_Load);
+            this.Resize += new System.EventHandler(this.FrmUserAccount_Resize);
             this.hlTitle.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

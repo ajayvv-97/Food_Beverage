@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL
 {
-    public class BllReservation
+    public class BllReservation:BllOrder
     {
         public DmnReservation AddData(string procedureName, DmnReservation objTestClass)
         {
@@ -68,10 +68,19 @@ namespace BLL
             parms.Add("MTID", objTestClass.MTID);
             parms.Add("Status", objTestClass.Status);
             parms.Add("Net", objTestClass.Net);
+            parms.Add("Tax", objTestClass.Tax);
+            parms.Add("TaxType", objTestClass.TaxType);
+            parms.Add("TaxAmt", objTestClass.TaxAmt);
+            parms.Add("TaxPer", objTestClass.TaxPer);
+            parms.Add("IgstPrcnt", objTestClass.IgstPrcnt);
+            parms.Add("CgstPrcnt", objTestClass.CgstPrcnt);
+            parms.Add("SgstPrcnt", objTestClass.SgstPrcnt);
+            parms.Add("VatPrcnt", objTestClass.VatPrcnt);
             //parms.Add("RevStatus", objTestClass.RevStatus);
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
         }
+        
         public bool UpdateData(string procedureName, DmnReservation objTestClass)
         {
             DAL.DapperRepository<DmnReservation> objDapperRepository = new DAL.DapperRepository<DmnReservation>();

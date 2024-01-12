@@ -16,6 +16,9 @@ using System.Windows.Forms;
 using System.Globalization;
 using FoodandBeverage.Interfaces;
 using System.Threading;
+using System.Drawing.Drawing2D;
+
+using System.Runtime.InteropServices;
 namespace FoodandBeverage.Forms
 {
     public partial  class FrmDepartment : Form
@@ -511,7 +514,15 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+          int nLeftRect,
+          int nTopRect,
+          int nRightRect,
+          int nBottomRect,
+          int nWidthEllipse,
+          int nHeightEllipse
+      );
         private void FrmDepartment_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -527,79 +538,45 @@ namespace FoodandBeverage.Forms
                 MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
-        //save
-        //private void mbtnSave_MouseHover(object sender, EventArgs e)
+        //#region TexBox Round function
+        //public void textb_shape()
         //{
-        //    this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.save_3));
+        //    try
+        //    {
+        //        // Apply rounded corners to text boxes based on the list
+        //        foreach (TextBox textBox in new TextBox[] { mtxtEmpSrlNo, mtxtName, mtxtCode })
+        //        {
+        //            ApplyRoundedTextBox(textBox, 10);
+        //            textBox.Font = new Font(textBox.Font.FontFamily, 12);
+        //            textBox.BorderStyle = BorderStyle.None;
+        //        }
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //    }
         //}
 
-        //private void mbtnSave_MouseDown(object sender, MouseEventArgs e)
+        //private void ApplyRoundedTextBox(TextBox textBox, int radius)
         //{
-        //    this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.save_2));
+        //    // Create a new GraphicsPath object
+        //    GraphicsPath path = new GraphicsPath();
+        //    // Define the shape of the path using a rounded rectangle
+        //    Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+        //    path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+        //    path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+        //    path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+        //    path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+        //    path.CloseAllFigures();
+        //    // Set the Region property of the textbox to the new path
+        //    textBox.Region = new Region(path);
         //}
 
-        //private void mbtnSave_MouseLeave(object sender, EventArgs e)
-        //{
-        //    this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.save_1));
-        //}
+        //#endregion
+       
 
-        //private void mbtnSave_MouseUp(object sender, MouseEventArgs e)
-        //{
-        //    this.mbtnSave.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.save_1));
-        //}
-
-        ////refresh
-        //private void mbtnRefresh_MouseHover(object sender, EventArgs e)
-        //{
-        //    this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.refresh_3));
-        //}
-
-        //private void mbtnRefresh_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.refresh_2));
-        //}
-
-        //private void mbtnRefresh_MouseLeave(object sender, EventArgs e)
-        //{
-        //    this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.refresh_1));
-        //}
-
-        //private void mbtnRefresh_MouseUp(object sender, MouseEventArgs e)
-        //{
-        //    this.mbtnRefresh.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.refresh_1));
-        //}
-
-        ////close
-        //private void mbtnClose_MouseHover(object sender, EventArgs e)
-        //{
-        //    this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.close_3));
-        //}
-
-        //private void mbtnClose_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.close_2));
-        //}
-
-        //private void mbtnClose_MouseLeave(object sender, EventArgs e)
-        //{
-        //    this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.close_1));
-        //}
-
-        //private void mbtnClose_MouseUp(object sender, MouseEventArgs e)
-        //{
-        //    this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.close_1));
-        //}
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void mlblName_Click(object sender, EventArgs e)
-        {
-
-        }
-
+       
         private void dgvDepartment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -610,30 +587,13 @@ namespace FoodandBeverage.Forms
 
         }
 
-        private void guna2GradientTileButton2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+      
 
         private void mbtnClose_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btncolse_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnmini_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
-        }
 
         private void btnmini_Click_1(object sender, EventArgs e)
         {

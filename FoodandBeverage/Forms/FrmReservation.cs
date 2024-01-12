@@ -51,8 +51,25 @@ namespace FoodandBeverage.Forms
         public static int imdescription = 3;
         public static int imprice = 4;
         public static int iqty = 5;
-        public static int isamount = 6;
+        public static int iTaxper = 6;
         public static int iFormType = 7;
+        public static int iTax = 8;
+        public static int iTaxType = 9;
+        public static int istaxamt = 10;
+        public static int isamount = 11;
+        public static int imgst = 12;
+        public static int icgst = 13;
+        public static int ivat = 14;
+        public static int isgst = 15;
+        public static int iprate = 16;
+        public static int iunit = 17;
+        public static int iitemcode = 18;
+        public static int iprid = 19;
+        public static int imrp = 20;
+        public static int iproductType = 21;
+        public static int itabletype =22;
+        public static int imarketprice = 23;
+
         private int yourTargetColumnIndex = 1;    
        
         private void FrmReservation_Load(object sender, EventArgs e)
@@ -577,12 +594,14 @@ namespace FoodandBeverage.Forms
                 dgvItemPop.Visible = true;
                 dgvItemPop.Rows.Clear();
                 
-                _objSearch.Select = "MId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, "+Convert.ToInt32(formsenum.Menu) + " Field4 ";
+                _objSearch.Select = "MId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, "+Convert.ToInt32(formsenum.Menu) + " Field4 ,p.Tax as Field5,p.TaxType as Field6 ";
                 _objSearch.Table = " tblMenu m   left join tblProduct p on m.ProductId = p.ProductId and " +
                     "   m.BranchId =  "+FrmLogin.BranchId +" where m.Status = 1 and p.Status = 1    UNION " +
-                    "   select i.ItemId  as Id, i.Itemname as Field1,i.prate as Field2, 'Item' as Field3, " + Convert.ToInt32(formsenum.Item) + " Field4 " +
-                    " from tblItem i ";
-                _objSearch.WhereNdGroupBy = " Where i.Status=1 ";
+                    "   select i.ItemId  as Id, i.Itemname as Field1,i.prate as Field2, 'Item' as Field3, " + Convert.ToInt32(formsenum.Item) + " Field4 ,i.Tax as Field5,i.TaxType as Field6 " +
+                    " from tblItem i " +
+                    " UNION select ofd.Odid as Id,ofm.OfferName Field1,ofm.FinalPrice Field2,'Offer' as Field3," + Convert.ToInt32(formsenum.Discount_And_Offer) + " Field4 , ofm.Tax Field5,ofm.TaxType Field6 from " +
+                    " tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid ";
+                _objSearch.WhereNdGroupBy = " Where ofd.Status=1 ";
                 _objSearch.OrderBy = "";
                 var gridSource = _bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count > 0)
@@ -597,6 +616,8 @@ namespace FoodandBeverage.Forms
                         dgvItemPop.Rows[i].Cells[3].Value = gridSource[i].Field2;
                         dgvItemPop.Rows[i].Cells[4].Value = gridSource[i].Field3;
                         dgvItemPop.Rows[i].Cells[5].Value = gridSource[i].Field4;
+                        dgvItemPop.Rows[i].Cells[6].Value = gridSource[i].Field5;
+                        dgvItemPop.Rows[i].Cells[7].Value = gridSource[i].Field6;
                         
                     }
                 }
@@ -1734,12 +1755,13 @@ namespace FoodandBeverage.Forms
                 bool CUst = false;
                 if (MandatoryCheck())
                 {
-
+                    BllOrder bllOrder = new BllOrder();
                     BllReservation bllReservation = new BllReservation();
-                    
-                    DmnReservation dmnReservation = new DmnReservation();
                    
-                  
+                    DmnOrderDetails dmnOrderDetails = new DmnOrderDetails();
+                    DmnReservation dmnReservation = new DmnReservation();
+
+
                     string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
@@ -1754,12 +1776,10 @@ namespace FoodandBeverage.Forms
                     dmnReservation.NoOfPeople = txtNOP.Text;
                     dmnReservation.BranchId = 1030;
                     dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
-
                     dmnReservation.ReservationTotal = Convert.ToDecimal(lblSTotal.Text);
                     dmnReservation.MenuTotal = Convert.ToDecimal(lblMTotal.Text);
                     dmnReservation.GrandTotal = Convert.ToDecimal(lblGTotal.Text);
                     dmnReservation.DiscountAmt = Convert.ToDecimal(totaldiscountamt.Text);
-                    //dmnTableinfo.RevStatus = 1;
                     dmnReservation.DiscountPer = Convert.ToDecimal(discountper.Text);
                     dmnReservation.OtherAdd = Convert.ToDecimal(oaamount.Text);
                     dmnReservation.OtherDed = Convert.ToDecimal(odamt.Text);
@@ -1848,6 +1868,10 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.Name = Convert.ToString(dgvmenu.Rows[i].Cells[imname].Value);
                                 dmnReservation1.Quantity = Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
                                 dmnReservation1.Price = Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+                                dmnReservation1.Tax = Convert.ToString(dgvmenu.Rows[i].Cells[iTax].Value);
+                                dmnReservation1.TaxType = Convert.ToString(dgvmenu.Rows[i].Cells[iTaxType].Value);
+                                dmnReservation1.TaxPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iTaxper].Value);
+                                dmnReservation1.TaxAmt = Convert.ToString(dgvmenu.Rows[i].Cells[istaxamt].Value);
                                 dmnReservation1.Description = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
                                 dmnReservation1.CreatedBy = 1;
                                 dmnReservation1.BranchId = 1030;
@@ -1859,7 +1883,47 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
-                        if (chb_active.Checked == false)
+                        for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
+                        {
+
+                            if (Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != null && Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != "")
+                            {
+                                dmnOrderDetails.ItemId = Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value);
+
+                                dmnOrderDetails.OrderMasterId=0;
+                                dmnOrderDetails.OrderDetailsId = 0;
+                                dmnOrderDetails.ItemName = Convert.ToString(dgvmenu.Rows[i].Cells[imname].Value);
+                                dmnOrderDetails.Quantity = Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                dmnOrderDetails.Srate = Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+                                dmnOrderDetails.Notes = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
+                                dmnOrderDetails.Tax = Convert.ToString(dgvmenu.Rows[i].Cells[iTax].Value);
+                                dmnOrderDetails.TaxType = Convert.ToString(dgvmenu.Rows[i].Cells[iTaxType].Value);
+                                dmnOrderDetails.TaxPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iTaxper].Value);
+                                dmnOrderDetails.TaxAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[istaxamt].Value);
+                                dmnOrderDetails.MRP = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imrp].Value);
+                                dmnOrderDetails.IGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imgst].Value);
+                                dmnOrderDetails.CGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[icgst].Value);
+                                dmnOrderDetails.SGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isgst].Value);
+                                dmnOrderDetails.PurchaseRate = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iprate].Value);
+                                dmnOrderDetails.PrId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprid].Value);
+                                dmnOrderDetails.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
+                                dmnOrderDetails.CreatedBy = 1;
+                                dmnOrderDetails.BranchId = 1030;
+                                dmnOrderDetails.Status = 1;
+                                dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
+                                dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value); 
+                                dmnOrderDetails.ProductType = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value); 
+                                dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value); 
+                                dmnOrderDetails.MarketPrice = Convert.ToInt32(dgvmenu.Rows[i].Cells[imarketprice].Value); 
+                                dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value); 
+                                
+                                dmnOrderDetails.PurchaseRate= Convert.ToInt32(dgvmenu.Rows[i].Cells[iprate].Value);
+                                dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
+                                datadetails = bllOrder.AddDetail("prdInsert_Upd_OrderDetailsUpdate", dmnOrderDetails);
+                            }
+
+                            }
+                            if (chb_active.Checked == false)
                         {
                             CMessageBox.Show("Reservation Cancel", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                             btn_delt.Visible = false;
@@ -1874,23 +1938,24 @@ namespace FoodandBeverage.Forms
 
                         }
                     }
-                    //else
-                    //{
-                    //    bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
+                    else
+                    {
+                        bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
 
 
-                    //    if (saveStatus == true)
-                    //    {
-                    //        MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //    }
-                    //    else if (saveStatus == false)
-                    //    {
-                    //        MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (saveStatus == true)
+                        {
+                            MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (saveStatus == false)
+                        {
+                            MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    //    }
-                    //}
+                        }
+                    }
                     clear();
-                }
+                    }
+                
             }
             catch (Exception ex)
             {
@@ -1978,16 +2043,26 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
                 {
-                    objSearch.Select = "MId ,Name as Title,p.Price ";
-                    objSearch.Table = " tblMenu m left join tblProduct p on m.ProductId=p.ProductId ";
+                    objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt";
+                    objSearch.Table = " tblMenu m left join tblProduct p on m.ProductId=p.ProductId " +
+                        " left join tblTaxSettings ts on p.TaxSettingsId=ts.TaxSettingsId ";
                     objSearch.WhereNdGroupBy = " where MId =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
                 {
-                    objSearch.Select = "ItemId,Itemname ,p.Price";
-                    objSearch.Table = " tblItem i left join tblProduct p on i.ItemId = p.ProductId ";
+                    objSearch.Select = "ItemId,Itemname ,i.srate,i.Tax,i.TaxType,IgstPrcnt,VatPrcnt,CgstPrcnt,SgstPrcnt,prate," +
+                        "MRP,unit,ItemCode_UPC,Prid,Fcid ";
+                    objSearch.Table = "  tblItem i  left join tblTaxSettings ts on i.TaxSettingsId=ts.TaxSettingsId  ";                       
                     objSearch.WhereNdGroupBy = " where ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
+                    objSearch.OrderBy = "";
+                }
+                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
+                {
+                    objSearch.Select = "ofm.OfferName ,ofm.FinalPrice , ofm.TaxType , ofm.Tax , ofm.TaxSettingsId , ofm.Discountper , ofd.Productname ";
+                       
+                    objSearch.Table = "  tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid  ";
+                    objSearch.WhereNdGroupBy = " ofm.Omid =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
                 }
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
@@ -2029,6 +2104,48 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
                             dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
                             dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Menu);
+                            dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
+                            dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
+                            dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
+                            dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                            dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                            dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
+                            dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
+                            dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
+                            dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = 0;
+
+                            if (gridSource[0].TaxType == "GST")
+                            {
+                                decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value) / 100);
+                                dgvmenu.Rows[r1].Cells[istaxamt].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[imgst].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource[0].IgstPrcnt;
+                            }
+                            if (gridSource[0].TaxType == "VAT")
+                            {
+                                decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value) / 100);
+                                dgvmenu.Rows[r1].Cells[istaxamt].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[ivat].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource[0].VatPrcnt;
+                            }
+
+                            //if (Convert.ToString(gridSource[0].TaxType) == "GST")
+                            //{
+                            //    //dgvSProduct.Rows[r].Cells[istaxType].Value = "GST";
+                            //    dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource[0].IgstPrcnt;
+
+
+                            //}
+                            //else if (Convert.ToString(gridSource[0].TaxType) == "VAT")
+                            //{
+                            //    //dgvSProduct.Rows[r].Cells[istaxType].Value = "VAT";
+                            //    dgvmenu.Rows[r].Cells[iTaxper].Value = gridSource[0].VatPrcnt;
+                            //}
 
 
                         }
@@ -2044,6 +2161,15 @@ namespace FoodandBeverage.Forms
                     if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
                     {
                         // Specify the column index for which you want to calculate the sum
+                        
+
+
+                        if (Convert.ToString(dgvmenu.Rows[r1].Cells[iTax].Value) == "Exclusive")
+                        {
+
+                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value) + Convert.ToDecimal(dgvmenu.Rows[r1].Cells[istaxamt].Value);
+                        }
+
 
 
                         decimal totalSum = 0;
@@ -2095,17 +2221,45 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
                             dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
                             dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
-                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
+                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
                             dgvmenu.Rows[r1].Cells[iqty].Value = 1;
                             //dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value = gridSource[0].Description;
                             dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
                             dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
+                            dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
+                            dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
+                            dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
+                            dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                            dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                            dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
+                            dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
+                            dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Item);
+                            dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = 0;
+                            if (gridSource[0].TaxType == "GST")
+                            {
+                                decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value) / 100);
+                                dgvmenu.Rows[r1].Cells[istaxamt].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[imgst].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource[0].IgstPrcnt;
+                            }
+                            if (gridSource[0].TaxType == "VAT")
+                            {
+                                decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value) / 100);
+                                dgvmenu.Rows[r1].Cells[istaxamt].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[ivat].Value = TaxAmount.ToString("N2");
+                                dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource[0].VatPrcnt;
+                            }
 
                         }
                         else
                         {
                             dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
+                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iqty].Value);
 
                         }
                     }
@@ -2114,12 +2268,29 @@ namespace FoodandBeverage.Forms
                         // Specify the column index for which you want to calculate the sum
 
 
+                        dgvmenu.Rows[r1].Cells[istaxamt].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iTaxper].Value) / 100;
+                        
+                     
+                        if (Convert.ToString(dgvmenu.Rows[r1].Cells[iTax].Value) == "Exclusive")
+                        {
+                            decimal tot = (Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value) )
+                        + Convert.ToDecimal(dgvmenu.Rows[r1].Cells[istaxamt].Value);
+                            dgvmenu.Rows[r1].Cells[isamount].Value = tot.ToString("N2");
+                           
+                        }
+                        if (Convert.ToString(dgvmenu.Rows[r1].Cells[iTax].Value) == "Inclusive")
+                        {
+
+                            decimal tot = (Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value));
+                            dgvmenu.Rows[r1].Cells[isamount].Value = tot.ToString("N2");
+                        }
+
                         decimal totalSum = 0;
                         int i = 0;
                         for (i = 0; i <= dgvmenu.RowCount - 1; i++)
                         {
                             if (dgvmenu.Rows[i].Cells[imprice].Value != null)
-                            {
+                             {
                                 decimal cellValue;
                                 if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
                                 {
@@ -2143,7 +2314,41 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             { }
             }
+        //public void totalcellamount(int cellproductid)
+        //{
+        //    try
+        //    {
+        //        if (dgvmenu.Rows[cellproductid].Cells[imid].Value != "" && dgvmenu.Rows[cellproductid].Cells[iprice].Value != "" )
+        //        {
+        //            decimal amount = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[iprice].Value) * Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[iqty].Value);
+        //            dgvmenu.Rows[cellproductid].Cells[isamount].Value = amount.ToString("N2");
 
+        //            //cellDiscountPercentage(cellproductid);
+        //            //if (Convert.ToInt32(dgvmenu.Rows[cellproductid].Cells[itabletype].Value) != 3)
+        //            //    cellDiscountAmount(cellproductid);
+
+        //            decimal discount = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[idisamt].Value);
+        //            cellTaxAmount(cellproductid, amount - discount);
+
+        //            if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+        //            {
+        //                decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
+        //                + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
+        //                Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+        //            }
+        //            if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+        //            {
+        //                decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
+        //                Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
         private void button2_Click(object sender, EventArgs e)
         {
             dgvItemPop.Visible = false;

@@ -64,8 +64,24 @@ namespace FoodandBeverage.Forms
             this.Descriptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Prices = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImTaxper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FormType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ITaxAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.igst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vatprant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.marketprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelProductPopup = new System.Windows.Forms.Panel();
             this.dgvItemPop = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +90,8 @@ namespace FoodandBeverage.Forms
             this.ipric = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Dis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Form = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Taxtaype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.label43 = new System.Windows.Forms.Label();
@@ -350,8 +368,24 @@ namespace FoodandBeverage.Forms
             this.Descriptions,
             this.Prices,
             this.Quantity,
+            this.ImTaxper,
+            this.FormType,
+            this.Tax,
+            this.TaxType,
+            this.ITaxAmt,
             this.Net,
-            this.FormType});
+            this.igst,
+            this.cgst,
+            this.vatprant,
+            this.sgst,
+            this.prate,
+            this.unit,
+            this.itemcode,
+            this.prid,
+            this.Mrp,
+            this.tabletype,
+            this.productType,
+            this.marketprice});
             this.dgvmenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvmenu.GridColor = System.Drawing.Color.Aquamarine;
             this.dgvmenu.Location = new System.Drawing.Point(3, 3);
@@ -415,11 +449,10 @@ namespace FoodandBeverage.Forms
             this.Quantity.HeaderText = "Quantity";
             this.Quantity.Name = "Quantity";
             // 
-            // Net
+            // ImTaxper
             // 
-            this.Net.HeaderText = "Net";
-            this.Net.Name = "Net";
-            this.Net.ReadOnly = true;
+            this.ImTaxper.HeaderText = "TaxPer";
+            this.ImTaxper.Name = "ImTaxper";
             // 
             // FormType
             // 
@@ -427,13 +460,106 @@ namespace FoodandBeverage.Forms
             this.FormType.Name = "FormType";
             this.FormType.Visible = false;
             // 
+            // Tax
+            // 
+            this.Tax.HeaderText = "Tax";
+            this.Tax.Name = "Tax";
+            // 
+            // TaxType
+            // 
+            this.TaxType.HeaderText = "TaxType";
+            this.TaxType.Name = "TaxType";
+            // 
+            // ITaxAmt
+            // 
+            this.ITaxAmt.HeaderText = "TaxAmt";
+            this.ITaxAmt.Name = "ITaxAmt";
+            // 
+            // Net
+            // 
+            this.Net.HeaderText = "Net";
+            this.Net.Name = "Net";
+            this.Net.ReadOnly = true;
+            // 
+            // igst
+            // 
+            this.igst.HeaderText = "Igst";
+            this.igst.Name = "igst";
+            this.igst.Visible = false;
+            // 
+            // cgst
+            // 
+            this.cgst.HeaderText = "Cgst";
+            this.cgst.Name = "cgst";
+            this.cgst.Visible = false;
+            // 
+            // vatprant
+            // 
+            this.vatprant.HeaderText = "Vat";
+            this.vatprant.Name = "vatprant";
+            this.vatprant.Visible = false;
+            // 
+            // sgst
+            // 
+            this.sgst.HeaderText = "Sgst";
+            this.sgst.Name = "sgst";
+            this.sgst.Visible = false;
+            // 
+            // prate
+            // 
+            this.prate.HeaderText = "Prate";
+            this.prate.Name = "prate";
+            this.prate.Visible = false;
+            // 
+            // unit
+            // 
+            this.unit.HeaderText = "Unit";
+            this.unit.Name = "unit";
+            this.unit.Visible = false;
+            // 
+            // itemcode
+            // 
+            this.itemcode.HeaderText = "Itemcode";
+            this.itemcode.Name = "itemcode";
+            this.itemcode.Visible = false;
+            // 
+            // prid
+            // 
+            this.prid.HeaderText = "Prid";
+            this.prid.Name = "prid";
+            this.prid.Visible = false;
+            // 
+            // Mrp
+            // 
+            this.Mrp.HeaderText = "Mrp";
+            this.Mrp.Name = "Mrp";
+            this.Mrp.Visible = false;
+            // 
+            // tabletype
+            // 
+            this.tabletype.HeaderText = "Tabletype";
+            this.tabletype.Name = "tabletype";
+            this.tabletype.Visible = false;
+            // 
+            // productType
+            // 
+            this.productType.HeaderText = "producttype";
+            this.productType.Name = "productType";
+            this.productType.Visible = false;
+            // 
+            // marketprice
+            // 
+            this.marketprice.HeaderText = "MarketPrice";
+            this.marketprice.Name = "marketprice";
+            this.marketprice.Visible = false;
+            // 
             // panelProductPopup
             // 
             this.panelProductPopup.Controls.Add(this.dgvItemPop);
             this.panelProductPopup.Controls.Add(this.panel1);
-            this.panelProductPopup.Location = new System.Drawing.Point(48, 62);
+            this.panelProductPopup.Location = new System.Drawing.Point(28, 281);
             this.panelProductPopup.Name = "panelProductPopup";
-            this.panelProductPopup.Size = new System.Drawing.Size(790, 388);
+            this.panelProductPopup.Size = new System.Drawing.Size(788, 166);
             this.panelProductPopup.TabIndex = 222;
             // 
             // dgvItemPop
@@ -458,7 +584,9 @@ namespace FoodandBeverage.Forms
             this.iName,
             this.ipric,
             this.Dis,
-            this.Form});
+            this.Form,
+            this.mTax,
+            this.Taxtaype});
             dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -467,9 +595,8 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvItemPop.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dgvItemPop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvItemPop.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.dgvItemPop.Location = new System.Drawing.Point(0, 29);
+            this.dgvItemPop.Location = new System.Drawing.Point(0, 32);
             this.dgvItemPop.Name = "dgvItemPop";
             this.dgvItemPop.ReadOnly = true;
             this.dgvItemPop.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
@@ -485,7 +612,7 @@ namespace FoodandBeverage.Forms
             this.dgvItemPop.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Transparent;
             this.dgvItemPop.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvItemPop.ShowEditingIcon = false;
-            this.dgvItemPop.Size = new System.Drawing.Size(790, 359);
+            this.dgvItemPop.Size = new System.Drawing.Size(788, 431);
             this.dgvItemPop.TabIndex = 0;
             this.dgvItemPop.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItemPop_CellClick);
             // 
@@ -545,6 +672,18 @@ namespace FoodandBeverage.Forms
             this.Form.ReadOnly = true;
             this.Form.Visible = false;
             // 
+            // mTax
+            // 
+            this.mTax.HeaderText = "Tax";
+            this.mTax.Name = "mTax";
+            this.mTax.ReadOnly = true;
+            // 
+            // Taxtaype
+            // 
+            this.Taxtaype.HeaderText = "TaxType";
+            this.Taxtaype.Name = "Taxtaype";
+            this.Taxtaype.ReadOnly = true;
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.SteelBlue;
@@ -552,7 +691,7 @@ namespace FoodandBeverage.Forms
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(790, 29);
+            this.panel1.Size = new System.Drawing.Size(788, 33);
             this.panel1.TabIndex = 2;
             // 
             // button2
@@ -1049,7 +1188,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.57755F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
             this.tableLayoutPanel8.Controls.Add(this.label19, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.btncolse, 4, 0);
             this.tableLayoutPanel8.Controls.Add(this.button1, 3, 0);
@@ -1067,7 +1206,7 @@ namespace FoodandBeverage.Forms
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
-            this.label19.Location = new System.Drawing.Point(44, 0);
+            this.label19.Location = new System.Drawing.Point(43, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(137, 25);
             this.label19.TabIndex = 12;
@@ -1080,7 +1219,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(844, 3);
+            this.btncolse.Location = new System.Drawing.Point(825, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -1097,7 +1236,7 @@ namespace FoodandBeverage.Forms
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(800, 3);
+            this.button1.Location = new System.Drawing.Point(781, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(25, 25);
             this.button1.TabIndex = 277;
@@ -1122,7 +1261,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(760, 3);
+            this.btnmini.Location = new System.Drawing.Point(741, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 10;
@@ -1900,20 +2039,38 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Panel panelProductPopup;
         private System.Windows.Forms.DataGridView dgvItemPop;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MBookingDetailId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descriptions;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Prices;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Net;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FormType;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn SerialNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn iName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ipric;
         private System.Windows.Forms.DataGridViewTextBoxColumn Dis;
         private System.Windows.Forms.DataGridViewTextBoxColumn Form;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mTax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Taxtaype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MBookingDetailId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descriptions;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Prices;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImTaxper;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FormType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TaxType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ITaxAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Net;
+        private System.Windows.Forms.DataGridViewTextBoxColumn igst;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cgst;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vatprant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sgst;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn itemcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mrp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tabletype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn marketprice;
     }
 }

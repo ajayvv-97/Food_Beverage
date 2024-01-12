@@ -13,6 +13,9 @@ using System.Security.Principal;
 using System.Text.RegularExpressions;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Interfaces;
+using System.Drawing.Drawing2D;
+
+using System.Runtime.InteropServices;
 namespace FoodandBeverage.Forms
 {
     public partial class FrmEmployeeShort : Form
@@ -51,8 +54,51 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+         int nLeftRect,
+         int nTopRect,
+         int nRightRect,
+         int nBottomRect,
+         int nWidthEllipse,
+         int nHeightEllipse
+     );
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { txtusertype, txtdescr, txtempcode, txtEmpName, txtphone, txtEmpAddress, txtnote, txtICardNo1, txtemail, txtUserTypeNote, txtuname, txtpassword, txtcconpassword })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
 
-       
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
 
         private void mbtnClose_Click(object sender, EventArgs e)
         {
@@ -2228,6 +2274,11 @@ namespace FoodandBeverage.Forms
         private void button3_Click_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void FrmEmployeeShort_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
 
         public void FillForms(int id)
