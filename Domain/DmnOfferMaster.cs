@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnOfferMaster 
+    public class DmnOfferMaster:DmnTaxSettings
     {
         public int Omid { get; set; }
         public string OfferName { get; set; }

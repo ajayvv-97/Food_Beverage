@@ -24,7 +24,7 @@ namespace Domain
         public int Tid { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public int koid { get; set; }
-
+        public int BookmasterId { get; set; }
 
     }
 }
