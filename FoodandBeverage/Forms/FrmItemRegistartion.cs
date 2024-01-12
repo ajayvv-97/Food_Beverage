@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
+using System.Collections.Generic;
 
 namespace FoodandBeverage.Forms
 {
@@ -46,17 +47,30 @@ namespace FoodandBeverage.Forms
         public static int iprqoh = 6;
         public static int iprPtype = 7;
         #endregion
+
+        List<DmnComboBox> gridSource_Foodcate = new List<DmnComboBox>();
+        List<DmnComboBox> gridSource_itemcate = new List<DmnComboBox>();
+
         public void Fillitem()
         {
             try
             {
-                BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "i.*,t.*,u.UnitName,c.CategoryName";
-                objSearch.Table = "tblItem i LEFT JOIN tblTaxSettings t on t.TaxSettingsId=i.TaxSettingsId LEFT JOIN tblUnit u on u.UId=i.unit LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
-                objSearch.WhereNdGroupBy = "Where i.status=1 ";
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "i.ItemId Field1,i.Itemname Field2,u.UnitName Field3," +
+                    "(Select sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field4," +
+                    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                dmnSearch.Table = "tblItem i " +
+                    " LEFT JOIN tblUnit u on u.UId=i.unit " +
+                    " LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId " +
+                    " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId"+
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=i.Fcid";
+                dmnSearch.WhereNdGroupBy = "where i.Status=1";
+                dmnSearch.OrderBy = "order by pr.Id desc ";
+                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_item.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
@@ -64,24 +78,24 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgv_item.Rows[i].Cells[slno].Value = i + 1;
-                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].ItemId;
-                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Itemname;
-                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].CategoryName;
-                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].UnitName;
-                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].quantity;
-                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Prate;
-                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Srate;
-                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].MRP;
-                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Tax;
-                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].TaxType;
-                        if(itemSource[i].TaxType=="GST")                        
-                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].IgstPrcnt;
+                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].Field1;
+                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Field2;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Field16;
+                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].Field3;
+                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].Field4;
+                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Field5;
+                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Field6;
+                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].Field7;
+                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Field8;
+                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].Field9;
+                        if (itemSource[i].Field9 == "GST")
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field10;
                         else
-                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].VatPrcnt;
-                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].summary;
-                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Status);
-                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].unit;
-                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Fcid;
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field11;
+                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].Field12;
+                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
                     }
                 }
             }
@@ -102,10 +116,15 @@ namespace FoodandBeverage.Forms
                 objSearch.Table = " tblCategory_FTI";
                 objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(2) ";
                 objSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                cmb_inc_categ.DataSource = gridSource;
+                gridSource_itemcate = bllSearch.GetSearchData("prdComboFill", objSearch);
+
+                cmb_inc_categ.DataSource = gridSource_itemcate;
                 cmb_inc_categ.ValueMember = "Id";
                 cmb_inc_categ.DisplayMember = "Value";
+
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(0) ";
+                objSearch.OrderBy = "";
+                gridSource_Foodcate = bllSearch.GetSearchData("prdComboFill", objSearch);
 
                 objSearch.Select = " UId,UnitName";
                 objSearch.Table = " tblUnit";
@@ -1087,7 +1106,27 @@ namespace FoodandBeverage.Forms
            pnlPrRates.Visible = false;
         }
 
+        private void rdb_dsale_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdb_dsale.Checked)
+            {
+                cmb_inc_categ.DataSource =null;
+                cmb_inc_categ.DataSource = gridSource_Foodcate;
+                cmb_inc_categ.ValueMember = "Id";
+                cmb_inc_categ.DisplayMember = "Value";
+            }
+;
+        }
 
-       
+        private void rdb_notsale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdb_notsale.Checked)
+            {
+                cmb_inc_categ.DataSource = null;
+                cmb_inc_categ.DataSource = gridSource_itemcate;
+                cmb_inc_categ.ValueMember = "Id";
+                cmb_inc_categ.DisplayMember = "Value";
+            }
+        }
     }
 }

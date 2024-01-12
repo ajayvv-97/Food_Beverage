@@ -863,28 +863,44 @@ namespace FoodandBeverage.Forms
 
         private void dgvProduct_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter)
+            try
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
-            }
-            else if (e.KeyData == Keys.F8 && dgvProduct.CurrentCell.ColumnIndex == iname)
-            {
-                //lblToolTipPopup.Visible = false;
-                purchasepop();///Convert.ToInt32(mcmbbranch.SelectedValue);
-            }
-            else if (e.KeyData == Keys.Delete)
-            {
-                if (dgvProduct.Rows.Count == 0)
-                    dgvProduct.Rows.Add();
-                else
+                if (e.KeyData == Keys.Enter)
                 {
-                    dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
+                    e.SuppressKeyPress = true;
+                    SendKeys.Send("{TAB}");
+                }
+                else if (e.KeyData == Keys.F8 && dgvProduct.CurrentCell.ColumnIndex == iname)
+                {
+                    //lblToolTipPopup.Visible = false;
+                    purchasepop();///Convert.ToInt32(mcmbbranch.SelectedValue);
+                }
+                else if (e.KeyData == Keys.Delete)
+                {
                     if (dgvProduct.Rows.Count == 0)
                         dgvProduct.Rows.Add();
+                    else
+                    {
+                        dgvProduct.Rows.RemoveAt(dgvProduct.CurrentCell.RowIndex);
+                        if (dgvProduct.Rows.Count == 0)
+                            dgvProduct.Rows.Add();
+                    }
+                    if(dgvProduct.RowCount >0)
+                    {
+                        for (int i = 0; i < dgvProduct.RowCount; i++)
+                        {
+                            dgvProduct.Rows[i].Cells[islno].Value = i + 1;
+                        }
+                    }
+
+
                 }
+            }
+            catch(Exception ex)
+            {
 
             }
+    
         }
         public void purchasepop()
         {
@@ -897,7 +913,7 @@ namespace FoodandBeverage.Forms
             dmnSearch.Select = "i.Itemname as Field1,(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field2,(Select Sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field3,i.ItemId as Field4,c.CategoryName as Field5";
             dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
             dmnSearch.WhereNdGroupBy = "where i.Status=1";// and LocationId =" + BranchId;
-            dmnSearch.OrderBy = " ";
+            dmnSearch.OrderBy = "order by c.CategoryName ";
             var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource.Count > 0)
             {

@@ -101,6 +101,7 @@ namespace FoodandBeverage.Forms
         public static int cvatamt = 19;
         public static int cmarketprice = 20;
         public static int Cbarcode = 21;
+        public static int Ctabletype = 22; 
 
         #endregion
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
@@ -210,6 +211,24 @@ namespace FoodandBeverage.Forms
                 else if (BookingType == 3)
                 {
                     int count = checkedtableNames.Count;
+                    if (pnlsidebar_searchproduct.Visible)
+                    {
+                        pnlsidebar_searchproduct.Visible = false;
+                        tlp_food_cate.Visible = false;
+
+                        tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.AutoSize);
+                        tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                        tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+                        textb_shape();
+
+                    }
+                    
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    tlp_orderid_tbcode.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,5);
+                    tlp_orderid_tbcode.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,95);
+                    tlp_orderid_tbcode.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+                    tlp_orderid_tbcode.ColumnStyles[3] = new ColumnStyle(SizeType.AutoSize);
                     Combined_Tables();
                     Combined_Table_Bill();
                 }
@@ -455,6 +474,7 @@ namespace FoodandBeverage.Forms
                 tlp_seletedItem_main.Controls.Clear();
                 txtGrandTotal.Text = "0";
                 lbltablecode.Text = string.Empty;
+
                 for (int k = 0; k < checkedtableNames.Count; k++)
                 {
                     lbltablecode.Text += "  " + Convert.ToString(checkedtableNames[k].Tablecode);
@@ -484,7 +504,6 @@ namespace FoodandBeverage.Forms
                     if (gridSourcemaster_combined.Count > 0)
                     {
                         ordercount = 0;
-                        OrderRunning_Status = true;
                         //lblorderid.Text = Convert.ToString(gridSourcemaster_combined[0].OrderMasterId);
                         //label18.Text = Convert.ToString(gridSourcemaster_combined[0].OrderMasterId);
                         //label25.Text = Convert.ToString(gridSourcemaster_combined[0].OrderMasterId);
@@ -684,20 +703,19 @@ namespace FoodandBeverage.Forms
                         pnlboxend.Height = 15;
                         pnlboxend.Margin = new Padding(0, 5, 0, 5);
                         tlp_seletedItem_main.Controls.Add(pnlboxend);
-                        #endregion
-
-                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                        btn_print_bill.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-                        btn_saveKOT.Visible = false;
-                        btn_print_bill.Visible = true;
-
-                        netAmount();
-                    }
+                        #endregion                
+                    }        
                 }
+                tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
+                btn_print_bill.Dock = DockStyle.Left;
+                //tlp_buttons.Controls.Add(btn_refresh, 2, 0);
+                //btn_refresh.Dock = DockStyle.Left;
+                tlp_buttons.Controls.Add(btn_frm_close, 2, 0);
+                btn_frm_close.Dock = DockStyle.Left;
+                btn_saveKOT.Visible = false;
+                btn_refresh.Visible = false;
+                btn_print_bill.Visible = true;
+                netAmount();
             }
             catch (Exception ex)
             {
@@ -4572,12 +4590,15 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                pnlsidebar_searchproduct.Visible = true;
-                tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,27.22F);
-                tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,6.50f);
-                tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.Percent,66.21f);
-                tlp_food_cate.Visible = true;
-                textb_shape();
+                if (checkedtableNames.Count == 0)
+                {
+                    pnlsidebar_searchproduct.Visible = true;
+                    tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 27.22F);
+                    tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 6.50f);
+                    tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 66.21f);
+                    tlp_food_cate.Visible = true;
+                    textb_shape();
+                }
             }
         }
         #region TexBox Round function
@@ -5336,10 +5357,18 @@ namespace FoodandBeverage.Forms
             //ChangeRowColor(tlp_payment_main, 0, Color.White);
             //ChangeRowColor(tlp_payment_main, 1, Color.White);
 
-            //ChangeRowColor(tlp_payment_main, 2, Color.CornflowerBlue);
-            //ChangeRowColor(tlp_payment_main, 3, Color.CornflowerBlue);
-            //ChangeRowColor(tlp_payment_main, 4, Color.CornflowerBlue);
-            //ChangeRowColor(tlp_payment_main, 5, ColorTranslator.FromHtml("#205072"));
+                //ChangeRowColor(tlp_payment_main, 2, Color.CornflowerBlue);
+                //ChangeRowColor(tlp_payment_main, 3, Color.CornflowerBlue);
+                //ChangeRowColor(tlp_payment_main, 4, Color.CornflowerBlue);
+                //ChangeRowColor(tlp_payment_main, 5, ColorTranslator.FromHtml("#205072"));
+
+
+                pnlsidebar_searchproduct.Visible = true;
+                tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 27.22F);
+                tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 6.50f);
+                tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 66.21f);
+                tlp_food_cate.Visible = true;
+                textb_shape();           
 
             if (OrderRunning_Status)
             {
@@ -5545,7 +5574,7 @@ namespace FoodandBeverage.Forms
                                 bool valueExists = false;
                                 foreach (DataGridViewRow row in dgv_combined.Rows)
                                 {
-                                    if (Convert.ToString(row.Cells[vname].Value) == gridSourcemaster_combined[i].ItemName
+                                    if (Convert.ToInt32(row.Cells[Ctabletype].Value) == gridSourcemaster_combined[i].TableType
                                         && Convert.ToInt32(row.Cells[citemid].Value) == gridSourcemaster_combined[i].ItemId)
                                     {
                                         valueExists = true;
@@ -5588,6 +5617,7 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[cvatamt].Value = gridSourcemaster_combined[i].VATAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cmarketprice].Value = gridSourcemaster_combined[i].MarketPrice;
                                     dgv_combined.Rows[rowIndex].Cells[Cbarcode].Value = gridSourcemaster_combined[i].ItemBarCode;
+                                    dgv_combined.Rows[rowIndex].Cells[Ctabletype].Value = gridSourcemaster_combined[i].TableType;
                                 }
                             }
                         }
@@ -5662,7 +5692,6 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.Promostatus = 0;
                         }
 
-
                         TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
                         for (int i = 0; i < dgv_combined.RowCount; i++)
                         {
@@ -5685,12 +5714,12 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.TotalVAT = TotalVAT;
                         dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                         ////dmnsalemaster.mDevice = clsGeneral.FetchMacId();
-                        ///                        //dmnsalemaster.Remark = txtRemark.Text; 
+                        //dmnsalemaster.Remark = txtRemark.Text; 
                         dmnsalemaster.BranchId = FrmDashboard.BranchId;
                         dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
                         dmnsalemaster.CreatedBy = 1;
                         dmnsalemaster.Status = 1;
-
+                        dmnsalemaster.CombinedOrderBill_TYPE = 1;
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                         if (InsertStatusP.SalesMasterId != 0)
                         {
@@ -5715,8 +5744,22 @@ namespace FoodandBeverage.Forms
 
                             if (dgv_combined.RowCount > 0)
                             {
+                                for (int k = 0; k < checkedtableNames.Count; k++)
+                                {
+                                    DmnCombinedOrderBill CombinedOrderBill = new DmnCombinedOrderBill();
+                                    BllCombinedOrderBill bllCombinedOrderBill = new BllCombinedOrderBill();
+                                    CombinedOrderBill.Cbid = 0;
+                                    CombinedOrderBill.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId); ;
+                                    CombinedOrderBill.OrderMasterID = Convert.ToInt32(checkedtableNames[k].Ordermasterid); 
+                                    CombinedOrderBill.Tid = Convert.ToInt32(checkedtableNames[k].Id);
+                                    CombinedOrderBill.BranchId = FrmDashboard.BranchId;
+                                    CombinedOrderBill.CreatedBy = FrmDashboard.UserId;
+                                    CombinedOrderBill.Status = 1;
+                                    var InsertStatus_cbill = bllCombinedOrderBill.AddCombinedOrderBill("prdInsert_CombinedOrderBill", CombinedOrderBill);
 
-                                for (int i = 0; i < dgv_combined.RowCount; i++)
+                                }
+
+                                    for (int i = 0; i < dgv_combined.RowCount; i++)
                                 {
                                     if (Convert.ToInt32(dgv_combined.Rows[i].Cells[citemid].Value) > 0)
                                     {
@@ -5744,6 +5787,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.SGSTAmount = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cSgstamt].Value);
                                         dmnsaledetails.VatAmount = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cvatamt].Value);
                                         dmnsaledetails.MarketPrice = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cmarketprice].Value);
+                                        dmnsaledetails.TableType = Convert.ToInt32(dgv_combined.Rows[i].Cells[Ctabletype].Value);
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                         dmnsaledetails.CreatedBy = 1;
                                         dmnsaledetails.Status = 1;
@@ -5820,6 +5864,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
                         dmnsalemaster.CreatedBy = 1;
                         dmnsalemaster.Status = 1;
+                        dmnsalemaster.CombinedOrderBill_TYPE = 0;
                         FinalTax();
                         //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
                         dmnsalemaster.TotalTax = TotalTax;
@@ -5884,7 +5929,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
                                         dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
                                         dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
-
+                                        dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                         dmnsaledetails.CreatedBy = 1;
                                         dmnsaledetails.Status = 1;

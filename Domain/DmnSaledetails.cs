@@ -42,7 +42,8 @@ namespace Domain
         public int itemid { get; set; }
         public string ItemBarcode { get; set; }
         public decimal MarketPrice { get; set; }
-        
+        public int TableType { get; set; }
+
 
 
     }    

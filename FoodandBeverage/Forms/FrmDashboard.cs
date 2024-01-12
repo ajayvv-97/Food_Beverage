@@ -864,20 +864,27 @@ namespace FoodandBeverage.Forms
             try
             {
                 CheckBox checkBox = (CheckBox)sender;
-                if (checkBox.Checked)
+                string textvalue = checkBox.AccessibleDescription;
+                string[] parts = textvalue.Split(',');
+                int omasterid = 0, tid = 0;
+                if (parts.Length >= 2)
                 {
+                    omasterid  = Convert.ToInt32(parts[0]);
+                    tid = Convert.ToInt32(parts[1]);
+                }
+                if (checkBox.Checked)
+                {                
                     CheckedtableNames.Add(new Namelist
                     {
-                        //Id = Convert.ToInt32(checkBox.Tag),
-                        Ordermasterid = Convert.ToInt32(checkBox.AccessibleDescription),
+                        Id = tid,
+                        Ordermasterid = omasterid,
                         Tablecode = Convert.ToString(checkBox.Tag)
 
                     });
                 }
                 else
                 {
-                    int idToRemove = Convert.ToInt32(checkBox.AccessibleDescription);
-                    Namelist itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == idToRemove);
+                    Namelist itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
                     if (itemToRemove != null)
                     {
                         CheckedtableNames.Remove(itemToRemove);
@@ -1438,6 +1445,7 @@ namespace FoodandBeverage.Forms
                 tlp_compl_pre_bill.Controls.Remove(controlToRemove);
                 tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
                 tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                pnl_empty_msg.Visible = false;
                 pnl_complebill_prevbill.Visible = true;
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -1549,7 +1557,7 @@ namespace FoodandBeverage.Forms
 
                                         CheckBox chkBox_sele = new CheckBox();
                                         chkBox_sele.Name = "chkBox_com" + gridSource[i].TableCode;
-                                        chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId);
+                                        chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId)+","+ gridSource[i].Tid;
                                         chkBox_sele.Tag = gridSource[i].TableCode;
                                         chkBox_sele.BackColor = Color.Transparent;
                                         chkBox_sele.Text = "";
@@ -1630,10 +1638,7 @@ namespace FoodandBeverage.Forms
                             tlp_table_dashboard.Controls.RemoveAt(current_rowIndex_cate);
                             tlp_table_dashboard.Controls.Remove(tlp_category);
                         }
-
-
                     }
-
 
                     //tlp_table_dashboard.BorderStyle = BorderStyle.FixedSingle;
                     tlp_table_dashboard_main.Controls.Add(tlp_table_dashboard, 0, 1);
@@ -1641,6 +1646,15 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
                     #endregion
+                }
+                else
+                {
+                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
+                    pnl_empty_msg.Dock = DockStyle.Fill;
+                    pnl_empty_msg.Visible = true;
+                    btn_prevbill.PerformClick();
                 }
             }
             catch (Exception ex)
@@ -3386,12 +3400,14 @@ namespace FoodandBeverage.Forms
             panelDesktop.Controls.Clear();
             panelDesktop.Controls.Add(pnl_complebill_prevbill);
             pnl_complebill_prevbill.Dock = DockStyle.Fill;
+
             Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
             tlp_compl_pre_bill.Controls.Remove(controlToRemove);
             tlp_compl_pre_bill.Controls.Add(pnl_previous_bill, 0, 1);
             tlp_compl_pre_bill.Dock = DockStyle.Fill;
             pnl_previous_bill.Dock = DockStyle.Fill;
             pnl_previous_bill.Visible = true;
+            pnl_empty_msg.Visible = false;
 
             btn_backCompleorder.Visible = true;
             btn_prevbill.Visible = false;
@@ -3462,6 +3478,15 @@ namespace FoodandBeverage.Forms
 
                         rowIndex++;
                     }
+                }
+                else
+                {
+
+                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
+                    pnl_empty_msg.Dock = DockStyle.Fill;
+                    pnl_empty_msg.Visible = true;
                 }
 
                 #endregion

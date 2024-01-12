@@ -43,7 +43,8 @@ namespace BLL
             parms.Add("Promostatus", objTestClass.Promostatus);
             parms.Add("Tid", objTestClass.Tid);
             parms.Add("OrderMasterid", objTestClass.OrderMasterid);
-            parms.Add("PromoAmount", objTestClass.PromoAmount); 
+            parms.Add("PromoAmount", objTestClass.PromoAmount);
+            parms.Add("CombinedOrderBill_TYPE", objTestClass.CombinedOrderBill_TYPE); 
              var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }
@@ -97,8 +98,9 @@ namespace BLL
             parms.Add("ItemBarcode", objTestClass.ItemBarcode);
             parms.Add("TaxPer", objTestClass.TaxPer);
             parms.Add("TaxAmount", objTestClass.TaxAmount);
-            parms.Add("MarketPrice", objTestClass.MarketPrice); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("MarketPrice", objTestClass.MarketPrice);
+            parms.Add("TableType", objTestClass.TableType);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;      
               
         }
