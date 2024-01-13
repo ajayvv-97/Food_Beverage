@@ -49,8 +49,7 @@ namespace FoodandBeverage.Interfaces
             Exclusive = 0,
             Inclusive = 1
 
-        };
-        
+        };       
 
         public enum ButtonConfig
         {

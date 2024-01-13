@@ -387,6 +387,7 @@ namespace FoodandBeverage.Forms
             this.VatAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MarketPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comtabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.se_orderdetailsid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -1508,7 +1509,8 @@ namespace FoodandBeverage.Forms
             this.offerstatus,
             this.originalprice,
             this.subofferid,
-            this.tabletype});
+            this.tabletype,
+            this.se_orderdetailsid});
             dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1519,7 +1521,7 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.DefaultCellStyle = dataGridViewCellStyle20;
             this.Dgv_Selected_Item.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_Selected_Item.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.Dgv_Selected_Item.Location = new System.Drawing.Point(3, 40);
+            this.Dgv_Selected_Item.Location = new System.Drawing.Point(3, 73);
             this.Dgv_Selected_Item.Name = "Dgv_Selected_Item";
             this.Dgv_Selected_Item.ReadOnly = true;
             this.Dgv_Selected_Item.RowHeadersVisible = false;
@@ -1528,7 +1530,7 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.Dgv_Selected_Item.RowTemplate.Height = 30;
             this.Dgv_Selected_Item.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.Dgv_Selected_Item.Size = new System.Drawing.Size(964, 460);
+            this.Dgv_Selected_Item.Size = new System.Drawing.Size(964, 851);
             this.Dgv_Selected_Item.TabIndex = 182;
             // 
             // Slno
@@ -1958,12 +1960,12 @@ namespace FoodandBeverage.Forms
             this.tlp_gridview.Controls.Add(this.btn_gridview_close, 1, 0);
             this.tlp_gridview.Controls.Add(this.Dgv_Selected_Item, 0, 1);
             this.tlp_gridview.Controls.Add(this.pnl_header_gridview, 0, 0);
-            this.tlp_gridview.Location = new System.Drawing.Point(40, 555);
+            this.tlp_gridview.Location = new System.Drawing.Point(40, 131);
             this.tlp_gridview.Name = "tlp_gridview";
             this.tlp_gridview.RowCount = 2;
             this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.554672F));
             this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.44533F));
-            this.tlp_gridview.Size = new System.Drawing.Size(1018, 503);
+            this.tlp_gridview.Size = new System.Drawing.Size(1018, 927);
             this.tlp_gridview.TabIndex = 0;
             this.tlp_gridview.Visible = false;
             this.tlp_gridview.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_gridview_Paint);
@@ -1986,7 +1988,7 @@ namespace FoodandBeverage.Forms
             this.pnl_header_gridview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_header_gridview.Location = new System.Drawing.Point(3, 3);
             this.pnl_header_gridview.Name = "pnl_header_gridview";
-            this.pnl_header_gridview.Size = new System.Drawing.Size(964, 31);
+            this.pnl_header_gridview.Size = new System.Drawing.Size(964, 64);
             this.pnl_header_gridview.TabIndex = 183;
             this.pnl_header_gridview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_header_gridview_MouseDown);
             this.pnl_header_gridview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_header_gridview_MouseMove);
@@ -3775,7 +3777,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 499F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 501F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3791,7 +3793,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(231, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(229, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -3810,7 +3812,7 @@ namespace FoodandBeverage.Forms
             "None"});
             this.cmb_itemcategory_split.Location = new System.Drawing.Point(45, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(180, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(178, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button
@@ -4301,11 +4303,19 @@ namespace FoodandBeverage.Forms
             this.comtabletype.ReadOnly = true;
             this.comtabletype.Visible = false;
             // 
+            // se_orderdetailsid
+            // 
+            this.se_orderdetailsid.HeaderText = "Orderdetailsid";
+            this.se_orderdetailsid.Name = "se_orderdetailsid";
+            this.se_orderdetailsid.ReadOnly = true;
+            this.se_orderdetailsid.Visible = false;
+            // 
             // FrmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 557);
+            this.Controls.Add(this.tlp_gridview);
             this.Controls.Add(this.pnl_partpayment);
             this.Controls.Add(this.dgv_combined);
             this.Controls.Add(this.tlp_payment_option);
@@ -4330,7 +4340,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.txtordermasterid);
             this.Controls.Add(this.txttotalQTY);
             this.Controls.Add(this.txtGrandTotal);
-            this.Controls.Add(this.tlp_gridview);
             this.Controls.Add(this.tlp_sample_sele_product);
             this.Controls.Add(this.pnl_tableorder);
             this.DoubleBuffered = true;
@@ -4709,5 +4718,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn VatAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn MarketPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn comtabletype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn se_orderdetailsid;
     }
 }

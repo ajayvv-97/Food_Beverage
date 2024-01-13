@@ -467,6 +467,7 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
             SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
             SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight); 
+
            // SetRoundedButton(ib_Category, 70);
             //SetRoundedButton(ib_Item, 70);
             //SetRoundedButton(ib_ingrediant, 70);
@@ -584,7 +585,6 @@ namespace FoodandBeverage.Forms
                 {
                     if(gridSource[j].EndDate !=null && gridSource[j].Field7 !=null && Convert.ToInt32(gridSource[j].Field7) >1)
                     {
-
                         DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                         if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes) ) ))
                         {
@@ -767,7 +767,8 @@ namespace FoodandBeverage.Forms
                                     pnl_box.Controls.Add(dynamic_pic);
                                     dynamic_pic.BringToFront();
                                     dynamic_pic.Margin = new Padding(20, 10, 0, 0);
-                                    dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+                                    dynamic_pic.Click += new EventHandler(
+                                        tableClickEventHandler);
                                     if(Convert.ToInt32(gridSource[i].Field6)>0)
                                     {
                                         BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
@@ -794,11 +795,11 @@ namespace FoodandBeverage.Forms
                                         if ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[i].EndDate.AddMinutes(AddMinutes)))
                                         {
                                             //CheckexpireTable(Convert.ToInt32(gridSource[i].Field3));
-                                            tlp_table_inner.AccessibleDescription = "0";
-                                            pictureBox.AccessibleDescription = "0";
-                                            lbltablename.AccessibleDescription = "0";
-                                            pnl_box.AccessibleDescription = "0";
-                                            dynamic_pic.AccessibleDescription = "0";
+                                            tlp_table_inner.AccessibleDescription = "2," + gridSource[i].Field7;
+                                            pictureBox.AccessibleDescription = "2," + gridSource[i].Field7;
+                                            lbltablename.AccessibleDescription = "2," + gridSource[i].Field7;
+                                            pnl_box.AccessibleDescription = "2," + gridSource[i].Field7;
+                                            dynamic_pic.AccessibleDescription = "2," + gridSource[i].Field7;
                                             dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserved_icon;
                                         }
                                         else
@@ -1073,6 +1074,7 @@ namespace FoodandBeverage.Forms
                         _instanceFrmOrder.Show();
                         _instanceFrmOrder.BringToFront();
                     }
+                    
                 }
             }
             catch (Exception ex)
