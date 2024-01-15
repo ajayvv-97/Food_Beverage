@@ -13,6 +13,7 @@ namespace BLL
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
             //parms.Add("Customer", objTestClass.CustomerId);
             //parms.Add("Address", objTestClass.Address);
@@ -32,6 +33,7 @@ namespace BLL
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
             //parms.Add("Customer", objTestClass.CustomerId);
             //parms.Add("Address", objTestClass.Address);
@@ -83,6 +85,7 @@ namespace BLL
             parms.Add("VATAmount", objTestClass.VATAmount);
             parms.Add("TableType", objTestClass.TableType);
             parms.Add("MarketPrice", objTestClass.MarketPrice);
+            parms.Add("BookingFlag", objTestClass.BookingFlag);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

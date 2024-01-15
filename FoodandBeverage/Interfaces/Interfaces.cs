@@ -173,5 +173,10 @@ namespace FoodandBeverage.Interfaces
         AllLocationAccess = 24
 
         };
-    
+    public enum DashboardTableType
+    {
+        Normalorder = 0,
+        Reverse_overtime_Cancel = 1,
+        Reserved_Table=2
+    };
 }

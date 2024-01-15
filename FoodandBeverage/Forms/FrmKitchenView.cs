@@ -141,7 +141,7 @@ namespace FoodandBeverage.Forms
 
                     foreach (var orders in distinctOrders)
                     { 
-                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,od.tabletype Field13";
+                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +

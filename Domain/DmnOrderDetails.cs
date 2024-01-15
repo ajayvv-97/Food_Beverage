@@ -45,9 +45,6 @@ namespace Domain
         public int ProductType { get; set; }
         public int TableType { get; set; }
         public decimal MarketPrice { get; set; }
-        
-
-
-
+        public int BookingFlag { get; set; }     
     }
 }

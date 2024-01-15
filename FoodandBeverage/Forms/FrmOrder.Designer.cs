@@ -213,8 +213,6 @@ namespace FoodandBeverage.Forms
             this.tlp_sample_sele_product = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tlp_gridview = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_gridview_close = new System.Windows.Forms.Button();
-            this.pnl_header_gridview = new System.Windows.Forms.Panel();
             this.txttotalQTY = new System.Windows.Forms.TextBox();
             this.txtordermasterid = new System.Windows.Forms.TextBox();
             this.tlp_promo_code = new System.Windows.Forms.TableLayoutPanel();
@@ -387,7 +385,8 @@ namespace FoodandBeverage.Forms
             this.VatAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MarketPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comtabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.se_orderdetailsid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_gridview_close = new System.Windows.Forms.Button();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -444,6 +443,7 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav.SuspendLayout();
             this.pnl_split_itemwise.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_combined)).BeginInit();
+            this.tableLayoutPanel10.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_tableorder
@@ -1509,8 +1509,7 @@ namespace FoodandBeverage.Forms
             this.offerstatus,
             this.originalprice,
             this.subofferid,
-            this.tabletype,
-            this.se_orderdetailsid});
+            this.tabletype});
             dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1521,7 +1520,7 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.DefaultCellStyle = dataGridViewCellStyle20;
             this.Dgv_Selected_Item.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_Selected_Item.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.Dgv_Selected_Item.Location = new System.Drawing.Point(3, 73);
+            this.Dgv_Selected_Item.Location = new System.Drawing.Point(3, 40);
             this.Dgv_Selected_Item.Name = "Dgv_Selected_Item";
             this.Dgv_Selected_Item.ReadOnly = true;
             this.Dgv_Selected_Item.RowHeadersVisible = false;
@@ -1530,7 +1529,7 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.Dgv_Selected_Item.RowTemplate.Height = 30;
             this.Dgv_Selected_Item.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.Dgv_Selected_Item.Size = new System.Drawing.Size(964, 851);
+            this.Dgv_Selected_Item.Size = new System.Drawing.Size(983, 385);
             this.Dgv_Selected_Item.TabIndex = 182;
             // 
             // Slno
@@ -1954,44 +1953,19 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_gridview
             // 
-            this.tlp_gridview.ColumnCount = 2;
-            this.tlp_gridview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.3831F));
-            this.tlp_gridview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.616896F));
-            this.tlp_gridview.Controls.Add(this.btn_gridview_close, 1, 0);
+            this.tlp_gridview.ColumnCount = 1;
+            this.tlp_gridview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_gridview.Controls.Add(this.tableLayoutPanel10, 0, 0);
             this.tlp_gridview.Controls.Add(this.Dgv_Selected_Item, 0, 1);
-            this.tlp_gridview.Controls.Add(this.pnl_header_gridview, 0, 0);
-            this.tlp_gridview.Location = new System.Drawing.Point(40, 131);
+            this.tlp_gridview.Location = new System.Drawing.Point(15, 110);
             this.tlp_gridview.Name = "tlp_gridview";
             this.tlp_gridview.RowCount = 2;
-            this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.554672F));
-            this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.44533F));
-            this.tlp_gridview.Size = new System.Drawing.Size(1018, 927);
+            this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_gridview.Size = new System.Drawing.Size(989, 428);
             this.tlp_gridview.TabIndex = 0;
             this.tlp_gridview.Visible = false;
             this.tlp_gridview.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_gridview_Paint);
-            // 
-            // btn_gridview_close
-            // 
-            this.btn_gridview_close.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
-            this.btn_gridview_close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_gridview_close.FlatAppearance.BorderSize = 0;
-            this.btn_gridview_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_gridview_close.Location = new System.Drawing.Point(973, 3);
-            this.btn_gridview_close.Name = "btn_gridview_close";
-            this.btn_gridview_close.Size = new System.Drawing.Size(42, 31);
-            this.btn_gridview_close.TabIndex = 0;
-            this.btn_gridview_close.UseVisualStyleBackColor = true;
-            this.btn_gridview_close.Click += new System.EventHandler(this.btn_gridview_close_Click);
-            // 
-            // pnl_header_gridview
-            // 
-            this.pnl_header_gridview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_header_gridview.Location = new System.Drawing.Point(3, 3);
-            this.pnl_header_gridview.Name = "pnl_header_gridview";
-            this.pnl_header_gridview.Size = new System.Drawing.Size(964, 64);
-            this.pnl_header_gridview.TabIndex = 183;
-            this.pnl_header_gridview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_header_gridview_MouseDown);
-            this.pnl_header_gridview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_header_gridview_MouseMove);
             // 
             // txttotalQTY
             // 
@@ -3777,7 +3751,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 501F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 504F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3793,7 +3767,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(229, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(226, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -3810,9 +3784,9 @@ namespace FoodandBeverage.Forms
             this.cmb_itemcategory_split.FormattingEnabled = true;
             this.cmb_itemcategory_split.Items.AddRange(new object[] {
             "None"});
-            this.cmb_itemcategory_split.Location = new System.Drawing.Point(45, 3);
+            this.cmb_itemcategory_split.Location = new System.Drawing.Point(44, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(178, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(176, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button
@@ -4303,12 +4277,37 @@ namespace FoodandBeverage.Forms
             this.comtabletype.ReadOnly = true;
             this.comtabletype.Visible = false;
             // 
-            // se_orderdetailsid
+            // tableLayoutPanel10
             // 
-            this.se_orderdetailsid.HeaderText = "Orderdetailsid";
-            this.se_orderdetailsid.Name = "se_orderdetailsid";
-            this.se_orderdetailsid.ReadOnly = true;
-            this.se_orderdetailsid.Visible = false;
+            this.tableLayoutPanel10.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel10.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel10.ColumnCount = 3;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.Controls.Add(this.btn_gridview_close, 2, 0);
+            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 1;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(983, 31);
+            this.tableLayoutPanel10.TabIndex = 185;
+            // 
+            // btn_gridview_close
+            // 
+            this.btn_gridview_close.BackColor = System.Drawing.Color.White;
+            this.btn_gridview_close.FlatAppearance.BorderSize = 0;
+            this.btn_gridview_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_gridview_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_gridview_close.ForeColor = System.Drawing.Color.Red;
+            this.btn_gridview_close.Location = new System.Drawing.Point(954, 4);
+            this.btn_gridview_close.Name = "btn_gridview_close";
+            this.btn_gridview_close.Size = new System.Drawing.Size(25, 25);
+            this.btn_gridview_close.TabIndex = 10;
+            this.btn_gridview_close.Text = "X";
+            this.btn_gridview_close.UseVisualStyleBackColor = false;
+            this.btn_gridview_close.Click += new System.EventHandler(this.btn_gridview_close_Click);
             // 
             // FrmOrder
             // 
@@ -4424,6 +4423,7 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav.ResumeLayout(false);
             this.pnl_split_itemwise.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_combined)).EndInit();
+            this.tableLayoutPanel10.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4473,8 +4473,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_top_controls;
         private System.Windows.Forms.Button btn_sleteted_list_gridview;
         private System.Windows.Forms.TableLayoutPanel tlp_gridview;
-        private System.Windows.Forms.Button btn_gridview_close;
-        private System.Windows.Forms.Panel pnl_header_gridview;
         private System.Windows.Forms.Label lblheader_product_des;
         private System.Windows.Forms.TableLayoutPanel tlp_calculation_main;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -4524,38 +4522,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_grid_existing_close;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btn_show_existing_product;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn barcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Prate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Disc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DiscAmt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaxPerr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pTaxAmt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn itemid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PTax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaxType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pSrate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pMRP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bracode2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taxsettingid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn unitid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn iprid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Product_desc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_sele_igstamt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_sele_vatamt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn orderdetailsid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn offerstatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn originalprice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subofferid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tabletype;
         private System.Windows.Forms.Panel pnlproductviewmore;
         private System.Windows.Forms.TableLayoutPanel tlp_viewmore;
         private System.Windows.Forms.Button btn_close_viewmore;
@@ -4718,6 +4684,39 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn VatAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn MarketPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn comtabletype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn se_orderdetailsid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn barcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Prate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Disc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DiscAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TaxPerr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pTaxAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn itemid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PTax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TaxType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pSrate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pMRP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bracode2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taxsettingid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unitid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iprid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Product_desc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_sele_igstamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_sele_vatamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn orderdetailsid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn offerstatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn originalprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subofferid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tabletype;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
+        private System.Windows.Forms.Button btn_gridview_close;
     }
 }

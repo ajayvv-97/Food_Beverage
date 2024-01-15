@@ -1940,8 +1940,8 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value);
                                     dmnOrderDetails.MarketPrice = Convert.ToInt32(dgvmenu.Rows[i].Cells[imarketprice].Value);
                                     dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
-                                    dmnOrderDetails.DiscountAmount= Convert.ToInt32(dgvmenu.Rows[i].Cells[idisamt].Value);
-                                    dmnOrderDetails.DiscountPer= Convert.ToInt32(dgvmenu.Rows[i].Cells[idisper].Value);
+                                    dmnOrderDetails.DiscountAmount= Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisamt].Value);
+                                    dmnOrderDetails.DiscountPer= Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisper].Value);
                                     dmnOrderDetails.PurchaseRate = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprate].Value);
                                     dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
                                     datadetails = bllOrder.AddDetail("prdInsert_Upd_OrderDetailsUpdate", dmnOrderDetails);
