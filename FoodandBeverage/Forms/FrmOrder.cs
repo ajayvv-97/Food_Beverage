@@ -5731,7 +5731,6 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -5928,6 +5927,7 @@ namespace FoodandBeverage.Forms
                                         _instanceFrmdash.TableStaus(0);
                                     }
                                     ClearAll();
+                                    this.Close();
                                 }
                             }
 
@@ -6072,6 +6072,7 @@ namespace FoodandBeverage.Forms
                                         _instanceFrmdash.TableStaus(0);
                                     }
                                     ClearAll();
+                                    this.Close();
                                 }
                             }
                             #endregion

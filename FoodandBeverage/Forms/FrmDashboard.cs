@@ -753,6 +753,7 @@ namespace FoodandBeverage.Forms
                                     dynamic_pic.BringToFront();
                                     dynamic_pic.Margin = new Padding(20, 10, 0, 0);
                                     dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+                                    dynamic_pic.AccessibleDescription = "0";
                                 }
                                 else
                                 {
