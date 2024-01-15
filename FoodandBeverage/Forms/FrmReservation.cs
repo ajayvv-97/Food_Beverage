@@ -22,7 +22,7 @@ namespace FoodandBeverage.Forms
         ClsGeneral ClsGeneral = new ClsGeneral();
         ClsDocument clsDocument = new ClsDocument();
         long BranchId = 1030;
-
+        public int finalqty = 0;
         public int BookmasterId = 0;
         public FrmReservation()
         {
@@ -1878,6 +1878,10 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.TaxType = Convert.ToString(dgvmenu.Rows[i].Cells[iTaxType].Value);
                                 dmnReservation1.TaxPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iTaxper].Value);
                                 dmnReservation1.TaxAmt = Convert.ToString(dgvmenu.Rows[i].Cells[istaxamt].Value);
+                                dmnReservation1.IGSTAmount= Convert.ToDecimal(dgvmenu.Rows[i].Cells[imgst].Value);
+                                dmnReservation1.CGSTAmount= Convert.ToDecimal(dgvmenu.Rows[i].Cells[icgst].Value);
+                                dmnReservation1.SGSTAmount= Convert.ToDecimal(dgvmenu.Rows[i].Cells[isgst].Value);
+                                dmnReservation1.VATAmount= Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
                                 dmnReservation1.Description = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
                                 dmnReservation1.CreatedBy = 1;
                                 dmnReservation1.BranchId = 1030;
@@ -1889,11 +1893,20 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+                             int sum = 0;
+                        int n = dgvmenu.RowCount;
+                        for (int i = 0; i < n; i++)
+                        {
+                            if (Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) != null && Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) > 0)
+                                sum = sum + Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                        }
+
+
 
                         dmnordermaster.OrderMasterId = 0;
                         dmnordermaster.EntryNo = "";
                         dmnordermaster.BookmasterId= InsertStatusP.BookmasterId;
-                        dmnordermaster.TotalQuantity = 2;
+                        dmnordermaster.TotalQuantity = Convert.ToInt32(sum);
                         dmnordermaster.Remarks = txtRemarks.Text;
                         dmnordermaster.BranchId = FrmDashboard.BranchId;
                         dmnordermaster.CreatedBy = 1;
@@ -2070,7 +2083,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
                 {
-                    objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt ,ts.TaxSettingsId";
+                    objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt ,ts.TaxSettingsId,ItemCode as ItemCode_UPC,CgstPrcnt,SgstPrcnt,p.Fcid ";
                     objSearch.Table = " tblMenu m left join tblProduct p on m.ProductId=p.ProductId " +
                         " left join tblTaxSettings ts on p.TaxSettingsId=ts.TaxSettingsId ";
                     objSearch.WhereNdGroupBy = " where MId =" + dgvItemPop.Rows[r].Cells[0].Value;
@@ -2351,23 +2364,7 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[i].Cells[iqty].Value = qty;
                             dgvmenu.Rows[i].Cells[imprice].Value = price;
                             txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
-                            totalcellamount(i);
-                            //decimal totalSum = 0;
-                            //for (i = 0; i <= dgvmenu.RowCount - 1; i++)
-                            //{
-                            //    if (dgvmenu.Rows[i].Cells[imprice].Value != null)
-                            //    {
-                            //        decimal cellValue;
-                            //        if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
-                            //        {
-                            //            totalSum += cellValue;
-                            //        }
-                            //    }
-                            //}
-
-                            // Display the sum in a TextBox
-                            //lblMTotal.Text = totalSum.ToString();
-
+                            totalcellamount(i); 
                         }
                     }
                     if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)

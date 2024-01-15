@@ -72,10 +72,10 @@ namespace BLL
             parms.Add("TaxType", objTestClass.TaxType);
             parms.Add("TaxAmt", objTestClass.TaxAmt);
             parms.Add("TaxPer", objTestClass.TaxPer);
-            parms.Add("IgstPrcnt", objTestClass.IgstPrcnt);
-            parms.Add("CgstPrcnt", objTestClass.CgstPrcnt);
-            parms.Add("SgstPrcnt", objTestClass.SgstPrcnt);
-            parms.Add("VatPrcnt", objTestClass.VatPrcnt);
+            parms.Add("IgstPrcnt", objTestClass.IGSTAmount);
+            parms.Add("CgstPrcnt", objTestClass.CGSTAmount);
+            parms.Add("SgstPrcnt", objTestClass.SGSTAmount);
+            parms.Add("VatPrcnt", objTestClass.VATAmount);
             //parms.Add("RevStatus", objTestClass.RevStatus);
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
