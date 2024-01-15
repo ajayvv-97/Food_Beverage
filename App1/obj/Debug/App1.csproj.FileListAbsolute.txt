@@ -247,3 +247,14 @@ C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.CoreCompileInputs
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.exe
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.pdb
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\bin\Debug\App1.exe.config
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\bin\Debug\App1.exe
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\bin\Debug\App1.pdb
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.AssemblyReference.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.Form1.resources
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.Properties.Resources.resources
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.GenerateResource.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.CopyComplete
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.exe
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.pdb

@@ -1893,7 +1893,7 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.OrderMasterId = 0;
                         dmnordermaster.EntryNo = "";
                         dmnordermaster.BookmasterId= InsertStatusP.BookmasterId;
-                        dmnordermaster.TotalQuantity = Convert.ToInt32(txtqty.Text);
+                        dmnordermaster.TotalQuantity = 2;
                         dmnordermaster.Remarks = txtRemarks.Text;
                         dmnordermaster.BranchId = FrmDashboard.BranchId;
                         dmnordermaster.CreatedBy = 1;
@@ -1933,8 +1933,9 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
                                     dmnOrderDetails.CreatedBy = 1;
                                     dmnOrderDetails.BranchId = 1030;
-                                    dmnOrderDetails.Status = 1;
+                                    dmnOrderDetails.Status = 4;
                                     dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
+                                    dmnOrderDetails.Amount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
                                     dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value);
                                     dmnOrderDetails.ProductType = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
                                     dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value);
@@ -2077,8 +2078,12 @@ namespace FoodandBeverage.Forms
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
                 {
-                    objSearch.Select = "ItemId,Itemname ,i.srate,i.Tax,i.TaxType,IgstPrcnt,VatPrcnt,CgstPrcnt,SgstPrcnt,prate," +
-                        "MRP,unit,ItemCode_UPC,Prid,Fcid,ts.TaxSettingsId ";
+                    objSearch.Select = " ItemId,Itemname ," +
+                        " (select top(1) srate from tblProductRate where ProductId=i.ItemId order by Id desc)Srate ," +
+                        " (select top(1) PRate from tblProductRate where ProductId=i.ItemId order by Id desc)Prate,"+
+                        " (select top(1) MRP from tblProductRate where ProductId=i.ItemId  order by Id desc)MRP,"+
+                        " i.Tax,i.TaxType,IgstPrcnt,VatPrcnt,CgstPrcnt,SgstPrcnt," +
+                        " unit,ItemCode_UPC,Prid,Fcid,ts.TaxSettingsId ";
                     objSearch.Table = "  tblItem i  left join tblTaxSettings ts on i.TaxSettingsId=ts.TaxSettingsId  ";                       
                     objSearch.WhereNdGroupBy = " where ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
@@ -2114,7 +2119,7 @@ namespace FoodandBeverage.Forms
                                 break;
                                 
                             }
-                            totalcellamount(r1);
+                            
                         }
                         //if (gridSource[0].QOH >= qty)
                         //{
@@ -2131,7 +2136,7 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
                             dgvmenu.Rows[r1].Cells[iqty].Value = 1;
                             dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
-                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
+                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iqty].Value);
                             dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Menu);
                             dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
                             dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
@@ -2145,19 +2150,25 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
                             dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
                             dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                            dgvmenu.Rows[r1].Cells[itabletype].Value = 1;
-                            
-                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+
+
+                            //dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
                             dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-                            dgvmenu.Rows[r1].Cells[imarketprice].Value = 0;
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                            totalcellamount(r1);
                         }
                         else
                         {
                             dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
+                            dgvmenu.Rows[i].Cells[imprice].Value = price;
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                            totalcellamount(i);
+                            
 
                         }
-                        totalcellamount(r1);
+                        
                     }
 
                     if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
@@ -2180,7 +2191,7 @@ namespace FoodandBeverage.Forms
 
                         // Display the sum in a TextBox
                         lblMTotal.Text = totalSum.ToString();
-
+                        
                     }
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
@@ -2205,7 +2216,7 @@ namespace FoodandBeverage.Forms
                                 break;
 
                             }
-                            totalcellamount(r1);
+                            
                         }
                         if (flag == true)
                         {
@@ -2229,23 +2240,28 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
                             dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
                             dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                            dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
                             dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
                             dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
                             dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
                             dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
                             dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                            dgvmenu.Rows[r1].Cells[itabletype].Value = 2;
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
                             
                             dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-                            dgvmenu.Rows[r1].Cells[imarketprice].Value = 0;
-                           
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                            totalcellamount(r1);
 
                         }
                         else
                         {
                             dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iqty].Value);
-
+                            
+                            dgvmenu.Rows[i].Cells[imprice].Value = price;
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                            totalcellamount(i);
+                            
                         }
                       
                     }
@@ -2254,8 +2270,7 @@ namespace FoodandBeverage.Forms
                         // Specify the column index for which you want to calculate the sum
 
 
-                        dgvmenu.Rows[r1].Cells[istaxamt].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iTaxper].Value) / 100;
-                        totalcellamount(r1);
+                        
                         decimal totalSum = 0;
                         int i = 0;
                         for (i = 0; i <= dgvmenu.RowCount - 1; i++)
@@ -2272,7 +2287,7 @@ namespace FoodandBeverage.Forms
 
                         // Display the sum in a TextBox
                         lblMTotal.Text = totalSum.ToString();
-                        txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                        
                     }
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
@@ -2292,7 +2307,7 @@ namespace FoodandBeverage.Forms
                                 qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
                                 price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
 
-                                totalcellamount(r1);
+                                
                                 break;
                             }
                             
@@ -2312,7 +2327,7 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[idisper].Value = gridSource1[0].Discountper;
                             dgvmenu.Rows[r1].Cells[iqty].Value = 1;
                             dgvmenu.Rows[r1].Cells[iqtyadd].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[iqty].Value);
-                            dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value ="";
+                            dgvmenu.Rows[r1].Cells[imdescription].Value ="";
                             dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
                             dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Discount_And_Offer);
                             dgvmenu.Rows[r1].Cells[iTax].Value = gridSource1[0].Tax;
@@ -2324,17 +2339,34 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[iprate].Value = 0;
                             dgvmenu.Rows[r1].Cells[imrp].Value = 0;
                             dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource1[0].TaxSettingsId;
-                            
-                                dgvmenu.Rows[r1].Cells[itabletype].Value = 3;
-                            
-
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                            totalcellamount(r1);
 
 
                         }
                         else
                         {
                             dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                            dgvmenu.Rows[i].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[i].Cells[iqty].Value);
+                            dgvmenu.Rows[i].Cells[imprice].Value = price;
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                            totalcellamount(i);
+                            //decimal totalSum = 0;
+                            //for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                            //{
+                            //    if (dgvmenu.Rows[i].Cells[imprice].Value != null)
+                            //    {
+                            //        decimal cellValue;
+                            //        if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
+                            //        {
+                            //            totalSum += cellValue;
+                            //        }
+                            //    }
+                            //}
+
+                            // Display the sum in a TextBox
+                            //lblMTotal.Text = totalSum.ToString();
 
                         }
                     }
@@ -2342,10 +2374,10 @@ namespace FoodandBeverage.Forms
                     {
                         // Specify the column index for which you want to calculate the sum
 
-                        dgvmenu.Rows[r1].Cells[imprice].Value = gridSource1[0].FinalPrice;
+                        
 
 
-                        totalcellamount(r1);
+                        
 
 
                         decimal totalSum = 0;
@@ -2366,7 +2398,7 @@ namespace FoodandBeverage.Forms
                         lblMTotal.Text = totalSum.ToString();
                         
                     }
-                    txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                    
                 }
                 panelProductPopup.Visible = false;
                 //pnlCustHead.Hide();

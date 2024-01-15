@@ -16,9 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodandBeverage", "FoodandB
 		{698B5441-F0B1-4265-A263-47A42DDE0127} = {698B5441-F0B1-4265-A263-47A42DDE0127}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox", "..\..\Downloads\CustomMessageBox\CustomMessageBox.csproj", "{68255BFA-DB01-4583-9578-F9DBD47F37D8}"
-EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Food_Beverage_Setup", "Food_Beverage_Setup\Food_Beverage_Setup.vdproj", "{B53772A3-320E-4CDB-BE94-30804B4D2092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox", "CustomMessageBox\CustomMessageBox.csproj", "{68255BFA-DB01-4583-9578-F9DBD47F37D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,12 +46,12 @@ Global
 		{8AAB5F04-DB5C-4942-9C4B-A2CC09D67951}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AAB5F04-DB5C-4942-9C4B-A2CC09D67951}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AAB5F04-DB5C-4942-9C4B-A2CC09D67951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B53772A3-320E-4CDB-BE94-30804B4D2092}.Debug|Any CPU.ActiveCfg = Debug
+		{B53772A3-320E-4CDB-BE94-30804B4D2092}.Release|Any CPU.ActiveCfg = Release
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B53772A3-320E-4CDB-BE94-30804B4D2092}.Debug|Any CPU.ActiveCfg = Debug
-		{B53772A3-320E-4CDB-BE94-30804B4D2092}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

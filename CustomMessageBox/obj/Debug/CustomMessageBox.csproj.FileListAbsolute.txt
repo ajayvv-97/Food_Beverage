@@ -1,0 +1,38 @@
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe.config
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.pdb
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.GenerateResource.cache
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.exe
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.pdb
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\CustomMessageBox.exe.config
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\CustomMessageBox.exe
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\CustomMessageBox.pdb
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\AYJCardLib.dll
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\AYJ_CardLib_Ul.dll
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\MetroFramework.Design.dll
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\aljo\Desktop\CustomMessageBox\bin\Debug\MetroFramework.dll
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.GenerateResource.cache
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CoreCompileInputs.cache
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CopyComplete
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.exe
+C:\Users\aljo\Desktop\CustomMessageBox\obj\Debug\CustomMessageBox.pdb
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe.config
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.pdb
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\bin\Debug\MetroFramework.dll
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.GenerateResource.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CoreCompileInputs.cache
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CopyComplete
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.exe
+C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.pdb
