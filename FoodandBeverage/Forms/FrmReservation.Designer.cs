@@ -56,6 +56,34 @@ namespace FoodandBeverage.Forms
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.dgvmenu = new System.Windows.Forms.DataGridView();
+            this.Mid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MBookingDetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descriptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Prices = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImTaxper = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FormType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ITaxAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.igst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vatprant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.marketprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taxsettingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtyAdd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.disper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelProductPopup = new System.Windows.Forms.Panel();
             this.dgvItemPop = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -157,34 +185,6 @@ namespace FoodandBeverage.Forms
             this.panel11 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
-            this.Mid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MBookingDetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descriptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Prices = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImTaxper = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FormType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ITaxAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.igst = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vatprant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sgst = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.marketprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taxsettingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.QtyAdd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.discamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.disper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvforms)).BeginInit();
@@ -421,11 +421,176 @@ namespace FoodandBeverage.Forms
             this.dgvmenu.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvmenu_KeyDown);
             this.dgvmenu.Leave += new System.EventHandler(this.dgvmenu_Leave);
             // 
+            // Mid
+            // 
+            this.Mid.HeaderText = "Mid";
+            this.Mid.Name = "Mid";
+            this.Mid.Visible = false;
+            // 
+            // MBookingDetailId
+            // 
+            this.MBookingDetailId.HeaderText = "MBookingDetailId";
+            this.MBookingDetailId.Name = "MBookingDetailId";
+            this.MBookingDetailId.Visible = false;
+            // 
+            // Name
+            // 
+            this.Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Name.HeaderText = "Name";
+            this.Name.Name = "Name";
+            this.Name.ReadOnly = true;
+            // 
+            // Descriptions
+            // 
+            this.Descriptions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Descriptions.HeaderText = "Description";
+            this.Descriptions.Name = "Descriptions";
+            // 
+            // Prices
+            // 
+            this.Prices.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Prices.HeaderText = "Price";
+            this.Prices.Name = "Prices";
+            this.Prices.ReadOnly = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // ImTaxper
+            // 
+            this.ImTaxper.HeaderText = "TaxPer";
+            this.ImTaxper.Name = "ImTaxper";
+            // 
+            // FormType
+            // 
+            this.FormType.HeaderText = "FormType";
+            this.FormType.Name = "FormType";
+            this.FormType.Visible = false;
+            // 
+            // Tax
+            // 
+            this.Tax.HeaderText = "Tax";
+            this.Tax.Name = "Tax";
+            // 
+            // TaxType
+            // 
+            this.TaxType.HeaderText = "TaxType";
+            this.TaxType.Name = "TaxType";
+            // 
+            // ITaxAmt
+            // 
+            this.ITaxAmt.HeaderText = "TaxAmt";
+            this.ITaxAmt.Name = "ITaxAmt";
+            // 
+            // Net
+            // 
+            this.Net.HeaderText = "Net";
+            this.Net.Name = "Net";
+            this.Net.ReadOnly = true;
+            // 
+            // igst
+            // 
+            this.igst.HeaderText = "Igst";
+            this.igst.Name = "igst";
+            this.igst.Visible = false;
+            // 
+            // cgst
+            // 
+            this.cgst.HeaderText = "Cgst";
+            this.cgst.Name = "cgst";
+            this.cgst.Visible = false;
+            // 
+            // vatprant
+            // 
+            this.vatprant.HeaderText = "Vat";
+            this.vatprant.Name = "vatprant";
+            this.vatprant.Visible = false;
+            // 
+            // sgst
+            // 
+            this.sgst.HeaderText = "Sgst";
+            this.sgst.Name = "sgst";
+            this.sgst.Visible = false;
+            // 
+            // prate
+            // 
+            this.prate.HeaderText = "Prate";
+            this.prate.Name = "prate";
+            this.prate.Visible = false;
+            // 
+            // unit
+            // 
+            this.unit.HeaderText = "Unit";
+            this.unit.Name = "unit";
+            this.unit.Visible = false;
+            // 
+            // itemcode
+            // 
+            this.itemcode.HeaderText = "Itemcode";
+            this.itemcode.Name = "itemcode";
+            this.itemcode.Visible = false;
+            // 
+            // prid
+            // 
+            this.prid.HeaderText = "Prid";
+            this.prid.Name = "prid";
+            this.prid.Visible = false;
+            // 
+            // Mrp
+            // 
+            this.Mrp.HeaderText = "Mrp";
+            this.Mrp.Name = "Mrp";
+            this.Mrp.Visible = false;
+            // 
+            // tabletype
+            // 
+            this.tabletype.HeaderText = "Tabletype";
+            this.tabletype.Name = "tabletype";
+            this.tabletype.Visible = false;
+            // 
+            // productType
+            // 
+            this.productType.HeaderText = "producttype";
+            this.productType.Name = "productType";
+            this.productType.Visible = false;
+            // 
+            // marketprice
+            // 
+            this.marketprice.HeaderText = "MarketPrice";
+            this.marketprice.Name = "marketprice";
+            this.marketprice.Visible = false;
+            // 
+            // taxsettingid
+            // 
+            this.taxsettingid.HeaderText = "TaxsettingId";
+            this.taxsettingid.Name = "taxsettingid";
+            this.taxsettingid.Visible = false;
+            // 
+            // QtyAdd
+            // 
+            this.QtyAdd.HeaderText = "QtyAdd";
+            this.QtyAdd.Name = "QtyAdd";
+            this.QtyAdd.Visible = false;
+            // 
+            // discamt
+            // 
+            this.discamt.HeaderText = "Disamt";
+            this.discamt.Name = "discamt";
+            this.discamt.Visible = false;
+            // 
+            // disper
+            // 
+            this.disper.HeaderText = "Disper";
+            this.disper.Name = "disper";
+            this.disper.Visible = false;
+            // 
             // panelProductPopup
             // 
             this.panelProductPopup.Controls.Add(this.dgvItemPop);
             this.panelProductPopup.Controls.Add(this.panel1);
-            this.panelProductPopup.Location = new System.Drawing.Point(275, 83);
+            this.panelProductPopup.Location = new System.Drawing.Point(418, -7);
             this.panelProductPopup.Name = "panelProductPopup";
             this.panelProductPopup.Size = new System.Drawing.Size(791, 367);
             this.panelProductPopup.TabIndex = 222;
@@ -939,7 +1104,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel2.Controls.Add(this.lblMTotal, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.label20, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblSTotal, 1, 0);
@@ -962,9 +1127,9 @@ namespace FoodandBeverage.Forms
             this.lblMTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblMTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblMTotal.Location = new System.Drawing.Point(360, 0);
+            this.lblMTotal.Location = new System.Drawing.Point(354, 0);
             this.lblMTotal.Name = "lblMTotal";
-            this.lblMTotal.Size = new System.Drawing.Size(113, 23);
+            this.lblMTotal.Size = new System.Drawing.Size(111, 23);
             this.lblMTotal.TabIndex = 362;
             this.lblMTotal.Text = "00";
             this.lblMTotal.Leave += new System.EventHandler(this.lblMTotal_Leave);
@@ -975,9 +1140,9 @@ namespace FoodandBeverage.Forms
             this.label20.Dock = System.Windows.Forms.DockStyle.Right;
             this.label20.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label20.Location = new System.Drawing.Point(3, 0);
+            this.label20.Location = new System.Drawing.Point(30, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(113, 23);
+            this.label20.Size = new System.Drawing.Size(84, 23);
             this.label20.TabIndex = 354;
             this.label20.Text = "Reservation Total :";
             // 
@@ -987,9 +1152,9 @@ namespace FoodandBeverage.Forms
             this.lblSTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblSTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblSTotal.Location = new System.Drawing.Point(122, 0);
+            this.lblSTotal.Location = new System.Drawing.Point(120, 0);
             this.lblSTotal.Name = "lblSTotal";
-            this.lblSTotal.Size = new System.Drawing.Size(113, 23);
+            this.lblSTotal.Size = new System.Drawing.Size(111, 23);
             this.lblSTotal.TabIndex = 355;
             this.lblSTotal.Text = "00";
             this.lblSTotal.Leave += new System.EventHandler(this.lblSTotal_Leave);
@@ -999,7 +1164,7 @@ namespace FoodandBeverage.Forms
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label15.Location = new System.Drawing.Point(479, 0);
+            this.label15.Location = new System.Drawing.Point(471, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(85, 17);
             this.label15.TabIndex = 363;
@@ -1010,7 +1175,7 @@ namespace FoodandBeverage.Forms
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label17.Location = new System.Drawing.Point(241, 0);
+            this.label17.Location = new System.Drawing.Point(237, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(83, 17);
             this.label17.TabIndex = 364;
@@ -1020,7 +1185,7 @@ namespace FoodandBeverage.Forms
             // 
             this.label23.AutoSize = true;
             this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label23.Location = new System.Drawing.Point(717, 0);
+            this.label23.Location = new System.Drawing.Point(705, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(23, 13);
             this.label23.TabIndex = 365;
@@ -1029,7 +1194,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtqty
             // 
-            this.txtqty.Location = new System.Drawing.Point(844, 3);
+            this.txtqty.Location = new System.Drawing.Point(832, 3);
             this.txtqty.Name = "txtqty";
             this.txtqty.Size = new System.Drawing.Size(19, 20);
             this.txtqty.TabIndex = 366;
@@ -1041,7 +1206,7 @@ namespace FoodandBeverage.Forms
             this.lblGTotal.AutoSize = true;
             this.lblGTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblGTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGTotal.Location = new System.Drawing.Point(598, 0);
+            this.lblGTotal.Location = new System.Drawing.Point(588, 0);
             this.lblGTotal.Name = "lblGTotal";
             this.lblGTotal.Size = new System.Drawing.Size(22, 17);
             this.lblGTotal.TabIndex = 357;
@@ -1065,7 +1230,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.57755F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
             this.tableLayoutPanel8.Controls.Add(this.label19, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.btncolse, 4, 0);
             this.tableLayoutPanel8.Controls.Add(this.button1, 3, 0);
@@ -1096,7 +1261,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(817, 3);
+            this.btncolse.Location = new System.Drawing.Point(815, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -1113,7 +1278,7 @@ namespace FoodandBeverage.Forms
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(773, 3);
+            this.button1.Location = new System.Drawing.Point(771, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(25, 25);
             this.button1.TabIndex = 277;
@@ -1138,7 +1303,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(733, 3);
+            this.btnmini.Location = new System.Drawing.Point(731, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 10;
@@ -1750,171 +1915,6 @@ namespace FoodandBeverage.Forms
             this.dtp_from_time.Name = "dtp_from_time";
             this.dtp_from_time.Size = new System.Drawing.Size(115, 20);
             this.dtp_from_time.TabIndex = 368;
-            // 
-            // Mid
-            // 
-            this.Mid.HeaderText = "Mid";
-            this.Mid.Name = "Mid";
-            this.Mid.Visible = false;
-            // 
-            // MBookingDetailId
-            // 
-            this.MBookingDetailId.HeaderText = "MBookingDetailId";
-            this.MBookingDetailId.Name = "MBookingDetailId";
-            this.MBookingDetailId.Visible = false;
-            // 
-            // Name
-            // 
-            this.Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Name.HeaderText = "Name";
-            this.Name.Name = "Name";
-            this.Name.ReadOnly = true;
-            // 
-            // Descriptions
-            // 
-            this.Descriptions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Descriptions.HeaderText = "Description";
-            this.Descriptions.Name = "Descriptions";
-            // 
-            // Prices
-            // 
-            this.Prices.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Prices.HeaderText = "Price";
-            this.Prices.Name = "Prices";
-            this.Prices.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // ImTaxper
-            // 
-            this.ImTaxper.HeaderText = "TaxPer";
-            this.ImTaxper.Name = "ImTaxper";
-            // 
-            // FormType
-            // 
-            this.FormType.HeaderText = "FormType";
-            this.FormType.Name = "FormType";
-            this.FormType.Visible = false;
-            // 
-            // Tax
-            // 
-            this.Tax.HeaderText = "Tax";
-            this.Tax.Name = "Tax";
-            // 
-            // TaxType
-            // 
-            this.TaxType.HeaderText = "TaxType";
-            this.TaxType.Name = "TaxType";
-            // 
-            // ITaxAmt
-            // 
-            this.ITaxAmt.HeaderText = "TaxAmt";
-            this.ITaxAmt.Name = "ITaxAmt";
-            // 
-            // Net
-            // 
-            this.Net.HeaderText = "Net";
-            this.Net.Name = "Net";
-            this.Net.ReadOnly = true;
-            // 
-            // igst
-            // 
-            this.igst.HeaderText = "Igst";
-            this.igst.Name = "igst";
-            this.igst.Visible = false;
-            // 
-            // cgst
-            // 
-            this.cgst.HeaderText = "Cgst";
-            this.cgst.Name = "cgst";
-            this.cgst.Visible = false;
-            // 
-            // vatprant
-            // 
-            this.vatprant.HeaderText = "Vat";
-            this.vatprant.Name = "vatprant";
-            this.vatprant.Visible = false;
-            // 
-            // sgst
-            // 
-            this.sgst.HeaderText = "Sgst";
-            this.sgst.Name = "sgst";
-            this.sgst.Visible = false;
-            // 
-            // prate
-            // 
-            this.prate.HeaderText = "Prate";
-            this.prate.Name = "prate";
-            this.prate.Visible = false;
-            // 
-            // unit
-            // 
-            this.unit.HeaderText = "Unit";
-            this.unit.Name = "unit";
-            this.unit.Visible = false;
-            // 
-            // itemcode
-            // 
-            this.itemcode.HeaderText = "Itemcode";
-            this.itemcode.Name = "itemcode";
-            this.itemcode.Visible = false;
-            // 
-            // prid
-            // 
-            this.prid.HeaderText = "Prid";
-            this.prid.Name = "prid";
-            this.prid.Visible = false;
-            // 
-            // Mrp
-            // 
-            this.Mrp.HeaderText = "Mrp";
-            this.Mrp.Name = "Mrp";
-            this.Mrp.Visible = false;
-            // 
-            // tabletype
-            // 
-            this.tabletype.HeaderText = "Tabletype";
-            this.tabletype.Name = "tabletype";
-            this.tabletype.Visible = false;
-            // 
-            // productType
-            // 
-            this.productType.HeaderText = "producttype";
-            this.productType.Name = "productType";
-            this.productType.Visible = false;
-            // 
-            // marketprice
-            // 
-            this.marketprice.HeaderText = "MarketPrice";
-            this.marketprice.Name = "marketprice";
-            this.marketprice.Visible = false;
-            // 
-            // taxsettingid
-            // 
-            this.taxsettingid.HeaderText = "TaxsettingId";
-            this.taxsettingid.Name = "taxsettingid";
-            this.taxsettingid.Visible = false;
-            // 
-            // QtyAdd
-            // 
-            this.QtyAdd.HeaderText = "QtyAdd";
-            this.QtyAdd.Name = "QtyAdd";
-            this.QtyAdd.Visible = false;
-            // 
-            // discamt
-            // 
-            this.discamt.HeaderText = "Disamt";
-            this.discamt.Name = "discamt";
-            this.discamt.Visible = false;
-            // 
-            // disper
-            // 
-            this.disper.HeaderText = "Disper";
-            this.disper.Name = "disper";
-            this.disper.Visible = false;
             // 
             // FrmReservation
             // 

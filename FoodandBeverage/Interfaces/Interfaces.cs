@@ -18,8 +18,14 @@ namespace FoodandBeverage.Interfaces
             FirstCharacter,
             AllCharacters
         };
+    public enum Tabletype
+    {
+        Product = 1,
+        DirectSale = 2,
+        ComboProduct = 3
 
-        public enum StatusValue
+    };
+    public enum StatusValue
         {
             SuperAdmin = -1,
             Active = 0,
