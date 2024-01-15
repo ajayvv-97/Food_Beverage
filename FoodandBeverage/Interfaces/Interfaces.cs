@@ -177,6 +177,22 @@ namespace FoodandBeverage.Interfaces
     {
         Normalorder = 0,
         Reverse_overtime_Cancel = 1,
-        Reserved_Table=2
+        Reverse_Table = 2,
+        CombinedOrderBill = 3
+    };
+    public enum Tabletype
+    {
+        Product = 1,
+        DirectSale=2,
+        ComboProduct=3
+
+    };
+    public enum Food_Status
+    {
+        Cancel = 0,
+        Pending = 1,
+        FoodProcessing = 2,
+        Complete=3,
+        Booking_order=4
     };
 }

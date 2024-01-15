@@ -44,8 +44,9 @@ namespace BLL
             parms.Add("Tid", objTestClass.Tid);
             parms.Add("OrderMasterid", objTestClass.OrderMasterid);
             parms.Add("PromoAmount", objTestClass.PromoAmount);
-            parms.Add("CombinedOrderBill_TYPE", objTestClass.CombinedOrderBill_TYPE); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
+            parms.Add("CombinedOrderBill_TYPE", objTestClass.CombinedOrderBill_TYPE);
+            parms.Add("BookmasterId", objTestClass.BookmasterId); 
+   var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }
 

@@ -99,7 +99,6 @@ namespace FoodandBeverage.Forms
             txttablecode.Text = "Table Code....";
             textb_shape();
             Fillorders();
-
         }
         public class datagrid
         {
@@ -274,14 +273,13 @@ namespace FoodandBeverage.Forms
                             {
                                 dgv_product_details.ColumnHeadersHeight = 30;
                                 dgv_product_details.RowTemplate.Height = 30;
-                            }
-      
+                            }     
 
                             dgv_product_details.RowHeadersVisible = false;
                             // Add columns with specific cell type
                             DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
                             DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
-                            DataGridViewTextBoxColumn columnptype = new DataGridViewTextBoxColumn();
+                            DataGridViewImageColumn columnptype = new DataGridViewImageColumn();
                             DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
@@ -325,7 +323,7 @@ namespace FoodandBeverage.Forms
 
                             dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                             dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                             dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -348,7 +346,9 @@ namespace FoodandBeverage.Forms
 
                             pbremove.Image = Properties.Resources.close_price_change;
                             pbremove.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                            pbremove.Width = 30;      
+                            pbremove.Width = 30;
+
+
 
                             dgv_product_details.Rows.Clear();
                             for (int k = 0; k < gridSourcedetails.Count; k++)
@@ -357,16 +357,17 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
                                 dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
 
-                                if (Convert.ToInt32(gridSourcedetails[k].Field13) == 3)
+                                if (Convert.ToInt32(gridSourcedetails[k].Field13) == dptypeno)
                                 {
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "COMBO";
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = Color.DarkBlue;
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                    columnptype.Image = Properties.Resources.combo_kicthenview_dgv;
+                                    columnptype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    columnptype.Width = 30;
                                 }
                                 else
                                 {
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "";
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = dgv_product_details.DefaultCellStyle.ForeColor;
+                                    columnptype.Image = null;
+                                    //columnptype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    columnptype.Width = 30;
                                 }
 
 

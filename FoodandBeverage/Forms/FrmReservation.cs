@@ -1899,7 +1899,6 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.CreatedBy = 1;
                         dmnordermaster.Status = 1;
                         dmnordermaster.Tid = 0;
-
                         var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
 
 

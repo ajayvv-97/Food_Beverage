@@ -93,7 +93,8 @@ namespace Domain
         public decimal PromoAmount  { get; set; }
         public string SalesPrefix { get; set; }
         public string SalesSerialNo { get; set; }
-        public int @CombinedOrderBill_TYPE { get; set; }
+        public int CombinedOrderBill_TYPE { get; set; }
+        public int BookmasterId { get; set; }
         
     }
 }

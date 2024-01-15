@@ -208,7 +208,7 @@ namespace FoodandBeverage.Forms
                     CheckRe_order();
                 else if (BookingType == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))                
                     CheckRe_Bookingorder();                
-                else if (BookingType == Convert.ToInt32(DashboardTableType.Reserved_Table))
+                else if (BookingType == Convert.ToInt32(DashboardTableType.CombinedOrderBill))
                 {
                     int count = checkedtableNames.Count;
                     if (pnlsidebar_searchproduct.Visible)
@@ -220,7 +220,6 @@ namespace FoodandBeverage.Forms
                         tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
                         tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
                         textb_shape();
-
                     }
                     
                     lblorderid.Visible = false;
@@ -892,8 +891,18 @@ namespace FoodandBeverage.Forms
                                 pb_item_delete.Dock = DockStyle.Top;
                                 pb_item_delete.Height = 40;
                                 pb_item_delete.Padding = new Padding(5, 5, 5, 5);
-                                pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
-
+                                pb_item_delete.Enabled = false;
+                                if (Convert.ToInt32(Food_Status.Booking_order)== Convert.ToInt32(gridSource[i].Status))
+                                {
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
+                                    pb_item_delete.Enabled = true;
+                                }              
+                                else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Pending))
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_pending_order;
+                                else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
+                                else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_complete_order;
 
                                 pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
                                 decimal amount = Convert.ToDecimal(gridSource[i].NetAmount);
@@ -1222,11 +1231,11 @@ namespace FoodandBeverage.Forms
                                 pb_item_delete.Dock = DockStyle.Top;
                                 pb_item_delete.Height = 40;
                                 pb_item_delete.Padding = new Padding(5,5,5,5);
-                                if (gridSource[i].Status==1)
+                                if (gridSource[i].Status==Convert.ToInt32(Food_Status.Pending))
                                     pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_pending_order;
-                                else if (gridSource[i].Status == 2)
+                                else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
                                     pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
-                                else if (gridSource[i].Status == 3)
+                                else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
                                     pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_complete_order;
 
                                 pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
@@ -2802,8 +2811,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
-
         public void totalcellamount(int cellproductid)
         {
             try
@@ -5968,6 +5975,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.CreatedBy = 1;
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 0;
+                        dmnsalemaster.BookmasterId = Bookingmasterid;
                         FinalTax();
                         //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
                         dmnsalemaster.TotalTax = TotalTax;
