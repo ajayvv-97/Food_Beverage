@@ -24,6 +24,8 @@ using System.Text.RegularExpressions;
 using System.Drawing.Drawing2D;
 
 using System.Runtime.InteropServices;
+using CustomMessageBox;
+
 namespace FoodandBeverage.Forms
 {
     public partial class FrmUserPermission : Form
@@ -179,7 +181,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtusertype.Text == "" || txtusertype.Text == null)
             {
-                MessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -240,7 +242,7 @@ namespace FoodandBeverage.Forms
         {
             if (cmbUsreAccount.SelectedIndex < 0)
             {
-                MessageBox.Show("UserType Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("UserType Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -289,13 +291,13 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    MessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 }
             }
             else
             {
-                MessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
             clear();

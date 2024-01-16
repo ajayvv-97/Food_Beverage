@@ -202,7 +202,7 @@ namespace FoodandBeverage.Forms
             mRegxExpression = new Regex(@"^([a-zA-Z0-9_\-])([a-zA-Z0-9_\-\.]*)@(\[((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}|((([a-zA-Z0-9\-]+)\.)+))([a-zA-Z]{2,}|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\])$");
             if (!mRegxExpression.IsMatch(EmailId.Trim()))
             {
-                MessageBox.Show("Invalid email format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Invalid email format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -230,7 +230,7 @@ namespace FoodandBeverage.Forms
                 {
 
                     // The capacity entered in the TextBox is greater than or equal to the total capacity in the grid
-                    MessageBox.Show("Capacity is not sufficient for the people.");
+                    CMessageBox.Show("Capacity is not sufficient for the people.");
                     return;
 
                 }
@@ -246,7 +246,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToString(dgvmenu.Rows[i].Cells[0].Value) != "")
                     {
-                        MessageBox.Show("Quantity cantbe less than one", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Quantity cantbe less than one", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         dgvmenu.Focus();
                         return false;
@@ -262,12 +262,12 @@ namespace FoodandBeverage.Forms
             }
             else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
             {
-                MessageBox.Show("Address is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Address is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
-                MessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
                 return false;
             }
@@ -461,11 +461,12 @@ namespace FoodandBeverage.Forms
                         }
                         if (datadetails == true)
                         {
-                            MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else if (datadetails == false)
                         {
-                            MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CMessageBox.Show("Unable To Save ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            
 
                         }
                     }
@@ -2416,19 +2417,30 @@ namespace FoodandBeverage.Forms
                     decimal amount = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[iqty].Value);
                     dgvmenu.Rows[cellproductid].Cells[isamount].Value = amount.ToString("N2");
 
-                    cellDiscountPercentage(cellproductid);
+                    decimal discount = 0;
                     if (Convert.ToInt32(dgvmenu.Rows[cellproductid].Cells[itabletype].Value) != 3)
+                    {
                         cellDiscountAmount(cellproductid);
 
 
-                    decimal discount = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[idisamt].Value);
+                        discount=Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[idisamt].Value);
+                    }
                     cellTaxAmount(cellproductid, amount - discount);
 
                     if (Convert.ToString(dgvmenu.Rows[cellproductid].Cells[iTax].Value) == "Exclusive")
                     {
-                        decimal tot = (amount - Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[idisamt].Value))
+                        if (Convert.ToInt32(dgvmenu.Rows[cellproductid].Cells[itabletype].Value) != 3)
+                        {
+                            decimal tot = (amount - Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[idisamt].Value))
                         + Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[istaxamt].Value);
-                        dgvmenu.Rows[cellproductid].Cells[isamount].Value = tot.ToString("N2");
+                            dgvmenu.Rows[cellproductid].Cells[isamount].Value = tot.ToString("N2");
+                        }
+                        else
+                        {
+                            decimal tot = (amount )
+                        + Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[istaxamt].Value);
+                            dgvmenu.Rows[cellproductid].Cells[isamount].Value = tot.ToString("N2");
+                        }
                     }
                     if (Convert.ToString(dgvmenu.Rows[cellproductid].Cells[iTax].Value) == "Inclusive")
                     {
