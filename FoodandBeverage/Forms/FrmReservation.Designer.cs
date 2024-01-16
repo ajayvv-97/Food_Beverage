@@ -744,9 +744,10 @@ namespace FoodandBeverage.Forms
             this.discountper.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.discountper.Location = new System.Drawing.Point(3, 3);
             this.discountper.MaxLength = 10;
+            this.discountper.Multiline = true;
             this.discountper.Name = "discountper";
             this.discountper.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.discountper.Size = new System.Drawing.Size(55, 23);
+            this.discountper.Size = new System.Drawing.Size(55, 30);
             this.discountper.TabIndex = 0;
             this.discountper.Text = "0.00";
             this.discountper.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -763,8 +764,9 @@ namespace FoodandBeverage.Forms
             this.totaldiscountamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.totaldiscountamt.Location = new System.Drawing.Point(64, 3);
             this.totaldiscountamt.MaxLength = 10;
+            this.totaldiscountamt.Multiline = true;
             this.totaldiscountamt.Name = "totaldiscountamt";
-            this.totaldiscountamt.Size = new System.Drawing.Size(92, 23);
+            this.totaldiscountamt.Size = new System.Drawing.Size(92, 30);
             this.totaldiscountamt.TabIndex = 1;
             this.totaldiscountamt.Text = "0.00";
             this.totaldiscountamt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -780,8 +782,9 @@ namespace FoodandBeverage.Forms
             this.sterms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sterms.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.sterms.Location = new System.Drawing.Point(168, 122);
+            this.sterms.Multiline = true;
             this.sterms.Name = "sterms";
-            this.sterms.Size = new System.Drawing.Size(159, 23);
+            this.sterms.Size = new System.Drawing.Size(159, 44);
             this.sterms.TabIndex = 5;
             this.sterms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sterms_KeyDown);
             // 
@@ -803,9 +806,10 @@ namespace FoodandBeverage.Forms
             this.netamount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.netamount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.netamount.Location = new System.Drawing.Point(498, 3);
+            this.netamount.Multiline = true;
             this.netamount.Name = "netamount";
             this.netamount.ReadOnly = true;
-            this.netamount.Size = new System.Drawing.Size(159, 23);
+            this.netamount.Size = new System.Drawing.Size(159, 36);
             this.netamount.TabIndex = 4;
             this.netamount.Text = "0.00";
             this.netamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -843,6 +847,7 @@ namespace FoodandBeverage.Forms
             this.oaamount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.oaamount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.oaamount.Location = new System.Drawing.Point(3, 3);
+            this.oaamount.Multiline = true;
             this.oaamount.Name = "oaamount";
             this.oaamount.Size = new System.Drawing.Size(56, 23);
             this.oaamount.TabIndex = 0;
@@ -858,6 +863,7 @@ namespace FoodandBeverage.Forms
             this.oadesc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.oadesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.oadesc.Location = new System.Drawing.Point(65, 3);
+            this.oadesc.Multiline = true;
             this.oadesc.Name = "oadesc";
             this.oadesc.Size = new System.Drawing.Size(91, 23);
             this.oadesc.TabIndex = 1;
@@ -881,8 +887,9 @@ namespace FoodandBeverage.Forms
             this.oddesc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.oddesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.oddesc.Location = new System.Drawing.Point(65, 3);
+            this.oddesc.Multiline = true;
             this.oddesc.Name = "oddesc";
-            this.oddesc.Size = new System.Drawing.Size(91, 23);
+            this.oddesc.Size = new System.Drawing.Size(91, 30);
             this.oddesc.TabIndex = 3;
             this.oddesc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oddesc_KeyDown);
             // 
@@ -892,8 +899,9 @@ namespace FoodandBeverage.Forms
             this.odamt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.odamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.odamt.Location = new System.Drawing.Point(3, 3);
+            this.odamt.Multiline = true;
             this.odamt.Name = "odamt";
-            this.odamt.Size = new System.Drawing.Size(56, 23);
+            this.odamt.Size = new System.Drawing.Size(56, 30);
             this.odamt.TabIndex = 2;
             this.odamt.Text = "0.00";
             this.odamt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1015,8 +1023,9 @@ namespace FoodandBeverage.Forms
             this.rcvamt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rcvamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.rcvamt.Location = new System.Drawing.Point(498, 80);
+            this.rcvamt.Multiline = true;
             this.rcvamt.Name = "rcvamt";
-            this.rcvamt.Size = new System.Drawing.Size(159, 23);
+            this.rcvamt.Size = new System.Drawing.Size(159, 36);
             this.rcvamt.TabIndex = 7;
             this.rcvamt.Text = "0.00";
             this.rcvamt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1072,8 +1081,9 @@ namespace FoodandBeverage.Forms
             this.txtadvpa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtadvpa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.txtadvpa.Location = new System.Drawing.Point(498, 45);
+            this.txtadvpa.Multiline = true;
             this.txtadvpa.Name = "txtadvpa";
-            this.txtadvpa.Size = new System.Drawing.Size(159, 23);
+            this.txtadvpa.Size = new System.Drawing.Size(159, 29);
             this.txtadvpa.TabIndex = 6;
             this.txtadvpa.Text = "0.00";
             this.txtadvpa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1104,7 +1114,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
             this.tableLayoutPanel2.Controls.Add(this.lblMTotal, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.label20, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblSTotal, 1, 0);
@@ -1127,9 +1137,9 @@ namespace FoodandBeverage.Forms
             this.lblMTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblMTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblMTotal.Location = new System.Drawing.Point(351, 0);
+            this.lblMTotal.Location = new System.Drawing.Point(345, 0);
             this.lblMTotal.Name = "lblMTotal";
-            this.lblMTotal.Size = new System.Drawing.Size(110, 23);
+            this.lblMTotal.Size = new System.Drawing.Size(108, 23);
             this.lblMTotal.TabIndex = 362;
             this.lblMTotal.Text = "00";
             this.lblMTotal.Leave += new System.EventHandler(this.lblMTotal_Leave);
@@ -1140,7 +1150,7 @@ namespace FoodandBeverage.Forms
             this.label20.Dock = System.Windows.Forms.DockStyle.Right;
             this.label20.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label20.Location = new System.Drawing.Point(29, 0);
+            this.label20.Location = new System.Drawing.Point(27, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(84, 23);
             this.label20.TabIndex = 354;
@@ -1152,9 +1162,9 @@ namespace FoodandBeverage.Forms
             this.lblSTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblSTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblSTotal.Location = new System.Drawing.Point(119, 0);
+            this.lblSTotal.Location = new System.Drawing.Point(117, 0);
             this.lblSTotal.Name = "lblSTotal";
-            this.lblSTotal.Size = new System.Drawing.Size(110, 23);
+            this.lblSTotal.Size = new System.Drawing.Size(108, 23);
             this.lblSTotal.TabIndex = 355;
             this.lblSTotal.Text = "00";
             this.lblSTotal.Leave += new System.EventHandler(this.lblSTotal_Leave);
@@ -1164,7 +1174,7 @@ namespace FoodandBeverage.Forms
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label15.Location = new System.Drawing.Point(467, 0);
+            this.label15.Location = new System.Drawing.Point(459, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(85, 17);
             this.label15.TabIndex = 363;
@@ -1175,7 +1185,7 @@ namespace FoodandBeverage.Forms
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label17.Location = new System.Drawing.Point(235, 0);
+            this.label17.Location = new System.Drawing.Point(231, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(83, 17);
             this.label17.TabIndex = 364;
@@ -1185,7 +1195,7 @@ namespace FoodandBeverage.Forms
             // 
             this.label23.AutoSize = true;
             this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label23.Location = new System.Drawing.Point(699, 0);
+            this.label23.Location = new System.Drawing.Point(687, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(23, 13);
             this.label23.TabIndex = 365;
@@ -1194,7 +1204,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtqty
             // 
-            this.txtqty.Location = new System.Drawing.Point(826, 3);
+            this.txtqty.Location = new System.Drawing.Point(814, 3);
             this.txtqty.Name = "txtqty";
             this.txtqty.Size = new System.Drawing.Size(19, 20);
             this.txtqty.TabIndex = 366;
@@ -1206,7 +1216,7 @@ namespace FoodandBeverage.Forms
             this.lblGTotal.AutoSize = true;
             this.lblGTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblGTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGTotal.Location = new System.Drawing.Point(583, 0);
+            this.lblGTotal.Location = new System.Drawing.Point(573, 0);
             this.lblGTotal.Name = "lblGTotal";
             this.lblGTotal.Size = new System.Drawing.Size(22, 17);
             this.lblGTotal.TabIndex = 357;
@@ -1230,7 +1240,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.57755F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel8.Controls.Add(this.label19, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.btncolse, 4, 0);
             this.tableLayoutPanel8.Controls.Add(this.button1, 3, 0);
@@ -1261,7 +1271,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(814, 3);
+            this.btncolse.Location = new System.Drawing.Point(812, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -1278,7 +1288,7 @@ namespace FoodandBeverage.Forms
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(770, 3);
+            this.button1.Location = new System.Drawing.Point(768, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(25, 25);
             this.button1.TabIndex = 277;
@@ -1303,7 +1313,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(730, 3);
+            this.btnmini.Location = new System.Drawing.Point(728, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(25, 25);
             this.btnmini.TabIndex = 10;
@@ -1935,7 +1945,7 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.lbltotvat);
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-           
+        
             this.Text = "FrmReservation";
             this.Load += new System.EventHandler(this.FrmReservation_Load);
             this.Resize += new System.EventHandler(this.FrmReservation_Resize);
