@@ -172,19 +172,25 @@ namespace FoodandBeverage.Forms
 			}
 			else if (string.IsNullOrEmpty(txttotPro.Text))
 			{
-				CMessageBox.Show("Promo Count Must Be Grteaer Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				CMessageBox.Show("Promo Count Must Be Greater Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txttotPro.Focus();
 				return false;
 			}	
-			else if((Convert.ToDateTime(dtfrom)<DateTime.Now) || (Convert.ToDateTime(dtto)<=Convert.ToDateTime(dtfrom)))
+			else if(Convert.ToDateTime(dtfrom)<=DateTime.Now)
 			{
-				CMessageBox.Show("Invalid From Time And To Time ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				CMessageBox.Show("From Time Must Be Greater Than Current DateTime ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				txttotPro.Focus();
+				return false;
+			}	
+			else if(Convert.ToDateTime(dtto)<=Convert.ToDateTime(dtfrom))
+			{
+				CMessageBox.Show("To Time Must Be Greater Than From Time ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txttotPro.Focus();
 				return false;
 			}
 			else
 			{
-				return true;
+				return false;
 			}
 		}
 		private void dtpfrom_ValueChanged(object sender, EventArgs e)
