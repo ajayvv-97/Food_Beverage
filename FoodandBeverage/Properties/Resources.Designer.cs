@@ -313,6 +313,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap combo_kicthenview_dgv {
+            get {
+                object obj = ResourceManager.GetObject("combo_kicthenview_dgv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap credit_card {
             get {
                 object obj = ResourceManager.GetObject("credit_card", resourceCulture);
@@ -496,6 +506,26 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap grid_registration {
             get {
                 object obj = ResourceManager.GetObject("grid_registration", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grid_select {
+            get {
+                object obj = ResourceManager.GetObject("grid_select", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grid_unslect_color {
+            get {
+                object obj = ResourceManager.GetObject("grid_unslect_color", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

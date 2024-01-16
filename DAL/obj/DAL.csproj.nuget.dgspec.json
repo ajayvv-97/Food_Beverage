@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\DAL\\DAL.csproj": {}
+    "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\DAL\\DAL.csproj": {
+    "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\DAL\\DAL.csproj",
+        "projectUniqueName": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj",
         "projectName": "DAL",
-        "projectPath": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\DAL\\DAL.csproj",
-        "packagesPath": "C:\\Users\\aljo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\DAL\\obj\\",
+        "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj",
+        "packagesPath": "C:\\Users\\ajay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\aljo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\Domain.csproj"
+              "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj"
               }
             }
           }
@@ -73,17 +73,17 @@
         }
       }
     },
-    "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\Domain.csproj": {
+    "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\aljo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aljo\\Desktop\\F and Be\\Food_Beverage\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\ajay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\aljo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

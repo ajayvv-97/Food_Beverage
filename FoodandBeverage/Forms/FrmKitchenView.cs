@@ -33,6 +33,8 @@ namespace FoodandBeverage.Forms
         public static int dordermasteridno = 10;
         public static int ddatetimeno = 11;
         public static int dstatusno = 12;
+        public static int ditemidno = 13;
+        public static int dtabletypeno = 14;
         #endregion
 
         Color boxcolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -95,11 +97,24 @@ namespace FoodandBeverage.Forms
 
         private void FrmKitchenView_Load(object sender, EventArgs e)
         {
+            dgv_viewmore.BorderStyle = BorderStyle.None;
+            dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_viewmore.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_viewmore.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_viewmore.BackgroundColor = Color.White;
+
+            dgv_viewmore.EnableHeadersVisualStyles = false;
+            dgv_viewmore.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
             txtorderid_search.Text = "Order Id ....";
             txttablecode.Text = "Table Code....";
             textb_shape();
             Fillorders();
 
+            
         }
         public class datagrid
         {
@@ -141,7 +156,8 @@ namespace FoodandBeverage.Forms
 
                     foreach (var orders in distinctOrders)
                     { 
-                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13";
+                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
+                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15 ";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -274,14 +290,13 @@ namespace FoodandBeverage.Forms
                             {
                                 dgv_product_details.ColumnHeadersHeight = 30;
                                 dgv_product_details.RowTemplate.Height = 30;
-                            }
-      
+                            }     
 
                             dgv_product_details.RowHeadersVisible = false;
                             // Add columns with specific cell type
                             DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
                             DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
-                            DataGridViewTextBoxColumn columnptype = new DataGridViewTextBoxColumn();
+                            DataGridViewImageColumn columnptype = new DataGridViewImageColumn();
                             DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
@@ -293,6 +308,8 @@ namespace FoodandBeverage.Forms
                             DataGridViewTextBoxColumn columnmasterid = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columndate = new DataGridViewTextBoxColumn();
                             DataGridViewTextBoxColumn columnstatus = new DataGridViewTextBoxColumn();
+                            DataGridViewTextBoxColumn columnitemid = new DataGridViewTextBoxColumn();
+                            DataGridViewTextBoxColumn columntabletype = new DataGridViewTextBoxColumn();
 
                             dgv_product_details.Columns.Add(columnSlno);
                             dgv_product_details.Columns.Add(pbremove);
@@ -307,6 +324,8 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns.Add(columnmasterid);
                             dgv_product_details.Columns.Add(columndate);
                             dgv_product_details.Columns.Add(columnstatus);
+                            dgv_product_details.Columns.Add(columnitemid);
+                            dgv_product_details.Columns.Add(columntabletype);
 
                             dgv_product_details.Columns[dslno].HeaderText = "Slno";
                             dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
@@ -321,11 +340,13 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[dordermasteridno].HeaderText = "Ordermasterid";
                             dgv_product_details.Columns[ddatetimeno].HeaderText = "datetime";
                             dgv_product_details.Columns[dstatusno].HeaderText = "status";
+                            dgv_product_details.Columns[ditemidno].HeaderText = "itemid";
+                            dgv_product_details.Columns[dtabletypeno].HeaderText = "tabletype";
 
 
                             dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                             dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                             dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -336,7 +357,8 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[dordermasteridno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells; 
                             dgv_product_details.Columns[ddatetimeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dstatusno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
+                            dgv_product_details.Columns[ditemidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgv_product_details.Columns[dtabletypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
                             dgv_product_details.Columns[dslno].Visible = false;
                             dgv_product_details.Columns[ddetailsidno].Visible = false;
@@ -344,11 +366,9 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[dtidno].Visible = false;
                             dgv_product_details.Columns[dordermasteridno].Visible = false;
                             dgv_product_details.Columns[ddatetimeno].Visible = false;
-                            dgv_product_details.Columns[dstatusno].Visible = false;              
-
-                            pbremove.Image = Properties.Resources.close_price_change;
-                            pbremove.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                            pbremove.Width = 30;      
+                            dgv_product_details.Columns[dstatusno].Visible = false;
+                            dgv_product_details.Columns[ditemidno].Visible = false;
+                            dgv_product_details.Columns[dtabletypeno].Visible = false;
 
                             dgv_product_details.Rows.Clear();
                             for (int k = 0; k < gridSourcedetails.Count; k++)
@@ -356,20 +376,19 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Rows.Add();
                                 dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
                                 dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
-
+                                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
                                 if (Convert.ToInt32(gridSourcedetails[k].Field13) == 3)
                                 {
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "COMBO";
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = Color.DarkBlue;
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                    cellcolumntype.Value = Properties.Resources.combo_kicthenview_dgv;
+                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
                                 }
                                 else
                                 {
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Value = "";
-                                    dgv_product_details.Rows[k].Cells[dptypeno].Style.ForeColor = dgv_product_details.DefaultCellStyle.ForeColor;
+                                    cellcolumntype.Value = Properties.Resources.grid_select;
+                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
                                 }
-
-
                                 decimal originalValue = Convert.ToDecimal(gridSourcedetails[k].Field5);
                                 dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);           
 
@@ -382,6 +401,8 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Rows[k].Cells[dordermasteridno].Value = gridSourcedetails[k].Field1;
                                 dgv_product_details.Rows[k].Cells[ddatetimeno].Value = gridSourcedetails[k].Fielddatetime;
                                 dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+                                dgv_product_details.Rows[k].Cells[ditemidno].Value = gridSourcedetails[k].Field14;
+                                dgv_product_details.Rows[k].Cells[dtabletypeno].Value = gridSourcedetails[k].Field15;
                                 DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
                                 if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
                                 {
@@ -567,17 +588,55 @@ namespace FoodandBeverage.Forms
                     pnl_products_rem_descr.Width = 300;
                 }
                 DataGridView clickedDataGridView = sender as DataGridView;
-                if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value)==1 )
+                if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
                 {
                     dgv_view_name = clickedDataGridView.Name;
                     dgv_view_rowno = e.RowIndex;
                     pnl_products_rem_descr.Visible = true;
                     pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
-                    lblheader_product_des.Text =Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
+                    lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                     txt_product_remove_des.Focus();
                 }
             }
+            else if (e.ColumnIndex == dptypeno)
+            {
+                if (pnlproductviewmore.Visible)
+                    pnlproductviewmore.Visible = false;
+                else
+                {
+                    DataGridView clickedDataGridView = sender as DataGridView;
+                    if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1 && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dtabletypeno].Value) == Convert.ToInt32(Tabletype.ComboProduct))
+                    {
+                        lblviewmore.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
+                        int itemid = Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[ditemidno].Value);
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "ofd.Productname Field1,ofd.Quantity Field2";
+                        dmnSearch.Table = " tblOfferDetails ofd LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid";
+                        dmnSearch.WhereNdGroupBy = "where ofm.Status=1 and ofm.Omid = " + itemid;
+                        dmnSearch.OrderBy = "";
+                        var gridSource_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource_offer.Count > 0)
+                        {
+                            dgv_viewmore.Rows.Clear();
+                            for (int k = 0; k < gridSource_offer.Count; k++)
+                            {
+                                dgv_viewmore.Rows.Add();
+                                dgv_viewmore.Rows[k].Cells[0].Value = k + 1;
+                                dgv_viewmore.Rows[k].Cells[1].Value = gridSource_offer[k].Field1;
+                                dgv_viewmore.Rows[k].Cells[2].Value = gridSource_offer[k].Field2;
+                            }
+                            pnlproductviewmore.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                            pnlproductviewmore.Visible = true;
+                        }              
+                    }
+
+                }
+ 
+            }
         }
+
         private void pbcancelfood_Click(object sender, EventArgs e)
         {
             PictureBox clickedPictureBox = (PictureBox)sender;
@@ -996,6 +1055,8 @@ namespace FoodandBeverage.Forms
                                     DataGridViewTextBoxColumn columnmasterid = new DataGridViewTextBoxColumn();
                                     DataGridViewTextBoxColumn columndate = new DataGridViewTextBoxColumn();
                                     DataGridViewTextBoxColumn columnstatus = new DataGridViewTextBoxColumn();
+                                    DataGridViewTextBoxColumn columnitemid = new DataGridViewTextBoxColumn();
+                                    DataGridViewTextBoxColumn columntabletype = new DataGridViewTextBoxColumn();
 
                                     dgv_product_details.Columns.Add(columnSlno);
                                     dgv_product_details.Columns.Add(pbremove);
@@ -1009,6 +1070,9 @@ namespace FoodandBeverage.Forms
                                     dgv_product_details.Columns.Add(columnmasterid);
                                     dgv_product_details.Columns.Add(columndate);
                                     dgv_product_details.Columns.Add(columnstatus);
+                                    dgv_product_details.Columns.Add(columndate);
+                                    dgv_product_details.Columns.Add(columnitemid);
+                                    dgv_product_details.Columns.Add(columntabletype);
 
                                     dgv_product_details.Columns[dslno].HeaderText = "Slno";
                                     dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
@@ -1022,6 +1086,8 @@ namespace FoodandBeverage.Forms
                                     dgv_product_details.Columns[dordermasteridno].HeaderText = "Ordermasterid";
                                     dgv_product_details.Columns[ddatetimeno].HeaderText = "datetime";
                                     dgv_product_details.Columns[dstatusno].HeaderText = "status";
+                                    dgv_product_details.Columns[ditemidno].HeaderText = "itemid";
+                                    dgv_product_details.Columns[dtabletypeno].HeaderText = "tabletype";
 
 
                                     dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -1036,6 +1102,8 @@ namespace FoodandBeverage.Forms
                                     dgv_product_details.Columns[dordermasteridno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                                     dgv_product_details.Columns[ddatetimeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                                     dgv_product_details.Columns[dstatusno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                                    dgv_product_details.Columns[ditemidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                                    dgv_product_details.Columns[dtabletypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
                                     dgv_product_details.Columns[dstatusno].Frozen = true;
 
@@ -1046,6 +1114,8 @@ namespace FoodandBeverage.Forms
                                     dgv_product_details.Columns[dordermasteridno].Visible = false;
                                     dgv_product_details.Columns[ddatetimeno].Visible = false;
                                     dgv_product_details.Columns[dstatusno].Visible = false;
+                                    dgv_product_details.Columns[ditemidno].Visible = false;
+                                    dgv_product_details.Columns[dtabletypeno].Visible = false; 
 
                                     pbremove.Image = Properties.Resources.close_price_change;
                                     pbremove.ImageLayout = DataGridViewImageCellLayout.Zoom;
@@ -1070,6 +1140,8 @@ namespace FoodandBeverage.Forms
                                         dgv_product_details.Rows[k].Cells[dordermasteridno].Value = gridSourcedetails[k].Field1;
                                         dgv_product_details.Rows[k].Cells[ddatetimeno].Value = gridSourcedetails[k].Fielddatetime;
                                         dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+                                        dgv_product_details.Rows[k].Cells[ditemidno].Value = gridSourcedetails[k].Field14;
+                                        dgv_product_details.Rows[k].Cells[dtabletypeno].Value = gridSourcedetails[k].Field15;
                                         DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
                                         if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
                                         {
@@ -1585,13 +1657,23 @@ namespace FoodandBeverage.Forms
             switch (keyData)
             {     
                 case Keys.Escape:
-                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                    _instancedash.Closeform();
+                    if (pnlproductviewmore.Visible)
+                        pnlproductviewmore.Visible = false;
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
                     return true;
 
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
+        }
+
+        private void btn_close_viewmore_Click(object sender, EventArgs e)
+        {
+            pnlproductviewmore.Visible = false;
         }
     }
 }

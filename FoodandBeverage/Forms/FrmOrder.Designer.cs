@@ -213,6 +213,8 @@ namespace FoodandBeverage.Forms
             this.tlp_sample_sele_product = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tlp_gridview = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_gridview_close = new System.Windows.Forms.Button();
             this.txttotalQTY = new System.Windows.Forms.TextBox();
             this.txtordermasterid = new System.Windows.Forms.TextBox();
             this.tlp_promo_code = new System.Windows.Forms.TableLayoutPanel();
@@ -385,8 +387,6 @@ namespace FoodandBeverage.Forms
             this.VatAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MarketPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comtabletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_gridview_close = new System.Windows.Forms.Button();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -413,6 +413,7 @@ namespace FoodandBeverage.Forms
             this.tlp_sample_sele_product.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tlp_gridview.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
             this.tlp_promo_code.SuspendLayout();
             this.tlp_grid_existing_products.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exitsting_product)).BeginInit();
@@ -443,7 +444,6 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav.SuspendLayout();
             this.pnl_split_itemwise.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_combined)).BeginInit();
-            this.tableLayoutPanel10.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_tableorder
@@ -1957,7 +1957,7 @@ namespace FoodandBeverage.Forms
             this.tlp_gridview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_gridview.Controls.Add(this.tableLayoutPanel10, 0, 0);
             this.tlp_gridview.Controls.Add(this.Dgv_Selected_Item, 0, 1);
-            this.tlp_gridview.Location = new System.Drawing.Point(15, 110);
+            this.tlp_gridview.Location = new System.Drawing.Point(15, 366);
             this.tlp_gridview.Name = "tlp_gridview";
             this.tlp_gridview.RowCount = 2;
             this.tlp_gridview.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -1966,6 +1966,38 @@ namespace FoodandBeverage.Forms
             this.tlp_gridview.TabIndex = 0;
             this.tlp_gridview.Visible = false;
             this.tlp_gridview.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_gridview_Paint);
+            // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel10.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel10.ColumnCount = 3;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.Controls.Add(this.btn_gridview_close, 2, 0);
+            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 1;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(983, 31);
+            this.tableLayoutPanel10.TabIndex = 185;
+            // 
+            // btn_gridview_close
+            // 
+            this.btn_gridview_close.BackColor = System.Drawing.Color.White;
+            this.btn_gridview_close.FlatAppearance.BorderSize = 0;
+            this.btn_gridview_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_gridview_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_gridview_close.ForeColor = System.Drawing.Color.Red;
+            this.btn_gridview_close.Location = new System.Drawing.Point(954, 4);
+            this.btn_gridview_close.Name = "btn_gridview_close";
+            this.btn_gridview_close.Size = new System.Drawing.Size(25, 25);
+            this.btn_gridview_close.TabIndex = 10;
+            this.btn_gridview_close.Text = "X";
+            this.btn_gridview_close.UseVisualStyleBackColor = false;
+            this.btn_gridview_close.Click += new System.EventHandler(this.btn_gridview_close_Click);
             // 
             // txttotalQTY
             // 
@@ -3751,7 +3783,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 504F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 506F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3767,7 +3799,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(226, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(224, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -3786,7 +3818,7 @@ namespace FoodandBeverage.Forms
             "None"});
             this.cmb_itemcategory_split.Location = new System.Drawing.Point(44, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(176, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(174, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button
@@ -4277,38 +4309,6 @@ namespace FoodandBeverage.Forms
             this.comtabletype.ReadOnly = true;
             this.comtabletype.Visible = false;
             // 
-            // tableLayoutPanel10
-            // 
-            this.tableLayoutPanel10.BackColor = System.Drawing.Color.SteelBlue;
-            this.tableLayoutPanel10.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel10.ColumnCount = 3;
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.Controls.Add(this.btn_gridview_close, 2, 0);
-            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
-            this.tableLayoutPanel10.RowCount = 1;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(983, 31);
-            this.tableLayoutPanel10.TabIndex = 185;
-            // 
-            // btn_gridview_close
-            // 
-            this.btn_gridview_close.BackColor = System.Drawing.Color.White;
-            this.btn_gridview_close.FlatAppearance.BorderSize = 0;
-            this.btn_gridview_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_gridview_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_gridview_close.ForeColor = System.Drawing.Color.Red;
-            this.btn_gridview_close.Location = new System.Drawing.Point(954, 4);
-            this.btn_gridview_close.Name = "btn_gridview_close";
-            this.btn_gridview_close.Size = new System.Drawing.Size(25, 25);
-            this.btn_gridview_close.TabIndex = 10;
-            this.btn_gridview_close.Text = "X";
-            this.btn_gridview_close.UseVisualStyleBackColor = false;
-            this.btn_gridview_close.Click += new System.EventHandler(this.btn_gridview_close_Click);
-            // 
             // FrmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4384,6 +4384,7 @@ namespace FoodandBeverage.Forms
             this.tlp_sample_sele_product.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tlp_gridview.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
             this.tlp_promo_code.ResumeLayout(false);
             this.tlp_promo_code.PerformLayout();
             this.tlp_grid_existing_products.ResumeLayout(false);
@@ -4423,7 +4424,6 @@ namespace FoodandBeverage.Forms
             this.flp_splitpaycontrol_nav.ResumeLayout(false);
             this.pnl_split_itemwise.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_combined)).EndInit();
-            this.tableLayoutPanel10.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -870,5 +870,14 @@
   <ItemGroup>
     <None Include="Resources\reserved_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combo_kicthenview_dgv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid_unslect_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid_select.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
