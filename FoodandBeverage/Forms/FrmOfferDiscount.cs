@@ -283,17 +283,20 @@ namespace FoodandBeverage.Forms
         }
         public bool checkOffer()
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "*";
-            objSearch.Table = "tblProduct";
-            objSearch.WhereNdGroupBy = "Where status=1 and ItemCode = '" + txtproduct.Text + "' ";// and BranchId = " + branch; ; ;
-            objSearch.OrderBy = "";
-            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-            if (itemSource.Count > 0)
+            if(txtproduct.Text !=null && txtproduct.Text != "")
             {
-                CMessageBox.Show(" Already Exist on ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblProduct";
+                objSearch.WhereNdGroupBy = "Where status=1 and ItemCode = '" + txtproduct.Text + "' ";// and BranchId = " + branch; ; ;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    CMessageBox.Show(" Already Exist on ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
             }
             return true;
         }
