@@ -22,7 +22,7 @@ namespace BLL
 			parms.Add("DiscountPer", dmnPromo.DiscountPer);
 			parms.Add("PromoLabel", dmnPromo.PromoLabel);
 			parms.Add("TotalPromo", dmnPromo.TotalPromo);
-			//parms.Add("AvilablePromo", dmnPromo.AvilablePromo);
+			parms.Add("Status", dmnPromo.Status);
 			parms.Add("CreatedBy", dmnPromo.CreatedBy);
 			var lstData = dapper.AddandReturnID(StoredProcedure, parms);
 			return lstData;
