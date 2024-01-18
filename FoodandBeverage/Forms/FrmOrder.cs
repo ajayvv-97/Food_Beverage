@@ -155,10 +155,8 @@ namespace FoodandBeverage.Forms
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
         public int Splitypeno = 0;
         public int Existingsalemasterid = 0;
-        private int v1;
-        private int v2;
-        private int v3;
         private List<FrmDashboard.Namelist> checkedtableNames;
+        public decimal ReservationTotal = 0;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -235,6 +233,7 @@ namespace FoodandBeverage.Forms
                 tlp_calculation_main.Controls.Remove(controlToRemove);
                 tlp_calculation_main.Controls.Add(tlp_calculation_total, 0, 0);
                 tlp_calculation_total.Visible = true;
+                tlp_calculation_total.Dock = DockStyle.Fill;
 
                 Dgv_Selected_Item.Rows.Add(1);
                 Dgv_Selected_Item.BorderStyle = BorderStyle.None;
@@ -728,13 +727,16 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
-                dmnSearchmaster.Select = "*";
-                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
-                dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and BookmasterId="+Bookingmasterid;
+                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal";
+                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId " +
+                    "left join tblbookMaster bm on bm.BookmasterId=om.BookmasterId";
+                dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.BookmasterId="+Bookingmasterid;
                 dmnSearchmaster.OrderBy = "";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+
+                    btn_itemwise.Enabled = false;
                     tableId = 0;
                     txttotalQTY.Text = Convert.ToString(gridSourcemaster[0].Quantity);
                     txtGrandTotal.Text = "0";
@@ -748,6 +750,16 @@ namespace FoodandBeverage.Forms
 
                     lblorderid.Visible = true;
                     label10.Visible = true;
+
+                    lbladvanceamt.Visible = true;
+                    txtadvance.Visible = true;
+                    ReservationTotal= Convert.ToDecimal(gridSourcemaster[0].ReservationTotal);
+                    txtadvance.Text= Convert.ToString(gridSourcemaster[0].AdvancePay);
+                    tlp_calculation_total.RowStyles[0] = new RowStyle(SizeType.Percent, 25);
+                    tlp_calculation_total.RowStyles[1] = new RowStyle(SizeType.Percent, 25);
+                    tlp_calculation_total.RowStyles[2] = new RowStyle(SizeType.Percent, 25);
+                    tlp_calculation_total.RowStyles[3] = new RowStyle(SizeType.Percent, 25);
+                    txtadvance.Dock = DockStyle.Fill;
 
                     var distinctCategories = gridSourcemaster
                         .Select(item => item.OrderNo)
@@ -1062,6 +1074,7 @@ namespace FoodandBeverage.Forms
                     lblorderid.Visible = false;
                     label10.Visible = false;
                 }
+                textb_shape();
 
             }
             catch (Exception ex)
@@ -1076,7 +1089,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
-                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
+                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3)";
                 dmnSearchmaster.WhereNdGroupBy = "where tid= " + tableId + " and om.Status=1";
                 dmnSearchmaster.OrderBy = "";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
@@ -1430,7 +1443,6 @@ namespace FoodandBeverage.Forms
                     lblorderid.Visible = false;
                     label10.Visible = false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -4658,7 +4670,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo, txtnumber_split })
+                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo, txtnumber_split, txtadvance })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -4982,12 +4994,18 @@ namespace FoodandBeverage.Forms
                 if (string.IsNullOrEmpty(txtpaidamount.Text))
                     txtpaidamount.Text = "0";
                 if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
-                    txtdiscountamt_promo.Text = "0"; 
+                    txtdiscountamt_promo.Text = "0";
+                if (string.IsNullOrEmpty(txtadvance.Text))
+                    txtadvance.Text = "0";
                 decimal value;
                 if (decimal.TryParse(txtotheraddamt.Text, out value) && decimal.TryParse(txtdis_amt.Text, out value) && decimal.TryParse(txtotherdedamt.Text, out value))
                 {
                     decimal netAmount = 0;
                     netAmount = (Convert.ToDecimal(txtGrandTotal.Text) + Convert.ToDecimal(txtotheraddamt.Text)) - (Convert.ToDecimal(txtdis_amt.Text) + Convert.ToDecimal(txtotherdedamt.Text) + Convert.ToDecimal(txtdiscountamt_promo.Text));
+                    
+                    if (Booking_Status && (netAmount > Convert.ToDecimal(txtadvance.Text)))
+                        netAmount = netAmount - Convert.ToDecimal(txtadvance.Text);
+
                     txtnetamount.Text = netAmount.ToString("N2");
                     label20.Text = "Net Amount : " + txtnetamount.Text;
                     label21.Text = "Net Amount : " + txtnetamount.Text;
@@ -5171,8 +5189,11 @@ namespace FoodandBeverage.Forms
             if (txtentrie_descr.Visible)
                 txtentrie_descr.Visible = false;
             else
+            {
                 txtentrie_descr.Visible = true;
-
+                txtentrie_descr.Dock = DockStyle.Fill;
+                textb_shape();
+            }
             //tlp_payment_main
         }
 
@@ -5190,7 +5211,10 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                     dmnordermaster.EntryNo = "";
                     dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
-                    dmnordermaster.Remarks = txtentrie_descr.Text;
+                    if(txtentrie_descr.Text == "Description Type here .....")
+                        dmnordermaster.Remarks = "";
+                    else
+                        dmnordermaster.Remarks = txtentrie_descr.Text;
                     dmnordermaster.BranchId = FrmDashboard.BranchId;
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
@@ -5412,7 +5436,9 @@ namespace FoodandBeverage.Forms
                 Promomasterid = 0;
                 Splitypeno = 0;
                 Existingsalemasterid = 0;
+                ReservationTotal = 0;
                 int rowToRemove = 0;
+                btn_itemwise.Enabled = true;
                 List<int> columnsToRemove = new List<int> { 1, 2, 3 };
 
                 foreach (int column in columnsToRemove)
@@ -5433,6 +5459,13 @@ namespace FoodandBeverage.Forms
                 btn_saveKOT.Visible = true;
                 btn_print_bill.Visible = false;
                 setperfixsale();
+
+                lbladvanceamt.Visible = false;
+                txtadvance.Visible = false;
+                tlp_calculation_total.RowStyles[0] = new RowStyle(SizeType.AutoSize);
+                tlp_calculation_total.RowStyles[1] = new RowStyle(SizeType.Percent, 25);
+                tlp_calculation_total.RowStyles[2] = new RowStyle(SizeType.Percent, 25);
+                tlp_calculation_total.RowStyles[3] = new RowStyle(SizeType.Percent, 25);
             }
             catch (Exception)
             {
@@ -5785,6 +5818,8 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
                         dmnsalemaster.OrderMasterid = Convert.ToInt32(0);//lblorderid.Text
                         dmnsalemaster.PromoAmount = Convert.ToDecimal(txtdiscountamt_promo.Text);
+                        dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
+                        dmnsalemaster.ReservationTotal = ReservationTotal;
                         dmnsalemaster.Tid = tableId;
                         dmnsalemaster.PayId = payid;
 
@@ -5946,9 +5981,18 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                         dmnsalemaster.OaAmount = Convert.ToDecimal(txtotheraddamt.Text);
-                        dmnsalemaster.OaDesc = Convert.ToString(txtother_descr.Text);
+
+                        if (txtother_descr.Text == "Description Type Here ...")
+                            dmnsalemaster.OaDesc ="";
+                        else
+                            dmnsalemaster.OaDesc = Convert.ToString(txtother_descr.Text);
                         dmnsalemaster.OdAmount = Convert.ToDecimal(txtotherdedamt.Text);
-                        dmnsalemaster.OdDesc = Convert.ToString(txtother_descr.Text);
+
+                        if (txtother_descr.Text == "Description Type Here ...")
+                            dmnsalemaster.OdDesc = "";
+                        else
+                            dmnsalemaster.OdDesc = Convert.ToString(txtother_descr.Text);
+
                         dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                         dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                         dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
@@ -5976,6 +6020,8 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 0;
                         dmnsalemaster.BookmasterId = Bookingmasterid;
+                        dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
+                        dmnsalemaster.ReservationTotal = ReservationTotal;
                         FinalTax();
                         //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
                         dmnsalemaster.TotalTax = TotalTax;
@@ -6679,22 +6725,28 @@ namespace FoodandBeverage.Forms
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "DEBITCARD";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
-                    case "btnupi":
+                    case "btn_split_upi":
                         payid = Convert.ToInt32(PaymentType.UPI);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.UPI);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "UPI";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
-                    case "btnnetbanking":
+                    case "btn_split_netbanking":
                         payid = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "BANKINGONLINE";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
-                    case "btncreditcard":
+                    case "btn_split_credit":
                         payid = Convert.ToInt32(PaymentType.CREDIT);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.CREDIT);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "CREDIT";
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
+                        break;
+                    case "btn_split_others":
+                        payid = Convert.ToInt32(PaymentType.CREDIT);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.OTHERS);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "OTHERS";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
 
@@ -6718,7 +6770,6 @@ namespace FoodandBeverage.Forms
                 }
                 dmnpayment.BillCount = BillList.Count;
                 dmnpayment.SplitType = Splitypeno;
-
                 dmnpayment.OaAmount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[8].Value);
                 dmnpayment.OdAmount = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[9].Value);
                 dmnpayment.PromoAmt = Convert.ToDecimal(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[10].Value);
@@ -6742,32 +6793,25 @@ namespace FoodandBeverage.Forms
                     cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     cell1.Value = Properties.Resources.orderview_complete;
 
-                    //for (int i = 0; i < Convert.ToInt32(txtnumber_split.Text); i++)
-                    //{
-                    //    dgv_split.Rows[i].Cells[2].Value = null;
-
-                    //        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
-                    //        if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 1)
-                    //        {
-                    //            cell1.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                    //            cell1.Value = Properties.Resources.pay_per_click;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    //            cell1.Value = Properties.Resources.orderview_complete;
-                    //        }
-                        
-                    //}
-
+                }
+                int count = 0;
+                for(int i=0;i< dgv_split.RowCount;i++)
+                {
+                    if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 2 && Convert.ToInt32(dgv_split.Rows[i].Cells[4].Value) > 0)
+                        count = count + 1;                        
+                }
+                if(count == dgv_split.RowCount)
+                {
+                    CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                    {
+                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instanceFrmdash.TableStaus(0);
+                    }
+                    this.Close();
                 }
 
-                //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                //{
-                //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                //    _instanceFrmdash.TableStaus(0);
-                //}
+
             }
             catch(Exception ex)
             {
@@ -6778,7 +6822,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_split_payclose_Click(object sender, EventArgs e)
         {
-
             //for (int i = 0; i < Convert.ToInt32(txtnumber_split.Text); i++)
             //{              
             //        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];

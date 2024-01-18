@@ -148,7 +148,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
                                               " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
                                               " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
-                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount";
+                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal";
                 dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
@@ -172,7 +172,7 @@ namespace FoodandBeverage.SaleBill
                 GenerateBarcode(invoiceBillMasters[0].EntryNo);
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-                    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId","PromoAmount"))
+                    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId","PromoAmount", "AdvanceAmount", "ReservationTotal"))
                 {
                     dtSalesMaster.Load(reader);
                 }

@@ -34,6 +34,8 @@ namespace Domain
         public decimal DiscountAmount { get; set; }
         public int PromoDId { get; set; }
         public decimal PromoAmount { get; set; }
-        
+        public decimal ReservationTotal { get; set; }
+        public decimal AdvanceAmount { get; set; }        
+            
     }
 }

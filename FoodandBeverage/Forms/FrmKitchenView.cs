@@ -157,7 +157,7 @@ namespace FoodandBeverage.Forms
                     foreach (var orders in distinctOrders)
                     { 
                         dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15 ";
+                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,om.remarks Field16";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -192,11 +192,12 @@ namespace FoodandBeverage.Forms
                             }
 
                             tlp_product_box.BackColor = boxcolor;
-                            tlp_product_box.RowCount = 3;
+                            tlp_product_box.RowCount = 4;
                             //tlp_product_box.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
                             tlp_product_box.Margin = new Padding(20, 10, 0, 0);
                             tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                             tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // 50% height
+                            tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                             tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                             ApplyRoundedCorners(tlp_product_box);
                             #endregion
@@ -348,7 +349,7 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                             dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[ddetailsidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgv_product_details.Columns[dkoidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -427,6 +428,20 @@ namespace FoodandBeverage.Forms
                             tlp_product_box.Controls.Add(dgv_product_details, 0, 1);
                             dgv_product_details.Dock = DockStyle.Fill;
 
+                            #endregion
+
+                            #region Description
+                            Label lbl_Description = new Label()
+                            {
+                                Text = "Note :   " + gridSourcedetails[0].Field16,
+                                Name = "lbl_Description" + gridSourcedetails[0].Field1,
+                                Dock = DockStyle.Fill,
+                                ForeColor = Color.White,
+                                AutoSize = true
+
+                            };
+                            if(gridSourcedetails[0].Field16 !=null && gridSourcedetails[0].Field16 !="" )
+                                tlp_product_box.Controls.Add(lbl_Description, 0, 2);
                             #endregion
 
                             #region Ready and Close Button Thrid Row
@@ -526,7 +541,7 @@ namespace FoodandBeverage.Forms
                             tlp_buttons.Controls.Add(pb_cancelfood, 2, 0);
 
                             // Adding Buttons TableLayoutPanel to the last row
-                            tlp_product_box.Controls.Add(tlp_buttons, 0, 2);
+                            tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
                             #endregion
 
                             flp_order_view.Controls.Add(tlp_product_box);

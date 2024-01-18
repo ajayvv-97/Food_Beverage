@@ -968,7 +968,8 @@ namespace FoodandBeverage.Forms
 
                 DmnHRegistration dmnRegistration = new DmnHRegistration();
                 BllHotelRegistration bllregistration = new BllHotelRegistration();
-
+                if (string.IsNullOrWhiteSpace(txtid.Text))
+                    txtid.Text = "0";
                 dmnRegistration.Id = Convert.ToInt32(txtid.Text);
                 dmnRegistration.Name = Convert.ToString(txtname.Text);
                 dmnRegistration.Address = Convert.ToString(txtaddress.Text);

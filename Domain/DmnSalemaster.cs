@@ -95,6 +95,8 @@ namespace Domain
         public string SalesSerialNo { get; set; }
         public int CombinedOrderBill_TYPE { get; set; }
         public int BookmasterId { get; set; }
-        
+        public decimal AdvanceAmount { get; set; }
+        public decimal ReservationTotal { get; set; }
+
     }
 }

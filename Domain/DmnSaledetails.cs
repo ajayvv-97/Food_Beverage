@@ -43,8 +43,7 @@ namespace Domain
         public string ItemBarcode { get; set; }
         public decimal MarketPrice { get; set; }
         public int TableType { get; set; }
-
-
-
+        public decimal AdvanceAmount { get; set; }
+        public decimal ReservationTotal { get; set; }
     }    
 }

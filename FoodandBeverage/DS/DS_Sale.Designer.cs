@@ -746,6 +746,10 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnPromoAmount;
             
+            private global::System.Data.DataColumn columnAdvanceAmount;
+            
+            private global::System.Data.DataColumn columnReservationTotal;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_salemasterDataTable() {
@@ -989,6 +993,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AdvanceAmountColumn {
+                get {
+                    return this.columnAdvanceAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ReservationTotalColumn {
+                get {
+                    return this.columnReservationTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1050,7 +1070,9 @@ namespace FoodandBeverage.DS {
                         decimal OdAmount, 
                         decimal DiscountAmount, 
                         int PromoDId, 
-                        decimal PromoAmount) {
+                        decimal PromoAmount, 
+                        decimal AdvanceAmount, 
+                        decimal ReservationTotal) {
                 DT_salemasterRow rowDT_salemasterRow = ((DT_salemasterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         EntryNo,
@@ -1078,7 +1100,9 @@ namespace FoodandBeverage.DS {
                         OdAmount,
                         DiscountAmount,
                         PromoDId,
-                        PromoAmount};
+                        PromoAmount,
+                        AdvanceAmount,
+                        ReservationTotal};
                 rowDT_salemasterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_salemasterRow);
                 return rowDT_salemasterRow;
@@ -1127,6 +1151,8 @@ namespace FoodandBeverage.DS {
                 this.columnDiscountAmount = base.Columns["DiscountAmount"];
                 this.columnPromoDId = base.Columns["PromoDId"];
                 this.columnPromoAmount = base.Columns["PromoAmount"];
+                this.columnAdvanceAmount = base.Columns["AdvanceAmount"];
+                this.columnReservationTotal = base.Columns["ReservationTotal"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1184,6 +1210,10 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnPromoDId);
                 this.columnPromoAmount = new global::System.Data.DataColumn("PromoAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPromoAmount);
+                this.columnAdvanceAmount = new global::System.Data.DataColumn("AdvanceAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAdvanceAmount);
+                this.columnReservationTotal = new global::System.Data.DataColumn("ReservationTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReservationTotal);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2312,6 +2342,38 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal AdvanceAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_salemaster.AdvanceAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AdvanceAmount\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.AdvanceAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal ReservationTotal {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_salemaster.ReservationTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReservationTotal\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.ReservationTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsEntryNoNull() {
                 return this.IsNull(this.tableDT_salemaster.EntryNoColumn);
             }
@@ -2620,6 +2682,30 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetPromoAmountNull() {
                 this[this.tableDT_salemaster.PromoAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAdvanceAmountNull() {
+                return this.IsNull(this.tableDT_salemaster.AdvanceAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAdvanceAmountNull() {
+                this[this.tableDT_salemaster.AdvanceAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsReservationTotalNull() {
+                return this.IsNull(this.tableDT_salemaster.ReservationTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetReservationTotalNull() {
+                this[this.tableDT_salemaster.ReservationTotalColumn] = global::System.Convert.DBNull;
             }
         }
         

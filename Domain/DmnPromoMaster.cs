@@ -9,8 +9,8 @@ namespace Domain
 		public int PromoMId { get; set; }
 		public string Caption { get; set; }
 		public string Description { get; set; }
-		public DateTime From { get; set; }
-		public DateTime To { get; set; }
+		public DateTime StartDate { get; set; }
+		public DateTime EndDate { get; set; }
 		public decimal MinBillAmt { get; set; }
 		public decimal MaxDiscount { get; set; }
 		public decimal DiscountPer { get; set; }

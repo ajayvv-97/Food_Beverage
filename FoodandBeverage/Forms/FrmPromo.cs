@@ -2,15 +2,21 @@
 using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Forms.UserControls;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace FoodandBeverage.Forms
 {
-    public partial class FrmPromo : Form
+	public partial class FrmPromo : Form
 	{
 		string dtfrom ="";
 		string dtto="";
@@ -21,8 +27,8 @@ namespace FoodandBeverage.Forms
 
 		private void FrmPromo_Load(object sender, EventArgs e)
 		{
-			//dtpfrom.MinDate = DateTime.Now;
-			//dtpto.MinDate = DateTime.Now;
+			Clear();
+
 			///dtpfrom.Format = DateTimePickerFormat.Custom;
 			//dtpfrom.CustomFormat = "dd-MM-yyyy hh:mm:ss";
 			//dgvProCode.BorderStyle = BorderStyle.None;
@@ -49,8 +55,8 @@ namespace FoodandBeverage.Forms
 					BllPromoMaster bllPromo = new BllPromoMaster();
 					dmnProMaster.Caption = txtprocap.Text;
 					dmnProMaster.Description = txtprodesc.Text;
-					dmnProMaster.From = Convert.ToDateTime(dtfrom);
-					dmnProMaster.To = Convert.ToDateTime(dtto);
+					dmnProMaster.StartDate = Convert.ToDateTime(dtfrom);
+					dmnProMaster.EndDate = Convert.ToDateTime(dtto);
 					dmnProMaster.MinBillAmt = Convert.ToDecimal(txtgrt.Text);
 					dmnProMaster.MaxDiscount = Convert.ToDecimal(txtmaxdis.Text);
 					dmnProMaster.DiscountPer = Convert.ToDecimal(txtdiscper.Text);
@@ -130,6 +136,8 @@ namespace FoodandBeverage.Forms
 			dgvProCode.Rows.Clear();
 			txtprocap.Text = "";
 			txtprodesc.Text = "";
+			dtpfrom.MinDate = DateTime.Now;
+			dtpto.MinDate = DateTime.Now;
 			dtpfrom.Value = DateTime.Now;
 			dtpto.Value = DateTime.Now;
 			txtgrt.Text = "0";
@@ -166,14 +174,20 @@ namespace FoodandBeverage.Forms
 			}
 			else if (string.IsNullOrEmpty(txttotPro.Text))
 			{
-				CMessageBox.Show("Promo Count Must Be Grteaer Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				CMessageBox.Show("Promo Count Must Be Greater Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txttotPro.Focus();
 				return false;
 			}	
-			else if((Convert.ToDateTime(dtfrom)<DateTime.Now) || (Convert.ToDateTime(dtto)<=Convert.ToDateTime(dtfrom)))
+			//else if(Convert.ToDateTime(dtfrom)<=DateTime.Now)
+			//{
+			//	CMessageBox.Show("From Time Must Be Greater Than Current DateTime ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//	dtpfrom.Focus();
+			//	return false;
+			//}	
+			else if(Convert.ToDateTime(dtto)<=Convert.ToDateTime(dtfrom))
 			{
-				CMessageBox.Show("Invalid From Time And To Time ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txttotPro.Focus();
+				CMessageBox.Show("To Time Must Be Greater Than From Time ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				dtpto.Focus();
 				return false;
 			}
 			else
@@ -233,7 +247,6 @@ namespace FoodandBeverage.Forms
 					if (dialogResult == DialogResult.OK)
 					{
 						returnValue = Convert.ToString(search._retValue);
-
 					}
 				}
 				if (returnValue.ToString() != null && returnValue.ToString() != "")
@@ -248,8 +261,13 @@ namespace FoodandBeverage.Forms
 					{
 						txtprocap.Text=gridSource[0].Caption;
 						txtprodesc.Text=gridSource[0].Description;
-						dtpto.Value=gridSource[0].To;
-						dtpfrom.Value = gridSource[0].From;
+						dtpto.MinDate = Convert.ToDateTime(gridSource[0].StartDate);
+						dtpfrom.MinDate = Convert.ToDateTime(gridSource[0].StartDate);
+						dtpto.Value=Convert.ToDateTime(gridSource[0].EndDate.ToString("dd-MM-yyyy"));
+						dtptotime.Value=Convert.ToDateTime(gridSource[0].EndDate.ToString("hh:mm:ss")); 
+						dtpfrom.Value=Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
+						dtpfromtime.Value=Convert.ToDateTime(gridSource[0].StartDate.ToString("hh:mm:ss")); 
+						
 						txtgrt.Text=Convert.ToString(gridSource[0].MinBillAmt);
 						txtmaxdis.Text = Convert.ToString(gridSource[0].MaxDiscount); 
 						txtdiscper.Text = Convert.ToString(gridSource[0].DiscountPer);
@@ -342,7 +360,46 @@ namespace FoodandBeverage.Forms
 				txttotPro.Text = "0";
 			}
 		}
+		#region TexBox Round function
+		public void textb_shape()
+		{
+			try
+			{
+				// Apply rounded corners to text boxes based on the list
+				foreach (TextBox textBox in new TextBox[] {txtprocap,txtprodesc,txtgrt,txtmaxdis,txtdiscper,txtproLbl,txttotPro })
+				{
+					ApplyRoundedTextBox(textBox, 10);
+					textBox.Font = new Font(textBox.Font.FontFamily, 12);
+					textBox.BorderStyle = BorderStyle.None;
+				}
 
-		
+			}
+			catch (Exception)
+			{
+
+			}
+		}
+
+		private void ApplyRoundedTextBox(TextBox textBox, int radius)
+		{
+			// Create a new GraphicsPath object
+			GraphicsPath path = new GraphicsPath();
+			// Define the shape of the path using a rounded rectangle
+			Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+			path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+			path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+			path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+			path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+			path.CloseAllFigures();
+			// Set the Region property of the textbox to the new path
+			textBox.Region = new Region(path);
+		}
+
+		#endregion
+
+		private void FrmPromo_Resize(object sender, EventArgs e)
+		{
+			textb_shape();
+		}
 	}
 }

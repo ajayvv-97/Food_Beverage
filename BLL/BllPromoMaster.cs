@@ -15,8 +15,8 @@ namespace BLL
 			parms.Add("PromoMId", dmnPromo.PromoMId);
 			parms.Add("Caption", dmnPromo.Caption);
 			parms.Add("Description", dmnPromo.Description);
-			parms.Add("From", dmnPromo.From);
-			parms.Add("To", dmnPromo.To);
+			parms.Add("From", dmnPromo.StartDate);
+			parms.Add("To", dmnPromo.EndDate);
 			parms.Add("MinBillAmt", dmnPromo.MinBillAmt);
 			parms.Add("MaxDiscount", dmnPromo.MaxDiscount);
 			parms.Add("DiscountPer", dmnPromo.DiscountPer);
