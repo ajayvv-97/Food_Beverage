@@ -16,6 +16,8 @@ using FoodandBeverage.Interfaces;
 using System.Drawing.Drawing2D;
 
 using System.Runtime.InteropServices;
+using CustomMessageBox;
+
 namespace FoodandBeverage.Forms
 {
     public partial class FrmEmployeeShort : Form
@@ -319,7 +321,7 @@ namespace FoodandBeverage.Forms
         {
             if (CheckCardAssign(str1))
             {
-                MessageBox.Show("Card Already Used !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Card Already Used !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -421,7 +423,7 @@ namespace FoodandBeverage.Forms
                     str1 = RemoveSpecialCharacters(str1.Trim());
 
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                     {
                         Keypad_Rfid(str1);
@@ -454,7 +456,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void GenerateCode()
@@ -494,7 +496,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -623,7 +625,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -642,7 +644,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                MessageBox.Show("No Cameras Detected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                CMessageBox.Show("No Cameras Detected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 pbCust.Image = null;
 
                 if (Convert.ToInt32(cboGender.SelectedValue) == 1)
@@ -664,7 +666,7 @@ namespace FoodandBeverage.Forms
                 bitmap.Save(Compressedimg + "\\Image.jpeg");
             }
             else
-                MessageBox.Show("No Cameras Detected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                CMessageBox.Show("No Cameras Detected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             btnSave.Enabled = true;
         }
         static bool ValidatePhoneNumber(string phoneNumber)
@@ -677,11 +679,11 @@ namespace FoodandBeverage.Forms
             {
                 if (phoneNumber.Length < 10)
                 {
-                    MessageBox.Show("Phone number should have a minimum of 10 digits.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("Phone number should have a minimum of 10 digits.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else if (phoneNumber.Length > 12)
                 {
-                    MessageBox.Show("Phone number should have a maximum of 12 digits.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CMessageBox.Show("Phone number should have a maximum of 12 digits.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
 
@@ -728,32 +730,32 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtEmpName.Text))
             {
-                MessageBox.Show("Employee Name Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Employee Name Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmpName.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtCardnumber.Text))
             {
-                MessageBox.Show("Card Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Card Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCardnumber.Focus();
                 return false;
             }
 
             else if (mcmbDesignationId.SelectedIndex == 0 || mcmbDesignationId.SelectedIndex == -1)
             {
-                MessageBox.Show("Designation Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Designation Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 mcmbDesignationId.Focus();
                 return false;
             }
             else if (mcmbDepartmentId.SelectedIndex == 0 || mcmbDepartmentId.SelectedIndex == -1)
             {
-                MessageBox.Show("Department Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Department Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 mcmbDepartmentId.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtphone.Text))
             {
-                MessageBox.Show("Phone Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Phone Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtphone.Focus();
                 return false;
             }
@@ -769,7 +771,7 @@ namespace FoodandBeverage.Forms
             }
             if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
-                MessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
                 return false;
             }
@@ -780,7 +782,7 @@ namespace FoodandBeverage.Forms
                 bool isValid = IsValidEmail(email);
                 if (isValid == false)
                 {
-                    MessageBox.Show("Please Enter Valid Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Please Enter Valid Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtemail.Focus();
                     return false;
                 }
@@ -789,21 +791,21 @@ namespace FoodandBeverage.Forms
 
             else if (!IsEmployeeExist())
             {
-                MessageBox.Show("Employee Name Is Alredy Exist", "Alredy Exist", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Employee Name Is Alredy Exist", "Alredy Exist", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmpName.Focus();
                 return false;
             }
 
             else if (cmbUsreAccount.SelectedIndex == 0 || cmbUsreAccount.SelectedIndex == -1)
             {
-                MessageBox.Show("Access Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Access Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tabControl1.SelectedTab = tabPage2;
                 cmbUsreAccount.Focus();
                 return false;
             }
             else if (mcmbaccounttype.SelectedIndex == 0 || mcmbaccounttype.SelectedIndex == -1)
             {
-                MessageBox.Show("User Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("User Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tabControl1.SelectedTab = tabPage3;
                 mcmbaccounttype.Focus();
                 return false;
@@ -889,7 +891,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
                         }
                     }
@@ -909,7 +911,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
 
 
@@ -972,13 +974,13 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                MessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             }
                         }
                         else
                         {
-                            MessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         }
                     }
@@ -1018,12 +1020,12 @@ namespace FoodandBeverage.Forms
                                 userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
                                 if (userAccount.UserAccountId != 0)
                                 {
-                                    MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 }
 
@@ -1034,12 +1036,12 @@ namespace FoodandBeverage.Forms
                                 bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
                                 if (saveStatus)
                                 {
-                                     MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                         }
@@ -1055,7 +1057,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
         public void fillcmbcame()
@@ -1263,7 +1265,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
                         }
                     }
@@ -1283,7 +1285,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
 
 
@@ -1346,13 +1348,13 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                MessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             }
                         }
                         else
                         {
-                            MessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         }
                     }
@@ -1392,12 +1394,12 @@ namespace FoodandBeverage.Forms
                                 userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
                                 if (userAccount.UserAccountId != 0)
                                 {
-                                     MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 }
 
@@ -1408,12 +1410,12 @@ namespace FoodandBeverage.Forms
                                 bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
                                 if (saveStatus)
                                 {
-                                    MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                         }
@@ -1429,7 +1431,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
 
@@ -1529,7 +1531,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
 
@@ -1559,7 +1561,7 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (gridSource.Count > 0)
                 {
-                    MessageBox.Show("This User Name Is Alredy Exist", "Not Valid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("This User Name Is Alredy Exist", "Not Valid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtuname.Text = "";
                     txtuname.Focus();
                 }
@@ -1606,7 +1608,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtusertype.Text == "" || txtusertype.Text == null)
             {
-                MessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -1845,7 +1847,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
                         }
                     }
@@ -1865,7 +1867,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
 
 
@@ -1928,13 +1930,13 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                MessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             }
                         }
                         else
                         {
-                            MessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         }
                     }
@@ -1974,12 +1976,12 @@ namespace FoodandBeverage.Forms
                                 userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
                                 if (userAccount.UserAccountId != 0)
                                 {
-                                     MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 }
 
@@ -1990,12 +1992,12 @@ namespace FoodandBeverage.Forms
                                 bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
                                 if (saveStatus)
                                 {
-                                     MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     clear();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                         }
@@ -2011,7 +2013,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
 
@@ -2106,7 +2108,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
 
@@ -2127,8 +2129,8 @@ namespace FoodandBeverage.Forms
                                "left join tblDepartment as dp on emp.DepartmentId = dp.DepartmentId " +
                                "left join tblDesignation as ds on emp.DesignationId = ds.DesignationId";
                 _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + 1030;
-
                 _objSearch.OrderBy = " Order By EmployeeName ASC ";
+
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
                 {
                     var dialogResult = search.ShowDialog();
@@ -2201,7 +2203,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                CMessageBox.Show(ex.ToString());
             }
         }
 

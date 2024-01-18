@@ -26,6 +26,7 @@ using ClsGeneral = FoodandBeverage.Classes.ClsGeneral;
 using System.Drawing.Drawing2D;
 
 using System.Runtime.InteropServices;
+using CustomMessageBox;
 
 namespace FoodandBeverage.Forms.UserAccount
 {
@@ -110,7 +111,7 @@ namespace FoodandBeverage.Forms.UserAccount
         {
             if (mcmbaccounttype.SelectedIndex == 0)
             {
-                MessageBox.Show(" UserType is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" UserType is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtemp.Text == "" || txtemp.Text == string.Empty)
@@ -120,22 +121,22 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             else if (txtuname.Text == "" || txtuname.Text == string.Empty)
             {
-                MessageBox.Show(" UserName is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" UserName is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtpassword.Text == "" || txtpassword.Text == string.Empty)
             {
-                MessageBox.Show(" Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtcconpassword.Text == "" || txtcconpassword.Text == string.Empty)
             {
-                MessageBox.Show("Confirm Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Confirm Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtpassword.Text.Trim() != txtcconpassword.Text.Trim())
             {
-                MessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -270,7 +271,7 @@ namespace FoodandBeverage.Forms.UserAccount
         {
             if (txtpassword.Text.Trim() != txtcconpassword.Text.Trim())
             {
-                MessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -344,7 +345,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -410,12 +411,12 @@ namespace FoodandBeverage.Forms.UserAccount
                     userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
                     if (userAccount.UserAccountId != 0)
                     {
-                        MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         clear();
                     }
                     else
                     {
-                        MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
 
@@ -426,12 +427,12 @@ namespace FoodandBeverage.Forms.UserAccount
                     bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
                     if (saveStatus)
                     {
-                        MessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         clear();
                     }
                     else
                     {
-                        MessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

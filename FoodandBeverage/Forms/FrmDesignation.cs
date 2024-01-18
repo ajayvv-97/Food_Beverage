@@ -16,8 +16,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
 using FoodandBeverage.Interfaces;
-
-
+using CustomMessageBox;
 
 namespace FoodandBeverage.Forms
 {
@@ -182,9 +181,9 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDesignation.AddData("prdInsertDesignation", dmnDesignation);
                             savestatus = lstData;
                             if (savestatus)
-                                MessageBox.Show("\n" + mtxtName.Text+ " Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show("\n" + mtxtName.Text+ " Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                MessageBox.Show("\n" + mtxtName.Text+ " Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("\n" + mtxtName.Text+ " Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -194,9 +193,9 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDesignation.UpdateData("prdUpdateDesignation", dmnDesignation);
                             savestatus = lstData;
                             if (savestatus)
-                                MessageBox.Show("\n" + mtxtName.Text+" Updated successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show("\n" + mtxtName.Text+" Updated successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                MessageBox.Show("\n" + mtxtName.Text+" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("\n" + mtxtName.Text+" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         RefreshForm();
                         fillGridView();
@@ -211,7 +210,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void MbtnRefresh_Click(object sender, EventArgs e)
@@ -228,7 +227,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
@@ -243,7 +242,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Designation)))
@@ -268,31 +267,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                //if (dgvDesignation.Rows.Count >= 0)
-                //{
-                //    DesignationId = Convert.ToInt32(dgvDesignation.CurrentRow.Cells[0].Value);
-                //    BllDesignation bllDesignation = new BllDesignation();
-                //    BllSearch<DmnDesignation> bllSearch = new BllSearch<DmnDesignation>();
-                //    DmnSearch objSearch = new DmnSearch();
-                //    objSearch = new DmnSearch();
-                //    objSearch.ColumnHeaders = "DesignationId,DepartmentId,DesignationName,Working Hours";
-                //    objSearch.Select = " DesignationId,DepartmentId,DesignationName,WorkingHours";
-                //    objSearch.Table = " tblDesignation";
-                //    objSearch.WhereNdGroupBy = "Where DesignationId = " + DesignationId;
-                //    objSearch.OrderBy = "Order By DesignationName ASC ";
-                //    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                //    mtxtName.Text = Convert.ToString(gridSource[0].DesignationName);
-                //    dtpWorkingHrs.Text = Convert.ToString(gridSource[0].WorkingHours);
-                //    mcmbDepartment.SelectedValue = gridSource[0].DepartmentId;
-                //    DesignationId = Convert.ToInt32(gridSource[0].DesignationId);
-                //    hlblHeader.Text = "Designation [Edit]";
-                //    mcmbDepartment.Focus();
-                //}
+               
                 dgvFrmDesignation();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void DgvDesignation_KeyDown(object sender, KeyEventArgs e)
@@ -318,10 +298,10 @@ namespace FoodandBeverage.Forms
                             {
                                 fillGridView();
                                 RefreshForm();
-                                MessageBox.Show("Successfully deleted", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show("Successfully deleted", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             }
                             else
-                                MessageBox.Show("Delete failed " + mtxtName.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("Delete failed " + mtxtName.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                            
                         }
                     }
@@ -335,7 +315,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -360,7 +340,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -378,7 +358,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -388,23 +368,14 @@ namespace FoodandBeverage.Forms
             try
             {
 
-                //var min = new TimeSpan(08, 00, 00);
-                //var max = new TimeSpan(12, 00, 00);
-                ////if(dtpWorkingHrs.Value.TimeOfDay<min || dtpWorkingHrs.Value.TimeOfDay>max)
-                //if (dtpWorkingHrs.Text < min || dtpWorkingHrs.Text > max)
-                //{
-                //    MetroMessageBox.Show(this, "invalid time limit ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
-
-                //    mbtnSave.Enabled = false;
-                //}
-
+          
                 if (dtpWorkingHrs.Text != "08:00")
                 {
                     string min = "08:00";
                     string max = "12:00";
                     if (Convert.ToDateTime(dtpWorkingHrs.Text) < Convert.ToDateTime(min) || Convert.ToDateTime(dtpWorkingHrs.Text) > Convert.ToDateTime(max))
                     {
-                        MessageBox.Show("invalid time limit ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("invalid time limit ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dtpWorkingHrs.Text = "08:00";
                         //mbtnSave.Enabled = false;
                     }
@@ -414,7 +385,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -432,7 +403,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -448,7 +419,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -472,7 +443,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 

@@ -9,6 +9,8 @@ using FoodandBeverage.Interfaces;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
+using CustomMessageBox;
+
 namespace FoodandBeverage.Forms
 {
     public partial class FrmRegistration : Form
@@ -48,17 +50,18 @@ namespace FoodandBeverage.Forms
         private bool Isvalid()
         {
 
-
             if (string.IsNullOrWhiteSpace(txtname.Text.Trim()))
             {
-
-                MessageBox.Show(this, "", "Account Name must be specified", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                CMessageBox.Show("Company Name Must be Specified", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtname.Focus();
                 return false;
             }
+
+          
             else if (string.IsNullOrWhiteSpace(txtph.Text.Trim()))
             {
-                MessageBox.Show(this, "", "Phone No.must be specified", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                CMessageBox.Show("Phone No.must be specified", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               
                 txtph.Focus();
                 return false;
             }
@@ -158,22 +161,22 @@ namespace FoodandBeverage.Forms
                             InsertStatus.Photo = "";
                             InsertStatus.Photo = "";
                         }
-                        MessageBox.Show(this, txtname.Text + "  ", "Detail Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        CMessageBox.Show(this, txtname.Text + "  ", "Detail Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         this.Close();
                     }
                     else
-                        MessageBox.Show(this, "  ", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        CMessageBox.Show("Successfully Saved","Success", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
                     Refreshform();
                 }
                 else
                 {
-                    MessageBox.Show(this, " ", " Save Failed  ", MessageBoxButtons.OK);
+                    CMessageBox.Show(this, " ", " Save Failed  ", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
         private void Refreshform()
@@ -193,6 +196,8 @@ namespace FoodandBeverage.Forms
                 certi1.Text = "";
                 certi2.Text = "";
                 certi3.Text = "";
+                txtg.Text = "";
+                tbl_BookingIn.Text = "";
                 comboBox3.Text = "select";
                 cmdstate.Text = "select";
                 cmdcity.Text = "select";
@@ -362,7 +367,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 }
             }
 
@@ -381,7 +386,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -401,7 +406,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error
                         );
                 }
             }
@@ -496,7 +501,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Work for Capture Device", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show(this, ex.Message, "Work for Capture Device", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
 
@@ -590,7 +595,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                    CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 }
             }
 
@@ -614,7 +619,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 }
             }
 
@@ -634,7 +639,7 @@ namespace FoodandBeverage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 }
             }
 
@@ -910,7 +915,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -930,7 +935,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -950,7 +955,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -1019,24 +1024,28 @@ namespace FoodandBeverage.Forms
                             InsertStatus.Photo = "";
                         }
                         FrmDashboard.BranchId = 1030;
-                        MessageBox.Show(this, txtAccName.Text + "  ", "Registration Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        CMessageBox.Show("Registration Successfully Updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                      
                         this.Close();
                     }
                     else
                     {
                         FrmDashboard.BranchId = 1030;
-                        MessageBox.Show(this, "  ", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        CMessageBox.Show("Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       
                     }
                     //Refreshform();
                 }
                 else
                 {
-                    MessageBox.Show(this, " ", " Save Failed  ", MessageBoxButtons.OK);
+                    CMessageBox.Show("Save Failed", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+              
                 Refreshform();
             }
         }
@@ -1059,6 +1068,15 @@ namespace FoodandBeverage.Forms
         private void FrmRegistration_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void txtid_Leave(object sender, EventArgs e)
+        {
+            if (txtid.Text == "")
+            {
+                txtid.Text = "0";
+                
+            }
         }
     }
 }
