@@ -153,7 +153,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtdescription, txtfinalprice, discountamt, discountper, txtoffername, txtrdisamt, txtrdisper, txtrprice, txtproduct, txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername })
+                foreach (TextBox textBox in new TextBox[] { txtdescription, txtfinalprice, discountamt, discountper, txtoffername, txtrdisamt, txtrdisper, txtrprice, txtproduct, txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername , txt_prodlist_serach })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -195,6 +195,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 tlp_product_list.Visible = true;
+                tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7";
@@ -339,7 +340,7 @@ namespace FoodandBeverage.Forms
 
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
-                foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername })
+                foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
                 {
                     textBox.Text = "";
                 }
@@ -672,8 +673,8 @@ namespace FoodandBeverage.Forms
                     DataTable dtColumnAlign = new DataTable();
                     dtColumnAlign.Columns.Add();
                     DmnSearch _objSearch = new DmnSearch();
-                    _objSearch.ColumnHeaders = "ID,Offer Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
-                    _objSearch.Select = "om.Omid as ID,OfferName as Field1,od.Discountper as Field2,od.DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
+                    _objSearch.ColumnHeaders = "ID,Product Name,Discount %,Discount Amount,Offer Start Date,Offer End Date";
+                    _objSearch.Select = "om.Omid as ID,Productname as Field1,od.Discountper as Field2,od.DiscountAmt as Field3,OfferstartDatetime as Field4,OfferEndDatetime as Field5";
                     _objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid";
                     _objSearch.WhereNdGroupBy = "where om.Status = 1 and om.OfferType=0";
                     _objSearch.OrderBy = " ORDER BY OfferName";

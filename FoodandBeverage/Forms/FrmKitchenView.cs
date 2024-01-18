@@ -128,6 +128,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 #region Fill Orders in Datagrid
+                bool flagstart_ready = false;
 
                 txt_product_remove_des.Text = "Reason type here .....";
 
@@ -374,6 +375,10 @@ namespace FoodandBeverage.Forms
                             dgv_product_details.Rows.Clear();
                             for (int k = 0; k < gridSourcedetails.Count; k++)
                             {
+                                if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
+                                {
+                                    flagstart_ready = true;
+                                }
                                 dgv_product_details.Rows.Add();
                                 dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
                                 dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
@@ -505,12 +510,13 @@ namespace FoodandBeverage.Forms
                             }
                             pb_ready.Click += pbreadyfood_Click;
 
-                            if(Convert.ToInt32(gridSourcedetails[0].Field12)==1)
+
+                            if(flagstart_ready)
                             {
                                 pb_start.Visible = true;
                                 pb_ready.Visible = false;
                             }
-                            else if (Convert.ToInt32(gridSourcedetails[0].Field12) == 2)
+                            else 
                             {
                                 pb_start.Visible = false;
                                 pb_ready.Visible = true;
