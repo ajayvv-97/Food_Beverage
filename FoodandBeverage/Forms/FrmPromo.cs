@@ -18,8 +18,8 @@ namespace FoodandBeverage.Forms
 {
 	public partial class FrmPromo : Form
 	{
-		string dtfrom ="";
-		string dtto="";
+		string dtfrom = "";
+		string dtto = "";
 		public FrmPromo()
 		{
 			InitializeComponent();
@@ -46,13 +46,14 @@ namespace FoodandBeverage.Forms
 		{
 			try
 			{
-				 dtfrom = dtpfrom.Value.ToString("yyyy-MM-dd") + " " + dtpfromtime.Value.ToString("HH:mm:ss");
-				 dtto = dtpto.Value.ToString("yyyy-MM-dd") + " " + dtptotime.Value.ToString("HH:mm:ss");
+				dtfrom = dtpfrom.Value.ToString("yyyy-MM-dd") + " " + dtpfromtime.Value.ToString("HH:mm:ss");
+				dtto = dtpto.Value.ToString("yyyy-MM-dd") + " " + dtptotime.Value.ToString("HH:mm:ss");
 				if (MandatoryCheck())
 				{
 					bool flage = true;
 					DmnPromoMaster dmnProMaster = new DmnPromoMaster();
 					BllPromoMaster bllPromo = new BllPromoMaster();
+					dmnProMaster.PromoMId = Convert.ToInt32(txtPromoMId.Text);
 					dmnProMaster.Caption = txtprocap.Text;
 					dmnProMaster.Description = txtprodesc.Text;
 					dmnProMaster.StartDate = Convert.ToDateTime(dtfrom);
@@ -63,6 +64,7 @@ namespace FoodandBeverage.Forms
 					dmnProMaster.PromoLabel = txtproLbl.Text;
 					dmnProMaster.TotalPromo = Convert.ToInt32(txttotPro.Text);
 					dmnProMaster.Status = 1;
+					dmnProMaster.CreatedBy = FrmDashboard.UserId;
 					var data = bllPromo.AddPromo("prdInsertPromoMaster", dmnProMaster);
 					if (data.PromoMId != 0)
 					{
@@ -70,22 +72,22 @@ namespace FoodandBeverage.Forms
 						dmnPromoDetails.PromoMId = data.PromoMId;
 						for (int i = 0; i < dgvProCode.Rows.Count; i++)
 						{
-							if (dgvProCode.Rows[i].Cells[2].Value!="" && dgvProCode.Rows[i].Cells[2].Value != null)
+							if (dgvProCode.Rows[i].Cells[2].Value != "" && dgvProCode.Rows[i].Cells[2].Value != null)
 							{
 								dmnPromoDetails.Code = Convert.ToString(dgvProCode.Rows[i].Cells[2].Value);
 								dmnPromoDetails.Status = 1;
 								dmnPromoDetails.CreatedBy = 1;
 								bool details = bllPromo.AddPromoDetails("PrdInsertUpdPromoDetails", dmnPromoDetails);
-								if(details==false)
+								if (details == false)
 								{
 									flage = false;
 									break;
 								}
 							}
 						}
-						if(flage==true)
+						if (flage == true)
 						{
-							CMessageBox.Show("Promo Details Saved Successfuly","Save Success",MessageBoxButtons.OK);
+							CMessageBox.Show("Promo Details Saved Successfuly", "Save Success", MessageBoxButtons.OK);
 							Clear();
 						}
 						else
@@ -111,7 +113,7 @@ namespace FoodandBeverage.Forms
 		}
 		private void btngen_Click(object sender, EventArgs e)
 		{
-			if (!string.IsNullOrEmpty(txttotPro.Text) && Convert.ToInt32(txttotPro.Text)>0)
+			if (!string.IsNullOrEmpty(txttotPro.Text) && Convert.ToInt32(txttotPro.Text) > 0)
 			{
 				dgvProCode.Rows.Clear();
 				int val = Convert.ToInt32(txttotPro.Text);
@@ -145,6 +147,8 @@ namespace FoodandBeverage.Forms
 			txtdiscper.Text = "0";
 			txtproLbl.Text = "";
 			txttotPro.Text = "0";
+			txtPromoMId.Text = "0";
+			btnSave.Visible = true;
 		}
 		public bool MandatoryCheck()
 		{
@@ -154,13 +158,13 @@ namespace FoodandBeverage.Forms
 				txtprocap.Focus();
 				return false;
 			}
-			else if (string.IsNullOrEmpty(txtmaxdis.Text))
+			else if (string.IsNullOrEmpty(txtmaxdis.Text) || Convert.ToDecimal(txtmaxdis.Text)<=0)
 			{
 				CMessageBox.Show("Promo Maximum Discount Amount Is A Mandatory Field", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txtmaxdis.Focus();
 				return false;
 			}
-			else if (string.IsNullOrEmpty(txtdiscper.Text))
+			else if (string.IsNullOrEmpty(txtdiscper.Text) || Convert.ToDecimal(txtdiscper.Text) <= 0)
 			{
 				CMessageBox.Show("Promo Discount Percentage Is A Mandatory Field", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txtdiscper.Focus();
@@ -172,10 +176,16 @@ namespace FoodandBeverage.Forms
 				txtproLbl.Focus();
 				return false;
 			}
-			else if (string.IsNullOrEmpty(txttotPro.Text))
+			else if (string.IsNullOrEmpty(txttotPro.Text) || Convert.ToDecimal(txttotPro.Text) <= 0)
 			{
 				CMessageBox.Show("Promo Count Must Be Greater Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txttotPro.Focus();
+				return false;
+			}	
+			else if (dgvProCode.Rows.Count<=0)
+			{
+				CMessageBox.Show("Promos Must Be Greater Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				btngen.Focus();
 				return false;
 			}	
 			//else if(Convert.ToDateTime(dtfrom)<=DateTime.Now)
@@ -239,7 +249,7 @@ namespace FoodandBeverage.Forms
 				_objSearch.ColumnHeaders = "Id,Caption,Minimum BillAmt,PromoLabel,TotalPromo,MaxDiscount";
 				_objSearch.Select = "PromoMId Id,Caption Field1,MinBillAmt Field2,PromoLabel Field3,TotalPromo Field4,MaxDiscount Field6";
 				_objSearch.Table = "tblPromoMaster";
-				_objSearch.WhereNdGroupBy = "";
+				_objSearch.WhereNdGroupBy = " where Status=1";
 				_objSearch.OrderBy = " ";
 				using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
 				{
@@ -250,7 +260,7 @@ namespace FoodandBeverage.Forms
 					}
 				}
 				if (returnValue.ToString() != null && returnValue.ToString() != "")
-				{					
+				{
 					BllSearch<DmnPromoMaster> bllSearch = new BllSearch<DmnPromoMaster>();
 					DmnSearch objSearch = new DmnSearch();
 					objSearch.Select = "*";
@@ -259,15 +269,15 @@ namespace FoodandBeverage.Forms
 					var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
 					if (gridSource.Count > 0)
 					{
+						txtPromoMId.Text =Convert.ToString(gridSource[0].PromoMId);
 						txtprocap.Text=gridSource[0].Caption;
 						txtprodesc.Text=gridSource[0].Description;
-						dtpto.MinDate = Convert.ToDateTime(gridSource[0].StartDate);
-						dtpfrom.MinDate = Convert.ToDateTime(gridSource[0].StartDate);
+						dtpto.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
+						dtpfrom.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
 						dtpto.Value=Convert.ToDateTime(gridSource[0].EndDate.ToString("dd-MM-yyyy"));
 						dtptotime.Value=Convert.ToDateTime(gridSource[0].EndDate.ToString("hh:mm:ss")); 
 						dtpfrom.Value=Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
-						dtpfromtime.Value=Convert.ToDateTime(gridSource[0].StartDate.ToString("hh:mm:ss")); 
-						
+						dtpfromtime.Value=Convert.ToDateTime(gridSource[0].StartDate.ToString("hh:mm:ss")); 						
 						txtgrt.Text=Convert.ToString(gridSource[0].MinBillAmt);
 						txtmaxdis.Text = Convert.ToString(gridSource[0].MaxDiscount); 
 						txtdiscper.Text = Convert.ToString(gridSource[0].DiscountPer);
@@ -285,6 +295,7 @@ namespace FoodandBeverage.Forms
 						{
 							if(gridSource1[i].Status==2)
 							{
+								btnSave.Visible = false;
 								dgvProCode.Rows[i].DefaultCellStyle.BackColor = Color.LightGray;
 							}
 							dgvProCode.Rows[i].Cells[1].Value = i + 1;
@@ -400,6 +411,28 @@ namespace FoodandBeverage.Forms
 		private void FrmPromo_Resize(object sender, EventArgs e)
 		{
 			textb_shape();
+		}
+
+		private void txtdiscper_Leave(object sender, EventArgs e)
+		{
+			decimal value;
+			if (!decimal.TryParse(txtdiscper.Text, out value))
+			{
+				txtdiscper.Text = "0";
+			}
+			if (Convert.ToDecimal(txtdiscper.Text) > 100 && Convert.ToDecimal(txtdiscper.Text) <= 0)
+			{
+				CMessageBox.Show("Discount % Must Be Less Than 100 and Greater Than Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+
+		private void txtprocap_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				e.SuppressKeyPress = true;
+				SendKeys.Send("{TAB}");
+			}
 		}
 	}
 }

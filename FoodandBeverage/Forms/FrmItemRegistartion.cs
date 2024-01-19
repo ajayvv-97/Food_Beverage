@@ -65,11 +65,10 @@ namespace FoodandBeverage.Forms
                     "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
                 dmnSearch.Table = "tblItem i " +
                     " LEFT JOIN tblUnit u on u.UId=i.unit " +
-                    " LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId " +
                     " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId"+
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=i.Fcid";
                 dmnSearch.WhereNdGroupBy = "where i.Status=1";
-                dmnSearch.OrderBy = "order by pr.Id desc ";
+                dmnSearch.OrderBy = "order by i.ItemId desc ";
                 var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_item.Rows.Clear();
                 if (itemSource.Count > 0)
