@@ -204,11 +204,12 @@ namespace FoodandBeverage.Forms
                 certipic1.Text = "select";
                 certipic2.Text = "select";
                 certipic3.Text = "select";
+                
                 pb1.BackgroundImage = null;
                 pb1.Image = null;
                 pb2.Image = null;
                 pb2.Image = null;
-                pb3.BackgroundImage = null;
+                pb2.BackgroundImage = null;
                 pb3.BackgroundImage = null;
                 FillCombo();
             }
@@ -670,7 +671,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnHRegistration> _bllSearch = new BllSearch<DmnHRegistration>();
                 dmnSearch.Select = "*";
                 dmnSearch.Table = "tblHotelRegistration";
-                dmnSearch.WhereNdGroupBy = " Where BranchId =" + 1030;
+                dmnSearch.WhereNdGroupBy = " Where BranchId =" + FrmLogin.BranchId;
                 dmnSearch.OrderBy = "";
                 var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource1.Count > 0)
@@ -697,13 +698,13 @@ namespace FoodandBeverage.Forms
                 }
                 if (imageExist)
                 {
-                    pb2.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Photo + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb2.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
                     pb2.BackgroundImageLayout = ImageLayout.Stretch;
                     pb2.Image = null;
                 }
                 if (imageExist)
                 {
-                    pb3.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Photo + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb3.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
                     pb3.BackgroundImageLayout = ImageLayout.Stretch;
                     pb3.Image = null;
                 }
@@ -990,6 +991,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Certificate1 = Convert.ToString(certi2.Text);
                 dmnRegistration.Certificate2 = Convert.ToString(certi3.Text);
                 dmnRegistration.BookingInerwell = Convert.ToInt32(tbl_BookingIn.Text);
+                //pb2.BackgroundImage = DocumentType.HotelRegistrationProofPics;
                 dmnRegistration.CreatedBy = 1;
                 dmnRegistration.BranchId = 1030;
                 dmnRegistration.Status = 1;
@@ -1024,7 +1026,7 @@ namespace FoodandBeverage.Forms
                             InsertStatus.Photo = "";
                         }
                         FrmDashboard.BranchId = 1030;
-                        CMessageBox.Show("Registration Successfully Updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                       
                         this.Close();
                     }
@@ -1046,7 +1048,7 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
               
-                Refreshform();
+                //Refreshform();
             }
         }
 
@@ -1076,6 +1078,22 @@ namespace FoodandBeverage.Forms
             {
                 txtid.Text = "0";
                 
+            }
+        }
+
+        private void tbl_BookingIn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtph_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }

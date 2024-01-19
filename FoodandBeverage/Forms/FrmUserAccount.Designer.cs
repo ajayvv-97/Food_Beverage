@@ -83,7 +83,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.chkshowpassword.AutoSize = true;
             this.chkshowpassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkshowpassword.ForeColor = System.Drawing.Color.Black;
-            this.chkshowpassword.Location = new System.Drawing.Point(338, 140);
+            this.chkshowpassword.Location = new System.Drawing.Point(338, 133);
             this.chkshowpassword.Name = "chkshowpassword";
             this.chkshowpassword.Size = new System.Drawing.Size(101, 17);
             this.chkshowpassword.TabIndex = 234;
@@ -142,7 +142,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.chkstatus.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkstatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkstatus.ForeColor = System.Drawing.Color.Black;
-            this.chkstatus.Location = new System.Drawing.Point(105, 206);
+            this.chkstatus.Location = new System.Drawing.Point(105, 205);
             this.chkstatus.Name = "chkstatus";
             this.chkstatus.Size = new System.Drawing.Size(74, 20);
             this.chkstatus.TabIndex = 227;
@@ -153,10 +153,10 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.txtuname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtuname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtuname.Location = new System.Drawing.Point(105, 97);
+            this.txtuname.Location = new System.Drawing.Point(105, 91);
             this.txtuname.Multiline = true;
             this.txtuname.Name = "txtuname";
-            this.txtuname.Size = new System.Drawing.Size(227, 37);
+            this.txtuname.Size = new System.Drawing.Size(221, 29);
             this.txtuname.TabIndex = 215;
             this.txtuname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtuname_KeyDown);
             // 
@@ -216,11 +216,11 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.txtpassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtpassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtpassword.Location = new System.Drawing.Point(105, 140);
+            this.txtpassword.Location = new System.Drawing.Point(105, 133);
             this.txtpassword.Multiline = true;
             this.txtpassword.Name = "txtpassword";
             this.txtpassword.PasswordChar = '*';
-            this.txtpassword.Size = new System.Drawing.Size(227, 25);
+            this.txtpassword.Size = new System.Drawing.Size(221, 29);
             this.txtpassword.TabIndex = 216;
             this.txtpassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtpassword_KeyDown);
             // 
@@ -228,11 +228,11 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.txtcconpassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtcconpassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtcconpassword.Location = new System.Drawing.Point(105, 171);
+            this.txtcconpassword.Location = new System.Drawing.Point(105, 170);
             this.txtcconpassword.Multiline = true;
             this.txtcconpassword.Name = "txtcconpassword";
             this.txtcconpassword.PasswordChar = '*';
-            this.txtcconpassword.Size = new System.Drawing.Size(227, 29);
+            this.txtcconpassword.Size = new System.Drawing.Size(221, 29);
             this.txtcconpassword.TabIndex = 217;
             this.txtcconpassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtcconpassword_KeyDown);
             this.txtcconpassword.Leave += new System.EventHandler(this.txtcconpassword_Leave);
@@ -329,7 +329,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.882591F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.11741F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox10, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label21, 1, 0);
@@ -368,7 +368,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(494, 0);
+            this.label4.Location = new System.Drawing.Point(493, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(19, 18);
             this.label4.TabIndex = 8;
@@ -398,10 +398,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 38);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 6;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.31183F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.68817F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(526, 231);
@@ -413,16 +413,16 @@ namespace FoodandBeverage.Forms.UserAccount
             this.panel1.Controls.Add(this.label16);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(96, 41);
+            this.panel1.Size = new System.Drawing.Size(96, 36);
             this.panel1.TabIndex = 235;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label11);
-            this.panel2.Location = new System.Drawing.Point(3, 50);
+            this.panel2.Location = new System.Drawing.Point(3, 45);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(96, 41);
+            this.panel2.Size = new System.Drawing.Size(96, 40);
             this.panel2.TabIndex = 236;
             // 
             // label2
@@ -452,18 +452,18 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(3, 97);
+            this.panel3.Location = new System.Drawing.Point(3, 91);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(96, 37);
+            this.panel3.Size = new System.Drawing.Size(96, 36);
             this.panel3.TabIndex = 237;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.txtemp);
             this.panel4.Controls.Add(this.lblToolTipAccName);
-            this.panel4.Location = new System.Drawing.Point(105, 50);
+            this.panel4.Location = new System.Drawing.Point(105, 45);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(227, 41);
+            this.panel4.Size = new System.Drawing.Size(227, 40);
             this.panel4.TabIndex = 238;
             // 
             // txtemp
@@ -498,7 +498,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.panel5.Controls.Add(this.label12);
             this.panel5.Controls.Add(this.label5);
-            this.panel5.Location = new System.Drawing.Point(3, 140);
+            this.panel5.Location = new System.Drawing.Point(3, 133);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(96, 25);
             this.panel5.TabIndex = 239;
@@ -507,7 +507,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.panel6.Controls.Add(this.label15);
             this.panel6.Controls.Add(this.label6);
-            this.panel6.Location = new System.Drawing.Point(3, 171);
+            this.panel6.Location = new System.Drawing.Point(3, 170);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(96, 29);
             this.panel6.TabIndex = 240;

@@ -78,6 +78,45 @@ namespace FoodandBeverage.Forms
        
         private void FrmReservation_Load(object sender, EventArgs e)
         {
+
+            dgvforms.BorderStyle = BorderStyle.None;
+            dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvforms.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvforms.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvforms.BackgroundColor = Color.White;
+
+            dgvforms.EnableHeadersVisualStyles = false;
+            dgvforms.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvforms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            dgvmenu.BorderStyle = BorderStyle.None;
+            dgvmenu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvmenu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvmenu.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvmenu.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvmenu.BackgroundColor = Color.White;
+
+            dgvmenu.EnableHeadersVisualStyles = false;
+            dgvmenu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvmenu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvmenu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            dgvItemPop.BorderStyle = BorderStyle.None;
+            dgvItemPop.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvItemPop.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvItemPop.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvItemPop.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvItemPop.BackgroundColor = Color.White;
+
+            dgvItemPop.EnableHeadersVisualStyles = false;
+            dgvItemPop.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+
+
             dgvItemPop.Visible = false;
             panelProductPopup.Visible = false;
             BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();

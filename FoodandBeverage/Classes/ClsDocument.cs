@@ -62,6 +62,10 @@ namespace FoodandBeverage.Classes
                         CheckAndCreateDirectory(ftpCredentials[0].GTypeSubText1.ToString(), "FoodPhoto", credential);
                         filePath = "/FoodPhoto/" + fileName;
                         break;
+                    case DocumentType.HotelRegistrationProofPics:
+                        CheckAndCreateDirectory(ftpCredentials[0].GTypeSubText1.ToString(), "HotelRegistrationProofPics", credential);
+                        filePath = "/HotelRegistrationProofPics/" + fileName;
+                        break;
                 }
 
                 FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(ftpCredentials[0].GTypeSubText1.ToString() + filePath);
@@ -134,6 +138,9 @@ namespace FoodandBeverage.Classes
                 case DocumentType.FoodPhoto:
                     filePath = "/FoodPhoto/" + fileName;
                     break;
+                case DocumentType.HotelRegistrationProofPics:
+                    filePath = "/HotelRegistrationProofPics/" + fileName;
+                    break;
             }
             var request = (FtpWebRequest)WebRequest.Create(ftpCredentials[0].GTypeSubText1 + filePath);
             request.Method = WebRequestMethods.Ftp.DownloadFile;
@@ -186,6 +193,9 @@ namespace FoodandBeverage.Classes
                         break;
                     case DocumentType.FoodPhoto:
                         filePath = "/FoodPhoto/";
+                        break;
+                    case DocumentType.HotelRegistrationProofPics:
+                        filePath = "/HotelRegistrationProofPics/";
                         break;
                 }
                 List<string> imgUrlList = new List<string>();
@@ -269,6 +279,7 @@ namespace FoodandBeverage.Classes
                 case DocumentType.FoodPhoto:
                     filePath = "/FoodPhoto/" + fileName;
                     break;
+                
             }
             var request = (FtpWebRequest)WebRequest.Create(ftpCredentials[0].GTypeSubText1 + filePath);
             request.Method = WebRequestMethods.Ftp.DeleteFile;
@@ -365,6 +376,9 @@ namespace FoodandBeverage.Classes
                         break;
                     case DocumentType.FoodPhoto:
                         filePath = "/FoodPhoto/" + destipath;
+                        break;
+                    case DocumentType.HotelRegistrationProofPics:
+                        filePath = "/HotelRegistrationProofPics/" + destipath;
                         break;
                 }
                 string s = ftpCredentials[0].GTypeSubText1.ToString() + "" + filePath;

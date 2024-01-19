@@ -553,9 +553,9 @@ namespace FoodandBeverage.Forms
 
         private void cboGender_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(cboGender.SelectedValue) == 1)
+            if (Convert.ToInt32(cboGender.SelectedIndex) == 1)
                 pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicmale;
-            else if (Convert.ToInt32(cboGender.SelectedValue) == 2)
+            else if (Convert.ToInt32(cboGender.SelectedIndex) == 2)
                 pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicfemale;
             pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -1680,6 +1680,20 @@ namespace FoodandBeverage.Forms
 
         private void FrmEmployeeShort_Load(object sender, EventArgs e)
         {
+            dgvforms.BorderStyle = BorderStyle.None;
+            dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvforms.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvforms.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvforms.BackgroundColor = Color.White;
+
+            dgvforms.EnableHeadersVisualStyles = false;
+            dgvforms.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvforms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+
+
             LocationFill();
            
             BranchId = 1030;
@@ -2281,6 +2295,15 @@ namespace FoodandBeverage.Forms
         private void FrmEmployeeShort_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void mcmbDesignationId_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SendKeys.Send("{TAB}");
+            }
         }
 
         public void FillForms(int id)
