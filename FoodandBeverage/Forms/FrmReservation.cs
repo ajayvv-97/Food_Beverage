@@ -234,6 +234,10 @@ namespace FoodandBeverage.Forms
             dgvItemPop.Visible = false;
             dgvmenu.Enabled = true;
             dgvmenu.Focus();
+            dtpBooking.Value = DateTime.Now;
+           
+            dtp_from_time.Value = DateTime.Now;
+           
         }
         public bool CheckEmailId(Form form, string EmailId)
         {
@@ -310,20 +314,19 @@ namespace FoodandBeverage.Forms
                 cboGender.Focus();
                 return false;
             }
-            else if (txtMob.Text == "" || txtMob.Text == string.Empty)
+            else if (txtMob.Text == "" || txtMob.Text == null)
             {
-                DialogResult result = MessageBox.Show("Mobile number is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OKCancel);
-                if (result == DialogResult.OK)
-                {
-                    // User clicked Yes
-                }
+                DialogResult result = CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                else if (result == DialogResult.Cancel)
-                {
-                    // User clicked Cancel
-                }
+                txtMob.Focus();
+                return false;
 
                 //MessageBox.Show(" Mobile number is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+              
+            }
+            else if(lblGTotal.Text== "00")
+            {
+                CMessageBox.Show("Fill The Balance Details", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (!string.IsNullOrWhiteSpace(txtEmail.Text))
@@ -757,6 +760,10 @@ namespace FoodandBeverage.Forms
             else if (e.KeyData == Keys.Delete)
             {
                 dgvforms.Rows.RemoveAt(dgvforms.CurrentCell.RowIndex);
+                if (dgvforms.Rows.Count==0)
+                {
+                    dgvforms.Rows.Add(1);
+                }
             }
             if (dgvforms.CurrentCell.ColumnIndex >= 0 && dgvforms.CurrentCell.RowIndex >= 0)
             {
@@ -857,6 +864,10 @@ namespace FoodandBeverage.Forms
             else if (e.KeyData == Keys.Delete)
             {
                 dgvmenu.Rows.RemoveAt(dgvmenu.CurrentCell.RowIndex);
+                if(dgvmenu.Rows.Count==0)
+                {
+                    dgvmenu.Rows.Add(1);
+                }
             }
 
         }
@@ -967,7 +978,7 @@ namespace FoodandBeverage.Forms
                         }
                         else if (Convert.ToDecimal(lblBAmt.Text) > 0)
                         {
-                            label21.Text = "Balance Need To Pay :";
+                            label21.Text = "Balance To Pay :";
                         }
                         if (Convert.ToDecimal(lblBAmt.Text) == 0)
                         {
@@ -2137,7 +2148,7 @@ namespace FoodandBeverage.Forms
                         " i.Tax,i.TaxType,IgstPrcnt,VatPrcnt,CgstPrcnt,SgstPrcnt," +
                         " unit,ItemCode_UPC,Prid,Fcid,ts.TaxSettingsId ";
                     objSearch.Table = "  tblItem i  left join tblTaxSettings ts on i.TaxSettingsId=ts.TaxSettingsId  ";                       
-                    objSearch.WhereNdGroupBy = " where ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
+                    objSearch.WhereNdGroupBy = " where  Saletype=1 and  ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Discount_And_Offer) && Convert.ToInt32(dgvItemPop.Rows[r].Cells[0].Value) == 1)
@@ -2588,6 +2599,22 @@ namespace FoodandBeverage.Forms
         private void dgvItemPop_KeyDown(object sender, KeyEventArgs e)
         {
             
+        }
+
+        private void txtMob_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtNOP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
