@@ -73,6 +73,7 @@ namespace FoodandBeverage.Forms
         public static int iqtyadd = 25;
         public static int idisamt = 26;
         public static int idisper = 27;
+        public static int  iQOH = 28;
 
         private int yourTargetColumnIndex = 1;    
        
@@ -646,7 +647,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = " tblMenu m   left join tblProduct p on m.ProductId = p.ProductId and " +
                     "   m.BranchId =  "+FrmLogin.BranchId +" where m.Status = 1 and p.Status = 1    UNION " +
                     "   select i.ItemId  as Id, i.Itemname as Field1,i.prate as Field2, 'Item' as Field3, " + Convert.ToInt32(formsenum.Item) + " Field4 ,i.Tax as Field5,i.TaxType as Field6 " +
-                    " from tblItem i " +
+                    " from tblItem i  where Saletype=1" +
                     " UNION select ofm.OfferType as Id,ofm.OfferName Field1,ofm.FinalPrice Field2,'Offer' as Field3," + Convert.ToInt32(formsenum.Discount_And_Offer) + " Field4 , ofm.Tax Field5,ofm.TaxType Field6 from " +
                     " tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid ";
                 _objSearch.WhereNdGroupBy = " Where ofd.Status=1 and ofm.OfferType = 1";
@@ -725,16 +726,42 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "Where Tid = " + returnValue;
                 objSearch.OrderBy = " ";
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                dgvforms.Rows.Add(gridSource.Count);
+               
                 if (gridSource.Count > 0)
                 {
+                    int qty = 1;
                     
-                    dgvforms.Rows[r].Cells[itid].Value = gridSource[0].Tid;
-                    dgvforms.Rows[r].Cells[iTBookingDetailId].Value = 0;
-                    dgvforms.Rows[r].Cells[itablename].Value = gridSource[0].TableCode;
-                    dgvforms.Rows[r].Cells[iprice].Value = gridSource[0].Price;
-                    dgvforms.Rows[r].Cells[icapacity].Value = gridSource[0].Capcity;
-                    dgvforms.Rows[r].Cells[idescription].Value = gridSource[0].Decription;
+                    bool flag = true;
+                    int i = 0;
+                    for (i = 0; i <= dgvforms.RowCount - 1; i++)
+                    {
+                        if (Convert.ToInt32(dgvforms.Rows[i].Cells[itid].Value) == gridSource[0].Tid)
+                        {
+                            flag = false;
+                            //qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                           
+
+
+                            break;
+
+                        }
+
+                    }
+                    //if (gridSource[0].QOH >= qty)
+                    //{
+                    if (flag == true)
+                    {
+                        if (dgvforms.Rows.Count - 1 == dgvforms.CurrentCell.RowIndex)
+                        {
+                            dgvforms.Rows.Add(1);
+                        }
+                        dgvforms.Rows[r].Cells[itid].Value = gridSource[0].Tid;
+                        dgvforms.Rows[r].Cells[iTBookingDetailId].Value = 0;
+                        dgvforms.Rows[r].Cells[itablename].Value = gridSource[0].TableCode;
+                        dgvforms.Rows[r].Cells[iprice].Value = gridSource[0].Price;
+                        dgvforms.Rows[r].Cells[icapacity].Value = gridSource[0].Capcity;
+                        dgvforms.Rows[r].Cells[idescription].Value = gridSource[0].Decription;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1153,18 +1180,56 @@ namespace FoodandBeverage.Forms
 
         private void dgvmenu_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (e.ColumnIndex == Convert.ToInt32(iqty)) // Replace 'yourAlphabeticColumnIndex' with the actual index of the column you want to validate
+            try
             {
-                string value = e.FormattedValue.ToString();
-
-                // Check if the input contains alphabetic characters
-                if (ContainsAlphabets(value))
+                if (e.ColumnIndex == Convert.ToInt32(iqty)) // Replace 'yourAlphabeticColumnIndex' with the actual index of the column you want to validate
                 {
-                    e.Cancel = true;
-                    MessageBox.Show("Alphabetic characters are not allowed in this column.");
+                    string value = e.FormattedValue.ToString();
+
+
+                    if (ContainsAlphabets(value))
+                    {
+                        e.Cancel = true;
+                        CMessageBox.Show("Alphabetic characters are not allowed in this column.");
+                    dgvmenu.Rows[e.RowIndex].Cells[iqty].Value = "1";
+                    }
+                }
+                if (e.ColumnIndex == iqty && dgvmenu.Rows[e.RowIndex].Cells[iqty].Value != "")
+                {
+                    int qoh = Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[iQOH].Value);
+                    int qty = Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[iqty].EditedFormattedValue);
+
+                    if (qty > qoh && Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Item))
+                    {
+                        if (Convert.ToString(dgvmenu.Rows[e.RowIndex].Cells[imid].Value) == "")
+                        {
+                            dgvmenu.Rows[e.RowIndex].Cells[iqty].Value = qoh;
+                        }
+                        else
+                        {
+                            CMessageBox.Show("Avilable Stock Quanity Is " + qoh, "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            dgvmenu.Rows[e.RowIndex].Cells[iqty].Value = qoh;
+                            dgvmenu.CurrentCell = dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty];
+
+                            e.Cancel = true;
+                        }
+                    }
+                    else
+                    {
+
+                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[e.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[e.RowIndex].Cells[iqty].Value);
+                        dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value = qty;
+
+                    }
+
                 }
             }
-            dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[e.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[e.RowIndex].Cells[iqty].Value);
+            catch(Exception ex)
+            {
+
+            }
+
+            
         }
         public void menutotal()
         {
@@ -1959,6 +2024,10 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.BookmasterId= InsertStatusP.BookmasterId;
                         dmnordermaster.TotalQuantity = Convert.ToInt32(sum);
                         dmnordermaster.Remarks = txtRemarks.Text;
+                        dmnordermaster.Address = txtAddress.Text;
+                        dmnordermaster.Telephone = txtMob.Text;
+                        dmnordermaster.Name = txtNam.Text;
+                        dmnordermaster.Email = txtEmail.Text;
                         dmnordermaster.BranchId = FrmDashboard.BranchId;
                         dmnordermaster.CreatedBy = 1;
                         dmnordermaster.Status = 1;
@@ -2146,7 +2215,7 @@ namespace FoodandBeverage.Forms
                         " (select top(1) PRate from tblProductRate where ProductId=i.ItemId order by Id desc)Prate,"+
                         " (select top(1) MRP from tblProductRate where ProductId=i.ItemId  order by Id desc)MRP,"+
                         " i.Tax,i.TaxType,IgstPrcnt,VatPrcnt,CgstPrcnt,SgstPrcnt," +
-                        " unit,ItemCode_UPC,Prid,Fcid,ts.TaxSettingsId ";
+                        " unit,ItemCode_UPC,Prid,Fcid,ts.TaxSettingsId,quantity as QOH ";
                     objSearch.Table = "  tblItem i  left join tblTaxSettings ts on i.TaxSettingsId=ts.TaxSettingsId  ";                       
                     objSearch.WhereNdGroupBy = " where  Saletype=1 and  ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
@@ -2281,52 +2350,64 @@ namespace FoodandBeverage.Forms
                             }
                             
                         }
-                        if (flag == true)
+                        if (gridSource[0].QOH >= qty)
                         {
-                            if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                            if (flag == true)
                             {
-                                dgvmenu.Rows.Add(1);
+                                if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                                {
+                                    dgvmenu.Rows.Add(1);
+                                }
+
+                                dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
+                                dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
+                                dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
+                                dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
+                                dgvmenu.Rows[r1].Cells[iqty].Value = 1;
+                                //dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value = gridSource[0].Description;
+                                dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
+                                dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
+                                dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
+                                dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
+                                dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
+                                dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                                dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
+                                dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                                dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
+                                dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
+                                dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
+                                dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
+                                dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
+                                dgvmenu.Rows[r1].Cells[iQOH].Value = gridSource[0].QOH;
+
+                                dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
+                                dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                                txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                                totalcellamount(r1);
+
                             }
 
-                            dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
-                            dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
-                            dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
-                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
-                            dgvmenu.Rows[r1].Cells[iqty].Value = 1;
-                            //dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imdescription].Value = gridSource[0].Description;
-                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
-                            dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
-                            dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
-                            dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
-                            dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
-                            dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
-                            dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
-                            dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
-                            dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
-                            dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
-                            dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
-                            dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
-                            dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
-                            dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
-                            dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
-                            
-                            dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
-                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
-                            totalcellamount(r1);
+                            else
+                            {
+                                dgvmenu.Rows[i].Cells[iqty].Value = qty;
+
+                                dgvmenu.Rows[i].Cells[imprice].Value = price;
+                                txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                                totalcellamount(i);
+
+                            }
 
                         }
                         else
                         {
-                            dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                            
-                            dgvmenu.Rows[i].Cells[imprice].Value = price;
-                            txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
-                            totalcellamount(i);
-                            
+                            CMessageBox.Show("Avilable Stock Quanity Is " + gridSource[0].QOH, "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            //dgvSProduct.Rows[i].Cells[isqty].Value = gridSource[0].QOH;
+      
+
                         }
-                      
                     }
                     if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
                     {
