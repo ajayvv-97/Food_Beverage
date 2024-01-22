@@ -412,6 +412,7 @@ namespace FoodandBeverage.Forms
                 #endregion Main 
                 ShowLoadingdGif();
                 setperfixsale();
+                btn_clear_cus.Visible = true;
             }
             catch (Exception ex)
             {
@@ -737,6 +738,23 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
+                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
+                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
+                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
+                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
+                        rb_male.Checked = true;
+                    else
+                        rb_female.Checked = true;
+
+                    txtph.Enabled = false;
+                    txtemailid.Enabled = false;
+                    txtaddress.Enabled = false;
+                    txtcusname.Enabled = false;
+                    rb_female.Enabled = false;
+                    rb_male.Enabled = false;
+                    btn_edit_cus.Visible = true;
+                    btn_clear_cus.Visible = true;
 
                     btn_itemwise.Enabled = false;
                     tableId = 0;
@@ -1098,7 +1116,25 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster.Count > 0)
                 {
                     txtGrandTotal.Text = "0";
-                     ordercount = 0;
+                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
+                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
+                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
+                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
+                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
+                        rb_male.Checked = true;
+                    else
+                        rb_female.Checked = true;
+
+                    txtph.Enabled = false;
+                    txtemailid.Enabled = false;
+                    txtaddress.Enabled = false;
+                    txtcusname.Enabled = false;
+                    rb_female.Enabled = false;
+                    rb_male.Enabled = false;
+                    btn_edit_cus.Visible = true;
+                    btn_clear_cus.Visible = true;
+
+                    ordercount = 0;
                     OrderRunning_Status = true;
                     tlp_seletedItem_main.Controls.Clear();
                     FillExistingProducts();
@@ -1129,7 +1165,6 @@ namespace FoodandBeverage.Forms
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
                         {
-
                             #region Order Add to the Top
                             //heading Top
                             Panel pnlbox = new Panel();
@@ -5293,14 +5328,49 @@ namespace FoodandBeverage.Forms
         private void btn_entire_desc_Click(object sender, EventArgs e)
         {
             if (txtentrie_descr.Visible)
+            {
+                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
                 txtentrie_descr.Visible = false;
+
+                if (pnl_userdetails.Visible == false)
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                }
+                else
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
+                }
+            }
             else
             {
+                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
+                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 13F);
+
+                if (pnl_userdetails.Visible == false)
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                }
+                else
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
+                }
+
                 txtentrie_descr.Visible = true;
                 txtentrie_descr.Dock = DockStyle.Fill;
                 textb_shape();
             }
-            //tlp_payment_main
+           
         }
 
         private void btn_saveKOT_Click(object sender, EventArgs e)
@@ -5321,6 +5391,16 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.Remarks = "";
                     else
                         dmnordermaster.Remarks = txtentrie_descr.Text;
+
+                    dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
+                    dmnordermaster.Telephone = Convert.ToString(txtph.Text);
+                    dmnordermaster.Email = Convert.ToString(txtemailid.Text);
+                    dmnordermaster.Address = Convert.ToString(txtaddress.Text);
+                    if (rb_male.Checked)
+                        dmnordermaster.Gender = 1;
+                    else
+                        dmnordermaster.Gender = 2;
+
                     dmnordermaster.BranchId = FrmDashboard.BranchId;
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
@@ -5574,6 +5654,13 @@ namespace FoodandBeverage.Forms
                 tlp_calculation_total.RowStyles[3] = new RowStyle(SizeType.Percent, 25);
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
+
+                txtph.Text = "";
+                txtemailid.Text = "";
+                txtaddress.Text = "";
+                txtcusname.Text = "";
+                rb_female.Checked = false;
+                rb_male.Checked = false;
             }
             catch (Exception)
             {
@@ -5597,14 +5684,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
-            //ChangeRowColor(tlp_payment_main, 0, Color.White);
-            //ChangeRowColor(tlp_payment_main, 1, Color.White);
-
-                //ChangeRowColor(tlp_payment_main, 2, Color.CornflowerBlue);
-                //ChangeRowColor(tlp_payment_main, 3, Color.CornflowerBlue);
-                //ChangeRowColor(tlp_payment_main, 4, Color.CornflowerBlue);
-                //ChangeRowColor(tlp_payment_main, 5, ColorTranslator.FromHtml("#205072"));
-
                 pnlsidebar_searchproduct.Visible = true;
                 tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 27.22F);
                 tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 6.50f);
@@ -5917,6 +5996,16 @@ namespace FoodandBeverage.Forms
                         finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
 
                         dmnsalemaster.EntryNo = txtinvoiceno.Text;
+
+                        dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                        dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                        dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                        dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                        if (rb_male.Checked)
+                            dmnsalemaster.Gender = 1;
+                        else
+                            dmnsalemaster.Gender = 2;
+
                         dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                         dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
                         dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
@@ -6094,6 +6183,15 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                         dmnsalemaster.OaAmount = Convert.ToDecimal(txtotheraddamt.Text);
+
+                        dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                        dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                        dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                        dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                        if(rb_male.Checked)
+                            dmnsalemaster.Gender = 1;
+                        else
+                            dmnsalemaster.Gender = 2;
 
                         if (txtother_descr.Text == "Description Type Here ...")
                             dmnsalemaster.OaDesc ="";
@@ -7415,28 +7513,53 @@ namespace FoodandBeverage.Forms
         {
             if (pnl_userdetails.Visible)
             {
-                pnl_userdetails.Visible = false;
-                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
-                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
-                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
-                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                if (txtentrie_descr.Visible==false)
+                {
+                    tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
+                    tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                    tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
+                    txtentrie_descr.Visible = false;
+                }
+
+                    pnl_userdetails.Visible = false;
+                    tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
+                    tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                    tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                
+              
             }
             else
             {
-                pnl_userdetails.Visible = true;
-                pnl_userdetails.Dock = DockStyle.Fill;
                 tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
                 tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.AutoSize);
                 tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
                 tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
                 tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
-                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.Percent,50);
 
+                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
 
+                if (txtentrie_descr.Visible)
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 12);
+                }
+                else
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                }
+                pnl_userdetails.Visible = true;
+                pnl_userdetails.Dock = DockStyle.Fill;
+
+                textb_shape();
+   
             }
         }
 
@@ -7490,5 +7613,24 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void btn_edit_cus_Click(object sender, EventArgs e)
+        {
+            txtph.Enabled = true;
+            txtemailid.Enabled = true;
+            txtaddress.Enabled = true;
+            txtcusname.Enabled = true;
+            rb_female.Enabled = true;
+            rb_male.Enabled = true;
+        }
+
+        private void btn_clear_cus_Click(object sender, EventArgs e)
+        {
+            txtph.Text = "";
+            txtemailid.Text = "";
+            txtaddress.Text = "";
+            txtcusname.Text = "";
+            rb_female.Checked = false;
+            rb_male.Checked = false;
+        }
     }
 }

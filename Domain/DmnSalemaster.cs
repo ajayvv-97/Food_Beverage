@@ -97,6 +97,7 @@ namespace Domain
         public int BookmasterId { get; set; }
         public decimal AdvanceAmount { get; set; }
         public decimal ReservationTotal { get; set; }
+        public int Gender { get; set; }
 
     }
 }

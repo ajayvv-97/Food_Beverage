@@ -26,6 +26,9 @@ namespace Domain
         public int koid { get; set; }
         public int BookmasterId { get; set; }
         public decimal ReservationTotal { get; set; }
-        public decimal AdvancePay { get; set; }        
+        public decimal AdvancePay { get; set; }
+        public string CustomerName { get; set; }
+        public int Gender { get; set; }
     }
+    
 }
