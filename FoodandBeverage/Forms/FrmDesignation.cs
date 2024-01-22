@@ -17,7 +17,8 @@ using System.Threading;
 using System.Globalization;
 using FoodandBeverage.Interfaces;
 using CustomMessageBox;
-
+using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
 namespace FoodandBeverage.Forms
 {
     public partial class FrmDesignation : Form
@@ -82,8 +83,8 @@ namespace FoodandBeverage.Forms
         {
             dtpWorkingHrs.Text = "08:00";
             DesignationId = 0;
-            MetroTextBox[] listTbx = { mtxtName };
-          objGeneral.ResetSelectedMetroTextBoxes(listTbx);
+          //   listTbx = { mtxtName };
+          //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
             fillGridView();
            
             mcmbDepartment.Focus();
@@ -158,6 +159,52 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+       int nLeftRect,
+       int nTopRect,
+       int nRightRect,
+       int nBottomRect,
+       int nWidthEllipse,
+       int nHeightEllipse
+   );
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { mtxtName })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
+        #endregion
+
         #region Events
         private void MbtnSave_Click(object sender, EventArgs e)
         {
@@ -217,6 +264,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                mtxtName.Text = "";
                 FillDepartmentComboBox();
                 if (string.IsNullOrWhiteSpace(mtxtName.Text))
                 {
@@ -235,6 +283,20 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                dgvDesignation.BorderStyle = BorderStyle.None;
+                dgvDesignation.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvDesignation.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvDesignation.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvDesignation.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvDesignation.BackgroundColor = Color.White;
+
+                dgvDesignation.EnableHeadersVisualStyles = false;
+                dgvDesignation.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvDesignation.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvDesignation.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+
+
                 fillGridView();
                
                 FillDepartmentComboBox();
@@ -346,21 +408,7 @@ namespace FoodandBeverage.Forms
 
         private void mcmbDepartment_KeyDown(object sender, KeyEventArgs e)
         {
-            try
-            {
-                objGeneral.NextConrolOnEnterPress(sender, e);
-                if(e.KeyCode==Keys.F12)
-                {
-                    FrmDepartment frmDepartment = new FrmDepartment();
-                    frmDepartment.ShowDialog();
-                    FillDepartmentComboBox();
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+           
         }
         private void dtpWorkingHrs_ValueChanged(object sender, EventArgs e)
         {
@@ -534,6 +582,47 @@ namespace FoodandBeverage.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+      
+      
+
+        private void mtxtName_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                objGeneral.NextConrolOnEnterPress(sender, e);
+                if (e.KeyCode == Keys.F12)
+                {
+                    FrmDepartment frmDepartment = new FrmDepartment();
+                    frmDepartment.ShowDialog();
+                    FillDepartmentComboBox();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mtxtName_Leave_1(object sender, EventArgs e)
+        {
+            try
+            {
+                CultureInfo cI = Thread.CurrentThread.CurrentCulture;
+                TextInfo textInfo = cI.TextInfo;
+                mtxtName.Text = textInfo.ToTitleCase(mtxtName.Text);
+                mtxtName.Select(mtxtName.Text.Length, 1);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mtxtName_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }

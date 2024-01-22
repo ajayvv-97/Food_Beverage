@@ -32,27 +32,26 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.mtxtName = new MetroFramework.Controls.MetroTextBox();
-            this.mtxtCode = new MetroFramework.Controls.MetroTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.mbtnSave = new System.Windows.Forms.Button();
             this.mbtnClose = new System.Windows.Forms.Button();
             this.mbtnRefresh = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mtxtEmpSrlNo = new System.Windows.Forms.TextBox();
             this.mlblEmpSrlNo = new System.Windows.Forms.Label();
             this.mlblName = new System.Windows.Forms.Label();
             this.metroLabel1 = new System.Windows.Forms.Label();
+            this.mtxtName = new System.Windows.Forms.TextBox();
+            this.mtxtCode = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dgvDepartment = new System.Windows.Forms.DataGridView();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btncolse = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.btnmini = new System.Windows.Forms.Button();
-            this.mtxtEmpSrlNo = new MetroFramework.Controls.MetroTextBox();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -62,73 +61,6 @@
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.SuspendLayout();
-            // 
-            // mtxtName
-            // 
-            // 
-            // 
-            // 
-            this.mtxtName.CustomButton.Image = null;
-            this.mtxtName.CustomButton.Location = new System.Drawing.Point(155, 1);
-            this.mtxtName.CustomButton.Name = "";
-            this.mtxtName.CustomButton.Size = new System.Drawing.Size(27, 27);
-            this.mtxtName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxtName.CustomButton.TabIndex = 1;
-            this.mtxtName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxtName.CustomButton.UseSelectable = true;
-            this.mtxtName.CustomButton.Visible = false;
-            this.mtxtName.Lines = new string[0];
-            this.mtxtName.Location = new System.Drawing.Point(187, 49);
-            this.mtxtName.MaxLength = 50;
-            this.mtxtName.Name = "mtxtName";
-            this.mtxtName.PasswordChar = '\0';
-            this.mtxtName.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxtName.SelectedText = "";
-            this.mtxtName.SelectionLength = 0;
-            this.mtxtName.SelectionStart = 0;
-            this.mtxtName.ShortcutsEnabled = true;
-            this.mtxtName.Size = new System.Drawing.Size(183, 29);
-            this.mtxtName.TabIndex = 0;
-            this.mtxtName.Tag = "Department";
-            this.mtxtName.UseSelectable = true;
-            this.mtxtName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxtName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown);
-            this.mtxtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtName_KeyPress);
-            this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave);
-            // 
-            // mtxtCode
-            // 
-            this.mtxtCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            // 
-            // 
-            // 
-            this.mtxtCode.CustomButton.Image = null;
-            this.mtxtCode.CustomButton.Location = new System.Drawing.Point(155, 1);
-            this.mtxtCode.CustomButton.Name = "";
-            this.mtxtCode.CustomButton.Size = new System.Drawing.Size(27, 27);
-            this.mtxtCode.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxtCode.CustomButton.TabIndex = 1;
-            this.mtxtCode.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxtCode.CustomButton.UseSelectable = true;
-            this.mtxtCode.CustomButton.Visible = false;
-            this.mtxtCode.Lines = new string[0];
-            this.mtxtCode.Location = new System.Drawing.Point(187, 106);
-            this.mtxtCode.MaxLength = 15;
-            this.mtxtCode.Name = "mtxtCode";
-            this.mtxtCode.PasswordChar = '\0';
-            this.mtxtCode.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxtCode.SelectedText = "";
-            this.mtxtCode.SelectionLength = 0;
-            this.mtxtCode.SelectionStart = 0;
-            this.mtxtCode.ShortcutsEnabled = true;
-            this.mtxtCode.Size = new System.Drawing.Size(183, 29);
-            this.mtxtCode.TabIndex = 1;
-            this.mtxtCode.Tag = "Code";
-            this.mtxtCode.UseSelectable = true;
-            this.mtxtCode.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxtCode.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
             // 
             // panel1
             // 
@@ -144,6 +76,7 @@
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
@@ -212,12 +145,12 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.74107F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.25893F));
-            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 65);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
@@ -226,6 +159,17 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 207);
             this.tableLayoutPanel1.TabIndex = 30;
+            // 
+            // mtxtEmpSrlNo
+            // 
+            this.mtxtEmpSrlNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(187, 3);
+            this.mtxtEmpSrlNo.Multiline = true;
+            this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
+            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(185, 30);
+            this.mtxtEmpSrlNo.TabIndex = 32;
+            this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown_1);
+            this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtEmpSrlNo_KeyPress_1);
             // 
             // mlblEmpSrlNo
             // 
@@ -260,6 +204,27 @@
             this.metroLabel1.TabIndex = 26;
             this.metroLabel1.Text = "Department Code : ";
             // 
+            // mtxtName
+            // 
+            this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtName.Location = new System.Drawing.Point(187, 49);
+            this.mtxtName.Multiline = true;
+            this.mtxtName.Name = "mtxtName";
+            this.mtxtName.Size = new System.Drawing.Size(185, 30);
+            this.mtxtName.TabIndex = 33;
+            this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown_1);
+            this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave_1);
+            // 
+            // mtxtCode
+            // 
+            this.mtxtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtCode.Location = new System.Drawing.Point(187, 106);
+            this.mtxtCode.Multiline = true;
+            this.mtxtCode.Name = "mtxtCode";
+            this.mtxtCode.Size = new System.Drawing.Size(185, 30);
+            this.mtxtCode.TabIndex = 34;
+            this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.dgvDepartment);
@@ -286,7 +251,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvDepartment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDepartment.ColumnHeadersHeight = 30;
+            this.dgvDepartment.ColumnHeadersHeight = 46;
             this.dgvDepartment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -346,12 +311,11 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.64162F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel4.Controls.Add(this.btncolse, 4, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button1, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.pictureBox10, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.label23, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.btnmini, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btnmini, 3, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -368,30 +332,13 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(753, 3);
+            this.btncolse.Location = new System.Drawing.Point(750, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
             this.btncolse.Click += new System.EventHandler(this.btncolse_Click_1);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.BackgroundImage = global::FoodandBeverage.Properties.Resources.icons8_maximize_window_48;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(722, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(25, 25);
-            this.button1.TabIndex = 279;
-            this.button1.Text = "-";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // pictureBox10
             // 
@@ -422,47 +369,13 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(693, 3);
+            this.btnmini.Location = new System.Drawing.Point(719, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(23, 25);
             this.btnmini.TabIndex = 10;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
             this.btnmini.Click += new System.EventHandler(this.btnmini_Click_1);
-            // 
-            // mtxtEmpSrlNo
-            // 
-            this.mtxtEmpSrlNo.BackColor = System.Drawing.Color.Turquoise;
-            // 
-            // 
-            // 
-            this.mtxtEmpSrlNo.CustomButton.Image = null;
-            this.mtxtEmpSrlNo.CustomButton.Location = new System.Drawing.Point(149, 1);
-            this.mtxtEmpSrlNo.CustomButton.Name = "";
-            this.mtxtEmpSrlNo.CustomButton.Size = new System.Drawing.Size(27, 27);
-            this.mtxtEmpSrlNo.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxtEmpSrlNo.CustomButton.TabIndex = 1;
-            this.mtxtEmpSrlNo.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxtEmpSrlNo.CustomButton.UseSelectable = true;
-            this.mtxtEmpSrlNo.CustomButton.Visible = false;
-            this.mtxtEmpSrlNo.Lines = new string[0];
-            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(187, 3);
-            this.mtxtEmpSrlNo.MaxLength = 15;
-            this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
-            this.mtxtEmpSrlNo.PasswordChar = '\0';
-            this.mtxtEmpSrlNo.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxtEmpSrlNo.SelectedText = "";
-            this.mtxtEmpSrlNo.SelectionLength = 0;
-            this.mtxtEmpSrlNo.SelectionStart = 0;
-            this.mtxtEmpSrlNo.ShortcutsEnabled = true;
-            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(177, 29);
-            this.mtxtEmpSrlNo.TabIndex = 2;
-            this.mtxtEmpSrlNo.Tag = "Employee Srl.No.";
-            this.mtxtEmpSrlNo.UseSelectable = true;
-            this.mtxtEmpSrlNo.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxtEmpSrlNo.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown);
-            this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MtxtEmpSrlNo_KeyPress);
             // 
             // FrmDepartment
             // 
@@ -497,8 +410,6 @@
         }
 
         #endregion
-        private MetroFramework.Controls.MetroTextBox mtxtName;
-        private MetroFramework.Controls.MetroTextBox mtxtCode;
         private System.Windows.Forms.Button mbtnRefresh;
         private System.Windows.Forms.Button mbtnClose;
         
@@ -513,11 +424,12 @@
         private System.Windows.Forms.Label mlblEmpSrlNo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button btncolse;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button btnmini;
         private System.Windows.Forms.DataGridView dgvDepartment;
-        private MetroFramework.Controls.MetroTextBox mtxtEmpSrlNo;
+        private System.Windows.Forms.TextBox mtxtEmpSrlNo;
+        private System.Windows.Forms.TextBox mtxtName;
+        private System.Windows.Forms.TextBox mtxtCode;
     }
 }

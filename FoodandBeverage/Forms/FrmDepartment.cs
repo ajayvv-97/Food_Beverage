@@ -19,6 +19,7 @@ using System.Threading;
 using System.Drawing.Drawing2D;
 
 using System.Runtime.InteropServices;
+
 using CustomMessageBox;
 
 namespace FoodandBeverage.Forms
@@ -48,6 +49,51 @@ namespace FoodandBeverage.Forms
                 return true;
             }
         }
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+       int nLeftRect,
+       int nTopRect,
+       int nRightRect,
+       int nBottomRect,
+       int nWidthEllipse,
+       int nHeightEllipse
+   );
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                // Apply rounded corners to text boxes based on the list
+                foreach (TextBox textBox in new TextBox[] { mtxtName })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            // Create a new GraphicsPath object
+            GraphicsPath path = new GraphicsPath();
+            // Define the shape of the path using a rounded rectangle
+            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            // Set the Region property of the textbox to the new path
+            textBox.Region = new Region(path);
+        }
+
         public void fillGridView()
         {
             dgvDepartment.Columns.Clear();
@@ -73,8 +119,8 @@ namespace FoodandBeverage.Forms
             DepartmentId = 0;
 
 
-            MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
-            objGeneral.ResetSelectedMetroTextBoxes(listTbx);
+            //MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
+            //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
             fillGridView();
             mtxtName.Focus();
             mtxtEmpSrlNo.ReadOnly = false;
@@ -207,6 +253,22 @@ namespace FoodandBeverage.Forms
         #region Events
         private void FrmDepartment_Load(object sender, EventArgs e)
         {
+
+
+            dgvDepartment.BorderStyle = BorderStyle.None;
+            dgvDepartment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgvDepartment.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvDepartment.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgvDepartment.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgvDepartment.BackgroundColor = Color.White;
+
+            dgvDepartment.EnableHeadersVisualStyles = false;
+            dgvDepartment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvDepartment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgvDepartment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+
+
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Department)))
             {
@@ -487,15 +549,7 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-          int nLeftRect,
-          int nTopRect,
-          int nRightRect,
-          int nBottomRect,
-          int nWidthEllipse,
-          int nHeightEllipse
-      );
+      
         private void FrmDepartment_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -543,5 +597,83 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Maximized;
         }
+
+        private void mtxtEmpSrlNo_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                objGeneral.NextConrolOnEnterPress(sender, e);
+
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mtxtEmpSrlNo_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                objGeneral.IntegerTextBox(sender, e);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mtxtName_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                objGeneral.NextConrolOnEnterPress(sender, e);
+
+
+            }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+            }
+        }
+
+        private void mtxtName_Leave_1(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+                {
+                    CultureInfo cI = Thread.CurrentThread.CurrentCulture;
+                    TextInfo textInfo = cI.TextInfo;
+                    mtxtName.Text = textInfo.ToTitleCase(mtxtName.Text);
+                    mtxtName.Select(mtxtName.Text.Length, 1);
+
+                    if (DepartmentId <= 0)
+                    {
+                        string input = mtxtName.Text.Trim();
+                        string Accode = "";
+                        string[] splitString = input.Split(' ');
+                        foreach (string s in splitString)
+                        {
+                            Accode = Accode + s.Substring(0, 1);
+                        }
+                        mtxtCode.Text = Accode;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(mtxtEmpSrlNo.Text))
+                    {
+                        GenerateSrNo();
+                    }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+            }
+        }
     }
 }
+#endregion

@@ -36,9 +36,11 @@ namespace BLL
             parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
             //parms.Add("Customer", objTestClass.CustomerId);
-            //parms.Add("Address", objTestClass.Address);
-            //parms.Add("ContactNo", objTestClass.ContactNo);
-            //parms.Add("Email", objTestClass.Email);
+            parms.Add("Address", objTestClass.Address);
+            parms.Add("Telephone", objTestClass.Telephone);
+            parms.Add("CustomerName", objTestClass.Name);
+            
+            parms.Add("Email", objTestClass.Email);
             parms.Add("TotQty", objTestClass.TotalQuantity);
             parms.Add("Remark", objTestClass.Remarks);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
