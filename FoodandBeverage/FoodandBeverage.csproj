@@ -879,5 +879,8 @@
   <ItemGroup>
     <None Include="Resources\grid_select.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_add_edit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

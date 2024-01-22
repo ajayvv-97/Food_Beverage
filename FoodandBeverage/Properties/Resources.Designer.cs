@@ -1253,6 +1253,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap user_add_edit {
+            get {
+                object obj = ResourceManager.GetObject("user_add_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap userpermisson {
             get {
                 object obj = ResourceManager.GetObject("userpermisson", resourceCulture);
