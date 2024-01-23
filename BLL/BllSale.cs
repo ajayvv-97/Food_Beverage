@@ -48,6 +48,12 @@ namespace BLL
             parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("ReservationTotal", objTestClass.ReservationTotal);
             parms.Add("AdvanceAmount", objTestClass.AdvanceAmount);
+
+            parms.Add("Name", objTestClass.Name);
+            parms.Add("Address", objTestClass.Address);
+            parms.Add("ContactNo", objTestClass.ContactNo);
+            parms.Add("Email", objTestClass.Email);
+            parms.Add("Gender", objTestClass.Gender);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }

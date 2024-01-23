@@ -15,10 +15,13 @@ namespace BLL
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
-            //parms.Add("Customer", objTestClass.CustomerId);
-            //parms.Add("Address", objTestClass.Address);
-            //parms.Add("ContactNo", objTestClass.ContactNo);
-            //parms.Add("Email", objTestClass.Email);
+
+            parms.Add("CustomerName", objTestClass.CustomerName);
+            parms.Add("Address", objTestClass.Address);
+            parms.Add("Telephone", objTestClass.Telephone);
+            parms.Add("Email", objTestClass.Email);
+            parms.Add("Gender", objTestClass.Gender);
+
             parms.Add("TotQty", objTestClass.TotalQuantity);
             parms.Add("Remark", objTestClass.Remarks);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
@@ -35,7 +38,6 @@ namespace BLL
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
-            //parms.Add("Customer", objTestClass.CustomerId);
             parms.Add("Address", objTestClass.Address);
             parms.Add("Telephone", objTestClass.Telephone);
             parms.Add("CustomerName", objTestClass.CustomerName);

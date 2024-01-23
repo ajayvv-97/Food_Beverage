@@ -39,12 +39,14 @@ namespace FoodandBeverage.Forms
         public static int pridno = 5;
 
         public static int didno = 0;
-        public static int dproductnameno = 1;
-        public static int dpriceno = 2;
-        public static int dcategoryname = 3;
-        public static int dcateidno = 4;
-        public static int dproductidno = 5;
-        public static int dsaletypeno = 6;
+        public static int dbarcode_codeno = 1;
+        public static int dproductnameno = 2;
+        public static int dpriceno = 3;
+        public static int dcategoryname = 4;
+        public static int dcateidno = 5;
+        public static int dproductidno = 6;
+        public static int dsaletypeno = 7;
+
         #endregion
 
         #region Declaration 
@@ -146,6 +148,8 @@ namespace FoodandBeverage.Forms
             pnl_serachproducts.Padding = new Padding(5); // Adjust the padding to increase the border thickness
             Taxfill();
             textb_shape();
+            combofill();
+            txt_prodlist_serach.Text = "Barcode / Item Code";
         }
         #region TexBox Round function
         public void textb_shape()
@@ -187,10 +191,10 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.F8)
             {
-                ProductPopup();
+                ProductPopup(0);
             }
         }
-        public void ProductPopup()
+        public void ProductPopup(int fcid)
         {
             try
             {
@@ -198,11 +202,21 @@ namespace FoodandBeverage.Forms
                 tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
-                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7";
-                _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 " +
-                    "union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7 from " +
-                    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
-                _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1";
+                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,p.ItemCode as Field8";
+                if(fcid==0)
+                {
+                    _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 " +
+    "union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8 from " +
+    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
+                    _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1";
+                }
+                else
+                {
+                    _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 and p.Fcid= "+fcid +
+    "union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8 from " +
+    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
+                    _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype= 1 and i.Fcid="+fcid;
+                }
                 _objSearch.OrderBy = "";
                 var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (Datasource.Count > 0)
@@ -212,6 +226,7 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < Datasource.Count; i++)
                     {
                         dgv_product_list.Rows[i].Cells[didno].Value = i + 1;
+                        dgv_product_list.Rows[i].Cells[dbarcode_codeno].Value = Datasource[i].Field8;
                         dgv_product_list.Rows[i].Cells[dproductnameno].Value = Datasource[i].Field1;
                         dgv_product_list.Rows[i].Cells[dpriceno].Value = Datasource[i].Field2;
                         dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6;
@@ -367,6 +382,7 @@ namespace FoodandBeverage.Forms
             }
             else if (tlp_single.Visible)
             {
+                combofill();
                 dtp_to_date_s.Value = DateTime.Now;
                 dtp_from_date_s.Value = DateTime.Now;
                 dtp_from_time_s.Value = DateTime.Now;
@@ -1766,7 +1782,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.F8)
             {
-                ProductPopup();
+                ProductPopup(0);
             }
         }
 
@@ -1781,8 +1797,10 @@ namespace FoodandBeverage.Forms
                 //case Keys.Tab:
                 //    Movefocus(1);
                 //    return true; // Mark the key as handled
-                //case Keys.Enter:
-                //    return true; // Mark the key as handled
+                case Keys.Enter:
+                    if(txt_prodlist_serach.Focused)
+                        UpcScanner(txt_prodlist_serach.Text);
+                    return true; // Mark the key as handled
                 case Keys.Escape:
                     if (pnl_serachproducts.Visible)
                         pnl_serachproducts.Visible = false;
@@ -2728,6 +2746,109 @@ namespace FoodandBeverage.Forms
             txtitemcode_serach.BackColor = Color.DarkGray;
             txtname_search.BackColor = Color.DarkGray;
 
+        }
+
+        private void txt_prodlist_serach_Enter(object sender, EventArgs e)
+        {
+            if (txt_prodlist_serach.Text == "Barcode / Item Code")
+            {
+                txt_prodlist_serach.Text = "";
+                txt_prodlist_serach.ForeColor = Color.Black;
+            }
+        }
+
+        private void txt_prodlist_serach_Leave(object sender, EventArgs e)
+        {
+            if (txt_prodlist_serach.Text == "")
+            {
+                txt_prodlist_serach.Text = "Barcode / Item Code";
+                txt_prodlist_serach.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void txt_prodlist_serach_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+        }
+        public void combofill()
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "fcid,CategoryName";
+                objSearch.Table = " tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                if (gridSource.Count > 0)
+                {
+                    cmb_productlist.DataSource = gridSource;
+                    cmb_productlist.ValueMember = "Id";
+                    cmb_productlist.DisplayMember = "Value";
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        
+        }
+
+        private void cmb_productlist_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ProductPopup(Convert.ToInt32(cmb_productlist.SelectedValue));
+        }
+
+        private void txt_prodlist_serach_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                UpcScanner(txt_prodlist_serach.Text);
+            }
+        }
+        public void UpcScanner(string code)
+        {
+            try
+            {
+                tlp_product_list.Visible = true;
+                tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,p.ItemCode as Field8";
+                _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 and p.ItemCode= '"+code +
+                   "' union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8 from " +
+                    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
+                _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1 and i.ItemCode_UPC='"+code+"'";
+                _objSearch.OrderBy = "";
+                var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (Datasource.Count > 0)
+                {
+                    dgv_product_list.Rows.Clear();
+                    dgv_product_list.Rows.Add(Datasource.Count);
+                    for (int i = 0; i < Datasource.Count; i++)
+                    {
+                        dgv_product_list.Rows[i].Cells[didno].Value = i + 1;
+                        dgv_product_list.Rows[i].Cells[dbarcode_codeno].Value = Datasource[i].Field8;
+                        dgv_product_list.Rows[i].Cells[dproductnameno].Value = Datasource[i].Field1;
+                        dgv_product_list.Rows[i].Cells[dpriceno].Value = Datasource[i].Field2;
+                        dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6;
+                        dgv_product_list.Rows[i].Cells[dcateidno].Value = Datasource[i].Field7;
+                        dgv_product_list.Rows[i].Cells[dproductidno].Value = Datasource[i].Id;
+                        dgv_product_list.Rows[i].Cells[dsaletypeno].Value = Datasource[i].Field5;
+                    }
+
+                }
+                else
+                    CMessageBox.Show("No Match Found ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error");
+            }
         }
     }
 }

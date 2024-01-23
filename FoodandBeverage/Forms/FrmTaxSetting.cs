@@ -517,7 +517,7 @@ namespace FoodandBeverage.Forms
                 else
                     btnsave.Enabled = false;
             }
-            cmbTaxType.Focus();
+
             filltax();
             dgvTaxSettings.BorderStyle = BorderStyle.None;
             dgvTaxSettings.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
@@ -530,7 +530,6 @@ namespace FoodandBeverage.Forms
             dgvTaxSettings.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvTaxSettings.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
             cmbTaxType.SelectedIndex = 0;
 
 

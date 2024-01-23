@@ -614,7 +614,12 @@ namespace FoodandBeverage.Forms
                     dgv_view_name = clickedDataGridView.Name;
                     dgv_view_rowno = e.RowIndex;
                     pnl_products_rem_descr.Visible = true;
-                    pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
+                    int panelWidthPercentage = 20;
+                    int panelheightPercentage = 20;
+                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                    pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
+                    pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                     lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                     txt_product_remove_des.Focus();
                 }
@@ -664,7 +669,12 @@ namespace FoodandBeverage.Forms
             int id = Convert.ToInt32(clickedPictureBox.Tag);
             dgv_view_name = "dgv_product_details" + id;
             pnl_products_rem_descr.Visible = true;
-            pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
+            int panelWidthPercentage = 20;
+            int panelheightPercentage = 20;
+            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+            pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
+            pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
             pbcancelfoodclciked = true;
             lblheader_product_des.Text = "Order Cancel";
             txt_product_remove_des.Focus();
@@ -1677,8 +1687,10 @@ namespace FoodandBeverage.Forms
         {
             switch (keyData)
             {     
-                case Keys.Escape:
-                    if (pnlproductviewmore.Visible)
+                case Keys.Escape:                    
+                    if (pnl_products_rem_descr.Visible)
+                        pnl_products_rem_descr.Visible = false;
+                    else if (pnlproductviewmore.Visible)
                         pnlproductviewmore.Visible = false;
                     else
                     {
