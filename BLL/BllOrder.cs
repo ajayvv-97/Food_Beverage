@@ -38,7 +38,8 @@ namespace BLL
             //parms.Add("Customer", objTestClass.CustomerId);
             parms.Add("Address", objTestClass.Address);
             parms.Add("Telephone", objTestClass.Telephone);
-            parms.Add("CustomerName", objTestClass.Name);
+            parms.Add("CustomerName", objTestClass.CustomerName);
+            parms.Add("Gender", objTestClass.Gender);
             
             parms.Add("Email", objTestClass.Email);
             parms.Add("TotQty", objTestClass.TotalQuantity);

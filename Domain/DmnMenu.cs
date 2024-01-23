@@ -19,6 +19,8 @@ namespace Domain
         public int BranchId { get; set; }
         public string Title { get; set; }
         public decimal Price { get; set; }
+        public decimal DisAmt { get; set; }
+        public decimal DisPer { get; set; }
 
 
     }

@@ -648,7 +648,7 @@ namespace FoodandBeverage.Forms
                     "   m.BranchId =  "+FrmLogin.BranchId +" where m.Status = 1 and p.Status = 1    UNION " +
                     "   select i.ItemId  as Id, i.Itemname as Field1,i.prate as Field2, 'Item' as Field3, " + Convert.ToInt32(formsenum.Item) + " Field4 ,i.Tax as Field5,i.TaxType as Field6 " +
                     " from tblItem i  where Saletype=1" +
-                    " UNION select ofm.OfferType as Id,ofm.OfferName Field1,ofm.FinalPrice Field2,'Offer' as Field3," + Convert.ToInt32(formsenum.Discount_And_Offer) + " Field4 , ofm.Tax Field5,ofm.TaxType Field6 from " +
+                    " UNION select ofm.Omid as Id,ofm.OfferName Field1,ofm.FinalPrice Field2,'Offer' as Field3," + Convert.ToInt32(formsenum.Discount_And_Offer) + " Field4 , ofm.Tax Field5,ofm.TaxType Field6 from " +
                     " tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid ";
                 _objSearch.WhereNdGroupBy = " Where ofd.Status=1 and ofm.OfferType = 1";
                 _objSearch.OrderBy = "";
@@ -2026,7 +2026,8 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.Remarks = txtRemarks.Text;
                         dmnordermaster.Address = txtAddress.Text;
                         dmnordermaster.Telephone = txtMob.Text;
-                        dmnordermaster.Name = txtNam.Text;
+                        dmnordermaster.CustomerName = txtNam.Text;
+                        dmnordermaster.Gender = Convert.ToString(cboGender.SelectedValue);
                         dmnordermaster.Email = txtEmail.Text;
                         dmnordermaster.BranchId = FrmDashboard.BranchId;
                         dmnordermaster.CreatedBy = 1;
@@ -2202,7 +2203,9 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
                 {
-                    objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt ,ts.TaxSettingsId,ItemCode as ItemCode_UPC,CgstPrcnt,SgstPrcnt,p.Fcid ";
+                    objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt ,ts.TaxSettingsId," +
+                        "ItemCode as ItemCode_UPC,CgstPrcnt,SgstPrcnt,p.Fcid," +
+                        "p.DiscountAmt as DisAmt,p.DiscountPer as DisPer ";
                     objSearch.Table = " tblMenu m left join tblProduct p on m.ProductId=p.ProductId " +
                         " left join tblTaxSettings ts on p.TaxSettingsId=ts.TaxSettingsId ";
                     objSearch.WhereNdGroupBy = " where MId =" + dgvItemPop.Rows[r].Cells[0].Value;
@@ -2220,13 +2223,13 @@ namespace FoodandBeverage.Forms
                     objSearch.WhereNdGroupBy = " where  Saletype=1 and  ItemId =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
                 }
-                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Discount_And_Offer) && Convert.ToInt32(dgvItemPop.Rows[r].Cells[0].Value) == 1)
+                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Discount_And_Offer) )
                 {
                     objSearch.Select = "ofm.OfferName ,ofm.FinalPrice,ofm.Omid , ofm.TaxType , ofm.Tax , ofm.TaxSettingsId , ofm.Discountper , ofd.Productname, " +
                         " CgstPrcnt,SgstPrcnt,VatPrcnt,IgstPrcnt ,ofm.DiscountAmt,ofm.Discountper,ofm.TaxSettingsId ";
                        
                     objSearch.Table = "  tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid  left join tblTaxSettings ts  on ts.TaxSettingsId=ofm.TaxSettingsId ";
-                    objSearch.WhereNdGroupBy = " where ofm.OfferType =" + dgvItemPop.Rows[r].Cells[0].Value;
+                    objSearch.WhereNdGroupBy = " where ofm.Omid =" + dgvItemPop.Rows[r].Cells[0].Value;
                     objSearch.OrderBy = "";
                 }
                 if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
@@ -2278,6 +2281,8 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
                             dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
                             dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                            dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource[0].DisAmt;
+                            dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DisPer;
                             dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
                             dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
                             dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
