@@ -31,5 +31,6 @@ namespace Domain
         public decimal MRP { get; set; }
         public int prid { get; set; }
         public decimal QOH { get; set; }
+        public int PrId { get; set; }
     }
 }
