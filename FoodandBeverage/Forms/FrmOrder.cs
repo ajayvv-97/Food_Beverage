@@ -730,7 +730,7 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
-                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal";
+                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal,om.Gender Gender";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId " +
                     "left join tblbookMaster bm on bm.BookmasterId=om.BookmasterId";
                 dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.BookmasterId="+Bookingmasterid;
@@ -5701,7 +5701,7 @@ namespace FoodandBeverage.Forms
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
             }
-            if (Booking_Status)
+            else if (Booking_Status)
             {
                 Promodetailsid = 0;
                 Promomasterid = 0;
@@ -7595,9 +7595,8 @@ namespace FoodandBeverage.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtemailid.Text))
             {
-                 ClsGeneral.CheckEmailId(this, txtemailid.Text);
-                txtemailid.Focus();
-
+                 if(ClsGeneral.CheckEmailId(this, txtemailid.Text) != true)
+                    txtemailid.Focus();
             }
         }
 
@@ -7612,7 +7611,6 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
-
         private void btn_edit_cus_Click(object sender, EventArgs e)
         {
             txtph.Enabled = true;

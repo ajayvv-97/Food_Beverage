@@ -273,7 +273,7 @@ namespace DAL
         /// <returns></returns
         public static IDbConnection OpenConnection()
         {
-            IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=Food_Beverage_AO;Persist Security Info=True;User ID=sa;Password=iapsIT@234#");
+            IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=Food_Beverage_AY;Persist Security Info=True;User ID=sa;Password=iapsIT@234#");
             //IDbConnection connection = new SqlConnection("Data Source=192.168.0.159;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=,rhsm098");
             //IDbConnection connection = new SqlConnection("Data Source=AJAY-LAPTOP\\SQLEXPRESS;Initial Catalog=Food_Beverage_copy;Integrated Security=True");
             connection.Open();

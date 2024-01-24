@@ -50,6 +50,23 @@ namespace BLL
             parms.Add("Prid", objTestClass.Prid);
             parms.Add("Productname", objTestClass.Productname);
             parms.Add("Saletype", objTestClass.Saletype);
+            parms.Add("Productname", objTestClass.Productname);
+
+            parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
+            parms.Add("Tax", objTestClass.Tax);
+            parms.Add("TaxType", objTestClass.TaxType);
+            parms.Add("Price", objTestClass.Price); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+
+        public DmnOfferDetails Removeoffer(string procedureName, DmnOfferDetails objTestClass)
+        {
+            DAL.DapperRepository<DmnOfferDetails> dapperRepository = new DAL.DapperRepository<DmnOfferDetails>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("Odid", objTestClass.Odid);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -723,7 +723,7 @@ namespace FoodandBeverage.Forms
             // 
             this.button11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button11.BackColor = System.Drawing.Color.Black;
-            this.button11.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change2;
+            this.button11.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
             this.button11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button11.ForeColor = System.Drawing.Color.Transparent;
             this.button11.Location = new System.Drawing.Point(677, 0);
