@@ -2210,6 +2210,7 @@ namespace FoodandBeverage.Forms
 
             }
         }
+       
 
         private void dgvItemPop_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -2280,7 +2281,15 @@ namespace FoodandBeverage.Forms
                             {
                                 dgvmenu.Rows.Add(1);
                             }
-
+                            decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ProductId),Convert.ToInt32(0));
+                            if(disper ==0)
+                            {
+                                dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DisPer;
+                            }
+                            else
+                            {
+                                dgvmenu.Rows[r1].Cells[idisper].Value = disper;
+                            }
                             dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].MId;
                             dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
                             dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Title;
@@ -2297,14 +2306,14 @@ namespace FoodandBeverage.Forms
                             dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
                             dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
                             dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
-                            dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource[0].DisAmt;
-                            dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DisPer;
+                            //dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource[0].DisAmt;
+                            
                             dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
                             dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
                             dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].prid;
                             dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
                             dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
-
+                           
 
                             //dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
                             dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
@@ -2344,7 +2353,12 @@ namespace FoodandBeverage.Forms
 
                         // Display the sum in a TextBox
                         lblMTotal.Text = totalSum.ToString();
-                        
+                        panelProductPopup.Visible = false;
+                        //pnlCustHead.Hide();
+                        dgvItemPop.Visible = false;
+                        dgvmenu.Enabled = true;
+                        dgvmenu.Focus();
+
                     }
                 }
                 else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Item))
@@ -2379,7 +2393,9 @@ namespace FoodandBeverage.Forms
                                 {
                                     dgvmenu.Rows.Add(1);
                                 }
-
+                                decimal disper= OfferCheckItem(Convert.ToInt32(gridSource[0].ItemId), Convert.ToInt32(1));
+                                
+                                dgvmenu.Rows[r1].Cells[idisper].Value = disper;
                                 dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
                                 dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
                                 dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
@@ -2393,6 +2409,8 @@ namespace FoodandBeverage.Forms
                                 dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
                                 dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
                                 dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[idisper].Value = disper;
+                                
                                 dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
                                 dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
                                 dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
@@ -2569,7 +2587,11 @@ namespace FoodandBeverage.Forms
 
                         // Display the sum in a TextBox
                         lblMTotal.Text = totalSum.ToString();
-                        
+                        panelProductPopup.Visible = false;
+                        //pnlCustHead.Hide();
+                        dgvItemPop.Visible = false;
+                        dgvmenu.Enabled = true;
+                        dgvmenu.Focus();
                     }
                     
                 }
@@ -2783,8 +2805,9 @@ namespace FoodandBeverage.Forms
                             {
                                 dgvmenu.Rows.Add(1);
                             }
-
-                            dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
+                        decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ItemId), Convert.ToInt32(1));
+                        dgvmenu.Rows[r1].Cells[idisper].Value = disper;
+                        dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
                             dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
                             dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
                             dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
@@ -2972,5 +2995,35 @@ namespace FoodandBeverage.Forms
 
             }
         }
+        public decimal OfferCheckItem(int ProductId, int ProductType)
+        {
+            try
+            {
+                int r = dgvItemPop.CurrentCell.RowIndex;
+                int r1 = dgvmenu.CurrentCell.RowIndex;
+                BllSearch<DmnMenu> bllSearch = new BllSearch<DmnMenu>();
+                BllSearch<DmnOfferMaster> bllSearch1 = new BllSearch<DmnOfferMaster>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+
+                objSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid ";
+
+                objSearch.WhereNdGroupBy = " where SYSDATETIME() BETWEEN OfferStartDatetime AND OfferEndDatetime and OfferType=0 and ofd.Saletype=" + ProductType + " and ofd.ProductId =" + ProductId;
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 0)
+                {
+                    return gridSource[0].Discountper;
+                }
+                else
+                    return 0;
+            }
+
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+       
     }
 }
