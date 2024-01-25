@@ -989,7 +989,6 @@ namespace FoodandBeverage.Forms
                         cboBtype.SelectedValue = Convert.ToInt64(gridSource1[0].BookingType);
                         txtRemarks.Text = Convert.ToString(gridSource1[0].Remarks);
                         txtBookmasterId.Text = Convert.ToString(gridSource1[0].BookmasterId);
-
                         lblSTotal.Text = Convert.ToString(gridSource1[0].ReservationTotal);
                         lblMTotal.Text = Convert.ToString(gridSource1[0].MenuTotal);
                         lblGTotal.Text = Convert.ToString(gridSource1[0].GrandTotal);
@@ -1072,6 +1071,10 @@ namespace FoodandBeverage.Forms
                                     //dgvmenu.Rows[i].Cells[0].Value = i + 1;
                                     //dgvmenu.Rows[i].Cells[BookmasterId].Value = gridSource2[i].BookmasterId;
                                     dgvmenu.Rows[r1].Cells[imname].Value = gridSource2[i].Name;
+                                    dgvmenu.Rows[r1].Cells[iTax].Value = gridSource2[i].Tax;
+                                    dgvmenu.Rows[r1].Cells[istaxamt].Value = gridSource2[i].TaxAmt;
+                                    dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource2[i].TaxPer;
+                                    dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource2[i].TaxType;
                                     dgvmenu.Rows[r1].Cells[imprice].Value = gridSource2[i].Price;
                                     dgvmenu.Rows[r1].Cells[iqty].Value = gridSource2[i].Quantity;
                                     dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource2[i].Description;
