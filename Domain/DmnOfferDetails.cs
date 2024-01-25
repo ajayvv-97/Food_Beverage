@@ -28,7 +28,8 @@ namespace Domain
         public int TaxSettingsId { get; set; }
         public string TaxType { get; set; }
         public decimal Price { get; set; }
-        
+        public string ItemCode_UPC { get; set; }
 
+        
     }
 }

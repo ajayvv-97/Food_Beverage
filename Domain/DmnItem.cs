@@ -32,5 +32,8 @@ namespace Domain
         public int prid { get; set; }
         public decimal QOH { get; set; }
         public int PrId { get; set; }
+        public decimal DiscountAmt { get; set; }
+        public decimal DiscountPer { get; set; }
     }
+    
 }

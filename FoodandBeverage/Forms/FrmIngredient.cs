@@ -64,8 +64,10 @@ namespace FoodandBeverage.Forms
                         dmnproduct.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
 
                     dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
+
                     dmnproduct.DiscountAmt = Convert.ToDecimal(txtDiscAmnt.Text);
                     dmnproduct.DiscountPer = Convert.ToDecimal(txtDisPer.Text);
+
                     dmnproduct.OfferDescription = "";
                     dmnproduct.MRP = Convert.ToDecimal(txtmrp.Text);
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
@@ -138,8 +140,8 @@ namespace FoodandBeverage.Forms
                         clearall();
                         //Fillitem();
                     }
-                    else
-                        CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    //else
+                    //    CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

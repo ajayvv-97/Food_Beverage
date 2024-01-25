@@ -28,7 +28,8 @@ namespace BLL
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
             parms.Add("TaxType", objTestClass.TaxType);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("Description", objTestClass.Description); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 
@@ -51,12 +52,12 @@ namespace BLL
             parms.Add("Productname", objTestClass.Productname);
             parms.Add("Saletype", objTestClass.Saletype);
             parms.Add("Productname", objTestClass.Productname);
-
             parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxType", objTestClass.TaxType);
-            parms.Add("Price", objTestClass.Price); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("Price", objTestClass.Price);
+            parms.Add("ItemCode_UPC", objTestClass.ItemCode_UPC);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 
