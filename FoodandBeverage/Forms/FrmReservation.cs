@@ -82,10 +82,10 @@ namespace FoodandBeverage.Forms
         public static int qt = 4;
 
         private int yourTargetColumnIndex = 1;    
-       
+     
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-
+           
             dgvforms.BorderStyle = BorderStyle.None;
             dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -555,7 +555,7 @@ namespace FoodandBeverage.Forms
 
         private void txtNam_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter )
             {
                 e.SuppressKeyPress = true;
                 SendKeys.Send("{TAB}");
@@ -600,7 +600,11 @@ namespace FoodandBeverage.Forms
 
         private void txtNOP_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SendKeys.Send("{TAB}");
+            }
         }
 
         private void dtpBooking_KeyDown(object sender, KeyEventArgs e)
@@ -616,8 +620,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtRemarks.Focus();
             }
         }
 
@@ -625,8 +628,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                dgvforms.Focus();
             }
         }
 
@@ -656,6 +658,10 @@ namespace FoodandBeverage.Forms
                              (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 2));
                 panelProductPopup.Anchor = AnchorStyles.None;
                 panelProductPopup.Visible = true;
+
+               
+                //redpan.Visible = true;
+
                 dgvItemPop.Visible = true;
                 dgvItemPop.Rows.Clear();
                 
@@ -790,10 +796,17 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                if (dgvforms.CurrentCell.ColumnIndex == idescription && dgvforms.CurrentCell.RowIndex == dgvforms.Rows.Count - 1)
+                {                    
+                        discountper.Focus();                    
+                }
+                else
+                {
+                        e.SuppressKeyPress = true;
+                        SendKeys.Send("{TAB}");
+                }
             }
-            else if (e.KeyData == Keys.F8 && dgvforms.CurrentCell.ColumnIndex == itablename)
+            if (e.KeyData == Keys.F8 && dgvforms.CurrentCell.ColumnIndex == itablename)
             {
                 lblToolTipPopup.Visible = false;
                 if (Convert.ToInt32(cboBtype.SelectedValue) == (Convert.ToInt32(Reservation.TableBooking)))
@@ -806,11 +819,12 @@ namespace FoodandBeverage.Forms
             else if (e.KeyData == Keys.Delete)
             {
                 dgvforms.Rows.RemoveAt(dgvforms.CurrentCell.RowIndex);
-                if (dgvforms.Rows.Count==0)
+                if (dgvforms.Rows.Count == 0)
                 {
                     dgvforms.Rows.Add(1);
                 }
             }
+            //gridefllow(e);
             if (dgvforms.CurrentCell.ColumnIndex >= 0 && dgvforms.CurrentCell.RowIndex >= 0)
             {
                 // Specify the column index for which you want to calculate the sum
@@ -1259,7 +1273,7 @@ namespace FoodandBeverage.Forms
         }
         private void discountper_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter)
+                if (e.KeyData == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
                 SendKeys.Send("{TAB}");
@@ -1390,8 +1404,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                oaamount.Focus();
             }
         }
 
@@ -1580,8 +1593,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                sterms.Focus();
             }
         }
 
@@ -1589,8 +1601,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtadvpa.Focus();
             }
         }
 
@@ -1621,8 +1632,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                netamount.Focus();
             }
         }
 
@@ -1631,8 +1641,7 @@ namespace FoodandBeverage.Forms
             //CalNetAmt();
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                mbtnSave.Focus();
             }
         }
 
@@ -1653,11 +1662,17 @@ namespace FoodandBeverage.Forms
 
         private void rcvamt_Leave(object sender, EventArgs e)
         {
-            if (rcvamt.Text == "" || rcvamt.Text == ".")
+            decimal value;
+            if (!decimal.TryParse(rcvamt.Text, out value))
             {
-                rcvamt.Text = "0.00";
+                rcvamt.Text = "0";
             }
-
+            if (!decimal.TryParse(txtadvpa.Text, out value))
+            {
+                txtadvpa.Text = "0";
+            }
+            
+            
             if (Convert.ToInt32(txtBookmasterId.Text) == 0)
             {
                 decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
@@ -1744,8 +1759,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyData == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                rcvamt.Focus();
             }
         }
 
@@ -2468,6 +2482,10 @@ namespace FoodandBeverage.Forms
                             dgv_spopup.Rows[i].Cells[qt].Value = gridSource[i].QOH;
 
                         }
+                        redpan.Location = new Point(
+                          this.ClientSize.Width / 2 - redpan.Size.Width / 2,
+                          (this.ClientSize.Height / 3 - redpan.Size.Height / 2));
+                        redpan.Anchor = AnchorStyles.None;
                         dgvmenu.Enabled = false;
                         dgv_spopup.Enabled = true;
                         redpan.Visible = true;
@@ -2768,6 +2786,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+               
                 int r1 = dgvmenu.CurrentCell.RowIndex;
                 int r = dgvItemPop.CurrentCell.RowIndex;
                 BllSearch<DmnMenu> bllSearch = new BllSearch<DmnMenu>();
@@ -3027,6 +3046,42 @@ namespace FoodandBeverage.Forms
                 return 0;
             }
         }
-       
+
+        private void dtp_from_time_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                cboBtype.Focus();
+            }
+        }
+        public void gridefllow(KeyEventArgs e)
+        {
+            int r = dgvforms.CurrentCell.RowIndex;
+            int c = dgvforms.CurrentCell.ColumnIndex;
+            if (e.KeyCode == Keys.Enter)
+                {
+                if (e.KeyData == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                        SendKeys.Send("{TAB}");
+                }
+                if(e.KeyData==Keys.Up)
+                {
+                    e.SuppressKeyPress = true;
+                    SendKeys.Send("{UP}");
+                }
+                if (c == idescription)
+                { 
+                    if (r == dgvforms.RowCount - 1)
+                    {
+                        discountper.Focus();
+
+                    }
+                    else
+                        dgvforms.CurrentCell = dgvforms.Rows[r + 1].Cells[itablename];
+                }
+               
+            }
+        }
     }
 }
