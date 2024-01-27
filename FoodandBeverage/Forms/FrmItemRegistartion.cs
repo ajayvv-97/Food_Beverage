@@ -180,6 +180,10 @@ namespace FoodandBeverage.Forms
                         txtitemid.Text = "0";
                     if (string.IsNullOrWhiteSpace(txtprid.Text))
                         txtprid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtdisper.Text))
+                        txtdisper.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtdisamt.Text))
+                        txtdisamt.Text = "0";                   
 
                     dmnitemreg.ItemId = Convert.ToInt32(txtitemid.Text);
                     dmnitemreg.Itemname = txtincr_name.Text;
@@ -192,6 +196,10 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
                     dmnitemreg.prid = Convert.ToInt32(txtprid.Text);
                     dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
+
+                    dmnitemreg.DiscountPer = Convert.ToDecimal(txtdisper.Text);
+                    dmnitemreg.DiscountAmt = Convert.ToDecimal(txtdisamt.Text);
+
                     if (rdb_dsale.Checked)
                         dmnitemreg.Saletype = 1;
                     else
@@ -253,6 +261,11 @@ namespace FoodandBeverage.Forms
             txtSgstPrcnt.Text = "";
             txtprid.Text = "";
             txtitemid.Text = "";
+            txtdisamt.Text = "0.00";
+            txtdisper.Text = "0.00";
+
+            rdb_dsale.Enabled = true;
+            rdb_notsale.Enabled = true;
         }
 
 
@@ -525,7 +538,7 @@ namespace FoodandBeverage.Forms
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtprid.Text = Convert.ToString(itemSource[0].prid);
+                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                         rdb_dsale.Checked = true;
@@ -551,7 +564,7 @@ namespace FoodandBeverage.Forms
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].prid;
+                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
                         dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
                         dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
                         dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
@@ -596,6 +609,10 @@ namespace FoodandBeverage.Forms
             lbltax.Dock = DockStyle.Fill;
             lbltaxtype.Dock = DockStyle.Fill;
             txtdesc.Dock = DockStyle.Fill;
+            txtdisper.Dock = DockStyle.Fill;
+            txtdisamt.Dock = DockStyle.Fill;
+            lbldisamt.Dock = DockStyle.Fill;
+            lbldisper.Dock = DockStyle.Fill;
             if (cmbTaxType.Text == "GST")
             {
                 lbligst.Dock = DockStyle.Fill;
@@ -605,53 +622,133 @@ namespace FoodandBeverage.Forms
                 lbldes.Dock = DockStyle.Fill;
                 txtSgstPrcnt.Dock = DockStyle.Top;
                 txtCgstPrcnt.Dock = DockStyle.Top;
-                //row1
-                tlp_registration.Controls.Add(lblunit, 0, 5);
-                tlp_registration.Controls.Add(lbltax, 1, 5);
-                tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                tlp_registration.Controls.Add(lbligst, 3, 5);
+                if(rdb_dsale.Checked)
+                {
+                    //row1
+                    tlp_registration.Controls.Add(lbldisper, 0, 5);
+                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                    tlp_registration.Controls.Add(lblunit, 2, 5);
+                    tlp_registration.Controls.Add(lbltax, 3, 5);
 
-                //row2
-                tlp_registration.Controls.Add(cmbunit, 0, 6);
-                tlp_registration.Controls.Add(cmbtax, 1, 6);
-                tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
 
-                //row3
-                tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
-                tlp_registration.Controls.Add(lbldes, 1, 7);
-                //row4
-                tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
-                tlp_registration.Controls.Add(txtdesc, 1, 8);
-                tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
 
-                cmbIgstPrcnt.Focus();
+                    //row2
+                    tlp_registration.Controls.Add(txtdisper, 0, 6);
+                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                    tlp_registration.Controls.Add(cmbunit, 2, 6);
+                    tlp_registration.Controls.Add(cmbtax, 3, 6);
+
+
+
+                    //row3
+                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                    tlp_registration.Controls.Add(lbligst, 1, 7);
+                    tlp_registration.Controls.Add(tlp_s_c_gst, 2, 7);
+                    tlp_registration.Controls.Add(lbldes, 3, 7);
+
+
+                    //row4
+                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
+                    tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
+                    tlp_registration.Controls.Add(tlp_des_rem, 3, 8);
+
+
+                    cmbIgstPrcnt.Focus();
+                }
+                else
+                {
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    tlp_s_c_gst.Dock = DockStyle.Fill;
+                    tlp_S_C_text_.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Top;
+                    txtCgstPrcnt.Dock = DockStyle.Top;
+                    //row1
+                    tlp_registration.Controls.Add(lblunit, 0, 5);
+                    tlp_registration.Controls.Add(lbltax, 1, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                    tlp_registration.Controls.Add(lbligst, 3, 5);
+
+                    //row2
+                    tlp_registration.Controls.Add(cmbunit, 0, 6);
+                    tlp_registration.Controls.Add(cmbtax, 1, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
+
+                    //row3
+                    tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
+                    tlp_registration.Controls.Add(lbldes, 1, 7);
+                    //row4
+                    tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
+                    tlp_registration.Controls.Add(txtdesc, 1, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+
+                    cmbIgstPrcnt.Focus();
+                }
+               
             }
             else if (cmbTaxType.Text == "VAT")
             {
                 cmbVatPrcnt.Dock = DockStyle.Fill;
                 lblvat.Dock = DockStyle.Fill;
                 lbldes.Dock = DockStyle.Fill;
-                //row1
-                tlp_registration.Controls.Add(lblunit, 0, 5);
-                tlp_registration.Controls.Add(lbltax, 1, 5);
-                tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                tlp_registration.Controls.Add(lblvat, 3, 5);
 
-                //row2
-                tlp_registration.Controls.Add(cmbunit, 0, 6);
-                tlp_registration.Controls.Add(cmbtax, 1, 6);
-                tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+                if (rdb_dsale.Checked)
+                {
+                    //row1
+                    tlp_registration.Controls.Add(lbldisper, 0, 5);
+                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                    tlp_registration.Controls.Add(lblunit, 2, 5);
+                    tlp_registration.Controls.Add(lbltax, 3, 5);
 
-                //row3
-                tlp_registration.Controls.Add(lbldes, 0, 7);
+                    //row2
+                    tlp_registration.Controls.Add(txtdisper, 0, 6);
+                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                    tlp_registration.Controls.Add(cmbunit, 2, 6);
+                    tlp_registration.Controls.Add(cmbtax, 3, 6);
 
-                //row4
-                tlp_registration.Controls.Add(txtdesc, 0, 8);
-                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+                    //row3
+                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                    tlp_registration.Controls.Add(lblvat, 1, 7);
+                    tlp_registration.Controls.Add(lbldes, 2, 7);
 
-                cmbVatPrcnt.Focus();
+                    //row4
+                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
+                    tlp_registration.Controls.Add(tlp_des_rem, 2, 8);
+
+                    cmbVatPrcnt.Focus();
+                }
+                else
+                {
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
+                    lblvat.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+                    //row1
+                    tlp_registration.Controls.Add(lblunit, 0, 5);
+                    tlp_registration.Controls.Add(lbltax, 1, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                    tlp_registration.Controls.Add(lblvat, 3, 5);
+
+                    //row2
+                    tlp_registration.Controls.Add(cmbunit, 0, 6);
+                    tlp_registration.Controls.Add(cmbtax, 1, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+
+                    //row3
+                    tlp_registration.Controls.Add(lbldes, 0, 7);
+
+                    //row4
+                    tlp_registration.Controls.Add(txtdesc, 0, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+
+                    cmbVatPrcnt.Focus();
+                }
+
+                
             }
         }
 
@@ -704,7 +801,7 @@ namespace FoodandBeverage.Forms
             {
                     BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId";
+                    objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId,i.DiscountAmt,i.DiscountPer";
                     objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
                     objSearch.WhereNdGroupBy = "where i.status = 1 and pr.id=" + dgvprDetails.Rows[rowno].Cells[iprId].Value;
                     objSearch.OrderBy = "";
@@ -722,16 +819,24 @@ namespace FoodandBeverage.Forms
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                     txtprid.Text = Convert.ToString(itemSource[0].prid);
 
+                    txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
+                    txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
+
                     if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                         rdb_dsale.Checked = true;
                     else
                         rdb_notsale.Checked = true;
+
+                    rdb_dsale.Enabled = false;
+                    rdb_notsale.Enabled = false;
+
                     cmbtax.Text = Convert.ToString(itemSource[0].Tax);
                     cmbtax.Text = Convert.ToString(itemSource[0].TaxType);
-                    if (cmbtax.Text == "GST")
+                    if (cmbTaxType.Text == "GST")
                         cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
                     else
                         cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
+
                     cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                     pnlPrRates.Visible = false;
                     btn_del_ingre.Visible = true;
@@ -768,9 +873,11 @@ namespace FoodandBeverage.Forms
                 ApplyRoundedTextBox(txtmrp, 10);
                 ApplyRoundedTextBox(txtqty, 10);
                 ApplyRoundedTextBox(txtprate, 10);
-                ApplyRoundedTextBox(txtsrate, 10);
+                ApplyRoundedTextBox(txtsrate, 10); 
                 //ApplyRoundedTextBox(txtCgstPrcnt, 10);
                 //ApplyRoundedTextBox(txtSgstPrcnt, 10);
+                ApplyRoundedTextBox(txtdisper, 10);
+                ApplyRoundedTextBox(txtdisamt, 10);
                 txtincr_name.Font = new Font(txtincr_name.Font.FontFamily, 12);
                 txtdesc.Font = new Font(txtdesc.Font.FontFamily, 12);
                 txtbarcode.Font = new Font(txtbarcode.Font.FontFamily, 12);
@@ -780,6 +887,8 @@ namespace FoodandBeverage.Forms
                 txtsrate.Font = new Font(txtsrate.Font.FontFamily, 12);
                 txtCgstPrcnt.Font = new Font(txtCgstPrcnt.Font.FontFamily, 12);
                 txtSgstPrcnt.Font = new Font(txtSgstPrcnt.Font.FontFamily, 12);
+                txtdisper.Font = new Font(txtdisper.Font.FontFamily, 12);
+                txtdisamt.Font = new Font(txtdisamt.Font.FontFamily, 12);
             }
             catch (Exception)
             {
@@ -924,10 +1033,17 @@ namespace FoodandBeverage.Forms
                         txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                         txtprid.Text = Convert.ToString(itemSource[0].prid);
 
+                        txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
+                        txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
+
                         if (Convert.ToInt32(itemSource[0].Saletype) == 1)
                             rdb_dsale.Checked = true;
                         else
                             rdb_notsale.Checked = true;
+
+                        rdb_dsale.Enabled = false;
+                        rdb_notsale.Enabled = false;
+
                         cmbtax.Text = Convert.ToString(itemSource[0].Tax);
                         cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
                         if (cmbTaxType.Text == "GST")
@@ -1107,14 +1223,112 @@ namespace FoodandBeverage.Forms
 
         private void rdb_dsale_CheckedChanged(object sender, EventArgs e)
         {
-            if(rdb_dsale.Checked)
+            if (rdb_dsale.Checked)
             {
-                cmb_inc_categ.DataSource =null;
+                cmb_inc_categ.DataSource = null;
                 cmb_inc_categ.DataSource = gridSource_Foodcate;
                 cmb_inc_categ.ValueMember = "Id";
                 cmb_inc_categ.DisplayMember = "Value";
+
+                int[] columnsToRemove1 = { 0, 1, 2, 3 };
+                int[] rowsToRemove1 = { 5, 6, 7, 8 };
+
+                foreach (int column in columnsToRemove1)
+                {
+                    foreach (int row in rowsToRemove1)
+                    {
+                        Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                        if (controlToRemove != null)
+                        {
+                            tlp_registration.Controls.Remove(controlToRemove);
+                        }
+                    }
+                }
+                cmbtax.Dock = DockStyle.Fill;
+                cmbTaxType.Dock = DockStyle.Fill;
+                lblunit.Dock = DockStyle.Fill;
+                lbltax.Dock = DockStyle.Fill;
+                lbltaxtype.Dock = DockStyle.Fill;
+                txtdesc.Dock = DockStyle.Fill;
+                txtdisper.Dock = DockStyle.Fill;
+                txtdisamt.Dock = DockStyle.Fill;
+                lbldisamt.Dock = DockStyle.Fill;
+                lbldisper.Dock = DockStyle.Fill;
+                if (cmbTaxType.Text == "GST")
+                {
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    tlp_s_c_gst.Dock = DockStyle.Fill;
+                    tlp_S_C_text_.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Top;
+                    txtCgstPrcnt.Dock = DockStyle.Top;
+
+                    //row1
+                    tlp_registration.Controls.Add(lbldisper, 0, 5);
+                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                    tlp_registration.Controls.Add(lblunit, 2, 5);
+                    tlp_registration.Controls.Add(lbltax, 3, 5);
+
+
+
+                    //row2
+                    tlp_registration.Controls.Add(txtdisper, 0, 6);
+                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                    tlp_registration.Controls.Add(cmbunit, 2, 6);
+                    tlp_registration.Controls.Add(cmbtax, 3, 6);
+
+
+
+                    //row3
+                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                    tlp_registration.Controls.Add(lbligst, 1, 7);
+                    tlp_registration.Controls.Add(tlp_s_c_gst, 2, 7);
+                    tlp_registration.Controls.Add(lbldes, 3, 7);
+
+
+                    //row4
+                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
+                    tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
+                    tlp_registration.Controls.Add(tlp_des_rem, 3, 8);
+
+
+                    cmbIgstPrcnt.Focus();
+                }
+                else if (cmbTaxType.Text == "VAT")
+                {
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
+                    lblvat.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+
+                    //row1
+                    tlp_registration.Controls.Add(lbldisper, 0, 5);
+                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                    tlp_registration.Controls.Add(lblunit, 2, 5);
+                    tlp_registration.Controls.Add(lbltax, 3, 5);
+
+                    //row2
+                    tlp_registration.Controls.Add(txtdisper, 0, 6);
+                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                    tlp_registration.Controls.Add(cmbunit, 2, 6);
+                    tlp_registration.Controls.Add(cmbtax, 3, 6);
+
+                    //row3
+                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                    tlp_registration.Controls.Add(lblvat, 1, 7);
+                    tlp_registration.Controls.Add(lbldes, 2, 7);
+
+                    //row4
+                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
+                    tlp_registration.Controls.Add(tlp_des_rem, 2, 8);
+
+                    cmbVatPrcnt.Focus();
+
+                }
             }
-;
+
         }
 
         private void rdb_notsale_CheckedChanged(object sender, EventArgs e)
@@ -1125,6 +1339,225 @@ namespace FoodandBeverage.Forms
                 cmb_inc_categ.DataSource = gridSource_itemcate;
                 cmb_inc_categ.ValueMember = "Id";
                 cmb_inc_categ.DisplayMember = "Value";
+
+                int[] columnsToRemove1 = { 0, 1, 2, 3 };
+                int[] rowsToRemove1 = { 5, 6, 7, 8 };
+
+                foreach (int column in columnsToRemove1)
+                {
+                    foreach (int row in rowsToRemove1)
+                    {
+                        Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                        if (controlToRemove != null)
+                        {
+                            tlp_registration.Controls.Remove(controlToRemove);
+                        }
+                    }
+                }
+                cmbtax.Dock = DockStyle.Fill;
+                cmbTaxType.Dock = DockStyle.Fill;
+                lblunit.Dock = DockStyle.Fill;
+                lbltax.Dock = DockStyle.Fill;
+                lbltaxtype.Dock = DockStyle.Fill;
+                txtdesc.Dock = DockStyle.Fill;
+                cmbunit.Dock = DockStyle.Fill;
+                if (cmbTaxType.Text == "GST")
+                {
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    tlp_s_c_gst.Dock = DockStyle.Fill;
+                    tlp_S_C_text_.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Top;
+                    txtCgstPrcnt.Dock = DockStyle.Top;
+                    //row1
+                    tlp_registration.Controls.Add(lblunit, 0, 5);
+                    tlp_registration.Controls.Add(lbltax, 1, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                    tlp_registration.Controls.Add(lbligst, 3, 5);
+
+                    //row2
+                    tlp_registration.Controls.Add(cmbunit, 0, 6);
+                    tlp_registration.Controls.Add(cmbtax, 1, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
+
+                    //row3
+                    tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
+                    tlp_registration.Controls.Add(lbldes, 1, 7);
+                    //row4
+                    tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
+                    tlp_registration.Controls.Add(txtdesc, 1, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+
+                    cmbIgstPrcnt.Focus();
+                }
+                else if (cmbTaxType.Text == "VAT")
+                {
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
+                    lblvat.Dock = DockStyle.Fill;
+                    lbldes.Dock = DockStyle.Fill;
+                    cmbunit.Dock = DockStyle.Fill;
+                    //row1
+                    tlp_registration.Controls.Add(lblunit, 0, 5);
+                    tlp_registration.Controls.Add(lbltax, 1, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                    tlp_registration.Controls.Add(lblvat, 3, 5);
+
+                    //row2
+                    tlp_registration.Controls.Add(cmbunit, 0, 6);
+                    tlp_registration.Controls.Add(cmbtax, 1, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+
+                    //row3
+                    tlp_registration.Controls.Add(lbldes, 0, 7);
+
+                    //row4
+                    tlp_registration.Controls.Add(txtdesc, 0, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+
+                    cmbVatPrcnt.Focus();
+                }
+            }
+        }
+
+        private void txtdisper_Leave(object sender, EventArgs e)
+        {
+            if (txtdisper.Text != "")
+            {
+                if (Convert.ToDecimal(txtdisper.Text) > 100)
+                {
+                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtdisamt.Text = "0.00";
+                    txtdisper.Text = "0.00";
+                    txtdisper.Focus();
+                }
+                else
+                {
+                    txtdisamt.Text = "0.00";
+                }
+            }
+            discountAmnt();
+        }
+
+        private void txtdisper_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtdisamt_Leave(object sender, EventArgs e)
+        {
+            if (txtdisamt.Text != "" && txtmrp.Text != "" && Convert.ToDecimal(txtdisamt.Text) != 0 && Convert.ToDecimal(txtmrp.Text) != 0)
+            {
+                if (Convert.ToDecimal(txtdisamt.Text) > Convert.ToDecimal(txtmrp.Text))
+                {
+                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtdisamt.Text = "0.00";
+                    txtdisper.Text = "0.00";
+                    txtdisamt.Focus();
+                }
+                else
+                {
+                    decimal discountPer = (Convert.ToDecimal(txtdisamt.Text) / Convert.ToDecimal(txtmrp.Text) * 100);
+                    txtdisper.Text = discountPer.ToString("N2");
+                }
+            }
+            discountPer();
+        }
+
+        private void txtdisamt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            #region Allow 5 Digit and Two decimal Point
+            string input = (sender as TextBox).Text;
+            if (e.KeyChar == '.')
+            {
+                if ((sender as TextBox).MaxLength == 5)
+                    (sender as TextBox).MaxLength = 8;
+                else
+                {
+                    if (input.Contains('.'))
+                    {
+                        (sender as TextBox).MaxLength = 8;
+                    }
+                    else
+                    {
+                        (sender as TextBox).MaxLength = 5;
+                    }
+                }
+
+            }
+            else
+            {
+                if (input.Contains('.'))
+                {
+                    (sender as TextBox).MaxLength = 8;
+                }
+                else
+                {
+                    (sender as TextBox).MaxLength = 5;
+                }
+            }
+            #endregion
+        }
+
+        public void discountAmnt()
+        {
+            if (txtdisper.Text != "")
+            {
+                if (Convert.ToDecimal(txtdisper.Text) > 100)
+                {
+                    MessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtdisper.Focus();
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(txtsrate.Text))
+                        txtsrate.Text = "0";
+                    decimal discountAmnt = Convert.ToDecimal(txtdisper.Text.Trim()) * Convert.ToDecimal(txtsrate.Text) / 100;
+                    txtdisamt.Text = discountAmnt.ToString("N2");
+                }
+            }
+        }
+        public void discountPer()
+        {
+            if (txtdisamt.Text != "" && txtsrate.Text != "" && Convert.ToDecimal(txtsrate.Text) != 0)
+            {
+                if (Convert.ToDecimal(txtdisamt.Text) > Convert.ToDecimal(txtsrate.Text))
+                {
+                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtdisamt.Focus();
+                }
+                else
+                {
+                    decimal discountPer = (Convert.ToDecimal(txtdisamt.Text) / Convert.ToDecimal(txtsrate.Text) * 100);
+                    txtdisper.Text = discountPer.ToString("N2");
+                }
             }
         }
     }

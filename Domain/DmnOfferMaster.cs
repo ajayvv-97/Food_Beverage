@@ -24,6 +24,8 @@ namespace Domain
         public int TaxSettingsId { get; set; }
         public string Tax { get; set; }
         public string TaxType { get; set; }
+        public string Description { get; set; }
+        
 
     }
 }

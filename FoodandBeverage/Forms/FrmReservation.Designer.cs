@@ -749,7 +749,7 @@ namespace FoodandBeverage.Forms
             this.button11.Location = new System.Drawing.Point(684, -1);
             this.button11.Margin = new System.Windows.Forms.Padding(2);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(31, 30);
+            this.button11.Size = new System.Drawing.Size(32, 29);
             this.button11.TabIndex = 318;
             this.button11.UseVisualStyleBackColor = false;
             this.button11.Click += new System.EventHandler(this.button11_Click);

@@ -31,8 +31,10 @@ namespace BLL
             parms.Add("ItemCode_UPC", objTestClass.ItemCode_UPC);
             parms.Add("Saletype", objTestClass.Saletype);
             parms.Add("PrId", objTestClass.prid);
+            parms.Add("DiscountAmt", objTestClass.DiscountAmt);
+            parms.Add("DiscountPer", objTestClass.DiscountPer); 
 
-             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+              var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
     }

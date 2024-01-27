@@ -24,7 +24,12 @@ namespace Domain
         public int Prid { get; set; }
         public string Productname { get; set; }
         public int Saletype { get; set; }
-        
+        public string Tax { get; set; }
+        public int TaxSettingsId { get; set; }
+        public string TaxType { get; set; }
+        public decimal Price { get; set; }
+        public string ItemCode_UPC { get; set; }
 
+        
     }
 }
