@@ -863,6 +863,7 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(gridSource[i].TableType);
                                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(gridSource[i].MarketPrice);
 
+
                                     #endregion
                                 }
                                 #region Add data to the List
