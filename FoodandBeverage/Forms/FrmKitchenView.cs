@@ -123,7 +123,7 @@ namespace FoodandBeverage.Forms
             public DateTime createtime { get; set; }
 
         }
-            public void Fillorders()
+        public void Fillorders()
         {
             try
             {
@@ -158,7 +158,7 @@ namespace FoodandBeverage.Forms
                     foreach (var orders in distinctOrders)
                     { 
                         dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,om.remarks Field16";
+                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -181,16 +181,13 @@ namespace FoodandBeverage.Forms
                                 else
                                     tlp_product_box.Enabled = false;
                             }
-                            if (screenWidth > 1367 && screenHeight > 769)
-                            {
-                                tlp_product_box.Width = 600;
-                                tlp_product_box.Height = 400;
-                            }
-                            else
-                            {
-                                tlp_product_box.Width = 300;
-                                tlp_product_box.Height = 300;
-                            }
+                            int WidthPercentage = 30;
+                            int heightPercentage = 30;
+                            int controlWidth = (int)(this.Width * WidthPercentage / 100);
+                            int controlHeight = (int)(this.Height * heightPercentage / 100);
+                            tlp_product_box.Size = new Size(controlWidth, controlHeight);
+
+
 
                             tlp_product_box.BackColor = boxcolor;
                             tlp_product_box.RowCount = 4;
@@ -598,16 +595,6 @@ namespace FoodandBeverage.Forms
         {
             if (e.ColumnIndex == dactionno)
             {
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    pnl_products_rem_descr.Height = 304;
-                    pnl_products_rem_descr.Width = 155;
-                }
-                else
-                {
-                    pnl_products_rem_descr.Height = 600;
-                    pnl_products_rem_descr.Width = 300;
-                }
                 DataGridView clickedDataGridView = sender as DataGridView;
                 if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
                 {

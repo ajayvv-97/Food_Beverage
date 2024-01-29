@@ -91,6 +91,7 @@ namespace BLL
             parms.Add("TableType", objTestClass.TableType);
             parms.Add("MarketPrice", objTestClass.MarketPrice);
             parms.Add("BookingFlag", objTestClass.BookingFlag);
+            parms.Add("MainRemarks", objTestClass.MainRemarks);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

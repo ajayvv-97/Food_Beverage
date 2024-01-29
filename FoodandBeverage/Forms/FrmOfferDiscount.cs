@@ -175,22 +175,39 @@ namespace FoodandBeverage.Forms
             dgv_sele_cmb_products.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_sele_cmb_products.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-
+            #region Taxfill GST frist time
             Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
             tlp_comboproduct_view.Controls.Remove(controlToRemove1);
             Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
             tlp_comboproduct_view.Controls.Remove(controlToRemove2);
-
-            cmbtaxtype.Text = "GST";
+            txttaxamt.Dock = DockStyle.Fill;
             lbligst.Visible = true;
             cmbIgstPrcnt.Visible = true;
+
             lblvat.Visible = false;
             cmbVatPrcnt.Visible = false;
 
+            controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+            tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+            tlp_taxtype_taxamt_lbl.Controls.Add(lbligst, 0, 0);
+
+            controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+            tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+            tlp_taxtype_taxamt_txt.Controls.Add(cmbIgstPrcnt, 0, 0);
+
+            tlp_taxtype_taxamt_lbl.Visible = true;
+            tlp_taxtype_taxamt_txt.Visible = true;
+            tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+            tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
             lbligst.Dock = DockStyle.Fill;
             cmbIgstPrcnt.Dock = DockStyle.Fill;
-            tlp_comboproduct_view.Controls.Add(lbligst, 2, 2);
-            tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2, 3);
+
+
+            tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+            tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
+            #endregion
+
             dtp_to_date_s.MinDate = DateTime.Now;
             dtp_from_date_s.MinDate = DateTime.Now;
 
@@ -225,7 +242,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] {txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername , txt_prodlist_serach, txtofferdes_s, txtofferdsiper_s, txtoffername_s })
+                foreach (TextBox textBox in new TextBox[] {txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername , txt_prodlist_serach, txtofferdes_s, txtofferdsiper_s, txtoffername_s, txttaxamt })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -928,7 +945,7 @@ namespace FoodandBeverage.Forms
                                             dgv_sele_cmb_products.Rows[r].Cells[sslno].Value = r + 1;
                                             dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = gridSourceitem[0].Field10;
                                             dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = gridSourceitem[0].Field3;
-                                            dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 1;
+                                            dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = itemSource[i].Field14;
                                             dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSourceitem[0].Field2;
         
 
@@ -943,7 +960,7 @@ namespace FoodandBeverage.Forms
 
                                             dgv_sele_cmb_products.Rows[r].Cells[Ctaxsettingidno].Value = gridSourceitem[0].Field9;
                                             dgv_sele_cmb_products.Rows[r].Cells[cstatusno].Value = 1;
-                                            dgv_sele_cmb_products.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.Product);             
+         
                                             dgv_sele_cmb_products.Rows[r].Cells[cmrpno].Value = gridSourceitem[0].Field11; 
                                             dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = itemSource[i].Field2; 
                                             if (Convert.ToInt32(itemSource[i].Field16) > 0)
@@ -951,14 +968,15 @@ namespace FoodandBeverage.Forms
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field8;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = gridSourceitem[0].Field12;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field1;
+                                                dgv_sele_cmb_products.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.DirectSale);
                                             }
                                             else
                                             {
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = 0;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field12;
-                                            }
-                                 
+                                                dgv_sele_cmb_products.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.Product);
+                                            }                                 
                                             totalcellamount_Combo(r);
                                             #endregion
                                         }
@@ -1093,6 +1111,9 @@ namespace FoodandBeverage.Forms
                                     }
                                 }
                                 #endregion
+                                discountAmnt_combo();
+                                discountPer_combo();
+                                ClacTaxAmt_combo();
                                 pnl_serachproducts.Visible = false;
                             }
                         }
@@ -1126,9 +1147,7 @@ namespace FoodandBeverage.Forms
 
             }
 
-        }
-
-   
+        }  
 
         private void btn_AddcomboProduct_Click(object sender, EventArgs e)
         {
@@ -1356,9 +1375,9 @@ namespace FoodandBeverage.Forms
                             CalcTotalAmtCombo(Convert.ToInt32(clickedControl.Tag), 1);
                             TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
 
-                            tlp_selected_Item_Box.Name = "tlp_sele_" + gridSource[0].Field1 +"_" + Convert.ToInt32(Tabletype.Product);
-                            tlp_selected_Item_Box.AccessibleDescription = "0";
-                            tlp_selected_Item_Box.Tag = clickedControl.Tag;
+                            tlp_selected_Item_Box.Name = "tlp_sele_" + gridSource[0].Field8 +"_" + Convert.ToInt32(Tabletype.Product);
+                            tlp_selected_Item_Box.AccessibleDescription = "1";
+                            tlp_selected_Item_Box.Tag = gridSource[0].Field8;
                             tlp_selected_Item_Box.Width = 245;
                             tlp_selected_Item_Box.Height = 60;
                             tlp_selected_Item_Box.ColumnCount = 4;
@@ -1368,8 +1387,8 @@ namespace FoodandBeverage.Forms
                             //Item Button   
                             Button Button_Item = new Button();
                             Button_Item.Text = clickedControl.Text;
-                            Button_Item.Name = "btn_sele_" + gridSource[0].Field1 + "_" + Convert.ToInt32(Tabletype.Product);
-                            Button_Item.Tag = clickedControl.Tag;
+                            Button_Item.Name = "btn_sele_" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.Product);
+                            Button_Item.Tag = gridSource[0].Field8;
                             Button_Item.Width = 150;
                             Button_Item.Height = 50;
                             Button_Item.FlatAppearance.BorderSize = 0;
@@ -1384,8 +1403,8 @@ namespace FoodandBeverage.Forms
                             // Creating the label for the Qty
                             Label label = new Label();
                             label.Text = "1";  // Set your desired text
-                            label.Name = "lbl_selected_" + gridSource[0].Field1 + "_" + Convert.ToInt32(Tabletype.Product);
-                            label.Tag = clickedControl.Text;
+                            label.Name = "lbl_selected_" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.Product);
+                            label.Tag = gridSource[0].Field8;
                             label.AutoSize = true;
                             label.Dock = DockStyle.Fill;
                             label.ForeColor = Color.White;
@@ -1397,8 +1416,8 @@ namespace FoodandBeverage.Forms
                             //Add Button
                             Button Button_Add = new Button();
                             Button_Add.Text = "+";
-                            Button_Add.Name = "btn_sele_add_" + gridSource[0].Field1 + "_" + Convert.ToInt32(Tabletype.Product);
-                            Button_Add.Tag = clickedControl.Text;
+                            Button_Add.Name = "btn_sele_add_" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.Product);
+                            Button_Add.Tag = gridSource[0].Field8;
                             Button_Add.AccessibleDescription = "1";
                             Button_Add.Width = 20;
                             Button_Add.Height = 50;
@@ -1415,9 +1434,9 @@ namespace FoodandBeverage.Forms
                             //Remove Button
                             Button Button_Remove = new Button();
                             Button_Remove.Text = "-";
-                            Button_Remove.Name = "btn_sele_rem_" + gridSource[0].Field1 + "_" + Convert.ToInt32(Tabletype.Product);
+                            Button_Remove.Name = "btn_sele_rem_" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.Product);
                             Button_Remove.AccessibleDescription = "1";
-                            Button_Remove.Tag = clickedControl.Text;
+                            Button_Remove.Tag = gridSource[0].Field8;
                             Button_Remove.Width = 20;
                             Button_Remove.Height = 50;
                             Button_Remove.Dock = DockStyle.Left;
@@ -1435,7 +1454,8 @@ namespace FoodandBeverage.Forms
                             pnl_serachproducts.Visible = false;
                             discountAmnt_combo();
                             discountPer_combo();
-                            netAmount_combo();
+                            ClacTaxAmt_combo();
+                           // netAmount_combo();
 
                             if (flp_selected_item_combo.Controls.Count > 0)
                                 btn_combo_gridview.Visible = true;
@@ -1483,7 +1503,7 @@ namespace FoodandBeverage.Forms
                         dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSource[0].Field8;
                         dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = gridSource[0].Field3;
                         dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSource[0].Field2;
-                        dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 1;
+                        dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 0;
                         if (Convert.ToString(gridSource[0].Field6) == "GST")
                             dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSource[0].Field4;
                         else
@@ -1496,8 +1516,8 @@ namespace FoodandBeverage.Forms
                         dgv_sele_cmb_products.Rows[r].Cells[cstatusno].Value = 1;
                         dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = gridSource[0].Field12;
                         dgv_sele_cmb_products.Rows[r].Cells[cmrpno].Value = gridSource[0].Field11;
-                        totalcellamount_Combo(r);
                         #endregion
+
                         CalcTotalAmtCombo_prid(Convert.ToInt32(gridSource[0].Field12), 1);
 
                         TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
@@ -1580,7 +1600,8 @@ namespace FoodandBeverage.Forms
                         pnl_serachproducts.Visible = false;
                         discountAmnt_combo();
                         discountPer_combo();
-                        netAmount_combo();
+                        ClacTaxAmt_combo();
+                        //netAmount_combo();
                         pnlprice.Visible = false;
                     }
 
@@ -1730,14 +1751,15 @@ namespace FoodandBeverage.Forms
                     lblqty.Text = Convert.ToString(cur_qty);
                     if (tlp_sele != null)
                     {
-                        if(Convert.ToInt32(tlp_sele.AccessibleDescription)==0)
+                        if(Convert.ToInt32(tlp_sele.AccessibleDescription)== Convert.ToInt32(Tabletype.Product))
                             CalcTotalAmtCombo(Convert.ToInt32(tlp_sele.Tag), cur_qty);
                         else
                             CalcTotalAmtCombo_prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
                     }              
                     discountAmnt_combo();
                     discountPer_combo();
-                    netAmount_combo();
+                    ClacTaxAmt_combo();
+                   // netAmount_combo();
                 }
 
             }
@@ -1922,7 +1944,7 @@ namespace FoodandBeverage.Forms
                         txtcombo_totalprice.Text = Convert.ToString(totalamt);
                         for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
                         {
-                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) )//&& Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[istatusno].Value) == 1
+                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) && Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cproducttypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))//&& Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[istatusno].Value) == 1
                             {
                                 dgv_sele_cmb_products.Rows.RemoveAt(i);
                                 break;
@@ -1935,9 +1957,9 @@ namespace FoodandBeverage.Forms
                             lblqty.Text = Convert.ToString(qty);
                         for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
                         {
-                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value))
+                            if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) && Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cproducttypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))
                             {
-                                dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value) - 1;
+                                dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value) - 1;
                                 totalcellamount_Combo(i);
                                 break;
                             }
@@ -1945,6 +1967,9 @@ namespace FoodandBeverage.Forms
                         decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(gridSource[0].Field1);
                         txtcombo_totalprice.Text = Convert.ToString(totalamt);
                     }
+                    discountAmnt_combo();
+                    discountPer_combo();
+                    ClacTaxAmt_combo();
 
                 }
             }
@@ -2000,7 +2025,8 @@ namespace FoodandBeverage.Forms
                     txtcombo_totalprice.Text = Convert.ToString(totalamt);
                     discountAmnt_combo();
                     discountPer_combo();
-                    netAmount_combo();
+                    ClacTaxAmt_combo();
+                    //netAmount_combo();
                 }
             }
             catch (Exception ex)
@@ -2167,7 +2193,8 @@ namespace FoodandBeverage.Forms
                 txtcombo_disamt.Text = "0";
             }
             discountAmnt_combo();
-            netAmount_combo();
+            ClacTaxAmt_combo();
+            //netAmount_combo();
         }
 
         private void txtcombo_disamt_Leave(object sender, EventArgs e)
@@ -2178,16 +2205,60 @@ namespace FoodandBeverage.Forms
                 txtcombo_disamt.Text = "0";
             }
             discountPer_combo();
-            netAmount_combo();
+            ClacTaxAmt_combo();
+            //netAmount_combo();
         }
-        public void netAmount_combo()
+        //public void netAmount_combo()
+        //{
+        //    try
+        //    {
+        //        if ((string.IsNullOrEmpty(txtcombo_finalprice.Text)))
+        //            txtcombo_finalprice.Text = "0.00";
+        //        decimal netAmount = Convert.ToDecimal(txtcombo_totalprice.Text);
+        //        txtcombo_finalprice.Text = netAmount.ToString("N2");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+        //}
+        public void ClacTaxAmt_combo()
         {
             try
             {
+                if ((string.IsNullOrEmpty(txttaxamt.Text)))
+                    txttaxamt.Text = "0.00";
+                if ((string.IsNullOrEmpty(txtcombo_totalprice.Text)))
+                    txtcombo_totalprice.Text = "0.00";
                 if ((string.IsNullOrEmpty(txtcombo_finalprice.Text)))
                     txtcombo_finalprice.Text = "0.00";
-                decimal netAmount = Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text);
-                txtcombo_finalprice.Text = netAmount.ToString("N2");
+
+                if (cmbtaxtype.Text == "GST")
+                {
+                    string val = cmbIgstPrcnt.GetItemText(cmbIgstPrcnt.SelectedItem);
+                    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
+                    txttaxamt.Text = TaxAmount.ToString("N2");
+                }
+                else if (cmbtaxtype.Text == "VAT")
+                {
+                    string val = cmbIgstPrcnt.GetItemText(cmbVatPrcnt.SelectedItem);
+                    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
+                    txttaxamt.Text = TaxAmount.ToString("N2");
+
+                }
+
+                if (cmbtax.Text == "Exclusive")
+                {
+                    decimal tot = (Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text))
+                    + Convert.ToDecimal(txttaxamt.Text);
+                   txtcombo_finalprice.Text = tot.ToString("N2");
+                }
+                else if (cmbtax.Text == "Inclusive")
+                {
+                    decimal tot = (Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text));
+                    txtcombo_finalprice.Text = tot.ToString("N2");
+                }
             }
             catch (Exception ex)
             {
@@ -2195,7 +2266,11 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        public bool MandatoryCheck_Combo()
+
+ 
+
+
+public bool MandatoryCheck_Combo()
         {
             if ((string.IsNullOrEmpty(txtcombo_omid.Text)))
                 txtcombo_omid.Text = "0";
@@ -2634,6 +2709,7 @@ namespace FoodandBeverage.Forms
             {
                     cellDiscountAmount(rowno);
                     cellTaxAmount(rowno, Convert.ToDecimal(dgv_sigle_product.Rows[rowno].Cells[spriceno].Value));
+
                     if (Convert.ToString(dgv_sigle_product.Rows[rowno].Cells[staxno].Value) == "Exclusive")
                     {
                         decimal tot = (Convert.ToDecimal(dgv_sigle_product.Rows[rowno].Cells[spriceno].Value) - Convert.ToDecimal(dgv_sigle_product.Rows[rowno].Cells[soffferdisamtno].Value))
@@ -2947,22 +3023,40 @@ namespace FoodandBeverage.Forms
 
         private void cmbtaxtype_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2,2);
             tlp_comboproduct_view.Controls.Remove(controlToRemove1);
             Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2,3);
             tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+            txttaxamt.Dock = DockStyle.Fill;
+
             if (cmbtaxtype.Text == "GST")
             {
                 lbligst.Visible = true;
                 cmbIgstPrcnt.Visible = true;
 
                 lblvat.Visible = false;
-                cmbVatPrcnt.Visible = false; 
+                cmbVatPrcnt.Visible = false;
+
+                controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+                tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+                tlp_taxtype_taxamt_lbl.Controls.Add(lbligst, 0, 0);
+
+                controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+                tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+                tlp_taxtype_taxamt_txt.Controls.Add(cmbIgstPrcnt, 0, 0);
+
+                tlp_taxtype_taxamt_lbl.Visible = true;
+                tlp_taxtype_taxamt_txt.Visible = true;
+                tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
 
                 lbligst.Dock = DockStyle.Fill;
                 cmbIgstPrcnt.Dock = DockStyle.Fill;
-                tlp_comboproduct_view.Controls.Add(lbligst, 2,2);
-                tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2,3);
+
+
+                tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+                tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
                 cmbIgstPrcnt.Focus();
             }
             else if (cmbtaxtype.Text == "VAT")
@@ -2970,14 +3064,38 @@ namespace FoodandBeverage.Forms
                 lbligst.Visible = false;
                 cmbIgstPrcnt.Visible = false;
 
+                controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+                tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+                tlp_taxtype_taxamt_lbl.Controls.Add(lblvat, 0, 0);
+
+                controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+                tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+                tlp_taxtype_taxamt_txt.Controls.Add(cmbVatPrcnt, 0, 0);
+
+                tlp_taxtype_taxamt_lbl.Visible = true;
+                tlp_taxtype_taxamt_txt.Visible = true;
+                tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
+                tlp_taxtype_taxamt_lbl.Visible = true;
+                tlp_taxtype_taxamt_txt.Visible = true;
+                tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
                 lblvat.Visible = true;
                 cmbVatPrcnt.Visible = true;
                 lblvat.Dock = DockStyle.Fill;
                 cmbVatPrcnt.Dock = DockStyle.Fill;
-                tlp_comboproduct_view.Controls.Add(lblvat,2,2);
-                tlp_comboproduct_view.Controls.Add(cmbVatPrcnt,2,3);
+                tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+                tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
                 cmbVatPrcnt.Focus();
             }
+            textb_shape();
+
+            discountAmnt_combo();
+            discountPer_combo();
+            ClacTaxAmt_combo();
+            //netAmount_combo();
         }
 
         private void FrmOfferDiscount_Resize(object sender, EventArgs e)
@@ -3611,6 +3729,30 @@ namespace FoodandBeverage.Forms
         private void btn_gridview_close_Click(object sender, EventArgs e)
         {
             tlp_gridview.Visible = false;
+        }
+
+        private void cmbtax_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            discountAmnt_combo();
+            discountPer_combo();
+            ClacTaxAmt_combo();
+            //netAmount_combo();
+        }
+
+        private void cmbIgstPrcnt_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            discountAmnt_combo();
+            discountPer_combo();
+            ClacTaxAmt_combo();
+           // netAmount_combo();
+        }
+
+        private void cmbVatPrcnt_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            discountAmnt_combo();
+            discountPer_combo();
+            ClacTaxAmt_combo();
+            // netAmount_combo();
         }
 
         //private void dgv_sigle_product_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
