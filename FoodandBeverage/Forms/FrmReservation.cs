@@ -173,7 +173,7 @@ namespace FoodandBeverage.Forms
         public void textb_shape()
         {
             try
-            {
+            { 
                 // Apply rounded corners to text boxes based on the list
                 foreach (TextBox textBox in new TextBox[] { txtNam, txtAddress, txtMob, txtEmail, txtNOP, txtRemarks, discountper, totaldiscountamt, oaamount, oadesc, odamt, oddesc, sterms, netamount, txtadvpa, rcvamt })
                 {
@@ -231,19 +231,19 @@ namespace FoodandBeverage.Forms
             lblMTotal.Text = "";
             lblGTotal.Text = "";
             discountper.Text = "";
-            totaldiscountamt.Text = "0";
-            oaamount.Text = "0";
+            totaldiscountamt.Text = "0.00";
+            oaamount.Text = "0.00";
             oadesc.Text = "";
-            odamt.Text = "0";
+            odamt.Text = "0.00";
             oddesc.Text = "";
-            netamount.Text = "0";
+            netamount.Text = "0.00";
             sterms.Text = "";
-            txtadvpa.Text = "0";
-            rcvamt.Text = "0";
-            lblBalAmt.Text = "0";
-            lblNetAmt.Text = "0";
-            lblBAmt.Text = "0";
-            discountper.Text = "0";
+            txtadvpa.Text = "0.00";
+            rcvamt.Text = "0.00";
+            lblBalAmt.Text = "0.00";
+            lblNetAmt.Text = "0.00";
+            lblBAmt.Text = "0.00";
+            discountper.Text = "0.00";
             label21.Visible = false;
             lblBAmt.Visible = false;
             panelProductPopup.Visible = false;
@@ -254,7 +254,10 @@ namespace FoodandBeverage.Forms
             dtpBooking.Value = DateTime.Now;
             redpan.Visible = false;
             dtp_from_time.Value = DateTime.Now;
-           
+
+            tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+            tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+            btn_delt.Visible = false;
         }
         public bool CheckEmailId(Form form, string EmailId)
         {
@@ -953,7 +956,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                btn_delt.Visible = true;
+                //btn_delt.Visible = true;
                 CalNetAmt();
                 label21.Visible = true;
                 lblBAmt.Visible = true;
@@ -994,6 +997,12 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = " Where BranchId = +  1030 and BookmasterId ='" + returnValue + "'";
                         dmnSearch.OrderBy = "";
                         var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                        tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
+                        tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
+                        tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
+                        btn_delt.Visible = true;
+
                         txtNam.Text = Convert.ToString(gridSource1[0].cusName);
                         txtAddress.Text = Convert.ToString(gridSource1[0].Address);
                         cboGender.SelectedValue = Convert.ToInt64(gridSource1[0].gender);
@@ -1741,7 +1750,7 @@ namespace FoodandBeverage.Forms
         private void rcvamt_TextChanged(object sender, EventArgs e)
         {
 
-            if (rcvamt.Text == "" || rcvamt.Text == ".")
+            if (rcvamt.Text == "" || rcvamt.Text == "."  || rcvamt.Text == ".0.00")
             {
                 rcvamt.Text = "0.00";
             }
@@ -1749,10 +1758,7 @@ namespace FoodandBeverage.Forms
             {
                 lblBalAmt.Text = (Convert.ToDecimal(lblBAmt.Text) - Convert.ToDecimal(rcvamt.Text)).ToString();
             }
-            //calmenu();
-            //CalNetAmt();
-            //decimal balAmnt = Convert.ToDecimal(lblNetAmt.Text) - Convert.ToDecimal(txtsrCashRev.Text);
-            //balAmnt = Convert.ToDecimal(lblBalAmt.Text);
+            
         }
 
         private void txtadvpa_KeyDown(object sender, KeyEventArgs e)
@@ -2747,7 +2753,7 @@ namespace FoodandBeverage.Forms
         }
 
         private void FrmReservation_Resize(object sender, EventArgs e)
-        {
+        {            
             textb_shape();
         }
 
@@ -3083,5 +3089,7 @@ namespace FoodandBeverage.Forms
                
             }
         }
+
+      
     }
 }

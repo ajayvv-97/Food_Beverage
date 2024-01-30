@@ -428,12 +428,12 @@ namespace FoodandBeverage.Forms
             headerCheckBoxwrite.Checked = false;
             headerCheckBoxread.Checked = false;
             int x = dgvforms.Width;
-            headerCheckBoxwrite.Location = new Point(x - 420, 10);
+            headerCheckBoxwrite.Location = new Point(x - 480, 10);
             headerCheckBoxwrite.BackColor = Color.White;
             headerCheckBoxwrite.Size = new Size(18, 18);
             headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
             dgvforms.Controls.Add(headerCheckBoxwrite);
-            headerCheckBoxread.Location = new Point(x - 140, 10);
+            headerCheckBoxread.Location = new Point(x - 120, 10);
             headerCheckBoxread.BackColor = Color.White;
             headerCheckBoxread.Size = new Size(18, 18);
             headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
