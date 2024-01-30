@@ -581,9 +581,9 @@ namespace FoodandBeverage.Forms
                                     dmnOfferdetails.ItemCode_UPC = Convert.ToString(dgv_sigle_product.Rows[i].Cells[sbarcodeno].Value);
 
                                     if (Convert.ToInt32(dgv_sigle_product.Rows[i].Cells[spridno].Value)==0)
-                                        dmnOfferdetails.Saletype = Convert.ToInt32(Tabletype.Product);
+                                        dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.Product);
                                     else
-                                        dmnOfferdetails.Saletype = Convert.ToInt32(Tabletype.DirectSale);
+                                        dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.DirectSale);
 
                                     dmnOfferdetails.BranchId = FrmDashboard.BranchId;
                                     dmnOfferdetails.CreatedBy = FrmDashboard.UserId;
@@ -660,9 +660,9 @@ namespace FoodandBeverage.Forms
                                     dmnOfferdetails.Quantity = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value);
                                     dmnOfferdetails.Prid = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value);
                                     if (Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) == 0)
-                                        dmnOfferdetails.Saletype = Convert.ToInt32(Tabletype.DirectSale);
+                                        dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.DirectSale);
                                     else
-                                        dmnOfferdetails.Saletype = Convert.ToInt32(Tabletype.Product);
+                                        dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.Product);
                                     dmnOfferdetails.Productname = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[Cproductno].Value);           
                                     dmnOfferdetails.Description = txtcombodes.Text;
                                     dmnOfferdetails.BranchId = FrmDashboard.BranchId;

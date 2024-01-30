@@ -50,7 +50,7 @@ namespace BLL
             parms.Add("Status", objTestClass.Status);
             parms.Add("Prid", objTestClass.Prid);
             parms.Add("Productname", objTestClass.Productname);
-            parms.Add("Saletype", objTestClass.Saletype);
+            parms.Add("Saletype", objTestClass.Producttype);
             parms.Add("Productname", objTestClass.Productname);
             parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
             parms.Add("Tax", objTestClass.Tax);

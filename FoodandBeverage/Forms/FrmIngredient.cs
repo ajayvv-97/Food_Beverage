@@ -64,10 +64,8 @@ namespace FoodandBeverage.Forms
                         dmnproduct.TaxSettingsId = Convert.ToInt32(cmbVatPrcnt.SelectedValue);
 
                     dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
-
                     dmnproduct.DiscountAmt = Convert.ToDecimal(txtDiscAmnt.Text);
                     dmnproduct.DiscountPer = Convert.ToDecimal(txtDisPer.Text);
-
                     dmnproduct.OfferDescription = "";
                     dmnproduct.MRP = Convert.ToDecimal(txtmrp.Text);
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
@@ -84,34 +82,39 @@ namespace FoodandBeverage.Forms
                     else
                         dmnproduct.Status = 0;
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
-
+                    int statuscount = 0,gridcount=0;
                     if (prostatus.ProductId > 0)
                     {
                         for (int i = 0; i < dgv_registartion.RowCount; i++)
                         {
-                            if (((dgv_registartion.Rows[i].Cells[Ritemidno].Value) != null || (dgv_registartion.Rows[i].Cells[Ritemidno].Value) != "") &&
-                                ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" || (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) <= 0)
+                            if (((dgv_registartion.Rows[i].Cells[Ritemidno].Value) != null && (dgv_registartion.Rows[i].Cells[Ritemidno].Value) != "") &&
+                                ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" && (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) > 0)
                                 )
+                            {
+                                gridcount++;
+                                dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
+                                dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
+                                dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
+                                dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
+                                dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
+                                // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
+                                dmnincr.CreatedBy = FrmDashboard.UserId;
+                                dmnincr.BranchId = FrmDashboard.BranchId;
 
-                            dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
-                            dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
-                            dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
-                            dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
-                            dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
-                            // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
-                            dmnincr.CreatedBy = FrmDashboard.UserId;
-                            dmnincr.BranchId = FrmDashboard.BranchId; 
+                                if (chb_active.Checked)
+                                    dmnincr.Status = 1;
+                                else
+                                    dmnincr.Status = 0;
+                                status = bllincr.AddData("prdInsert_upd_Incrediant", dmnincr);
+                                if (status.Ing_DetailsId > 0)
+                                    statuscount++;
+                            }
 
-                            if (chb_active.Checked)
-                                dmnincr.Status = 1;
-                            else
-                                dmnincr.Status = 0;
-                            status = bllincr.AddData("prdInsert_upd_Incrediant", dmnincr);
                         }
                     }
 
 
-                    if (status.ItemId > 0)
+                    if (statuscount == gridcount)
                     {
                         if (pb_view_pic.BackgroundImage != null)
                         {
@@ -355,20 +358,105 @@ namespace FoodandBeverage.Forms
             {
                 if (e.ColumnIndex == Raction)
                 {
+
                     if (e.RowIndex == dgv_registartion.Rows.Count - 1)
                     {
                         if (IsValidData(e.RowIndex))
                             return;
+                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[e.RowIndex].Cells[Raction];
+                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        cell.Value = Properties.Resources.delete;
+
                         dgv_registartion.Rows.Add();
                         rearrange_slno();
                         dgv_registartion.CurrentCell = dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[1];
                         dgv_registartion.Focus();
                     }
-                    else
+                    else if (dgv_registartion.Rows[e.RowIndex].Cells[RIng_DetailsIdno].Value == null && Convert.ToInt32(dgv_registartion.Rows[e.RowIndex].Cells[Ritemidno].Value) > 0)
                     {
-                        if (IsValidData(e.RowIndex))
-                            return;
+                        dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentRow.Index);
+                        int n = dgv_registartion.RowCount;
+                        int count = 0;
+                        if (n > 0)
+                        {
+                            for (int i = 0; i < n; i++)
+                                dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
+                            dgv_registartion.Rows.Add(1);
+
+                            n = dgv_registartion.RowCount;
+                            for (int i = 0; i < n; i++)
+                            {
+                                if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                                {
+                                    count = count + 1;
+                                }
+                            }
+                            if (count > 1)
+                            {
+                                for (int i = 0; i < n; i++)
+                                {
+                                    if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                                    {
+                                        dgv_registartion.Rows.RemoveAt(i);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+
+                        if (n == 0)
+                        {
+                            dgv_registartion.Rows.Add(1);
+                        }
+                        rearrange_slno();
+
                     }
+                    else if (Convert.ToInt32(dgv_registartion.Rows[e.RowIndex].Cells[RIng_DetailsIdno].Value) > 0 )
+                    {
+                        var result = CMessageBox.Show("Do You want Delete This Record", "Confirm The Action", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentRow.Index);
+                            int n = dgv_registartion.RowCount;
+                            int count = 0;
+                            if (n > 0)
+                            {
+                                for (int i = 0; i < n; i++)
+                                    dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
+                                dgv_registartion.Rows.Add(1);
+
+                                n = dgv_registartion.RowCount;
+                                for (int i = 0; i < n; i++)
+                                {
+                                    if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                                    {
+                                        count = count + 1;
+                                    }
+                                }
+                                if (count > 1)
+                                {
+                                    for (int i = 0; i < n; i++)
+                                    {
+                                        if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                                        {
+                                            dgv_registartion.Rows.RemoveAt(i);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            if (n == 0)
+                            {
+                                dgv_registartion.Rows.Add(1);
+                            }
+                            rearrange_slno();
+
+                        }
+                    }                    
+
                 }
             }
             catch(Exception ex)
@@ -416,7 +504,7 @@ namespace FoodandBeverage.Forms
                 if (e.RowIndex == dgv_registartion.Rows.Count - 1)
                     e.Value = Properties.Resources.add_row;
                 else
-                    e.Value = Properties.Resources.edit_row;
+                    e.Value = Properties.Resources.delete;
             }
         }
 
@@ -488,22 +576,30 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5";
+                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6 ";
                     objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
                     objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
                     objSearchDetails.OrderBy = "";
                     var gridSource_pro = bllSearchdetails.GetSearchData("prdSearch", objSearchDetails);
                     dgv_registartion.Rows.Clear();
-                    dgv_registartion.Rows.Add(gridSource_pro.Count);
+
                     for (int i = 0; i < gridSource_pro.Count; i++)
                     {
-                        dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);
-                        dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToString(gridSource_pro[i].Field2);
-                        dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
-                        dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
-                        dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
-
+                        if(Convert.ToInt32(gridSource_pro[i].Field6)==1)
+                        {
+                            dgv_registartion.Rows.Add();
+                            dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);
+                            dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToString(gridSource_pro[i].Field2);
+                            dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
+                            dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
+                            dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
+                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[i].Cells[Raction];
+                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            cell.Value = Properties.Resources.delete;
+                        }
                     }
+                    if(dgv_registartion.RowCount==0)
+                        dgv_registartion.Rows.Add();
                     rearrange_slno();
                 }
             }
@@ -1140,7 +1236,42 @@ namespace FoodandBeverage.Forms
             }
             else if (e.KeyData == Keys.Delete)
             {
-                dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentCell.RowIndex);
+                dgv_registartion.Rows.RemoveAt(dgv_registartion.CurrentRow.Index);
+                int n = dgv_registartion.RowCount;
+                int count = 0;
+                if (n > 0)
+                {
+                    for (int i = 0; i < n; i++)
+                        dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
+                    dgv_registartion.Rows.Add(1);
+
+                    n = dgv_registartion.RowCount;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                        {
+                            count = count + 1;
+                        }
+                    }
+                    if (count > 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            if (dgv_registartion.Rows[i].Cells[Ritemidno].Value == null)
+                            {
+                                dgv_registartion.Rows.RemoveAt(i);
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+                if (n == 0)
+                {
+                    dgv_registartion.Rows.Add(1);
+                }
+                rearrange_slno();
             }
         }
 
@@ -1201,20 +1332,33 @@ namespace FoodandBeverage.Forms
                     }
                     if (returnValue != "")
                     {
-                        BllSearch<DmnItem> bllSearch1 = new BllSearch<DmnItem>();
-                        DmnSearch objSearch = new DmnSearch();
-                        objSearch = new DmnSearch();
-                        objSearch.Select = "*";
-                        objSearch.Table = "tblItem";
-                        objSearch.WhereNdGroupBy = "Where Status =1 and itemid = " + returnValue;
-                        objSearch.OrderBy = " ";
-                        var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
-                        if (gridSource1.Count > 0)
+                        bool flag = false;
+                        for(int i=0;i<dgv_registartion.RowCount;i++)
                         {
-                            dgv_registartion.Rows[rowno].Cells[Rslno].Value = rowno + 1;
-                            dgv_registartion.Rows[rowno].Cells[Ritemno].Value = gridSource1[0].Itemname;
-                            dgv_registartion.Rows[rowno].Cells[Ritemidno].Value = gridSource1[0].ItemId;
-                            dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
+                            if (Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value) == Convert.ToInt32(returnValue))
+                            {
+                                dgv_registartion.Rows[i].Cells[Rqtyno].Value =Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value) +1;
+                                flag = true;
+                                break;
+                            }
+                        }
+                        if(flag == false)
+                        {
+                            BllSearch<DmnItem> bllSearch1 = new BllSearch<DmnItem>();
+                            DmnSearch objSearch = new DmnSearch();
+                            objSearch = new DmnSearch();
+                            objSearch.Select = "*";
+                            objSearch.Table = "tblItem";
+                            objSearch.WhereNdGroupBy = "Where Status =1 and itemid = " + returnValue;
+                            objSearch.OrderBy = " ";
+                            var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
+                            if (gridSource1.Count > 0)
+                            {
+                                dgv_registartion.Rows[rowno].Cells[Rslno].Value = rowno + 1;
+                                dgv_registartion.Rows[rowno].Cells[Ritemno].Value = gridSource1[0].Itemname;
+                                dgv_registartion.Rows[rowno].Cells[Ritemidno].Value = gridSource1[0].ItemId;
+                                dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
+                            }
                         }
                     }
 
@@ -1597,6 +1741,34 @@ namespace FoodandBeverage.Forms
         private void dgv_registartion_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        private void dgv_registartion_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgv_registartion.CurrentCell.ColumnIndex == Rqtyno)
+            {
+                e.Control.KeyPress -= new KeyPressEventHandler(dgvProduct_KeyPress);
+                System.Windows.Forms.TextBox tb = e.Control as System.Windows.Forms.TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(dgvProduct_KeyPress);
+                }
+            }
+        }
+        private void dgvProduct_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (dgv_registartion.CurrentCell.ColumnIndex == Rqtyno )
+            {
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                {
+                    e.Handled = true;
+                }
+                // only allow one decimal point
+                if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+                {
+                    e.Handled = true;
+                }
+            }
         }
     }
 }
