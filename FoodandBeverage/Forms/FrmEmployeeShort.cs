@@ -227,6 +227,9 @@ namespace FoodandBeverage.Forms
         private void txtEmpName_Enter(object sender, EventArgs e)
         {
             lblToolTipAccName.Visible = true;
+
+           
+       
         }
 
         private void txtICardNo1_KeyDown(object sender, KeyEventArgs e)
@@ -631,7 +634,8 @@ namespace FoodandBeverage.Forms
 
         private void mpbRemove_Click(object sender, EventArgs e)
         {
-            this.Close();
+            pbCust.BackgroundImage = null;
+            pbCust.Image = null;
         }
 
         private void pbCust_Click(object sender, EventArgs e)
@@ -2306,13 +2310,38 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void tableLayoutPanel11_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCapture_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete1;
+        }
+
+        private void btnCapture_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete1;
+        }
+
+        private void mpbAdd_MouseDown(object sender, MouseEventArgs e)
+        {
+            mpbAdd.BackgroundImage = FoodandBeverage.Properties.Resources.plus;
+        }
+
+        private void mpbAdd_MouseUp(object sender, MouseEventArgs e)
+        {
+            mpbAdd.BackgroundImage = FoodandBeverage.Properties.Resources.plus;
+        }
+
         public void FillForms(int id)
         {
             dgvforms.Rows.Clear();
             headerCheckBoxwrite.Checked = false;
             headerCheckBoxread.Checked = false;
             int x = dgvforms.Width;
-            headerCheckBoxwrite.Location = new Point(x - 500, 10);
+            headerCheckBoxwrite.Location = new Point(x - 400, 10);
             headerCheckBoxwrite.BackColor = Color.White;
             headerCheckBoxwrite.Size = new Size(18, 18);
             headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);

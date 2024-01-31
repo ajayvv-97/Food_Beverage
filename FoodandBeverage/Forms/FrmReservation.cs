@@ -134,7 +134,7 @@ namespace FoodandBeverage.Forms
             dgv_spopup.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_spopup.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            dgvItemPop.Visible = false;
+            //dgvItemPop.Visible = false;
             panelProductPopup.Visible = false;
             BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
             DmnSearch objSearch = new DmnSearch();
@@ -248,7 +248,7 @@ namespace FoodandBeverage.Forms
             lblBAmt.Visible = false;
             panelProductPopup.Visible = false;
             //pnlCustHead.Hide();
-            dgvItemPop.Visible = false;
+            //dgvItemPop.Visible = false;
             dgvmenu.Enabled = true;
             dgvmenu.Focus();
             dtpBooking.Value = DateTime.Now;
@@ -655,17 +655,21 @@ namespace FoodandBeverage.Forms
                 string returnValue = string.Empty;
                 
                 DmnSearch _objSearch = new DmnSearch();
-               
+
                 panelProductPopup.Location = new Point(
                              this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2,
                              (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 2));
                 panelProductPopup.Anchor = AnchorStyles.None;
                 panelProductPopup.Visible = true;
-
-               
+                int panelWidthPercentage = 59;
+                int panelheightPercentage = 31;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                panelProductPopup.Size = new Size(panelWidth, panelHeight);
+                //panelProductPopup.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                 //redpan.Visible = true;
 
-                dgvItemPop.Visible = true;
+                //dgvItemPop.Visible = true;
                 dgvItemPop.Rows.Clear();
                 
                 _objSearch.Select = "MId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, "+Convert.ToInt32(formsenum.Menu) + " Field4 ,p.Tax as Field5,p.TaxType as Field6 ";
@@ -2244,6 +2248,11 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnMenu> bllSearch = new BllSearch<DmnMenu>();
                 BllSearch<DmnOfferMaster> bllSearch1 = new BllSearch<DmnOfferMaster>();
                 DmnSearch objSearch = new DmnSearch();
+                int panelWidthPercentage = 20;
+                int panelheightPercentage = 20;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                panelProductPopup.Size = new Size(panelWidth, panelHeight);
                 if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[5].Value) == Convert.ToInt32(formsenum.Menu))
                 {
                     objSearch.Select = "MId ,Name as Title,p.Price,p.Tax,p.TaxType ,IgstPrcnt,VatPrcnt ,ts.TaxSettingsId," +
@@ -2378,7 +2387,7 @@ namespace FoodandBeverage.Forms
                         lblMTotal.Text = totalSum.ToString();
                         panelProductPopup.Visible = false;
                         //pnlCustHead.Hide();
-                        dgvItemPop.Visible = false;
+                       // dgvItemPop.Visible = false;
                         dgvmenu.Enabled = true;
                         dgvmenu.Focus();
 
@@ -2470,7 +2479,7 @@ namespace FoodandBeverage.Forms
                         }
                         panelProductPopup.Visible = false;
                         //pnlCustHead.Hide();
-                        dgvItemPop.Visible = false;
+                        //dgvItemPop.Visible = false;
                         dgvmenu.Enabled = true;
                         dgvmenu.Focus();
                     }
@@ -2616,7 +2625,7 @@ namespace FoodandBeverage.Forms
                         lblMTotal.Text = totalSum.ToString();
                         panelProductPopup.Visible = false;
                         //pnlCustHead.Hide();
-                        dgvItemPop.Visible = false;
+                        //dgvItemPop.Visible = false;
                         dgvmenu.Enabled = true;
                         dgvmenu.Focus();
                     }
@@ -2747,7 +2756,7 @@ namespace FoodandBeverage.Forms
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            dgvItemPop.Visible = false;
+            //dgvItemPop.Visible = false;
             panelProductPopup.Visible = false;
             dgvmenu.Enabled = true;
         }
@@ -2889,7 +2898,7 @@ namespace FoodandBeverage.Forms
                 dgvmenu.Focus();
                 panelProductPopup.Visible = false;
                 //pnlCustHead.Hide();
-                dgvItemPop.Visible = false;
+                //dgvItemPop.Visible = false;
                 dgvmenu.Enabled = true;
                 dgvmenu.Focus();
             }
@@ -2905,7 +2914,7 @@ namespace FoodandBeverage.Forms
             redpan.Visible = false;
             panelProductPopup.Visible = false;
             //pnlCustHead.Hide();
-            dgvItemPop.Visible = false;
+            //dgvItemPop.Visible = false;
             dgvmenu.Enabled = true;
             dgvmenu.Focus();
 
@@ -3013,7 +3022,7 @@ namespace FoodandBeverage.Forms
                     dgvmenu.Focus();
                     panelProductPopup.Visible = false;
                     //pnlCustHead.Hide();
-                    dgvItemPop.Visible = false;
+                    //dgvItemPop.Visible = false;
                     dgvmenu.Enabled = true;
                     dgvmenu.Focus();
                 }
@@ -3090,6 +3099,9 @@ namespace FoodandBeverage.Forms
             }
         }
 
-      
+        private void panelProductPopup_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
