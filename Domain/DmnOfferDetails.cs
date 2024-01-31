@@ -23,7 +23,7 @@ namespace Domain
         public decimal Quantity { get; set; }
         public int Prid { get; set; }
         public string Productname { get; set; }
-        public int Saletype { get; set; }
+        public int Producttype { get; set; }
         public string Tax { get; set; }
         public int TaxSettingsId { get; set; }
         public string TaxType { get; set; }
