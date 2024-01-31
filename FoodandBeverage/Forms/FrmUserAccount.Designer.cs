@@ -479,7 +479,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             // mbtnSave
             // 
-            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton1;
+            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
             this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mbtnSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnSave.FlatAppearance.BorderSize = 0;
