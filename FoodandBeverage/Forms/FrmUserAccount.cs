@@ -342,6 +342,11 @@ namespace FoodandBeverage.Forms.UserAccount
 
 
                 }
+                else
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
             }
             catch (Exception ex)
             {

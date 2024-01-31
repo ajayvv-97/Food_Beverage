@@ -65,7 +65,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { mtxtName })
+                foreach (TextBox textBox in new TextBox[] { mtxtName, mtxtEmpSrlNo, mtxtCode })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -673,6 +673,11 @@ namespace FoodandBeverage.Forms
             {
                 MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
+        }
+
+        private void FrmDepartment_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
         }
     }
 }
