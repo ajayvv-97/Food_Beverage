@@ -785,7 +785,7 @@ namespace FoodandBeverage.Forms
             // btnCapture
             // 
             this.btnCapture.BackColor = System.Drawing.Color.Transparent;
-            this.btnCapture.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderview_complete1;
+            this.btnCapture.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderview_complete;
             this.btnCapture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCapture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCapture.FlatAppearance.BorderSize = 0;
