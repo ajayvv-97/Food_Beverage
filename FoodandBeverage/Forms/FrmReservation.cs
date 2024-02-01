@@ -1333,6 +1333,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToInt32(txtBookmasterId.Text) == 0)
                 {
+                    //sdiscountAmnt();
                     decimal discount = Convert.ToDecimal(totaldiscountamt.Text);
                     decimal otheraddamt = Convert.ToDecimal(oaamount.Text);
                     decimal otherdedamt = Convert.ToDecimal(odamt.Text);
@@ -1474,7 +1475,7 @@ namespace FoodandBeverage.Forms
                         //totaldiscountamt.Text = "0";
                         //discountper.Text = "0";
                         sdiscountAmnt();
-                        sdiscountAmnt();
+                        //sdiscountAmnt();
                         CalNetAmt();
                     }
                 }
