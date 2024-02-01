@@ -80,6 +80,7 @@ namespace FoodandBeverage.Forms
         public static int isubofferid = 30;
         public static int itabletype = 31;
         public static int ioffertype = 32;
+        public static int ioriginalqty = 33;
 
         public static int vname = 0;
         public static int ciunit = 1;
@@ -106,6 +107,7 @@ namespace FoodandBeverage.Forms
         public static int Ctabletype = 22;
 
         #endregion
+
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
         TableLayoutPanel tlp_searchproduct_sidebar = new TableLayoutPanel();
@@ -232,6 +234,7 @@ namespace FoodandBeverage.Forms
                     Combined_Tables();
                     Combined_Table_Bill();
                 }
+
                 Control controlToRemove = tlp_calculation_main.GetControlFromPosition(0, 0);
                 tlp_calculation_main.Controls.Remove(controlToRemove);
                 tlp_calculation_main.Controls.Add(tlp_calculation_total, 0, 0);
@@ -412,6 +415,17 @@ namespace FoodandBeverage.Forms
                 ShowLoadingdGif();
                 setperfixsale();
                 btn_clear_cus.Visible = true;
+                //int rcount = 0;
+                //for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
+                //{
+                //    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
+                //    {
+                //        rcount++;
+                //        break;
+                //    }
+                //}
+                //if (rcount == 0)
+                //    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
             }
             catch (Exception ex)
             {
@@ -706,15 +720,7 @@ namespace FoodandBeverage.Forms
                         #endregion                
                     }        
                 }
-                tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                btn_print_bill.Dock = DockStyle.Left;
-                //tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                //btn_refresh.Dock = DockStyle.Left;
-                tlp_buttons.Controls.Add(btn_frm_close, 2, 0);
-                btn_frm_close.Dock = DockStyle.Left;
-                btn_saveKOT.Visible = false;
-                btn_refresh.Visible = false;
-                btn_print_bill.Visible = true;
+                Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                 netAmount();
             }
             catch (Exception ex)
@@ -1021,48 +1027,14 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
-                    int rowToRemove = 0;
-                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+
                     if (ordercount == gridSourcemaster.Count)
                     {
-                        foreach (int column in columnsToRemove)
-                        {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
-                            {
-                                tlp_buttons.Controls.Remove(controlToRemove);
-                            }
-                        }
-                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                        btn_print_bill.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-                        btn_saveKOT.Visible = false;
-                        btn_print_bill.Visible = true;
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                     }
                     else
                     {
-                        foreach (int column in columnsToRemove)
-                        {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
-                            {
-                                tlp_buttons.Controls.Remove(controlToRemove);
-                            }
-                        }
-                        tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                        btn_saveKOT.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-
-                        btn_saveKOT.Visible = true;
-                        btn_print_bill.Visible = false;
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.save));
 
                     }
                     netAmount();
@@ -1070,27 +1042,7 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     OrderRunning_Status = false;
-                    int rowToRemove = 0;
-                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
-
-                    foreach (int column in columnsToRemove)
-                    {
-                        Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                        if (controlToRemove != null)
-                        {
-                            tlp_buttons.Controls.Remove(controlToRemove);
-                        }
-                    }
-                    tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                    btn_saveKOT.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                    btn_refresh.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                    btn_frm_close.Dock = DockStyle.Left;
-                    btn_saveKOT.Visible = true;
-                    btn_print_bill.Visible = false;
-
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
                     lblorderid.Visible = false;
                     label10.Visible = false;
                 }
@@ -1406,68 +1358,59 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
-                    int rowToRemove = 0;
-                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
                     if (ordercount==gridSourcemaster.Count)
                     {
-                        foreach (int column in columnsToRemove)
-                        {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
-                            {
-                                tlp_buttons.Controls.Remove(controlToRemove);
-                            }
-                        }
-                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                        btn_print_bill.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-                        btn_saveKOT.Visible = false;
-                        btn_print_bill.Visible = true;
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                     }
                     else
                     {
-                        foreach (int column in columnsToRemove)
+                        int rcount = 0;
+                        for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
                         {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
                             {
-                                tlp_buttons.Controls.Remove(controlToRemove);
+                                rcount++;
+                                break;
                             }
                         }
-                        tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                        btn_saveKOT.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-
-                        btn_saveKOT.Visible = true;
-                        btn_print_bill.Visible = false;
-
+                        if (rcount == 0)
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+                        else
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.save));
                     }
                     netAmount();
                 }
                 else
                 {
                     OrderRunning_Status = false;
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
 
-                    int rowToRemove = 0;
-                    List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+        public void Showprint_Save(int typeno)
+        {
+            try
+            {
+                int rowToRemove = 0;
+                List<int> columnsToRemove = new List<int> { 1, 2, 3 };
 
-                    foreach (int column in columnsToRemove)
+                foreach (int column in columnsToRemove)
+                {
+                    Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
+
+                    if (controlToRemove != null)
                     {
-                        Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                        if (controlToRemove != null)
-                        {
-                            tlp_buttons.Controls.Remove(controlToRemove);
-                        }
+                        tlp_buttons.Controls.Remove(controlToRemove);
                     }
+                }
+                if(typeno ==1)
+                {
                     tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
                     btn_saveKOT.Dock = DockStyle.Left;
                     tlp_buttons.Controls.Add(btn_refresh, 2, 0);
@@ -1477,11 +1420,29 @@ namespace FoodandBeverage.Forms
                     btn_saveKOT.Visible = true;
                     btn_print_bill.Visible = false;
 
-                    lblorderid.Visible = false;
-                    label10.Visible = false;
+                }
+                else if (typeno == 2)
+                {
+                    tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
+                    btn_saveKOT.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
+                    btn_refresh.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                    btn_frm_close.Dock = DockStyle.Left;
+                    btn_saveKOT.Visible = false;
+                    btn_print_bill.Visible = true;
+                }
+                else
+                {
+                    tlp_buttons.Controls.Add(btn_refresh, 1, 0);
+                    btn_refresh.Dock = DockStyle.Left;
+                    tlp_buttons.Controls.Add(btn_frm_close, 2, 0);
+                    btn_frm_close.Dock = DockStyle.Left;
+                    btn_saveKOT.Visible = false;
+                    btn_print_bill.Visible = false;
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
 
             }
@@ -1773,74 +1734,24 @@ namespace FoodandBeverage.Forms
                         count = count + 1;
                         break;
                     }
-
                 }
-                int rowToRemove = 0;
-                List<int> columnsToRemove = new List<int> { 1, 2, 3 };
+
                 if (count ==1)
                 {
-                    foreach (int column in columnsToRemove)
-                    {
-                        Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                        if (controlToRemove != null)
-                        {
-                            tlp_buttons.Controls.Remove(controlToRemove);
-                        }
-                    }
-                    tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                    btn_saveKOT.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                    btn_refresh.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                    btn_frm_close.Dock = DockStyle.Left;
-                    btn_saveKOT.Visible = true;
-                    btn_print_bill.Visible = false;
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
                 }
                 else 
                 {
                     if (ordercount == gridSourcemaster.Count && OrderRunning_Status)                        
                     {
-                        foreach (int column in columnsToRemove)
-                        {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
-                            {
-                                tlp_buttons.Controls.Remove(controlToRemove);
-                            }
-                        }
-
-                        tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                        btn_print_bill.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-                        btn_saveKOT.Visible = false;
-                        btn_print_bill.Visible = true;
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                     }
                     else
                     {
-                        foreach (int column in columnsToRemove)
-                        {
-                            Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                            if (controlToRemove != null)
-                            {
-                                tlp_buttons.Controls.Remove(controlToRemove);
-                            }
-                        }
-                        tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                        btn_saveKOT.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                        btn_refresh.Dock = DockStyle.Left;
-                        tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                        btn_frm_close.Dock = DockStyle.Left;
-
-                        btn_saveKOT.Visible = true;
-                        btn_print_bill.Visible = false;
-
+                        if (count == 0)                        
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+                        else                       
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.save));
                     }
                 }
             }
@@ -1877,7 +1788,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                checksave_refresh();
                 Control clickedControl = sender as Control;
                 tlp_seletedItem_main.AutoScroll = true;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -2090,7 +2000,9 @@ namespace FoodandBeverage.Forms
                         }
                     }
 
-                } 
+                }
+
+                checksave_refresh();
             }
             catch (Exception ex)
             {
@@ -2408,7 +2320,7 @@ namespace FoodandBeverage.Forms
                         DmnSearch dmnSearch = new DmnSearch();         
                         dmnSearch.Select = "Itemname as Field1,ItemId as Field2,ItemCode_UPC as Field3,pr.prate as Field4,pr.srate as Field5," +
                         "pr.MRP as Field6,i.Tax as Field7,i.TaxType as Field8,i.TaxSettingsId as Field9,pr.QOH as Field10," +
-                        "i.unit as Field11,u.UnitName as Field12,i.Fcid as Field13,i.TaxSettingsId as Field14,pr.id Field15,i.DiscountPer Field16";
+                        "i.unit as Field11,u.UnitName as Field12,i.Fcid as Field13,i.TaxSettingsId as Field14,pr.id Field15,i.DiscountPer Field16,pr.QOH Field17";
                         dmnSearch.Table = "tblItem i LEFT JOIN tblProductRate pr on  pr.ProductId=i.ItemId LEFT JOIN tblUnit u on  u.UId=i.unit ";
                         dmnSearch.WhereNdGroupBy = "where i.Status=1 and pr.ProductId = " + gridSource[0].Field5 + " and pr.id = " + gridSource[0].Field4;
                         dmnSearch.OrderBy = "";
@@ -2432,13 +2344,20 @@ namespace FoodandBeverage.Forms
                                 int rowno = 0;
                                 for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                                 {
-
                                     if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
                                     {
                                         Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                                        rowno = i;
-                                        totalcellamount(i);
-                                        break;
+                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            rowno = i;
+                                            totalcellamount(i);
+                                            break;
+                                        }
+                     
                                     }
                                 }               
                                 decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
@@ -2484,8 +2403,6 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSourceDetails[0].Field16;
                                     Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
                                 }
-
-
                                 Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
                                 Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = gridSourceDetails[0].Field2;
                                 Dgv_Selected_Item.Rows[r1].Cells[itax].Value = gridSourceDetails[0].Field7;
@@ -2497,6 +2414,8 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
                                 Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
                                 Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                                Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSourceDetails[0].Field17;
+                                
                                 totalcellamount(r1);
                                 Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
          
@@ -2730,6 +2649,7 @@ namespace FoodandBeverage.Forms
                     Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
                     Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
                     Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                    Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSource[0].Field10;
 
                     totalcellamount(r1);
                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
@@ -5134,7 +5054,7 @@ namespace FoodandBeverage.Forms
                         " tblItem i " +
                         " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
                         " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() ";                        
-                    dmnSearch.WhereNdGroupBy = " where i.Saletype = 1  and i.Status = 1  and i.Itemname = '"  + txtitemcode_serach.Text + "'";
+                    dmnSearch.WhereNdGroupBy = " where i.Saletype = 1  and i.Status = 1  and ( i.Itemname = '"  + txtitemcode_serach.Text + "' or i.ItemCode_UPC ='" + txtitemcode_serach.Text + "')";
 
                     dmnSearch.OrderBy = "";
                     var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -6197,27 +6117,22 @@ namespace FoodandBeverage.Forms
                 Splitypeno = 0;
                 Existingsalemasterid = 0;
                 ReservationTotal = 0;
-                int rowToRemove = 0;
+
                 btn_itemwise.Enabled = true;
-                List<int> columnsToRemove = new List<int> { 1, 2, 3 };
 
-                foreach (int column in columnsToRemove)
-                {
-                    Control controlToRemove = tlp_buttons.GetControlFromPosition(column, rowToRemove);
-
-                    if (controlToRemove != null)
+                int rcount = 0;
+                if (Dgv_Selected_Item.RowCount == 0)
+                    for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
                     {
-                        tlp_buttons.Controls.Remove(controlToRemove);
+                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
+                        {
+                            rcount++;
+                            break;
+                        }
                     }
-                }
-                tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                btn_saveKOT.Dock = DockStyle.Left;
-                tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                btn_refresh.Dock = DockStyle.Left;
-                tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
-                btn_frm_close.Dock = DockStyle.Left;
-                btn_saveKOT.Visible = true;
-                btn_print_bill.Visible = false;
+                if (rcount == 0)
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+
                 setperfixsale();
 
                 lbladvanceamt.Visible = false;
@@ -6270,10 +6185,13 @@ namespace FoodandBeverage.Forms
                 Promodetailsid = 0;
                 Promomasterid = 0;
                 CheckRe_order();
+
                 btn_itemwise.Visible = true;
                 btn_split_number.Visible = true;
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
+                Dgv_Selected_Item.Rows.Clear();
+                Dgv_Selected_Item.Rows.Add();
             }
             else if (Booking_Status)
             {
@@ -6284,9 +6202,13 @@ namespace FoodandBeverage.Forms
                 btn_split_number.Visible = true;
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
+                Dgv_Selected_Item.Rows.Clear();
+                Dgv_Selected_Item.Rows.Add();
             }
             else
                 ClearAll();
+
+            checksave_refresh();
         }
         public bool MandatoryCheck_KOT()
         {
@@ -6943,8 +6865,14 @@ namespace FoodandBeverage.Forms
         }
         private void btn_print_bill_Click(object sender, EventArgs e)
         {
+            int panelWidthPercentage = 45;
+            int panelheightPercentage = 45;
+            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+            tlp_payment_option.Size = new Size(panelWidth, panelHeight);
             tlp_payment_option.Location = new Point(this.ClientSize.Width / 2 - tlp_payment_option.Size.Width / 2, this.ClientSize.Height / 2 - tlp_payment_option.Size.Height / 2); 
             tlp_payment_option.Visible = true;
+            tlp_tableorder.Enabled = false;
         }
         public bool MandatoryCheck_printbill()
         {
@@ -7079,6 +7007,12 @@ namespace FoodandBeverage.Forms
                         dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                         dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
+                        int panelWidthPercentage = 50;
+                        int panelheightPercentage = 70;
+                        int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                        int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                        pnl_partpayment.Size = new Size(panelWidth, panelHeight);
+
                         pnl_partpayment.Location = new Point(this.ClientSize.Width / 2 - pnl_partpayment.Size.Width / 2, this.ClientSize.Height / 2 - pnl_partpayment.Size.Height / 2);
                         pnl_partpayment.Visible = true;
                         dgv_part.Rows.Clear();
@@ -7095,12 +7029,18 @@ namespace FoodandBeverage.Forms
                         tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
                         payid = Convert.ToInt32(PaymentType.SPLIT);
                         pnl_split.Visible = true;
+                         panelWidthPercentage = 50;
+                         panelheightPercentage = 70;
+                         panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                         panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                        pnl_split.Size = new Size(panelWidth, panelHeight);
+
                         pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
                         dgv_split.Rows.Clear();
                         break;
                 }
                 tlp_payment_option.Visible = false;
-                if(clickedButton.Name!= "Btnpartpayment")
+                if (clickedButton.Name != "Btnpartpayment")
                     paybillcal(payid);
             }
             catch (Exception ex)
@@ -7179,6 +7119,7 @@ namespace FoodandBeverage.Forms
         private void btnclose_part_Click(object sender, EventArgs e)
         {
             pnl_partpayment.Visible = false;
+            tlp_tableorder.Enabled = true;
         }
 
         private void btnconfirm_part_Click(object sender, EventArgs e)
@@ -7373,6 +7314,12 @@ namespace FoodandBeverage.Forms
             Splitypeno = 2;
             pnl_split.Visible = false;
             pnl_split_itemwise.Visible = true;
+
+            int panelWidthPercentage = 90;
+            int panelheightPercentage = 85;
+            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+            pnl_split_itemwise.Size = new Size(panelWidth, panelHeight);
             pnl_split_itemwise.Location = new Point(this.ClientSize.Width / 2 - pnl_split_itemwise.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split_itemwise.Size.Height / 2);
             pnl_split_itemwise.BringToFront();
             SetButtonImage(ib_add_categ_itemwise, FoodandBeverage.Properties.Resources.plus, desiredWidth, desiredHeight);
@@ -7448,6 +7395,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_con_nosplit_Click(object sender, EventArgs e)
         {
+
             decimal shareamount = Convert.ToDecimal(txtnetamount.Text) / Convert.ToInt32(txtnumber_split.Text);
             dgv_split.Rows.Clear();
             dgv_split.Rows.Add(Convert.ToInt32(txtnumber_split.Text));
@@ -7460,6 +7408,8 @@ namespace FoodandBeverage.Forms
                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
                 cell.Value = Properties.Resources.pay_per_click;
             }
+            btn_itemwise.Visible = false;
+            btn_con_nosplit.Visible = false;
         }
 
         private void dgv_split_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -7468,9 +7418,18 @@ namespace FoodandBeverage.Forms
             {
                 if (e.ColumnIndex == 2 && Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[6].Value) == 1)
                 {
-                   tlp_split_payment_button.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button.Size.Height );
+                    int panelWidthPercentage = 40;
+                    int panelheightPercentage = 40;
+                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                    tlp_split_payment_button.Size = new Size(panelWidth, panelHeight);
+
+                    tlp_split_payment_button.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button.Size.Height );
+                   // tlp_split_payment_button.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button.Size.Height/2);
                     tlp_split_payment_button.Visible = true;
-                   tlp_split_payment_button.BringToFront();
+                    tlp_split_payment_button.BringToFront();
+                   // pnl_split.Visible = false;
+                   //// pnl_split.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -7547,7 +7506,7 @@ namespace FoodandBeverage.Forms
                 dmnpayment.Tid = tableId;
 
                 foreach (OrderDetailsInfo orderDetailsInfo in orderDetailsInfoList)
-                { 
+                {
                     if (Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[7].Value) == orderDetailsInfo.BillNumber)
                     {
                         matchingOrderDetailsIds += orderDetailsInfo.OrderDetailsId + ",";
@@ -7564,8 +7523,8 @@ namespace FoodandBeverage.Forms
                 dmnpayment.BranchId = FrmDashboard.BranchId;
                 dmnpayment.CreatedBy = FrmDashboard.UserId;
                 dmnpayment.Status = 1;
-                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment); 
-                if (InsertStatus.PayId>0)
+                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                if (InsertStatus.PayId > 0)
                 {
                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
@@ -7580,12 +7539,12 @@ namespace FoodandBeverage.Forms
 
                 }
                 int count = 0;
-                for(int i=0;i< dgv_split.RowCount;i++)
+                for (int i = 0; i < dgv_split.RowCount; i++)
                 {
                     if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 2 && Convert.ToInt32(dgv_split.Rows[i].Cells[4].Value) > 0)
-                        count = count + 1;                        
+                        count = count + 1;
                 }
-                if(count == dgv_split.RowCount)
+                if (count == dgv_split.RowCount)
                 {
                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -7598,7 +7557,7 @@ namespace FoodandBeverage.Forms
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -7624,6 +7583,7 @@ namespace FoodandBeverage.Forms
                 
             //}
             tlp_split_payment_button.Visible = false;
+            pnl_split.Visible = true;
         }
 
         private void btn_split_itemwiseclose_Click(object sender, EventArgs e)

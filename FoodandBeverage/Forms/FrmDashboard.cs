@@ -899,10 +899,8 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
-            }
-           
+            }           
         }
-
 
       private void CompleteEventHandler(object sender, EventArgs e)
         {
@@ -974,7 +972,7 @@ namespace FoodandBeverage.Forms
                                 int tagValue;
                                 if (clickedControl.Tag != null)
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.CombinedOrderBill), 0, CheckedtableNames);
+                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames);
                                     _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                                     _instanceFrmOrder.Opacity = 0;
                                     _instanceFrmOrder.Visible = false;
@@ -1502,7 +1500,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.BookmasterId BookmasterId";
                 dmnSearch.Table = "tblTable_info  ti LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1 and (ti.OrderStatus=1OR ti.OrderMasterId > 0 )";
+                dmnSearch.WhereNdGroupBy = "where ti.Status=1 and (ti.OrderStatus=1 OR ti.OrderMasterId > 0 )";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 var distinctCategories = gridSource.Select(item => item.Fcid).Distinct().ToList();
@@ -1663,13 +1661,23 @@ namespace FoodandBeverage.Forms
                                             pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill)+"," + Convert.ToInt32(gridSource[i].BookmasterId);
                                             lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill)+"," + Convert.ToInt32(gridSource[i].BookmasterId);
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
-                                            pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "1," + Convert.ToInt32(gridSource[i].BookmasterId);
+                                            pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
                                         }
 
                                         pnl_box.Controls.Add(tlp_table_inner);
                                         PictureBox dynamic_pic = new PictureBox();
                                         dynamic_pic.Name = "pb_com" + gridSource[i].TableCode;
                                         dynamic_pic.Tag = gridSource[i].Tid;
+
+                                        if (gridSource[i].OrderStatus == 1)
+                                        {
+
+                                            dynamic_pic.AccessibleDescription = "0";
+                                        }
+                                        else if (Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
+                                        {
+                                            dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
+                                        }
 
                                         if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
                                             dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
@@ -1702,7 +1710,7 @@ namespace FoodandBeverage.Forms
                         int count = tlp_category.Controls.OfType<Panel>().Count();
                         if (count == 0)
                         {
-                            tlp_table_dashboard.Controls.RemoveAt(current_rowIndex_cate);
+                            tlp_table_dashboard.Controls.Remove(lblcategory_head);
                             tlp_table_dashboard.Controls.Remove(tlp_category);
                         }
                     }
@@ -1712,6 +1720,18 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Controls.Add(tlp_table_dashboard_main);
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
+
+                    if(tlp_table_dashboard.Controls.Count==0)
+                    {
+                        controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+                        tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+                        tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
+                        pnl_empty_msg.Dock = DockStyle.Fill;
+                        pnl_empty_msg.Visible = true;
+                        btn_prevbill.PerformClick();
+                    }
+
+
                     #endregion
                 }
                 else

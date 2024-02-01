@@ -191,7 +191,13 @@ namespace FoodandBeverage.Interfaces
         Cancel = 0,
         Pending = 1,
         FoodProcessing = 2,
-        Complete=3,
-        Booking_order=4
+        Complete = 3,
+        Booking_order = 4
+    };
+    public enum ShowButtonType
+    {
+        save=1,
+        Print =2,
+        Nnone=3
     };
 }

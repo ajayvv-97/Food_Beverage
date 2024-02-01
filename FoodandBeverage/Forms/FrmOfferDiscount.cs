@@ -761,7 +761,7 @@ namespace FoodandBeverage.Forms
                             int omid= Convert.ToInt32(returnValue);
                             DmnSearch objSearch = new DmnSearch();
                             objSearch = new DmnSearch();
-                            objSearch.Select = "fd.Productname Field1,fd.DiscountPer Field2,fd.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,fd.TaxType Field6,fd.Tax Field7,fd.ProductId Field8,fd.Saletype Field9,fd.Prid Field10,fd.FinalPrice Field11,fd.DiscountAmt Field12," +
+                            objSearch.Select = "fd.Productname Field1,fd.DiscountPer Field2,fd.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,fd.TaxType Field6,fd.Tax Field7,fd.ProductId Field8,fd.producttype Field9,fd.Prid Field10,fd.FinalPrice Field11,fd.DiscountAmt Field12," +
                                 "fd.Description Field13,fd.Odid Field14,fd.ItemCode_UPC Field15,OfferstartDatetime StartDate,OfferEndDatetime EndDate,"+
                                             "(select DiscountPer from tblProduct where status = 1 and ProductId = fd.ProductId) Field16," +
                     "(select DiscountPer from tblItem where status = 1 and ItemId = fd.ProductId) Field17,fm.Offername Field18 ,fm.Discountper Field19,fm.description Field20 ";
