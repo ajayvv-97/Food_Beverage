@@ -293,7 +293,7 @@ namespace FoodandBeverage.Forms
                 {
 
                     // The capacity entered in the TextBox is greater than or equal to the total capacity in the grid
-                    CMessageBox.Show("Capacity is not sufficient for the people.");
+                    CMessageBox.Show("Capacity is not sufficient for the people", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
 
                 }
@@ -323,26 +323,34 @@ namespace FoodandBeverage.Forms
                 //MessageBox.Show(" UserName is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            else if (txtMob.Text == "" || txtMob.Text == null)
+            {
+                DialogResult result = CMessageBox.Show("Mobile number is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                txtMob.Focus();
+                return false;
+            }
             else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
             {
                 CMessageBox.Show("Address is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            else if (txtEmail.Text == "" || txtEmail.Text == string.Empty)
+            {
+                CMessageBox.Show("Email is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            
             else if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
                 CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
                 return false;
             }
-            else if (txtMob.Text == "" || txtMob.Text == null)
+            else if (Convert.ToString(dgvforms.Rows[dgvforms.CurrentCell.RowIndex].Cells[itablename].Value) != ""  || (Convert.ToString(dgvforms.Rows[dgvforms.CurrentCell.RowIndex].Cells[itablename].Value) != null))
             {
-                DialogResult result = CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                txtMob.Focus();
+                CMessageBox.Show("Select Table First", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
-
-                //MessageBox.Show(" Mobile number is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-              
             }
             else if(lblGTotal.Text== "00")
             {
@@ -352,6 +360,7 @@ namespace FoodandBeverage.Forms
             else if (!string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 return ClsGeneral.CheckEmailId(this, txtEmail.Text);
+                
             }
 
             return true;
@@ -1158,7 +1167,7 @@ namespace FoodandBeverage.Forms
                 {
 
                     // The capacity entered in the TextBox is greater than or equal to the total capacity in the grid
-                    MessageBox.Show("Capacity is not sufficient for the people.");
+                    CMessageBox.Show("Capacity is not sufficient for the people", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
                 }
@@ -2350,9 +2359,10 @@ namespace FoodandBeverage.Forms
 
                             //dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
                             dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                           
                             txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
                             totalcellamount(r1);
+                             dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value);
                         }
                         else
                         {
@@ -2679,6 +2689,7 @@ namespace FoodandBeverage.Forms
                         dgvmenu.Rows[cellproductid].Cells[isamount].Value = tot.ToString("N2");
                     }
                 }
+
 
             }
             catch (Exception ex)
