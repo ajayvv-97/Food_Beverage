@@ -15,7 +15,7 @@ namespace BLL
 			parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
 			parms.Add("Fcid", objTestClass.Fcid);
 			parms.Add("Price", objTestClass.Price);
-			parms.Add("Quantity", objTestClass.Quantity);
+			//parms.Add("Quantity", objTestClass.Quantity);
 			parms.Add("DiscountAmt", objTestClass.DiscountAmt);
 			parms.Add("DiscountPer", objTestClass.DiscountPer);
 			parms.Add("OfferDescription", objTestClass.OfferDescription);

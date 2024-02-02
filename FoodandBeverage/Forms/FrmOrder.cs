@@ -3924,17 +3924,18 @@ namespace FoodandBeverage.Forms
                         {
                             dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.Producttype Field5";
                             dmnSearch.Table = "tblProduct p " +
-                                "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId " +
-                                "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
-                            dmnSearch.WhereNdGroupBy = " where p.Status=1 AND ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()";
+                                "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and ofd.status=1 " +
+                                "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  and ofm.status=1 " +
+                                "LEFT JOIN tblMenu m on m.ProductId=p.ProductId ";
+                            dmnSearch.WhereNdGroupBy = " where p.Status=1 AND ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and m.status=1";
                             dmnSearch.OrderBy = "";
                         }
                         if (j == 2)
                         {
                             dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.Producttype Field5";
                             dmnSearch.Table = "tblItem i " +
-                                "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId " +
-                                "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
+                                "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId and ofd.status=1" +
+                                "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.status=1 ";
                             dmnSearch.WhereNdGroupBy = " where i.Status=1 AND ofm.OfferType=0 and i.Saletype=1 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()";
                             dmnSearch.OrderBy = "";
                         }

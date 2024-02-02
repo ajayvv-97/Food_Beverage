@@ -45,6 +45,7 @@ namespace FoodandBeverage.Forms
         public int OrderMasterId = 0;
         public bool Total_Order_Flag = false;
         public bool PermissionFlag = false;
+        List<DmnComboBox> comboBoxItems = new List<DmnComboBox>();
 
         public FrmOrderView()
         {
@@ -153,7 +154,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6";
+                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7";
                 dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
                 dgvorderview.Rows.Clear();
                 int rowIndex = 0;
@@ -189,7 +190,15 @@ namespace FoodandBeverage.Forms
                         {
                             dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
                             dgvorderview.Rows[rowIndex].Cells[orderidno].Value = gridSource[i].Field1;
-                            dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field2;
+
+                            if (Convert.ToInt32(gridSource[i].Field7) > 0)
+                            {
+
+                                FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field7));
+                            }
+                            else
+                                dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field2;
+
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
                             dgvorderview.Rows[rowIndex].Cells[descno].Value = "";
@@ -332,9 +341,9 @@ namespace FoodandBeverage.Forms
                         //// Add the new TableLayoutPanel to tlp_seletedItem_main
                         //pnl_ordergallery.Controls.Add(tlp_seletedItem_col);
                         #endregion
-
+                        
                     }
-             
+             break;
                 }
                 if (dgvorderview.Rows.Count == 0)
                 {
@@ -355,6 +364,60 @@ namespace FoodandBeverage.Forms
 
             }
 
+        }
+        public void FillTablecode_Comb(int rowindex, int bookingmasterid)
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "MTID as id, Name as value";
+                objSearch.Table = "tblBookDetails";
+                objSearch.WhereNdGroupBy = "where BookmasterId =" + bookingmasterid + " and Rid=0";
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+
+                DataGridViewComboBoxCell comboCell = dgvorderview[tablecodeno, rowindex] as DataGridViewComboBoxCell;
+                comboCell.DataSource = null;
+
+                CmbTableCode.DataSource = gridSource;
+                CmbTableCode.ValueMember = "Id";
+                CmbTableCode.DisplayMember = "Value";
+
+                //comboCell.Items.Clear();
+                //List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                //foreach (var item in gridSource)
+                //{
+                //    int id = Convert.ToInt32(item.Id);
+                //    if (id != -1 && item.Value != null)
+                //    {
+                //        string value = item.Value;
+                //        ComboBoxItem comboBoxItem = new ComboBoxItem(id, value);
+                //        comboBoxItems.Add(comboBoxItem);
+                //    }
+                //}
+                //comboCell.Items.Clear();
+                //comboCell.DataSource = comboBoxItems;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public class ComboBoxItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value;
+            }
         }
         // Method to resize the image
         private Image ResizeImage(Image originalImage, int width, int height)
@@ -379,9 +442,7 @@ namespace FoodandBeverage.Forms
                         btn_backorder.Visible = true;
                         Filldetails(Convert.ToInt32(txtorderid_search.Text));
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -869,6 +930,16 @@ namespace FoodandBeverage.Forms
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
+        }
+
+        private void dgvorderview_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
+        private void dgv_details_view_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

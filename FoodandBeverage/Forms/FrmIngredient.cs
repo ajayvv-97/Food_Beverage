@@ -70,7 +70,7 @@ namespace FoodandBeverage.Forms
                     dmnproduct.MRP = Convert.ToDecimal(txtmrp.Text);
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
                     dmnproduct.TaxType = Convert.ToString(cmbTaxType.Text);
-                    dmnproduct.Quantity = Convert.ToInt32(txtqty.Text);
+                    //dmnproduct.Quantity = Convert.ToInt32(txtqty.Text);
                     dmnproduct.Description = Convert.ToString(txtdes.Text);
                     dmnproduct.ItemCode = Convert.ToString(txtitemcode.Text);
                     dmnproduct.UPC = "";
@@ -1139,6 +1139,8 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrWhiteSpace(txtmrp.Text))
                 txtmrp.Text = "0";
+            if (string.IsNullOrWhiteSpace(txtprice.Text))
+                txtprice.Text = "0";
             if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtprice.Text))
             {
                 CMessageBox.Show("MRP Rate Must be Greater than Sale Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1669,12 +1671,12 @@ namespace FoodandBeverage.Forms
             }
             else if (CmbCategory.Focused)
             {
-                txtqty.Focus();
-            }
-            else if (txtqty.Focused)
-            {
                 txtDisPer.Focus();
             }
+            //else if (txtqty.Focused)
+            //{
+            //    txtDisPer.Focus();
+            //}
             else if (txtDisPer.Focused)
             {
                 txtDiscAmnt.Focus();

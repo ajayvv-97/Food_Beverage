@@ -405,6 +405,7 @@ namespace FoodandBeverage.Forms
             clearall();
             combofill();
             Taxfill();
+            Fillcombo(2);
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -505,7 +506,7 @@ namespace FoodandBeverage.Forms
             dgvprDetails.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvprDetails.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvprDetails.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
+            Fillcombo(2);
         }
 
         private void btn_del_ingre_Click(object sender, EventArgs e)
@@ -1096,10 +1097,14 @@ namespace FoodandBeverage.Forms
                         int rowno = dgvprDetails.CurrentCell.RowIndex;
                         GridkeydownEnter(rowno);
                     }
-                    else if (dgv_item.Visible)
+                    else if (dgv_item.Visible && dgv_item.Focused)
                     {
                         int rowIndex = dgv_item.CurrentRow.Index;
                         filldata(rowIndex);
+                    }
+                    else if (txtitemcode_barcode.Focused)
+                    {
+                        serachbyname();
                     }
                     else
                         Movefocus(0);
@@ -1513,7 +1518,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtdisamt.Text) > Convert.ToDecimal(txtmrp.Text))
                 {
-                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtdisamt.Text = "0.00";
                     txtdisper.Text = "0.00";
                     txtdisamt.Focus();
@@ -1581,7 +1586,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtdisper.Text) > 100)
                 {
-                    MessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtdisper.Focus();
                 }
                 else
@@ -1599,7 +1604,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtdisamt.Text) > Convert.ToDecimal(txtsrate.Text))
                 {
-                    MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtdisamt.Focus();
                 }
                 else
@@ -1609,5 +1614,243 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
+
+        private void rb_product_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rb_notsale.Checked)
+            {
+                Direct_nosale_product(0);
+                Fillcombo(2);
+            }
+         
+        }
+        public void Fillcombo(int cattype)
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "Fcid,CategoryName";
+                objSearch.Table = " tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=" + cattype;
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                cmbMenu_category.DataSource = gridSource;
+                cmbMenu_category.ValueMember = "Id";
+                cmbMenu_category.DisplayMember = "Value";
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void cmbMenu_category_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "i.ItemId Field1,i.Itemname Field2,u.UnitName Field3," +
+                    "(Select sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field4," +
+                    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                dmnSearch.Table = "tblItem i " +
+                    " LEFT JOIN tblUnit u on u.UId=i.unit " +
+                    " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=i.Fcid";
+
+                if (rb_notsale.Checked)
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype=0 and i.fcid ="+ cmbMenu_category.SelectedValue;
+                else if (rb_item.Checked)
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1and i.saletype=1 and i.fcid =" + cmbMenu_category.SelectedValue;
+
+                dmnSearch.OrderBy = "order by i.ItemId desc ";
+                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                dgv_item.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_item.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_item.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].Field1;
+                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Field2;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Field16;
+                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].Field3;
+                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].Field4;
+                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Field5;
+                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Field6;
+                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].Field7;
+                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Field8;
+                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].Field9;
+                        if (itemSource[i].Field9 == "GST")
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field10;
+                        else
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field11;
+                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].Field12;
+                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void btn_refresh_list_Click(object sender, EventArgs e)
+        {
+            if (rb_notsale.Checked)
+                Direct_nosale_product(0);
+            else if (rb_item.Checked)
+                Direct_nosale_product(1);
+        }
+        public void Direct_nosale_product(int typeno)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "i.ItemId Field1,i.Itemname Field2,u.UnitName Field3," +
+                    "(Select sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field4," +
+                    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                dmnSearch.Table = "tblItem i " +
+                    " LEFT JOIN tblUnit u on u.UId=i.unit " +
+                    " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=i.Fcid";
+                if(typeno==1)
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype=1";
+                else
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1and i.saletype=0";
+
+                dmnSearch.OrderBy = "order by i.ItemId desc ";
+                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                dgv_item.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_item.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_item.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_item.Rows[i].Cells[idno].Value = itemSource[i].Field1;
+                        dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Field2;
+                        dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Field16;
+                        dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].Field3;
+                        dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].Field4;
+                        dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Field5;
+                        dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Field6;
+                        dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].Field7;
+                        dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Field8;
+                        dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].Field9;
+                        if (itemSource[i].Field9 == "GST")
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field10;
+                        else
+                            dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field11;
+                        dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].Field12;
+                        dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
+                        dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
+                        dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void rb_item_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_item.Checked)
+            {
+                Fillcombo(0);
+                Direct_nosale_product(1);
+            }
+
+        }
+
+        private void txtitemcode_barcode_KeyDown(object sender, KeyEventArgs e)
+        {
+          if(e.KeyCode==Keys.Enter)
+            {
+
+            }
+        }
+        public void serachbyname()
+        {
+            try
+            {
+                if (txtitemcode_barcode.Text != null && txtitemcode_barcode.Text != "")
+                {
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "i.ItemId Field1,i.Itemname Field2,u.UnitName Field3," +
+                        "(Select sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field4," +
+                        "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                        "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                        "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
+                        "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                    dmnSearch.Table = "tblItem i " +
+                        " LEFT JOIN tblUnit u on u.UId=i.unit " +
+                        " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
+                        " LEFT JOIN tblCategory_FTI c on c.Fcid=i.Fcid";
+
+                    if (rb_notsale.Checked)
+                        dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype=0 and ( i.ItemCode_UPC = '" + txtitemcode_barcode.Text + "' or i.itemname = '" + txtitemcode_barcode.Text +"' )";
+                    else if (rb_item.Checked)
+                        dmnSearch.WhereNdGroupBy = "where i.Status=1and i.saletype=1 and ( i.ItemCode_UPC = '" + txtitemcode_barcode.Text + "' or i.itemname = '" + txtitemcode_barcode.Text + "' )";
+
+                    dmnSearch.OrderBy = "order by i.ItemId desc ";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    dgv_item.Rows.Clear();
+                    if (itemSource.Count > 0)
+                    {
+                        dgv_item.Rows.Add(itemSource.Count);
+                        for (int i = 0; i < itemSource.Count; i++)
+                        {
+                            dgv_item.Rows[i].Cells[slno].Value = i + 1;
+                            dgv_item.Rows[i].Cells[idno].Value = itemSource[i].Field1;
+                            dgv_item.Rows[i].Cells[incre_nameno].Value = itemSource[i].Field2;
+                            dgv_item.Rows[i].Cells[incre_categno].Value = itemSource[i].Field16;
+                            dgv_item.Rows[i].Cells[iunitno].Value = itemSource[i].Field3;
+                            dgv_item.Rows[i].Cells[iqtyno].Value = itemSource[i].Field4;
+                            dgv_item.Rows[i].Cells[iprateno].Value = itemSource[i].Field5;
+                            dgv_item.Rows[i].Cells[israteno].Value = itemSource[i].Field6;
+                            dgv_item.Rows[i].Cells[imrpno].Value = itemSource[i].Field7;
+                            dgv_item.Rows[i].Cells[itaxno].Value = itemSource[i].Field8;
+                            dgv_item.Rows[i].Cells[itaxtypeno].Value = itemSource[i].Field9;
+                            if (itemSource[i].Field9 == "GST")
+                                dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field10;
+                            else
+                                dgv_item.Rows[i].Cells[itaxperno].Value = itemSource[i].Field11;
+                            dgv_item.Rows[i].Cells[idescno].Value = itemSource[i].Field12;
+                            dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
+                            dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
+                            dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                        }
+                        dgv_item.Focus();
+                    }
+                    else
+                    {
+                        CMessageBox.Show("No match Found !", "Information", MessageBoxButtons.OK);
+                        txtitemcode_barcode.Text = "";
+                        txtitemcode_barcode.Focus();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
+
 }

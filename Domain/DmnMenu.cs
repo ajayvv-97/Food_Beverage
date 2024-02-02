@@ -21,6 +21,8 @@ namespace Domain
         public decimal Price { get; set; }
         public decimal DisAmt { get; set; }
         public decimal DisPer { get; set; }
+        public int Quantity { get; set; }
+        
 
 
     }
