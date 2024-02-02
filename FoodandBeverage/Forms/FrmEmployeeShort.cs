@@ -557,9 +557,9 @@ namespace FoodandBeverage.Forms
         private void cboGender_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (Convert.ToInt32(cboGender.SelectedIndex) == 1)
-                pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicmale;
-            else if (Convert.ToInt32(cboGender.SelectedIndex) == 2)
                 pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicfemale;
+            else if (Convert.ToInt32(cboGender.SelectedIndex) == 2)
+                pbCust.Image = FoodandBeverage.Properties.Resources. Profilepicmale;
             pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
