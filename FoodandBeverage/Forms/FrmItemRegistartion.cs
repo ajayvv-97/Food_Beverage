@@ -266,6 +266,10 @@ namespace FoodandBeverage.Forms
 
             rdb_dsale.Enabled = true;
             rdb_notsale.Enabled = true;
+            rdb_notsale.Checked = true;
+
+            tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.AutoSize);
+            tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
         }
 
 
@@ -367,7 +371,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtsrate.Text) < Convert.ToDecimal(txtprate.Text))
                 {
-                    CMessageBox.Show("Sale Rate Must be graterthan Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Sale Rate Must be Graterthan Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtsrate.Focus();
                     return false;
                 }
@@ -376,7 +380,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
                 {
-                    CMessageBox.Show("MRP Must be graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("MRP Must be Graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtmrp.Focus();
                     return false;
                 }
@@ -386,7 +390,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
                 {
-                    CMessageBox.Show("MRP Must be graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("MRP Must be Graterthan Sale Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtmrp.Focus();
                     return false;
                 }
@@ -847,10 +851,7 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
         }
-
-
 
         private void dgvprDetails_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1052,6 +1053,11 @@ namespace FoodandBeverage.Forms
                             cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
                         cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
                         btn_del_ingre.Visible = true;
+
+                        tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
+                        tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
+
+
                         toggle_grid.PerformClick();
                     }
                     else if (itemSource.Count > 1)
@@ -1130,9 +1136,6 @@ namespace FoodandBeverage.Forms
             else if (txtincr_name.Focused)
                 txtbarcode.Focus();
             else if (txtbarcode.Focused)
-
-                cmb_inc_categ.Focus();
-            else if (cmb_inc_categ.Focused)
                 rdb_dsale.Focus();
             else if (rdb_dsale.Focused)
             {
@@ -1156,9 +1159,11 @@ namespace FoodandBeverage.Forms
                 //        rdb_notsale.Checked = false;
                 //}
                 //else if (keytype == 1)
-                    txtprate.Focus();
+                cmb_inc_categ.Focus();
             }
-         
+            else if (cmb_inc_categ.Focused)
+                txtprate.Focus();
+
             else if (txtprate.Focused)
                 txtsrate.Focus();
             else if (txtsrate.Focused)
@@ -1166,6 +1171,15 @@ namespace FoodandBeverage.Forms
             else if (txtmrp.Focused)
                 txtqty.Focus();
             else if (txtqty.Focused)
+            {
+                if(rdb_notsale.Checked)
+                    cmbunit.Focus();
+                else
+                    txtdisper.Focus();
+            }
+            else if (txtdisper.Focused)
+                txtdisamt.Focus();
+            else if (txtdisamt.Focused)
                 cmbunit.Focus();
             else if (cmbunit.Focused)
                 cmbtax.Focus();
@@ -1223,203 +1237,238 @@ namespace FoodandBeverage.Forms
 
         private void rdb_dsale_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdb_dsale.Checked)
+            try
             {
-                cmb_inc_categ.DataSource = null;
-                cmb_inc_categ.DataSource = gridSource_Foodcate;
-                cmb_inc_categ.ValueMember = "Id";
-                cmb_inc_categ.DisplayMember = "Value";
-
-                int[] columnsToRemove1 = { 0, 1, 2, 3 };
-                int[] rowsToRemove1 = { 5, 6, 7, 8 };
-
-                foreach (int column in columnsToRemove1)
+                if (rdb_dsale.Checked)
                 {
-                    foreach (int row in rowsToRemove1)
+                    cmb_inc_categ.DataSource = null;
+                    cmb_inc_categ.DataSource = gridSource_Foodcate;
+                    cmb_inc_categ.ValueMember = "Id";
+                    cmb_inc_categ.DisplayMember = "Value";
+
+                    int[] columnsToRemove1 = { 0, 1, 2, 3 };
+                    int[] rowsToRemove1 = { 5, 6, 7, 8 };
+
+                    foreach (int column in columnsToRemove1)
                     {
-                        Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
-                        if (controlToRemove != null)
+                        foreach (int row in rowsToRemove1)
                         {
-                            tlp_registration.Controls.Remove(controlToRemove);
+                            Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                            if (controlToRemove != null)
+                            {
+                                tlp_registration.Controls.Remove(controlToRemove);
+                            }
                         }
                     }
-                }
-                cmbtax.Dock = DockStyle.Fill;
-                cmbTaxType.Dock = DockStyle.Fill;
-                lblunit.Dock = DockStyle.Fill;
-                lbltax.Dock = DockStyle.Fill;
-                lbltaxtype.Dock = DockStyle.Fill;
-                txtdesc.Dock = DockStyle.Fill;
-                txtdisper.Dock = DockStyle.Fill;
-                txtdisamt.Dock = DockStyle.Fill;
-                lbldisamt.Dock = DockStyle.Fill;
-                lbldisper.Dock = DockStyle.Fill;
-                if (cmbTaxType.Text == "GST")
-                {
-                    lbligst.Dock = DockStyle.Fill;
-                    cmbIgstPrcnt.Dock = DockStyle.Fill;
-                    tlp_s_c_gst.Dock = DockStyle.Fill;
-                    tlp_S_C_text_.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
-                    txtSgstPrcnt.Dock = DockStyle.Top;
-                    txtCgstPrcnt.Dock = DockStyle.Top;
-
-                    //row1
-                    tlp_registration.Controls.Add(lbldisper, 0, 5);
-                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
-                    tlp_registration.Controls.Add(lblunit, 2, 5);
-                    tlp_registration.Controls.Add(lbltax, 3, 5);
+                    tlp_des_rem.Controls.Add(txtdesc, 0, 0);
+                    tlp_des_rem.Controls.Add(btn_del_ingre, 1, 0);
+                    if (string.IsNullOrWhiteSpace(txtitemid.Text))
+                        txtitemid.Text = "0";
+                    if (Convert.ToInt32(txtitemid.Text) > 0)
+                    {
+                        tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
+                        tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 20);
+                    }
+                    else
+                    {
+                        tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+                        tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                    }
 
 
+                    txtdesc.Dock = DockStyle.Fill;
+                    tlp_des_rem.Dock = DockStyle.Fill;
 
-                    //row2
-                    tlp_registration.Controls.Add(txtdisper, 0, 6);
-                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
-                    tlp_registration.Controls.Add(cmbunit, 2, 6);
-                    tlp_registration.Controls.Add(cmbtax, 3, 6);
+                    cmbtax.Dock = DockStyle.Fill;
+                    cmbTaxType.Dock = DockStyle.Fill;
+                    lblunit.Dock = DockStyle.Fill;
+                    lbltax.Dock = DockStyle.Fill;
+                    lbltaxtype.Dock = DockStyle.Fill;
+                    txtdesc.Dock = DockStyle.Fill;
+                    txtdisper.Dock = DockStyle.Fill;
+                    txtdisamt.Dock = DockStyle.Fill;
+                    lbldisamt.Dock = DockStyle.Fill;
+                    lbldisper.Dock = DockStyle.Fill;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        lbligst.Dock = DockStyle.Fill;
+                        cmbIgstPrcnt.Dock = DockStyle.Fill;
+                        tlp_s_c_gst.Dock = DockStyle.Fill;
+                        tlp_S_C_text_.Dock = DockStyle.Fill;
+                        lbldes.Dock = DockStyle.Fill;
+                        txtSgstPrcnt.Dock = DockStyle.Top;
+                        txtCgstPrcnt.Dock = DockStyle.Top;
+
+                        //row1
+                        tlp_registration.Controls.Add(lbldisper, 0, 5);
+                        tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                        tlp_registration.Controls.Add(lblunit, 2, 5);
+                        tlp_registration.Controls.Add(lbltax, 3, 5);
 
 
 
-                    //row3
-                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
-                    tlp_registration.Controls.Add(lbligst, 1, 7);
-                    tlp_registration.Controls.Add(tlp_s_c_gst, 2, 7);
-                    tlp_registration.Controls.Add(lbldes, 3, 7);
+                        //row2
+                        tlp_registration.Controls.Add(txtdisper, 0, 6);
+                        tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                        tlp_registration.Controls.Add(cmbunit, 2, 6);
+                        tlp_registration.Controls.Add(cmbtax, 3, 6);
 
 
-                    //row4
-                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
-                    tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
-                    tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
-                    tlp_registration.Controls.Add(tlp_des_rem, 3, 8);
+
+                        //row3
+                        tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                        tlp_registration.Controls.Add(lbligst, 1, 7);
+                        tlp_registration.Controls.Add(tlp_s_c_gst, 2, 7);
+                        tlp_registration.Controls.Add(lbldes, 3, 7);
 
 
-                    cmbIgstPrcnt.Focus();
-                }
-                else if (cmbTaxType.Text == "VAT")
-                {
-                    cmbVatPrcnt.Dock = DockStyle.Fill;
-                    lblvat.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
+                        //row4
+                        tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                        tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
+                        tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
+                        tlp_registration.Controls.Add(tlp_des_rem, 3, 8);
+                        cmbIgstPrcnt.Focus();
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.Dock = DockStyle.Fill;
+                        lblvat.Dock = DockStyle.Fill;
+                        lbldes.Dock = DockStyle.Fill;
+                        txtdesc.Dock = DockStyle.Fill;
+                        //row1
+                        tlp_registration.Controls.Add(lbldisper, 0, 5);
+                        tlp_registration.Controls.Add(lbldisamt, 1, 5);
+                        tlp_registration.Controls.Add(lblunit, 2, 5);
+                        tlp_registration.Controls.Add(lbltax, 3, 5);
 
-                    //row1
-                    tlp_registration.Controls.Add(lbldisper, 0, 5);
-                    tlp_registration.Controls.Add(lbldisamt, 1, 5);
-                    tlp_registration.Controls.Add(lblunit, 2, 5);
-                    tlp_registration.Controls.Add(lbltax, 3, 5);
+                        //row2
+                        tlp_registration.Controls.Add(txtdisper, 0, 6);
+                        tlp_registration.Controls.Add(txtdisamt, 1, 6);
+                        tlp_registration.Controls.Add(cmbunit, 2, 6);
+                        tlp_registration.Controls.Add(cmbtax, 3, 6);
 
-                    //row2
-                    tlp_registration.Controls.Add(txtdisper, 0, 6);
-                    tlp_registration.Controls.Add(txtdisamt, 1, 6);
-                    tlp_registration.Controls.Add(cmbunit, 2, 6);
-                    tlp_registration.Controls.Add(cmbtax, 3, 6);
+                        //row3
+                        tlp_registration.Controls.Add(lbltaxtype, 0, 7);
+                        tlp_registration.Controls.Add(lblvat, 1, 7);
+                        tlp_registration.Controls.Add(lbldes, 2, 7);
 
-                    //row3
-                    tlp_registration.Controls.Add(lbltaxtype, 0, 7);
-                    tlp_registration.Controls.Add(lblvat, 1, 7);
-                    tlp_registration.Controls.Add(lbldes, 2, 7);
+                        //row4
+                        tlp_registration.Controls.Add(cmbTaxType, 0, 8);
+                        tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
+                        tlp_registration.Controls.Add(tlp_des_rem, 2, 8);
 
-                    //row4
-                    tlp_registration.Controls.Add(cmbTaxType, 0, 8);
-                    tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
-                    tlp_registration.Controls.Add(tlp_des_rem, 2, 8);
+                        cmbVatPrcnt.Focus();
 
-                    cmbVatPrcnt.Focus();
-
+                    }
+                    textb_shape();
                 }
             }
+            catch (Exception ex)
+            {
+
+            }
+
 
         }
 
         private void rdb_notsale_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdb_notsale.Checked)
+            try
             {
-                cmb_inc_categ.DataSource = null;
-                cmb_inc_categ.DataSource = gridSource_itemcate;
-                cmb_inc_categ.ValueMember = "Id";
-                cmb_inc_categ.DisplayMember = "Value";
-
-                int[] columnsToRemove1 = { 0, 1, 2, 3 };
-                int[] rowsToRemove1 = { 5, 6, 7, 8 };
-
-                foreach (int column in columnsToRemove1)
+                if (rdb_notsale.Checked)
                 {
-                    foreach (int row in rowsToRemove1)
+                    cmb_inc_categ.DataSource = null;
+                    cmb_inc_categ.DataSource = gridSource_itemcate;
+                    cmb_inc_categ.ValueMember = "Id";
+                    cmb_inc_categ.DisplayMember = "Value";
+
+                    int[] columnsToRemove1 = { 0, 1, 2, 3 };
+                    int[] rowsToRemove1 = { 5, 6, 7, 8 };
+
+                    foreach (int column in columnsToRemove1)
                     {
-                        Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
-                        if (controlToRemove != null)
+                        foreach (int row in rowsToRemove1)
                         {
-                            tlp_registration.Controls.Remove(controlToRemove);
+                            Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
+                            if (controlToRemove != null)
+                            {
+                                tlp_registration.Controls.Remove(controlToRemove);
+                            }
                         }
                     }
-                }
-                cmbtax.Dock = DockStyle.Fill;
-                cmbTaxType.Dock = DockStyle.Fill;
-                lblunit.Dock = DockStyle.Fill;
-                lbltax.Dock = DockStyle.Fill;
-                lbltaxtype.Dock = DockStyle.Fill;
-                txtdesc.Dock = DockStyle.Fill;
-                cmbunit.Dock = DockStyle.Fill;
-                if (cmbTaxType.Text == "GST")
-                {
-                    lbligst.Dock = DockStyle.Fill;
-                    cmbIgstPrcnt.Dock = DockStyle.Fill;
-                    tlp_s_c_gst.Dock = DockStyle.Fill;
-                    tlp_S_C_text_.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
-                    txtSgstPrcnt.Dock = DockStyle.Top;
-                    txtCgstPrcnt.Dock = DockStyle.Top;
-                    //row1
-                    tlp_registration.Controls.Add(lblunit, 0, 5);
-                    tlp_registration.Controls.Add(lbltax, 1, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                    tlp_registration.Controls.Add(lbligst, 3, 5);
-
-                    //row2
-                    tlp_registration.Controls.Add(cmbunit, 0, 6);
-                    tlp_registration.Controls.Add(cmbtax, 1, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                    tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
-
-                    //row3
-                    tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
-                    tlp_registration.Controls.Add(lbldes, 1, 7);
-                    //row4
-                    tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
-                    tlp_registration.Controls.Add(txtdesc, 1, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
-
-                    cmbIgstPrcnt.Focus();
-                }
-                else if (cmbTaxType.Text == "VAT")
-                {
-                    cmbVatPrcnt.Dock = DockStyle.Fill;
-                    lblvat.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
+                    cmbtax.Dock = DockStyle.Fill;
+                    cmbTaxType.Dock = DockStyle.Fill;
+                    lblunit.Dock = DockStyle.Fill;
+                    lbltax.Dock = DockStyle.Fill;
+                    lbltaxtype.Dock = DockStyle.Fill;
+                    txtdesc.Dock = DockStyle.Fill;
                     cmbunit.Dock = DockStyle.Fill;
-                    //row1
-                    tlp_registration.Controls.Add(lblunit, 0, 5);
-                    tlp_registration.Controls.Add(lbltax, 1, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                    tlp_registration.Controls.Add(lblvat, 3, 5);
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        lbligst.Dock = DockStyle.Fill;
+                        cmbIgstPrcnt.Dock = DockStyle.Fill;
+                        tlp_s_c_gst.Dock = DockStyle.Fill;
+                        tlp_S_C_text_.Dock = DockStyle.Fill;
+                        lbldes.Dock = DockStyle.Fill;
+                        txtSgstPrcnt.Dock = DockStyle.Top;
+                        txtCgstPrcnt.Dock = DockStyle.Top;
+                        //row1
+                        tlp_registration.Controls.Add(lblunit, 0, 5);
+                        tlp_registration.Controls.Add(lbltax, 1, 5);
+                        tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                        tlp_registration.Controls.Add(lbligst, 3, 5);
 
-                    //row2
-                    tlp_registration.Controls.Add(cmbunit, 0, 6);
-                    tlp_registration.Controls.Add(cmbtax, 1, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                    tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+                        //row2
+                        tlp_registration.Controls.Add(cmbunit, 0, 6);
+                        tlp_registration.Controls.Add(cmbtax, 1, 6);
+                        tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                        tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
 
-                    //row3
-                    tlp_registration.Controls.Add(lbldes, 0, 7);
+                        //row3
+                        tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
+                        tlp_registration.Controls.Add(lbldes, 1, 7);
+                        //row4
+                        tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
+                        tlp_registration.Controls.Add(txtdesc, 1, 8);
+                        tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
 
-                    //row4
-                    tlp_registration.Controls.Add(txtdesc, 0, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+                        cmbIgstPrcnt.Focus();
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.Dock = DockStyle.Fill;
+                        lblvat.Dock = DockStyle.Fill;
+                        lbldes.Dock = DockStyle.Fill;
+                        cmbunit.Dock = DockStyle.Fill;
+                        //row1
+                        tlp_registration.Controls.Add(lblunit, 0, 5);
+                        tlp_registration.Controls.Add(lbltax, 1, 5);
+                        tlp_registration.Controls.Add(lbltaxtype, 2, 5);
+                        tlp_registration.Controls.Add(lblvat, 3, 5);
 
-                    cmbVatPrcnt.Focus();
+                        //row2
+                        tlp_registration.Controls.Add(cmbunit, 0, 6);
+                        tlp_registration.Controls.Add(cmbtax, 1, 6);
+                        tlp_registration.Controls.Add(cmbTaxType, 2, 6);
+                        tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+
+                        //row3
+                        tlp_registration.Controls.Add(lbldes, 0, 7);
+
+                        //row4
+                        tlp_registration.Controls.Add(txtdesc, 0, 8);
+                        tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+
+                        cmbVatPrcnt.Focus();
+                    }
+                    textb_shape();
                 }
             }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void txtdisper_Leave(object sender, EventArgs e)

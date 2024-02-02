@@ -161,7 +161,8 @@ namespace FoodandBeverage.Forms
         public int Splitypeno = 0;
         public int Existingsalemasterid = 0;
         private List<FrmDashboard.Namelist> checkedtableNames;
-        public decimal ReservationTotal = 0;
+        public decimal ReservationTotal = 0;        
+        public bool itemcode_serach_Status = false;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -1897,7 +1898,7 @@ namespace FoodandBeverage.Forms
 
                             tlp_seletedItem_col.Name = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product); 
                             tlp_seletedItem_col.Tag = clickedControl.Tag;
-                            tlp_seletedItem_col.AccessibleDescription = "0";
+                            tlp_seletedItem_col.AccessibleDescription = "1";
                             tlp_seletedItem_col.Dock = DockStyle.Top;
                             tlp_seletedItem_col.BackColor = Color.LightBlue;
                             tlp_seletedItem_col.Height = 45;
@@ -1918,7 +1919,7 @@ namespace FoodandBeverage.Forms
                             buttonAdd.Text = "+";
                             buttonAdd.Name = "buttonAdd_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
                             buttonAdd.Tag = gridSource[0].Field5;
-                            buttonAdd.AccessibleDescription = "1,"+Convert.ToInt32(Tabletype.Product);
+                            buttonAdd.AccessibleDescription = "1";
                             buttonAdd.BackColor = Color.Beige;
                             buttonAdd.Margin = new Padding(0, 14, 0, 0);
                             buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
@@ -2254,7 +2255,6 @@ namespace FoodandBeverage.Forms
                 {
                     //Checkoffer(id);
                     Control controlclose;
-                    pnlprice.Controls.Clear();
                     tlp_price_list.Controls.Clear();
                     tlp_price_list.Dock = DockStyle.Fill;
                     tlp_price_list.ColumnCount = 1;
@@ -2275,7 +2275,7 @@ namespace FoodandBeverage.Forms
                     closebutton.Click += new EventHandler(closebuttonClickEventHandler);
                     tlp_price_list.RowCount++;
                     tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                    tlp_price_list.Controls.Add(controlclose, 0, 0);
+                   // tlp_price_list.Controls.Add(controlclose, 0, 0);
 
                     Control control1, controlsrate, controlqty;
                     int rowIndex = 2;
@@ -2307,9 +2307,14 @@ namespace FoodandBeverage.Forms
                     // Add the TableLayoutPanel to the form
 
                     pnlprice.Visible = true;
+                    int panelWidthPercentage = 25;
+                    int panelheightPercentage = 40;
+                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                    pnlprice.Size = new Size(panelWidth, panelHeight);
                     pnlprice.Location = new Point(this.ClientSize.Width / 2 - pnlprice.Size.Width / 2, this.ClientSize.Height / 2 - pnlprice.Size.Height / 2);
-                    pnlprice.Controls.Add(tlp_price_list);
-
+                    tlp_price_list.AutoScroll = true;
+                    tlp_multipleprice.Controls.Add(tlp_price_list,0,1);
                 }
                 else
                 {
@@ -2347,9 +2352,10 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
                                     {
                                         Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value))
+                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                                         {
-
+                                            CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                            return;
                                         }
                                         else
                                         {
@@ -2368,16 +2374,15 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
-                                {
-
-                                    if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
-                                    {
-                                        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                                        totalcellamount(i);
-                                        break;
-                                    }
-                                }               
+                                //for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                                //{
+                                //    if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
+                                //    {
+                                //        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                //        totalcellamount(i);
+                                //        break;
+                                //    }
+                                //}               
 
                                 #region Grid Inseration multiple 
                                 r1 = Dgv_Selected_Item.RowCount - 1;
@@ -2437,8 +2442,8 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 tlp_seletedItem_col.Name = "tlp_seletedItem_col" + Convert.ToInt32(gridSourceDetails[0].Field15) + "_" + Convert.ToInt32(Tabletype.DirectSale); ;
-                                tlp_seletedItem_col.Tag = gridSource[0].Field4;
-                                tlp_seletedItem_col.AccessibleDescription = "1";
+                                tlp_seletedItem_col.Tag = gridSourceDetails[0].Field15;
+                                tlp_seletedItem_col.AccessibleDescription = "2";
                                 tlp_seletedItem_col.BackColor = Color.LightBlue;
                                 tlp_seletedItem_col.Height = 45;
 
@@ -2578,44 +2583,47 @@ namespace FoodandBeverage.Forms
 
                 if (tlp_sele != null)
                 {
-                    string txtname = "txtqty_" + clickedControl.AccessibleDescription + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                    TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
-                    int cur_qty = Convert.ToInt32(qty.Text) + 1;
-                    qty.Text = Convert.ToString(cur_qty);
-
+                    int rowno = 0;
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-
-                        if (Convert.ToInt32(gridSource[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
+                        if (Convert.ToInt32(gridSource[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value)== Convert.ToInt32(Tabletype.DirectSale))
                         {
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                            {
+                                CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) - 1;
+                                txtitemcode_serach.Text = "";
+                                txtitemcode_serach.Focus();
+                                return;
+                            }
+
                             totalcellamount(i);
+                            rowno = i;
+                            string txtname = "txtqty_" + clickedControl.AccessibleDescription + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                            TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
+                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                            qty.Text = Convert.ToString(cur_qty);
                             break;
-                        }
+                        }   
                     }
 
-                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(txtGrandTotal.Text);
+                    decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
                     txtGrandTotal.Text = Convert.ToString(totalamt);
                     netAmount();
+                    if (itemcode_serach_Status)
+                    {
+                        txtitemcode_serach.Text = "";
+                        txtitemcode_serach.Focus();
+                        itemcode_serach_Status = false;
+                    }
                     tlp_sele.Focus();
-
                 }
                 else
-                {
-                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
-                    {
-
-                        if (Convert.ToInt32(gridSource[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
-                        {
-                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            totalcellamount(i);
-                            break;
-                        }
-                    }
+                {                   
 
                     #region Grid Inseration
                     r1 = Dgv_Selected_Item.RowCount - 1;
-
                     Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
                     Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = gridSource[0].Field3;
@@ -2674,7 +2682,7 @@ namespace FoodandBeverage.Forms
 
                     tlp_seletedItem_col.Name = "tlp_seletedItem_col" + Convert.ToInt32(gridSource[0].Field15) + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     tlp_seletedItem_col.Tag = clickedControl.Tag;
-                    tlp_seletedItem_col.AccessibleDescription = "1";
+                    tlp_seletedItem_col.AccessibleDescription = "2";
                     tlp_seletedItem_col.BackColor = Color.LightBlue;
                     tlp_seletedItem_col.Height = 45;
 
@@ -2683,7 +2691,7 @@ namespace FoodandBeverage.Forms
                     buttonitemname.Text = gridSource[0].Field1;
                     buttonitemname.Name = "buttonitemname_" + gridSource[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     buttonitemname.Tag = gridSource[0].Field15;
-                    buttonitemname.AccessibleDescription = "1"+ Convert.ToInt32(Tabletype.DirectSale);
+                    buttonitemname.AccessibleDescription = "1";
                     buttonitemname.BackColor = Color.Beige;
                     buttonitemname.Height = 40;
                     buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
@@ -2705,7 +2713,7 @@ namespace FoodandBeverage.Forms
                     txtqty.Text = "1";
                     txtqty.Name = "txtqty_" + gridSource[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     txtqty.Tag = gridSource[0].Field15;
-                    txtqty.AccessibleDescription = "2" + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                    txtqty.AccessibleDescription = "2";
                     txtqty.BackColor = Color.Beige;
                     txtqty.TextAlign = HorizontalAlignment.Center;
                     txtqty.Margin = new Padding(0, 14, 0, 0);
@@ -2738,7 +2746,7 @@ namespace FoodandBeverage.Forms
                     // Configure Item Delete Button
                     PictureBox pb_item_delete = new PictureBox();
                     pb_item_delete.Name = "btn_remove_" + gridSource[0].Field15;
-                    pb_item_delete.Tag = gridSource[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                    pb_item_delete.Tag = gridSource[0].Field15;
                     pb_item_delete.AccessibleDescription = "2";
                     pb_item_delete.BackColor = Color.Transparent;
                     pb_item_delete.Dock = DockStyle.Top;
@@ -2771,9 +2779,17 @@ namespace FoodandBeverage.Forms
                     tlp_seletedItem_col.RowCount = currentRowCount + 1;
                     // Add the new TableLayoutPanel to tlp_seletedItem_main
                     tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
-
+        
                     tlp_seletedItem_col.Focus();
+
+                    if (itemcode_serach_Status)
+                    {
+                        txtitemcode_serach.Text = "";
+                        txtitemcode_serach.Focus();
+                        itemcode_serach_Status = false;
+                    }
                 }
+                checksave_refresh();
 
             }
             catch (Exception ex)
@@ -2986,12 +3002,14 @@ namespace FoodandBeverage.Forms
                     int cur_qty = 0;
                     TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                     if (tlp_sele != null)
-                        if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 1)
+                        if (Convert.ToInt32(tlp_sele.AccessibleDescription) == Convert.ToInt32(Tabletype.DirectSale))
                             CalcTotalAmt_remove_Prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
                     else if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 3)
-                        CalcTotalAmt_remove_Combo(Convert.ToInt32(clickedControl.Tag), cur_qty);
-                    else
+                            CalcTotalAmt_remove_Combo(Convert.ToInt32(clickedControl.Tag), cur_qty);   
+                    else                        
                             CalcTotalAmt_remove(Convert.ToInt32(tlp_sele.Tag), cur_qty);
+                        
+
                     foreach (Control control in tlp_seletedItem_main.Controls)
                     {
                         if (control.Name == tlpname)
@@ -3043,7 +3061,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (tlp_sele != null)
                         {
-                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 1)
+                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == Convert.ToInt32(Tabletype.DirectSale))
                                 CalcTotalAmt_remove_Prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
                             else if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 3)
                                 CalcTotalAmt_remove_Combo(Convert.ToInt32(clickedControl.Tag), cur_qty);
@@ -3065,7 +3083,7 @@ namespace FoodandBeverage.Forms
                     {
                         txtqty.Text = Convert.ToString(cur_qty);
                         if (tlp_sele != null)
-                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 1)
+                            if (Convert.ToInt32(tlp_sele.AccessibleDescription) == Convert.ToInt32(Tabletype.DirectSale))
                                 CalcTotalAmt_remove_Prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
                             else if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 3)
                                 CalcTotalAmt_remove_Combo(Convert.ToInt32(clickedControl.Tag), cur_qty);
@@ -3179,17 +3197,25 @@ namespace FoodandBeverage.Forms
                 TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
                 TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                 if (qty != null)
-                {
-                    int cur_qty = Convert.ToInt32(qty.Text) + 1;
-                    qty.Text = Convert.ToString(cur_qty);
+                { 
                     if (tlp_sele != null)
                     {
-                        if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 1)
-                            CalcTotalAmt_Add_prid(Convert.ToInt32(clickedControl.Tag), cur_qty);
+                        if (Convert.ToInt32(tlp_sele.AccessibleDescription) == Convert.ToInt32(Tabletype.DirectSale))
+                            CalcTotalAmt_Add_prid(Convert.ToInt32(clickedControl.Tag),0);
                         else if (Convert.ToInt32(tlp_sele.AccessibleDescription) == 3)
+                        {
+                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                            qty.Text = Convert.ToString(cur_qty);
                             CalcTotalAmt_Add_Combo(Convert.ToInt32(clickedControl.Tag), cur_qty);
+                        }
+
                         else
+                        {
+                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                            qty.Text = Convert.ToString(cur_qty);
                             CalcTotalAmt_Add(Convert.ToInt32(tlp_sele.Tag), cur_qty);
+                        }
+
                     }
                     netAmount();
                     GridSlno_Refresh();
@@ -3201,7 +3227,7 @@ namespace FoodandBeverage.Forms
             }
         }
         #region Quantity calculation _Deletion Combo Product Item
-        public void CalcTotalAmt_Add_prid(int prid, int qty)
+        public void CalcTotalAmt_Add_prid(int prid, int producttype)
         {
             try
             {
@@ -3224,10 +3250,19 @@ namespace FoodandBeverage.Forms
                     int rowno = 0;
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-
                         if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) &&  Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value)==2)
                         {
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                            {
+                                CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                return;
+                            }
+                            
+                            string txtname = "txtqty_" + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                            TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
+                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                            qty.Text = Convert.ToString(cur_qty);
                             totalcellamount(i);
                             rowno = i;
                             break;
@@ -3271,7 +3306,7 @@ namespace FoodandBeverage.Forms
 
                         for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                         {
-                            if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 2)
+                            if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
                             {
                                 rowno = i;
                                 break;
@@ -3279,6 +3314,7 @@ namespace FoodandBeverage.Forms
                         }
                         string txtqty = "txtqty_" + prid + "_" + Convert.ToInt32(Tabletype.DirectSale);
                         TextBox totalqty = this.Controls.Find(txtqty, true).FirstOrDefault() as TextBox;
+
                         TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) * Convert.ToDecimal(totalqty.Text);
                         decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                         txtGrandTotal.Text = Convert.ToString(totalamt);
@@ -3886,7 +3922,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (j == 1)
                         {
-                            dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.saletype Field5";
+                            dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.Producttype Field5";
                             dmnSearch.Table = "tblProduct p " +
                                 "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId " +
                                 "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
@@ -3895,7 +3931,7 @@ namespace FoodandBeverage.Forms
                         }
                         if (j == 2)
                         {
-                            dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.saletype Field5";
+                            dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.Producttype Field5";
                             dmnSearch.Table = "tblItem i " +
                                 "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId " +
                                 "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
@@ -4447,560 +4483,563 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    pnl_serachproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                    tlp_searchproduct_dashboard.AutoScroll = true;
+                    if (txtname_search.Text != null && txtname_search.Text != "")
+                    {
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        pnl_serachproduct_dashboard.Controls.Clear();
+                        tlp_searchproduct_dashboard.Controls.Clear();
+                        tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
+                        tlp_searchproduct_dashboard.AutoScroll = true;
 
-                    int rowIndex = 1;
-                    int columnIndex = 0;
-                    int columnIndex_p = 0;
-                    bool flag = false;
+                        int rowIndex = 1;
+                        int columnIndex = 0;
+                        int columnIndex_p = 0;
+                        bool flag = false;
 
-                    dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3 ,ofm.Omid Field4,0 Field5,ofm.Discountper Field6";
-                    dmnSearch.Table = " tblProduct p " +
-                        " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                        " LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and  ofd.Status=1 " +
-                        " LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()" +
-                        " where p.Status=1 and m.Status=1  and p.Product LIKE'%" + txtname_search.Text + "%'" +
+                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3 ,ofm.Omid Field4,0 Field5,ofm.Discountper Field6";
+                        dmnSearch.Table = " tblProduct p " +
+                            " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                            " LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and  ofd.Status=1 " +
+                            " LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()" +
+                            " where p.Status=1 and m.Status=1  and p.Product LIKE'%" + txtname_search.Text + "%'" +
 
-                        " Union Select Itemname as Field1,ItemId as Field2,i.Saletype as Field3,ofm.Omid Field4,0 Field5,ofm.Discountper Field6 from " +
-                        " tblItem i " +
-                        " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
-                        " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
-                        " where i.Saletype = 1  and i.Status = 1  and i.Itemname LIKE '" + txtname_search.Text + " % '" +
+                            " Union Select Itemname as Field1,ItemId as Field2,i.Saletype as Field3,ofm.Omid Field4,0 Field5,ofm.Discountper Field6 from " +
+                            " tblItem i " +
+                            " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
+                            " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
+                            " where i.Saletype = 1  and i.Status = 1  and i.Itemname LIKE '" + txtname_search.Text + " % '" +
 
-                        " Union select  OfferName as Field1,0 as Field2,2 as Field3,0 Field4,Omid Field5,0 Field6 from tblOfferMaster ";
-                    dmnSearch.WhereNdGroupBy = " where Status=1 AND OfferType=1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and OfferName LIKE '%" + txtname_search.Text + "%'";
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                     if (gridSource.Count > 0)
-                     {
-                        #region LINQ sort Code
-                        //var sortedGridSource = gridSource
-                        //.OrderBy(item => Convert.ToInt32(item.Field4) > 0 ? 0 : (Convert.ToInt32(item.Field5) > 0 ? 1 : 2))
-                        //.ThenBy(item => item.Field1);
-
-                        //foreach (var item in sortedGridSource)
-                        //{
-                        //    if (Convert.ToInt32(item.Field4) > 0)
-                        //    {
-                        //        #region with offer product and item
-
-                        //        if (columnIndex == 2)
-                        //        {
-                        //            columnIndex = 0;
-                        //            rowIndex++;
-                        //        }
-                        //        // Main Panel for each product
-                        //        Panel panelProductBox = new Panel();
-                        //        panelProductBox.Name = "panel_product_box" + item.Field1;
-                        //        panelProductBox.Dock = DockStyle.None;
-                        //        panelProductBox.Width = 190;
-                        //        panelProductBox.Height = 73;
-                        //        panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
-                        //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                        //        ToolTip tooltip = new ToolTip();
-
-                        //        // Configure the Button
-                        //        Button button = new Button();
-                        //        button.Text = item.Field1;
-                        //        button.Name = "btn" + item.Field1;
-                        //        button.Tag = item.Field2;
-
-                        //        if (Convert.ToInt32(item.Field3) == 0)
-                        //            button.AccessibleDescription = "0";
-                        //        else
-                        //            button.AccessibleDescription = "1";
-
-                        //        button.FlatAppearance.BorderSize = 0;
-                        //        button.FlatAppearance.BorderColor = button.BackColor;
-                        //        button.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        //button.Margin = new Padding(10, 30, 0, 0); 
-                        //        button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
-                        //        button.Width = 170;
-                        //        button.Height = 50;
-                        //        button.FlatStyle = FlatStyle.Flat;
-                        //        button.BackColor = product_buttoncolor;
-                        //        button.ForeColor = Color.White;
-                        //        button.Padding = new Padding(16, 0, 0, 0);
-                        //        tooltip.SetToolTip(button, item.Field1 + " " + item.Field4 + "%");
-                        //        //// Create a circular Region
-                        //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                        //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        //        button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                        //        button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                        //        panelProductBox.Controls.Add(button);
-
-
-                        //        // Button offer
-                        //        Button buttonoffer = new Button();
-                        //        buttonoffer.Name = "btnFav" + item.Field1;
-                        //        buttonoffer.Tag = item.Field2;
-                        //        if (Convert.ToInt32(item.Field3) == 0)
-                        //            buttonoffer.AccessibleDescription = "0";
-                        //        else
-                        //            buttonoffer.AccessibleDescription = "1";
-                        //        buttonoffer.Width = 50;
-                        //        buttonoffer.Height = 45;
-                        //        buttonoffer.FlatStyle = FlatStyle.Flat;
-                        //        buttonoffer.FlatAppearance.BorderSize = 0;
-                        //        buttonoffer.Text = item.Field6;
-                        //        buttonoffer.ForeColor = Color.White;
-                        //        buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        buttonoffer.BackColor = product_buttoncolor;
-                        //        tooltip.SetToolTip(buttonoffer, item.Field1 + " " + item.Field6 + "%");
-                        //        buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
-                        //        buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
-                        //        buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        //        buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                        //        buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                        //        panelProductBox.Controls.Add(buttonoffer);
-                        //        buttonoffer.BringToFront();
-
-                        //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                        //        columnIndex++;
-                        //        #endregion
-                        //    }
-                        //    else if (Convert.ToInt32(item.Field5) > 0)
-                        //    {
-                        //        #region Combo product
-
-                        //        if (columnIndex == 2)
-                        //        {
-                        //            columnIndex = 0;
-                        //            rowIndex++;
-                        //        }
-
-                        //        // Main Panel for each product
-                        //        Panel panelProductBox = new Panel();
-                        //        panelProductBox.Name = "panel_product_box" + item.Field1;
-                        //        panelProductBox.Dock = DockStyle.None;
-                        //        panelProductBox.Width = 190;
-                        //        panelProductBox.Height = 73;
-                        //        panelProductBox.BackColor = Color.Transparent;//product_buttoncolor;
-                        //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                        //        ToolTip tooltip = new ToolTip();
-
-                        //        // Create a TableLayoutPanel
-                        //        TableLayoutPanel tlp_box_combo = new TableLayoutPanel();
-                        //        tlp_box_combo.Name = "tlp_box_combo" + item.Field1;
-                        //        tlp_box_combo.Dock = DockStyle.None;
-                        //        tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
-                        //        tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
-                        //        tlp_box_combo.Location = new Point(0, panelProductBox.Top + 20);
-                        //        tlp_box_combo.Width = 190;
-                        //        tlp_box_combo.Height = 50;
-
-
-                        //        // Configure the Button
-                        //        Button button = new Button();
-                        //        button.Text = item.Field1;
-                        //        button.Name = "btn" + item.Field1;
-                        //        button.Tag = item.Field2;
-                        //        button.Padding = new Padding(16, 0, 0, 0);
-                        //        //button.Margin = new Padding(0);
-                        //        button.AccessibleDescription = "3";
-                        //        button.FlatAppearance.BorderSize = 0;
-                        //        button.FlatAppearance.BorderColor = button.BackColor;
-                        //        button.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        button.Width = 158;
-                        //        button.Height = 50;
-                        //        button.FlatStyle = FlatStyle.Flat;
-                        //        button.BackColor = product_buttoncolor;
-                        //        button.ForeColor = Color.White;
-                        //        tooltip.SetToolTip(button, item.Field1 + " " + item.Field4 + "%");
-                        //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        //        button.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
-                        //        button.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
-                        //        // Create a circular Region
-                        //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                        //        tlp_box_combo.Controls.Add(button, 0, 0);
-
-                        //        // Configure the btnviewmore
-                        //        Button btnviewmore = new Button();
-                        //        btnviewmore.Text = ">";
-                        //        btnviewmore.Name = "btnviewmore_" + item.Field5; // Change the btnviewmore name to "viewmore"
-                        //        btnviewmore.Tag = item.Field5;
-                        //        btnviewmore.AccessibleDescription = "3";
-                        //        btnviewmore.FlatAppearance.BorderSize = 0;
-                        //        btnviewmore.Margin = new Padding(0);
-                        //        btnviewmore.FlatAppearance.BorderColor = btnviewmore.BackColor;
-                        //        btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        btnviewmore.Width = 30;
-                        //        btnviewmore.Height = 50;
-                        //        //btnviewmore.Dock = DockStyle.Top;
-                        //        btnviewmore.FlatStyle = FlatStyle.Flat;
-                        //        btnviewmore.BackColor = Color.Gold;
-                        //        btnviewmore.ForeColor = Color.Black;
-                        //        //tooltip.SetToolTip(btnviewmore, item.Field1 + " " + item.Field4 + "%");
-                        //        btnviewmore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
-                        //        btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
-                        //        tlp_box_combo.Controls.Add(btnviewmore, 1, 0);
-
-                        //        panelProductBox.Controls.Add(tlp_box_combo);
-
-                        //        // Button fav
-                        //        Button buttoncombo = new Button();
-                        //        buttoncombo.Name = "buttoncombo" + item.Field1;
-                        //        buttoncombo.Tag = item.Field2;
-                        //        buttoncombo.AccessibleDescription = "3";
-                        //        buttoncombo.Width = 50;
-                        //        buttoncombo.Height = 40;
-                        //        buttoncombo.FlatStyle = FlatStyle.Flat;
-                        //        buttoncombo.FlatAppearance.BorderSize = 0;
-                        //        buttoncombo.Text = item.Field4;
-                        //        buttoncombo.ForeColor = Color.White;
-                        //        buttoncombo.BackColor = product_buttoncolor;
-                        //        buttoncombo.Location = new Point(panelProductBox.Left + 3, panelProductBox.Top);
-                        //        buttoncombo.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        buttoncombo.BackgroundImage = Properties.Resources.combo_button_percentage;
-                        //        buttoncombo.BackgroundImageLayout = ImageLayout.Stretch;
-                        //        tooltip.SetToolTip(buttoncombo, item.Field1 + " " + item.Field4 + "%");
-                        //        buttoncombo.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        //        buttoncombo.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
-                        //        buttoncombo.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
-                        //        panelProductBox.Controls.Add(buttoncombo);
-                        //        buttoncombo.BringToFront();
-                        //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                        //        columnIndex++;
-
-                        //        #endregion
-                        //    }
-                        //    else
-                        //    {
-                        //        #region without offer product and item
-
-                        //        if(flag==false)
-                        //        {
-                        //            rowIndex++;
-                        //            flag = true;
-                        //        }
-
-                        //        if (columnIndex_p == 3)
-                        //        {
-                        //            columnIndex_p = 0;
-                        //            rowIndex++;
-                        //        }
-
-                        //        // Main Panel for each product
-                        //        Panel panelProductBox = new Panel();
-                        //        panelProductBox.Name = "panel_product_box" + item.Field1;
-                        //        panelProductBox.Dock = DockStyle.None;
-                        //        panelProductBox.Width = 150;
-                        //        panelProductBox.Height = 55;
-                        //        panelProductBox.BackColor = product_buttoncolor;
-                        //        panelProductBox.Margin = new Padding(3, 10, 0, 0);
-
-                        //        // Configure the Button
-                        //        Button button = new Button();
-                        //        button.Text = item.Field1;
-                        //        button.Name = "btn" + item.Field1;
-                        //        button.Tag = item.Field2;
-                        //        button.AccessibleDescription = item.Field3;
-                        //        button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                        //        button.FlatAppearance.BorderColor = button.BackColor;
-                        //        button.ForeColor = Color.White;
-                        //        button.Width = 120;
-                        //        button.Height = 50;
-                        //        button.Font = new Font("Arial", 9, FontStyle.Bold);
-                        //        button.FlatStyle = FlatStyle.Flat;
-                        //        button.BackColor = product_buttoncolor;
-                        //        //// Create a circular Region
-                        //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                        //        //button.Dock = DockStyle.Fill;
-                        //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        //        panelProductBox.Controls.Add(button);
-
-                        //        // PictureBox fav
-                        //        PictureBox pictureBoxFav = new PictureBox();
-                        //        pictureBoxFav.Name = "picBoxFav" + item.Field1;
-                        //        pictureBoxFav.Tag = item.Field2;
-                        //        pictureBoxFav.AccessibleDescription = item.Field3;
-                        //        pictureBoxFav.Width = 20;
-                        //        pictureBoxFav.Height = 15;
-                        //        pictureBoxFav.BorderStyle = BorderStyle.None;
-                        //        pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
-                        //        pictureBoxFav.Image = null;
-                        //        if (Convert.ToInt32(item.Field4) == 1)
-                        //            pictureBoxFav.Image = Properties.Resources.yellow_star;
-                        //        else
-                        //            pictureBoxFav.Image = Properties.Resources.white_star;
-
-                        //        pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
-                        //        panelProductBox.Controls.Add(pictureBoxFav);
-                        //        pictureBoxFav.BringToFront();
-
-                        //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex_p, rowIndex);
-                        //        columnIndex_p++;
-
-                        //        #endregion
-                        //    }
-                        //}
-
-                        #endregion
-
-                        for (int i = 0; i < gridSource.Count; i++)
+                            " Union select  OfferName as Field1,0 as Field2,2 as Field3,0 Field4,Omid Field5,0 Field6 from tblOfferMaster ";
+                        dmnSearch.WhereNdGroupBy = " where Status=1 AND OfferType=1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and OfferName LIKE '%" + txtname_search.Text + "%'";
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
                         {
+                            #region LINQ sort Code
+                            //var sortedGridSource = gridSource
+                            //.OrderBy(item => Convert.ToInt32(item.Field4) > 0 ? 0 : (Convert.ToInt32(item.Field5) > 0 ? 1 : 2))
+                            //.ThenBy(item => item.Field1);
 
-                            #region with offer product and item
-                            if (Convert.ToInt32(gridSource[i].Field4) > 0)
-                            {
-                                if (columnIndex == 2)
-                                {
-                                    columnIndex = 0;
-                                    rowIndex++;
-                                }
-                                // Main Panel for each product
-                                Panel panelProductBox = new Panel();
-                                panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
-                                panelProductBox.Dock = DockStyle.None;
-                                panelProductBox.Width = 190;
-                                panelProductBox.Height = 73;
-                                panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
-                                panelProductBox.Margin = new Padding(10, 10, 0, 0);
+                            //foreach (var item in sortedGridSource)
+                            //{
+                            //    if (Convert.ToInt32(item.Field4) > 0)
+                            //    {
+                            //        #region with offer product and item
 
-                                ToolTip tooltip = new ToolTip();
+                            //        if (columnIndex == 2)
+                            //        {
+                            //            columnIndex = 0;
+                            //            rowIndex++;
+                            //        }
+                            //        // Main Panel for each product
+                            //        Panel panelProductBox = new Panel();
+                            //        panelProductBox.Name = "panel_product_box" + item.Field1;
+                            //        panelProductBox.Dock = DockStyle.None;
+                            //        panelProductBox.Width = 190;
+                            //        panelProductBox.Height = 73;
+                            //        panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
+                            //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
 
-                                // Configure the Button
-                                Button button = new Button();
-                                button.Text = gridSource[i].Field1;
-                                button.Name = "btn" + gridSource[i].Field1;
-                                button.Tag = gridSource[i].Field2;
+                            //        ToolTip tooltip = new ToolTip();
 
-                                if (Convert.ToInt32(gridSource[i].Field3) == 0)
-                                    button.AccessibleDescription = "0";
-                                else
-                                    button.AccessibleDescription = "1";
+                            //        // Configure the Button
+                            //        Button button = new Button();
+                            //        button.Text = item.Field1;
+                            //        button.Name = "btn" + item.Field1;
+                            //        button.Tag = item.Field2;
 
-                                button.FlatAppearance.BorderSize = 0;
-                                button.FlatAppearance.BorderColor = button.BackColor;
-                                button.Font = new Font("Arial", 9, FontStyle.Bold);
-                                //button.Margin = new Padding(10, 30, 0, 0); 
-                                button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
-                                button.Width = 170;
-                                button.Height = 50;
-                                button.FlatStyle = FlatStyle.Flat;
-                                button.BackColor = product_buttoncolor;
-                                button.ForeColor = Color.White;
-                                button.Padding = new Padding(16, 0, 0, 0);
-                                tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
-                                //// Create a circular Region
-                                button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                                button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                                button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                                panelProductBox.Controls.Add(button);
+                            //        if (Convert.ToInt32(item.Field3) == 0)
+                            //            button.AccessibleDescription = "0";
+                            //        else
+                            //            button.AccessibleDescription = "1";
+
+                            //        button.FlatAppearance.BorderSize = 0;
+                            //        button.FlatAppearance.BorderColor = button.BackColor;
+                            //        button.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        //button.Margin = new Padding(10, 30, 0, 0); 
+                            //        button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
+                            //        button.Width = 170;
+                            //        button.Height = 50;
+                            //        button.FlatStyle = FlatStyle.Flat;
+                            //        button.BackColor = product_buttoncolor;
+                            //        button.ForeColor = Color.White;
+                            //        button.Padding = new Padding(16, 0, 0, 0);
+                            //        tooltip.SetToolTip(button, item.Field1 + " " + item.Field4 + "%");
+                            //        //// Create a circular Region
+                            //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                            //        button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                            //        panelProductBox.Controls.Add(button);
 
 
-                                // Button offer
-                                Button buttonoffer = new Button();
-                                buttonoffer.Name = "btnFav" + gridSource[i].Field1;
-                                buttonoffer.Tag = gridSource[i].Field2;
-                                if (Convert.ToInt32(gridSource[i].Field3) == 0)
-                                    buttonoffer.AccessibleDescription = "0";
-                                else
-                                    buttonoffer.AccessibleDescription = "1";
-                                buttonoffer.Width = 50;
-                                buttonoffer.Height = 45;
-                                buttonoffer.FlatStyle = FlatStyle.Flat;
-                                buttonoffer.FlatAppearance.BorderSize = 0;
-                                buttonoffer.Text = gridSource[i].Field6;
-                                buttonoffer.ForeColor = Color.White;
-                                buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
-                                buttonoffer.BackColor = product_buttoncolor;
-                                tooltip.SetToolTip(buttonoffer, gridSource[i].Field1 + " " + gridSource[i].Field6 + "%");
-                                buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
-                                buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
-                                buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                                buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                                panelProductBox.Controls.Add(buttonoffer);
-                                buttonoffer.BringToFront();
+                            //        // Button offer
+                            //        Button buttonoffer = new Button();
+                            //        buttonoffer.Name = "btnFav" + item.Field1;
+                            //        buttonoffer.Tag = item.Field2;
+                            //        if (Convert.ToInt32(item.Field3) == 0)
+                            //            buttonoffer.AccessibleDescription = "0";
+                            //        else
+                            //            buttonoffer.AccessibleDescription = "1";
+                            //        buttonoffer.Width = 50;
+                            //        buttonoffer.Height = 45;
+                            //        buttonoffer.FlatStyle = FlatStyle.Flat;
+                            //        buttonoffer.FlatAppearance.BorderSize = 0;
+                            //        buttonoffer.Text = item.Field6;
+                            //        buttonoffer.ForeColor = Color.White;
+                            //        buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        buttonoffer.BackColor = product_buttoncolor;
+                            //        tooltip.SetToolTip(buttonoffer, item.Field1 + " " + item.Field6 + "%");
+                            //        buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
+                            //        buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
+                            //        buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                            //        buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                            //        panelProductBox.Controls.Add(buttonoffer);
+                            //        buttonoffer.BringToFront();
 
-                                tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                                columnIndex++;
-                            }
+                            //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                            //        columnIndex++;
+                            //        #endregion
+                            //    }
+                            //    else if (Convert.ToInt32(item.Field5) > 0)
+                            //    {
+                            //        #region Combo product
+
+                            //        if (columnIndex == 2)
+                            //        {
+                            //            columnIndex = 0;
+                            //            rowIndex++;
+                            //        }
+
+                            //        // Main Panel for each product
+                            //        Panel panelProductBox = new Panel();
+                            //        panelProductBox.Name = "panel_product_box" + item.Field1;
+                            //        panelProductBox.Dock = DockStyle.None;
+                            //        panelProductBox.Width = 190;
+                            //        panelProductBox.Height = 73;
+                            //        panelProductBox.BackColor = Color.Transparent;//product_buttoncolor;
+                            //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
+
+                            //        ToolTip tooltip = new ToolTip();
+
+                            //        // Create a TableLayoutPanel
+                            //        TableLayoutPanel tlp_box_combo = new TableLayoutPanel();
+                            //        tlp_box_combo.Name = "tlp_box_combo" + item.Field1;
+                            //        tlp_box_combo.Dock = DockStyle.None;
+                            //        tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
+                            //        tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
+                            //        tlp_box_combo.Location = new Point(0, panelProductBox.Top + 20);
+                            //        tlp_box_combo.Width = 190;
+                            //        tlp_box_combo.Height = 50;
+
+
+                            //        // Configure the Button
+                            //        Button button = new Button();
+                            //        button.Text = item.Field1;
+                            //        button.Name = "btn" + item.Field1;
+                            //        button.Tag = item.Field2;
+                            //        button.Padding = new Padding(16, 0, 0, 0);
+                            //        //button.Margin = new Padding(0);
+                            //        button.AccessibleDescription = "3";
+                            //        button.FlatAppearance.BorderSize = 0;
+                            //        button.FlatAppearance.BorderColor = button.BackColor;
+                            //        button.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        button.Width = 158;
+                            //        button.Height = 50;
+                            //        button.FlatStyle = FlatStyle.Flat;
+                            //        button.BackColor = product_buttoncolor;
+                            //        button.ForeColor = Color.White;
+                            //        tooltip.SetToolTip(button, item.Field1 + " " + item.Field4 + "%");
+                            //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        button.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
+                            //        button.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
+                            //        // Create a circular Region
+                            //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            //        tlp_box_combo.Controls.Add(button, 0, 0);
+
+                            //        // Configure the btnviewmore
+                            //        Button btnviewmore = new Button();
+                            //        btnviewmore.Text = ">";
+                            //        btnviewmore.Name = "btnviewmore_" + item.Field5; // Change the btnviewmore name to "viewmore"
+                            //        btnviewmore.Tag = item.Field5;
+                            //        btnviewmore.AccessibleDescription = "3";
+                            //        btnviewmore.FlatAppearance.BorderSize = 0;
+                            //        btnviewmore.Margin = new Padding(0);
+                            //        btnviewmore.FlatAppearance.BorderColor = btnviewmore.BackColor;
+                            //        btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        btnviewmore.Width = 30;
+                            //        btnviewmore.Height = 50;
+                            //        //btnviewmore.Dock = DockStyle.Top;
+                            //        btnviewmore.FlatStyle = FlatStyle.Flat;
+                            //        btnviewmore.BackColor = Color.Gold;
+                            //        btnviewmore.ForeColor = Color.Black;
+                            //        //tooltip.SetToolTip(btnviewmore, item.Field1 + " " + item.Field4 + "%");
+                            //        btnviewmore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
+                            //        btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
+                            //        tlp_box_combo.Controls.Add(btnviewmore, 1, 0);
+
+                            //        panelProductBox.Controls.Add(tlp_box_combo);
+
+                            //        // Button fav
+                            //        Button buttoncombo = new Button();
+                            //        buttoncombo.Name = "buttoncombo" + item.Field1;
+                            //        buttoncombo.Tag = item.Field2;
+                            //        buttoncombo.AccessibleDescription = "3";
+                            //        buttoncombo.Width = 50;
+                            //        buttoncombo.Height = 40;
+                            //        buttoncombo.FlatStyle = FlatStyle.Flat;
+                            //        buttoncombo.FlatAppearance.BorderSize = 0;
+                            //        buttoncombo.Text = item.Field4;
+                            //        buttoncombo.ForeColor = Color.White;
+                            //        buttoncombo.BackColor = product_buttoncolor;
+                            //        buttoncombo.Location = new Point(panelProductBox.Left + 3, panelProductBox.Top);
+                            //        buttoncombo.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        buttoncombo.BackgroundImage = Properties.Resources.combo_button_percentage;
+                            //        buttoncombo.BackgroundImageLayout = ImageLayout.Stretch;
+                            //        tooltip.SetToolTip(buttoncombo, item.Field1 + " " + item.Field4 + "%");
+                            //        buttoncombo.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        buttoncombo.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
+                            //        buttoncombo.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
+                            //        panelProductBox.Controls.Add(buttoncombo);
+                            //        buttoncombo.BringToFront();
+                            //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                            //        columnIndex++;
+
+                            //        #endregion
+                            //    }
+                            //    else
+                            //    {
+                            //        #region without offer product and item
+
+                            //        if(flag==false)
+                            //        {
+                            //            rowIndex++;
+                            //            flag = true;
+                            //        }
+
+                            //        if (columnIndex_p == 3)
+                            //        {
+                            //            columnIndex_p = 0;
+                            //            rowIndex++;
+                            //        }
+
+                            //        // Main Panel for each product
+                            //        Panel panelProductBox = new Panel();
+                            //        panelProductBox.Name = "panel_product_box" + item.Field1;
+                            //        panelProductBox.Dock = DockStyle.None;
+                            //        panelProductBox.Width = 150;
+                            //        panelProductBox.Height = 55;
+                            //        panelProductBox.BackColor = product_buttoncolor;
+                            //        panelProductBox.Margin = new Padding(3, 10, 0, 0);
+
+                            //        // Configure the Button
+                            //        Button button = new Button();
+                            //        button.Text = item.Field1;
+                            //        button.Name = "btn" + item.Field1;
+                            //        button.Tag = item.Field2;
+                            //        button.AccessibleDescription = item.Field3;
+                            //        button.FlatAppearance.BorderSize = 0; // Set border width to 0
+                            //        button.FlatAppearance.BorderColor = button.BackColor;
+                            //        button.ForeColor = Color.White;
+                            //        button.Width = 120;
+                            //        button.Height = 50;
+                            //        button.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        button.FlatStyle = FlatStyle.Flat;
+                            //        button.BackColor = product_buttoncolor;
+                            //        //// Create a circular Region
+                            //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            //        //button.Dock = DockStyle.Fill;
+                            //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        panelProductBox.Controls.Add(button);
+
+                            //        // PictureBox fav
+                            //        PictureBox pictureBoxFav = new PictureBox();
+                            //        pictureBoxFav.Name = "picBoxFav" + item.Field1;
+                            //        pictureBoxFav.Tag = item.Field2;
+                            //        pictureBoxFav.AccessibleDescription = item.Field3;
+                            //        pictureBoxFav.Width = 20;
+                            //        pictureBoxFav.Height = 15;
+                            //        pictureBoxFav.BorderStyle = BorderStyle.None;
+                            //        pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
+                            //        pictureBoxFav.Image = null;
+                            //        if (Convert.ToInt32(item.Field4) == 1)
+                            //            pictureBoxFav.Image = Properties.Resources.yellow_star;
+                            //        else
+                            //            pictureBoxFav.Image = Properties.Resources.white_star;
+
+                            //        pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
+                            //        panelProductBox.Controls.Add(pictureBoxFav);
+                            //        pictureBoxFav.BringToFront();
+
+                            //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex_p, rowIndex);
+                            //        columnIndex_p++;
+
+                            //        #endregion
+                            //    }
+                            //}
+
                             #endregion
 
-                            #region Combo product
-                            else if (Convert.ToInt32(gridSource[i].Field5) > 0)
+                            for (int i = 0; i < gridSource.Count; i++)
                             {
-                                if (columnIndex == 2)
+
+                                #region with offer product and item
+                                if (Convert.ToInt32(gridSource[i].Field4) > 0)
                                 {
-                                    columnIndex = 0;
-                                    rowIndex++;
+                                    if (columnIndex == 2)
+                                    {
+                                        columnIndex = 0;
+                                        rowIndex++;
+                                    }
+                                    // Main Panel for each product
+                                    Panel panelProductBox = new Panel();
+                                    panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
+                                    panelProductBox.Dock = DockStyle.None;
+                                    panelProductBox.Width = 190;
+                                    panelProductBox.Height = 73;
+                                    panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
+                                    panelProductBox.Margin = new Padding(10, 10, 0, 0);
+
+                                    ToolTip tooltip = new ToolTip();
+
+                                    // Configure the Button
+                                    Button button = new Button();
+                                    button.Text = gridSource[i].Field1;
+                                    button.Name = "btn" + gridSource[i].Field1;
+                                    button.Tag = gridSource[i].Field2;
+
+                                    if (Convert.ToInt32(gridSource[i].Field3) == 0)
+                                        button.AccessibleDescription = "0";
+                                    else
+                                        button.AccessibleDescription = "1";
+
+                                    button.FlatAppearance.BorderSize = 0;
+                                    button.FlatAppearance.BorderColor = button.BackColor;
+                                    button.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    //button.Margin = new Padding(10, 30, 0, 0); 
+                                    button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
+                                    button.Width = 170;
+                                    button.Height = 50;
+                                    button.FlatStyle = FlatStyle.Flat;
+                                    button.BackColor = product_buttoncolor;
+                                    button.ForeColor = Color.White;
+                                    button.Padding = new Padding(16, 0, 0, 0);
+                                    tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
+                                    //// Create a circular Region
+                                    button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                                    button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                                    button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                                    button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                                    panelProductBox.Controls.Add(button);
+
+
+                                    // Button offer
+                                    Button buttonoffer = new Button();
+                                    buttonoffer.Name = "btnFav" + gridSource[i].Field1;
+                                    buttonoffer.Tag = gridSource[i].Field2;
+                                    if (Convert.ToInt32(gridSource[i].Field3) == 0)
+                                        buttonoffer.AccessibleDescription = "0";
+                                    else
+                                        buttonoffer.AccessibleDescription = "1";
+                                    buttonoffer.Width = 50;
+                                    buttonoffer.Height = 45;
+                                    buttonoffer.FlatStyle = FlatStyle.Flat;
+                                    buttonoffer.FlatAppearance.BorderSize = 0;
+                                    buttonoffer.Text = gridSource[i].Field6;
+                                    buttonoffer.ForeColor = Color.White;
+                                    buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    buttonoffer.BackColor = product_buttoncolor;
+                                    tooltip.SetToolTip(buttonoffer, gridSource[i].Field1 + " " + gridSource[i].Field6 + "%");
+                                    buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
+                                    buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
+                                    buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
+                                    buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                                    buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                                    panelProductBox.Controls.Add(buttonoffer);
+                                    buttonoffer.BringToFront();
+
+                                    tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                                    columnIndex++;
                                 }
+                                #endregion
 
-                                // Main Panel for each product
-                                Panel panelProductBox = new Panel();
-                                panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
-                                panelProductBox.Dock = DockStyle.None;
-                                panelProductBox.Width = 190;
-                                panelProductBox.Height = 73;
-                                panelProductBox.BackColor = Color.Transparent;//product_buttoncolor;
-                                panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                                ToolTip tooltip = new ToolTip();
-
-                                // Create a TableLayoutPanel
-                                TableLayoutPanel tlp_box_combo = new TableLayoutPanel();
-                                tlp_box_combo.Name = "tlp_box_combo" + gridSource[i].Field1;
-                                tlp_box_combo.Dock = DockStyle.None;
-                                tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
-                                tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
-                                tlp_box_combo.Location = new Point(0, panelProductBox.Top + 20);
-                                tlp_box_combo.Width = 190;
-                                tlp_box_combo.Height = 50;
-
-
-                                // Configure the Button
-                                Button button = new Button();
-                                button.Text = gridSource[i].Field1;
-                                button.Name = "btn" + gridSource[i].Field1;
-                                button.Tag = gridSource[i].Field2;
-                                button.Padding = new Padding(16, 0, 0, 0);
-                                //button.Margin = new Padding(0);
-                                button.AccessibleDescription = "3";
-                                button.FlatAppearance.BorderSize = 0;
-                                button.FlatAppearance.BorderColor = button.BackColor;
-                                button.Font = new Font("Arial", 9, FontStyle.Bold);
-                                button.Width = 158;
-                                button.Height = 50;
-                                button.FlatStyle = FlatStyle.Flat;
-                                button.BackColor = product_buttoncolor;
-                                button.ForeColor = Color.White;
-                                tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
-                                button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                button.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
-                                button.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
-                                // Create a circular Region
-                                button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                                tlp_box_combo.Controls.Add(button, 0, 0);
-
-                                // Configure the btnviewmore
-                                Button btnviewmore = new Button();
-                                btnviewmore.Text = ">";
-                                btnviewmore.Name = "btnviewmore_" + gridSource[i].Field5; // Change the btnviewmore name to "viewmore"
-                                btnviewmore.Tag = gridSource[i].Field5;
-                                btnviewmore.AccessibleDescription = "3";
-                                btnviewmore.FlatAppearance.BorderSize = 0;
-                                btnviewmore.Margin = new Padding(0);
-                                btnviewmore.FlatAppearance.BorderColor = btnviewmore.BackColor;
-                                btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
-                                btnviewmore.Width = 30;
-                                btnviewmore.Height = 50;
-                                //btnviewmore.Dock = DockStyle.Top;
-                                btnviewmore.FlatStyle = FlatStyle.Flat;
-                                btnviewmore.BackColor = Color.Gold;
-                                btnviewmore.ForeColor = Color.Black;
-                                //tooltip.SetToolTip(btnviewmore, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
-                                btnviewmore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
-                                btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
-                                tlp_box_combo.Controls.Add(btnviewmore, 1, 0);
-
-                                panelProductBox.Controls.Add(tlp_box_combo);
-
-
-                                // Button fav
-                                Button buttoncombo = new Button();
-                                buttoncombo.Name = "buttoncombo" + gridSource[i].Field1;
-                                buttoncombo.Tag = gridSource[i].Field2;
-                                buttoncombo.AccessibleDescription = "3";
-                                buttoncombo.Width = 50;
-                                buttoncombo.Height = 40;
-                                buttoncombo.FlatStyle = FlatStyle.Flat;
-                                buttoncombo.FlatAppearance.BorderSize = 0;
-                                buttoncombo.Text = gridSource[i].Field4;
-                                buttoncombo.ForeColor = Color.White;
-                                buttoncombo.BackColor = product_buttoncolor;
-                                buttoncombo.Location = new Point(panelProductBox.Left + 3, panelProductBox.Top);
-                                buttoncombo.Font = new Font("Arial", 9, FontStyle.Bold);
-                                buttoncombo.BackgroundImage = Properties.Resources.combo_button_percentage;
-                                buttoncombo.BackgroundImageLayout = ImageLayout.Stretch;
-                                tooltip.SetToolTip(buttoncombo, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
-                                buttoncombo.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                buttoncombo.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
-                                buttoncombo.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
-                                panelProductBox.Controls.Add(buttoncombo);
-                                buttoncombo.BringToFront();
-                                tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                                columnIndex++;
-                            }
-                            #endregion
-
-                            #region without offer product and item
-                            else
-                            {
-                                if (columnIndex == 3)
+                                #region Combo product
+                                else if (Convert.ToInt32(gridSource[i].Field5) > 0)
                                 {
-                                    columnIndex = 0;
-                                    rowIndex++;
+                                    if (columnIndex == 2)
+                                    {
+                                        columnIndex = 0;
+                                        rowIndex++;
+                                    }
+
+                                    // Main Panel for each product
+                                    Panel panelProductBox = new Panel();
+                                    panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
+                                    panelProductBox.Dock = DockStyle.None;
+                                    panelProductBox.Width = 190;
+                                    panelProductBox.Height = 73;
+                                    panelProductBox.BackColor = Color.Transparent;//product_buttoncolor;
+                                    panelProductBox.Margin = new Padding(10, 10, 0, 0);
+
+                                    ToolTip tooltip = new ToolTip();
+
+                                    // Create a TableLayoutPanel
+                                    TableLayoutPanel tlp_box_combo = new TableLayoutPanel();
+                                    tlp_box_combo.Name = "tlp_box_combo" + gridSource[i].Field1;
+                                    tlp_box_combo.Dock = DockStyle.None;
+                                    tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
+                                    tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
+                                    tlp_box_combo.Location = new Point(0, panelProductBox.Top + 20);
+                                    tlp_box_combo.Width = 190;
+                                    tlp_box_combo.Height = 50;
+
+
+                                    // Configure the Button
+                                    Button button = new Button();
+                                    button.Text = gridSource[i].Field1;
+                                    button.Name = "btn" + gridSource[i].Field1;
+                                    button.Tag = gridSource[i].Field2;
+                                    button.Padding = new Padding(16, 0, 0, 0);
+                                    //button.Margin = new Padding(0);
+                                    button.AccessibleDescription = "3";
+                                    button.FlatAppearance.BorderSize = 0;
+                                    button.FlatAppearance.BorderColor = button.BackColor;
+                                    button.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    button.Width = 158;
+                                    button.Height = 50;
+                                    button.FlatStyle = FlatStyle.Flat;
+                                    button.BackColor = product_buttoncolor;
+                                    button.ForeColor = Color.White;
+                                    tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
+                                    button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                                    button.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
+                                    button.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
+                                    // Create a circular Region
+                                    button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                                    tlp_box_combo.Controls.Add(button, 0, 0);
+
+                                    // Configure the btnviewmore
+                                    Button btnviewmore = new Button();
+                                    btnviewmore.Text = ">";
+                                    btnviewmore.Name = "btnviewmore_" + gridSource[i].Field5; // Change the btnviewmore name to "viewmore"
+                                    btnviewmore.Tag = gridSource[i].Field5;
+                                    btnviewmore.AccessibleDescription = "3";
+                                    btnviewmore.FlatAppearance.BorderSize = 0;
+                                    btnviewmore.Margin = new Padding(0);
+                                    btnviewmore.FlatAppearance.BorderColor = btnviewmore.BackColor;
+                                    btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    btnviewmore.Width = 30;
+                                    btnviewmore.Height = 50;
+                                    //btnviewmore.Dock = DockStyle.Top;
+                                    btnviewmore.FlatStyle = FlatStyle.Flat;
+                                    btnviewmore.BackColor = Color.Gold;
+                                    btnviewmore.ForeColor = Color.Black;
+                                    //tooltip.SetToolTip(btnviewmore, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
+                                    btnviewmore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
+                                    btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
+                                    tlp_box_combo.Controls.Add(btnviewmore, 1, 0);
+
+                                    panelProductBox.Controls.Add(tlp_box_combo);
+
+
+                                    // Button fav
+                                    Button buttoncombo = new Button();
+                                    buttoncombo.Name = "buttoncombo" + gridSource[i].Field1;
+                                    buttoncombo.Tag = gridSource[i].Field2;
+                                    buttoncombo.AccessibleDescription = "3";
+                                    buttoncombo.Width = 50;
+                                    buttoncombo.Height = 40;
+                                    buttoncombo.FlatStyle = FlatStyle.Flat;
+                                    buttoncombo.FlatAppearance.BorderSize = 0;
+                                    buttoncombo.Text = gridSource[i].Field4;
+                                    buttoncombo.ForeColor = Color.White;
+                                    buttoncombo.BackColor = product_buttoncolor;
+                                    buttoncombo.Location = new Point(panelProductBox.Left + 3, panelProductBox.Top);
+                                    buttoncombo.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    buttoncombo.BackgroundImage = Properties.Resources.combo_button_percentage;
+                                    buttoncombo.BackgroundImageLayout = ImageLayout.Stretch;
+                                    tooltip.SetToolTip(buttoncombo, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
+                                    buttoncombo.Click += new EventHandler(DashboardButtonClickEventHandler);
+                                    buttoncombo.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
+                                    buttoncombo.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
+                                    panelProductBox.Controls.Add(buttoncombo);
+                                    buttoncombo.BringToFront();
+                                    tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                                    columnIndex++;
                                 }
+                                #endregion
 
-                                // Main Panel for each product
-                                Panel panelProductBox = new Panel();
-                                panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
-                                panelProductBox.Dock = DockStyle.None;
-                                panelProductBox.Width = 150;
-                                panelProductBox.Height = 55;
-                                panelProductBox.BackColor = product_buttoncolor;
-                                panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                                // Configure the Button
-                                Button button = new Button();
-                                button.Text = gridSource[i].Field1;
-                                button.Name = "btn" + gridSource[i].Field1;
-                                button.Tag = gridSource[i].Field2;
-                                button.AccessibleDescription = gridSource[i].Field3;
-                                button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                                button.FlatAppearance.BorderColor = button.BackColor;
-                                button.ForeColor = Color.White;
-                                button.Width = 120;
-                                button.Height = 50;
-                                button.Font = new Font("Arial", 9, FontStyle.Bold);
-                                button.FlatStyle = FlatStyle.Flat;
-                                button.BackColor = product_buttoncolor;
-                                //// Create a circular Region
-                                button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                                //button.Dock = DockStyle.Fill;
-                                button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                panelProductBox.Controls.Add(button);
-
-                                // PictureBox fav
-                                PictureBox pictureBoxFav = new PictureBox();
-                                pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
-                                pictureBoxFav.Tag = gridSource[i].Field2;
-                                pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
-                                pictureBoxFav.Width = 20;
-                                pictureBoxFav.Height = 15;
-                                pictureBoxFav.BorderStyle = BorderStyle.None;
-                                pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
-                                pictureBoxFav.Image = null;
-                                if (Convert.ToInt32(gridSource[i].Field4) == 1)
-                                    pictureBoxFav.Image = Properties.Resources.yellow_star;
+                                #region without offer product and item
                                 else
-                                    pictureBoxFav.Image = Properties.Resources.white_star;
+                                {
+                                    if (columnIndex == 3)
+                                    {
+                                        columnIndex = 0;
+                                        rowIndex++;
+                                    }
 
-                                pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
-                                panelProductBox.Controls.Add(pictureBoxFav);
-                                pictureBoxFav.BringToFront();
+                                    // Main Panel for each product
+                                    Panel panelProductBox = new Panel();
+                                    panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
+                                    panelProductBox.Dock = DockStyle.None;
+                                    panelProductBox.Width = 150;
+                                    panelProductBox.Height = 55;
+                                    panelProductBox.BackColor = product_buttoncolor;
+                                    panelProductBox.Margin = new Padding(10, 10, 0, 0);
 
-                                tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                                columnIndex++;
+                                    // Configure the Button
+                                    Button button = new Button();
+                                    button.Text = gridSource[i].Field1;
+                                    button.Name = "btn" + gridSource[i].Field1;
+                                    button.Tag = gridSource[i].Field2;
+                                    button.AccessibleDescription = gridSource[i].Field3;
+                                    button.FlatAppearance.BorderSize = 0; // Set border width to 0
+                                    button.FlatAppearance.BorderColor = button.BackColor;
+                                    button.ForeColor = Color.White;
+                                    button.Width = 120;
+                                    button.Height = 50;
+                                    button.Font = new Font("Arial", 9, FontStyle.Bold);
+                                    button.FlatStyle = FlatStyle.Flat;
+                                    button.BackColor = product_buttoncolor;
+                                    //// Create a circular Region
+                                    button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                                    //button.Dock = DockStyle.Fill;
+                                    button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                                    panelProductBox.Controls.Add(button);
+
+                                    // PictureBox fav
+                                    PictureBox pictureBoxFav = new PictureBox();
+                                    pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
+                                    pictureBoxFav.Tag = gridSource[i].Field2;
+                                    pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
+                                    pictureBoxFav.Width = 20;
+                                    pictureBoxFav.Height = 15;
+                                    pictureBoxFav.BorderStyle = BorderStyle.None;
+                                    pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
+                                    pictureBoxFav.Image = null;
+                                    if (Convert.ToInt32(gridSource[i].Field4) == 1)
+                                        pictureBoxFav.Image = Properties.Resources.yellow_star;
+                                    else
+                                        pictureBoxFav.Image = Properties.Resources.white_star;
+
+                                    pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
+                                    panelProductBox.Controls.Add(pictureBoxFav);
+                                    pictureBoxFav.BringToFront();
+
+                                    tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                                    columnIndex++;
+                                }
+                                #endregion
                             }
-                            #endregion
+
                         }
+                        pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
 
+                        //else
+                        //    CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
-
-                    //else
-                    //    CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -5038,181 +5077,487 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    int rowIndex = 1;
+                    //int rowIndex = 1;
+    
                     int columnIndex = 0;
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch dmnSearch = new DmnSearch();
-
-                    dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3 ,ofm.Omid Field4,ofm.Discountper Field5";
-                    dmnSearch.Table = " tblProduct p " +
-                        " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                        " LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and  ofd.Status=1 " +
-                        " LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()" +
-                        " where p.Status=1 and m.Status=1  and p.ItemCode ='" + txtitemcode_serach.Text + "'" +
-
-                        " Union Select Itemname as Field1,ItemId as Field2,i.Saletype as Field3,ofm.Omid Field4,ofm.Discountper Field5 from " +
-                        " tblItem i " +
-                        " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
-                        " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() ";                        
-                    dmnSearch.WhereNdGroupBy = " where i.Saletype = 1  and i.Status = 1  and ( i.Itemname = '"  + txtitemcode_serach.Text + "' or i.ItemCode_UPC ='" + txtitemcode_serach.Text + "')";
-
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    pnl_serachproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                    tlp_searchproduct_dashboard.AutoScroll = true;
-                    if (gridSource.Count > 0)
+                    if(txtitemcode_serach.Text !=null && txtitemcode_serach.Text !="" )
                     {
+                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3 ,ofm.Omid Field4,ofm.Discountper Field5,0 Field6, 0 Field7,0 Field8";
+                        dmnSearch.Table = " tblProduct p " +
+                            " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                            " LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and  ofd.Status=1 " +
+                            " LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME()" +
+                            " where p.Status=1 and m.Status=1  and p.ItemCode ='" + txtitemcode_serach.Text + "'" +
 
-                        for (int i = 0; i < gridSource.Count; i++)
+                            " Union Select Itemname as Field1,ItemId as Field2,i.Saletype as Field3,ofm.Omid Field4,ofm.Discountper Field5,pr.SRate Field6, pr.QOH Field7,pr.Id Field8 from " +
+                            " tblItem i " +
+                            " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
+                            " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
+                            "LEFT JOIN tblProductRate pr on pr.ProductId = i.ItemId and pr.Status = 1 and pr.QOH>0 ";
+                        dmnSearch.WhereNdGroupBy = " where i.Saletype = 1  and i.Status = 1  and  i.ItemCode_UPC ='" + txtitemcode_serach.Text + "'";
+
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        pnl_serachproduct_dashboard.Controls.Clear();
+                        tlp_searchproduct_dashboard.Controls.Clear();
+                        tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
+                        tlp_searchproduct_dashboard.AutoScroll = true;
+
+                        if (gridSource.Count == 1)
                         {
-                            #region with offer product and item
-                            if (Convert.ToInt32(gridSource[i].Field4) > 0)
+                            pnlprice.Visible = false;
+                            BllSearch<DmnGridFields> bllSearch_item = new BllSearch<DmnGridFields>();
+                            dmnSearch.Select = "Itemname as Field1,ItemId as Field2,ItemCode_UPC as Field3,pr.prate as Field4,pr.srate as Field5," +
+                            "pr.MRP as Field6,i.Tax as Field7,i.TaxType as Field8,i.TaxSettingsId as Field9,pr.QOH as Field10," +
+                            "i.unit as Field11,u.UnitName as Field12,i.Fcid as Field13,i.TaxSettingsId as Field14,pr.id Field15,i.DiscountPer Field16,pr.QOH Field17";
+                            dmnSearch.Table = "tblItem i LEFT JOIN tblProductRate pr on  pr.ProductId=i.ItemId LEFT JOIN tblUnit u on  u.UId=i.unit ";
+                            dmnSearch.WhereNdGroupBy = "where i.Status=1 and pr.ProductId = " + gridSource[0].Field2 + " and pr.id = " + gridSource[0].Field8;
+                            dmnSearch.OrderBy = "";
+                            var gridSourceDetails = bllSearch_item.GetSearchData("prdSearch", dmnSearch);
+                            if (gridSourceDetails.Count > 0)
                             {
-                                if (columnIndex == 2)
+                                string tlpname = "tlp_seletedItem_col" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                                if (Booking_Status == false)
                                 {
-                                    columnIndex = 0;
-                                    rowIndex++;
-                                }
-                                // Main Panel for each product
-                                Panel panelProductBox = new Panel();
-                                panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
-                                panelProductBox.Dock = DockStyle.None;
-                                panelProductBox.Width = 190;
-                                panelProductBox.Height = 73;
-                                panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
-                                panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                                ToolTip tooltip = new ToolTip();
-
-                                // Configure the Button
-                                Button button = new Button();
-                                button.Text = gridSource[i].Field1;
-                                button.Name = "btn" + gridSource[i].Field1;
-                                button.Tag = gridSource[i].Field2;
-
-                                if (Convert.ToInt32(gridSource[i].Field3) == 0)
-                                    button.AccessibleDescription = "0";
-                                else
-                                    button.AccessibleDescription = "1";
-
-                                button.FlatAppearance.BorderSize = 0;
-                                button.FlatAppearance.BorderColor = button.BackColor;
-                                button.Font = new Font("Arial", 9, FontStyle.Bold);
-                                //button.Margin = new Padding(10, 30, 0, 0); 
-                                button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
-                                button.Width = 170;
-                                button.Height = 50;
-                                button.FlatStyle = FlatStyle.Flat;
-                                button.BackColor = product_buttoncolor;
-                                button.ForeColor = Color.White;
-                                button.Padding = new Padding(16, 0, 0, 0);
-                                tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
-                                //// Create a circular Region
-                                button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                                button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                                button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                                panelProductBox.Controls.Add(button);
-
-
-                                // Button offer
-                                Button buttonoffer = new Button();
-                                buttonoffer.Name = "btnFav" + gridSource[i].Field1;
-                                buttonoffer.Tag = gridSource[i].Field2;
-                                if (Convert.ToInt32(gridSource[i].Field3) == 0)
-                                    buttonoffer.AccessibleDescription = "0";
-                                else
-                                    buttonoffer.AccessibleDescription = "1";
-                                buttonoffer.Width = 50;
-                                buttonoffer.Height = 45;
-                                buttonoffer.FlatStyle = FlatStyle.Flat;
-                                buttonoffer.FlatAppearance.BorderSize = 0;
-                                buttonoffer.Text = gridSource[i].Field5;
-                                buttonoffer.ForeColor = Color.White;
-                                buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
-                                buttonoffer.BackColor = product_buttoncolor;
-                                tooltip.SetToolTip(buttonoffer, gridSource[i].Field1 + " " + gridSource[i].Field6 + "%");
-                                buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
-                                buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
-                                buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
-                                buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
-                                panelProductBox.Controls.Add(buttonoffer);
-                                buttonoffer.BringToFront();
-
-                                tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                                columnIndex++;
-                            }
-                            #endregion
-
-                            #region without offer product and item
-                            else
-                            {
-                                if (columnIndex == 3)
-                                {
-                                    columnIndex = 0;
-                                    rowIndex++;
+                                    if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                                        txtGrandTotal.Text = "0";
                                 }
 
-                                // Main Panel for each product
-                                Panel panelProductBox = new Panel();
-                                panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
-                                panelProductBox.Dock = DockStyle.None;
-                                panelProductBox.Width = 150;
-                                panelProductBox.Height = 55;
-                                panelProductBox.BackColor = product_buttoncolor;
-                                panelProductBox.Margin = new Padding(10, 10, 0, 0);
-
-                                // Configure the Button
-                                Button button = new Button();
-                                button.Text = gridSource[i].Field1;
-                                button.Name = "btn" + gridSource[i].Field1;
-                                button.Tag = gridSource[i].Field2;
-                                button.AccessibleDescription = gridSource[i].Field3;
-                                button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                                button.FlatAppearance.BorderColor = button.BackColor;
-                                button.ForeColor = Color.White;
-                                button.Width = 120;
-                                button.Height = 50;
-                                button.Font = new Font("Arial", 9, FontStyle.Bold);
-                                button.FlatStyle = FlatStyle.Flat;
-                                button.BackColor = product_buttoncolor;
-                                //// Create a circular Region
-                                button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                                //button.Dock = DockStyle.Fill;
-                                button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                                panelProductBox.Controls.Add(button);
-
-                                // PictureBox fav
-                                PictureBox pictureBoxFav = new PictureBox();
-                                pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
-                                pictureBoxFav.Tag = gridSource[i].Field2;
-                                pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
-                                pictureBoxFav.Width = 20;
-                                pictureBoxFav.Height = 15;
-                                pictureBoxFav.BorderStyle = BorderStyle.None;
-                                pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
-                                pictureBoxFav.Image = null;
-                                if (Convert.ToInt32(gridSource[i].Field4) == 1)
-                                    pictureBoxFav.Image = Properties.Resources.yellow_star;
+                                if (tlp_sele != null)
+                                {
+                                    int rowno = 0;
+                                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                                    {
+                                        if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
+                                        {
+                                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                                            {
+                                                CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) - 1;
+                                                txtitemcode_serach.Text = "";
+                                                txtitemcode_serach.Focus();
+                                                return;
+                                            }
+                                            rowno = i;
+                                            totalcellamount(i);
+                                            string txtname = "txtqty_" + gridSource[0].Field8 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
+                                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                                            qty.Text = Convert.ToString(cur_qty);
+                                            break;
+                                        }
+                                    }
+                                    decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
+                                    txtGrandTotal.Text = Convert.ToString(totalamt);
+                                    netAmount();
+                                    tlp_sele.Focus();
+                                    txtitemcode_serach.Text = "";
+                                    txtitemcode_serach.Focus();
+                                }
                                 else
-                                    pictureBoxFav.Image = Properties.Resources.white_star;
+                                {
+                                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                                    {
 
-                                pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
-                                panelProductBox.Controls.Add(pictureBoxFav);
-                                pictureBoxFav.BringToFront();
+                                        if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
+                                        {
+                                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                            totalcellamount(i);
+                                            break;
+                                        }
+                                    }
 
-                                tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
-                                columnIndex++;
+                                    #region Grid Inseration multiple 
+                                    r1 = Dgv_Selected_Item.RowCount - 1;
+
+                                    Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
+                                    Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                                    Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = gridSourceDetails[0].Field3;
+                                    Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = gridSourceDetails[0].Field3;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iname].Value = gridSourceDetails[0].Field1;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iunit].Value = gridSourceDetails[0].Field12;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iunitid].Value = gridSourceDetails[0].Field11;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = "1";
+                                    Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = gridSourceDetails[0].Field4;
+                                    Dgv_Selected_Item.Rows[r1].Cells[israte].Value = gridSourceDetails[0].Field5;
+                                    Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = gridSourceDetails[0].Field6;
+                                    if (Checkoffer(Convert.ToInt32(gridSource[0].Field2)))
+                                    {
+                                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSource_offer[0].Field10;
+                                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 0;
+                                    }
+                                    else
+                                    {
+                                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSourceDetails[0].Field16;
+                                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
+                                    }
+                                    Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
+                                    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = gridSourceDetails[0].Field2;
+                                    Dgv_Selected_Item.Rows[r1].Cells[itax].Value = gridSourceDetails[0].Field7;
+                                    Dgv_Selected_Item.Rows[r1].Cells[itaxtype].Value = gridSourceDetails[0].Field8;
+                                    Dgv_Selected_Item.Rows[r1].Cells[itype].Value = gridSourceDetails[0].Field13;
+                                    Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = gridSourceDetails[0].Field14;
+                                    Dgv_Selected_Item.Rows[r1].Cells[ipridno].Value = gridSourceDetails[0].Field15;
+                                    Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                                    Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
+                                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                                    Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSourceDetails[0].Field17;
+
+                                    totalcellamount(r1);
+                                    Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
+
+                                    decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
+                                    txtGrandTotal.Text = Convert.ToString(totalamt);
+
+                                    netAmount();
+                                    Dgv_Selected_Item.Rows.Add(1);
+                                    GridSlno_Refresh();
+
+                                    #endregion
+
+                                    // Configure the TableLayoutPanel
+                                    TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
+                                    float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
+                                    for (int i = 0; i < columnPercentages.Length; i++)
+                                    {
+                                        tlp_seletedItem_col.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, columnPercentages[i]));
+                                    }
+
+                                    tlp_seletedItem_col.Name = "tlp_seletedItem_col" + Convert.ToInt32(gridSourceDetails[0].Field15) + "_" + Convert.ToInt32(Tabletype.DirectSale); ;
+                                    tlp_seletedItem_col.Tag = gridSource[0].Field8;
+                                    tlp_seletedItem_col.AccessibleDescription = "2";
+                                    tlp_seletedItem_col.BackColor = Color.LightBlue;
+                                    tlp_seletedItem_col.Height = 45;
+
+                                    // Configure the Button for Item name
+                                    Button buttonitemname = new Button();
+                                    buttonitemname.Text = gridSourceDetails[0].Field1;
+                                    buttonitemname.Name = "buttonitemname_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                    buttonitemname.Tag = gridSourceDetails[0].Field15;
+                                    buttonitemname.AccessibleDescription = "1";
+                                    buttonitemname.BackColor = Color.Beige;
+                                    buttonitemname.Height = 40;
+                                    buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
+                                    buttonitemname.Click += new EventHandler(buttonitemnameClickEventHandler);
+
+                                    // Configure the Button for add Qty
+                                    Button buttonAdd = new Button();
+                                    buttonAdd.Text = "+";
+                                    buttonAdd.Name = "buttonAdd_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                    buttonAdd.Tag = gridSourceDetails[0].Field15;
+                                    buttonAdd.AccessibleDescription = "2";
+                                    buttonAdd.BackColor = Color.Beige;
+                                    buttonAdd.Margin = new Padding(0, 14, 0, 0);
+                                    buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
+                                    buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+
+                                    // Configure the textbox enter QTY
+                                    TextBox txtqty = new TextBox();
+                                    txtqty.Text = "1";
+                                    txtqty.Name = "txtqty_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                    txtqty.Tag = gridSourceDetails[0].Field15;
+                                    txtqty.AccessibleDescription = "2";
+                                    txtqty.BackColor = Color.Beige;
+                                    txtqty.TextAlign = HorizontalAlignment.Center;
+                                    txtqty.Margin = new Padding(0, 14, 0, 0);
+                                    txtqty.Font = new Font(txtqty.Font.FontFamily, 8, FontStyle.Bold);
+                                    txtqty.Enabled = false;
+
+                                    // Configure the textbox enter QTY
+                                    Button buttonRemove = new Button();
+                                    buttonRemove.Text = "-";
+                                    buttonRemove.Name = "btn_remove_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                    buttonRemove.Tag = gridSourceDetails[0].Field15;
+                                    buttonRemove.AccessibleDescription = "2";
+                                    buttonRemove.BackColor = Color.Beige;
+                                    buttonRemove.Margin = new Padding(0, 14, 0, 0);
+                                    buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
+                                    buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
+
+                                    // Configure the textbox Price
+                                    TextBox txtprice = new TextBox();
+                                    decimal F_price = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
+                                    txtprice.Text = Convert.ToString(F_price);
+                                    txtprice.Tag = gridSourceDetails[0].Field15;
+                                    txtprice.BackColor = Color.Beige;
+                                    txtprice.TextAlign = HorizontalAlignment.Center;
+                                    txtprice.Margin = new Padding(0, 14, 0, 0);
+                                    txtprice.Font = new Font(txtprice.Font.FontFamily, 8, FontStyle.Bold);
+                                    txtprice.Enabled = false;
+
+                                    // Configure Item Delete Button
+                                    PictureBox pb_item_delete = new PictureBox();
+                                    pb_item_delete.Name = "btn_remove_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                    pb_item_delete.Tag = gridSourceDetails[0].Field15;
+                                    pb_item_delete.AccessibleDescription = "2";
+                                    pb_item_delete.BackColor = Color.Transparent;
+                                    pb_item_delete.Dock = DockStyle.Top;
+                                    pb_item_delete.Height = 40;
+                                    pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
+                                    pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
+
+                                    //Dock Setting
+                                    tlp_seletedItem_col.Dock = DockStyle.Top;
+                                    buttonitemname.Dock = DockStyle.Top;
+                                    buttonAdd.Dock = DockStyle.Top;
+                                    txtqty.Dock = DockStyle.Fill;
+                                    buttonRemove.Dock = DockStyle.Top;
+                                    txtprice.Dock = DockStyle.Fill;
+
+
+                                    // Get the current row count
+                                    currentRowCount = tlp_seletedItem_col.RowCount;
+
+                                    // Add controls to TableLayoutPanel at the next row
+                                    tlp_seletedItem_col.Controls.Add(buttonitemname, 0, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(buttonAdd, 1, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(txtqty, 2, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(buttonRemove, 3, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(txtprice, 4, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(pb_item_delete, 5, currentRowCount);
+
+                                    // Increment the row count
+                                    tlp_seletedItem_col.RowCount = currentRowCount + 1;
+                                    // Add the new TableLayoutPanel to tlp_seletedItem_main
+                                    tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
+
+                                    tlp_seletedItem_col.Focus();
+                                }
+
+                                txtitemcode_serach.Text = "";
+                                txtitemcode_serach.Focus();
                             }
+                            checksave_refresh();
+                        }
+                        else if (gridSource.Count > 0)
+                        {
+                            itemcode_serach_Status = true;
+                            //Checkoffer(id);
+                            Control controlclose;
+                            pnlprice.Controls.Clear();
+                            tlp_price_list.Controls.Clear();
+                            tlp_price_list.Dock = DockStyle.Fill;
+                            tlp_price_list.ColumnCount = 1;
+                            tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                            tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                            tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+                            Button closebutton = new Button();
+                            closebutton.Text = "X";
+                            controlclose = closebutton;
+                            closebutton.BackgroundImage = FoodandBeverage.Properties.Resources.close_price_change;
+                            closebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                            closebutton.FlatStyle = FlatStyle.Flat;
+                            closebutton.ForeColor = System.Drawing.Color.White;
+                            closebutton.Font = new Font("Georgia", 14);
+                            closebutton.Width = 50;
+                            closebutton.Height = 50;
+                            closebutton.Dock = DockStyle.Right;
+                            closebutton.Click += new EventHandler(closebuttonClickEventHandler);
+                            tlp_price_list.RowCount++;
+                            tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                            tlp_price_list.Controls.Add(controlclose, 0, 0);
+
+                            Control control1, controlsrate, controlqty;
+                            int rowIndex = 2;
+                            for (int i = 0; i < gridSource.Count; i++)
+                            {
+                                Button pricebutton = new Button();
+                                pricebutton.Text = "RS. " + (gridSource[i].Field6).ToString() + "  QTY : " + (gridSource[i].Field7).ToString(); ;
+                                pricebutton.Name = "pr_" + (gridSource[i].Field8).ToString();
+                                pricebutton.Tag = gridSource[i].Field2;
+                                pricebutton.AccessibleDescription = gridSource[i].Field8;
+
+                                control1 = pricebutton;
+                                //pricebutton.Dock = DockStyle.Fill;
+                                pricebutton.BackgroundImage = FoodandBeverage.Properties.Resources.Button_Price_change;
+                                pricebutton.BackgroundImageLayout = ImageLayout.Stretch;
+                                pricebutton.FlatStyle = FlatStyle.Flat;
+                                pricebutton.ForeColor = System.Drawing.Color.White;
+                                pricebutton.Font = new Font("Georgia", 14);
+                                pricebutton.Width = 300;
+                                pricebutton.Height = 70;
+                                // Add the event handler for the button
+                                pricebutton.Click += new EventHandler(MyButtonClickEventHandler);
+                                // Add the controls to the row
+                                tlp_price_list.RowCount++;
+                                tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                tlp_price_list.Controls.Add(control1, 0, rowIndex);
+                                rowIndex++;
+                            }
+                            // Add the TableLayoutPanel to the form
+
+                            pnlprice.Visible = true;
+                            int panelWidthPercentage = 25;
+                            int panelheightPercentage = 45;
+                            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                            pnlprice.Size = new Size(panelWidth, panelHeight);
+                            pnlprice.Location = new Point(this.ClientSize.Width / 2 - pnlprice.Size.Width / 2, this.ClientSize.Height / 2 - pnlprice.Size.Height / 2);
+                            pnlprice.Controls.Add(tlp_price_list);
+
+                            #region old code
+                            //for (int i = 0; i < gridSource.Count; i++)
+                            //{
+                            //    #region with offer product and item
+                            //    if (Convert.ToInt32(gridSource[i].Field4) > 0)
+                            //    {
+                            //        if (columnIndex == 2)
+                            //        {
+                            //            columnIndex = 0;
+                            //            rowIndex++;
+                            //        }
+                            //        // Main Panel for each product
+                            //        Panel panelProductBox = new Panel();
+                            //        panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
+                            //        panelProductBox.Dock = DockStyle.None;
+                            //        panelProductBox.Width = 190;
+                            //        panelProductBox.Height = 73;
+                            //        panelProductBox.BackColor = Color.Transparent; //product_buttoncolor;
+                            //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
+
+                            //        ToolTip tooltip = new ToolTip();
+
+                            //        // Configure the Button
+                            //        Button button = new Button();
+                            //        button.Text = gridSource[i].Field1;
+                            //        button.Name = "btn" + gridSource[i].Field1;
+                            //        button.Tag = gridSource[i].Field2;
+
+                            //        if (Convert.ToInt32(gridSource[i].Field3) == 0)
+                            //            button.AccessibleDescription = "0";
+                            //        else
+                            //            button.AccessibleDescription = "1";
+
+                            //        button.FlatAppearance.BorderSize = 0;
+                            //        button.FlatAppearance.BorderColor = button.BackColor;
+                            //        button.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        //button.Margin = new Padding(10, 30, 0, 0); 
+                            //        button.Location = new Point(panelProductBox.Top + 10, panelProductBox.Left + 20);
+                            //        button.Width = 170;
+                            //        button.Height = 50;
+                            //        button.FlatStyle = FlatStyle.Flat;
+                            //        button.BackColor = product_buttoncolor;
+                            //        button.ForeColor = Color.White;
+                            //        button.Padding = new Padding(16, 0, 0, 0);
+                            //        tooltip.SetToolTip(button, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
+                            //        //// Create a circular Region
+                            //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        button.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                            //        button.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                            //        panelProductBox.Controls.Add(button);
+
+
+                            //        // Button offer
+                            //        Button buttonoffer = new Button();
+                            //        buttonoffer.Name = "btnFav" + gridSource[i].Field1;
+                            //        buttonoffer.Tag = gridSource[i].Field2;
+                            //        if (Convert.ToInt32(gridSource[i].Field3) == 0)
+                            //            buttonoffer.AccessibleDescription = "0";
+                            //        else
+                            //            buttonoffer.AccessibleDescription = "1";
+                            //        buttonoffer.Width = 50;
+                            //        buttonoffer.Height = 45;
+                            //        buttonoffer.FlatStyle = FlatStyle.Flat;
+                            //        buttonoffer.FlatAppearance.BorderSize = 0;
+                            //        buttonoffer.Text = gridSource[i].Field5;
+                            //        buttonoffer.ForeColor = Color.White;
+                            //        buttonoffer.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        buttonoffer.BackColor = product_buttoncolor;
+                            //        tooltip.SetToolTip(buttonoffer, gridSource[i].Field1 + " " + gridSource[i].Field6 + "%");
+                            //        buttonoffer.BackgroundImage = Properties.Resources.offer_button_percentage;
+                            //        buttonoffer.BackgroundImageLayout = ImageLayout.Stretch;
+                            //        buttonoffer.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        buttonoffer.MouseEnter += new EventHandler(buttonofferMousehoverEventHandler);
+                            //        buttonoffer.MouseLeave += new EventHandler(buttonofferMouseLeaveEventHandler);
+                            //        panelProductBox.Controls.Add(buttonoffer);
+                            //        buttonoffer.BringToFront();
+
+                            //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                            //        columnIndex++;
+                            //    }
+                            //    #endregion
+
+                            //    #region without offer product and item
+                            //    else
+                            //    {
+                            //        if (columnIndex == 3)
+                            //        {
+                            //            columnIndex = 0;
+                            //            rowIndex++;
+                            //        }
+
+                            //        // Main Panel for each product
+                            //        Panel panelProductBox = new Panel();
+                            //        panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
+                            //        panelProductBox.Dock = DockStyle.None;
+                            //        panelProductBox.Width = 150;
+                            //        panelProductBox.Height = 55;
+                            //        panelProductBox.BackColor = product_buttoncolor;
+                            //        panelProductBox.Margin = new Padding(10, 10, 0, 0);
+
+                            //        // Configure the Button
+                            //        Button button = new Button();
+                            //        button.Text = gridSource[i].Field1;
+                            //        button.Name = "btn" + gridSource[i].Field1;
+                            //        button.Tag = gridSource[i].Field2;
+                            //        button.AccessibleDescription = gridSource[i].Field3;
+                            //        button.FlatAppearance.BorderSize = 0; // Set border width to 0
+                            //        button.FlatAppearance.BorderColor = button.BackColor;
+                            //        button.ForeColor = Color.White;
+                            //        button.Width = 120;
+                            //        button.Height = 50;
+                            //        button.Font = new Font("Arial", 9, FontStyle.Bold);
+                            //        button.FlatStyle = FlatStyle.Flat;
+                            //        button.BackColor = product_buttoncolor;
+                            //        //// Create a circular Region
+                            //        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            //        //button.Dock = DockStyle.Fill;
+                            //        button.Click += new EventHandler(DashboardButtonClickEventHandler);
+                            //        panelProductBox.Controls.Add(button);
+
+                            //        // PictureBox fav
+                            //        PictureBox pictureBoxFav = new PictureBox();
+                            //        pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
+                            //        pictureBoxFav.Tag = gridSource[i].Field2;
+                            //        pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
+                            //        pictureBoxFav.Width = 20;
+                            //        pictureBoxFav.Height = 15;
+                            //        pictureBoxFav.BorderStyle = BorderStyle.None;
+                            //        pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
+                            //        pictureBoxFav.Image = null;
+                            //        if (Convert.ToInt32(gridSource[i].Field4) == 1)
+                            //            pictureBoxFav.Image = Properties.Resources.yellow_star;
+                            //        else
+                            //            pictureBoxFav.Image = Properties.Resources.white_star;
+
+                            //        pictureBoxFav.SizeMode = PictureBoxSizeMode.StretchImage;
+                            //        panelProductBox.Controls.Add(pictureBoxFav);
+                            //        pictureBoxFav.BringToFront();
+
+                            //        tlp_searchproduct_dashboard.Controls.Add(panelProductBox, columnIndex, rowIndex);
+                            //        columnIndex++;
+                            //    }
+                            //    #endregion
+                            //}
+                            //pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
                             #endregion
                         }
-                        pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
+                        else
+                        {
+                            txtitemcode_serach.Text = "";
+                            CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtitemcode_serach.Focus();
+                        }
                     }
-                    else
-                        CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+
                 }
 
             }
@@ -6119,6 +6464,7 @@ namespace FoodandBeverage.Forms
                 ReservationTotal = 0;
 
                 btn_itemwise.Enabled = true;
+                itemcode_serach_Status = false;
 
                 int rcount = 0;
                 if (Dgv_Selected_Item.RowCount == 0)
@@ -8163,6 +8509,11 @@ namespace FoodandBeverage.Forms
             txtcusname.Text = "";
             rb_female.Checked = false;
             rb_male.Checked = false;
-        }       
+        }
+
+        private void btn_multiprice_Click(object sender, EventArgs e)
+        {
+            pnlprice.Visible = false;
+        }
     }
 }

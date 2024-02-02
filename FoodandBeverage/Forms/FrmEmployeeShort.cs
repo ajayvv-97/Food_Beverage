@@ -2317,12 +2317,12 @@ namespace FoodandBeverage.Forms
 
         private void btnCapture_MouseDown(object sender, MouseEventArgs e)
         {
-            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete1;
+            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete;
         }
 
         private void btnCapture_MouseUp(object sender, MouseEventArgs e)
         {
-            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete1;
+            btnCapture.BackgroundImage = FoodandBeverage.Properties.Resources.orderview_complete;
         }
 
         private void mpbAdd_MouseDown(object sender, MouseEventArgs e)

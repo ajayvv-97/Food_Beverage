@@ -112,9 +112,7 @@ namespace FoodandBeverage.Forms
             txtorderid_search.Text = "Order Id ....";
             txttablecode.Text = "Table Code....";
             textb_shape();
-            Fillorders();
-
-            
+            Fillorders();            
         }
         public class datagrid
         {
