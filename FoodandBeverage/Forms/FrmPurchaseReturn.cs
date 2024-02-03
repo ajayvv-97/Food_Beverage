@@ -305,7 +305,11 @@ namespace FoodandBeverage.Forms
             lblGrandTot.Text = "0.00";
             lblBalAmt.Text = "0.00";
             txtdocno.Focus();
+            txtpurchaseentry.Text = "";
+            txtvedorname.Text = "";
             setperficpurchaseret();
+            tlp_textboxes.Enabled = true;
+            btnsave.Visible = true;
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -604,7 +608,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (Convert.ToDecimal(gridSourcecountsum[0].Field1) == Convert.ToDecimal(gridSourcecountsum[0].Field2))
                         {
-                            CMessageBox.Show("These Product Are Already Return !", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show("These Products Are Already Return !", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                     }
@@ -1960,12 +1964,13 @@ namespace FoodandBeverage.Forms
                             sterms.Text = gridSource1[0].Terms.ToString();
                             lblNetAmt.Text = gridSource1[0].NetAmount.ToString();
                             lblTotal.Text = gridSource1[0].TotalGross.ToString();
+                            tlp_textboxes.Enabled = false;
 
                             DmnSearch dmnSearch1 = new DmnSearch();
                             BllSearch<DmnPurchaseReturnMaster> _bllSearch1 = new BllSearch<DmnPurchaseReturnMaster>();
                             DmnSearch dmnSearch2 = new DmnSearch();
                             BllSearch<DmnGridFields> _bllSearch2 = new BllSearch<DmnGridFields>();
-                            dmnSearch1.Select = "prd.ProductType,pd.itemid,pd.ItemBarCode,pd.itemName,prd.Quantity,pd.PurchaseRate,prd.Amount,prd.DiscountAmount,prd.DiscountPer,pd.TaxPer,pd.TaxAmount,pd.TaxType,pd.Srate,pd.MRP,prd.NetAmount,prd.Tax";
+                            dmnSearch1.Select = "prd.ProductType,pd.itemid,pd.ItemBarCode,prd.itemcode,prd.Quantity,pd.PurchaseRate,prd.Amount,prd.DiscountAmount,prd.DiscountPer,pd.TaxPer,pd.TaxAmount,pd.TaxType,pd.Srate,pd.MRP,prd.NetAmount,prd.Tax";
                             dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseDetails pd on pd.PurchaseDetailId= prd.PurchaseDetailId";
                             dmnSearch1.WhereNdGroupBy = " Where prd.PurchaseReturnMasterId = " + returnValue;
                             var gridSource2 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
@@ -1978,7 +1983,7 @@ namespace FoodandBeverage.Forms
 
                                     dgvProduct.Rows[i].Cells[islno].Value = i + 1;
                                     dgvProduct.Rows[i].Cells[ibarcode].Value = gridSource2[i].ItemBarCode;
-                                    dgvProduct.Rows[i].Cells[iname].Value = gridSource2[i].ItemName;
+                                    dgvProduct.Rows[i].Cells[iname].Value = gridSource2[i].ItemCode;
                                     dgvProduct.Rows[i].Cells[iqty].Value = gridSource2[i].Quantity;
                                     dgvProduct.Rows[i].Cells[iunit].Value = "Number";
                                     dgvProduct.Rows[i].Cells[iprate].Value = gridSource2[i].PurchaseRate;
@@ -2036,18 +2041,149 @@ namespace FoodandBeverage.Forms
 
         private void txtdocno_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key            
-                e.Handled = true; // Suppress the Enter key
+            if (e.KeyChar == '\r') 
+                e.Handled = true; 
         }
+        #region Grid Flow Fuction
+        private int GetNextVisibleColumn(int currentColumnIndex)
+        {
+            try
+            {
+                for (int i = currentColumnIndex + 1; i < dgvProduct.ColumnCount; i++)
+                {
+                    if (dgvProduct.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+        private int GetNextVisibleRow(int currentRowIndex)
+        {
+            try
+            {
+                for (int i = currentRowIndex + 1; i < dgvProduct.RowCount; i++)
+                {
+                    if (dgvProduct.Rows[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        private int GetFirstVisibleColumn()
+        {
+            try
+            {
+                for (int i = 0; i < dgvProduct.ColumnCount; i++)
+                {
+                    if (dgvProduct.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        #endregion
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.Tab:
-                    Movefocus(1);
-                    return true; // Mark the key as handled
+                    if (dgvProduct.Focused)
+                    {
+                        try
+                        {
+                            if (dgvProduct.Focused)
+                            {
+                                int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgvProduct.CurrentCell = dgvProduct[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgvProduct.CurrentCell = dgvProduct[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        discountper.Focus();
+                                    }
+                                }
+
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    else
+                        Movefocus(1);
+                    return true; 
                 case Keys.Enter:
-                    if (pnl_barcode.Visible)
+                    if (dgvProduct.Focused)
+                    {        
+                        try
+                        {
+                            if (dgvProduct.Focused)
+                            {
+                                int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgvProduct.CurrentCell = dgvProduct[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgvProduct.CurrentCell = dgvProduct[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        discountper.Focus();
+                                    }
+                                }
+
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    else if (pnl_barcode.Visible)
                     {
                         pnl_barcode.Visible = false;
                         dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
@@ -2057,7 +2193,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                         Movefocus(0);
-                    return true; // Mark the key as handled
+                    return true; 
                 case Keys.Escape:
                     if (tlp_grid_registartion.Visible)
                     {

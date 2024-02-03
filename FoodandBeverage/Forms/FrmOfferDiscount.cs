@@ -764,7 +764,7 @@ namespace FoodandBeverage.Forms
                             objSearch.Select = "fd.Productname Field1,fd.DiscountPer Field2,fd.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,fd.TaxType Field6,fd.Tax Field7,fd.ProductId Field8,fd.producttype Field9,fd.Prid Field10,fd.FinalPrice Field11,fd.DiscountAmt Field12," +
                                 "fd.Description Field13,fd.Odid Field14,fd.ItemCode_UPC Field15,OfferstartDatetime StartDate,OfferEndDatetime EndDate,"+
                                             "(select DiscountPer from tblProduct where status = 1 and ProductId = fd.ProductId) Field16," +
-                    "(select DiscountPer from tblItem where status = 1 and ItemId = fd.ProductId) Field17,fm.Offername Field18 ,fm.Discountper Field19,fm.description Field20 ";
+                    "(select DiscountPer from tblItem where status = 1 and ItemId = fd.ProductId) Field17,fm.Offername Field18 ,fm.Discountper Field19,fm.description Field20,tx.TaxSettingsId Field21";
                             objSearch.Table = "tblOfferDetails  fd LEFT JOIN tblOfferMaster fm ON fm.Omid=fd.Omid LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=fd.TaxSettingsId";
                             objSearch.WhereNdGroupBy = "where fd.status = 1 and fd.omid ="+ omid;
                             objSearch.OrderBy = "";
@@ -798,13 +798,12 @@ namespace FoodandBeverage.Forms
                                     else
                                         dgv_sigle_product.Rows[r].Cells[srundisper].Value = gridSource[r].Field16;
 
-                                    dgv_sigle_product.Rows[r].Cells[spriceno].Value = gridSource[r].Field3;
-                                    if (Convert.ToString(gridSource[0].Field6) == "GST")
-                                        dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[r].Field4;
-                                    else
-                                        dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[r].Field5;
+                                    dgv_sigle_product.Rows[r].Cells[spriceno].Value = gridSource[r].Field3;      
+
                                     dgv_sigle_product.Rows[r].Cells[staxtypeno].Value = gridSource[r].Field6;
-                                    dgv_sigle_product.Rows[r].Cells[staxno].Value = gridSource[r].Field7;
+                                    dgv_sigle_product.Rows[r].Cells[staxno].Value = gridSource[r].Field7;             
+
+
                                     dgv_sigle_product.Rows[r].Cells[sproductidno].Value = gridSource[r].Field8;
                                     dgv_sigle_product.Rows[r].Cells[sstatusno].Value = 1;
                                     dgv_sigle_product.Rows[r].Cells[stabletypeno].Value = gridSource[r].Field9;
@@ -816,6 +815,37 @@ namespace FoodandBeverage.Forms
                                     dgv_sigle_product.Rows[r].Cells[soffferdisamtno].Value = gridSource[r].Field12;
                                     dgv_sigle_product.Rows[r].Cells[sdescriptionno].Value = gridSource[r].Field13;
                                     dgv_sigle_product.Rows[r].Cells[sofferdetailsidno].Value = gridSource[r].Field14;
+                                    dgv_sigle_product.Rows[r].Cells[staxsettingidno].Value = gridSource[r].Field21;
+       
+
+
+                                    if (gridSource[0].Field6 == "GST")
+                                    {
+                                        dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[r].Field4;
+                                        decimal TaxAmount = Convert.ToDecimal(gridSource[r].Field4) * ( Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[spriceno].Value) / 100);
+                                        dgv_sigle_product.Rows[r].Cells[staxamtno].Value = TaxAmount.ToString("N2");
+
+                                    }
+                                    else if (gridSource[0].Field6 == "VAT")
+                                    {
+                                        dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[r].Field5;
+                                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[r].Field5) * Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[spriceno].Value) / 100);
+                                        dgv_sigle_product.Rows[r].Cells[staxamtno].Value = TaxAmount.ToString("N2");
+       
+                                    }
+
+                                    if (Convert.ToString(dgv_sigle_product.Rows[r].Cells[staxno].Value) == "Exclusive")
+                                    {
+                                        decimal tot = (Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[spriceno].Value) - Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[soffferdisamtno].Value))
+                                        + Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[staxamtno].Value);
+                                        dgv_sigle_product.Rows[r].Cells[sfinalpriceno].Value = tot.ToString("N2");
+                                    }
+                                    else if (Convert.ToString(dgv_sigle_product.Rows[r].Cells[staxno].Value) == "Inclusive")
+                                    {
+                                        decimal tot = (Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[spriceno].Value) - Convert.ToDecimal(dgv_sigle_product.Rows[r].Cells[soffferdisamtno].Value));
+                                        dgv_sigle_product.Rows[r].Cells[sfinalpriceno].Value = tot.ToString("N2");
+                                    }
+
 
                                     DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[r].Cells[sactionno];
                                     cellcolumntype.Value = Properties.Resources.delete;
@@ -1178,6 +1208,7 @@ namespace FoodandBeverage.Forms
                     button.Text = gridSource[i].CategoryName;
                     button.Name = "btn" + gridSource[i].CategoryName;
                     button.Tag = gridSource[i].Fcid;
+                    button.AccessibleDescription = "1";
                     button.BackColor = Color.Beige;
                     button.Width = 160;
                     button.Height = 40;
@@ -1188,8 +1219,10 @@ namespace FoodandBeverage.Forms
                     rowIndex++;
                 }
                 pnl_searchproduct_sidebar.Controls.Add(tlp_searchproduct_sidebar);
+                tlp_searchproduct_sidebar.Focus();
             }
         }
+
         private void SidebuttonClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -2051,21 +2084,301 @@ namespace FoodandBeverage.Forms
         {
             pnl_serachproducts.Visible = false;
         }
+        public void Movefocus_Combo(int keytype)
+        {
+            if (btn_AddcomboProduct.Focused)
+            {
+                txtcmbo_offername.Focus();
+            }
+            else if (txtcmbo_offername.Focused)
+            {
+                dtp_from_date.Focus();
+            }
+            else if (dtp_from_date.Focused)
+            {
+                dtp_from_time.Focus();
+            }
+            else if (dtp_from_time.Focused)
+            {
+                dtp_to_date.Focus();
+            }
+            else if (dtp_to_date.Focused)
+            {
+                dtp_to_time.Focus();
+            }
+            else if (dtp_to_time.Focused)
+            {
+                cmbtax.Focus();
+            }
+            else if (cmbtax.Focused)
+            {
+                cmbtaxtype.Focus();
+            }
+
+            else if (cmbtaxtype.Focused)
+            {
+                if (cmbtaxtype.Text == "GST")
+                {
+                    cmbIgstPrcnt.Focus();
+                }
+                else if (cmbtaxtype.Text == "VAT")
+                {
+                    cmbVatPrcnt.Focus();
+                }
+            }
+            else if (cmbIgstPrcnt.Focused)
+                txtcombo_totalprice.Focus();
+            else if (cmbVatPrcnt.Focused)
+                txtcombo_totalprice.Focus();
+            else if (txtcombo_totalprice.Focused)
+            {
+                txtcombo_disper.Focus();
+            }
+            else if (txtcombo_disper.Focused)
+            {
+                txtcombo_disamt.Focus();
+            }
+            else if (txtcombo_disamt.Focused)
+            {
+                txtcombodes.Focus();
+            }
+            else if (txtcombodes.Focused)
+            {
+                btnsave.Focus();
+            }
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
+        }
+
+        public void Movefocus_single(int keytype)
+        {
+            if (txtoffername_s.Focused)
+            {
+                dtp_from_date_s.Focus();
+            }
+            else if (dtp_from_date_s.Focused)
+            {
+                dtp_from_time_s.Focus();
+            }
+            else if (dtp_from_time_s.Focused)
+            {
+                dtp_to_date_s.Focus();
+            }
+            else if (dtp_to_date_s.Focused)
+            {
+                dtp_to_time_s.Focus();
+            }
+            else if (dtp_to_time_s.Focused)
+            {
+                txtofferdsiper_s.Focus();
+            }
+            else if (txtofferdsiper_s.Focused)
+            {
+                txtofferdes_s.Focus();
+            }
+            else if (txtofferdes_s.Focused)
+            {
+                dgv_sigle_product.Focus();
+            }
+
+            else if (keytype == 1)
+            {
+                if (btnsave.Focused)
+                    btnSearch.Focus();
+                else if (btnSearch.Focused)
+                    btnrefresh.Focus();
+                else if (btnrefresh.Focused)
+                    btnclose.Focus();
+            }
+            else if (keytype == 0)
+            {
+                if (btnsave.Focused)
+                    btnsave.PerformClick();
+                else if (btnrefresh.Focused)
+                    btnrefresh.PerformClick();
+                else if (btnSearch.Focused)
+                    btnSearch.PerformClick();
+                else if (btnclose.Focused)
+                    btnclose.PerformClick();
+            }
+
+        }
+        #region Grid Flow Fuction
+        private int GetNextVisibleColumn(int currentColumnIndex)
+        {
+            try
+            {
+                for (int i = currentColumnIndex + 1; i < dgv_sigle_product.ColumnCount; i++)
+                {
+                    if (dgv_sigle_product.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+        private int GetNextVisibleRow(int currentRowIndex)
+        {
+            try
+            {
+                for (int i = currentRowIndex + 1; i < dgv_sigle_product.RowCount; i++)
+                {
+                    if (dgv_sigle_product.Rows[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        private int GetFirstVisibleColumn()
+        {
+            try
+            {
+                for (int i = 0; i < dgv_sigle_product.ColumnCount; i++)
+                {
+                    if (dgv_sigle_product.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        #endregion
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
-                //case Keys.Tab:
-                //    Movefocus(1);
-                //    return true; // Mark the key as handled
+                case Keys.Tab:
+                    if (tlp_combo.Visible)
+                    {
+                        Movefocus_Combo(1);
+                    }
+                    else if (tlp_single.Visible)
+                    {
+                        if (dgv_sigle_product.Focused)
+                        {
+                            try
+                            {
+                                int currentRowIndex = dgv_sigle_product.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgv_sigle_product.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgv_sigle_product.CurrentCell = dgv_sigle_product[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgv_sigle_product.CurrentCell = dgv_sigle_product[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        btnsave.Focus();
+                                    }
+                                }
+                            }
+
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                        else
+                            Movefocus_single(1);
+                    }
+                    return true;
                 case Keys.Enter:
-                    if (txt_prodlist_serach.Focused)
+                    if (tlp_combo.Visible)
+                    {       
+                        Movefocus_Combo(0);
+                    }
+                    else if (tlp_single.Visible)
+                    {
+                        if (dgv_sigle_product.Focused)
+                        {
+                            try
+                            {
+                                int currentRowIndex = dgv_sigle_product.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgv_sigle_product.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgv_sigle_product.CurrentCell = dgv_sigle_product[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgv_sigle_product.CurrentCell = dgv_sigle_product[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        btnsave.Focus();
+                                    }
+                                }
+                            }
+
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                        else
+                            Movefocus_single(0);
+                    }
+
+                    else if (txt_prodlist_serach.Focused)
                         UpcScanner(txt_prodlist_serach.Text);
                     else if (txtbarcode.Focused)
                         UpcScanner_single(txtbarcode.Text);
                     return true; // Mark the key as handled
                 case Keys.Escape:
-                    if (tlp_gridview.Visible)
+                    if (pnl_serachproducts.Visible)
+                        pnl_serachproducts.Visible = false;
+                    else if (tlp_gridview.Visible)
                         tlp_gridview.Visible = false;
                     else if (pnl_serachproducts.Visible)
                         pnl_serachproducts.Visible = false;
@@ -2075,6 +2388,21 @@ namespace FoodandBeverage.Forms
                         _instancedash.Closeform();
                     }
                     return true;
+                case Keys.Right:
+                    Control focusedControl = this.ActiveControl;
+                    if (focusedControl is Button)
+                    {
+                        Button focusedButton = (Button)focusedControl;
+                        if(focusedButton.AccessibleDescription=="1")
+                        {
+                            Control firstControlInPanel = pnl_serachproduct_dashboard.Controls.OfType<Control>().FirstOrDefault();
+                            if (firstControlInPanel != null)                            
+                                firstControlInPanel.Focus();                            
+                        }
+            
+                    }
+                    return true;
+
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
