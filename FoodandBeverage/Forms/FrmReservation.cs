@@ -85,7 +85,42 @@ namespace FoodandBeverage.Forms
      
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-           
+
+            richTextBoxPhone.Rtf = "{\\rtf1\\ansi " +
+            "Phone No \\i0 *\\ulnone\\i\\b " +
+               "}";
+            richTextBoxPhone.Select(richTextBoxPhone.Text.IndexOf("*"), 1);
+            richTextBoxPhone.SelectionColor = Color.Red;
+            richTextBoxPhone.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxName.Rtf = "{\\rtf1\\ansi " +
+            "Name \\i0 *\\ulnone\\i\\b " +
+               "}";
+            richTextBoxName.Select(richTextBoxName.Text.IndexOf("*"), 1);
+            richTextBoxName.SelectionColor = Color.Red;
+            richTextBoxName.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxAddress.Rtf = "{\\rtf1\\ansi " +
+           "Address \\i0 *\\ulnone\\i\\b " +
+              "}";
+            richTextBoxAddress.Select(richTextBoxAddress.Text.IndexOf("*"), 1);
+            richTextBoxAddress.SelectionColor = Color.Red;
+            richTextBoxAddress.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxEmail.Rtf = "{\\rtf1\\ansi " +
+           "Email \\i0 *\\ulnone\\i\\b " +
+              "}";
+            richTextBoxEmail.Select(richTextBoxEmail.Text.IndexOf("*"), 1);
+            richTextBoxEmail.SelectionColor = Color.Red;
+            richTextBoxEmail.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxGender.Rtf = "{\\rtf1\\ansi " +
+          "Gender \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBoxGender.Select(richTextBoxGender.Text.IndexOf("*"), 1);
+            richTextBoxGender.SelectionColor = Color.Red;
+            richTextBoxGender.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
             dgvforms.BorderStyle = BorderStyle.None;
             dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -309,7 +344,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToString(dgvmenu.Rows[i].Cells[0].Value) != "")
                     {
-                        CMessageBox.Show("Quantity cantbe less than one", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Quantity cannot be less than one. Please enter a valid quantity.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         dgvmenu.Focus();
                         return false;
@@ -318,38 +353,38 @@ namespace FoodandBeverage.Forms
             }
             if (txtNam.Text == "" || txtNam.Text == string.Empty)
             {
-                CustomMessageBox.CMessageBox.Show("UserName is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please enter your username. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //CMessageBox.Show("Please Select IGST %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //MessageBox.Show(" UserName is A Mandatory Field ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtMob.Text == "" || txtMob.Text == null)
             {
-                DialogResult result = CMessageBox.Show("Mobile number is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult result = CMessageBox.Show("Please provide your mobile number. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 txtMob.Focus();
                 return false;
             }
             else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
             {
-                CMessageBox.Show("Address is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please enter your address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (txtEmail.Text == "" || txtEmail.Text == string.Empty)
             {
-                CMessageBox.Show("Email is A Mandatory Field", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please provide your email address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             
             else if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
-                CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please specify your gender. This information is mandatory.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
                 return false;
             }
             else if (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == "" || (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == null))
              {
-                    CMessageBox.Show("Select Table First", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select a table first. This is a mandatory field.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
              }
             else if (lblGTotal.Text== "00")

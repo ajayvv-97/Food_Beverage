@@ -52,7 +52,7 @@ namespace FoodandBeverage.Forms
 
             if (string.IsNullOrWhiteSpace(txtname.Text.Trim()))
             {
-                CMessageBox.Show("Company Name Must be Specified", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Company name must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtname.Focus();
                 return false;
             }
@@ -60,7 +60,7 @@ namespace FoodandBeverage.Forms
           
             else if (string.IsNullOrWhiteSpace(txtph.Text.Trim()))
             {
-                CMessageBox.Show("Phone No.must be specified", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Phone number must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                
                 txtph.Focus();
                 return false;
