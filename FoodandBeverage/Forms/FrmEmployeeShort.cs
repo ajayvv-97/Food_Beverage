@@ -734,32 +734,32 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtEmpName.Text))
             {
-                CMessageBox.Show("Employee Name Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Employee Name is mandatory, Fields  in star are also mandatory.Ensure all information is filled.", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmpName.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtCardnumber.Text))
             {
-                CMessageBox.Show("Card Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Card Number is mandatory,Fields  in star are also mandatory.Ensure all information is filled.", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCardnumber.Focus();
                 return false;
             }
 
             else if (mcmbDesignationId.SelectedIndex == 0 || mcmbDesignationId.SelectedIndex == -1)
             {
-                CMessageBox.Show("Designation Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please specify your designation. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 mcmbDesignationId.Focus();
                 return false;
             }
             else if (mcmbDepartmentId.SelectedIndex == 0 || mcmbDepartmentId.SelectedIndex == -1)
             {
-                CMessageBox.Show("Department Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please specify your department. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 mcmbDepartmentId.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(txtphone.Text))
             {
-                CMessageBox.Show("Phone Number Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Phone Number is mandatory,Fields  in star are also mandatory.Ensure all information is filled ", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtphone.Focus();
                 return false;
             }
@@ -775,7 +775,7 @@ namespace FoodandBeverage.Forms
             }
             if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
-                CMessageBox.Show("Gender Needs To Be Specified", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please specify your gender. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
                 return false;
             }
@@ -795,21 +795,21 @@ namespace FoodandBeverage.Forms
 
             else if (!IsEmployeeExist())
             {
-                CMessageBox.Show("Employee Name Is Alredy Exist", "Alredy Exist", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Employee name already exists. Please use a different name.", "Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmpName.Focus();
                 return false;
             }
 
             else if (cmbUsreAccount.SelectedIndex == 0 || cmbUsreAccount.SelectedIndex == -1)
             {
-                CMessageBox.Show("Access Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please specify the access type. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tabControl1.SelectedTab = tabPage2;
                 cmbUsreAccount.Focus();
                 return false;
             }
             else if (mcmbaccounttype.SelectedIndex == 0 || mcmbaccounttype.SelectedIndex == -1)
             {
-                CMessageBox.Show("User Type Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("User Type Need To Be specify", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tabControl1.SelectedTab = tabPage3;
                 mcmbaccounttype.Focus();
                 return false;
@@ -1697,6 +1697,54 @@ namespace FoodandBeverage.Forms
             dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
 
+            richTextBoxName.Rtf = "{\\rtf1\\ansi " +
+             "Name \\i0 *\\ulnone\\i\\b " +
+                "}";
+            richTextBoxName.Select(richTextBoxName.Text.IndexOf("*"), 1);
+            richTextBoxName.SelectionColor = Color.Red;
+            richTextBoxName.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxPhone.Rtf = "{\\rtf1\\ansi " +
+             "Phone No \\i0 *\\ulnone\\i\\b " +
+                "}";
+            richTextBoxPhone.Select(richTextBoxPhone.Text.IndexOf("*"), 1);
+            richTextBoxPhone.SelectionColor = Color.Red;
+            richTextBoxPhone.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxGender.Rtf = "{\\rtf1\\ansi " +
+           "Gender \\i0 *\\ulnone\\i\\b " +
+              "}";
+            richTextBoxGender.Select(richTextBoxGender.Text.IndexOf("*"), 1);
+            richTextBoxGender.SelectionColor = Color.Red;
+            richTextBoxGender.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxDesignation.Rtf = "{\\rtf1\\ansi " +
+          "Designation \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBoxDesignation.Select(richTextBoxDesignation.Text.IndexOf("*"), 1);
+            richTextBoxDesignation.SelectionColor = Color.Red;
+            richTextBoxDesignation.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxDepartment.Rtf = "{\\rtf1\\ansi " +
+        "Department \\i0 *\\ulnone\\i\\b " +
+           "}";
+            richTextBoxDepartment.Select(richTextBoxDepartment.Text.IndexOf("*"), 1);
+            richTextBoxDepartment.SelectionColor = Color.Red;
+            richTextBoxDepartment.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxEmail.Rtf = "{\\rtf1\\ansi " +
+       "Email \\i0 *\\ulnone\\i\\b " +
+          "}";
+            richTextBoxEmail.Select(richTextBoxEmail.Text.IndexOf("*"), 1);
+            richTextBoxEmail.SelectionColor = Color.Red;
+            richTextBoxEmail.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBoxCardno.Rtf = "{\\rtf1\\ansi " +
+      "Cardno \\i0 *\\ulnone\\i\\b " +
+         "}";
+            richTextBoxCardno.Select(richTextBoxCardno.Text.IndexOf("*"), 1);
+            richTextBoxCardno.SelectionColor = Color.Red;
+            richTextBoxCardno.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
 
             LocationFill();
            
