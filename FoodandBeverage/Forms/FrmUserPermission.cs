@@ -304,10 +304,10 @@ namespace FoodandBeverage.Forms
         }
         public void clear()
         {
-            
-            
+
+
             //pbCust.Image = Game.Properties.Resources.webcam;
-           
+            dgvforms.Visible = false;
             FillCombo();
            
             if (!Directory.Exists(Compressedimg))
@@ -472,6 +472,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
+                dgvforms.Visible = true;
                 FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
             }
 

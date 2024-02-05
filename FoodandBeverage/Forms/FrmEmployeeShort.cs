@@ -1081,6 +1081,7 @@ namespace FoodandBeverage.Forms
         }
         public void clear()
         {
+            dgvforms.Visible = false;
             chk_Rfid_Login.Checked = false;
             txtempcode.Text = "";
             txtEmpName.Text = "";
@@ -1159,6 +1160,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
+                dgvforms.Visible = true;
                 FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
             }
 
@@ -1475,6 +1477,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
@@ -1684,6 +1687,35 @@ namespace FoodandBeverage.Forms
 
         private void FrmEmployeeShort_Load(object sender, EventArgs e)
         {
+
+            richTextBox1.Rtf = "{\\rtf1\\ansi " +
+            "User Type \\i0 *\\ulnone\\i\\b " +
+               "}";
+            richTextBox1.Select(richTextBox1.Text.IndexOf("*"), 1);
+            richTextBox1.SelectionColor = Color.Red;
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBox2.Rtf = "{\\rtf1\\ansi " +
+           "User Name \\i0 *\\ulnone\\i\\b " +
+              "}";
+            richTextBox2.Select(richTextBox2.Text.IndexOf("*"), 1);
+            richTextBox2.SelectionColor = Color.Red;
+            richTextBox2.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBox3.Rtf = "{\\rtf1\\ansi " +
+          "Password \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox3.Select(richTextBox3.Text.IndexOf("*"), 1);
+            richTextBox3.SelectionColor = Color.Red;
+            richTextBox3.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+            richTextBox4.Rtf = "{\\rtf1\\ansi " +
+         "Confirm \\i0 *\\ulnone\\i\\b " +
+            "}";
+            richTextBox4.Select(richTextBox4.Text.IndexOf("*"), 1);
+            richTextBox4.SelectionColor = Color.Red;
+            richTextBox4.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
             dgvforms.BorderStyle = BorderStyle.None;
             dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -2114,6 +2146,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
@@ -2209,6 +2242,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
