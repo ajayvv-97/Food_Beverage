@@ -100,11 +100,11 @@ namespace FoodandBeverage.Forms
             this.label12 = new System.Windows.Forms.Label();
             this.cmdcity = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btsave = new System.Windows.Forms.Button();
             this.btfresh = new System.Windows.Forms.Button();
             this.btclose = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.panel5.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -121,8 +121,8 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.cboProof)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtcerti3
@@ -443,7 +443,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.992085F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.00792F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox10, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btncolse, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label23, 1, 0);
@@ -473,7 +473,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(936, 3);
+            this.btncolse.Location = new System.Drawing.Point(935, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -499,7 +499,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(906, 3);
+            this.btnmini.Location = new System.Drawing.Point(905, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(24, 25);
             this.btnmini.TabIndex = 10;
@@ -511,7 +511,7 @@ namespace FoodandBeverage.Forms
             // 
             this.certi3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.certi3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.certi3.Location = new System.Drawing.Point(509, 86);
+            this.certi3.Location = new System.Drawing.Point(508, 86);
             this.certi3.MaxLength = 20;
             this.certi3.Multiline = true;
             this.certi3.Name = "certi3";
@@ -536,7 +536,7 @@ namespace FoodandBeverage.Forms
             // 
             this.certi1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.certi1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.certi1.Location = new System.Drawing.Point(509, 3);
+            this.certi1.Location = new System.Drawing.Point(508, 3);
             this.certi1.MaxLength = 20;
             this.certi1.Multiline = true;
             this.certi1.Name = "certi1";
@@ -552,7 +552,7 @@ namespace FoodandBeverage.Forms
             this.txtg.MaxLength = 18;
             this.txtg.Multiline = true;
             this.txtg.Name = "txtg";
-            this.txtg.Size = new System.Drawing.Size(198, 29);
+            this.txtg.Size = new System.Drawing.Size(197, 29);
             this.txtg.TabIndex = 4;
             this.txtg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtg_KeyDown);
             // 
@@ -564,7 +564,7 @@ namespace FoodandBeverage.Forms
             this.txtpin.MaxLength = 6;
             this.txtpin.Multiline = true;
             this.txtpin.Name = "txtpin";
-            this.txtpin.Size = new System.Drawing.Size(198, 29);
+            this.txtpin.Size = new System.Drawing.Size(197, 29);
             this.txtpin.TabIndex = 3;
             this.txtpin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtpin_KeyDown);
             this.txtpin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpin_KeyPress);
@@ -577,7 +577,7 @@ namespace FoodandBeverage.Forms
             this.txtph.MaxLength = 13;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
-            this.txtph.Size = new System.Drawing.Size(198, 29);
+            this.txtph.Size = new System.Drawing.Size(197, 29);
             this.txtph.TabIndex = 2;
             this.txtph.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtph_KeyDown);
             this.txtph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtph_KeyPress);
@@ -589,7 +589,7 @@ namespace FoodandBeverage.Forms
             this.txtaddress.Location = new System.Drawing.Point(121, 37);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
-            this.txtaddress.Size = new System.Drawing.Size(198, 43);
+            this.txtaddress.Size = new System.Drawing.Size(197, 43);
             this.txtaddress.TabIndex = 1;
             this.txtaddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtaddress_KeyDown);
             // 
@@ -600,7 +600,7 @@ namespace FoodandBeverage.Forms
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(325, 83);
+            this.label8.Location = new System.Drawing.Point(324, 83);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(178, 38);
             this.label8.TabIndex = 292;
@@ -614,7 +614,7 @@ namespace FoodandBeverage.Forms
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(325, 34);
+            this.label9.Location = new System.Drawing.Point(324, 34);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(178, 49);
             this.label9.TabIndex = 291;
@@ -628,7 +628,7 @@ namespace FoodandBeverage.Forms
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(325, 0);
+            this.label10.Location = new System.Drawing.Point(324, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(178, 34);
             this.label10.TabIndex = 290;
@@ -645,7 +645,7 @@ namespace FoodandBeverage.Forms
             this.cmdstate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.cmdstate.FormattingEnabled = true;
             this.cmdstate.IntegralHeight = false;
-            this.cmdstate.Location = new System.Drawing.Point(325, 226);
+            this.cmdstate.Location = new System.Drawing.Point(324, 226);
             this.cmdstate.Name = "cmdstate";
             this.cmdstate.Size = new System.Drawing.Size(178, 28);
             this.cmdstate.TabIndex = 6;
@@ -658,7 +658,7 @@ namespace FoodandBeverage.Forms
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(325, 202);
+            this.label11.Location = new System.Drawing.Point(324, 202);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(49, 17);
             this.label11.TabIndex = 289;
@@ -675,7 +675,7 @@ namespace FoodandBeverage.Forms
             this.comboBox3.IntegralHeight = false;
             this.comboBox3.Location = new System.Drawing.Point(121, 226);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(198, 28);
+            this.comboBox3.Size = new System.Drawing.Size(197, 28);
             this.comboBox3.TabIndex = 5;
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
@@ -770,7 +770,7 @@ namespace FoodandBeverage.Forms
             this.txtname.Location = new System.Drawing.Point(121, 3);
             this.txtname.Multiline = true;
             this.txtname.Name = "txtname";
-            this.txtname.Size = new System.Drawing.Size(198, 28);
+            this.txtname.Size = new System.Drawing.Size(197, 28);
             this.txtname.TabIndex = 0;
             this.txtname.TextChanged += new System.EventHandler(this.txtname_TextChanged);
             this.txtname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtname_KeyDown);
@@ -792,9 +792,9 @@ namespace FoodandBeverage.Forms
             this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
             this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb3.Location = new System.Drawing.Point(750, 86);
+            this.pb3.Location = new System.Drawing.Point(749, 86);
             this.pb3.Name = "pb3";
-            this.pb3.Size = new System.Drawing.Size(39, 29);
+            this.pb3.Size = new System.Drawing.Size(42, 29);
             this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb3.TabIndex = 307;
             this.pb3.TabStop = false;
@@ -805,9 +805,9 @@ namespace FoodandBeverage.Forms
             this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
             this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb2.Location = new System.Drawing.Point(750, 37);
+            this.pb2.Location = new System.Drawing.Point(749, 37);
             this.pb2.Name = "pb2";
-            this.pb2.Size = new System.Drawing.Size(39, 29);
+            this.pb2.Size = new System.Drawing.Size(42, 29);
             this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb2.TabIndex = 306;
             this.pb2.TabStop = false;
@@ -818,7 +818,7 @@ namespace FoodandBeverage.Forms
             this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
             this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb1.Location = new System.Drawing.Point(750, 3);
+            this.pb1.Location = new System.Drawing.Point(749, 3);
             this.pb1.Name = "pb1";
             this.pb1.Size = new System.Drawing.Size(42, 28);
             this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -830,7 +830,7 @@ namespace FoodandBeverage.Forms
             this.certipic1.BackColor = System.Drawing.Color.Transparent;
             this.certipic1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic1.BackgroundImage")));
             this.certipic1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.certipic1.Location = new System.Drawing.Point(707, 3);
+            this.certipic1.Location = new System.Drawing.Point(706, 3);
             this.certipic1.Name = "certipic1";
             this.certipic1.Size = new System.Drawing.Size(37, 28);
             this.certipic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -843,7 +843,7 @@ namespace FoodandBeverage.Forms
             this.certipic3.BackColor = System.Drawing.Color.Transparent;
             this.certipic3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic3.BackgroundImage")));
             this.certipic3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.certipic3.Location = new System.Drawing.Point(707, 86);
+            this.certipic3.Location = new System.Drawing.Point(706, 86);
             this.certipic3.Name = "certipic3";
             this.certipic3.Size = new System.Drawing.Size(37, 27);
             this.certipic3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -856,7 +856,7 @@ namespace FoodandBeverage.Forms
             this.certipic2.BackColor = System.Drawing.Color.Transparent;
             this.certipic2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("certipic2.BackgroundImage")));
             this.certipic2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.certipic2.Location = new System.Drawing.Point(707, 37);
+            this.certipic2.Location = new System.Drawing.Point(706, 37);
             this.certipic2.Name = "certipic2";
             this.certipic2.Size = new System.Drawing.Size(37, 29);
             this.certipic2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -946,7 +946,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 184F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 226F));
             this.tableLayoutPanel2.Controls.Add(this.tbl_BookingIn, 3, 3);
             this.tableLayoutPanel2.Controls.Add(this.certi1, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.label12, 3, 5);
@@ -995,7 +995,7 @@ namespace FoodandBeverage.Forms
             // 
             this.tbl_BookingIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.tbl_BookingIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.tbl_BookingIn.Location = new System.Drawing.Point(509, 124);
+            this.tbl_BookingIn.Location = new System.Drawing.Point(508, 124);
             this.tbl_BookingIn.MaxLength = 20;
             this.tbl_BookingIn.Multiline = true;
             this.tbl_BookingIn.Name = "tbl_BookingIn";
@@ -1009,7 +1009,7 @@ namespace FoodandBeverage.Forms
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(509, 202);
+            this.label12.Location = new System.Drawing.Point(508, 202);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(39, 17);
             this.label12.TabIndex = 288;
@@ -1024,7 +1024,7 @@ namespace FoodandBeverage.Forms
             this.cmdcity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.cmdcity.FormattingEnabled = true;
             this.cmdcity.IntegralHeight = false;
-            this.cmdcity.Location = new System.Drawing.Point(509, 226);
+            this.cmdcity.Location = new System.Drawing.Point(508, 226);
             this.cmdcity.Name = "cmdcity";
             this.cmdcity.Size = new System.Drawing.Size(192, 28);
             this.cmdcity.TabIndex = 7;
@@ -1038,12 +1038,25 @@ namespace FoodandBeverage.Forms
             this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label24.ForeColor = System.Drawing.Color.Black;
-            this.label24.Location = new System.Drawing.Point(325, 121);
+            this.label24.Location = new System.Drawing.Point(324, 121);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(178, 40);
             this.label24.TabIndex = 309;
             this.label24.Text = "Booking Interwell :";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.certi2, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(508, 37);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(192, 43);
+            this.tableLayoutPanel4.TabIndex = 310;
             // 
             // btsave
             // 
@@ -1102,19 +1115,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.Size = new System.Drawing.Size(973, 46);
             this.tableLayoutPanel3.TabIndex = 310;
             // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.certi2, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(509, 37);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(192, 43);
-            this.tableLayoutPanel4.TabIndex = 310;
-            // 
             // FrmRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1147,9 +1147,9 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbCust)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -909,6 +909,7 @@ namespace FoodandBeverage.Forms
 
         private void cboBtype_SelectionChangeCommitted(object sender, EventArgs e)
         {
+           
             dgvforms.Rows.Clear();
             dgvforms.Rows.Add(1);
             if (Convert.ToInt32(cboBtype.SelectedValue) == Convert.ToInt32(Reservation.Restaurant))
@@ -2188,11 +2189,11 @@ namespace FoodandBeverage.Forms
                         }
                         if (datadetails == true)
                         {
-                            MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else if (datadetails == false)
                         {
-                            MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         }
                     }
@@ -2203,11 +2204,11 @@ namespace FoodandBeverage.Forms
 
                         if (saveStatus == true)
                         {
-                            MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else if (saveStatus == false)
                         {
-                            MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         }
                     }

@@ -1081,6 +1081,7 @@ namespace FoodandBeverage.Forms
         }
         public void clear()
         {
+            dgvforms.Visible = false;
             chk_Rfid_Login.Checked = false;
             txtempcode.Text = "";
             txtEmpName.Text = "";
@@ -1159,6 +1160,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
+                dgvforms.Visible = true;
                 FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
             }
 
@@ -1475,6 +1477,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
@@ -2114,6 +2117,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
@@ -2209,6 +2213,7 @@ namespace FoodandBeverage.Forms
                 if (returnValue.ToString() != null && returnValue.ToString() != "")
                 {
                     clear();
+                    dgvforms.Visible = true;
                     EmployeeId = Convert.ToInt32(returnValue.ToString());
                     BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                     DmnSearch objSearch = new DmnSearch();
