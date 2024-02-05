@@ -214,7 +214,6 @@ namespace FoodandBeverage.Forms
             dtp_to_date.MinDate = DateTime.Now;
             dtp_from_date.MinDate = DateTime.Now;
 
-
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             tlp_single_main.Visible = true;
@@ -234,6 +233,9 @@ namespace FoodandBeverage.Forms
             DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[0].Cells[sactionno];
             cellcolumntype.Value = Properties.Resources.grid_unslect_color;
             cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+            tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
 
         }
         #region TexBox Round function
@@ -401,33 +403,61 @@ namespace FoodandBeverage.Forms
 
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
-                foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
-                {
-                    textBox.Text = "";
-                }
+                //foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
+                //{
+                //    textBox.Text = "";
+                //}
 
                 flp_selected_item_combo.Controls.Clear();
                 dgv_sele_cmb_products.Rows.Clear();
                 txtcombo_omid.Text = "";
                 btn_del_combo.Visible = false;
 
+                #region tax fill reset
                 Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
                 tlp_comboproduct_view.Controls.Remove(controlToRemove1);
                 Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
                 tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+                txttaxamt.Dock = DockStyle.Fill;
 
-                cmbtaxtype.Text = "GST";
-                lbligst.Visible = true;
-                cmbIgstPrcnt.Visible = true;
-                lblvat.Visible = false;
-                cmbVatPrcnt.Visible = false;
 
-                lbligst.Dock = DockStyle.Fill;
-                cmbIgstPrcnt.Dock = DockStyle.Fill;
-                tlp_comboproduct_view.Controls.Add(lbligst, 2, 2);
-                tlp_comboproduct_view.Controls.Add(cmbIgstPrcnt, 2, 3);
+                    lbligst.Visible = true;
+                    cmbIgstPrcnt.Visible = true;
+
+                    lblvat.Visible = false;
+                    cmbVatPrcnt.Visible = false;
+
+                    controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+                    tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+                    tlp_taxtype_taxamt_lbl.Controls.Add(lbligst, 0, 0);
+
+                    controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+                    tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+                    tlp_taxtype_taxamt_txt.Controls.Add(cmbIgstPrcnt, 0, 0);
+
+                    tlp_taxtype_taxamt_lbl.Visible = true;
+                    tlp_taxtype_taxamt_txt.Visible = true;
+                    tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                    tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+
+
+                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
+                    cmbIgstPrcnt.Focus();
+                    tlp_taxtype_taxamt_txt.Visible = true;
+                    tlp_taxtype_taxamt_lbl.Visible = true;
+                
+                #endregion
+
                 btn_combo_gridview.Visible = false;
                 dgv_sele_cmb_products.Rows.Clear();
+                tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+                tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+
+                textb_shape();
 
             }
             else if (tlp_single_main.Visible)
@@ -907,6 +937,11 @@ namespace FoodandBeverage.Forms
                             var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                             if (itemSource.Count > 0)
                             {
+
+                                tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
+                                tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
+                                btn_del_combo.Visible = true;
+
                                 btn_combo_gridview.Visible = true;
 
                                 dgv_sele_cmb_products.Rows.Clear();

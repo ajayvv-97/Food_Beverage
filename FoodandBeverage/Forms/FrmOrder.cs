@@ -215,7 +215,7 @@ namespace FoodandBeverage.Forms
                 else if (BookingType == Convert.ToInt32(DashboardTableType.CombinedOrderBill))
                 {
                     Btnpartpayment.Visible = false;
-                    Btnpartpayment.Visible = false;
+                    btn_splitpayment.Visible = false;
                     int count = checkedtableNames.Count;
                     if (pnlsidebar_searchproduct.Visible)
                     {
@@ -1422,7 +1422,7 @@ namespace FoodandBeverage.Forms
                     btn_frm_close.Dock = DockStyle.Left;
                     btn_saveKOT.Visible = true;
                     btn_print_bill.Visible = false;
-
+                    btn_promo_code.Visible = false;
                 }
                 else if (typeno == 2)
                 {
@@ -1434,6 +1434,7 @@ namespace FoodandBeverage.Forms
                     btn_frm_close.Dock = DockStyle.Left;
                     btn_saveKOT.Visible = false;
                     btn_print_bill.Visible = true;
+                    btn_promo_code.Visible = true;
                 }
                 else
                 {
@@ -1443,6 +1444,7 @@ namespace FoodandBeverage.Forms
                     btn_frm_close.Dock = DockStyle.Left;
                     btn_saveKOT.Visible = false;
                     btn_print_bill.Visible = false;
+                    btn_promo_code.Visible = false;
                 }
             }
             catch(Exception ex)
@@ -2317,7 +2319,7 @@ namespace FoodandBeverage.Forms
                     pnlprice.Location = new Point(this.ClientSize.Width / 2 - pnlprice.Size.Width / 2, this.ClientSize.Height / 2 - pnlprice.Size.Height / 2);
                     tlp_price_list.AutoScroll = true;
                     tlp_multipleprice.Controls.Add(tlp_price_list,0,1);
-                }
+                } //item with multiple price 
                 else
                 {
                     if (gridSource.Count > 0)
@@ -2343,11 +2345,7 @@ namespace FoodandBeverage.Forms
                             }
 
                             if (tlp_sele != null)
-                            {
-                                string txtname = "txtqty_" + gridSource[0].Field4 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
-                                int cur_qty = Convert.ToInt32(qty.Text) + 1;
-                                qty.Text = Convert.ToString(cur_qty);
+                            {     
                                 int rowno = 0;
                                 for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                                 {
@@ -2361,6 +2359,11 @@ namespace FoodandBeverage.Forms
                                         }
                                         else
                                         {
+                                            string txtname = "txtqty_" + gridSource[0].Field4 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
+                                            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                                            qty.Text = Convert.ToString(cur_qty);
+
                                             rowno = i;
                                             totalcellamount(i);
                                             break;
@@ -6502,7 +6505,7 @@ namespace FoodandBeverage.Forms
                 rb_male.Checked = false;
 
                 Btnpartpayment.Visible = true;
-                Btnpartpayment.Visible = true;
+                btn_splitpayment.Visible = true;
 
             }
             catch (Exception)

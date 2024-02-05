@@ -1851,6 +1851,33 @@ namespace FoodandBeverage.Forms
 
             }
         }
+
+        private void txtincr_name_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtincr_name.Text != "" && (txtitemid.Text == "" || Convert.ToInt32(txtitemid.Text) == 0))
+                {
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "COUNT(DISTINCT ProductID) as Field1 FROM ( SELECT ProductID  ";
+                    objSearch.Table = "tblProduct WHERE Status = 1 AND Product = '" + txtincr_name.Text + "'  UNION SELECT ItemId FROM tblItem ";
+                    objSearch.WhereNdGroupBy = "Where status=1 and Itemname = '" + txtincr_name.Text + "' ) AS Field1";
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        CMessageBox.Show(txtincr_name.Text + " Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtincr_name.Text = "";
+                        txtincr_name.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 
 }

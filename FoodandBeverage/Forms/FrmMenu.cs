@@ -85,7 +85,7 @@ namespace FoodandBeverage.Forms
                     int count = 0;
                     for (int i = 0; i < dgv_menu.RowCount; i++)
                     {
-                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != ""))  //&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)  //&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
                         {
                             dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                             dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
@@ -108,8 +108,8 @@ namespace FoodandBeverage.Forms
                         clearall();
                         Product_Fill();
                     }
-                    else
-                        CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //else
+                        //CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -124,7 +124,16 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                if (rb_product.Checked)
+                if(searchmode==0)
+                {
+
+                    dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                    dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
+                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
+                    dmnSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
+                    dmnSearch.OrderBy = "order by Product";
+                }
+                else if (rb_product.Checked)
                 {
                     dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
                     dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
@@ -144,7 +153,7 @@ namespace FoodandBeverage.Forms
                 dgv_menu.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
-                    dgv_menu.Rows.Add(itemSource.Count);
+                    dgv_menu.Rows.Add(itemSource.Count+1);
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgv_menu.Rows[i].Cells[slno].Value = i + 1;
@@ -163,6 +172,15 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                             dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
                             dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
+
+                            Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                            int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                            Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                            chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                            chk_selectall.BackColor = Color.White;
+                            chk_selectall.Size = new Size(18, 18);
+                            chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                            dgv_menu.Controls.Add(chk_selectall);
                         }
                         else if (rb_item.Checked)
                             dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
@@ -170,16 +188,27 @@ namespace FoodandBeverage.Forms
                     }
                     if (rb_product.Checked)
                     {
+                        chk_seleall_pro.Visible = true;
                         chk_selectall.Visible = true;
                     }
                     else if (rb_item.Checked)
                     {
                         dgv_menu.Columns[pstatusno].Visible = false;
                         chk_selectall.Visible = false;
+                        chk_seleall_pro.Visible = false;
                     }
+
+                    int n = dgv_menu.RowCount - 1;
+                    dgv_menu.Rows[n].Cells[pnameno].Value = "F8 for Products";
+                    dgv_menu.Rows[n].Cells[pnameno].Style.ForeColor = Color.Red;
+
                 }
                 else
+                {
+                    chk_selectall.Visible = false;
                     CMessageBox.Show("No Products For This Category");
+                }
+
 
             }
             catch (Exception ex)
@@ -212,68 +241,182 @@ namespace FoodandBeverage.Forms
             //    return false;
             //}
             //else 
-            if (Convert.ToInt32(cmbMenu_category.SelectedValue) == 0)
-            {
-                CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbMenu_category.Focus();
-                return false;
-            }
+            //if (Convert.ToInt32(cmbMenu_category.SelectedValue) == 0)
+            //{
+            //    CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    cmbMenu_category.Focus();
+            //    return false;
+            //}
 
             return true;
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            int returnValue = 0;
-            DataTable dtColumnAlign = new DataTable();
-            dtColumnAlign.Columns.Add();
-            DmnSearch _objSearch = new DmnSearch();
-            _objSearch.ColumnHeaders = "ID,ItemCode,Product";
-            _objSearch.Select = "ProductId as Id,ItemCode  as Field1,Product  as Field2";
-            _objSearch.Table = "tblProduct";
-            _objSearch.WhereNdGroupBy = "where Status = 1";
-            _objSearch.OrderBy = " ORDER BY Product";
-            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-            if (gridSource.Count == 0)
+            try
             {
-                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                if (rb_product.Checked)
                 {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
+                    _objSearch.ColumnHeaders = "ID,ItemCode,Product,Price,Category Name";
+                    _objSearch.Select = "p.ProductId as Id,ItemCode  as Field1,Product  as Field2,Price  as Field3,c.CategoryName  as Field4";
+                    _objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=p.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";
+                    _objSearch.WhereNdGroupBy = "where p.Status=1 and ISNULL(m.MId,0)=0";
+                    _objSearch.OrderBy = " ORDER BY p.Product";
+                }
+                else if (rb_item.Checked)
+                {
+                    _objSearch.ColumnHeaders = "ID,ItemCode,Product,Price,Category Name,Quantity";
+
+                    _objSearch.Select = "i.ItemId AS ID,i.ItemCode_UPC Field3, i.Itemname AS Field2," +
+    "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field3,C.CategoryName AS Field4," +
+    "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5";
+                    _objSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c ON C.Fcid = i.Fcid";
+                    _objSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1";
+                    _objSearch.OrderBy = "order by i.Itemname";
+
+                }
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
                     {
-                        returnValue = Convert.ToInt32(search._retValue);
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToInt32(search._retValue);
+                        }
+                    }
+                    if (returnValue > 0)
+                    {
+                        if (rb_product.Checked)
+                        {
+
+                            BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
+                            DmnSearch objSearch = new DmnSearch();
+                            objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ";
+                            objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid ";
+                            objSearch.WhereNdGroupBy = "Where p.status=1 and  p.productid=" + returnValue;
+                            objSearch.OrderBy = "";
+                            var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
+                            if (itemSource.Count > 0)
+                            {
+                                for (int i = 0; i < dgv_menu.RowCount; i++)
+                                {
+                                    if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) == Convert.ToInt32(itemSource[0].Field1))
+                                    {
+                                        CMessageBox.Show("Product Already selected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        dgv_menu.ClearSelection();
+                                        dgv_menu.Rows[i].Selected = true;
+                                        return;
+                                    }
+                                }
+                                int rowno = dgv_menu.RowCount - 1;
+                                dgv_menu.Rows[rowno].Cells[slno].Value = rowno + 1;
+                                dgv_menu.Rows[rowno].Cells[piidno].Value = itemSource[0].Field1;
+                                dgv_menu.Rows[rowno].Cells[pnameno].Value = itemSource[0].Field2;
+                                dgv_menu.Rows[rowno].Cells[pcatno].Value = itemSource[0].Field3;
+                                dgv_menu.Rows[rowno].Cells[ppriceno].Value = itemSource[0].Field4;
+                                dgv_menu.Rows[rowno].Cells[pfcidno].Value = itemSource[0].Field5;
+                                dgv_menu.Rows[rowno].Cells[pmidno].Value = itemSource[0].Field7;
+                                dgv_menu.Rows[rowno].Cells[pnameno].Style.ForeColor = Color.Black;
+                                dgv_menu.Rows[rowno].Cells[pqtyno].Style.BackColor = Color.LightGray;
+                                dgv_menu.Columns[pstatusno].Visible = true;
+                                chk_selectall.Visible = true;
+                            }
+                            dgv_menu.Rows.Add();
+                            int r = dgv_menu.RowCount - 1;
+                            dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                            dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+
+                        }
+
+                        else if (rb_item.Checked)
+                        {
+                            BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
+                            DmnSearch objSearch = new DmnSearch();
+                            objSearch.Select = "i.ItemId AS Field1, i.Itemname AS Field2,C.CategoryName AS Field3," +
+                    "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field4, i.Fcid AS Field5," +
+                    "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field6 ";
+                            objSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c ON C.Fcid = i.Fcid";
+                            objSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1 and i.itemid = "+ returnValue;
+                            objSearch.OrderBy = "order by i.Itemname";
+                            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                            dgv_menu.Rows.Clear();
+                            if (itemSource.Count > 0)
+                            {
+                                dgv_menu.Rows.Add(itemSource.Count);
+                                for (int i = 0; i < itemSource.Count; i++)
+                                {
+                                    dgv_menu.Rows[i].Cells[slno].Value = i + 1;
+                                    dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
+                                    dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
+                                    dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
+                                    dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
+                                    dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
+                                    dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+
+                                    dgv_menu.Columns[pstatusno].Visible = false;
+                                    chk_selectall.Visible = false;
+
+                                    if (Convert.ToInt32(itemSource[i].Field6) == 1)
+                                        dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                                    else
+                                        dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+
+                                }
+                                Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                                int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                                Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                                chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                                chk_selectall.BackColor = Color.White;
+                                chk_selectall.Size = new Size(18, 18);
+                                chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                                dgv_menu.Controls.Add(chk_selectall);
+
+
+                            }
+                        }
                     }
                 }
-                if (returnValue > 0)
-                {
-
-                    for (int i = 0; i < dgv_menu.Rows.Count; i++)
-                    {
-                        if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) == returnValue)
-                            dgv_menu.Rows[i].Selected = true;
-                        else
-                            dgv_menu.Rows[i].Selected = false;
-
-                    }
-                }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
-            //Fillmenu(0);
+           Fillmenu(0);
+            if(rb_product.Checked && dgv_menu.RowCount==0)
+            {
+                dgv_menu.Rows.Clear();
+                dgv_menu.Rows.Add();
+                int r = dgv_menu.RowCount - 1;
+                dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+            }
+
         }
         public void clearall()
         {
             cmbSearchlist.SelectedIndex = -1;
+            cmbMenu_category.SelectedIndex = -1;
+            txtsearchlist.Text = "";
             txtsearch.Text = "";
             rb_item.Checked = false;
             rb_product.Checked = true;
+            chk_seleall_pro.Checked = false;
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
@@ -286,6 +429,7 @@ namespace FoodandBeverage.Forms
                 else
                     dgv_menu.Enabled = false;
             }
+
             cmbMenu_category.Focus();
             //Fillmenu(0);
             dgv_menu.BorderStyle = BorderStyle.None;
@@ -707,6 +851,17 @@ namespace FoodandBeverage.Forms
                         dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                         dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
                         dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
+
+                        dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
+
+                        Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                        int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                        Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                        chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                        chk_selectall.BackColor = Color.White;
+                        chk_selectall.Size = new Size(18, 18);
+                        chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                        dgv_menu.Controls.Add(chk_selectall);
                     }
                     else if (rb_item.Checked)
                         dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
@@ -715,15 +870,21 @@ namespace FoodandBeverage.Forms
                 if (rb_product.Checked)
                 {
                     chk_selectall.Visible = true;
+                    chk_seleall_pro.Visible = true;
                 }
                 else if (rb_item.Checked)
                 {
                     dgv_menu.Columns[pstatusno].Visible = false;
                     chk_selectall.Visible = false;
+                    chk_seleall_pro.Visible = false;
                 }
             }
             else
+            {
+                chk_selectall.Visible = false;
                 CMessageBox.Show("No Products For This Name");
+            }
+
         }
         private void Search_Click(object sender, EventArgs e)
         {
@@ -892,10 +1053,10 @@ namespace FoodandBeverage.Forms
             {
                 case Keys.Tab:
                     Movefocus(1);
-                    return true; // Mark the key as handled
+                    return true; 
                 case Keys.Enter:
                     Movefocus(0);
-                    return true; // Mark the key as handled
+                    return true; 
                 case Keys.Escape:
                     if (tlp_menu_Gallery_main.Visible)
                     {
@@ -1034,9 +1195,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
-
-
         }
 
         private void rb_product_CheckedChanged(object sender, EventArgs e)
@@ -1046,7 +1204,6 @@ namespace FoodandBeverage.Forms
                 cmbMenu_category.SelectedIndex = -1;
                 Product_Fill();
                 txtsearchlist.Text = "";
-                chk_selectall.Visible = true;
             }
         }
         public void Item_Fill()
@@ -1078,6 +1235,7 @@ namespace FoodandBeverage.Forms
 
                         dgv_menu.Columns[pstatusno].Visible = false;
                         chk_selectall.Visible = false;
+                        chk_seleall_pro.Visible = false;
 
                         if (Convert.ToInt32(itemSource[i].Field6) == 1)
                             dgv_menu.Rows[i].Cells[pstatusno].Value = true;
@@ -1113,7 +1271,7 @@ namespace FoodandBeverage.Forms
                 objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
                 objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                     "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
-                objSearch.WhereNdGroupBy = "Where  m.status=1";
+                objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
                 objSearch.OrderBy = "order by Product";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 dgv_menu.Rows.Clear();
@@ -1134,12 +1292,16 @@ namespace FoodandBeverage.Forms
                         dgv_menu.Columns[pstatusno].Visible = true;
 
                         chk_selectall.Visible = true;
+                        chk_seleall_pro.Visible = true;
+
                         if (Convert.ToInt32(itemSource[i].Field6) == 1)
                             dgv_menu.Rows[i].Cells[pstatusno].Value = true;
                         else
                             dgv_menu.Rows[i].Cells[pstatusno].Value = false;
 
                     }
+
+
                     Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
                     int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
                     Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
@@ -1150,9 +1312,14 @@ namespace FoodandBeverage.Forms
                     dgv_menu.Controls.Add(chk_selectall);
 
 
+                    int n = dgv_menu.RowCount - 1;
+                    dgv_menu.Rows[n].Cells[pnameno].Value = "F8 for Products";
+                    dgv_menu.Rows[n].Cells[pnameno].Style.ForeColor = Color.Red;
+
                 }
                 else
                 {
+                    chk_selectall.Visible = false;
                     dgv_menu.Rows.Clear();
                     dgv_menu.Rows.Add();
                     int r = dgv_menu.RowCount - 1;
@@ -1213,6 +1380,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=p.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";
                 _objSearch.WhereNdGroupBy = "where p.Status=1 and ISNULL(m.MId,0)=0";
                 _objSearch.OrderBy = " ORDER BY p.Product";
+
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
                 {
@@ -1234,7 +1402,7 @@ namespace FoodandBeverage.Forms
                         DmnSearch objSearch = new DmnSearch();
                         objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ";
                         objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid ";
-                        objSearch.WhereNdGroupBy = "Where  p.productid="+returnValue;
+                        objSearch.WhereNdGroupBy = "Where p.status=1 and  p.productid=" + returnValue;
                         objSearch.OrderBy = "";
                         var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
                         if (itemSource.Count > 0)
@@ -1371,6 +1539,52 @@ namespace FoodandBeverage.Forms
             //        dgv_menu.Rows[dgv_menu.CurrentCell.RowIndex].Cells[pnameno].Value = "";
             //    }
             //}
+        }
+
+        private void chk_seleall_pro_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if(chk_seleall_pro.Checked)
+                {
+                    BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ";
+                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";
+                    objSearch.WhereNdGroupBy = "where p.Status=1 and ISNULL(m.MId,0)=0";
+                    objSearch.OrderBy = "";
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        int rowno = dgv_menu.RowCount - 1;
+                        dgv_menu.Rows.Add(itemSource.Count-1);
+                        for (int i = 0; i < itemSource.Count; i++)
+                        {
+                            if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) != Convert.ToInt32(itemSource[0].Field1))
+                            {
+                                dgv_menu.Rows[rowno].Cells[slno].Value = rowno + 1;
+                                dgv_menu.Rows[rowno].Cells[piidno].Value = itemSource[i].Field1;
+                                dgv_menu.Rows[rowno].Cells[pnameno].Value = itemSource[i].Field2;
+                                dgv_menu.Rows[rowno].Cells[pcatno].Value = itemSource[i].Field3;
+                                dgv_menu.Rows[rowno].Cells[ppriceno].Value = itemSource[i].Field4;
+                                dgv_menu.Rows[rowno].Cells[pfcidno].Value = itemSource[i].Field5;
+                                dgv_menu.Rows[rowno].Cells[pmidno].Value = itemSource[i].Field7;
+                                dgv_menu.Rows[rowno].Cells[pnameno].Style.ForeColor = Color.Black;
+                                dgv_menu.Rows[rowno].Cells[pqtyno].Style.BackColor = Color.LightGray;
+                                dgv_menu.Columns[pstatusno].Visible = true;
+                                chk_selectall.Visible = true;
+                                rowno++;
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }
