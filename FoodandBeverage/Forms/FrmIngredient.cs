@@ -1617,16 +1617,147 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
+        #region Grid Flow Fuction
+        private int GetNextVisibleColumn(int currentColumnIndex)
+        {
+            try
+            {
+                for (int i = currentColumnIndex + 1; i < dgv_registartion.ColumnCount; i++)
+                {
+                    if (dgv_registartion.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+        private int GetNextVisibleRow(int currentRowIndex)
+        {
+            try
+            {
+                for (int i = currentRowIndex + 1; i < dgv_registartion.RowCount; i++)
+                {
+                    if (dgv_registartion.Rows[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        private int GetFirstVisibleColumn()
+        {
+            try
+            {
+                for (int i = 0; i < dgv_registartion.ColumnCount; i++)
+                {
+                    if (dgv_registartion.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+        #endregion
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.Tab:
-                    Movefocus(1);
-                    return true; // Mark the key as handled
+                    if (dgv_registartion.Focused)
+                    {
+                        try
+                        {
+                            if (dgv_registartion.Focused)
+                            {
+                                int currentRowIndex = dgv_registartion.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgv_registartion.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgv_registartion.CurrentCell = dgv_registartion[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgv_registartion.CurrentCell = dgv_registartion[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        btnsave.Focus();
+                                    }
+                                }
+
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    else
+                        Movefocus(1);
+                    return true; 
                 case Keys.Enter:
-                    Movefocus(0);
-                    return true; // Mark the key as handled
+                    if (dgv_registartion.Focused)
+                    {
+                        try
+                        {
+        
+                                int currentRowIndex = dgv_registartion.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgv_registartion.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgv_registartion.CurrentCell = dgv_registartion[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgv_registartion.CurrentCell = dgv_registartion[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        btnsave.Focus();
+                                    }
+                                }
+
+                            
+                        }
+
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    else
+                        Movefocus(0);
+                    return true; 
                 case Keys.Escape:
                     if (pnl_menupic.Visible)
                         pnl_menupic.Visible = false;

@@ -465,7 +465,7 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrEmpty(txtdocno.Text))
             {
-                CMessageBox.Show("Document Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Document Number Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtdocno.Focus();
                 return false;
             }
@@ -477,19 +477,19 @@ namespace FoodandBeverage.Forms
             //}
             else if (Convert.ToInt32(custname.SelectedValue) < 0)
             {
-                CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Vendor Name Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 custname.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(address.Text))
             {
-                CMessageBox.Show("Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Address Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 address.Focus();
                 return false;
             }
             else if (string.IsNullOrEmpty(contactno.Text))
             {
-                CMessageBox.Show("Contact Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Contact Number Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 contactno.Focus();
                 return false;
             }
@@ -501,7 +501,7 @@ namespace FoodandBeverage.Forms
             //}
             else if (string.IsNullOrEmpty(netamount.Text) || netamount.Text.ToString() == "0")
             {
-                CMessageBox.Show("Netamount Is Not Zero & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Netamount Is Not Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtEmail.Focus();
                 return false;
             }
@@ -795,14 +795,14 @@ namespace FoodandBeverage.Forms
                             CMessageBox.Show("Quantity Must Be Grater Than Or Equal To One", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             e.Cancel = true;
                         }
-                        else if (!int.TryParse(Convert.ToString(cell.EditedFormattedValue), out value))
-                        {
-                            //dgvProduct.Rows[e.RowIndex].Cells[iqty].Value = decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue));
-                            dgvProduct.EditingControl.Text = Convert.ToString(decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue)));
-                            //CMessageBox.Show("Decimal Point Is Not Allowed In Quantity", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            //e.Cancel = true;
-                            return;
-                        }
+                        //else if (!int.TryParse(Convert.ToString(cell.EditedFormattedValue), out value))
+                        //{
+                        //    //dgvProduct.Rows[e.RowIndex].Cells[iqty].Value = decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue));
+                        //    dgvProduct.EditingControl.Text = Convert.ToString(decimal.ToInt32(Convert.ToDecimal(cell.EditedFormattedValue)));
+                        //    //CMessageBox.Show("Decimal Point Is Not Allowed In Quantity", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //    //e.Cancel = true;
+                        //    return;
+                        //}
                     }
                     CellRow = true;
 
@@ -1611,15 +1611,149 @@ namespace FoodandBeverage.Forms
             if (e.KeyChar == '\r') // Check for Enter key            
                 e.Handled = true; // Suppress the Enter key
         }
+
+        #region Grid Flow Fuction
+        private int GetNextVisibleColumn(int currentColumnIndex)
+        {
+            try
+            {
+          for (int i = currentColumnIndex + 1; i < dgvProduct.ColumnCount; i++)
+            {
+                if (dgvProduct.Columns[i].Visible)
+                {
+                    return i;
+                }
+            }
+            return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }  
+        }
+        private int GetNextVisibleRow(int currentRowIndex)
+        {
+            try
+            {
+             for (int i = currentRowIndex + 1; i < dgvProduct.RowCount; i++)
+            {
+                if (dgvProduct.Rows[i].Visible)
+                {
+                    return i;
+                }
+            }
+            return -1; 
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+   
+        }
+        private int GetFirstVisibleColumn()
+        {
+            try
+            {
+                for (int i = 0; i < dgvProduct.ColumnCount; i++)
+                {
+                    if (dgvProduct.Columns[i].Visible)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+ 
+        }
+        #endregion
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.Tab:
-                    Movefocus(1);
-                    return true; // Mark the key as handled
-                case Keys.Enter:
-                    if (pnl_barcode.Visible)
+                    if (dgvProduct.Focused)
+                    {
+                        try
+                        {
+                            if (dgvProduct.Focused)
+                            {
+                                int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgvProduct.CurrentCell = dgvProduct[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgvProduct.CurrentCell = dgvProduct[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        discountper.Focus();
+                                    }
+                                }
+
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    else
+                        Movefocus(1);
+                    return true; 
+                case Keys.Enter:                   
+                    
+                   if (dgvProduct.Focused)
+                    {
+                        try
+                        {
+                            if (dgvProduct.Focused)
+                            {
+                                int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+                                int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+
+                                int nextColumnIndex = GetNextVisibleColumn(currentColumnIndex);
+
+                                if (nextColumnIndex != -1)
+                                {
+                                    dgvProduct.CurrentCell = dgvProduct[nextColumnIndex, currentRowIndex];
+                                }
+                                else
+                                {
+                                    int nextRowIndex = GetNextVisibleRow(currentRowIndex);
+                                    if (nextRowIndex != -1)
+                                    {
+                                        dgvProduct.CurrentCell = dgvProduct[GetFirstVisibleColumn(), nextRowIndex];
+                                    }
+                                    else
+                                    {
+                                        discountper.Focus();
+                                    }
+                                }
+
+                            }
+                        }
+                        
+                        catch(Exception ex)
+                        {
+            
+                        }                
+                    }
+                    else if (pnl_barcode.Visible)
                     {
                         pnl_barcode.Visible = false;
                         dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;

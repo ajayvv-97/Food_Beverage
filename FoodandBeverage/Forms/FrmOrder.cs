@@ -214,6 +214,8 @@ namespace FoodandBeverage.Forms
                     CheckRe_Bookingorder();                
                 else if (BookingType == Convert.ToInt32(DashboardTableType.CombinedOrderBill))
                 {
+                    Btnpartpayment.Visible = false;
+                    Btnpartpayment.Visible = false;
                     int count = checkedtableNames.Count;
                     if (pnlsidebar_searchproduct.Visible)
                     {
@@ -6495,8 +6497,13 @@ namespace FoodandBeverage.Forms
                 txtemailid.Text = "";
                 txtaddress.Text = "";
                 txtcusname.Text = "";
+
                 rb_female.Checked = false;
                 rb_male.Checked = false;
+
+                Btnpartpayment.Visible = true;
+                Btnpartpayment.Visible = true;
+
             }
             catch (Exception)
             {

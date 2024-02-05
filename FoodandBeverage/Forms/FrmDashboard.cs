@@ -727,7 +727,7 @@ namespace FoodandBeverage.Forms
                                 lbltablename.AccessibleDescription = "0";
                                 pnl_box.AccessibleDescription ="0";
 
-                                if (Convert.ToInt32(gridSource[i].Field5) == 1)
+                                if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
                                 {
                                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                     dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
@@ -755,7 +755,7 @@ namespace FoodandBeverage.Forms
                                     dynamic_pic.Click += new EventHandler(tableClickEventHandler);
                                     dynamic_pic.AccessibleDescription = "0";
                                 }
-                                else
+                                else//reservation booking order
                                 {
                                     if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                     {
@@ -770,7 +770,9 @@ namespace FoodandBeverage.Forms
                                         dynamic_pic.BringToFront();
                                         dynamic_pic.Margin = new Padding(20, 10, 0, 0);
                                         dynamic_pic.Click += new EventHandler(tableClickEventHandler);
-                                        if (Convert.ToInt32(gridSource[i].Field6) > 0)
+
+                                        #region order sent to kitchen ( running or complete )
+                                        if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
                                         {
                                             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                             dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
@@ -790,11 +792,14 @@ namespace FoodandBeverage.Forms
                                             pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                         }
-                                        else
+                                        #endregion
+
+                                        #region order not  sent to kitchen reservation or overtime 
+                                        else //order not  sent to kitchen reservation or overtime 
                                         {
                                             DateTime modifiedEndDate = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                                             if ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[i].EndDate.AddMinutes(AddMinutes)))
-                                            {                         
+                                            {
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserved_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -811,8 +816,10 @@ namespace FoodandBeverage.Forms
                                                 pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                             }
-               
+
                                         }
+                                        #endregion
+
 
                                     }
                                 }
@@ -852,7 +859,7 @@ namespace FoodandBeverage.Forms
                 dmnReservation.CreatedBy = FrmDashboard.UserId;
                 dmnReservation.Status = 0;
                 dmnReservation.BranchId = 1030;
-                var InsertStatus = bllReservation.Reservation_Delete("prd_deleteReservation", dmnReservation);
+                var InsertStatus = bllReservation.Reservation_Delete("prd_CheckexpireTableReservation", dmnReservation);
                 if (InsertStatus.BookmasterId > 0)
                 {
 
@@ -1040,7 +1047,6 @@ namespace FoodandBeverage.Forms
 
                 if (clickedControl != null)
                 {
-
                     string tableCode = clickedControl.Name;
                     int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                     int screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -1079,19 +1085,19 @@ namespace FoodandBeverage.Forms
                         var result = CMessageBox.Show("Do You want Cancel  This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
                         if (result == DialogResult.Yes)
                         {
-                            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                            DmnSearch dmnSearch = new DmnSearch();
-                            dmnSearch.Select = " bm.BookmasterId Field1";
-                            dmnSearch.Table = "tblBookDetails bd " +
-                                "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId ";
-                            dmnSearch.WhereNdGroupBy = " where bm.Status=1 and Rid=0 and bd.MTID= " + clickedControl.Tag;
-                            dmnSearch.OrderBy = "";
-                            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                            if(gridSource.Count>0)
-                            {
+                            //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                            //DmnSearch dmnSearch = new DmnSearch();
+                            //dmnSearch.Select = " bm.BookmasterId Field1";
+                            //dmnSearch.Table = "tblBookDetails bd " +
+                            //    "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId ";
+                            //dmnSearch.WhereNdGroupBy = " where bm.Status=1 and Rid=0 and bd.MTID= " + clickedControl.Tag;
+                            //dmnSearch.OrderBy = "";
+                            //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                            //if(gridSource.Count>0)
+                            //{
                                 BllReservation bllReservation = new BllReservation();
                                 DmnReservation dmnReservation = new DmnReservation();
-                                dmnReservation.BookmasterId =Convert.ToInt32(gridSource[0].Field1);
+                                dmnReservation.BookmasterId =Convert.ToInt32(bmasterid);
                                 dmnReservation.CreatedBy = FrmDashboard.UserId;
                                 dmnReservation.Status = 0;
                                 dmnReservation.BranchId = 1030;
@@ -1099,8 +1105,10 @@ namespace FoodandBeverage.Forms
                                 if(InsertStatus.BookmasterId>0)
                                 {
                                     CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
-                                }
+                               TableStaus(0);
+
                             }
+                            //}
                         }
                         else if (result == DialogResult.No)
                         {

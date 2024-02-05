@@ -85,8 +85,7 @@ namespace FoodandBeverage.Forms
                     int count = 0;
                     for (int i = 0; i < dgv_menu.RowCount; i++)
                     {
-                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null || (dgv_menu.Rows[i].Cells[piidno].Value) != ""))//&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-
+                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != ""))  //&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
                         {
                             dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                             dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
@@ -103,7 +102,7 @@ namespace FoodandBeverage.Forms
                             count++;
                         }
                     }
-                    if (count == dgv_menu.RowCount)
+                    if (count == dgv_menu.RowCount-1)
                     {
                         CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         clearall();
@@ -267,7 +266,7 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
-            Fillmenu(0);
+            //Fillmenu(0);
         }
         public void clearall()
         {
@@ -1047,6 +1046,7 @@ namespace FoodandBeverage.Forms
                 cmbMenu_category.SelectedIndex = -1;
                 Product_Fill();
                 txtsearchlist.Text = "";
+                chk_selectall.Visible = true;
             }
         }
         public void Item_Fill()
@@ -1152,7 +1152,14 @@ namespace FoodandBeverage.Forms
 
                 }
                 else
-                    CMessageBox.Show("No Products For This Category");
+                {
+                    dgv_menu.Rows.Clear();
+                    dgv_menu.Rows.Add();
+                    int r = dgv_menu.RowCount - 1;
+                    dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                    dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+                }
+
             }
             catch (Exception ex)
             {
@@ -1203,8 +1210,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.ColumnHeaders = "ID,ItemCode,Product,Price,Category Name";
                 _objSearch.Select = "p.ProductId as Id,ItemCode  as Field1,Product  as Field2,Price  as Field3,c.CategoryName  as Field4";
-                _objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=p.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
-                _objSearch.WhereNdGroupBy = "where  m.Status = 0 and p.Status=1";
+                _objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=p.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";
+                _objSearch.WhereNdGroupBy = "where p.Status=1 and ISNULL(m.MId,0)=0";
                 _objSearch.OrderBy = " ORDER BY p.Product";
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
@@ -1256,6 +1263,10 @@ namespace FoodandBeverage.Forms
                             chk_selectall.Visible = true;
                         }
                         dgv_menu.Rows.Add();
+                         int r = dgv_menu.RowCount - 1;
+                        dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                        dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+
                     }
                 }
             }
@@ -1321,6 +1332,10 @@ namespace FoodandBeverage.Forms
                         if (n == 0)
                         {
                             dgv_menu.Rows.Add(1);
+                            dgv_menu.Rows.Add();
+                            int r = dgv_menu.RowCount - 1;
+                            dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                            dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
                         }
                     }
               
@@ -1349,13 +1364,13 @@ namespace FoodandBeverage.Forms
 
         private void dgv_menu_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == pnameno)
-            {
-                if (dgv_menu.Rows[dgv_menu.CurrentCell.RowIndex].Cells[piidno].Value == null)
-                {
-                    dgv_menu.Rows[dgv_menu.CurrentCell.RowIndex].Cells[pnameno].Value = "";
-                }
-            }
+            //if (e.ColumnIndex == pnameno)
+            //{
+            //    if (dgv_menu.Rows[dgv_menu.CurrentCell.RowIndex].Cells[piidno].Value == null)
+            //    {
+            //        dgv_menu.Rows[dgv_menu.CurrentCell.RowIndex].Cells[pnameno].Value = "";
+            //    }
+            //}
         }
     }
 }

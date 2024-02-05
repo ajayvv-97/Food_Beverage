@@ -540,7 +540,6 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvorderview.Location = new System.Drawing.Point(0, 0);
             this.dgvorderview.Name = "dgvorderview";
-            this.dgvorderview.ReadOnly = true;
             this.dgvorderview.RowHeadersVisible = false;
             this.dgvorderview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -756,7 +755,6 @@ namespace FoodandBeverage.Forms
             this.CmbTableCode.DefaultCellStyle = dataGridViewCellStyle13;
             this.CmbTableCode.HeaderText = "TableCode";
             this.CmbTableCode.Name = "CmbTableCode";
-            this.CmbTableCode.ReadOnly = true;
             this.CmbTableCode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.CmbTableCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
@@ -791,7 +789,6 @@ namespace FoodandBeverage.Forms
             this.Removedes.DefaultCellStyle = dataGridViewCellStyle16;
             this.Removedes.HeaderText = "Decription";
             this.Removedes.Name = "Removedes";
-            this.Removedes.ReadOnly = true;
             this.Removedes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Removedes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
@@ -800,7 +797,6 @@ namespace FoodandBeverage.Forms
             this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Status.HeaderText = "Status";
             this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
             this.Status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Status.Visible = false;

@@ -154,7 +154,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7";
+                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
                 dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
                 dgvorderview.Rows.Clear();
                 int rowIndex = 0;
@@ -193,11 +193,22 @@ namespace FoodandBeverage.Forms
 
                             if (Convert.ToInt32(gridSource[i].Field7) > 0)
                             {
-
                                 FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field7));
                             }
                             else
-                                dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field2;
+                            {
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[i].Cells[tablecodeno];
+                                dropDown.Items.Clear();
+                                List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
+                                comboBoxItems.Add(comboBoxItem);
+                                dropDown.DataSource = comboBoxItems;
+                                dropDown.ValueMember = "Id";
+                                dropDown.DisplayMember = "Value";
+                                dropDown.Value = comboBoxItems[0].Id;
+                                dropDown.ReadOnly = true;
+                            }
+
 
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
@@ -343,7 +354,7 @@ namespace FoodandBeverage.Forms
                         #endregion
                         
                     }
-             break;
+
                 }
                 if (dgvorderview.Rows.Count == 0)
                 {
@@ -376,28 +387,16 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "where BookmasterId =" + bookingmasterid + " and Rid=0";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                gridSource[0].Id = 0;
+                gridSource[0].Value = "Show Table";
 
-                DataGridViewComboBoxCell comboCell = dgvorderview[tablecodeno, rowindex] as DataGridViewComboBoxCell;
-                comboCell.DataSource = null;
+                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+                dropDown.DataSource = gridSource;
+                dropDown.ValueMember = "Id";
+                dropDown.DisplayMember = "Value";
 
-                CmbTableCode.DataSource = gridSource;
-                CmbTableCode.ValueMember = "Id";
-                CmbTableCode.DisplayMember = "Value";
-
-                //comboCell.Items.Clear();
-                //List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                //foreach (var item in gridSource)
-                //{
-                //    int id = Convert.ToInt32(item.Id);
-                //    if (id != -1 && item.Value != null)
-                //    {
-                //        string value = item.Value;
-                //        ComboBoxItem comboBoxItem = new ComboBoxItem(id, value);
-                //        comboBoxItems.Add(comboBoxItem);
-                //    }
-                //}
-                //comboCell.Items.Clear();
-                //comboCell.DataSource = comboBoxItems;
+                dropDown.Value = gridSource[0].Id;
+                dropDown.ReadOnly = false;
             }
             catch (Exception ex)
             {
