@@ -77,7 +77,7 @@ namespace FoodandBeverage.Forms
             this.tlp_comboproduct_view = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_taxtype_taxamt_lbl = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_desc_del = new System.Windows.Forms.TableLayoutPanel();
             this.btn_del_combo = new System.Windows.Forms.Button();
             this.txtcombodes = new System.Windows.Forms.TextBox();
             this.tlp_taxtype_taxamt_txt = new System.Windows.Forms.TableLayoutPanel();
@@ -207,7 +207,7 @@ namespace FoodandBeverage.Forms
             this.tlp_combo.SuspendLayout();
             this.tlp_comboproduct_view.SuspendLayout();
             this.tlp_taxtype_taxamt_lbl.SuspendLayout();
-            this.tableLayoutPanel9.SuspendLayout();
+            this.tlp_desc_del.SuspendLayout();
             this.tlp_taxtype_taxamt_txt.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -316,7 +316,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.40223F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.59776F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             this.tableLayoutPanel1.Controls.Add(this.btnsingle, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_combo, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_view, 3, 0);
@@ -337,7 +337,7 @@ namespace FoodandBeverage.Forms
             this.btnsingle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnsingle.Location = new System.Drawing.Point(57, 3);
             this.btnsingle.Name = "btnsingle";
-            this.btnsingle.Size = new System.Drawing.Size(107, 36);
+            this.btnsingle.Size = new System.Drawing.Size(106, 36);
             this.btnsingle.TabIndex = 0;
             this.btnsingle.UseVisualStyleBackColor = true;
             this.btnsingle.Click += new System.EventHandler(this.btnsingle_Click);
@@ -349,7 +349,7 @@ namespace FoodandBeverage.Forms
             this.btn_combo.FlatAppearance.BorderSize = 0;
             this.btn_combo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_combo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_combo.Location = new System.Drawing.Point(170, 3);
+            this.btn_combo.Location = new System.Drawing.Point(169, 3);
             this.btn_combo.Name = "btn_combo";
             this.btn_combo.Size = new System.Drawing.Size(137, 36);
             this.btn_combo.TabIndex = 1;
@@ -358,7 +358,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_view
             // 
-            this.btn_view.Location = new System.Drawing.Point(336, 3);
+            this.btn_view.Location = new System.Drawing.Point(335, 3);
             this.btn_view.Name = "btn_view";
             this.btn_view.Size = new System.Drawing.Size(37, 36);
             this.btn_view.TabIndex = 2;
@@ -649,7 +649,7 @@ namespace FoodandBeverage.Forms
             this.tlp_combo.ColumnCount = 3;
             this.tlp_combo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.043025F));
             this.tlp_combo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98.95698F));
-            this.tlp_combo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tlp_combo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlp_combo.Controls.Add(this.tlp_comboproduct_view, 1, 0);
             this.tlp_combo.Controls.Add(this.flp_selected_item_combo, 1, 2);
             this.tlp_combo.Controls.Add(this.btn_combo_gridview, 2, 2);
@@ -672,7 +672,7 @@ namespace FoodandBeverage.Forms
             this.tlp_comboproduct_view.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.46781F));
             this.tlp_comboproduct_view.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.03863F));
             this.tlp_comboproduct_view.Controls.Add(this.tlp_taxtype_taxamt_lbl, 2, 2);
-            this.tlp_comboproduct_view.Controls.Add(this.tableLayoutPanel9, 3, 5);
+            this.tlp_comboproduct_view.Controls.Add(this.tlp_desc_del, 3, 5);
             this.tlp_comboproduct_view.Controls.Add(this.tlp_taxtype_taxamt_txt, 2, 3);
             this.tlp_comboproduct_view.Controls.Add(this.label16, 0, 0);
             this.tlp_comboproduct_view.Controls.Add(this.btn_AddcomboProduct, 0, 1);
@@ -706,7 +706,7 @@ namespace FoodandBeverage.Forms
             this.tlp_comboproduct_view.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_comboproduct_view.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_comboproduct_view.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_comboproduct_view.Size = new System.Drawing.Size(694, 205);
+            this.tlp_comboproduct_view.Size = new System.Drawing.Size(693, 205);
             this.tlp_comboproduct_view.TabIndex = 259;
             this.tlp_comboproduct_view.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_comboproduct_view_Paint);
             // 
@@ -717,7 +717,7 @@ namespace FoodandBeverage.Forms
             this.tlp_taxtype_taxamt_lbl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.54054F));
             this.tlp_taxtype_taxamt_lbl.Controls.Add(this.label4, 1, 0);
             this.tlp_taxtype_taxamt_lbl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_taxtype_taxamt_lbl.Location = new System.Drawing.Point(319, 76);
+            this.tlp_taxtype_taxamt_lbl.Location = new System.Drawing.Point(318, 76);
             this.tlp_taxtype_taxamt_lbl.Name = "tlp_taxtype_taxamt_lbl";
             this.tlp_taxtype_taxamt_lbl.RowCount = 1;
             this.tlp_taxtype_taxamt_lbl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -737,20 +737,20 @@ namespace FoodandBeverage.Forms
             this.label4.Text = "Tax Amt";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // tableLayoutPanel9
+            // tlp_desc_del
             // 
-            this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.Controls.Add(this.btn_del_combo, 1, 0);
-            this.tableLayoutPanel9.Controls.Add(this.txtcombodes, 0, 0);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(509, 159);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 1;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(182, 44);
-            this.tableLayoutPanel9.TabIndex = 0;
+            this.tlp_desc_del.ColumnCount = 2;
+            this.tlp_desc_del.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_desc_del.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_desc_del.Controls.Add(this.btn_del_combo, 1, 0);
+            this.tlp_desc_del.Controls.Add(this.txtcombodes, 0, 0);
+            this.tlp_desc_del.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_desc_del.Location = new System.Drawing.Point(508, 159);
+            this.tlp_desc_del.Name = "tlp_desc_del";
+            this.tlp_desc_del.RowCount = 1;
+            this.tlp_desc_del.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_desc_del.Size = new System.Drawing.Size(182, 44);
+            this.tlp_desc_del.TabIndex = 0;
             // 
             // btn_del_combo
             // 
@@ -783,7 +783,7 @@ namespace FoodandBeverage.Forms
             this.tlp_taxtype_taxamt_txt.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.34197F));
             this.tlp_taxtype_taxamt_txt.Controls.Add(this.txttaxamt, 1, 0);
             this.tlp_taxtype_taxamt_txt.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_taxtype_taxamt_txt.Location = new System.Drawing.Point(319, 104);
+            this.tlp_taxtype_taxamt_txt.Location = new System.Drawing.Point(318, 104);
             this.tlp_taxtype_taxamt_txt.Name = "tlp_taxtype_taxamt_txt";
             this.tlp_taxtype_taxamt_txt.RowCount = 1;
             this.tlp_taxtype_taxamt_txt.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -850,7 +850,7 @@ namespace FoodandBeverage.Forms
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(147, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(166, 21);
+            this.label12.Size = new System.Drawing.Size(165, 21);
             this.label12.TabIndex = 14;
             this.label12.Text = "Offer Name";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -862,7 +862,7 @@ namespace FoodandBeverage.Forms
             this.txtcmbo_offername.Location = new System.Drawing.Point(147, 24);
             this.txtcmbo_offername.Multiline = true;
             this.txtcmbo_offername.Name = "txtcmbo_offername";
-            this.txtcmbo_offername.Size = new System.Drawing.Size(166, 31);
+            this.txtcmbo_offername.Size = new System.Drawing.Size(165, 31);
             this.txtcmbo_offername.TabIndex = 19;
             // 
             // label14
@@ -872,7 +872,7 @@ namespace FoodandBeverage.Forms
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(147, 73);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(166, 28);
+            this.label14.Size = new System.Drawing.Size(165, 28);
             this.label14.TabIndex = 5;
             this.label14.Text = "Taxtype";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -883,7 +883,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.Controls.Add(this.label22, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(319, 3);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(318, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -909,7 +909,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel6.Controls.Add(this.dtp_from_time, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.dtp_from_date, 0, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(319, 24);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(318, 24);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -945,7 +945,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.Controls.Add(this.label23, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(509, 3);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(508, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -971,7 +971,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel4.Controls.Add(this.dtp_to_date, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.dtp_to_time, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(509, 24);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(508, 24);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1004,7 +1004,7 @@ namespace FoodandBeverage.Forms
             this.label19.AutoSize = true;
             this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(509, 138);
+            this.label19.Location = new System.Drawing.Point(508, 138);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(182, 18);
             this.label19.TabIndex = 22;
@@ -1015,7 +1015,7 @@ namespace FoodandBeverage.Forms
             this.label20.AutoSize = true;
             this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(319, 138);
+            this.label20.Location = new System.Drawing.Point(318, 138);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(184, 18);
             this.label20.TabIndex = 25;
@@ -1026,7 +1026,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtcombo_finalprice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtcombo_finalprice.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtcombo_finalprice.Location = new System.Drawing.Point(319, 159);
+            this.txtcombo_finalprice.Location = new System.Drawing.Point(318, 159);
             this.txtcombo_finalprice.Multiline = true;
             this.txtcombo_finalprice.Name = "txtcombo_finalprice";
             this.txtcombo_finalprice.Size = new System.Drawing.Size(184, 31);
@@ -1041,7 +1041,7 @@ namespace FoodandBeverage.Forms
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(147, 138);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(166, 18);
+            this.label13.Size = new System.Drawing.Size(165, 18);
             this.label13.TabIndex = 16;
             this.label13.Text = "Discount Amount";
             this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1053,7 +1053,7 @@ namespace FoodandBeverage.Forms
             this.txtcombo_disamt.Location = new System.Drawing.Point(147, 159);
             this.txtcombo_disamt.Multiline = true;
             this.txtcombo_disamt.Name = "txtcombo_disamt";
-            this.txtcombo_disamt.Size = new System.Drawing.Size(166, 31);
+            this.txtcombo_disamt.Size = new System.Drawing.Size(165, 31);
             this.txtcombo_disamt.TabIndex = 17;
             this.txtcombo_disamt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtcombo_disamt_KeyPress);
             this.txtcombo_disamt.Leave += new System.EventHandler(this.txtcombo_disamt_Leave);
@@ -1087,7 +1087,7 @@ namespace FoodandBeverage.Forms
             this.label18.AutoSize = true;
             this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(509, 73);
+            this.label18.Location = new System.Drawing.Point(508, 73);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(182, 28);
             this.label18.TabIndex = 20;
@@ -1098,7 +1098,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtcombo_totalprice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtcombo_totalprice.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtcombo_totalprice.Location = new System.Drawing.Point(509, 104);
+            this.txtcombo_totalprice.Location = new System.Drawing.Point(508, 104);
             this.txtcombo_totalprice.Multiline = true;
             this.txtcombo_totalprice.Name = "txtcombo_totalprice";
             this.txtcombo_totalprice.Size = new System.Drawing.Size(182, 31);
@@ -1118,7 +1118,7 @@ namespace FoodandBeverage.Forms
             "VAT"});
             this.cmbtaxtype.Location = new System.Drawing.Point(147, 104);
             this.cmbtaxtype.Name = "cmbtaxtype";
-            this.cmbtaxtype.Size = new System.Drawing.Size(166, 24);
+            this.cmbtaxtype.Size = new System.Drawing.Size(165, 24);
             this.cmbtaxtype.TabIndex = 264;
             this.cmbtaxtype.SelectedIndexChanged += new System.EventHandler(this.cmbtaxtype_SelectedIndexChanged);
             // 
@@ -1146,7 +1146,7 @@ namespace FoodandBeverage.Forms
             this.flp_selected_item_combo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_selected_item_combo.Location = new System.Drawing.Point(10, 219);
             this.flp_selected_item_combo.Name = "flp_selected_item_combo";
-            this.flp_selected_item_combo.Size = new System.Drawing.Size(694, 250);
+            this.flp_selected_item_combo.Size = new System.Drawing.Size(693, 250);
             this.flp_selected_item_combo.TabIndex = 260;
             this.flp_selected_item_combo.Paint += new System.Windows.Forms.PaintEventHandler(this.flp_selected_item_combo_Paint);
             // 
@@ -1156,7 +1156,7 @@ namespace FoodandBeverage.Forms
             this.btn_combo_gridview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_combo_gridview.FlatAppearance.BorderSize = 0;
             this.btn_combo_gridview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_combo_gridview.Location = new System.Drawing.Point(710, 219);
+            this.btn_combo_gridview.Location = new System.Drawing.Point(709, 219);
             this.btn_combo_gridview.Name = "btn_combo_gridview";
             this.btn_combo_gridview.Size = new System.Drawing.Size(41, 42);
             this.btn_combo_gridview.TabIndex = 261;
@@ -2138,9 +2138,9 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 616);
+            this.Controls.Add(this.tlp_combo);
             this.Controls.Add(this.tlp_single_main);
             this.Controls.Add(this.pnl_serachproducts);
-            this.Controls.Add(this.tlp_combo);
             this.Controls.Add(this.tlp_gridview);
             this.Controls.Add(this.tlp_product_list);
             this.Controls.Add(this.cmbVatPrcnt);
@@ -2175,8 +2175,8 @@ namespace FoodandBeverage.Forms
             this.tlp_comboproduct_view.PerformLayout();
             this.tlp_taxtype_taxamt_lbl.ResumeLayout(false);
             this.tlp_taxtype_taxamt_lbl.PerformLayout();
-            this.tableLayoutPanel9.ResumeLayout(false);
-            this.tableLayoutPanel9.PerformLayout();
+            this.tlp_desc_del.ResumeLayout(false);
+            this.tlp_desc_del.PerformLayout();
             this.tlp_taxtype_taxamt_txt.ResumeLayout(false);
             this.tlp_taxtype_taxamt_txt.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -2284,7 +2284,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtprid_s;
         private System.Windows.Forms.Button btn_view;
         private System.Windows.Forms.TextBox txtproductname;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.TableLayoutPanel tlp_desc_del;
         private System.Windows.Forms.ComboBox cmbtaxtype;
         private System.Windows.Forms.ComboBox cmbtax;
         private System.Windows.Forms.Label lbligst;
