@@ -365,21 +365,20 @@ namespace FoodandBeverage.Forms
                 txtMob.Focus();
                 return false;
             }
-            else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
-            {
-                CMessageBox.Show("Please enter your address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
             else if (txtEmail.Text == "" || txtEmail.Text == string.Empty)
             {
                 CMessageBox.Show("Please provide your email address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            
             else if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
             {
                 CMessageBox.Show("Please specify your gender. This information is mandatory.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboGender.Focus();
+                return false;
+            }
+            else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
+            {
+                CMessageBox.Show("Please enter your address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == "" || (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == null))

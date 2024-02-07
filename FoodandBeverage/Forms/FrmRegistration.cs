@@ -182,7 +182,7 @@ namespace FoodandBeverage.Forms
         private void Refreshform()
         {
             //txtid.Text = LedgerId;
-            if (txtid.Text != null && txtid.Text !="")
+            if (textBox1.Text != null && textBox1.Text !="")
             {
                 filldetails();
             }
@@ -282,8 +282,8 @@ namespace FoodandBeverage.Forms
                 _objSearch.OrderBy = " ORDER BY L.LedgerName ASC";
                 if (returnValue.ToString() != "")
                 {
-                txtid.Text = Convert.ToString(returnValue);
-                Id = Convert.ToInt32(txtid.Text);
+                textBox1.Text = Convert.ToString(returnValue);
+                Id = Convert.ToInt32(textBox1.Text);
                     BllSearch<DmnCustAccount> bllSearch = new BllSearch<DmnCustAccount>();
                     DmnSearch objSearch = new DmnSearch();
                     objSearch = new DmnSearch();
@@ -676,7 +676,7 @@ namespace FoodandBeverage.Forms
                 var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource1.Count > 0)
             {
-                txtid.Text = Convert.ToString(gridSource1[0].Id);
+                textBox1.Text = Convert.ToString(gridSource1[0].Id);
                 txtname.Text = Convert.ToString(gridSource1[0].Name);
                 txtaddress.Text = Convert.ToString(gridSource1[0].Address);
                 txtph.Text = Convert.ToString(gridSource1[0].Phone);
@@ -974,9 +974,9 @@ namespace FoodandBeverage.Forms
 
                 DmnHRegistration dmnRegistration = new DmnHRegistration();
                 BllHotelRegistration bllregistration = new BllHotelRegistration();
-                if (string.IsNullOrWhiteSpace(txtid.Text))
-                    txtid.Text = "0";
-                dmnRegistration.Id = Convert.ToInt32(txtid.Text);
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                    textBox1.Text = "0";
+                dmnRegistration.Id = Convert.ToInt32(textBox1.Text);
                 dmnRegistration.Name = Convert.ToString(txtname.Text);
                 dmnRegistration.Address = Convert.ToString(txtaddress.Text);
                 dmnRegistration.Phone = Convert.ToString(txtph.Text);
@@ -1074,9 +1074,9 @@ namespace FoodandBeverage.Forms
 
         private void txtid_Leave(object sender, EventArgs e)
         {
-            if (txtid.Text == "")
+            if (textBox1.Text == "")
             {
-                txtid.Text = "0";
+                textBox1.Text = "0";
                 
             }
         }
