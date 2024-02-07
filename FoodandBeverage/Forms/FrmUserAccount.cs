@@ -56,6 +56,45 @@ namespace FoodandBeverage.Forms.UserAccount
 
         private void FrmUserAccount_Load(object sender, EventArgs e)
         {
+
+            richTextBox1.Rtf = "{\\rtf1\\ansi " +
+          "User Type \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox1.Select(richTextBox1.Text.IndexOf("*"), 1);
+            richTextBox1.SelectionColor = Color.Red;
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+
+            richTextBox2.Rtf = "{\\rtf1\\ansi " +
+          "Employee \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox2.Select(richTextBox2.Text.IndexOf("*"), 1);
+            richTextBox2.SelectionColor = Color.Red;
+            richTextBox2.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+
+            richTextBox3.Rtf = "{\\rtf1\\ansi " +
+          "User Name \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox3.Select(richTextBox3.Text.IndexOf("*"), 1);
+            richTextBox3.SelectionColor = Color.Red;
+            richTextBox3.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+
+            richTextBox4.Rtf = "{\\rtf1\\ansi " +
+          "Password \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox4.Select(richTextBox4.Text.IndexOf("*"), 1);
+            richTextBox4.SelectionColor = Color.Red;
+            richTextBox4.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
+
+
+            richTextBox5.Rtf = "{\\rtf1\\ansi " +
+          "Confirm \\i0 *\\ulnone\\i\\b " +
+             "}";
+            richTextBox5.Select(richTextBox5.Text.IndexOf("*"), 1);
+            richTextBox5.SelectionColor = Color.Red;
+            richTextBox5.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
             clear();
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Account)))
