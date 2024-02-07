@@ -60,6 +60,11 @@ namespace FoodandBeverage.Forms
         private void btn_vendor_add_Click(object sender, EventArgs e)
         {
             pnlCustomer.Visible = true;
+            int panelWidthPercentage = 70;
+            int panelheightPercentage = 35;
+            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+            pnlCustomer.Size = new Size(panelWidth, panelHeight);
             pnlCustomer.Location = new Point(this.ClientSize.Width / 2 - pnlCustomer.Size.Width / 2, this.ClientSize.Height / 2 - pnlCustomer.Size.Height / 2);
             txtVendorName.Focus();
         }

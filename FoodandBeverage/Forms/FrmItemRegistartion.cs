@@ -295,6 +295,12 @@ namespace FoodandBeverage.Forms
                 txtincr_name.Focus();
                 return false;
             }
+            else if (string.IsNullOrEmpty(txtbarcode.Text) && rdb_dsale.Checked)  
+            {
+                CMessageBox.Show("Please Enter Barcode", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtbarcode.Focus();
+                return false;
+            }
             else if (Convert.ToInt32(cmb_inc_categ.SelectedValue) == -1)
             {
                 CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -592,8 +598,7 @@ namespace FoodandBeverage.Forms
         }
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
-        {           
-            
+        {         
             int[] columnsToRemove1 = { 0,1, 2, 3 };
             int[] rowsToRemove1 = { 5,6,7,8 };
 
@@ -1860,15 +1865,15 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "COUNT(DISTINCT ProductID) as Field1 FROM ( SELECT ProductID  ";
-                    objSearch.Table = "tblProduct WHERE Status = 1 AND Product = '" + txtincr_name.Text + "'  UNION SELECT ItemId FROM tblItem ";
-                    objSearch.WhereNdGroupBy = "Where status=1 and Itemname = '" + txtincr_name.Text + "' ) AS Field1";
+                    objSearch.Select = "ProductID Field1 ";
+                    objSearch.Table = "tblProduct WHERE Status = 1 AND Product = '" + txtincr_name.Text + "'  UNION SELECT ItemId Field1 FROM tblItem ";
+                    objSearch.WhereNdGroupBy = "Where status=1 and Itemname = '" + txtincr_name.Text + "'";
                     objSearch.OrderBy = "";
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
                         CMessageBox.Show(txtincr_name.Text + " Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtincr_name.Text = "";
+                        //txtincr_name.Text = "";
                         txtincr_name.Focus();
                     }
                 }
