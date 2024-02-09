@@ -1427,6 +1427,7 @@ namespace FoodandBeverage.Forms
                     btn_saveKOT.Visible = true;
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
+                    btn_entire_desc.Visible = true;
                 }
                 else if (typeno == 2)
                 {
@@ -1439,6 +1440,7 @@ namespace FoodandBeverage.Forms
                     btn_saveKOT.Visible = false;
                     btn_print_bill.Visible = true;
                     btn_promo_code.Visible = true;
+                    btn_entire_desc.Visible = false;
                 }
                 else
                 {
@@ -1449,6 +1451,7 @@ namespace FoodandBeverage.Forms
                     btn_saveKOT.Visible = false;
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
+                    btn_entire_desc.Visible = false;
                 }
             }
             catch(Exception ex)

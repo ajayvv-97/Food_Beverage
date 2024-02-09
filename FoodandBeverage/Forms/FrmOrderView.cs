@@ -184,9 +184,9 @@ namespace FoodandBeverage.Forms
                     if (gridSource.Count > 0)
                     {
                         int imageSize = 32;
-                        dgvorderview.Rows.Add(dgvorderview.RowCount);
+                        dgvorderview.Rows.Add(gridSource.Count);
                         int x = dgvorderview.RowCount;
-                        for (int i = 0; i < dgvorderview.RowCount; i++)
+                        for (int i = 0; i < gridSource.Count; i++)
                         {
                             dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
                             dgvorderview.Rows[rowIndex].Cells[orderidno].Value = gridSource[i].Field1;
