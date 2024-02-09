@@ -403,10 +403,10 @@ namespace FoodandBeverage.Forms
 
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
-                //foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
-                //{
-                //    textBox.Text = "";
-                //}
+                foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
+                {
+                    textBox.Text = "";
+                }
 
                 flp_selected_item_combo.Controls.Clear();
                 dgv_sele_cmb_products.Rows.Clear();
@@ -1356,6 +1356,7 @@ namespace FoodandBeverage.Forms
                     dgv_sele_cmb_products.Rows[rowno].Cells[ctotalamtno].Value = amount.ToString("N2");
 
                     cellDiscountAmount_combo(rowno);
+
                     decimal discount = Convert.ToDecimal(dgv_sele_cmb_products.Rows[rowno].Cells[cdisamtno].Value);
                     cellTaxAmount_combo(rowno, amount - discount);
 
@@ -1422,12 +1423,14 @@ namespace FoodandBeverage.Forms
                             dgv_sele_cmb_products.Rows[r].Cells[sslno].Value = r + 1;
                             dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = gridSource[0].Field10;
                             dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSource[0].Field1;
-                            dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = gridSource[0].Field3;
+                            dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSource[0].Field2;              
+                            dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = Convert.ToDecimal(gridSource[0].Field3);
                             dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 1;
                             if (Convert.ToString(gridSource[0].Field6) == "GST")
                                 dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSource[0].Field4;
                             else
-                                dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSource[0].Field5;
+                                dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSource[0].Field5;                        
+
                             dgv_sele_cmb_products.Rows[r].Cells[ctaxtypeno].Value = gridSource[0].Field6;
                             dgv_sele_cmb_products.Rows[r].Cells[cproducttypeno].Value = Convert.ToInt32(Tabletype.Product);
                             dgv_sele_cmb_products.Rows[r].Cells[ctaxno].Value = gridSource[0].Field7;
@@ -1569,8 +1572,10 @@ namespace FoodandBeverage.Forms
                         dgv_sele_cmb_products.Rows[r].Cells[sslno].Value = r + 1;
                         dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = gridSource[0].Field10;
                         dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSource[0].Field8;
-                        dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = gridSource[0].Field3;
                         dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSource[0].Field2;
+
+                        dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = Convert.ToDecimal(gridSource[0].Field3);
+
                         dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 0;
                         if (Convert.ToString(gridSource[0].Field6) == "GST")
                             dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSource[0].Field4;
@@ -1842,6 +1847,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                int rowno = 0;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch = new DmnSearch();
@@ -1857,18 +1863,29 @@ namespace FoodandBeverage.Forms
 
                     for (int i = 0; i < dgv_sele_cmb_products.RowCount; i++)
                     {
-
                         if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value)&& 
                             Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cproducttypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))
                         {
                             dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value) + 1;
                             totalcellamount_Combo(i);
+                            rowno = i;
                             break;
                         }
                     }
-                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(txtcombo_totalprice.Text);
-                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
 
+                    //discount calculation on item  reg time 
+                    if (Convert.ToDecimal(dgv_sele_cmb_products.Rows[rowno].Cells[cdisperno].Value) > 0)
+                    {
+                        decimal disAmnt = Convert.ToDecimal(dgv_sele_cmb_products.Rows[rowno].Cells[cdisperno].Value) * Convert.ToDecimal(gridSource[0].Field1) / 100;
+                        decimal finamt =   Convert.ToDecimal(gridSource[0].Field1) - disAmnt;
+                        decimal totalamt = finamt + Convert.ToDecimal(txtcombo_totalprice.Text);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
+                    else
+                    {
+                        decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(txtcombo_totalprice.Text);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
                 }
             }
             catch (Exception ex)
@@ -1880,6 +1897,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                int rowno = 0;
                 BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch = new DmnSearch();
@@ -1898,18 +1916,31 @@ namespace FoodandBeverage.Forms
                         {
                             dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value = qty;
                             totalcellamount_Combo(i);
+                            rowno = i;
                             break;
                         }
                         else
                         {
                             int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
                             dgv_sele_cmb_products.Rows[rowIndex].Cells[cqtynoo].Value = qty;
+                            rowno = i;
                             totalcellamount_Combo(rowIndex);
                             break;
                         }
                     }
-                    decimal totalamt = Convert.ToDecimal(gridSource[0].Price) + Convert.ToDecimal(txtcombo_totalprice.Text);
-                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    //discount calculation on product  reg time 
+                    if (Convert.ToInt32(gridSource[0].DiscountPer) > 0)
+                    {
+                        decimal disAmnt = Convert.ToDecimal(gridSource[0].DiscountPer) * Convert.ToDecimal(gridSource[0].Price) / 100;
+                        decimal finamt =  Convert.ToDecimal(gridSource[0].Price)- disAmnt;
+                        decimal totalamt = finamt + Convert.ToDecimal(txtcombo_totalprice.Text);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }   
+                    else
+                    {
+                        decimal totalamt = Convert.ToDecimal(gridSource[0].Price) + Convert.ToDecimal(txtcombo_totalprice.Text);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2007,13 +2038,24 @@ namespace FoodandBeverage.Forms
                         txtcombo_totalprice.Text = "0";
                     if (qty == 0)
                     {
-                        decimal TotalPrice = Convert.ToDecimal(gridSource[0].Field1) * Convert.ToDecimal(lblqty.Text);
-                        decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - TotalPrice;
-                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
                         for (int i = 0; i <= dgv_sele_cmb_products.RowCount - 1; i++)
                         {
                             if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) && Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cproducttypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))//&& Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[istatusno].Value) == 1
                             {
+                                //discount calculation on item  reg time 
+                                if (Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cdisperno].Value) > 0)
+                                {
+                                    decimal disAmnt = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cdisperno].Value) * Convert.ToDecimal(gridSource[0].Field1) / 100;
+                                    decimal finamt = Convert.ToDecimal(gridSource[0].Field1) - disAmnt;
+                                    decimal totalamt =  Convert.ToDecimal(txtcombo_totalprice.Text)- finamt;
+                                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                                }
+                                else
+                                {
+                                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) - Convert.ToDecimal(txtcombo_totalprice.Text);
+                                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                                }
+
                                 dgv_sele_cmb_products.Rows.RemoveAt(i);
                                 break;
                             }
@@ -2028,12 +2070,24 @@ namespace FoodandBeverage.Forms
                             if (prid == Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cpridno].Value) && Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cproducttypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))
                             {
                                 dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cqtynoo].Value) - 1;
+                                //discount calculation on item  reg time 
+                                if (Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cdisperno].Value) > 0)
+                                {
+                                    decimal disAmnt = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cdisperno].Value) * Convert.ToDecimal(gridSource[0].Field1) / 100;
+                                    decimal finamt = Convert.ToDecimal(gridSource[0].Field1) - disAmnt;
+                                    decimal totalamt =  Convert.ToDecimal(txtcombo_totalprice.Text)- finamt ;
+                                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                                }
+                                else
+                                {
+                                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) - Convert.ToDecimal(txtcombo_totalprice.Text);
+                                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                                }
                                 totalcellamount_Combo(i);
                                 break;
                             }
                         }
-                        decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(gridSource[0].Field1);
-                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+
                     }
                     discountAmnt_combo();
                     discountPer_combo();
@@ -2084,13 +2138,27 @@ namespace FoodandBeverage.Forms
                             }
                         }
                     }
+
+                    if (Convert.ToInt32(gridSource[0].DiscountPer) > 0)
+                    {
+                        decimal disAmnt = Convert.ToDecimal(gridSource[0].DiscountPer) * Convert.ToDecimal(gridSource[0].Price) / 100;
+                        decimal finamt = Convert.ToDecimal(gridSource[0].Price) - disAmnt;
+                        decimal totalamt =  Convert.ToDecimal(txtcombo_totalprice.Text)- finamt ;
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
+                    else
+                    {
+                        decimal totalamt = Convert.ToDecimal(gridSource[0].Price) - Convert.ToDecimal(txtcombo_totalprice.Text);
+                        txtcombo_totalprice.Text = Convert.ToString(totalamt);
+                    }
+
                     if (flag)
                     {
                         int rowIndex = dgv_sele_cmb_products.Rows.Count - 1;
                         dgv_sele_cmb_products.Rows[rowIndex].Cells[cqtynoo].Value = qty;
                     }
-                    decimal totalamt = Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(gridSource[0].Price);
-                    txtcombo_totalprice.Text = Convert.ToString(totalamt);
+
+
                     discountAmnt_combo();
                     discountPer_combo();
                     ClacTaxAmt_combo();

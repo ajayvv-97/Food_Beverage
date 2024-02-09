@@ -127,26 +127,27 @@ namespace FoodandBeverage.Forms
             this.unitid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iprid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlCustomer = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_name_add = new System.Windows.Forms.TableLayoutPanel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtVendorName = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtVendorAddress = new System.Windows.Forms.TextBox();
+            this.tlp_email_te_des = new System.Windows.Forms.TableLayoutPanel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtVendorTel = new System.Windows.Forms.TextBox();
+            this.txtdes = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtVendorEmail = new System.Windows.Forms.TextBox();
+            this.tlp_save_close = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSaveCust = new System.Windows.Forms.Button();
+            this.btnCloseCst = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label18 = new System.Windows.Forms.Label();
             this.btn_vendor_close = new System.Windows.Forms.Button();
-            this.txtdes = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtVendorAddress = new System.Windows.Forms.TextBox();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.btnCloseCst = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
-            this.btnSaveCust = new System.Windows.Forms.Button();
-            this.txtVendorEmail = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtVendorTel = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtVendorName = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -192,6 +193,10 @@ namespace FoodandBeverage.Forms
             this.tlp_button.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.pnlCustomer.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tlp_name_add.SuspendLayout();
+            this.tlp_email_te_des.SuspendLayout();
+            this.tlp_save_close.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tlp_grid_registartion.SuspendLayout();
             this.tlp_label_cal.SuspendLayout();
@@ -1306,35 +1311,240 @@ namespace FoodandBeverage.Forms
             // pnlCustomer
             // 
             this.pnlCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCustomer.Controls.Add(this.tableLayoutPanel3);
             this.pnlCustomer.Controls.Add(this.tableLayoutPanel1);
-            this.pnlCustomer.Controls.Add(this.txtdes);
-            this.pnlCustomer.Controls.Add(this.label16);
-            this.pnlCustomer.Controls.Add(this.txtVendorAddress);
-            this.pnlCustomer.Controls.Add(this.label36);
-            this.pnlCustomer.Controls.Add(this.label35);
-            this.pnlCustomer.Controls.Add(this.label34);
-            this.pnlCustomer.Controls.Add(this.btnCloseCst);
             this.pnlCustomer.Controls.Add(this.label46);
-            this.pnlCustomer.Controls.Add(this.btnSaveCust);
-            this.pnlCustomer.Controls.Add(this.txtVendorEmail);
-            this.pnlCustomer.Controls.Add(this.label17);
             this.pnlCustomer.Controls.Add(this.label44);
-            this.pnlCustomer.Controls.Add(this.label15);
-            this.pnlCustomer.Controls.Add(this.txtVendorTel);
-            this.pnlCustomer.Controls.Add(this.label14);
-            this.pnlCustomer.Controls.Add(this.txtVendorName);
-            this.pnlCustomer.Controls.Add(this.label13);
             this.pnlCustomer.Controls.Add(this.label38);
             this.pnlCustomer.Controls.Add(this.label39);
             this.pnlCustomer.Controls.Add(this.label43);
             this.pnlCustomer.Controls.Add(this.label41);
             this.pnlCustomer.Controls.Add(this.label42);
-            this.pnlCustomer.Location = new System.Drawing.Point(171, 131);
+            this.pnlCustomer.Location = new System.Drawing.Point(48, 131);
             this.pnlCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.pnlCustomer.Name = "pnlCustomer";
-            this.pnlCustomer.Size = new System.Drawing.Size(585, 272);
+            this.pnlCustomer.Size = new System.Drawing.Size(605, 248);
             this.pnlCustomer.TabIndex = 192;
             this.pnlCustomer.Visible = false;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.tlp_name_add, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tlp_email_te_des, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tlp_save_close, 1, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 34);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(603, 212);
+            this.tableLayoutPanel3.TabIndex = 219;
+            // 
+            // tlp_name_add
+            // 
+            this.tlp_name_add.ColumnCount = 2;
+            this.tlp_name_add.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_name_add.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_name_add.Controls.Add(this.label13, 0, 0);
+            this.tlp_name_add.Controls.Add(this.txtVendorName, 1, 0);
+            this.tlp_name_add.Controls.Add(this.label15, 0, 1);
+            this.tlp_name_add.Controls.Add(this.txtVendorAddress, 1, 1);
+            this.tlp_name_add.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_name_add.Location = new System.Drawing.Point(3, 3);
+            this.tlp_name_add.Name = "tlp_name_add";
+            this.tlp_name_add.RowCount = 2;
+            this.tlp_name_add.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_name_add.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_name_add.Size = new System.Drawing.Size(279, 151);
+            this.tlp_name_add.TabIndex = 0;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(2, 0);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(69, 37);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Name ";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // txtVendorName
+            // 
+            this.txtVendorName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVendorName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtVendorName.Location = new System.Drawing.Point(76, 3);
+            this.txtVendorName.Multiline = true;
+            this.txtVendorName.Name = "txtVendorName";
+            this.txtVendorName.Size = new System.Drawing.Size(200, 31);
+            this.txtVendorName.TabIndex = 0;
+            this.txtVendorName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorName_KeyPress);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(2, 37);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(69, 114);
+            this.label15.TabIndex = 165;
+            this.label15.Text = "Address";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // txtVendorAddress
+            // 
+            this.txtVendorAddress.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtVendorAddress.Location = new System.Drawing.Point(76, 40);
+            this.txtVendorAddress.Multiline = true;
+            this.txtVendorAddress.Name = "txtVendorAddress";
+            this.txtVendorAddress.Size = new System.Drawing.Size(198, 108);
+            this.txtVendorAddress.TabIndex = 214;
+            // 
+            // tlp_email_te_des
+            // 
+            this.tlp_email_te_des.ColumnCount = 2;
+            this.tlp_email_te_des.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_email_te_des.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
+            this.tlp_email_te_des.Controls.Add(this.label14, 0, 0);
+            this.tlp_email_te_des.Controls.Add(this.txtVendorTel, 1, 0);
+            this.tlp_email_te_des.Controls.Add(this.txtdes, 1, 2);
+            this.tlp_email_te_des.Controls.Add(this.label17, 0, 1);
+            this.tlp_email_te_des.Controls.Add(this.label16, 0, 2);
+            this.tlp_email_te_des.Controls.Add(this.txtVendorEmail, 1, 1);
+            this.tlp_email_te_des.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_email_te_des.Location = new System.Drawing.Point(288, 3);
+            this.tlp_email_te_des.Name = "tlp_email_te_des";
+            this.tlp_email_te_des.RowCount = 3;
+            this.tlp_email_te_des.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_email_te_des.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_email_te_des.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tlp_email_te_des.Size = new System.Drawing.Size(312, 151);
+            this.tlp_email_te_des.TabIndex = 1;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(2, 0);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(102, 56);
+            this.label14.TabIndex = 163;
+            this.label14.Text = "Tel No:";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // txtVendorTel
+            // 
+            this.txtVendorTel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVendorTel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtVendorTel.Location = new System.Drawing.Point(109, 3);
+            this.txtVendorTel.MaxLength = 12;
+            this.txtVendorTel.Multiline = true;
+            this.txtVendorTel.Name = "txtVendorTel";
+            this.txtVendorTel.Size = new System.Drawing.Size(198, 31);
+            this.txtVendorTel.TabIndex = 1;
+            this.txtVendorTel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorTel_KeyPress);
+            // 
+            // txtdes
+            // 
+            this.txtdes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtdes.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtdes.Location = new System.Drawing.Point(109, 115);
+            this.txtdes.Multiline = true;
+            this.txtdes.Name = "txtdes";
+            this.txtdes.Size = new System.Drawing.Size(198, 33);
+            this.txtdes.TabIndex = 216;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(2, 56);
+            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(102, 56);
+            this.label17.TabIndex = 167;
+            this.label17.Text = "Email";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(2, 112);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(102, 39);
+            this.label16.TabIndex = 215;
+            this.label16.Text = "Description";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // txtVendorEmail
+            // 
+            this.txtVendorEmail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVendorEmail.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtVendorEmail.Location = new System.Drawing.Point(109, 59);
+            this.txtVendorEmail.Multiline = true;
+            this.txtVendorEmail.Name = "txtVendorEmail";
+            this.txtVendorEmail.Size = new System.Drawing.Size(198, 31);
+            this.txtVendorEmail.TabIndex = 3;
+            this.txtVendorEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorEmail_KeyPress);
+            this.txtVendorEmail.Validating += new System.ComponentModel.CancelEventHandler(this.txtVendorEmail_Validating);
+            // 
+            // tlp_save_close
+            // 
+            this.tlp_save_close.ColumnCount = 3;
+            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.05357F));
+            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.94643F));
+            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
+            this.tlp_save_close.Controls.Add(this.btnCloseCst, 2, 0);
+            this.tlp_save_close.Controls.Add(this.btnSaveCust, 1, 0);
+            this.tlp_save_close.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlp_save_close.Location = new System.Drawing.Point(288, 160);
+            this.tlp_save_close.Name = "tlp_save_close";
+            this.tlp_save_close.RowCount = 1;
+            this.tlp_save_close.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_save_close.Size = new System.Drawing.Size(312, 49);
+            this.tlp_save_close.TabIndex = 2;
+            // 
+            // btnSaveCust
+            // 
+            this.btnSaveCust.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnSaveCust.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSaveCust.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveCust.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btnSaveCust.Location = new System.Drawing.Point(142, 3);
+            this.btnSaveCust.Name = "btnSaveCust";
+            this.btnSaveCust.Size = new System.Drawing.Size(79, 43);
+            this.btnSaveCust.TabIndex = 4;
+            this.btnSaveCust.Text = "Save";
+            this.btnSaveCust.UseVisualStyleBackColor = false;
+            this.btnSaveCust.Click += new System.EventHandler(this.btnSaveCust_Click);
+            // 
+            // btnCloseCst
+            // 
+            this.btnCloseCst.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnCloseCst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCloseCst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseCst.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btnCloseCst.Location = new System.Drawing.Point(227, 3);
+            this.btnCloseCst.Name = "btnCloseCst";
+            this.btnCloseCst.Size = new System.Drawing.Size(82, 43);
+            this.btnCloseCst.TabIndex = 5;
+            this.btnCloseCst.Text = "Close";
+            this.btnCloseCst.UseVisualStyleBackColor = false;
+            this.btnCloseCst.Click += new System.EventHandler(this.btnCloseCst_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -1350,7 +1560,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(583, 34);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(603, 34);
             this.tableLayoutPanel1.TabIndex = 217;
             // 
             // label18
@@ -1371,7 +1581,7 @@ namespace FoodandBeverage.Forms
             this.btn_vendor_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_vendor_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_vendor_close.ForeColor = System.Drawing.Color.Red;
-            this.btn_vendor_close.Location = new System.Drawing.Point(555, 3);
+            this.btn_vendor_close.Location = new System.Drawing.Point(575, 3);
             this.btn_vendor_close.Name = "btn_vendor_close";
             this.btn_vendor_close.Size = new System.Drawing.Size(25, 28);
             this.btn_vendor_close.TabIndex = 10;
@@ -1379,198 +1589,35 @@ namespace FoodandBeverage.Forms
             this.btn_vendor_close.UseVisualStyleBackColor = false;
             this.btn_vendor_close.Click += new System.EventHandler(this.btn_vendor_close_Click_1);
             // 
-            // txtdes
-            // 
-            this.txtdes.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtdes.Location = new System.Drawing.Point(355, 144);
-            this.txtdes.Multiline = true;
-            this.txtdes.Name = "txtdes";
-            this.txtdes.Size = new System.Drawing.Size(198, 63);
-            this.txtdes.TabIndex = 216;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(270, 146);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(83, 18);
-            this.label16.TabIndex = 215;
-            this.label16.Text = "Description";
-            // 
-            // txtVendorAddress
-            // 
-            this.txtVendorAddress.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtVendorAddress.Location = new System.Drawing.Point(69, 113);
-            this.txtVendorAddress.Multiline = true;
-            this.txtVendorAddress.Name = "txtVendorAddress";
-            this.txtVendorAddress.Size = new System.Drawing.Size(198, 63);
-            this.txtVendorAddress.TabIndex = 214;
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.ForeColor = System.Drawing.Color.Red;
-            this.label36.Location = new System.Drawing.Point(55, 105);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(11, 13);
-            this.label36.TabIndex = 2;
-            this.label36.Text = "*";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.ForeColor = System.Drawing.Color.Red;
-            this.label35.Location = new System.Drawing.Point(315, 54);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(11, 13);
-            this.label35.TabIndex = 213;
-            this.label35.Text = "*";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.ForeColor = System.Drawing.Color.Red;
-            this.label34.Location = new System.Drawing.Point(55, 63);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(11, 13);
-            this.label34.TabIndex = 0;
-            this.label34.Text = "*";
-            // 
-            // btnCloseCst
-            // 
-            this.btnCloseCst.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnCloseCst.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnCloseCst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseCst.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnCloseCst.Location = new System.Drawing.Point(471, 217);
-            this.btnCloseCst.Name = "btnCloseCst";
-            this.btnCloseCst.Size = new System.Drawing.Size(79, 41);
-            this.btnCloseCst.TabIndex = 5;
-            this.btnCloseCst.Text = "Close";
-            this.btnCloseCst.UseVisualStyleBackColor = false;
-            this.btnCloseCst.Click += new System.EventHandler(this.btnCloseCst_Click);
-            // 
             // label46
             // 
             this.label46.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.label46.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label46.Location = new System.Drawing.Point(723, 276);
+            this.label46.Location = new System.Drawing.Point(743, 264);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(98, 17);
             this.label46.TabIndex = 212;
             this.label46.Text = "Total Amount :";
-            // 
-            // btnSaveCust
-            // 
-            this.btnSaveCust.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnSaveCust.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnSaveCust.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveCust.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnSaveCust.Location = new System.Drawing.Point(380, 217);
-            this.btnSaveCust.Name = "btnSaveCust";
-            this.btnSaveCust.Size = new System.Drawing.Size(79, 41);
-            this.btnSaveCust.TabIndex = 4;
-            this.btnSaveCust.Text = "Save";
-            this.btnSaveCust.UseVisualStyleBackColor = false;
-            this.btnSaveCust.Click += new System.EventHandler(this.btnSaveCust_Click);
-            // 
-            // txtVendorEmail
-            // 
-            this.txtVendorEmail.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtVendorEmail.Location = new System.Drawing.Point(355, 105);
-            this.txtVendorEmail.Multiline = true;
-            this.txtVendorEmail.Name = "txtVendorEmail";
-            this.txtVendorEmail.Size = new System.Drawing.Size(198, 31);
-            this.txtVendorEmail.TabIndex = 3;
-            this.txtVendorEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorEmail_KeyPress);
-            this.txtVendorEmail.Validating += new System.ComponentModel.CancelEventHandler(this.txtVendorEmail_Validating);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(270, 108);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(45, 18);
-            this.label17.TabIndex = 167;
-            this.label17.Text = "Email";
             // 
             // label44
             // 
             this.label44.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label44.AutoSize = true;
             this.label44.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label44.Location = new System.Drawing.Point(15, 414);
+            this.label44.Location = new System.Drawing.Point(35, 402);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(67, 17);
             this.label44.TabIndex = 209;
             this.label44.Text = "Remarks :";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(3, 115);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(62, 18);
-            this.label15.TabIndex = 165;
-            this.label15.Text = "Address";
-            // 
-            // txtVendorTel
-            // 
-            this.txtVendorTel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtVendorTel.Location = new System.Drawing.Point(355, 61);
-            this.txtVendorTel.MaxLength = 12;
-            this.txtVendorTel.Multiline = true;
-            this.txtVendorTel.Name = "txtVendorTel";
-            this.txtVendorTel.Size = new System.Drawing.Size(198, 31);
-            this.txtVendorTel.TabIndex = 1;
-            this.txtVendorTel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorTel_KeyPress);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(270, 64);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(56, 18);
-            this.label14.TabIndex = 163;
-            this.label14.Text = "Tel No:";
-            // 
-            // txtVendorName
-            // 
-            this.txtVendorName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtVendorName.Location = new System.Drawing.Point(69, 58);
-            this.txtVendorName.Multiline = true;
-            this.txtVendorName.Name = "txtVendorName";
-            this.txtVendorName.Size = new System.Drawing.Size(198, 31);
-            this.txtVendorName.TabIndex = 0;
-            this.txtVendorName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorName_KeyPress);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(3, 64);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(52, 18);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Name ";
             // 
             // label38
             // 
             this.label38.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label38.Location = new System.Drawing.Point(-15, 342);
+            this.label38.Location = new System.Drawing.Point(5, 330);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(101, 17);
             this.label38.TabIndex = 186;
@@ -1581,7 +1628,7 @@ namespace FoodandBeverage.Forms
             this.label39.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label39.AutoSize = true;
             this.label39.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label39.Location = new System.Drawing.Point(14, 374);
+            this.label39.Location = new System.Drawing.Point(34, 362);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(68, 17);
             this.label39.TabIndex = 190;
@@ -1592,7 +1639,7 @@ namespace FoodandBeverage.Forms
             this.label43.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label43.Location = new System.Drawing.Point(288, 400);
+            this.label43.Location = new System.Drawing.Point(308, 388);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(51, 17);
             this.label43.TabIndex = 201;
@@ -1603,7 +1650,7 @@ namespace FoodandBeverage.Forms
             this.label41.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label41.Location = new System.Drawing.Point(261, 342);
+            this.label41.Location = new System.Drawing.Point(281, 330);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(78, 17);
             this.label41.TabIndex = 196;
@@ -1614,7 +1661,7 @@ namespace FoodandBeverage.Forms
             this.label42.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label42.Location = new System.Drawing.Point(248, 372);
+            this.label42.Location = new System.Drawing.Point(268, 360);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(91, 17);
             this.label42.TabIndex = 199;
@@ -1968,10 +2015,10 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 586);
+            this.Controls.Add(this.pnlCustomer);
             this.Controls.Add(this.panelProductPopup);
             this.Controls.Add(this.tlp_grid_registartion);
             this.Controls.Add(this.txt_exist_vendorid);
-            this.Controls.Add(this.pnlCustomer);
             this.Controls.Add(this.lblGrandTot);
             this.Controls.Add(this.tlp_textboxes);
             this.Controls.Add(this.tlp_main);
@@ -2003,6 +2050,12 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).EndInit();
             this.pnlCustomer.ResumeLayout(false);
             this.pnlCustomer.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tlp_name_add.ResumeLayout(false);
+            this.tlp_name_add.PerformLayout();
+            this.tlp_email_te_des.ResumeLayout(false);
+            this.tlp_email_te_des.PerformLayout();
+            this.tlp_save_close.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tlp_grid_registartion.ResumeLayout(false);
@@ -2053,9 +2106,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_vendor;
         private System.Windows.Forms.Button btn_vendor_add;
         private System.Windows.Forms.Panel pnlCustomer;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Button btnCloseCst;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Button btnSaveCust;
@@ -2153,5 +2203,9 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_ProductPopup;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button btn_productpopup_close;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tlp_name_add;
+        private System.Windows.Forms.TableLayoutPanel tlp_email_te_des;
+        private System.Windows.Forms.TableLayoutPanel tlp_save_close;
     }
 }

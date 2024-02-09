@@ -1912,15 +1912,15 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "COUNT(DISTINCT ProductID) as Field1 FROM ( SELECT ProductID  ";
-                    objSearch.Table = "tblProduct WHERE Status = 1 AND Product = '" + txtproductname.Text + "'  UNION SELECT ItemId FROM tblItem ";
-                    objSearch.WhereNdGroupBy = "Where status=1 and Itemname = '" + txtproductname.Text + "' ) AS Field1";
+                    objSearch.Select = "ProductID Field1 ";
+                    objSearch.Table = "tblProduct WHERE Status = 1 AND Product = '" + txtproductname.Text + "'  UNION SELECT ItemId Field1 FROM tblItem ";
+                    objSearch.WhereNdGroupBy = "Where status=1 and Itemname = '" + txtproductname.Text + "'";
                     objSearch.OrderBy = "";
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
                         CMessageBox.Show(txtproductname.Text + " Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtproductname.Text = "";
+                        //txtproductname.Text = "";
                         txtproductname.Focus();
                     }
                 }
