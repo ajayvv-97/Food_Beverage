@@ -246,7 +246,7 @@ namespace FoodandBeverage.Forms
         public void clear()
         {
             chb_active.Checked = true;
-            btn_delt.Visible = false;
+            button1.Visible = false;
             dgvforms.Rows.Clear();
             dgvmenu.Rows.Clear();
             txtAddress.Text = "";
@@ -292,7 +292,7 @@ namespace FoodandBeverage.Forms
 
             tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
-            btn_delt.Visible = false;
+            button1.Visible = false;
         }
         public bool CheckEmailId(Form form, string EmailId)
         {
@@ -1025,7 +1025,7 @@ namespace FoodandBeverage.Forms
                 if (gridSource.Count == 0)
                 {
                     CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    btn_delt.Visible = false;
+                    button1.Visible = false;
                 }
                 else
                 {
@@ -1050,10 +1050,10 @@ namespace FoodandBeverage.Forms
                         dmnSearch.OrderBy = "";
                         var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
 
-                        tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
-                        tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
-                        tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
-                        btn_delt.Visible = true;
+                        //tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
+                        //tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
+                        //tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
+                        button1.Visible = true;
 
                         txtNam.Text = Convert.ToString(gridSource1[0].cusName);
                         txtAddress.Text = Convert.ToString(gridSource1[0].Address);
@@ -2184,7 +2184,7 @@ namespace FoodandBeverage.Forms
                             if (chb_active.Checked == false)
                         {
                             CMessageBox.Show("Reservation Cancel", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-                            btn_delt.Visible = false;
+                            button1.Visible = false;
                         }
                         if (datadetails == true)
                         {
