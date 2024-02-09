@@ -698,17 +698,14 @@ namespace FoodandBeverage.Forms
                 string returnValue = string.Empty;
                 
                 DmnSearch _objSearch = new DmnSearch();
-
-                panelProductPopup.Location = new Point(
-                             this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2,
-                             (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 2));
-                panelProductPopup.Anchor = AnchorStyles.None;
                 panelProductPopup.Visible = true;
-                int panelWidthPercentage = 57;
-                int panelheightPercentage = 25;
+                int panelWidthPercentage = 80;
+                int panelheightPercentage = 70;
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 panelProductPopup.Size = new Size(panelWidth, panelHeight);
+                panelProductPopup.Location = new Point(this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2, (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 3));
+
                 //panelProductPopup.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                 //redpan.Visible = true;
 
@@ -3577,6 +3574,11 @@ namespace FoodandBeverage.Forms
         private void panelProductPopup_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnItemPopclose_Click(object sender, EventArgs e)
+        {
+            panelProductPopup.Visible = false;
         }
     }
 }

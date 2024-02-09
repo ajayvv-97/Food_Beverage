@@ -1051,7 +1051,7 @@ namespace FoodandBeverage.Forms
             // pb1
             // 
             this.pb1.BackColor = System.Drawing.Color.Transparent;
-            this.pb1.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery1;
+            this.pb1.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery;
             this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pb1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1133,7 +1133,7 @@ namespace FoodandBeverage.Forms
             // pb2
             // 
             this.pb2.BackColor = System.Drawing.Color.Transparent;
-            this.pb2.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery2;
+            this.pb2.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery;
             this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pb2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1215,7 +1215,7 @@ namespace FoodandBeverage.Forms
             // pb3
             // 
             this.pb3.BackColor = System.Drawing.Color.Transparent;
-            this.pb3.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery2;
+            this.pb3.BackgroundImage = global::FoodandBeverage.Properties.Resources.gallery;
             this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pb3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pb3.Dock = System.Windows.Forms.DockStyle.Fill;

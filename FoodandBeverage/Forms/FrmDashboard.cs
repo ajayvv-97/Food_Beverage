@@ -756,7 +756,7 @@ namespace FoodandBeverage.Forms
                                     dynamic_pic.AccessibleDescription = "0";
                                 }
                                 else//reservation booking order
-                                {
+                                {  
                                     if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                     {
                                         PictureBox dynamic_pic = new PictureBox();
@@ -785,7 +785,7 @@ namespace FoodandBeverage.Forms
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
                                             else
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
-
+                                            lbltablename.ForeColor = Color.Red;
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
