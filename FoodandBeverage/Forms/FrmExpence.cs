@@ -227,6 +227,7 @@ namespace FoodandBeverage.Forms
                 objSearch.Table = "tblGeneralOptions";
                 objSearch.WhereNdGroupBy = "where GTypeId=2";
                 var gridSource2 = bllSearch.GetSearchData("prdComboFill", objSearch);
+
                 cmb_paymenttype.DataSource = gridSource2;
                 cmb_paymenttype.ValueMember = "Id";
                 cmb_paymenttype.DisplayMember = "Value";
@@ -239,6 +240,22 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
+            }
+        }
+        public class ComboBoxItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value;
             }
         }
 

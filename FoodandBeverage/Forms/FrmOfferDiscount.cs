@@ -227,6 +227,8 @@ namespace FoodandBeverage.Forms
             textb_shape();
             combofill();
             txt_prodlist_serach.Text = "Barcode / Item Code";
+            txtnamepro_offer.Text = "Name Serach";
+            txtnamepro_offer.ForeColor = Color.DarkGray;
 
             dgv_sigle_product.Rows.Clear();
             dgv_sigle_product.Rows.Add();
@@ -244,7 +246,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] {txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername , txt_prodlist_serach, txtofferdes_s, txtofferdsiper_s, txtoffername_s, txttaxamt })
+                foreach (TextBox textBox in new TextBox[] {txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername , txt_prodlist_serach, txtofferdes_s, txtofferdsiper_s, txtoffername_s, txttaxamt, txtnamepro_offer })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -478,6 +480,8 @@ namespace FoodandBeverage.Forms
                 cellcolumntype.Value = Properties.Resources.grid_unslect_color;
                 cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 txtomid.Text = "";
+                txtnamepro_offer.Text = "Name Serach";
+                txtnamepro_offer.ForeColor = Color.DarkGray;
             }
         }
 
@@ -2431,7 +2435,22 @@ namespace FoodandBeverage.Forms
                     }
                     return true;
                 case Keys.Enter:
-                    if (tlp_combo.Visible)
+                    if (txtitemcode_serach.Focused)
+                        if (txtitemcode_serach.Text != "" && txtitemcode_serach.Text != null)
+                            ItemCodeSerach_Combo();
+                    else if (txtname_search.Focused)
+                        if (txtname_search.Text != "" && txtname_search.Text != null)
+                            NameSerach_Combo();
+                    else if (txtnamepro_offer.Focused)
+                    {
+                        if (txtnamepro_offer.Text != "" && txtnamepro_offer.Text != null && txtnamepro_offer.Text != "Name Serach")           
+                            NameSerachProoffer();
+                    }
+                    else if (txt_prodlist_serach.Focused)
+                    {
+                        UpcScanner(txt_prodlist_serach.Text);
+                    }
+                    else if (tlp_combo.Visible)
                     {       
                         Movefocus_Combo(0);
                     }
@@ -2873,13 +2892,11 @@ public bool MandatoryCheck_Combo()
             path.CloseFigure();
             pnl_serachproduct_dashboard.Region = new Region(path);
         }
-
-        private void txtname_search_KeyDown(object sender, KeyEventArgs e)
+        public void NameSerach_Combo()
         {
             try
             {
-                if (e.KeyCode == Keys.Enter)
-                {
+
                     BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "*";
@@ -2933,21 +2950,18 @@ public bool MandatoryCheck_Combo()
                     }
                     else
                         CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                
             }
             catch (Exception ex)
             {
 
             }
-
         }
-
-        private void txtitemcode_serach_KeyDown(object sender, KeyEventArgs e)
+        public void ItemCodeSerach_Combo()
         {
             try
             {
-                if (e.KeyCode == Keys.Enter)
-                {
+
                     BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "*";
@@ -3003,14 +3017,14 @@ public bool MandatoryCheck_Combo()
                     else
                         CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                }
+                
             }
             catch (Exception ex)
             {
 
             }
-
         }
+
 
         private void txtname_search_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -3539,8 +3553,8 @@ public bool MandatoryCheck_Combo()
             pnl_serachproduct_dashboard.Controls.Clear();
             txtitemcode_serach.Text = "Item Code ....."; 
             txtname_search.Text = "Food Name .....";
-            txtitemcode_serach.BackColor = Color.DarkGray;
-            txtname_search.BackColor = Color.DarkGray;
+            txtitemcode_serach.ForeColor = Color.DarkGray;
+            txtname_search.ForeColor = Color.DarkGray;
 
         }
 
@@ -3604,11 +3618,67 @@ public bool MandatoryCheck_Combo()
                 UpcScanner(txt_prodlist_serach.Text);
             }
         }
+
+
+        public void NameSerachProoffer()
+        {
+            try
+            {
+                tlp_product_list.Visible = true;
+                int panelWidthPercentage = 80;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                tlp_product_list.Size = new Size(panelWidth, panelHeight);
+                tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,p.ItemCode as Field8";
+                _objSearch.Table = "tblProduct p" + " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid where p.Status=1 and m.Status=1 and p.Product like '%" + txtnamepro_offer.Text +
+                   "%' union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8 from " +
+                    "tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid";
+                _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1 and i.Itemname like '%" + txtnamepro_offer.Text + "%'";
+                _objSearch.OrderBy = "";
+                var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (Datasource.Count > 0)
+                {
+                    dgv_product_list.Rows.Clear();
+                    dgv_product_list.Rows.Add(Datasource.Count);
+                    for (int i = 0; i < Datasource.Count; i++)
+                    {
+                        dgv_product_list.Rows[i].Cells[didno].Value = i + 1;
+                        dgv_product_list.Rows[i].Cells[dbarcode_codeno].Value = Datasource[i].Field8;
+                        dgv_product_list.Rows[i].Cells[dproductnameno].Value = Datasource[i].Field1;
+                        dgv_product_list.Rows[i].Cells[dpriceno].Value = Datasource[i].Field2;
+                        dgv_product_list.Rows[i].Cells[dcategoryname].Value = Datasource[i].Field6;
+                        dgv_product_list.Rows[i].Cells[dcateidno].Value = Datasource[i].Field7;
+                        dgv_product_list.Rows[i].Cells[dproductidno].Value = Datasource[i].Id;
+                        dgv_product_list.Rows[i].Cells[dsaletypeno].Value = Datasource[i].Field5;
+                    }
+
+                }
+                else
+                    CMessageBox.Show("No Match Found ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error");
+            }
+        }
+
         public void UpcScanner(string code)
         {
             try
             {
                 tlp_product_list.Visible = true;
+
+                int panelWidthPercentage = 80;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                tlp_product_list.Size = new Size(panelWidth, panelHeight);
+
                 tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
@@ -4185,6 +4255,48 @@ public bool MandatoryCheck_Combo()
             ClacTaxAmt_combo();
             // netAmount_combo();
         }
+
+        private void txtnamepro_offer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+        }
+
+        private void txtnamepro_offer_Leave(object sender, EventArgs e)
+        {
+            if (txtnamepro_offer.Text == "")
+            {
+                txtnamepro_offer.Text = "Name Serach";
+                txtnamepro_offer.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void txtnamepro_offer_Enter(object sender, EventArgs e)
+        {
+            if (txtnamepro_offer.Text == "Name Serach")
+            {
+                txtnamepro_offer.Text = "";
+                txtnamepro_offer.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtnamepro_offer_TextChanged(object sender, EventArgs e)
+        {
+            if (txtnamepro_offer.Text != "" && txtnamepro_offer.Text !=null && txtnamepro_offer.Text != "Name Serach")
+            {
+                NameSerachProoffer();
+            }
+        }
+
+        private void txtname_search_TextChanged(object sender, EventArgs e)
+        {
+            if (txtname_search.Text != "" && txtname_search.Text != null && txtname_search.Text != "Food Name .....")
+                NameSerach_Combo();
+        }
+
+
 
         //private void dgv_sigle_product_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         //{
