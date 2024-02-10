@@ -86,7 +86,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtname, txtaddress, txtph, txtpin, txtg, certi1, certi2, certi3, tbl_BookingIn })
+                foreach (TextBox textBox in new TextBox[] { txtname, txtaddress, txtph, txtpin, txtg, certi1, certi2, certi3, tbl_BookingIn,txtemail,txtwebsite })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -207,6 +207,8 @@ namespace FoodandBeverage.Forms
                 certi2.Text = "";
                 certi3.Text = "";
                 txtg.Text = "";
+                txtemail.Text = "";
+                txtwebsite.Text = "";
                 tbl_BookingIn.Text = "";
                 comboBox3.Text = "select";
                 cmdstate.Text = "select";
@@ -692,6 +694,8 @@ namespace FoodandBeverage.Forms
                 txtph.Text = Convert.ToString(gridSource1[0].Phone);
                 txtpin.Text = Convert.ToString(gridSource1[0].ZipCode);
                 txtg.Text = Convert.ToString(gridSource1[0].GstNo);
+                txtemail.Text = Convert.ToString(gridSource1[0].Email);
+                txtwebsite.Text = Convert.ToString(gridSource1[0].website);
                 certi1.Text = Convert.ToString(gridSource1[0].Certificate);
                 certi2.Text = Convert.ToString(gridSource1[0].Certificate1);
                 certi3.Text = Convert.ToString(gridSource1[0].Certificate2);
@@ -990,6 +994,8 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Name = Convert.ToString(txtname.Text);
                 dmnRegistration.Address = Convert.ToString(txtaddress.Text);
                 dmnRegistration.Phone = Convert.ToString(txtph.Text);
+                dmnRegistration.Email = Convert.ToString(txtemail.Text);
+                dmnRegistration.website = Convert.ToString(txtwebsite.Text);
                 if (string.IsNullOrWhiteSpace(txtpin.Text))
                     txtpin.Text = "0";
                 dmnRegistration.ZipCode = Convert.ToInt32(txtpin.Text);
