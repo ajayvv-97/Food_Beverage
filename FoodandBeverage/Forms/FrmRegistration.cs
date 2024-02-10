@@ -10,6 +10,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
 using CustomMessageBox;
+using System.Net;
+using System.IO;
 
 namespace FoodandBeverage.Forms
 {
@@ -24,6 +26,14 @@ namespace FoodandBeverage.Forms
         Bitmap bitmap;
         string _retValue;
         long AccID;
+        static string hostName = "ftp://anikayaj.com/";
+        static string ftppath = "app.ayjsoft.com/";
+        static string ftproot = "app.ayjsoft.com/";
+        static string ftpusername = "anikayaj_2021";
+        static string ftppwd = "anikayaj@123#";
+        static string ftpsubfolder = "/App_Update/";
+        string DownLoad_directorypath = @"C:\ProgramData\iCard\iCard_Update\";
+        string Remote_File_Dir = hostName + "/" + ftproot + "/" + ftpsubfolder + "/" + "iCard_WinSetup.msi";
         public static string empImgExt = "";
 
         public int Id = 0;
@@ -698,13 +708,13 @@ namespace FoodandBeverage.Forms
                 }
                 if (imageExist)
                 {
-                    pb2.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb2.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + "_2.jpeg", DocumentType.HotelRegistrationProofPics);
                     pb2.BackgroundImageLayout = ImageLayout.Stretch;
                     pb2.Image = null;
                 }
                 if (imageExist)
                 {
-                    pb3.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    pb3.BackgroundImage = clsDocument.DownloadImage(gridSource1[0].Id + "_3.jpeg", DocumentType.HotelRegistrationProofPics);
                     pb3.BackgroundImageLayout = ImageLayout.Stretch;
                     pb3.Image = null;
                 }
@@ -1100,6 +1110,72 @@ namespace FoodandBeverage.Forms
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void linkLabel4_Click(object sender, EventArgs e)
+        {
+            pb1.BackgroundImage = null;
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            pb1.BackgroundImage = null;
+        }
+
+        private void linkLabel5_Click(object sender, EventArgs e)
+        {
+            panel1.Location = new Point(
+                              this.ClientSize.Width / 2 - panel1.Size.Width / 2,
+                              (this.ClientSize.Height / 5 - panel1.Size.Height / 6));
+            panel1.Anchor = AnchorStyles.None;
+            panel1.Visible = true;
+            pictureBox1.BackgroundImage = pb1.BackgroundImage;
+        }
+
+        private void linkLabel8_Click(object sender, EventArgs e)
+        {
+            panel1.Location = new Point(
+                               this.ClientSize.Width / 2 - panel1.Size.Width / 2,
+                               (this.ClientSize.Height / 5 - panel1.Size.Height / 6));
+            panel1.Anchor = AnchorStyles.None;
+            panel1.Visible = true;
+            pictureBox1.BackgroundImage = pb2.BackgroundImage;
+        }
+
+        private void linkLabel11_Click(object sender, EventArgs e)
+        {
+            panel1.Location = new Point(
+                              this.ClientSize.Width / 2 - panel1.Size.Width / 2,
+                           (this.ClientSize.Height / 5 - panel1.Size.Height / 6));
+            panel1.Anchor = AnchorStyles.None;
+            panel1.Visible = true;
+            pictureBox1.BackgroundImage = pb3.BackgroundImage;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false ;
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void linkLabel9_Click(object sender, EventArgs e)
+        {
+            pb2.BackgroundImage = null;
+        }
+
+        private void linkLabel12_Click(object sender, EventArgs e)
+        {
+            pb3.BackgroundImage = null;
+        }
+
+        private void linkLabel6_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }

@@ -4148,7 +4148,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.saletype Field5";
+                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.ProductType Field5";
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId " +
                             "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
@@ -4157,7 +4157,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (j == 2)
                     {
-                        dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.saletype Field5";
+                        dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.ProductType Field5";
                         dmnSearch.Table = "tblItem i " +
                             "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId " +
                             "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
