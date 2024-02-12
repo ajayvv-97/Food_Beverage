@@ -47,6 +47,9 @@ namespace Domain
         public decimal MarketPrice { get; set; }
         public int BookingFlag { get; set; }
         public string MainRemarks { get; set; }
+        public int Tid { get; set; }
+        public int KOTPrintStatus { get; set; }
     }
     
+
 }

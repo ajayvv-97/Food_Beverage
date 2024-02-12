@@ -30,8 +30,8 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.btnmini = new System.Windows.Forms.Button();
@@ -57,14 +57,16 @@ namespace FoodandBeverage.Forms
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlproductviewmore = new System.Windows.Forms.Panel();
             this.tlp_viewmore = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_close_viewmore = new System.Windows.Forms.Button();
             this.dgv_viewmore = new System.Windows.Forms.DataGridView();
-            this.tlp_header_viewmore = new System.Windows.Forms.TableLayoutPanel();
-            this.lblviewmore = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.vslno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vproductname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_header_viewmore = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_close_viewmore = new System.Windows.Forms.Button();
+            this.lblviewmore = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
+            this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -78,6 +80,7 @@ namespace FoodandBeverage.Forms
             this.tlp_viewmore.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_viewmore)).BeginInit();
             this.tlp_header_viewmore.SuspendLayout();
+            this.pnl_kitchenorderBill.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -411,30 +414,17 @@ namespace FoodandBeverage.Forms
             this.tlp_viewmore.Size = new System.Drawing.Size(489, 310);
             this.tlp_viewmore.TabIndex = 0;
             // 
-            // btn_close_viewmore
-            // 
-            this.btn_close_viewmore.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
-            this.btn_close_viewmore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_close_viewmore.FlatAppearance.BorderSize = 0;
-            this.btn_close_viewmore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close_viewmore.Location = new System.Drawing.Point(425, 3);
-            this.btn_close_viewmore.Name = "btn_close_viewmore";
-            this.btn_close_viewmore.Size = new System.Drawing.Size(33, 22);
-            this.btn_close_viewmore.TabIndex = 1;
-            this.btn_close_viewmore.UseVisualStyleBackColor = true;
-            this.btn_close_viewmore.Click += new System.EventHandler(this.btn_close_viewmore_Click);
-            // 
             // dgv_viewmore
             // 
             this.dgv_viewmore.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_viewmore.ColumnHeadersHeight = 40;
             this.dgv_viewmore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_viewmore.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -446,12 +436,32 @@ namespace FoodandBeverage.Forms
             this.dgv_viewmore.Name = "dgv_viewmore";
             this.dgv_viewmore.RowHeadersVisible = false;
             this.dgv_viewmore.RowHeadersWidth = 50;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_viewmore.RowTemplate.Height = 30;
             this.dgv_viewmore.Size = new System.Drawing.Size(465, 249);
             this.dgv_viewmore.TabIndex = 2;
+            // 
+            // vslno
+            // 
+            this.vslno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.vslno.HeaderText = "Slno";
+            this.vslno.Name = "vslno";
+            this.vslno.Width = 64;
+            // 
+            // vproductname
+            // 
+            this.vproductname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.vproductname.HeaderText = "Product";
+            this.vproductname.Name = "vproductname";
+            // 
+            // vqty
+            // 
+            this.vqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.vqty.HeaderText = "Quantitiy";
+            this.vqty.Name = "vqty";
+            this.vqty.Width = 93;
             // 
             // tlp_header_viewmore
             // 
@@ -468,6 +478,19 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_header_viewmore.Size = new System.Drawing.Size(465, 28);
             this.tlp_header_viewmore.TabIndex = 4;
+            // 
+            // btn_close_viewmore
+            // 
+            this.btn_close_viewmore.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btn_close_viewmore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_close_viewmore.FlatAppearance.BorderSize = 0;
+            this.btn_close_viewmore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close_viewmore.Location = new System.Drawing.Point(425, 3);
+            this.btn_close_viewmore.Name = "btn_close_viewmore";
+            this.btn_close_viewmore.Size = new System.Drawing.Size(33, 22);
+            this.btn_close_viewmore.TabIndex = 1;
+            this.btn_close_viewmore.UseVisualStyleBackColor = true;
+            this.btn_close_viewmore.Click += new System.EventHandler(this.btn_close_viewmore_Click);
             // 
             // lblviewmore
             // 
@@ -494,31 +517,42 @@ namespace FoodandBeverage.Forms
             this.label9.Text = "ESC Close";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // vslno
+            // pnl_kitchenorderBill
             // 
-            this.vslno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.vslno.HeaderText = "Slno";
-            this.vslno.Name = "vslno";
-            this.vslno.Width = 64;
+            this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
+            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(33, 0);
+            this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
+            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(364, 419);
+            this.pnl_kitchenorderBill.TabIndex = 0;
+            this.pnl_kitchenorderBill.Visible = false;
             // 
-            // vproductname
+            // crvkitchenbill
             // 
-            this.vproductname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.vproductname.HeaderText = "Product";
-            this.vproductname.Name = "vproductname";
-            // 
-            // vqty
-            // 
-            this.vqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.vqty.HeaderText = "Quantitiy";
-            this.vqty.Name = "vqty";
-            this.vqty.Width = 93;
+            this.crvkitchenbill.ActiveViewIndex = -1;
+            this.crvkitchenbill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crvkitchenbill.Cursor = System.Windows.Forms.Cursors.Default;
+            this.crvkitchenbill.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crvkitchenbill.Location = new System.Drawing.Point(0, 0);
+            this.crvkitchenbill.Name = "crvkitchenbill";
+            this.crvkitchenbill.ShowCloseButton = false;
+            this.crvkitchenbill.ShowCopyButton = false;
+            this.crvkitchenbill.ShowGotoPageButton = false;
+            this.crvkitchenbill.ShowGroupTreeButton = false;
+            this.crvkitchenbill.ShowLogo = false;
+            this.crvkitchenbill.ShowPageNavigateButtons = false;
+            this.crvkitchenbill.ShowParameterPanelButton = false;
+            this.crvkitchenbill.ShowTextSearchButton = false;
+            this.crvkitchenbill.ShowZoomButton = false;
+            this.crvkitchenbill.Size = new System.Drawing.Size(364, 419);
+            this.crvkitchenbill.TabIndex = 0;
+            this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
             // FrmKitchenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 489);
+            this.Controls.Add(this.pnl_kitchenorderBill);
             this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_empty_msg);
             this.Controls.Add(this.pnl_products_rem_descr);
@@ -548,6 +582,7 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgv_viewmore)).EndInit();
             this.tlp_header_viewmore.ResumeLayout(false);
             this.tlp_header_viewmore.PerformLayout();
+            this.pnl_kitchenorderBill.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -587,5 +622,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn vslno;
         private System.Windows.Forms.DataGridViewTextBoxColumn vproductname;
         private System.Windows.Forms.DataGridViewTextBoxColumn vqty;
+        private System.Windows.Forms.Panel pnl_kitchenorderBill;
+        private CrystalDecisions.Windows.Forms.CrystalReportViewer crvkitchenbill;
     }
 }

@@ -115,6 +115,14 @@
     <Compile Include="Classes\ClsImgComprossor.cs" />
     <Compile Include="Classes\FilterInfoCollection.cs" />
     <Compile Include="Classes\VideoCaptureDevice.cs" />
+    <Compile Include="DS\DSKitchen.cs">
+      <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DS\DSKitchen.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DS\DS_Sale.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -276,6 +284,12 @@
     <Compile Include="Forms\FrmExpence.Designer.cs">
       <DependentUpon>FrmExpence.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\KitchenBill\crkitchenbill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>crkitchenbill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\LoadingGif.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -400,6 +414,10 @@
     <EmbeddedResource Include="Forms\FrmExpence.resx">
       <DependentUpon>FrmExpence.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KitchenBill\crkitchenbill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>crkitchenbill.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoadingGif.resx">
       <DependentUpon>LoadingGif.cs</DependentUpon>
     </EmbeddedResource>
@@ -420,6 +438,17 @@
     <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="DS\DSKitchen.xsc">
+      <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </None>
+    <None Include="DS\DSKitchen.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSKitchen.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DS\DSKitchen.xss">
+      <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </None>
     <None Include="DS\DS_Sale.xsc">
       <DependentUpon>DS_Sale.xsd</DependentUpon>
     </None>
