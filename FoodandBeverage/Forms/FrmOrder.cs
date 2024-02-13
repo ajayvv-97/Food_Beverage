@@ -479,6 +479,7 @@ namespace FoodandBeverage.Forms
                     lbltablecode.Text = Convert.ToString(gridSource[0].Field1);
                     label15.Text = Convert.ToString(gridSource[0].Field1);
                     label22.Text = Convert.ToString(gridSource[0].Field1);
+                    txttid.Text = Convert.ToString(tableId);
                 }
             }
             catch (Exception ex)
@@ -740,9 +741,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                bool bookinorder_F = false;//chcek frist order from reservation page
+                int ordermsid = 0;
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
-                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal,om.Gender Gender";
+                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal,om.Gender Gender,om.OrderMasterId";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId " +
                     "left join tblbookMaster bm on bm.BookmasterId=om.BookmasterId";
                 dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.BookmasterId="+Bookingmasterid;
@@ -750,6 +753,7 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    ordermsid= Convert.ToInt32(gridSourcemaster[0].OrderMasterId);
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
                     txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
@@ -844,8 +848,10 @@ namespace FoodandBeverage.Forms
                             {
                                 if (gridSource[i].Status == 3)
                                     ordercount = ordercount + 1;
+
                                 if (gridSource[i].Status == 4)
                                 {
+                                    bookinorder_F = true;
                                     #region Grid fill data
                                     Dgv_Selected_Item.Rows.Add(1);
                                     r1 = Dgv_Selected_Item.RowCount - 1;
@@ -1034,16 +1040,34 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
-
-                    if (ordercount == gridSourcemaster.Count)
+                    if(bookinorder_F)
                     {
-                        Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                        bookinorder_F = false;
                     }
                     else
                     {
-                        Showprint_Save(Convert.ToInt32(ShowButtonType.save));
-
+                        BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
+                        dmnSearch.Table = "tblOrderDetails";
+                        dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + ordermsid;
+                        dmnSearch.OrderBy = "";
+                        var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
+                        if(gridSource_order.Count>0)
+                        {
+                            if ( Convert.ToInt32(gridSource_order[0].Field1)==1)
+                            {
+                                checksave_refresh();
+                            }
+                            else
+                            {
+                                Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+                            }
+                        }
                     }
+
+
                     netAmount();
                 }
                 else
@@ -1418,13 +1442,18 @@ namespace FoodandBeverage.Forms
                 }
                 if(typeno ==1)
                 {
-                    tlp_buttons.Controls.Add(btn_saveKOT, 1, 0);
-                    btn_saveKOT.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                    btn_refresh.Dock = DockStyle.Left;
-                    tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
+                    tlp_buttons.Controls.Add(btn_savekot_print, 1, 0);
+                    btn_savekot_print.Dock = DockStyle.Fill;
+                    tlp_buttons.Controls.Add(btn_saveKOT, 2, 0);
+                    btn_saveKOT.Dock = DockStyle.Fill;
+                    tlp_buttons.Controls.Add(btn_refresh, 3, 0);
+                    btn_refresh.Dock = DockStyle.Fill;
+                    tlp_buttons.Controls.Add(btn_frm_close, 4, 0);
                     btn_frm_close.Dock = DockStyle.Left;
+
                     btn_saveKOT.Visible = true;
+                    btn_savekot_print.Visible = true;
+
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
                     btn_entire_desc.Visible = true;
@@ -1432,12 +1461,14 @@ namespace FoodandBeverage.Forms
                 else if (typeno == 2)
                 {
                     tlp_buttons.Controls.Add(btn_print_bill, 1, 0);
-                    btn_saveKOT.Dock = DockStyle.Left;
+                    btn_print_bill.Dock = DockStyle.Fill;
                     tlp_buttons.Controls.Add(btn_refresh, 2, 0);
-                    btn_refresh.Dock = DockStyle.Left;
+                    btn_refresh.Dock = DockStyle.Fill;
                     tlp_buttons.Controls.Add(btn_frm_close, 3, 0);
                     btn_frm_close.Dock = DockStyle.Left;
+
                     btn_saveKOT.Visible = false;
+                    btn_savekot_print.Visible = false;
                     btn_print_bill.Visible = true;
                     btn_promo_code.Visible = true;
                     btn_entire_desc.Visible = false;
@@ -1445,10 +1476,11 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     tlp_buttons.Controls.Add(btn_refresh, 1, 0);
-                    btn_refresh.Dock = DockStyle.Left;
+                    btn_refresh.Dock = DockStyle.Fill;
                     tlp_buttons.Controls.Add(btn_frm_close, 2, 0);
                     btn_frm_close.Dock = DockStyle.Left;
                     btn_saveKOT.Visible = false;
+                    btn_savekot_print.Visible = false;
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
                     btn_entire_desc.Visible = false;
@@ -6311,6 +6343,9 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.BookingFlag = 1;
+                                    dmnorderdetail.KOTPrintStatus = 0; 
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
+
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -6375,6 +6410,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                     dmnorderdetail.BookingFlag = 0;
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
 
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
@@ -6572,13 +6608,16 @@ namespace FoodandBeverage.Forms
                 btn_split_number.Visible = true;
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
+
                 Dgv_Selected_Item.Rows.Clear();
                 Dgv_Selected_Item.Rows.Add();
             }
             else
+            {
                 ClearAll();
+                checksave_refresh();
+            }
 
-            checksave_refresh();
         }
         public bool MandatoryCheck_KOT()
         {
@@ -8553,6 +8592,207 @@ namespace FoodandBeverage.Forms
         private void btn_multiprice_Click(object sender, EventArgs e)
         {
             pnlprice.Visible = false;
+        }
+
+        private void btn_savekot_print_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MandatoryCheck_KOT())
+                {
+                    bool flage = false;
+                    DmnOrderMaster dmnordermaster = new DmnOrderMaster();
+                    DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
+                    BllOrder bll_order = new BllOrder();
+                    dmnordermaster.BookmasterId = Bookingmasterid;
+                    dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                    dmnordermaster.EntryNo = "";
+                    dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+                    dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
+                    dmnordermaster.Telephone = Convert.ToString(txtph.Text);
+                    dmnordermaster.Email = Convert.ToString(txtemailid.Text);
+                    dmnordermaster.Address = Convert.ToString(txtaddress.Text);
+                    if (rb_male.Checked)
+                        dmnordermaster.Gender = 1;
+                    else
+                        dmnordermaster.Gender = 2;
+
+                    dmnordermaster.BranchId = FrmDashboard.BranchId;
+                    dmnordermaster.CreatedBy = FrmDashboard.UserId;
+                    dmnordermaster.Status = 1;
+                    dmnordermaster.Tid = tableId;
+                    var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
+                    if (InsertStatusP.OrderMasterId > 0)
+                    {
+                        ResetFlag(Convert.ToInt32(txtordermasterid.Text));
+
+                        for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                        {
+                            if (Booking_Status)
+                            {
+                                if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
+                                {
+                                    dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
+                                    dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
+
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
+                                    else
+                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                    //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
+
+                                    dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
+                                    dmnorderdetail.Quantity = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                    dmnorderdetail.PurchaseRate = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iprate].Value);
+                                    dmnorderdetail.Amount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iamount].Value);
+
+                                    dmnorderdetail.DiscountPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisper].Value);
+                                    dmnorderdetail.DiscountAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisamt].Value);
+
+                                    dmnorderdetail.TaxPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxper].Value);
+                                    dmnorderdetail.TaxAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxamt].Value);
+                                    dmnorderdetail.Tax = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itax].Value);
+                                    dmnorderdetail.TaxType = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itaxtype].Value);
+
+                                    dmnorderdetail.IGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value);
+                                    dmnorderdetail.CGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                    dmnorderdetail.SGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                    dmnorderdetail.VATAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value);
+
+                                    dmnorderdetail.ItemId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value);
+                                    dmnorderdetail.Srate = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[israte].Value);
+                                    dmnorderdetail.MRP = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[imrp].Value);
+                                    dmnorderdetail.Fcid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itype].Value);
+                                    dmnorderdetail.TableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
+                                    dmnorderdetail.MarketPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
+                                    if (txtentrie_descr.Text == "Description Type here .....")
+                                        dmnorderdetail.MainRemarks = "";
+                                    else
+                                        dmnorderdetail.MainRemarks = txtentrie_descr.Text;
+
+                                    dmnorderdetail.BranchId = FrmDashboard.BranchId;
+                                    dmnorderdetail.CreatedBy = FrmDashboard.UserId;
+                                    dmnorderdetail.Status = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value);
+
+                                    dmnorderdetail.OrderDetailsId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
+                                    dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                    dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
+                                    dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                    dmnorderdetail.OrderNo = ResetFlagvalue;
+                                    dmnorderdetail.BookingFlag = 1;
+                                    dmnorderdetail.KOTPrintStatus = 1;
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
+
+                                    var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
+                                    if (InsertStatus == null)
+                                    {
+                                        flage = true;
+                                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        break;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0)
+                                {
+                                    dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
+                                    dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
+
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
+                                    else
+                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                    //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
+
+                                    dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
+                                    dmnorderdetail.Quantity = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                    dmnorderdetail.PurchaseRate = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iprate].Value);
+                                    dmnorderdetail.Amount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iamount].Value);
+
+                                    dmnorderdetail.DiscountPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisper].Value);
+                                    dmnorderdetail.DiscountAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisamt].Value);
+
+                                    dmnorderdetail.TaxPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxper].Value);
+                                    dmnorderdetail.TaxAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxamt].Value);
+                                    dmnorderdetail.Tax = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itax].Value);
+                                    dmnorderdetail.TaxType = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itaxtype].Value);
+
+                                    dmnorderdetail.IGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value);
+                                    dmnorderdetail.CGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                    dmnorderdetail.SGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                    dmnorderdetail.VATAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value);
+
+                                    dmnorderdetail.ItemId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value);
+                                    dmnorderdetail.Srate = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[israte].Value);
+                                    dmnorderdetail.MRP = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[imrp].Value);
+                                    dmnorderdetail.Fcid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itype].Value);
+                                    dmnorderdetail.TableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
+                                    dmnorderdetail.MarketPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
+
+                                    if (txtentrie_descr.Text == "Description Type here .....")
+                                        dmnorderdetail.MainRemarks = "";
+                                    else
+                                        dmnorderdetail.MainRemarks = txtentrie_descr.Text;
+
+
+                                    dmnorderdetail.BranchId = FrmDashboard.BranchId;
+                                    dmnorderdetail.CreatedBy = FrmDashboard.UserId;
+                                    dmnorderdetail.Status = 1;
+
+                                    dmnorderdetail.OrderDetailsId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
+                                    dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                    dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
+                                    dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                    dmnorderdetail.KOTPrintStatus = 1;
+                                    dmnorderdetail.BookingFlag = 0;
+                                    dmnorderdetail.OrderNo = ResetFlagvalue;
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
+
+                                    var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
+                                    if (InsertStatus == null)
+                                    {
+                                        flage = true;
+                                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        break;
+                                    }
+
+                                }
+                            }
+
+
+                        }
+                    }
+                    if (flage == false)
+                    {
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            _instanceFrmdash.TableStaus(0);
+                        }
+                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        {
+                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                            _instanceFrmOrderView.FillOrders();
+                        }
+                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        {
+                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                            _instanceFrmKitchenView.Fillorders();
+                        }
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Notify the kitchen view to refresh
+                        ClearAll();
+                        this.Close();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

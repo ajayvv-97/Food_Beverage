@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using BLL;
+using CrystalDecisions.CrystalReports.Engine;
 using CustomMessageBox;
 using Domain;
+using FastMember;
 using FoodandBeverage.Interfaces;
 using Microsoft.AspNet.SignalR.Client;
 
@@ -14,6 +18,7 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmKitchenView : Form
     {
+        private Timer refreshtimer;
         public FrmKitchenView()
         {
             InitializeComponent();
@@ -47,7 +52,8 @@ namespace FoodandBeverage.Forms
         private readonly IHubProxy _hubProxy;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        
+        public string RPTPath = Application.StartupPath + @"\KitchenBill";//";@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -95,6 +101,18 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
+        public void InitTimer()
+        {
+            refreshtimer = new Timer();
+            refreshtimer.Tick += new EventHandler(refreshtimerTick);
+            refreshtimer.Interval = 2000; // in miliseconds
+            refreshtimer.Start();
+        }
+
+        private void refreshtimerTick(object sender, EventArgs e)
+        {
+            Fillorders();
+        }
 
         private void FrmKitchenView_Load(object sender, EventArgs e)
         {
@@ -113,7 +131,8 @@ namespace FoodandBeverage.Forms
             txtorderid_search.Text = "Order Id ....";
             txttablecode.Text = "Table Code....";
             textb_shape();
-            Fillorders();            
+            InitTimer();
+            //Fillorders();
         }
         public class datagrid
         {
@@ -156,16 +175,16 @@ namespace FoodandBeverage.Forms
                     {
                         bool flagstart_ready = false;
                         dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17";
+                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17,ko.KOTPrintStatus Field18";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                            "Left Join tblTable_info  ti on ti.Tid=om.Tid";
+                            "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
                         dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
                         dmnSearch.OrderBy = "order by ko.koid DESC";
                         var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
                         if(gridSourcedetails.Count>0)
-                        {
+                            {
                             string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_sele != null)
@@ -244,8 +263,6 @@ namespace FoodandBeverage.Forms
                                 int controlWidth = (int)(this.Width * WidthPercentage / 100);
                                 int controlHeight = (int)(this.Height * heightPercentage / 100);
                                 tlp_product_box.Size = new Size(controlWidth, controlHeight);
-
-
 
                                 tlp_product_box.BackColor = boxcolor;
                                 tlp_product_box.RowCount = 4;
@@ -439,6 +456,17 @@ namespace FoodandBeverage.Forms
                                     {
                                         flagstart_ready = true;
                                     }
+
+                                    #region Update Prnt Staus Set to2
+                                    BllKitchenorder bllkitchen = new BllKitchenorder();
+                                    Dmnkitchen dmnkitchen = new Dmnkitchen();
+                                    dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                                    dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                                    dmnkitchen.KOTPrintStatus = 2;
+                                    dmnkitchen.BranchId = 1030;
+                                    var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                                    #endregion
+
                                     dgv_product_details.Rows.Add();
                                     dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
                                     dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
@@ -615,6 +643,70 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
                                 #endregion
 
+                                #region Print Kitchen order base kitchen  Staus Filed 0 or 1
+                                if(Convert.ToInt32(gridSourcedetails[0].Field18)==1)
+                                {
+                                    try
+                                    {    
+                                        #region Crystal Report Dclaration
+                                        ReportDocument reportDocument = new ReportDocument();
+                                        DataSet dsReport = new DataSet();
+                                        DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
+                                        BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
+            
+                                        DmnSearch dmnSearchDetails = new DmnSearch();
+                                        dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId";
+                                        dmnSearchDetails.Table = "tblkitchenOrder ko " +
+                                            "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
+                                            "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
+                                            "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
+                                        dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
+                                        dmnSearchDetails.OrderBy = "order by ko.koid DESC";
+
+                                        var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
+                                        using (var reader = ObjectReader.Create(BillDetails,"ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId"))
+                                        {
+                                            dtSalesDetail.Load(reader);
+                                        }
+                                        dsReport.Tables.Add(dtSalesDetail);
+                                        string x = RPTPath + @"\crkitchenbill.rpt";
+                                        reportDocument.Load(RPTPath + @"\crkitchenbill.rpt");
+                                        reportDocument.SetDataSource(dsReport);             
+
+                                        crvkitchenbill.RefreshReport();
+                                        crvkitchenbill.ReportSource = reportDocument;
+
+                                        //var pdffolderPath = Application.StartupPath + "\\Bill_pdf";
+                                        //if (!Directory.Exists(pdffolderPath))
+                                        //    Directory.CreateDirectory(pdffolderPath);
+                                        //else
+                                        //{
+                                        //    string[] files = Directory.GetFiles(pdffolderPath);
+                                        //    foreach (string file in files)
+                                        //    {
+                                        //        File.Delete(file);
+                                        //    }
+                                        //}
+                                        //pdfPath = Path.Combine(pdffolderPath, "Bill.pdf");
+                                        //reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
+                                        crvkitchenbill.Focus();
+                                        reportDocument.PrintToPrinter(1, false, 0, 0);
+                                        //pnl_kitchenorderBill.Visible = true;                 
+
+                                     #endregion
+                                        
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+                                else
+                                {
+
+                                }
+                                #endregion
+
                                 flp_order_view.Controls.Add(tlp_product_box);
 
                                 orderbox.Add(new datagrid
@@ -623,6 +715,7 @@ namespace FoodandBeverage.Forms
                                     datagridviewname = dgv_product_details.Name,
                                     createtime = gridSourcedetails[0].Fielddatetime
                                 });
+
                             }
          
                         }
