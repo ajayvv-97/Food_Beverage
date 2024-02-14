@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpWorkingHrs = new System.Windows.Forms.DateTimePicker();
             this.mlblEmpSrlNo = new System.Windows.Forms.Panel();
             this.dgvDesignation = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel1 = new System.Windows.Forms.Label();
-            this.mbtnRefresh = new System.Windows.Forms.Button();
-            this.mbtnSave = new System.Windows.Forms.Button();
             this.mcmbDepartment = new System.Windows.Forms.ComboBox();
             this.mlblName = new System.Windows.Forms.Label();
             this.mtxtName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.mbtnClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.mbtnSave = new System.Windows.Forms.Button();
+            this.mbtnRefresh = new System.Windows.Forms.Button();
+            this.mbtnClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btncolse = new System.Windows.Forms.Button();
             this.btnmini = new System.Windows.Forms.Button();
@@ -63,7 +63,7 @@
             this.dtpWorkingHrs.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
             this.dtpWorkingHrs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpWorkingHrs.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpWorkingHrs.Location = new System.Drawing.Point(49, 3);
+            this.dtpWorkingHrs.Location = new System.Drawing.Point(48, 3);
             this.dtpWorkingHrs.Name = "dtpWorkingHrs";
             this.dtpWorkingHrs.ShowUpDown = true;
             this.dtpWorkingHrs.Size = new System.Drawing.Size(75, 26);
@@ -93,24 +93,24 @@
             this.dgvDesignation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDesignation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvDesignation.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(126)))), ((int)(((byte)(227)))));
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDesignation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(126)))), ((int)(((byte)(227)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDesignation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvDesignation.ColumnHeadersHeight = 46;
             this.dgvDesignation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvDesignation.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvDesignation.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvDesignation.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvDesignation.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvDesignation.EnableHeadersVisualStyles = false;
@@ -118,14 +118,14 @@
             this.dgvDesignation.MultiSelect = false;
             this.dgvDesignation.Name = "dgvDesignation";
             this.dgvDesignation.ReadOnly = true;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDesignation.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDesignation.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvDesignation.RowHeadersVisible = false;
             this.dgvDesignation.RowTemplate.Height = 30;
             this.dgvDesignation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -172,7 +172,7 @@
             // 
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.metroLabel1.ForeColor = System.Drawing.Color.Black;
             this.metroLabel1.Location = new System.Drawing.Point(3, 0);
             this.metroLabel1.Name = "metroLabel1";
@@ -180,38 +180,6 @@
             this.metroLabel1.TabIndex = 13;
             this.metroLabel1.Text = "Department :";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // mbtnRefresh
-            // 
-            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
-            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
-            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(474, 34);
-            this.mbtnRefresh.Name = "mbtnRefresh";
-            this.mbtnRefresh.Size = new System.Drawing.Size(79, 27);
-            this.mbtnRefresh.TabIndex = 17;
-            this.mbtnRefresh.UseVisualStyleBackColor = true;
-            this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
-            this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
-            this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
-            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mbtnSave.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mbtnSave.FlatAppearance.BorderSize = 0;
-            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(474, 3);
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(79, 25);
-            this.mbtnSave.TabIndex = 16;
-            this.mbtnSave.UseVisualStyleBackColor = true;
-            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
-            this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
-            this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
             // mcmbDepartment
             // 
@@ -229,7 +197,7 @@
             // 
             this.mlblName.AutoSize = true;
             this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mlblName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mlblName.ForeColor = System.Drawing.Color.Black;
             this.mlblName.Location = new System.Drawing.Point(216, 0);
             this.mlblName.Name = "mlblName";
@@ -257,7 +225,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(216, 64);
             this.label4.Name = "label4";
@@ -265,6 +233,54 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Working Hours :";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.22047F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.77953F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tableLayoutPanel3.Controls.Add(this.dtpWorkingHrs, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(216, 97);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(198, 55);
+            this.tableLayoutPanel3.TabIndex = 19;
+            // 
+            // mbtnSave
+            // 
+            this.mbtnSave.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
+            this.mbtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnSave.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mbtnSave.FlatAppearance.BorderSize = 0;
+            this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnSave.Location = new System.Drawing.Point(474, 3);
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.Size = new System.Drawing.Size(79, 25);
+            this.mbtnSave.TabIndex = 16;
+            this.mbtnSave.UseVisualStyleBackColor = true;
+            this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
+            this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
+            this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
+            // 
+            // mbtnRefresh
+            // 
+            this.mbtnRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_Button1;
+            this.mbtnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mbtnRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mbtnRefresh.FlatAppearance.BorderSize = 0;
+            this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mbtnRefresh.Location = new System.Drawing.Point(474, 34);
+            this.mbtnRefresh.Name = "mbtnRefresh";
+            this.mbtnRefresh.Size = new System.Drawing.Size(79, 27);
+            this.mbtnRefresh.TabIndex = 17;
+            this.mbtnRefresh.UseVisualStyleBackColor = true;
+            this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
+            this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
+            this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
             // 
             // mbtnClose
             // 
@@ -282,22 +298,6 @@
             this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
             this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 3;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.22047F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.77953F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel3.Controls.Add(this.dtpWorkingHrs, 1, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(216, 97);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(198, 55);
-            this.tableLayoutPanel3.TabIndex = 19;
-            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.BackColor = System.Drawing.Color.SteelBlue;
@@ -305,7 +305,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.143646F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.85635F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Controls.Add(this.btncolse, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.btnmini, 2, 0);
@@ -326,7 +326,7 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(757, 3);
+            this.btncolse.Location = new System.Drawing.Point(756, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -342,7 +342,7 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(727, 3);
+            this.btnmini.Location = new System.Drawing.Point(726, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(23, 25);
             this.btnmini.TabIndex = 10;
@@ -355,7 +355,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label23.Location = new System.Drawing.Point(33, 0);
+            this.label23.Location = new System.Drawing.Point(32, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(136, 25);
             this.label23.TabIndex = 277;

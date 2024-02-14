@@ -3605,7 +3605,7 @@ namespace FoodandBeverage.Forms
             if (txtname_search.Text == "")
             {
                 txtname_search.Text = "Food Name .....";
-                txtname_search.ForeColor = Color.DarkGray;
+                txtname_search.ForeColor = Color.White;
             }
         }
 
