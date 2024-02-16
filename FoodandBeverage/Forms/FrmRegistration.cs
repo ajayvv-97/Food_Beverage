@@ -1176,12 +1176,17 @@ namespace FoodandBeverage.Forms
 
         private void linkLabel12_Click(object sender, EventArgs e)
         {
-            pb3.BackgroundImage = null;
+           
         }
 
         private void linkLabel6_Click(object sender, EventArgs e)
         {
            
+        }
+
+        private void linkLabel12_Click_1(object sender, EventArgs e)
+        {
+            pb3.BackgroundImage = null;
         }
     }
 }
