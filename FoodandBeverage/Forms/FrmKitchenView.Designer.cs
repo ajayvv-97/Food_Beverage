@@ -67,6 +67,7 @@ namespace FoodandBeverage.Forms
             this.label9 = new System.Windows.Forms.Label();
             this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
             this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -547,11 +548,20 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.TabIndex = 0;
             this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(62, 16);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(312, 47);
+            this.textBox1.TabIndex = 1;
+            // 
             // FrmKitchenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 489);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pnl_kitchenorderBill);
             this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_empty_msg);
@@ -584,6 +594,7 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.PerformLayout();
             this.pnl_kitchenorderBill.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -624,5 +635,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn vqty;
         private System.Windows.Forms.Panel pnl_kitchenorderBill;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crvkitchenbill;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

@@ -113,6 +113,7 @@
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\clsGeneral.cs" />
     <Compile Include="Classes\ClsImgComprossor.cs" />
+    <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\FilterInfoCollection.cs" />
     <Compile Include="Classes\VideoCaptureDevice.cs" />
     <Compile Include="DS\DSKitchen.cs">
