@@ -1640,7 +1640,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4 ";
                 dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1 " +
                     " Union Select Itemname as Field1,ItemId as Field2,Saletype as Field3,fav_status as Field4 from tblItem";
-                dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1";
+                dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1  and (Select sum(QOH) from tblProductRate where ProductId=ItemId) > 0";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 pnl_serachproduct_dashboard.Controls.Clear();
@@ -4402,7 +4402,7 @@ namespace FoodandBeverage.Forms
                     {
                         dmnSearch.Select = "Itemname as Field1,ItemId as Field2,Saletype as Field3,fav_status as Field4  ";
                         dmnSearch.Table = "tblItem ";
-                        dmnSearch.WhereNdGroupBy = " where Status=1 and fav_status=1";
+                        dmnSearch.WhereNdGroupBy = " where Status=1 and fav_status=1 ";
                         dmnSearch.OrderBy = "";
                          gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     }
@@ -5145,7 +5145,7 @@ namespace FoodandBeverage.Forms
                             " tblItem i " +
                             " LEFT JOIN tblOfferDetails ofd on ofd.ProductId = i.ItemId and ofd.Status = 1 " +
                             " LEFT JOIN tblOfferMaster ofm on ofm.Omid = ofd.Omid and ofm.OfferType = 0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
-                            "LEFT JOIN tblProductRate pr on pr.ProductId = i.ItemId and pr.Status = 1 and pr.QOH>0 ";
+                            " LEFT JOIN tblProductRate pr on pr.ProductId = i.ItemId and pr.Status = 1 and pr.QOH>0";
                         dmnSearch.WhereNdGroupBy = " where i.Saletype = 1  and i.Status = 1  and  i.ItemCode_UPC ='" + txtitemcode_serach.Text + "'";
 
                         dmnSearch.OrderBy = "";
@@ -6433,16 +6433,16 @@ namespace FoodandBeverage.Forms
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                             _instanceFrmdash.TableStaus(0);
                         }
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        {
-                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.FillOrders();
-                        }
-                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
-                        {
-                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                            _instanceFrmKitchenView.Fillorders();
-                        }
+                        //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        //{
+                        //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                        //    _instanceFrmOrderView.FillOrders();
+                        //}
+                        //if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        //{
+                        //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                        //    _instanceFrmKitchenView.Fillorders();
+                        //}
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // Notify the kitchen view to refresh
                         ClearAll();
@@ -8771,16 +8771,16 @@ namespace FoodandBeverage.Forms
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                             _instanceFrmdash.TableStaus(0);
                         }
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        {
-                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.FillOrders();
-                        }
-                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
-                        {
-                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                            _instanceFrmKitchenView.Fillorders();
-                        }
+                        //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        //{
+                        //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                        //    _instanceFrmOrderView.FillOrders();
+                        //}
+                        //if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        //{
+                        //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                        //    _instanceFrmKitchenView.Fillorders();
+                        //}
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // Notify the kitchen view to refresh
                         ClearAll();

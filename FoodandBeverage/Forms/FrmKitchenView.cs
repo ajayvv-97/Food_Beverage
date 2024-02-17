@@ -192,61 +192,62 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_sele != null)
                             {
-                                //string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                //string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17;;
-                                //string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                //string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;;
+                                string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
+                                string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
 
-                                //PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
-                                //PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
-                                //PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
-                                //DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
+                                PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
+                                PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
+                                PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
+                                DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
 
-                                //#region Grid Edit Cancel  product
-                                //for (int k = 0; k < gridSourcedetails.Count; k++)
-                                //{
-                                //    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
-                                //    {
-                                //        flagstart_ready = true;
-                                //    }
-                                //    dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
+                                #region Grid Edit Cancel  product
+                                for (int k = 0; k < gridSourcedetails.Count; k++)
+                                {
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
+                                    {
+                                        flagstart_ready = true;
+                                    }
+                                    dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
 
-                                //    dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+                                    dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
 
-                                //    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                                //    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
-                                //    {
-                                //        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                //        cell.Value = Properties.Resources.orderview_cancelled;
-                                //        dgv_product_details.Rows[k].ReadOnly = true;
-                                //    }
-                                //    else
-                                //    {
-                                //        cell.Value = Properties.Resources.close_price_change;
-                                //        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                //    }
+                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
+                                    {
+                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cell.Value = Properties.Resources.orderview_cancelled;
+                                        dgv_product_details.Rows[k].ReadOnly = true;
+                                        dgv_product_details.Rows[k].Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
+                                    }
+                                    else
+                                    {
+                                        cell.Value = Properties.Resources.close_price_change;
+                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    }
 
-                                //}
-                                //#endregion
+                                }
+                                #endregion
 
-                                //#region Edit Ready and Close Button 
-                                //if (flagstart_ready)
-                                //{
-                                //    btn_start.Visible = true;
-                                //    btn_cancelfood.Visible = true;
-                                //    btn_ready.Visible = false;
-                                //}
-                                //else
-                                //{
-                                //    btn_start.Visible = false;
-                                //    btn_ready.Visible = true;
-                                //    btn_cancelfood.Visible = false;
-                                //}
-                                //#endregion
-                                //timer1.Start();
+                                #region Edit Ready and Close Button 
+                                if (flagstart_ready)
+                                {
+                                    btn_start.Visible = true;
+                                    btn_cancelfood.Visible = true;
+                                    btn_ready.Visible = false;
+                                }
+                                else
+                                {
+                                    btn_start.Visible = false;
+                                    btn_ready.Visible = true;
+                                    btn_cancelfood.Visible = false;
+                                }
+                                #endregion
                             }
                             else
                             {
+                                refreshtimer.Stop();
                                 #region Main TableLayoutPanel 
                                 // Main TableLayoutPanel for each product
                                 TableLayoutPanel tlp_product_box = new TableLayoutPanel();
@@ -464,15 +465,15 @@ namespace FoodandBeverage.Forms
                                         flagstart_ready = true;
                                     }
 
-                                    #region Update Prnt Staus Set to2
-                                    BllKitchenorder bllkitchen = new BllKitchenorder();
-                                    Dmnkitchen dmnkitchen = new Dmnkitchen();
-                                    dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
-                                    dmnkitchen.CreatedBy = FrmDashboard.UserId;
-                                    dmnkitchen.KOTPrintStatus = 2;
-                                    dmnkitchen.BranchId = 1030;
-                                    var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-                                    #endregion
+                                    //#region Update Prnt Staus Set to2
+                                    //BllKitchenorder bllkitchen = new BllKitchenorder();
+                                    //Dmnkitchen dmnkitchen = new Dmnkitchen();
+                                    //dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                                    //dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                                    //dmnkitchen.KOTPrintStatus = 2;
+                                    //dmnkitchen.BranchId = 1030;
+                                    //var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                                    //#endregion
 
                                     dgv_product_details.Rows.Add();
                                     dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
@@ -652,9 +653,7 @@ namespace FoodandBeverage.Forms
 
                                 #region Print Kitchen order base kitchen  Staus Filed 0 or 1
                                 if (Convert.ToInt32(gridSourcedetails[0].Field18) == 1)
-                                {
-                                    try
-                                    {
+                                {                       
                                         #region Crystal Report Dclaration
                                         ReportDocument reportDocument = new ReportDocument();
                                         DataSet dsReport = new DataSet();
@@ -671,6 +670,7 @@ namespace FoodandBeverage.Forms
                                         dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
                                         dmnSearchDetails.OrderBy = "order by ko.koid DESC";
 
+              
                                         var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
 
                                         if (BillDetails != null && BillDetails.Count > 0)
@@ -693,12 +693,20 @@ namespace FoodandBeverage.Forms
                                         crvkitchenbill.Focus();
                                         reportDocument.PrintToPrinter(1, false, 0, 0);
 
+                                        for (int k = 0; k < gridSourcedetails.Count; k++)
+                                        {
+                                            #region Update Prnt Staus Set to2
+                                            BllKitchenorder bllkitchen = new BllKitchenorder();
+                                            Dmnkitchen dmnkitchen = new Dmnkitchen();
+                                            dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                                            dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                                            dmnkitchen.KOTPrintStatus = 2;
+                                            dmnkitchen.BranchId = 1030;
+                                            var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                                            #endregion
+                                        }
                                         #endregion
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
+           
                                 }
                                 else
                                 {
@@ -723,7 +731,7 @@ namespace FoodandBeverage.Forms
                     }
                     flp_order_view.Visible = true;
                     timer1.Start();
-
+                    refreshtimer.Start();
                 }
                 else
                 {

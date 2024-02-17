@@ -555,6 +555,7 @@ namespace FoodandBeverage.Forms
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(312, 47);
             this.textBox1.TabIndex = 1;
+            this.textBox1.Visible = false;
             // 
             // FrmKitchenView
             // 
