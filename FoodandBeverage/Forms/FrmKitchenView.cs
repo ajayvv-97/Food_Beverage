@@ -59,6 +59,7 @@ namespace FoodandBeverage.Forms
 
         private void btncolse_Click(object sender, EventArgs e)
         {
+            refreshtimer.Stop();
             this.Close(); 
         }
 
@@ -172,7 +173,19 @@ namespace FoodandBeverage.Forms
                        .Select(group => group.First())
                        .OrderBy(order => order.Field1)
                        .ThenBy(order => order.Field2)
-                       .ToList();           
+                       .ToList();
+
+                    var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
+
+                    foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
+                    {
+                        if (control is TableLayoutPanel tlp && !preserveNames.Contains(tlp.Name))
+                        {
+                            flp_order_view.Controls.Remove(control);
+                            control.Dispose();
+                        }
+                    }
+
                     //flp_order_view.Controls.Clear();
                     foreach (var orders in distinctOrders)
                     {
@@ -193,9 +206,9 @@ namespace FoodandBeverage.Forms
                             if (tlp_sele != null)
                             {
                                 string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
+                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17; 
                                 string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
+                                string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
 
                                 PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
                                 PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
@@ -203,6 +216,7 @@ namespace FoodandBeverage.Forms
                                 DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
 
                                 #region Grid Edit Cancel  product
+
                                 for (int k = 0; k < gridSourcedetails.Count; k++)
                                 {
                                     if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
@@ -228,22 +242,23 @@ namespace FoodandBeverage.Forms
                                     }
 
                                 }
+                                #endregion      
+             
+                               #region Edit Ready and Close Button 
+                                    if (flagstart_ready)
+                                    {
+                                        btn_start.Visible = true;
+                                        btn_cancelfood.Visible = true;
+                                        btn_ready.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        btn_start.Visible = false;
+                                        btn_ready.Visible = true;
+                                        btn_cancelfood.Visible = false;
+                                    }
                                 #endregion
 
-                                #region Edit Ready and Close Button 
-                                if (flagstart_ready)
-                                {
-                                    btn_start.Visible = true;
-                                    btn_cancelfood.Visible = true;
-                                    btn_ready.Visible = false;
-                                }
-                                else
-                                {
-                                    btn_start.Visible = false;
-                                    btn_ready.Visible = true;
-                                    btn_cancelfood.Visible = false;
-                                }
-                                #endregion
                             }
                             else
                             {
@@ -836,6 +851,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                refreshtimer.Stop();
                 PictureBox clickedPictureBox = (PictureBox)sender;
                 int id = Convert.ToInt32(clickedPictureBox.Tag);
                 dgv_view_name = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
@@ -860,6 +876,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                refreshtimer.Stop();
                 PictureBox clickedPictureBox = (PictureBox)sender;
                 int id = Convert.ToInt32(clickedPictureBox.Tag);
                 string dgvname = "dgv_product_details_k_"+ clickedPictureBox.AccessibleDescription + id;
@@ -954,6 +971,7 @@ namespace FoodandBeverage.Forms
                             btn_cancelfood.Visible = false;
                         }
                         #endregion
+                        refreshtimer.Start();
 
                     }
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
@@ -976,6 +994,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                refreshtimer.Stop();
                 PictureBox clickedPictureBox = (PictureBox)sender;
                 int id = Convert.ToInt32(clickedPictureBox.Tag);
                 string dgvname = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
@@ -1008,6 +1027,7 @@ namespace FoodandBeverage.Forms
                     {
                         flp_order_view.Controls.Remove(tlp_sele);
                         tlp_sele.Dispose();
+                        refreshtimer.Start();
                     }
 
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
@@ -1133,7 +1153,7 @@ namespace FoodandBeverage.Forms
                         dgv_product_details.Rows[dgv_view_rowno].Cells[dremnoteno].Value = txt_product_remove_des.Text;
                         pnl_products_rem_descr.Visible = false;
                         txt_product_remove_des.Text = "";
-                        Fillorders();
+                        refreshtimer.Start();
                     }
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                     {
@@ -2326,6 +2346,11 @@ namespace FoodandBeverage.Forms
         private void btn_close_viewmore_Click(object sender, EventArgs e)
         {
             pnlproductviewmore.Visible = false;
+        }
+
+        private void FrmKitchenView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            refreshtimer.Stop();
         }
     }
 }

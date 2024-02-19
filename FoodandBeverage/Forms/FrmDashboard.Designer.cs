@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboard));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -560,7 +561,7 @@ namespace FoodandBeverage.Forms
             this.ib_kitchenview.Tag = "Kitchen View";
             this.ib_kitchenview.Text = "Kitchen View";
             this.ib_kitchenview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_kitchenview, "Tax Registartion");
+            this.toolTip1.SetToolTip(this.ib_kitchenview, "Kitchen View");
             this.ib_kitchenview.UseVisualStyleBackColor = false;
             this.ib_kitchenview.Visible = false;
             this.ib_kitchenview.Click += new System.EventHandler(this.ib_kitchenview_Click);
@@ -975,7 +976,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 227F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 243F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -990,7 +991,7 @@ namespace FoodandBeverage.Forms
             // 
             // btntrefresh
             // 
-            this.btntrefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_button;
+            this.btntrefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btntrefresh.BackgroundImage")));
             this.btntrefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btntrefresh.FlatAppearance.BorderSize = 0;
             this.btntrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1008,7 +1009,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(72, 3);
+            this.btn_avial.Location = new System.Drawing.Point(67, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -1022,7 +1023,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(211, 3);
+            this.btn_rev.Location = new System.Drawing.Point(196, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -1036,7 +1037,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(145, 3);
+            this.btn_running.Location = new System.Drawing.Point(135, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -2284,7 +2285,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.empty_orders;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(227, 19);
             this.pictureBox1.Name = "pictureBox1";

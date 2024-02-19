@@ -13,6 +13,9 @@ using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
+using CrystalDecisions.CrystalReports.Engine;
+using FastMember;
+using CrystalDecisions.Shared;
 
 namespace FoodandBeverage.Forms
 {
@@ -23,6 +26,7 @@ namespace FoodandBeverage.Forms
         public static int UserId = 0;
         public static int UserType = 0;
         public static int Allaccess = 0;
+
         public FrmDashboard()
         {
             InitializeComponent();
@@ -40,7 +44,7 @@ namespace FoodandBeverage.Forms
             int nWidthEllipse,
             int nHeightEllipse
         );
-        #region Declaration
+        #region grid Declaration
         public int desiredWidth = 0;
         public int desiredHeight = 0;
         public int HdesiredWidth = 0;
@@ -63,17 +67,17 @@ namespace FoodandBeverage.Forms
         #endregion
         private bool isClicked = false;
         Color menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
-        Color opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); 
-         TableLayoutPanel tlp_button = new TableLayoutPanel();
+        Color opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
+        TableLayoutPanel tlp_button = new TableLayoutPanel();
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
         TableLayoutPanel tlp_searchproduct_sidebar = new TableLayoutPanel();
-        TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel(); 
+        TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel();
         private Color originalBackColor; // Variable to store the original background color
         FlowLayoutPanel flpcolor = new FlowLayoutPanel();
         private Point MouseLocation;
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
-        Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);      
+        Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         public bool collapsemenu_click = false;
         // Set the size based on your conditions
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -81,7 +85,6 @@ namespace FoodandBeverage.Forms
         Timer AutoTimer;
         public int AddMinutes = 0;
         public List<Namelist> CheckedtableNames = new List<Namelist>();
-
         public void initTimer()
         {
             AutoTimer = new Timer();
@@ -98,7 +101,7 @@ namespace FoodandBeverage.Forms
         }
         public void AutoTimer_tick(object sender, EventArgs e)
         {
-            TableStaus(0);     
+            TableStaus(0);
         }
         private void Menulogout_Click(object sender, EventArgs e)
         {
@@ -112,6 +115,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
+ 
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
@@ -129,7 +133,7 @@ namespace FoodandBeverage.Forms
                     {
                         button.Size = new Size(300, 120);
                         button.Margin = new Padding(90, 35, 10, 2);
-                        button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style); 
+                        button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style);
                     }
                 }
             }
@@ -163,7 +167,7 @@ namespace FoodandBeverage.Forms
             // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
             //set color on solidebar header
             pnl_header.BackColor = menubuttoncolor;
-            pbopbuttoncoloepicker.BackColor = menubuttoncolor; 
+            pbopbuttoncoloepicker.BackColor = menubuttoncolor;
             pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
             tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
@@ -212,7 +216,7 @@ namespace FoodandBeverage.Forms
             ib_department.Visible = false;
             ib_useraccount.Visible = false;
             ib_userpermission.Visible = false;
-            ib_Discount_offer.Visible= false;
+            ib_Discount_offer.Visible = false;
             ib_Expence.Visible = false;
             ib_PromoCode.Visible = false;
             FormPermissionChecking();
@@ -255,7 +259,7 @@ namespace FoodandBeverage.Forms
             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (gridSource.Count > 0)
             {
-                if(gridSource[0].APPColor==null && gridSource[0].OperationButtonColor==null && gridSource[0].MenuButtonColor==null)
+                if (gridSource[0].APPColor == null && gridSource[0].OperationButtonColor == null && gridSource[0].MenuButtonColor == null)
                 {
                     opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
                     pbopbuttoncoloepicker.BackColor = opbuttoncolor;
@@ -376,7 +380,7 @@ namespace FoodandBeverage.Forms
                     pbappcoloepicker.BackColor = colorapp;
                     tlp_main_sidebar_pnldesktop.BackColor = colorapp;
                 }
-                
+
             }
             else
             {
@@ -466,9 +470,9 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
             SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
             SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-            SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight); 
+            SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
 
-           // SetRoundedButton(ib_Category, 70);
+            // SetRoundedButton(ib_Category, 70);
             //SetRoundedButton(ib_Item, 70);
             //SetRoundedButton(ib_ingrediant, 70);
             //SetRoundedButton(ib_menu, 70);
@@ -583,18 +587,18 @@ namespace FoodandBeverage.Forms
                 bool flag = false;
                 for (int j = 0; j < gridSource.Count; j++)
                 {
-                    if(gridSource[j].EndDate !=null && gridSource[j].Field7 !=null && Convert.ToInt32(gridSource[j].Field7) >1)
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1)
                     {
                         DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes) ) ))
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes))))
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
                         }
-                    }                    
+                    }
                 }
-                if(flag)
-                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (flag)
+                    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -664,8 +668,8 @@ namespace FoodandBeverage.Forms
                                     rowIndex++;
                                 }
 
-                                TableLayoutPanel tlp_table_inner = new TableLayoutPanel(); 
-                                 PictureBox pictureBox = new PictureBox();
+                                TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
+                                PictureBox pictureBox = new PictureBox();
                                 Label lbltablename = new Label();
 
                                 Panel pnl_box = new Panel();
@@ -681,7 +685,7 @@ namespace FoodandBeverage.Forms
                                 pictureBox.Tag = gridSource[i].Field3;
                                 pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                                 pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                                tlp_table_inner.Dock = DockStyle.Fill;               
+                                tlp_table_inner.Dock = DockStyle.Fill;
 
                                 // Configure the Label
                                 lbltablename.Name = "lb" + gridSource[i].Field4;
@@ -725,7 +729,7 @@ namespace FoodandBeverage.Forms
                                 tlp_table_inner.AccessibleDescription = "0";
                                 pictureBox.AccessibleDescription = "0";
                                 lbltablename.AccessibleDescription = "0";
-                                pnl_box.AccessibleDescription ="0";
+                                pnl_box.AccessibleDescription = "0";
 
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
                                 {
@@ -756,7 +760,7 @@ namespace FoodandBeverage.Forms
                                     dynamic_pic.AccessibleDescription = "0";
                                 }
                                 else//reservation booking order
-                                {  
+                                {
                                     if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                     {
                                         PictureBox dynamic_pic = new PictureBox();
@@ -842,13 +846,13 @@ namespace FoodandBeverage.Forms
                     panelDesktop.Controls.Add(tlp_table_dashboard_main);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
-            }         
+            }
         }
 
-        public void CheckexpireTable(int tid,int Bmid)
+        public void CheckexpireTable(int tid, int Bmid)
         {
             try
             {
@@ -881,11 +885,11 @@ namespace FoodandBeverage.Forms
                 int omasterid = 0, tid = 0;
                 if (parts.Length >= 2)
                 {
-                    omasterid  = Convert.ToInt32(parts[0]);
+                    omasterid = Convert.ToInt32(parts[0]);
                     tid = Convert.ToInt32(parts[1]);
                 }
                 if (checkBox.Checked)
-                {                
+                {
                     CheckedtableNames.Add(new Namelist
                     {
                         Id = tid,
@@ -906,10 +910,10 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
-            }           
+            }
         }
 
-      private void CompleteEventHandler(object sender, EventArgs e)
+        private void CompleteEventHandler(object sender, EventArgs e)
         {
             try
             {
@@ -920,7 +924,7 @@ namespace FoodandBeverage.Forms
                     string tableCode = clickedControl.Name;
                     int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                     int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                    if(CheckedtableNames.Count>0)
+                    if (CheckedtableNames.Count > 0)
                     {
                         if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
                         {
@@ -1017,10 +1021,10 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                         }
-                        
+
                     }
 
-              
+
                 }
             }
             catch (Exception ex)
@@ -1036,13 +1040,13 @@ namespace FoodandBeverage.Forms
                 string textvalue = clickedControl.AccessibleDescription;
                 string[] parts = textvalue.Split(',');
                 string bmasterid = "";
-                int Btype=0;
+                int Btype = 0;
                 if (parts.Length >= 2)
                 {
                     Btype = Convert.ToInt32(parts[0]);
                     bmasterid = parts[1];
-                }   
-                else                
+                }
+                else
                     Btype = Convert.ToInt32(parts[0]);
 
                 if (clickedControl != null)
@@ -1095,17 +1099,17 @@ namespace FoodandBeverage.Forms
                             //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                             //if(gridSource.Count>0)
                             //{
-                                BllReservation bllReservation = new BllReservation();
-                                DmnReservation dmnReservation = new DmnReservation();
-                                dmnReservation.BookmasterId =Convert.ToInt32(bmasterid);
-                                dmnReservation.CreatedBy = FrmDashboard.UserId;
-                                dmnReservation.Status = 0;
-                                dmnReservation.BranchId = 1030;
-                                var InsertStatus = bllReservation.Reservation_Delete("prd_deleteReservation", dmnReservation);
-                                if(InsertStatus.BookmasterId>0)
-                                {
-                                    CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
-                               TableStaus(0);
+                            BllReservation bllReservation = new BllReservation();
+                            DmnReservation dmnReservation = new DmnReservation();
+                            dmnReservation.BookmasterId = Convert.ToInt32(bmasterid);
+                            dmnReservation.CreatedBy = FrmDashboard.UserId;
+                            dmnReservation.Status = 0;
+                            dmnReservation.BranchId = 1030;
+                            var InsertStatus = bllReservation.Reservation_Delete("prd_deleteReservation", dmnReservation);
+                            if (InsertStatus.BookmasterId > 0)
+                            {
+                                CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
+                                TableStaus(0);
 
                             }
                             //}
@@ -1129,7 +1133,7 @@ namespace FoodandBeverage.Forms
                         _instanceFrmOrder.Visible = false;
                         _instanceFrmOrder.Show();
                         _instanceFrmOrder.BringToFront();
-                    }                 
+                    }
                 }
             }
             catch (Exception ex)
@@ -1145,7 +1149,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "*";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId "; 
+                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId ";
                 dmnSearch.WhereNdGroupBy = " where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1265,7 +1269,7 @@ namespace FoodandBeverage.Forms
             //item Chosse from serach Box 
             try
             {
-                Control clickedControl = sender as Control;                
+                Control clickedControl = sender as Control;
             }
             catch (Exception ex)
             {
@@ -1297,7 +1301,7 @@ namespace FoodandBeverage.Forms
         }
         private void tlp_category_MouseHover(object sender, EventArgs e)
         {
-            TableLayoutPanel tlpcate = sender as TableLayoutPanel;    
+            TableLayoutPanel tlpcate = sender as TableLayoutPanel;
             string tlpName = "tlp_category_com_" + tlpcate.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1392,7 +1396,7 @@ namespace FoodandBeverage.Forms
                 panelMenu.Width = 108;
                 panelMenu.Dock = DockStyle.Fill;
                 flp_menu.Dock = DockStyle.Fill;
-                pnl_header.Width = 95; 
+                pnl_header.Width = 95;
                 pb_appicon.Dock = DockStyle.Fill;
 
 
@@ -1479,8 +1483,8 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-        } 
-       
+        }
+
 
         private void Menubilling_Click(object sender, EventArgs e)
         {
@@ -1569,7 +1573,7 @@ namespace FoodandBeverage.Forms
 
                         for (int i = 0; i < gridSource.Count; i++)
                         {
-                            if (gridSource[i].OrderStatus == 1 || Convert.ToInt32( gridSource[i].OrderMasterId)>0)
+                            if (gridSource[i].OrderStatus == 1 || Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
                             {
                                 BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                 dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
@@ -1596,10 +1600,10 @@ namespace FoodandBeverage.Forms
                                         tlp_table_inner.Name = "tlp_com" + gridSource[i].TableCode;
                                         tlp_table_inner.Tag = gridSource[i].Tid;
                                         tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                                       // tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+                                        // tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
                                         tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
                                         tlp_table_inner.Dock = DockStyle.Fill;
-                                       // tlp_table_inner.BackColor = Color.Aqua;
+                                        // tlp_table_inner.BackColor = Color.Aqua;
 
                                         PictureBox pictureBox = new PictureBox();
                                         Label lbltablename = new Label();
@@ -1614,11 +1618,11 @@ namespace FoodandBeverage.Forms
 
                                         CheckBox chkBox_sele = new CheckBox();
                                         chkBox_sele.Name = "chkBox_com" + gridSource[i].TableCode;
-                                        chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId)+","+ gridSource[i].Tid;
+                                        chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId) + "," + gridSource[i].Tid;
                                         chkBox_sele.Tag = gridSource[i].TableCode;
                                         chkBox_sele.BackColor = Color.Transparent;
                                         chkBox_sele.Text = "";
-                                        chkBox_sele.Margin = new Padding(95,2,0,0);
+                                        chkBox_sele.Margin = new Padding(95, 2, 0, 0);
                                         chkBox_sele.CheckedChanged += new EventHandler(chkBox_sele_CheckedChanged);
 
 
@@ -1627,10 +1631,10 @@ namespace FoodandBeverage.Forms
                                         pictureBox.Tag = gridSource[i].Tid;
                                         pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                                         pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                                        tlp_table_inner.Dock = DockStyle.Fill;              
+                                        tlp_table_inner.Dock = DockStyle.Fill;
 
-                                       // Configure the Label
-                                       lbltablename.Name = "lb_com" + gridSource[i].TableCode;
+                                        // Configure the Label
+                                        lbltablename.Name = "lb_com" + gridSource[i].TableCode;
                                         lbltablename.TextAlign = ContentAlignment.MiddleLeft;
                                         lbltablename.Tag = gridSource[i].Tid;
                                         lbltablename.Text = gridSource[i].TableCode;
@@ -1643,12 +1647,12 @@ namespace FoodandBeverage.Forms
                                             lbltablename.ForeColor = Color.Yellow;
                                         else
                                             lbltablename.ForeColor = Color.Green;
-                                        if ( Convert.ToInt32(gridSource[i].OrderStatus) == 1)
+                                        if (Convert.ToInt32(gridSource[i].OrderStatus) == 1)
                                             tlp_table_inner.Controls.Add(chkBox_sele, 0, 0);
                                         // Add the PictureBox and Label to the TableLayoutPanel 
                                         tlp_table_inner.Controls.Add(pictureBox, 0, 1); // PictureBox in the sec row
                                         tlp_table_inner.Controls.Add(lbltablename, 0, 2); // Label in the thrid row
-                                       
+
                                         lbltablename.Dock = DockStyle.Fill;
 
                                         pictureBox.MouseHover += pictureBox_com_MouseHover;
@@ -1657,17 +1661,17 @@ namespace FoodandBeverage.Forms
                                         lbltablename.Click += new EventHandler(CompleteEventHandler);
                                         tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
 
-                                        if (gridSource[i].OrderStatus == 1 )
-                                        {             
+                                        if (gridSource[i].OrderStatus == 1)
+                                        {
                                             pictureBox.AccessibleDescription = "0";
                                             lbltablename.AccessibleDescription = "0";
                                             tlp_table_inner.AccessibleDescription = "0";
                                             pnl_box.AccessibleDescription = "0";
                                         }
-                                        else if(Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
+                                        else if (Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
                                         {
-                                            pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill)+"," + Convert.ToInt32(gridSource[i].BookmasterId);
-                                            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill)+"," + Convert.ToInt32(gridSource[i].BookmasterId);
+                                            pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
+                                            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
                                             pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
                                         }
@@ -1729,7 +1733,7 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
 
-                    if(tlp_table_dashboard.Controls.Count==0)
+                    if (tlp_table_dashboard.Controls.Count == 0)
                     {
                         controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
                         tlp_compl_pre_bill.Controls.Remove(controlToRemove);
@@ -1763,6 +1767,31 @@ namespace FoodandBeverage.Forms
             {
                 ChangeButtonBorder(button);
             }
+
+            panelDesktop.Controls.Clear();
+
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
+
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport();
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
         }
 
         private void Menusetting_Click(object sender, EventArgs e)
@@ -1792,11 +1821,11 @@ namespace FoodandBeverage.Forms
             if (screenWidth > 1367 && screenHeight > 769)
             {
                 button_type.Width = 350;
-                button_type.Height = 120; 
+                button_type.Height = 120;
             }
             else
             {
-                button_type.Width = 212; 
+                button_type.Width = 212;
                 button_type.Height = 89;
             }
             button_type.Margin = new Padding(20, 10, 0, 0);
@@ -1968,7 +1997,7 @@ namespace FoodandBeverage.Forms
             {
                 Color selectedColor = colorDialog1.Color;
                 pbappcoloepicker.BackColor = selectedColor;
-                tlp_main_sidebar_pnldesktop.BackColor = selectedColor;             
+                tlp_main_sidebar_pnldesktop.BackColor = selectedColor;
                 if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                     txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
             }
@@ -1996,7 +2025,7 @@ namespace FoodandBeverage.Forms
 
         private void ib_Category_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)            {
+            if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null) {
                 FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
                 if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
                     _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -2023,7 +2052,7 @@ namespace FoodandBeverage.Forms
         }
 
         private void ib_Item_Click(object sender, EventArgs e)
-        {          
+        {
             if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
             {
                 FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
@@ -2052,14 +2081,14 @@ namespace FoodandBeverage.Forms
         }
         private void ResizeForm(Form form)
         {
-    
+
             //if (screenWidth > 1367 && screenHeight > 769)
             //{
             //    form.Height = 768;
             //    form.Width = 1367;pnl_products_descr
             //}
             //else
-                form.Dock = DockStyle.Fill;
+            form.Dock = DockStyle.Fill;
         }
 
         private void ib_ingrediant_Click(object sender, EventArgs e)
@@ -2071,7 +2100,7 @@ namespace FoodandBeverage.Forms
                 {
                     _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     //ResizeForm(_instanceFrmIngredient);
-                } 
+                }
                 else
                 {
                     _instanceFrmIngredient.Dock = DockStyle.None;
@@ -2084,7 +2113,7 @@ namespace FoodandBeverage.Forms
             else
             {
                 FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                ResizeForm(_instanceFrmIngredient);         
+                ResizeForm(_instanceFrmIngredient);
                 _instanceFrmIngredient.TopLevel = false;
                 panelDesktop.Controls.Add(_instanceFrmIngredient);
                 _instanceFrmIngredient.Show();
@@ -2444,7 +2473,7 @@ namespace FoodandBeverage.Forms
                         originalImage = FoodandBeverage.Properties.Resources.userpermisson;
                         break;
                 }
-                
+
 
                 if (originalImage != null)
                 {
@@ -2548,12 +2577,12 @@ namespace FoodandBeverage.Forms
                         if (formsToCheck.Contains(formName))
                         {
                             openForm.Close();
-                            break; 
+                            break;
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -2634,12 +2663,12 @@ namespace FoodandBeverage.Forms
                 pnlsidebar_searchproduct.Visible = false;
                 lblcategory.Visible = false;
                 textb_shape();
-            }               
+            }
             else
             {
                 pnlsidebar_searchproduct.Visible = true;
                 lblcategory.Visible = true;
-            }   
+            }
         }
 
         private void txtname_search_Enter(object sender, EventArgs e)
@@ -2754,7 +2783,7 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                     DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "*"; 
+                    dmnSearch.Select = "*";
                     dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId = p.ProductId";
                     dmnSearch.WhereNdGroupBy = " where p.Status = 1 and m.Status = 1 and ItemCode = '" + txtitemcode_serach.Text + "'";
                     dmnSearch.OrderBy = "";
@@ -2976,7 +3005,7 @@ namespace FoodandBeverage.Forms
                 ib_reservation.BackColor = opbuttoncolor;
                 ib_userpermission.BackColor = opbuttoncolor;
                 Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-                if(btnsetting!=null)
+                if (btnsetting != null)
                     btnsetting.BackColor = opbuttoncolor;
             }
         }
@@ -3041,7 +3070,7 @@ namespace FoodandBeverage.Forms
 
         private void ib_Company_Click(object sender, EventArgs e)
         {
-           
+
 
             if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
             {
@@ -3224,7 +3253,7 @@ namespace FoodandBeverage.Forms
 
         private void ib_employee_MouseLeave(object sender, EventArgs e)
         {
-            ib_employee.Text = Convert.ToString(ib_employee.Tag); 
+            ib_employee.Text = Convert.ToString(ib_employee.Tag);
             SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
         }
 
@@ -3242,7 +3271,7 @@ namespace FoodandBeverage.Forms
 
         private void ib_useraccount_MouseLeave(object sender, EventArgs e)
         {
-            ib_useraccount.Text = Convert.ToString(ib_useraccount.Tag); 
+            ib_useraccount.Text = Convert.ToString(ib_useraccount.Tag);
             SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
         }
 
@@ -3263,7 +3292,7 @@ namespace FoodandBeverage.Forms
                 }
             }
             else
-            {          
+            {
                 FrmReservation _instanceFrmres = new FrmReservation();
                 ResizeForm(_instanceFrmres);
                 _instanceFrmres.TopLevel = false;
@@ -3342,8 +3371,8 @@ namespace FoodandBeverage.Forms
                 marginBottom = 2;
             }
 
-            foreach (Control control in flp_operations.Controls)           
-                control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);           
+            foreach (Control control in flp_operations.Controls)
+                control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);
 
         }
         public void FormPermissionChecking()
@@ -3652,7 +3681,7 @@ namespace FoodandBeverage.Forms
             {
 
             }
-            
+
         }
         public void printBill(int oid)
         {
@@ -3709,7 +3738,7 @@ namespace FoodandBeverage.Forms
         }
         private void dgv_split_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex==2)
+            if (e.ColumnIndex == 2)
             {
                 FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[3].Value), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[4].Value));
                 frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
@@ -3734,7 +3763,7 @@ namespace FoodandBeverage.Forms
             else
                 dmnmsg.Whatsapp = false;
 
-            if (chk_gmail.Checked) 
+            if (chk_gmail.Checked)
                 dmnmsg.Gmail = true;
             else
                 dmnmsg.Gmail = false;
@@ -3745,7 +3774,7 @@ namespace FoodandBeverage.Forms
             var InsertStatus = bllmessage.AddEditDataSetting_msg("prdInsertMessage", dmnmsg);
             if (InsertStatus.SId > 0)
             {
-                if(Convert.ToInt32(txtsid.Text)>0)
+                if (Convert.ToInt32(txtsid.Text) > 0)
                     CMessageBox.Show("update sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                 {
@@ -3762,5 +3791,8 @@ namespace FoodandBeverage.Forms
         {
             panl_msgsettings.Visible = false;
         }
+
+        
     }
+
 }

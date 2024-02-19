@@ -30,8 +30,9 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmKitchenView));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.btnmini = new System.Windows.Forms.Button();
@@ -212,7 +213,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_refresh
             // 
-            this.btn_refresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_button;
+            this.btn_refresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_refresh.BackgroundImage")));
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -327,7 +328,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_close_prod_des
             // 
-            this.btn_close_prod_des.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btn_close_prod_des.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_close_prod_des.BackgroundImage")));
             this.btn_close_prod_des.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_close_prod_des.FlatAppearance.BorderSize = 0;
             this.btn_close_prod_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -378,7 +379,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.empty_orders;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(227, 19);
             this.pictureBox1.Name = "pictureBox1";
@@ -418,14 +419,14 @@ namespace FoodandBeverage.Forms
             // dgv_viewmore
             // 
             this.dgv_viewmore.AllowUserToAddRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_viewmore.ColumnHeadersHeight = 40;
             this.dgv_viewmore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_viewmore.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -437,9 +438,9 @@ namespace FoodandBeverage.Forms
             this.dgv_viewmore.Name = "dgv_viewmore";
             this.dgv_viewmore.RowHeadersVisible = false;
             this.dgv_viewmore.RowHeadersWidth = 50;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_viewmore.RowTemplate.Height = 30;
             this.dgv_viewmore.Size = new System.Drawing.Size(465, 249);
             this.dgv_viewmore.TabIndex = 2;
@@ -482,7 +483,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_close_viewmore
             // 
-            this.btn_close_viewmore.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btn_close_viewmore.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_close_viewmore.BackgroundImage")));
             this.btn_close_viewmore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_close_viewmore.FlatAppearance.BorderSize = 0;
             this.btn_close_viewmore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -572,6 +573,7 @@ namespace FoodandBeverage.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmKitchenView";
             this.Text = "FrmKitchenView";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmKitchenView_FormClosing);
             this.Load += new System.EventHandler(this.FrmKitchenView_Load);
             this.tlp_main.ResumeLayout(false);
             this.tlp_navbar.ResumeLayout(false);

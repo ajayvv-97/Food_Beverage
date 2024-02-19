@@ -197,8 +197,7 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[i].Cells[tablecodeno];
-                                dropDown.Items.Clear();
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
                                 List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
                                 ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
                                 comboBoxItems.Add(comboBoxItem);
@@ -208,7 +207,6 @@ namespace FoodandBeverage.Forms
                                 dropDown.Value = comboBoxItems[0].Id;
                                 dropDown.ReadOnly = true;
                             }
-
 
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
@@ -701,7 +699,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusvalueno].Value) == 0)
+                if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
                 {
                     CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
                 }
@@ -823,34 +821,33 @@ namespace FoodandBeverage.Forms
             FillOrders_button(0);
         }
         public void FillOrders_button(int serachtype)
-        {
+        {      
             try
             {
                 #region Fill Orders in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6";
+                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
                 dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
                 dgvorderview.Rows.Clear();
                 int rowIndex = 0;
-      
-                    if (serachtype == 1)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=1";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (serachtype == 0)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=0";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (serachtype == 2)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=2";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (serachtype == 1)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=1";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                }
+                else if (serachtype == 0)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=0";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                }
+                else if (serachtype == 2)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=2";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                }
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     if (gridSource.Count > 0)
                     {
                         int imageSize = 32;
@@ -860,7 +857,24 @@ namespace FoodandBeverage.Forms
                         {
                             dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
                             dgvorderview.Rows[rowIndex].Cells[orderidno].Value = gridSource[i].Field1;
-                            dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field2;
+
+                            if (Convert.ToInt32(gridSource[i].Field7) > 0)
+                            {
+                                FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field7));
+                            }
+                            else
+                            {
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
+                                List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
+                                comboBoxItems.Add(comboBoxItem);
+                                dropDown.DataSource = comboBoxItems;
+                                dropDown.ValueMember = "Id";
+                                dropDown.DisplayMember = "Value";
+                                dropDown.Value = comboBoxItems[0].Id;
+                                dropDown.ReadOnly = true;
+                            }
+
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
                             dgvorderview.Rows[rowIndex].Cells[descno].Value = "";
@@ -877,13 +891,19 @@ namespace FoodandBeverage.Forms
                             {
                                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
                                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_pending;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                                cell.Value = Properties.Resources.orderview_pending;
                             }
                             else if (Convert.ToInt32(gridSource[i].Field4) == 2)
                             {
                                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
                                 cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_complete;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
+                                cell.Value = Properties.Resources.food_preparation;
+                            }
+                            else if (Convert.ToInt32(gridSource[i].Field4) == 3)
+                            {
+                                DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
+                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                                cell.Value = Properties.Resources.orderview_complete;
                             }
                             rowIndex++;
                         }
@@ -895,9 +915,12 @@ namespace FoodandBeverage.Forms
                         pnl_empty_msg.Visible = false;
                         pnl_details_view.Visible = false;
 
-                    }
-                    else
-                    {
+
+                    
+
+                }
+                if (dgvorderview.Rows.Count == 0)
+                {
                     pnl_empty_msg.Visible = true;
                     pnl_ordergallery.Visible = false;
                     pnl_details_view.Visible = false;
@@ -908,13 +931,13 @@ namespace FoodandBeverage.Forms
                     pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
 
                 }
-
                 #endregion
             }
             catch (Exception ex)
             {
 
             }
+
 
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

@@ -29,7 +29,6 @@ C:\Users\aljo\Desktop\F and Be\Food_Beverage\CustomMessageBox\obj\Debug\CustomMe
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.pdb
-C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.GenerateResource.cache
