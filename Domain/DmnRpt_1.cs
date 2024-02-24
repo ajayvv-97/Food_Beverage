@@ -35,6 +35,8 @@ namespace Domain
         public int nFld3 { get; set; }
         public int nFld4 { get; set; }
         public int nFld5 { get; set; }
+        public int nFld6 { get; set; }
+        public int nFld7 { get; set; }
 
         public DateTime dt1 { get; set; }
         public DateTime dt2 { get; set; }

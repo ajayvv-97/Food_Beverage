@@ -42,11 +42,13 @@ namespace FoodandBeverage.Report
             this.label6 = new System.Windows.Forms.Label();
             this.chk_time = new System.Windows.Forms.CheckBox();
             this.cmbreport = new System.Windows.Forms.ComboBox();
-            this.chk_finyear = new System.Windows.Forms.CheckBox();
             this.tlp_finyear = new System.Windows.Forms.TableLayoutPanel();
             this.cmb_fin_year = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tlp_second_row = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_reorder = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nud_reorderqty = new System.Windows.Forms.NumericUpDown();
             this.tlp_sublist = new System.Windows.Forms.TableLayoutPanel();
             this.lblsublist = new System.Windows.Forms.Label();
             this.cmbSublist = new System.Windows.Forms.ComboBox();
@@ -65,6 +67,8 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.SuspendLayout();
             this.tlp_finyear.SuspendLayout();
             this.tlp_second_row.SuspendLayout();
+            this.tlp_reorder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).BeginInit();
             this.tlp_sublist.SuspendLayout();
             this.tblReportCategory.SuspendLayout();
             this.SuspendLayout();
@@ -107,7 +111,6 @@ namespace FoodandBeverage.Report
             this.tlp_top_row.Controls.Add(this.label4, 0, 0);
             this.tlp_top_row.Controls.Add(this.tabDateTimePanel, 4, 0);
             this.tlp_top_row.Controls.Add(this.cmbreport, 1, 0);
-            this.tlp_top_row.Controls.Add(this.chk_finyear, 2, 0);
             this.tlp_top_row.Controls.Add(this.tlp_finyear, 3, 0);
             this.tlp_top_row.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_top_row.Location = new System.Drawing.Point(3, 3);
@@ -146,12 +149,13 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.Controls.Add(this.dtpfrom, 3, 0);
             this.tabDateTimePanel.Controls.Add(this.label6, 2, 0);
             this.tabDateTimePanel.Controls.Add(this.chk_time, 1, 0);
-            this.tabDateTimePanel.Location = new System.Drawing.Point(706, 3);
+            this.tabDateTimePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabDateTimePanel.Location = new System.Drawing.Point(573, 3);
             this.tabDateTimePanel.Name = "tabDateTimePanel";
             this.tabDateTimePanel.RowCount = 2;
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tabDateTimePanel.Size = new System.Drawing.Size(706, 36);
+            this.tabDateTimePanel.Size = new System.Drawing.Size(706, 44);
             this.tabDateTimePanel.TabIndex = 33;
             // 
             // dtp_to_time
@@ -196,6 +200,7 @@ namespace FoodandBeverage.Report
             // 
             // dtpfrom
             // 
+            this.dtpfrom.Dock = System.Windows.Forms.DockStyle.Left;
             this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpfrom.Location = new System.Drawing.Point(127, 3);
@@ -238,18 +243,6 @@ namespace FoodandBeverage.Report
             this.cmbreport.TabIndex = 22;
             this.cmbreport.SelectionChangeCommitted += new System.EventHandler(this.cmbreport_SelectionChangeCommitted);
             // 
-            // chk_finyear
-            // 
-            this.chk_finyear.AutoSize = true;
-            this.chk_finyear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_finyear.Location = new System.Drawing.Point(257, 3);
-            this.chk_finyear.Name = "chk_finyear";
-            this.chk_finyear.Size = new System.Drawing.Size(127, 20);
-            this.chk_finyear.TabIndex = 23;
-            this.chk_finyear.Text = "Financial Year";
-            this.chk_finyear.UseVisualStyleBackColor = true;
-            this.chk_finyear.CheckedChanged += new System.EventHandler(this.chk_finyear_CheckedChanged);
-            // 
             // tlp_finyear
             // 
             this.tlp_finyear.ColumnCount = 2;
@@ -257,12 +250,14 @@ namespace FoodandBeverage.Report
             this.tlp_finyear.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_finyear.Controls.Add(this.cmb_fin_year, 1, 0);
             this.tlp_finyear.Controls.Add(this.label8, 0, 0);
-            this.tlp_finyear.Location = new System.Drawing.Point(390, 3);
+            this.tlp_finyear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_finyear.Location = new System.Drawing.Point(257, 3);
             this.tlp_finyear.Name = "tlp_finyear";
             this.tlp_finyear.RowCount = 1;
             this.tlp_finyear.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_finyear.Size = new System.Drawing.Size(310, 36);
+            this.tlp_finyear.Size = new System.Drawing.Size(310, 44);
             this.tlp_finyear.TabIndex = 50;
+            this.tlp_finyear.Visible = false;
             // 
             // cmb_fin_year
             // 
@@ -280,24 +275,26 @@ namespace FoodandBeverage.Report
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 36);
+            this.label8.Size = new System.Drawing.Size(100, 44);
             this.label8.TabIndex = 7;
             this.label8.Text = "Financial Year";
             // 
             // tlp_second_row
             // 
-            this.tlp_second_row.ColumnCount = 6;
+            this.tlp_second_row.ColumnCount = 7;
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_second_row.Controls.Add(this.tlp_reorder, 1, 0);
             this.tlp_second_row.Controls.Add(this.tlp_sublist, 0, 0);
-            this.tlp_second_row.Controls.Add(this.tblReportCategory, 3, 0);
-            this.tlp_second_row.Controls.Add(this.btnpickcolor, 2, 0);
-            this.tlp_second_row.Controls.Add(this.labheaderboxcolor, 1, 0);
-            this.tlp_second_row.Controls.Add(this.btnserach, 5, 0);
+            this.tlp_second_row.Controls.Add(this.tblReportCategory, 4, 0);
+            this.tlp_second_row.Controls.Add(this.btnpickcolor, 3, 0);
+            this.tlp_second_row.Controls.Add(this.labheaderboxcolor, 2, 0);
+            this.tlp_second_row.Controls.Add(this.btnserach, 6, 0);
             this.tlp_second_row.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_second_row.Location = new System.Drawing.Point(3, 59);
             this.tlp_second_row.Name = "tlp_second_row";
@@ -305,6 +302,43 @@ namespace FoodandBeverage.Report
             this.tlp_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_second_row.Size = new System.Drawing.Size(897, 36);
             this.tlp_second_row.TabIndex = 1;
+            // 
+            // tlp_reorder
+            // 
+            this.tlp_reorder.ColumnCount = 2;
+            this.tlp_reorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.65563F));
+            this.tlp_reorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.34437F));
+            this.tlp_reorder.Controls.Add(this.label1, 0, 0);
+            this.tlp_reorder.Controls.Add(this.nud_reorderqty, 1, 0);
+            this.tlp_reorder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_reorder.Location = new System.Drawing.Point(262, 3);
+            this.tlp_reorder.Name = "tlp_reorder";
+            this.tlp_reorder.RowCount = 1;
+            this.tlp_reorder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_reorder.Size = new System.Drawing.Size(151, 30);
+            this.tlp_reorder.TabIndex = 50;
+            this.tlp_reorder.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 30);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Enter Qty";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nud_reorderqty
+            // 
+            this.nud_reorderqty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nud_reorderqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_reorderqty.Location = new System.Drawing.Point(80, 3);
+            this.nud_reorderqty.Name = "nud_reorderqty";
+            this.nud_reorderqty.Size = new System.Drawing.Size(68, 24);
+            this.nud_reorderqty.TabIndex = 1;
             // 
             // tlp_sublist
             // 
@@ -333,6 +367,7 @@ namespace FoodandBeverage.Report
             this.lblsublist.Size = new System.Drawing.Size(54, 30);
             this.lblsublist.TabIndex = 12;
             this.lblsublist.Text = "List";
+            this.lblsublist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cmbSublist
             // 
@@ -357,7 +392,7 @@ namespace FoodandBeverage.Report
             this.tblReportCategory.Controls.Add(this.btnMonthly, 2, 0);
             this.tblReportCategory.Controls.Add(this.btnWeekly, 1, 0);
             this.tblReportCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblReportCategory.Location = new System.Drawing.Point(415, 3);
+            this.tblReportCategory.Location = new System.Drawing.Point(572, 3);
             this.tblReportCategory.Name = "tblReportCategory";
             this.tblReportCategory.RowCount = 1;
             this.tblReportCategory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -421,7 +456,7 @@ namespace FoodandBeverage.Report
             this.btnpickcolor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnpickcolor.FlatAppearance.BorderSize = 0;
             this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnpickcolor.Location = new System.Drawing.Point(362, 3);
+            this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
             this.btnpickcolor.Name = "btnpickcolor";
             this.btnpickcolor.Size = new System.Drawing.Size(47, 30);
             this.btnpickcolor.TabIndex = 47;
@@ -431,12 +466,14 @@ namespace FoodandBeverage.Report
             // labheaderboxcolor
             // 
             this.labheaderboxcolor.AutoSize = true;
+            this.labheaderboxcolor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labheaderboxcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.labheaderboxcolor.Location = new System.Drawing.Point(262, 0);
+            this.labheaderboxcolor.Location = new System.Drawing.Point(419, 0);
             this.labheaderboxcolor.Name = "labheaderboxcolor";
-            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 18);
+            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 36);
             this.labheaderboxcolor.TabIndex = 46;
             this.labheaderboxcolor.Text = "Header color";
+            this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnserach
             // 
@@ -445,7 +482,7 @@ namespace FoodandBeverage.Report
             this.btnserach.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnserach.FlatAppearance.BorderSize = 0;
             this.btnserach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnserach.Location = new System.Drawing.Point(798, 3);
+            this.btnserach.Location = new System.Drawing.Point(955, 3);
             this.btnserach.Name = "btnserach";
             this.btnserach.Size = new System.Drawing.Size(96, 30);
             this.btnserach.TabIndex = 48;
@@ -494,6 +531,9 @@ namespace FoodandBeverage.Report
             this.tlp_finyear.PerformLayout();
             this.tlp_second_row.ResumeLayout(false);
             this.tlp_second_row.PerformLayout();
+            this.tlp_reorder.ResumeLayout(false);
+            this.tlp_reorder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).EndInit();
             this.tlp_sublist.ResumeLayout(false);
             this.tlp_sublist.PerformLayout();
             this.tblReportCategory.ResumeLayout(false);
@@ -516,7 +556,6 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox chk_time;
         private System.Windows.Forms.ComboBox cmbreport;
-        private System.Windows.Forms.CheckBox chk_finyear;
         private System.Windows.Forms.TableLayoutPanel tlp_finyear;
         private System.Windows.Forms.ComboBox cmb_fin_year;
         private System.Windows.Forms.Label label8;
@@ -533,5 +572,8 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Label labheaderboxcolor;
         private System.Windows.Forms.Button btnserach;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crv_report;
+        private System.Windows.Forms.TableLayoutPanel tlp_reorder;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nud_reorderqty;
     }
 }

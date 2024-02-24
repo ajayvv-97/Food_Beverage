@@ -164,6 +164,7 @@ namespace FoodandBeverage.Forms
         private List<FrmDashboard.Namelist> checkedtableNames;
         public decimal ReservationTotal = 0;        
         public bool itemcode_serach_Status = false;
+        public DateTime OrderDateTime;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -525,6 +526,7 @@ namespace FoodandBeverage.Forms
                     var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                     if (gridSourcemaster_combined.Count > 0)
                     {
+                        OrderDateTime = gridSourcemaster_combined[0].CreatedDateTime;
                         ordercount = 0;
                         //lblorderid.Text = Convert.ToString(gridSourcemaster_combined[0].OrderMasterId);
                         //label18.Text = Convert.ToString(gridSourcemaster_combined[0].OrderMasterId);
@@ -753,7 +755,8 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
-                    ordermsid= Convert.ToInt32(gridSourcemaster[0].OrderMasterId);
+                    OrderDateTime = gridSourcemaster[0].CreatedDateTime;
+                    ordermsid = Convert.ToInt32(gridSourcemaster[0].OrderMasterId);
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
                     txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
@@ -1098,7 +1101,9 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    OrderDateTime = gridSourcemaster[0].CreatedDateTime;
                     txtGrandTotal.Text = "0";
+
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
                     txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
@@ -7006,6 +7011,9 @@ namespace FoodandBeverage.Forms
                                     CombinedOrderBill.BranchId = FrmDashboard.BranchId;
                                     CombinedOrderBill.CreatedBy = FrmDashboard.UserId;
                                     CombinedOrderBill.Status = 1;
+                                    var duration = DateTime.Now - OrderDateTime;
+                                    int min = duration.Seconds;
+                                    CombinedOrderBill.TimeDuration = min;
                                     var InsertStatus_cbill = bllCombinedOrderBill.AddCombinedOrderBill("prdInsert_CombinedOrderBill", CombinedOrderBill);
 
                                 }
@@ -7146,7 +7154,13 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.TotalSGST = TotalSGST;
                         dmnsalemaster.TotalVAT = TotalVAT;
                         dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
-                        ////dmnsalemaster.mDevice = clsGeneral.FetchMacId();
+                        //
+                        //dmnsalemaster.mDevice = clsGeneral.FetchMacId();
+
+                        var duration = DateTime.Now - OrderDateTime;
+                        int min = duration.Seconds;
+                        dmnsalemaster.TimeDuration = min;
+
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
@@ -7172,7 +7186,6 @@ namespace FoodandBeverage.Forms
 
                             if (gridSourcemaster.Count > 0)
                             {
-
                                 for (int i = 0; i < gridSourcemaster.Count; i++)
                                 {
                                     if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)

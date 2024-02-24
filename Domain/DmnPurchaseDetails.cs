@@ -37,7 +37,8 @@ namespace Domain
         public decimal QuantitytoSubtract { get; set; }
         public decimal TotalSaveAmount { get; set; }
         public string UnitName { get; set; }
-        
+        public DateTime Expiredate { get; set; }
+
 
     }
 }

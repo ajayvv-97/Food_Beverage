@@ -209,8 +209,7 @@ namespace FoodandBeverage.Forms
                                     DashBoard.MdiParent = this.MdiParent;
                                     DashBoard.ShowDialog();
                                     DashBoard.WindowState = FormWindowState.Normal;
-                                }
-   
+                                }   
 
                             }
                         }

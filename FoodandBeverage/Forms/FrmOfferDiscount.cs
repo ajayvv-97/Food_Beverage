@@ -674,7 +674,7 @@ namespace FoodandBeverage.Forms
 
                         dmnOffermaster.OfferType = 1;
                         dmnOffermaster.BranchId = FrmDashboard.BranchId;
-                        dmnOffermaster.CreatedBy = 1;
+                        dmnOffermaster.CreatedBy = FrmDashboard.UserId;
                         if (chk_combo_status.Checked)
                             dmnOffermaster.Status = 1;
                         else
@@ -697,10 +697,17 @@ namespace FoodandBeverage.Forms
                                         dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.DirectSale);
                                     else
                                         dmnOfferdetails.Producttype = Convert.ToInt32(Tabletype.Product);
-                                    dmnOfferdetails.Productname = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[Cproductno].Value);           
+                                    dmnOfferdetails.Productname = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[Cproductno].Value);
+
+                                    dmnOfferdetails.Price = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cpriceno].Value);
+                                    dmnOfferdetails.Tax = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[ctaxno].Value);
+                                    dmnOfferdetails.TaxType = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[ctaxtypeno].Value);
+                                    dmnOfferdetails.TaxSettingsId = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[Ctaxsettingidno].Value);
+                                    dmnOfferdetails.ItemCode_UPC = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[cbarcodeno].Value);
+
                                     dmnOfferdetails.Description = txtcombodes.Text;
                                     dmnOfferdetails.BranchId = FrmDashboard.BranchId;
-                                    dmnOfferdetails.CreatedBy = 1;
+                                    dmnOfferdetails.CreatedBy = FrmDashboard.UserId;
                                     dmnOfferdetails.Status = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[cstatusno].Value);
                                     var InsertStatusD = blldetails.AddEditDataD("prdInsert_Upd_offerdetails", dmnOfferdetails);
                                     if (InsertStatusD == null)
@@ -1428,6 +1435,7 @@ namespace FoodandBeverage.Forms
                             dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = gridSource[0].Field10;
                             dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSource[0].Field1;
                             dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSource[0].Field2;              
+
                             dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = Convert.ToDecimal(gridSource[0].Field3);
                             dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = 1;
                             if (Convert.ToString(gridSource[0].Field6) == "GST")

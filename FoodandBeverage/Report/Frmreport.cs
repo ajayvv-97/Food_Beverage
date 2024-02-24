@@ -4,6 +4,7 @@ using CrystalDecisions.Shared;
 using Domain;
 using FastMember;
 using FoodandBeverage.Forms;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +23,10 @@ namespace FoodandBeverage.Report
         public static int UserId = 0;
         public static int UserType = 0;
         public static int Allaccess = 0;
-
-        public Frmreport()
+        public int Reportid = 0;
+        public Frmreport(int Rpid)
         {
+            Reportid = Rpid;
             InitializeComponent();
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
@@ -38,11 +40,14 @@ namespace FoodandBeverage.Report
         string Path = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";//Application.StartupPath + @"\Report";
         public Color selectedColor;
         public bool ColorChk = false;
+        bool FlagExcel = false;
+        bool FlagColor = false;
         #endregion
         private void Frmreport_Load(object sender, EventArgs e)
         {
             combofill_report();
             Fill_combo_finyear();
+
         }
         public void Fill_combo_finyear()
         {
@@ -69,7 +74,6 @@ namespace FoodandBeverage.Report
             cmb_fin_year.DisplayMember = "Value";
             cmb_fin_year.ValueMember = "Id";
         }
-
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
             Checktime_Date();
@@ -300,12 +304,12 @@ namespace FoodandBeverage.Report
                     //case 6:
                     //    s_FillReport_TopPlayer();
                     //    break;
-                    //case 7:
-                    //    s_FillReport_NewRegCus();
-                    //    break;
-                    //case 9:
-                    //    s_FillReport_HappyHoures();
-                    //    break;
+                    case 7:
+                        s_FillReport_PopularItems();
+                        break;
+                    case 8:
+                        s_FillReport_SlowmovingItems();
+                        break;
                     case 10:
                         s_FillReport_Offerlist();
                         break;
@@ -339,12 +343,12 @@ namespace FoodandBeverage.Report
                     case 23:
                         s_FillReport_Purchase();
                         break;
-                    //case 24:
-                    //    s_FillReport_Preorder();
-                    //    break;
-                    //case 25:
-                    //    s_FillReport_Complement();
-                    //    break;
+                    case 24:
+                        s_FillReport_Reorder();
+                        break;
+                    case 25:
+                        s_FillReport_Expence();
+                        break;
                     //case 26:
                     //    s_FillReport_PointBalance();
                     //    break;
@@ -379,12 +383,13 @@ namespace FoodandBeverage.Report
                     //case 36:
                     //    s_FillReport_ThridPartyCardTransfer();
                     //    break;
-                    //case 37:
-                    //    s_FillReport_CardConsolidation();
-                    //    break;
-                    //case 38:
-                    //    s_FillReport_AnuvalGameRevenue();
-                    //    break;
+                    case 37:
+                        s_FillReport_Stockusage();
+                        break;
+
+                    case 38:
+                        s_FillReport_AnuvalGameRevenue();
+                        break;
                     //case 39:
                     //    s_FillReport_CardSummary();
                     //    break;
@@ -400,15 +405,15 @@ namespace FoodandBeverage.Report
                     //case 43:
                     //    s_FillReport_memberactivity();
                     //    break;
-                    //case 44:
-                    //    s_FillReport_CreditCardActivity();
-                    //    break;
-                    //case 45:
-                    //    s_FillReport_saleComplementry();
-                    //    break;
-                    //case 46:
-                    //    s_FillReport_saleComplementryDetails();
-                    //    break;
+                    case 44:
+                        s_FillReport_TableOccupancyReport();
+                        break;
+                    case 45:
+                        s_FillReport_Reservation_Details();
+                        break;
+                    case 46:
+                        s_FillReport_Reservation();
+                        break;
                     case 47:
                            s_FillReport_saleReport();
                            break;
@@ -425,6 +430,291 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
+
+            }
+        }
+        public void s_FillReport_Reservation_Details()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "BookingDateTime sFld1,cusName sFld2,Mobile sFld3,bd.Name sFld4,NoOfPeople nFld1,bm.BookmasterId nFld2,bd.Rid nFld3,DiscountPer dFld1,AdvancePay dFld2,CashRev dFld3,NetAmount dFld4,bd.Quantity dFld5";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Table = "tblbookMaster bm left join tblBookDetails bd on bd.BookmasterId =bm.BookmasterId ";
+                if(cmbSublist.SelectedIndex==0)
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and bm.status=3 and bd.Status=3";
+                else if (cmbSublist.SelectedIndex == 1)
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and bm.status=1 and bd.Status=1";
+                else 
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and bm.status=0 and bd.Status=0";
+
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                var filteredmenudata = invoiceBillMasters
+                    .Where(item => item.nFld3 != 0)
+                    .OrderBy(item => item.sFld1)
+                    .ToList();
+
+                var filteredList = invoiceBillMasters
+                    .Where(item => item.nFld3 == 0)
+                    .OrderBy(item => item.sFld1)
+                    .Select(item => new {
+                        sFld1 = item.sFld1,
+                        sFld2 = item.sFld2,
+                        sFld3 = item.sFld3,
+                        sFld5 = item.sFld4,
+
+                        nFld1 = item.nFld1,
+                        nFld2 = item.nFld2,
+                        nFld3 = item.nFld3,
+
+                        dFld1 = item.dFld1,
+                        dFld2 = item.dFld2,
+                        dFld3 = item.dFld3,
+                        dFld4 = item.dFld4,
+                        dFld5 = item.dFld5,
+
+                    })
+                    .ToList();
+
+                var mergedList = filteredmenudata
+                    .Zip(filteredList, (menu, list) => new
+                    {
+                        menu.sFld1,
+                        menu.sFld2,
+                        menu.sFld3,
+                        menu.sFld4,
+                        sFld5 = list.sFld5,
+                        menu.nFld1,
+                        menu.nFld2,
+                        menu.nFld3,
+                        dFld1 = (double)menu.dFld1,
+                        dFld2 = (double)menu.dFld2,
+                        dFld3 = (double)menu.dFld3,
+                        dFld4 = (double)menu.dFld4,
+                        dFld5 = (double)menu.dFld5,
+                    })
+                    .Concat(filteredList.Skip(filteredmenudata.Count())
+                                        .Select(item => new
+                                        {                   
+                                            sFld1 = item.sFld1,
+                                            sFld2 = item.sFld2,
+                                            sFld3 = item.sFld3,
+                                            sFld4 = string.Empty,
+                                            sFld5 = item.sFld5,
+
+                                            nFld1 = 0,
+                                            nFld2 = item.nFld2,
+                                            nFld3 = 0,
+
+                                            dFld1 = (double)item.dFld1,
+                                            dFld2 = (double)item.dFld2,
+                                            dFld3 = (double)item.dFld3,
+                                            dFld4 = (double)item.dFld4,
+                                            dFld5 = (double)item.dFld5,
+                                        }))
+                    .OrderBy(item => item.sFld1)
+                    .ToList();
+
+
+                //if (mergedList.Count > 0)
+                //{
+                //    mergedList[0].sFld1 = Convert.ToDateTime(dtpfrom.Text);
+                //    mergedList[0].sFld2 = Convert.ToDateTime(dtpto.Text);
+                //}
+                using (var reader = ObjectReader.Create(mergedList, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "nFld1", "nFld2", "nFld3", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_reservation_details.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        public void s_FillReport_TableOccupancyReport()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();  
+                
+                dmnSearchDetBill.Select = "ti.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, COALESCE(sm.TimeDuration, 0) AS nFld3,0 AS nFld4,isnull(DATEPART(HOUR, sm.CreatedDateTime),0) nFld6,0 nFld7";
+                dmnSearchDetBill.Table = "tblTable_info ti " +
+                    " left join tblSalesMaster sm on sm.Tid =ti.Tid and sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.status=1 where ti.Status = 1 " +
+                    " union select cb.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, 0 nFld3,COALESCE(TimeDuration, 0) AS nFld4, 0 nFld6,DATEPART(HOUR, cb.CreatedOn) nFld7  from tblCombinedOrderBill cb left join tblTable_info ti on ti.Tid = cb.tid ";
+                dmnSearchDetBill.WhereNdGroupBy = " where cb.CreatedOn >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and cb.CreatedOn<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and cb.status=1"; 
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                //var sortedInvoiceBillMasters = invoiceBillMasters
+                //    .GroupBy(item => item.nFld1)
+                //    .Select(group => new
+                //    {
+                //        nFld1 = group.Key,
+                //        sFld1 = group.First().sFld1,
+                //        nFld2 = group.First().nFld2,
+                //        nFld3 = group.Sum(item => item.nFld3) + group.Sum(item => item.nFld4),
+                //        nFld5 = group.Count(item => item.nFld3 > 0 || item.nFld4 > 0),
+                //        dt1 = group.First().dt1,
+                //        dt2 = group.First().dt2
+                //    })
+                //    .OrderByDescending(item => item.nFld3)
+                //    .ToList();
+                var sortedInvoiceBillMasters = invoiceBillMasters
+                    .GroupBy(item => item.nFld1)
+                    .Select(group => new
+                    {
+                        nFld1 = group.Key,
+                        sFld1 = group.First().sFld1,
+                        nFld2 = group.First().nFld2,
+                        nFld3 = group.Sum(item => item.nFld3) + group.Sum(item => item.nFld4),
+                        nFld5 = group.Count(item => item.nFld3 > 0 || item.nFld4 > 0),
+                        nFld6 = group.Count(item => item.nFld6 > 0) > group.Count(item => item.nFld7 > 0) ? group.First().nFld6 : group.First().nFld7,
+                        dt1 = group.First().dt1,
+                        dt2 = group.First().dt2
+                    })
+                    .OrderByDescending(item => item.nFld3)
+                    .ToList();
+
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(sortedInvoiceBillMasters, "sFld1", "nFld2", "nFld3", "nFld5", "nFld6"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_TableOccupancyReport.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        public void s_FillReport_Reservation()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "BookingDateTime sFld1,cusName sFld2,Mobile sFld3,NoOfPeople nFld1,DiscountPer dFld1,AdvancePay dFld2,CashRev dFld3,NetAmount dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Table = "tblbookMaster";
+
+                if (cmbSublist.SelectedIndex == 0)
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and status=3 ";
+                else if (cmbSublist.SelectedIndex == 1)
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and status=1 ";
+                else
+                    dmnSearchDetBill.WhereNdGroupBy = "where  BookingDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and BookingDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and status=0 ";
+
+
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "nFld1", "dFld1", "dFld2", "dFld3", "dFld4"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_reservation.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }
@@ -560,22 +850,6 @@ namespace FoodandBeverage.Report
                 ColorChk = false;
         }
 
-        private void chk_finyear_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chk_finyear.Checked)
-            {
-                tlp_finyear.Visible = true;
-                tabDateTimePanel.Visible = false;
-            }
-            else
-            {
-                tlp_finyear.Visible = false;
-                tabDateTimePanel.Visible = true;
-            }
-
-
-        }
-
         private void btnWeekEnd_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
@@ -673,6 +947,307 @@ namespace FoodandBeverage.Report
 
             }
         }
+        public void s_FillReport_AnuvalGameRevenue()
+        {
+            try
+            {
+                DateTime currentDate = DateTime.Now;
+                int fin_year = (currentDate.Month < 4) ? currentDate.Year - 1 : currentDate.Year;
+                DateTime financialYearStart;
+                DateTime financialYearEnd;
+                string financialYear;
+                if (FlagExcel)
+                {
+                    DmnComboBox selectedFinYear = (DmnComboBox)cmb_fin_year.SelectedItem;
+                    int year = Convert.ToInt32(selectedFinYear.Id);
+                    financialYearStart = new DateTime(year, 4, 1);
+                    financialYearEnd = new DateTime(year + 1, 3, 31);
+                }
+                else
+                {
+                    financialYearStart = new DateTime(fin_year, 4, 1);
+                    financialYearEnd = new DateTime(fin_year + 1, 3, 31);
+                }
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "mGame AS sFld1," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 1 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) + ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld1, SUM(CASE WHEN MONTH(EntryDate) = 2 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld2," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 3 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld3,SUM(CASE WHEN MONTH(EntryDate) = 4 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld4," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 5 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld5,SUM(CASE WHEN MONTH(EntryDate) = 6 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld6," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 7 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld7,SUM(CASE WHEN MONTH(EntryDate) = 8 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld8," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 9 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld9,SUM(CASE WHEN MONTH(EntryDate) = 10 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld10," +
+                " SUM(CASE WHEN MONTH(EntryDate) = 11 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld11,SUM(CASE WHEN MONTH(EntryDate) = 12 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld12";
+                dmnSearchDetBill.Table = " (SELECT g1.mGame,SUM(Debit) AS Amount,g.Caption AS Caption,EntryDate FROM tblCardHistory h LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = h.GamePayType AND g.GTypeId = 60   LEFT JOIN tblGame g1 ON g1.id = h.MasterId WHERE h.status = 1 AND h.BranchId = " + BranchId + " AND Etype IN (0, 1) and EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' AND (MONTH(EntryDate) BETWEEN 1 AND 12)   GROUP BY  mGame, g.Caption,EntryDate) ps PIVOT ( SUM(Amount) FOR Caption IN ([CashBalance], [CashBonusBalance], [TokenBalance], [PointBalance], [LoyalityPoint])) AS pvt GROUP BY mGame";
+                dmnSearchDetBill.WhereNdGroupBy = "ORDER BY mGame";
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].nFld1 = 0;
+                }
+
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7", "dFld8", "dFld9", "dFld10", "dFld11", "dFld12", "nFld1"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_AnuvalGameRevenue.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                /* report Heading  */
+
+                financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
+                reportDocument.SetParameterValue("Heading", "Annuval Game Revenue Report " + financialYear);
+
+
+                /*paramter passing crystal month name */
+                reportDocument.SetParameterValue("lbl_apr", "Apr" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_may", "May" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_jun", "Jun" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_jul", "Jul" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_aug", "Aug" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_sep", "Sep" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_oct", "Oct" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_nov", "Nov" + "\n" + financialYearStart.Year);
+                reportDocument.SetParameterValue("lbl_dec", "Dec" + "\n" + financialYearStart.Year);
+
+                reportDocument.SetParameterValue("lbl_jan", "Jan" + "\n" + financialYearEnd.Year);
+                reportDocument.SetParameterValue("lbl_feb", "Feb" + "\n" + financialYearEnd.Year);
+                reportDocument.SetParameterValue("lbl_mar", "Mar" + "\n" + financialYearEnd.Year);
+
+                if (FlagExcel)
+                {
+                    reportDocument.SetParameterValue("Flag", 1);
+                    TextObject textObj1 = reportDocument.ReportDefinition.ReportObjects["Text6"] as TextObject;
+                    textObj1.Color = Color.Black;
+                    TextObject textObj2 = reportDocument.ReportDefinition.ReportObjects["Text40"] as TextObject;
+                    textObj2.Color = Color.Black;
+                    TextObject textObj3 = reportDocument.ReportDefinition.ReportObjects["Text35"] as TextObject;
+                    textObj3.Color = Color.Black;
+                    // Export the report to Excel
+                    ExportOptions exportOptions = new ExportOptions();
+                    ExcelFormatOptions excelFormatOptions = new ExcelFormatOptions();
+                    exportOptions.ExportFormatType = ExportFormatType.Excel;
+                    exportOptions.FormatOptions = excelFormatOptions;
+                    reportDocument.ExportToDisk(ExportFormatType.Excel, @"D:\excel_report\AnnuvalGameRevenueReport" + financialYear + ".xls");
+                }
+                else
+                {
+                    reportDocument.SetParameterValue("Flag", 0);
+                    if (FlagColor)
+                    {
+                        //FindAndSetColor(reportDocument, "Box3", selectedColor);
+                        //FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    }
+                }
+                FlagExcel = false;
+                FlagColor = false;
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+        }
+
+        public void s_FillReport_Stockusage()
+        {
+            ReportDocument reportDocument = new ReportDocument();
+            DataSet dsReport = new DataSet();
+            DataTable dt_Rpt = new DataTable("Rpt_DT");
+            BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+            DmnSearch dmnSearchDetBill = new DmnSearch();
+            dmnSearchDetBill.Select = "it.ItemCode_UPC sFld1,it.Itemname sFld2, " +
+                "(select Sum(QOH) from tblProductRate where ProductId=it.ItemId) dFld1,SUM(sd.Quantity * inc.Quantity) AS dFld2";
+            dmnSearchDetBill.Table = " tblSalesDetails sd	JOIN tblIngredientDetails inc ON inc.ProductID = sd.itemid  JOIN tblItem it ON it.ItemId = inc.ItemId";
+            dmnSearchDetBill.WhereNdGroupBy = "where inc.ProductID = sd.itemid AND sd.CreatedDateTime >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sd.CreatedDateTime <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";
+            dmnSearchDetBill.OrderBy = "Group by it.ItemCode_UPC, it.Itemname,it.ItemId";
+
+            var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+            using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "dFld1", "dFld2"))
+            {
+                dt_Rpt.Load(reader);
+            }
+            dsReport.Tables.Add(dt_Rpt);
+            reportDocument.Load(Path + @"\Rpt_Stockusage.rpt");
+            reportDocument.SetDataSource(dsReport);
+            /* header section*/
+            Addressdata = Get_CompantDetails();
+            reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+            reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+            reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+            reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+            string devicename = System.Environment.MachineName;
+            reportDocument.SetParameterValue("Device_name", devicename);
+
+            reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+            reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+            reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+            reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+            /*End Header section*/
+            if (ColorChk == true)
+            {
+                FindAndSetColor(reportDocument, "Box2", selectedColor);
+                FindAndSetColor(reportDocument, "Box3", selectedColor);
+            }
+            crv_report.ReuseParameterValuesOnRefresh = true;
+            crv_report.RefreshReport();
+            crv_report.ReportSource = reportDocument;
+        }
+
+        public void s_FillReport_Expence()
+        {
+
+            ReportDocument reportDocument = new ReportDocument();
+            DataSet dsReport = new DataSet();
+            DataTable dt_Rpt = new DataTable("Rpt_DT");
+            BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+            DmnSearch dmnSearchDetBill = new DmnSearch();
+  
+                dmnSearchDetBill.Select = "c.CategoryName sFld1,ep.Description sFld2,em.EmployeeName sFld3,g.Caption sFld4,ep.Amount dFld1";
+                dmnSearchDetBill.Table = "tblExpence ep " +
+                " left join tblGeneralOptions g on g.GTypeSubId=ep.paymentid and g.GTypeId=2 " +
+                " left join tblEmployee em on em.EmployeeId=ep.Empolyeeid " +
+                " left join tblCategory_FTI c on c.Fcid=ep.reason ";
+            dmnSearchDetBill.WhereNdGroupBy = "where ep.CreatedOn>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and ep.CreatedOn <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";
+            dmnSearchDetBill.OrderBy = "order by ep.eid DESC";        
+ 
+            var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+            //Get_Address();
+
+            using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1"))
+            {
+                dt_Rpt.Load(reader);
+            }
+            dsReport.Tables.Add(dt_Rpt);
+            reportDocument.Load(Path + @"\Rpt_Expence.rpt");
+            reportDocument.SetDataSource(dsReport);
+            /* header section*/
+            Addressdata = Get_CompantDetails();
+            reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+            reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+            reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+            reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+            string devicename = System.Environment.MachineName;
+            reportDocument.SetParameterValue("Device_name", devicename);
+
+            reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+            reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+            reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+            reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+            /*End Header section*/
+            if (ColorChk == true)
+            {
+                FindAndSetColor(reportDocument, "Box2", selectedColor);
+                FindAndSetColor(reportDocument, "Box3", selectedColor);
+            }
+            crv_report.ReuseParameterValuesOnRefresh = true;
+            crv_report.RefreshReport();
+            crv_report.ReportSource = reportDocument;
+        }
+        public void s_FillReport_Reorder()
+        {
+            string Reorder_Name = "";
+            ReportDocument reportDocument = new ReportDocument();
+            DataSet dsReport = new DataSet();
+            DataTable dt_Rpt = new DataTable("Rpt_DT");
+            BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+            DmnSearch dmnSearchDetBill = new DmnSearch();
+            if (cmbSublist.SelectedIndex == 0)
+            {
+                dmnSearchDetBill.Select = "p.itemcode as sFld1,p.Product as sFld2,m.Quantity as sFld3,p.Price as dFld1,0 as dFld2,p.MRP  as dFld3 ";
+                dmnSearchDetBill.Table = "tblproduct p left join tblMenu m on m.ProductId=p.ProductId where p.Status = 1 and  m.Quantity >  "+ nud_reorderqty.Text +
+                    " union select i.ItemCode_UPC as sFld1,i.Itemname as sFld2,pr.QOH as sFld3,pr.PRate as dFld2,pr.SRate as dFld1,pr.MRP  as dFld3 " +
+                    " from tblItem i left join tblProductRate pr on pr.ProductId=i.ItemId";
+                dmnSearchDetBill.WhereNdGroupBy = " where i.Status = 1 and (select Sum(QOH) from tblProductRate where ProductId=i.ItemId) >" + nud_reorderqty.Text;
+                dmnSearchDetBill.OrderBy = "";
+                Reorder_Name = "F&B Reorder Report";
+            }
+            else if (cmbSublist.SelectedIndex == 1)
+            {
+                dmnSearchDetBill.Select = "p.itemcode as sFld1,p.product as sFld2,m.Quantity as sFld3,p.Price as dFld1,0 as dFld2,p.MRP  as dFld3 ";
+                dmnSearchDetBill.Table = "tblproduct p left join tblMenu m on m.ProductId=p.ProductId ";
+                dmnSearchDetBill.WhereNdGroupBy = "where p.Status = 1 and  m.Quantity > "+ nud_reorderqty.Text;
+                dmnSearchDetBill.OrderBy = "";
+                Reorder_Name = "Product Reorder Report";
+            }
+            else if (cmbSublist.SelectedIndex == 2)
+            {
+                dmnSearchDetBill.Select = "i.ItemCode_UPC as sFld1,i.Itemname as sFld2,pr.QOH as sFld3,pr.PRate as dFld1,pr.SRate as dFld2,pr.MRP  as dFld3";
+                dmnSearchDetBill.Table = " tblItem i left join tblProductRate pr on pr.ProductId=i.ItemId";
+                dmnSearchDetBill.WhereNdGroupBy = " where i.Status = 1 and  (select Sum(QOH) from tblProductRate where ProductId=i.ItemId) >"+ nud_reorderqty.Text + " and saletype=1";
+                dmnSearchDetBill.OrderBy = "";
+                Reorder_Name = "Item Reorder Report";
+            }
+            else
+            {
+                dmnSearchDetBill.Select = "i.ItemCode_UPC as sFld1,i.Itemname as sFld2,pr.QOH as sFld3,pr.PRate as dFld1,pr.SRate as dFld2,pr.MRP  as dFld3";
+                dmnSearchDetBill.Table = " tblItem i left join tblProductRate pr on pr.ProductId=i.ItemId";
+                dmnSearchDetBill.WhereNdGroupBy = " where i.Status = 1 and  (select Sum(QOH) from tblProductRate where ProductId=i.ItemId) >"+ nud_reorderqty.Text+" and saletype=0";
+                dmnSearchDetBill.OrderBy = "";
+                Reorder_Name = "Kitchen Item Reorder Report";
+            }
+
+            var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+            //Get_Address();
+
+            using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1", "dFld2", "dFld3"))
+            {
+                dt_Rpt.Load(reader);
+            }
+            dsReport.Tables.Add(dt_Rpt);
+            reportDocument.Load(Path + @"\Rpt_ReOrder.rpt");
+            reportDocument.SetDataSource(dsReport);
+            /* header section*/
+            Addressdata = Get_CompantDetails();
+            reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+            reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+            reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+            reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+            string devicename = System.Environment.MachineName;
+            reportDocument.SetParameterValue("Device_name", devicename);
+            reportDocument.SetParameterValue("Reorderheading", Reorder_Name);
+            /*End Header section*/
+            if (ColorChk == true)
+            {
+                FindAndSetColor(reportDocument, "Box2", selectedColor);
+                FindAndSetColor(reportDocument, "Box3", selectedColor);
+            }
+            crv_report.ReuseParameterValuesOnRefresh = true;
+            crv_report.RefreshReport();
+            crv_report.ReportSource = reportDocument;
+        }
         public void s_FillReport_Purchase()
         {
             try
@@ -763,24 +1338,81 @@ namespace FoodandBeverage.Report
             try
             {
                 tlp_sublist.Visible = false;
-                if (Convert.ToInt32(cmbreport.SelectedValue) == 27)
+                tlp_reorder.Visible = false;
+                tlp_finyear.Visible = false;
+                tabDateTimePanel.Visible = false;
+                tblReportCategory.Visible = false;
+                if (Convert.ToInt32(cmbreport.SelectedValue) == 27) 
                 {
+                    tabDateTimePanel.Visible = true;
                     cmbSublist.DataSource = null;
                     tlp_sublist.Visible = true;
+                    tblReportCategory.Visible = true;
                     List<string> sublistOptions = new List<string> { "All", "Product", "Item", "Kitchen Item" };
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
                 else if (Convert.ToInt32(cmbreport.SelectedValue) == 10)
                 {
+                    tabDateTimePanel.Visible = true;
                     cmbSublist.DataSource = null;
                     tlp_sublist.Visible = true;
+                    tblReportCategory.Visible = true;
                     List<string> sublistOptions = new List<string> { "Product Offer", "Combo Offer" };
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 24)
+                {
+                    tabDateTimePanel.Visible = true;
+                    tlp_reorder.Visible = true;
+                    cmbSublist.DataSource = null;
+                    tlp_sublist.Visible = true;
+                    tblReportCategory.Visible = true;
+                    List<string> sublistOptions = new List<string> { "All", "Product", "Item", "Kitchen Item" };
+                    cmbSublist.DataSource = sublistOptions;
+                    cmbSublist.SelectedIndex = 0;
+                }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 38)
+                {
+                    tlp_sublist.Visible = false;
+                    tlp_reorder.Visible = false;
+                    tlp_finyear.Visible = true;
+                    tblReportCategory.Visible = false;
+                }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 45)
+                {
+                    tlp_sublist.Visible = true;
+                    tlp_reorder.Visible = false;
+                    tlp_finyear.Visible = true;
+                    tblReportCategory.Visible = false;
+                    cmbSublist.DataSource = null;
+                    tlp_sublist.Visible = true;
+                    tblReportCategory.Visible = true;
+                    List<string> sublistOptions = new List<string> { "Complete", "Pending", "Cancelled" };
+                    cmbSublist.DataSource = sublistOptions;
+                    cmbSublist.SelectedIndex = 0;
+                }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 46)
+                {
+                    tlp_sublist.Visible = true;
+                    tlp_reorder.Visible = false;
+                    tlp_finyear.Visible = true;
+                    tblReportCategory.Visible = false;
+                    cmbSublist.DataSource = null;
+
+                    tblReportCategory.Visible = true;
+                    List<string> sublistOptions = new List<string> { "Complete", "Pending", "Cancelled" };
+                    cmbSublist.DataSource = sublistOptions;
+                    cmbSublist.SelectedIndex = 0;
+                }
+                else
+                {
+                    tabDateTimePanel.Visible = true;
+                    tblReportCategory.Visible = true;
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -869,28 +1501,48 @@ namespace FoodandBeverage.Report
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = " ofm.OfferName as sFld1,ofm.Discountper as dFld1,(select CONVERT(varchar(50),ofm.OfferstartDatetime,105)) as sFld2,(select CONVERT(varchar(50),ofm.OfferEndDatetime,105)) as sFld3,ofd.ItemCode_UPC sFld4,ofd.Productname sFld5,ofd.Price dFld2,ofd.FinalPrice dFld3";
-                dmnSearchDetBill.Table = "tblOfferMaster ofm left join tblOfferDetails ofd on ofd.Omid=ofm.Omid and ofd.status = 1 ";
-                dmnSearchDetBill.WhereNdGroupBy = " where ofm.OfferstartDatetime>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and ofm.OfferEndDatetime<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                                                 "and ofm.status = 1";
-                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
-
-
-
-                if (invoiceBillMasters.Count > 0)
+                if (Convert.ToInt32(cmbSublist.SelectedIndex) == 0)
                 {
-                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
-                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                    dmnSearchDetBill.Select = " ofm.OfferName as sFld1,ofm.Discountper as dFld1,OfferstartDatetime as sFld2,OfferEndDatetime as sFld3,ofd.ItemCode_UPC sFld4,ofd.Productname sFld5,ofd.Price dFld2,ofd.FinalPrice dFld3";//(select CONVERT(varchar(50),ofm.OfferstartDatetime,105))
+                    dmnSearchDetBill.Table = "tblOfferMaster ofm left join tblOfferDetails ofd on ofd.Omid=ofm.Omid and ofd.status = 1 ";
+                    dmnSearchDetBill.WhereNdGroupBy = " where ofm.OfferstartDatetime>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and ofm.OfferEndDatetime<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                                                     "and ofm.status = 1 and OfferType=0";
+                    var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                    if (invoiceBillMasters.Count > 0)
+                    {
+                        invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                        invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                    }
+                    using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3"))
+                    {
+                        dt_Rpt.Load(reader);
+                    }
+                    dsReport.Tables.Add(dt_Rpt);
+                    reportDocument.Load(Path + @"\Rpt_OfferList.rpt");
+                    reportDocument.SetDataSource(dsReport);
                 }
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2"))
+                else
                 {
-                    dt_Rpt.Load(reader);
+                    dmnSearchDetBill.Select = " ofm.OfferName as sFld1,ofm.Discountper as dFld1,ofm.OfferstartDatetime as sFld2,ofm.OfferEndDatetime as sFld3,ofd.ItemCode_UPC sFld4,ofd.Productname sFld5,ofd.Price dFld2,ofm.FinalPrice dFld3";//(select CONVERT(varchar(50),ofm.OfferstartDatetime,105))
+                    dmnSearchDetBill.Table = "tblOfferMaster ofm left join tblOfferDetails ofd on ofd.Omid=ofm.Omid and ofd.status = 1 ";
+                    dmnSearchDetBill.WhereNdGroupBy = " where ofm.OfferstartDatetime>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and ofm.OfferEndDatetime<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                                                     "and ofm.status = 1 and OfferType=1";
+                    var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                    if (invoiceBillMasters.Count > 0)
+                    {
+                        invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                        invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                    }
+                    using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3"))
+                    {
+                        dt_Rpt.Load(reader);
+                    }
+                    dsReport.Tables.Add(dt_Rpt);
+                    reportDocument.Load(Path + @"\Rpt_OfferList_Combo.rpt");
+                    reportDocument.SetDataSource(dsReport);
                 }
-                dsReport.Tables.Add(dt_Rpt);
-                reportDocument.Load(Path + @"\Rpt_OfferList.rpt");
-                reportDocument.SetDataSource(dsReport);
-
-
 
                 /* header section*/
                 Addressdata = Get_CompantDetails();
@@ -922,7 +1574,136 @@ namespace FoodandBeverage.Report
 
             }
 
+        }        
+
+        public void s_FillReport_SlowmovingItems()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "p.ItemCode AS sFld1,    p.Product AS sFld2,SUM(sd.Quantity) AS dFld1, SUM(sd.NetAmount) AS dFld2," +
+                    " CASE WHEN EXISTS (SELECT 1 FROM tblOfferMaster om LEFT JOIN tblOfferDetails od ON od.Omid = om.Omid  AND od.ProductId = p.ProductId WHERE om.OfferType = 1 and om.status=1 and od.status=1 ) THEN 1 ELSE 0 END AS sFld3," +
+                    "CASE WHEN EXISTS (SELECT 1 FROM tblOfferMaster om LEFT JOIN tblOfferDetails od ON od.Omid = om.Omid  AND od.ProductId = p.ProductId WHERE om.OfferType = 0 and om.status=1 and od.status=1 ) THEN 1 ELSE 0 END AS sFld4";
+                dmnSearchDetBill.Table = " tblSalesDetails sd JOIN tblProduct p ON p.ProductId = sd.ItemId";
+                dmnSearchDetBill.WhereNdGroupBy = " where  sd.CreatedDateTime>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  sd.CreatedDateTime<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                dmnSearchDetBill.OrderBy = "GROUP BY  p.ItemCode, p.Product, p.ProductId ORDER BY    SUM(sd.Quantity)";
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1", "dFld2"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_Solwmovingitem.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+
         }
+        public void s_FillReport_PopularItems()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "p.ItemCode AS sFld1,    p.Product AS sFld2,SUM(sd.Quantity) AS dFld1, SUM(sd.NetAmount) AS dFld2," +
+                    " CASE WHEN EXISTS (SELECT 1 FROM tblOfferMaster om LEFT JOIN tblOfferDetails od ON od.Omid = om.Omid  AND od.ProductId = p.ProductId WHERE om.OfferType = 1 and om.status=1 and od.status=1 ) THEN 1 ELSE 0 END AS sFld3," +
+                    "CASE WHEN EXISTS (SELECT 1 FROM tblOfferMaster om LEFT JOIN tblOfferDetails od ON od.Omid = om.Omid  AND od.ProductId = p.ProductId WHERE om.OfferType = 0 and om.status=1 and od.status=1 ) THEN 1 ELSE 0 END AS sFld4";
+                dmnSearchDetBill.Table = " tblSalesDetails sd JOIN tblProduct p ON p.ProductId = sd.ItemId";
+                dmnSearchDetBill.WhereNdGroupBy = " where  sd.CreatedDateTime>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  sd.CreatedDateTime<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                dmnSearchDetBill.OrderBy = "GROUP BY  p.ItemCode, p.Product, p.ProductId ORDER BY    SUM(sd.Quantity) DESC"; 
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4","dFld1", "dFld2"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_PopularItem.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+        }
+
         public void s_FillReport_EmployeeList()
         {
             try
@@ -986,21 +1767,49 @@ namespace FoodandBeverage.Report
         }
         public void combofill_report()
         {
+            cmbreport.DataSource = null;
             BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
             DmnSearch objSearch = new DmnSearch();
             objSearch = new DmnSearch();
             objSearch.Select = " G.GTypeSubId as Id, G.Caption as Value";
             objSearch.Table = " tblGeneralOptions G";
-            objSearch.WhereNdGroupBy = " WHERE G.GTypeId=" + 51;
+            switch (Reportid)
+            {
+                case (int)ReportType.salesReportItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(47,48)";
+                    break;
+
+                case (int)ReportType.inventoryReportItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(24,27,37)";
+                    break;
+                case (int)ReportType.promotionsDiscountsItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(10)";
+                    break;
+                case (int)ReportType.employeePerformanceItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(11)";
+                    break;
+                case (int)ReportType.expenseReportItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(25)";
+                    break;
+                case (int)ReportType.reservationSeatingItem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(46,45)";
+                    break;
+                case (int)ReportType.Purchasereportitem:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(20,23)";
+                    break;
+                case (int)ReportType.MenuAnalysisReports:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(7,8)";
+                    break;
+                case (int)ReportType.TableTurnoverReports:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(44)";
+                    break;
+            }
             objSearch.OrderBy = "order by Id";
             var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
 
             cmbreport.DataSource = gridSource;
             cmbreport.ValueMember = "Id";
             cmbreport.DisplayMember = "value";
-
         }
-
-
     }
 }

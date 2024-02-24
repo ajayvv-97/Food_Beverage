@@ -824,7 +824,6 @@ namespace FoodandBeverage.Forms
                                         }
                                         #endregion
 
-
                                     }
                                 }
 
@@ -1036,6 +1035,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
                 string textvalue = clickedControl.AccessibleDescription;
                 string[] parts = textvalue.Split(',');
@@ -1763,35 +1763,334 @@ namespace FoodandBeverage.Forms
         }
         private void Menureport_Click(object sender, EventArgs e)
         {
-            if (sender is Button button)
+            try
             {
-                ChangeButtonBorder(button);
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+
+                float largerFontSize = 12;
+                ContextMenuStrip contextMenu = new ContextMenuStrip();
+
+                ToolStripMenuItem salesReportItem = new ToolStripMenuItem("Sales Report");
+                ToolStripMenuItem inventoryReportItem = new ToolStripMenuItem("Inventory Report");
+                ToolStripMenuItem employeePerformanceItem = new ToolStripMenuItem("Employee Report");
+                ToolStripMenuItem expenseReportItem = new ToolStripMenuItem("Expense Report");
+                ToolStripMenuItem reservationSeatingItem = new ToolStripMenuItem("Reservation and Seating Report");
+                //ToolStripMenuItem feedbackReportItem = new ToolStripMenuItem("Customer Feedback Report");
+                //ToolStripMenuItem loyaltyProgramItem = new ToolStripMenuItem("Loyalty Program Report");
+                ToolStripMenuItem promotionsDiscountsItem = new ToolStripMenuItem("Promotions and Discounts Report");
+                ToolStripMenuItem Purchaseitem = new ToolStripMenuItem("Purchase Report");
+                ToolStripMenuItem MenuAnalysisReports = new ToolStripMenuItem("Menu Analysis Reports");
+                ToolStripMenuItem TableTurnoverReports = new ToolStripMenuItem("Table Turnover Reports");
+
+
+                salesReportItem.Click += SalesReportItem_Click;
+                inventoryReportItem.Click += InventoryReportItem_Click;
+                employeePerformanceItem.Click += EmployeePerformanceItem_Click;
+                expenseReportItem.Click += ExpenseReportItem_Click;
+                reservationSeatingItem.Click += ReservationSeatingItem_Click;
+                //feedbackReportItem.Click += FeedbackReportItem_Click;
+                //loyaltyProgramItem.Click += LoyaltyProgramItem_Click;
+                promotionsDiscountsItem.Click += PromotionsDiscountsItem_Click;
+                Purchaseitem.Click += PurchaseitemItem_Click;
+                MenuAnalysisReports.Click += MenuAnalysisReports_Click;
+                TableTurnoverReports.Click += TableTurnoverReports_Click;
+
+                contextMenu.Items.Add(salesReportItem);
+                contextMenu.Items.Add(inventoryReportItem);
+                contextMenu.Items.Add(employeePerformanceItem);
+                contextMenu.Items.Add(expenseReportItem);
+                contextMenu.Items.Add(reservationSeatingItem);
+                //contextMenu.Items.Add(feedbackReportItem);
+                //contextMenu.Items.Add(loyaltyProgramItem);
+                contextMenu.Items.Add(promotionsDiscountsItem);
+                contextMenu.Items.Add(Purchaseitem);
+                contextMenu.Items.Add(TableTurnoverReports);
+                contextMenu.Items.Add(MenuAnalysisReports);
+
+                contextMenu.Show(Cursor.Position);
+
             }
+            catch(Exception ex)
+            {
+            }           
 
+        }
+        private void TableTurnoverReports_Click(object sender, EventArgs e)
+        {
             panelDesktop.Controls.Clear();
-
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
                 if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
                     _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
                 else
                 {
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
                 }
             }
             else
             {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport();
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
                 _instanceFrmreport.TopLevel = false;
                 _instanceFrmreport.Dock = DockStyle.Fill;
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+        }
+        private void MenuAnalysisReports_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+
+        private void PurchaseitemItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+
+        private void ExpenseReportItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+        private void ReservationSeatingItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+        private void EmployeePerformanceItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+        private void PromotionsDiscountsItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+        private void SalesReportItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+        }
+
+        private void InventoryReportItem_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
+
         }
 
         private void Menusetting_Click(object sender, EventArgs e)

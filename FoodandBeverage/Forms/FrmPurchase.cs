@@ -44,6 +44,7 @@ namespace FoodandBeverage.Forms
         public static int itaxsettingid = 19;
         public static int iunitid = 20;
         public static int ipridno = 21;
+        public static int iexpiredate = 22;
 
         // Popup Grid
         public static int pslno = 0;
@@ -53,10 +54,12 @@ namespace FoodandBeverage.Forms
         public static int pitemidno = 4;
         public static int pcategorytypeno = 5;
 
+        private DateTimePicker dtp { get; set; }
         #endregion
         public static bool CellRow = true;
         BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
         DmnSearch dmnSearch = new DmnSearch();
+
         private void btn_vendor_add_Click(object sender, EventArgs e)
         {
             pnlCustomer.Visible = true;
@@ -441,6 +444,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.Amount = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iamount].Value);
                             dmnPurchase.DisPer = Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisper].Value);
                             dmnPurchase.PrId = Convert.ToInt32(dgvProduct.Rows[i].Cells[ipridno].Value);
+                            dmnPurchase.Expiredate = Convert.ToDateTime(dgvProduct.Rows[i].Cells[iexpiredate].Value);
 
                             var InsertStatus = bllPurchase.AddEditDataDet("prdInsert_Upd_PurchaseDetails", dmnPurchase);
                             if (InsertStatus == null)
@@ -697,6 +701,34 @@ namespace FoodandBeverage.Forms
 
 
         }
+
+        private void dtp_OnTextChange(object sender, EventArgs e)
+        {
+            try
+            {
+                dgvProduct.CurrentCell.Value = dtp.Text.ToString();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        void dtp_CloseUp(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dtp != null)
+                {
+                    dtp.Visible = false;
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+        }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -1241,18 +1273,52 @@ namespace FoodandBeverage.Forms
 
         private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == ibarcode)
+            try
             {
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = true;
-                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                txtbarcode.Focus();
+                if (e.ColumnIndex == ibarcode)
+                {
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = true;
+                    pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                    txtbarcode.Focus();
+                }
+                else if (e.ColumnIndex == iexpiredate)
+                {
+                    pnl_dtpexp.Visible = true;
+                    pnl_dtpexp.Location = new Point(this.ClientSize.Width / 2 - pnl_dtpexp.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_dtpexp.Size.Height / 2));
+
+                    //    // initialize DateTimePicker
+                    //    DateTimePicker dtp = new DateTimePicker();
+                    //    dtp.Format = DateTimePickerFormat.Short;
+                    //    dtp.Visible = true;
+                    //    //dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DateTime.Now;
+                    //    //dtp.Value = DateTime.Parse(dgvProduct.CurrentCell.Value.ToString());
+
+
+                    //    // set size and location
+                    //    var rect = dgvProduct.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                    //    dtp.Size = new Size(rect.Width, rect.Height);
+                    //    dtp.Location = new Point(rect.X, rect.Y);
+
+                    //    // attach events
+                    //    dtp.CloseUp += new EventHandler(dtp_CloseUp);
+                    //    dtp.TextChanged += new EventHandler(dtp_OnTextChange);
+
+                    //    dgvProduct.Controls.Add(dtp);
+
+                }
+                else
+                {
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = false;
+                    pnl_dtpexp.Visible = false;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = false;
+
             }
+  
         }
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
@@ -1268,124 +1334,133 @@ namespace FoodandBeverage.Forms
         }
         public void UpcScanner(int rowno)
         {
-            panelProductPopup.Hide();
-            dgvItemPop.Rows.Clear();
-            int cno = dgvProduct.CurrentCell.ColumnIndex;
-            dmnSearch.Select = "top (1) i.ItemCode_UPC Field1,i.Itemname Field2,u.UnitName Field3," +
-                "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field4," +
-                "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
-                "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
-                "ts.IgstPrcnt Field7,ts.VatPrcnt Field8,i.ItemId Field9,i.Tax Field10,i.TaxType Field11,i.Fcid Field12,i.TaxSettingsId Field13," +
-                "(Select Top(1)id from tblProductRate where ProductId=i.ItemId order by Id desc) as Field14,u.uid Field15";
-            dmnSearch.Table = "tblItem i " +
-                "LEFT JOIN tblUnit u on u.UId=i.unit " +
-                "LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId " +
-                "LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId";
-            dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.ItemCode_UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
-            dmnSearch.OrderBy = "order by pr.Id desc ";
-            var gridSourceitem = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-            if (gridSourceitem.Count > 1)
-            {
-                dgvProduct.Enabled = false;
-                dgvItemPop.Rows.Add(gridSourceitem.Count);
-                for (int i = 0; i < gridSourceitem.Count; i++)
-                {
-                    dgvItemPop.Rows[i].Cells[pslno].Value = i + 1;
-                    dgvItemPop.Rows[i].Cells[pnameno].Value = gridSourceitem[i].Field1;
-                    dgvItemPop.Rows[i].Cells[prateno].Value = gridSourceitem[i].Field2;
-                    dgvItemPop.Rows[i].Cells[pqohno].Value = gridSourceitem[i].Field3;
-                    dgvItemPop.Rows[i].Cells[pitemidno].Value = gridSourceitem[i].Field4;
-                    dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSourceitem[i].Field5;
-                }
-                panelProductPopup.Show();
-                panelProductPopup.Location = new Point(this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2, (this.ClientSize.Height / 2 - panelProductPopup.Size.Height / 2));
-                pnlCustomer.Hide();
-                dgvItemPop.Focus();
-            }
 
-            else if (gridSourceitem.Count == 1)
+            try
             {
-                int r1 = rowno;
+                panelProductPopup.Hide();
+                dgvItemPop.Rows.Clear();
+                int cno = dgvProduct.CurrentCell.ColumnIndex;
+                dmnSearch.Select = "top (1) i.ItemCode_UPC Field1,i.Itemname Field2,u.UnitName Field3," +
+                    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field4," +
+                    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                    "ts.IgstPrcnt Field7,ts.VatPrcnt Field8,i.ItemId Field9,i.Tax Field10,i.TaxType Field11,i.Fcid Field12,i.TaxSettingsId Field13," +
+                    "(Select Top(1)id from tblProductRate where ProductId=i.ItemId order by Id desc) as Field14,u.uid Field15";
+                dmnSearch.Table = "tblItem i " +
+                    "LEFT JOIN tblUnit u on u.UId=i.unit " +
+                    "LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId " +
+                    "LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId";
+                dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.ItemCode_UPC = '" + dgvProduct.Rows[rowno].Cells[ibarcode].Value + "'";
+                dmnSearch.OrderBy = "order by pr.Id desc ";
+                var gridSourceitem = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSourceitem.Count > 1)
+                {
+                    dgvProduct.Enabled = false;
+                    dgvItemPop.Rows.Add(gridSourceitem.Count);
+                    for (int i = 0; i < gridSourceitem.Count; i++)
+                    {
+                        dgvItemPop.Rows[i].Cells[pslno].Value = i + 1;
+                        dgvItemPop.Rows[i].Cells[pnameno].Value = gridSourceitem[i].Field1;
+                        dgvItemPop.Rows[i].Cells[prateno].Value = gridSourceitem[i].Field2;
+                        dgvItemPop.Rows[i].Cells[pqohno].Value = gridSourceitem[i].Field3;
+                        dgvItemPop.Rows[i].Cells[pitemidno].Value = gridSourceitem[i].Field4;
+                        dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSourceitem[i].Field5;
+                    }
+                    panelProductPopup.Show();
+                    panelProductPopup.Location = new Point(this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2, (this.ClientSize.Height / 2 - panelProductPopup.Size.Height / 2));
+                    pnlCustomer.Hide();
+                    dgvItemPop.Focus();
+                }
+
+                else if (gridSourceitem.Count == 1)
+                {
+                    int r1 = rowno;
 
                     bool flage = false;
-                for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
-                {
-
-                    if (Convert.ToInt32(gridSourceitem[0].Field9) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
+                    for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
                     {
-                        flage = true;
-                        dgvProduct.Rows[i].Cells[iqty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[iqty].Value) + 1;
-                        if (r1 != i)
+
+                        if (Convert.ToInt32(gridSourceitem[0].Field9) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value))
                         {
-                            dgvProduct.Rows[r1].Cells[ibarcode].Value = "";
-                            totalcellamount(i);
+                            flage = true;
+                            dgvProduct.Rows[i].Cells[iqty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[iqty].Value) + 1;
+                            if (r1 != i)
+                            {
+                                dgvProduct.Rows[r1].Cells[ibarcode].Value = "";
+                                totalcellamount(i);
+                            }
+                            break;
                         }
-                        break;
                     }
-                }
-                if (flage == false)
-                {
-                    if (r1 == dgvProduct.RowCount - 1)
+                    if (flage == false)
                     {
-                        dgvProduct.Rows.Add(1);
+                        if (r1 == dgvProduct.RowCount - 1)
+                        {
+                            dgvProduct.Rows.Add(1);
+                        }
+                        dgvProduct.Rows[r1].Cells[iname].Style.ForeColor = Color.Black;
+                        dgvProduct.Rows[r1].Cells[islno].Value = r1 + 1;
+                        dgvProduct.Rows[r1].Cells[ibarcode].Value = gridSourceitem[0].Field1;
+                        dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridSourceitem[0].Field1;
+                        dgvProduct.Rows[r1].Cells[iname].Value = gridSourceitem[0].Field2;
+                        dgvProduct.Rows[r1].Cells[iunit].Value = gridSourceitem[0].Field3;
+                        dgvProduct.Rows[r1].Cells[iunitid].Value = gridSourceitem[0].Field15;
+                        dgvProduct.Rows[r1].Cells[iqty].Value = "1";
+                        dgvProduct.Rows[r1].Cells[iprate].Value = gridSourceitem[0].Field4;
+                        dgvProduct.Rows[r1].Cells[israte].Value = gridSourceitem[0].Field5;
+                        dgvProduct.Rows[r1].Cells[imrp].Value = gridSourceitem[0].Field6;
+                        dgvProduct.Rows[r1].Cells[idisper].Value = "0";
+                        dgvProduct.Rows[r1].Cells[idisamt].Value = "0";
+                        if (gridSourceitem[0].Field11 == "GST")
+                        {
+                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridSourceitem[0].Field7;
+                        }
+                        if (gridSourceitem[0].Field11 == "VAT")
+                        {
+                            dgvProduct.Rows[r1].Cells[itaxper].Value = gridSourceitem[0].Field8;
+                        }
+                        dgvProduct.Rows[r1].Cells[iitemid].Value = gridSourceitem[0].Field9;
+                        dgvProduct.Rows[r1].Cells[itax].Value = gridSourceitem[0].Field10;
+                        dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSourceitem[0].Field11;
+                        dgvProduct.Rows[r1].Cells[itype].Value = gridSourceitem[0].Field12;
+                        dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSourceitem[0].Field13;
+                        dgvProduct.Rows[r1].Cells[ipridno].Value = gridSourceitem[0].Field14;
+                        panelProductPopup.Visible = false;
+                        totalcellamount(r1);
                     }
-                    dgvProduct.Rows[r1].Cells[iname].Style.ForeColor = Color.Black;
-                    dgvProduct.Rows[r1].Cells[islno].Value = r1 + 1;
-                    dgvProduct.Rows[r1].Cells[ibarcode].Value = gridSourceitem[0].Field1;
-                    dgvProduct.Rows[r1].Cells[ibarcode2].Value = gridSourceitem[0].Field1;
-                    dgvProduct.Rows[r1].Cells[iname].Value = gridSourceitem[0].Field2;
-                    dgvProduct.Rows[r1].Cells[iunit].Value = gridSourceitem[0].Field3;
-                    dgvProduct.Rows[r1].Cells[iunitid].Value = gridSourceitem[0].Field15;
-                    dgvProduct.Rows[r1].Cells[iqty].Value = "1";
-                    dgvProduct.Rows[r1].Cells[iprate].Value = gridSourceitem[0].Field4;
-                    dgvProduct.Rows[r1].Cells[israte].Value = gridSourceitem[0].Field5;
-                    dgvProduct.Rows[r1].Cells[imrp].Value = gridSourceitem[0].Field6;
-                    dgvProduct.Rows[r1].Cells[idisper].Value = "0";
-                    dgvProduct.Rows[r1].Cells[idisamt].Value = "0";
-                    if (gridSourceitem[0].Field11 == "GST")
-                    {
-                        dgvProduct.Rows[r1].Cells[itaxper].Value = gridSourceitem[0].Field7;
-                    }
-                    if (gridSourceitem[0].Field11 == "VAT")
-                    {
-                        dgvProduct.Rows[r1].Cells[itaxper].Value = gridSourceitem[0].Field8;
-                    }
-                    dgvProduct.Rows[r1].Cells[iitemid].Value = gridSourceitem[0].Field9;
-                    dgvProduct.Rows[r1].Cells[itax].Value = gridSourceitem[0].Field10;
-                    dgvProduct.Rows[r1].Cells[itaxtype].Value = gridSourceitem[0].Field11;
-                    dgvProduct.Rows[r1].Cells[itype].Value = gridSourceitem[0].Field12;
-                    dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSourceitem[0].Field13;
-                    dgvProduct.Rows[r1].Cells[ipridno].Value = gridSourceitem[0].Field14;
+
                     panelProductPopup.Visible = false;
-                    totalcellamount(r1);
+                    dgvProduct.Enabled = true;
+                    dgvProduct.Focus();
+                    //dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
+
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = true;
+                    pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                    txtbarcode.Focus();
+
+
                 }
-
-                panelProductPopup.Visible = false;
-                dgvProduct.Enabled = true;
-                dgvProduct.Focus();
-                //dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
-
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = true;
-                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                txtbarcode.Focus();
-
-
-            }
-            else
-            {
-                CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value != "")
+                else
                 {
-                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode2].Value;
+                    CMessageBox.Show("Invalid Product", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value != "")
+                    {
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode2].Value;
+                    }
+                    else
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = "";
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = true;
+                    pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                    txtbarcode.Focus();
                 }
-                else                
-                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[ibarcode].Value = "";
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = true;
-                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                txtbarcode.Focus();
             }
+            catch (Exception ex)
+            {
+
+            }
+
 
         }
 
@@ -1393,40 +1468,49 @@ namespace FoodandBeverage.Forms
 
         private void btnSaveCust_Click(object sender, EventArgs e)
         {
-            if (VendorMandatoryCheck())
+
+            try
             {
-                DmnPurchaseMaster dmnPurchase = new DmnPurchaseMaster();
-                BllPurchase bllPurchase = new BllPurchase();
-                dmnPurchase.Customer = txtVendorName.Text;
-                dmnPurchase.Address = txtVendorAddress.Text;
-                dmnPurchase.Email = txtVendorEmail.Text;
-                dmnPurchase.ContactNo = txtVendorTel.Text;
-                dmnPurchase.Description = txtdes.Text;
-                dmnPurchase.BranchId = FrmDashboard.BranchId;
-                dmnPurchase.CreatedBy = FrmDashboard.UserId;
-                dmnPurchase.Status = 1;
-                dmnPurchase.CustomerId = Convert.ToInt32("0");
-                var InsertStatus = bllPurchase.AddEditDataVendor("prdInsert_Upd_Vendor", dmnPurchase);
-                if (InsertStatus == null)
+                if (VendorMandatoryCheck())
                 {
-                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //break;
-                }
-                if (InsertStatus != null)
-                {
-                    CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DmnPurchaseMaster dmnPurchase = new DmnPurchaseMaster();
+                    BllPurchase bllPurchase = new BllPurchase();
+                    dmnPurchase.Customer = txtVendorName.Text;
+                    dmnPurchase.Address = txtVendorAddress.Text;
+                    dmnPurchase.Email = txtVendorEmail.Text;
+                    dmnPurchase.ContactNo = txtVendorTel.Text;
+                    dmnPurchase.Description = txtdes.Text;
+                    dmnPurchase.BranchId = FrmDashboard.BranchId;
+                    dmnPurchase.CreatedBy = FrmDashboard.UserId;
+                    dmnPurchase.Status = 1;
+                    dmnPurchase.CustomerId = Convert.ToInt32("0");
+                    var InsertStatus = bllPurchase.AddEditDataVendor("prdInsert_Upd_Vendor", dmnPurchase);
+                    if (InsertStatus == null)
+                    {
+                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //break;
+                    }
+                    if (InsertStatus != null)
+                    {
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtVendorName.Text = "";
+                        txtVendorTel.Text = "";
+                        txtVendorAddress.Text = "";
+                        txtVendorEmail.Text = "";
+                    }
+                    pnlCustomer.Hide();
+                    FillCombobox();
                     txtVendorName.Text = "";
-                    txtVendorTel.Text = "";
-                    txtVendorAddress.Text = "";
                     txtVendorEmail.Text = "";
+                    txtVendorAddress.Text = "";
+                    txtVendorTel.Text = "";
                 }
-                pnlCustomer.Hide();
-                FillCombobox();
-                txtVendorName.Text = "";
-                txtVendorEmail.Text = "";
-                txtVendorAddress.Text = "";
-                txtVendorTel.Text = "";
             }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void btnCloseCst_Click(object sender, EventArgs e)
@@ -1533,7 +1617,7 @@ namespace FoodandBeverage.Forms
                                 dgvProduct.Rows[i].Cells[itax].Value = gridSource2[i].Tax;
                                 dgvProduct.Rows[i].Cells[israte].Value = gridSource2[i].Srate;
                                 dgvProduct.Rows[i].Cells[imrp].Value = gridSource2[i].MRP;
-
+                                dgvProduct.Rows[i].Cells[iexpiredate].Value = gridSource2[i].Expiredate;
                             }
                             btnsave.Visible = false;
                         }
@@ -1925,6 +2009,20 @@ namespace FoodandBeverage.Forms
         {
             panelProductPopup.Visible = false;
             dgvProduct.Enabled = true;
+        }
+
+
+
+        private void dtp_exp_Leave(object sender, EventArgs e)
+        {
+            //dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iexpiredate].Value = dtpdocdate.Value;
+            //pnl_dtpexp.Visible = false;
+        }
+
+        private void dtp_exp_ValueChanged(object sender, EventArgs e)
+        {
+            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iexpiredate].Value = dtp_exp.Value;
+            pnl_dtpexp.Visible = false;
         }
     }
 }
