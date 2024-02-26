@@ -573,27 +573,39 @@ namespace FoodandBeverage.Report
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();  
                 
-                dmnSearchDetBill.Select = "ti.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, COALESCE(sm.TimeDuration, 0) AS nFld3,0 AS nFld4,isnull(DATEPART(HOUR, sm.CreatedDateTime),0) nFld6,0 nFld7";
+                dmnSearchDetBill.Select = "ti.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, COALESCE(sm.TimeDuration, 0) AS nFld3,0 AS nFld4,isnull(DATEPART(HOUR, sm.CreatedDateTime),0) nFld6";
                 dmnSearchDetBill.Table = "tblTable_info ti " +
                     " left join tblSalesMaster sm on sm.Tid =ti.Tid and sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.status=1 where ti.Status = 1 " +
-                    " union select cb.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, 0 nFld3,COALESCE(TimeDuration, 0) AS nFld4, 0 nFld6,DATEPART(HOUR, cb.CreatedOn) nFld7  from tblCombinedOrderBill cb left join tblTable_info ti on ti.Tid = cb.tid ";
+                    " union select cb.Tid nFld1, ti.TableCode sFld1, ti.Capcity nFld2, 0 nFld3,COALESCE(TimeDuration, 0) AS nFld4,DATEPART(HOUR, cb.CreatedOn) nFld6  from tblCombinedOrderBill cb left join tblTable_info ti on ti.Tid = cb.tid ";
                 dmnSearchDetBill.WhereNdGroupBy = " where cb.CreatedOn >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and cb.CreatedOn<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and cb.status=1"; 
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
 
-                //var sortedInvoiceBillMasters = invoiceBillMasters
-                //    .GroupBy(item => item.nFld1)
-                //    .Select(group => new
-                //    {
-                //        nFld1 = group.Key,
-                //        sFld1 = group.First().sFld1,
-                //        nFld2 = group.First().nFld2,
-                //        nFld3 = group.Sum(item => item.nFld3) + group.Sum(item => item.nFld4),
-                //        nFld5 = group.Count(item => item.nFld3 > 0 || item.nFld4 > 0),
-                //        dt1 = group.First().dt1,
-                //        dt2 = group.First().dt2
-                //    })
-                //    .OrderByDescending(item => item.nFld3)
-                //    .ToList();
+                //var extractedData1 = invoiceBillMasters.Select(item => new
+                //{
+                //    nFld1 = item.nFld1,
+                //    nFld7 = item.nFld6
+                //});
+                //var extractedData2 = invoiceBillMasters.Select(item => new
+                //{
+                //    nFld1 = item.nFld1,
+                //    nFld7 = item.nFld7
+                //});
+
+                //var combinedData = extractedData1.Concat(extractedData2);
+
+                var duplicateCounts = invoiceBillMasters
+                    .GroupBy(item => new { item.nFld1, item.nFld6 })
+                    .Where(group => group.Count() > 1)
+                    .Select(group => new
+                    {
+                        nFld1 = group.Key.nFld1,
+                        nFld6 = group.Key.nFld6,
+                        nFld7 = group.Count()
+                    })
+                    .ToList();
+
+                var result = duplicateCounts.GroupBy(x => x.nFld1, (key, g) => g.OrderBy(e => e.nFld6).First());
+
                 var sortedInvoiceBillMasters = invoiceBillMasters
                     .GroupBy(item => item.nFld1)
                     .Select(group => new
@@ -603,13 +615,11 @@ namespace FoodandBeverage.Report
                         nFld2 = group.First().nFld2,
                         nFld3 = group.Sum(item => item.nFld3) + group.Sum(item => item.nFld4),
                         nFld5 = group.Count(item => item.nFld3 > 0 || item.nFld4 > 0),
-                        nFld6 = group.Count(item => item.nFld6 > 0) > group.Count(item => item.nFld7 > 0) ? group.First().nFld6 : group.First().nFld7,
-                        dt1 = group.First().dt1,
-                        dt2 = group.First().dt2
+                        nFld6 = result.Any(r => group.First().nFld1 == r.nFld1) ? result.First(r => group.First().nFld1 == r.nFld1).nFld6 : group.First().nFld6,
+
                     })
                     .OrderByDescending(item => item.nFld3)
                     .ToList();
-
 
                 if (invoiceBillMasters.Count > 0)
                 {
