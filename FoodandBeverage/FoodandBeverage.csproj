@@ -318,6 +318,12 @@
     <Compile Include="Report\Frmreport.Designer.cs">
       <DependentUpon>Frmreport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\Rpt_Annuvalreport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Annuvalreport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\Rpt_employeeList.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -536,6 +542,10 @@
     </Compile>
     <EmbeddedResource Include="Report\Frmreport.resx">
       <DependentUpon>Frmreport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_Annuvalreport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Annuvalreport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Rpt_employeeList.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

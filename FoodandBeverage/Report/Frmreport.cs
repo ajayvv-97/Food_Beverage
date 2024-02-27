@@ -616,11 +616,9 @@ namespace FoodandBeverage.Report
                         nFld3 = group.Sum(item => item.nFld3) + group.Sum(item => item.nFld4),
                         nFld5 = group.Count(item => item.nFld3 > 0 || item.nFld4 > 0),
                         nFld6 = result.Any(r => group.First().nFld1 == r.nFld1) ? result.First(r => group.First().nFld1 == r.nFld1).nFld6 : group.First().nFld6,
-
                     })
                     .OrderByDescending(item => item.nFld3)
                     .ToList();
-
                 if (invoiceBillMasters.Count > 0)
                 {
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
@@ -978,34 +976,83 @@ namespace FoodandBeverage.Report
                     financialYearStart = new DateTime(fin_year, 4, 1);
                     financialYearEnd = new DateTime(fin_year + 1, 3, 31);
                 }
+
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
-                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
-                DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = "mGame AS sFld1," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 1 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) + ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld1, SUM(CASE WHEN MONTH(EntryDate) = 2 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld2," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 3 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld3,SUM(CASE WHEN MONTH(EntryDate) = 4 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld4," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 5 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld5,SUM(CASE WHEN MONTH(EntryDate) = 6 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld6," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 7 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld7,SUM(CASE WHEN MONTH(EntryDate) = 8 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld8," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 9 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld9,SUM(CASE WHEN MONTH(EntryDate) = 10 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld10," +
-                " SUM(CASE WHEN MONTH(EntryDate) = 11 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld11,SUM(CASE WHEN MONTH(EntryDate) = 12 THEN(ISNULL([CashBalance], 0) + ISNULL([CashBonusBalance], 0) +ISNULL([TokenBalance], 0) +ISNULL([PointBalance], 0) +ISNULL([LoyalityPoint], 0)) ELSE 0 END) AS dFld12";
-                dmnSearchDetBill.Table = " (SELECT g1.mGame,SUM(Debit) AS Amount,g.Caption AS Caption,EntryDate FROM tblCardHistory h LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = h.GamePayType AND g.GTypeId = 60   LEFT JOIN tblGame g1 ON g1.id = h.MasterId WHERE h.status = 1 AND h.BranchId = " + BranchId + " AND Etype IN (0, 1) and EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' AND (MONTH(EntryDate) BETWEEN 1 AND 12)   GROUP BY  mGame, g.Caption,EntryDate) ps PIVOT ( SUM(Amount) FOR Caption IN ([CashBalance], [CashBonusBalance], [TokenBalance], [PointBalance], [LoyalityPoint])) AS pvt GROUP BY mGame";
-                dmnSearchDetBill.WhereNdGroupBy = "ORDER BY mGame";
-                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
-                if (invoiceBillMasters.Count > 0)
+
+                BllAnnuvalreport<DmnRpt_1> SearchDetails = new BllAnnuvalreport<DmnRpt_1>();
+                DmnRpt_1 dmnSearchDetBill = new DmnRpt_1();
+
+                dmnSearchDetBill.dt1 = Convert.ToDateTime(financialYearStart.ToString("yyyy-MM-dd"));
+                dmnSearchDetBill.dt2 = Convert.ToDateTime(financialYearEnd.ToString("yyyy-MM-dd"));
+                var invoiceBillMasters = SearchDetails.serachreport("prdISerachAnnuvalreport", dmnSearchDetBill);
+
+                #region old code
+                //DmnSearch dmnSearchDetBill = new DmnSearch();
+                //dmnSearchDetBill.Select = " WITH RecursiveMonths AS ( SELECT  DATEFROMPARTS(YEAR('" + financialYearStart.ToString("yyyy-MM-dd") + "'), MONTH('" + financialYearStart.ToString("yyyy-MM-dd") + "'), 1) AS StartMonth UNION ALL SELECT DATEADD(MONTH, 1, StartMonth)FROM RecursiveMonths WHERE StartMonth< '" + financialYearStart.ToString("yyyy-MM-dd") + "')," +
+                //    " DT AS (SELECT MONTH(RM.StartMonth) AS nFld1, CONCAT(DATENAME(MONTH, RM.StartMonth), '-', YEAR(RM.StartMonth)) AS sFld1,COALESCE(SUM(NetAmount), 0) AS dFld1, NULL AS dFld2, NULL AS dFld3 FROM RecursiveMonths RM LEFT JOIN  tblSalesMaster S ON MONTH(RM.StartMonth) = MONTH(S.EntryDate) AND YEAR(RM.StartMonth) = YEAR(S.EntryDate) " +
+                //    " WHERE RM.StartMonth >= '" + financialYearStart.ToString("yyyy-MM-dd") + "' AND RM.StartMonth < '" + financialYearEnd.ToString("yyyy-MM-dd") + "' GROUP BY  YEAR(RM.StartMonth), MONTH(RM.StartMonth), DATENAME(MONTH, RM.StartMonth)" +
+                //    " union SELECT MONTH(EntryDate) AS nFld1,CONCAT(DATENAME(MONTH, EntryDate), '-', YEAR(EntryDate)) AS sFld1, NULL AS dFld1,SUM(NetAmount) AS dFld2, NULL AS dFld3 FROM tblPurchaseMaster where EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' GROUP BY  YEAR(EntryDate), MONTH(EntryDate), DATENAME(MONTH, EntryDate) " +
+                //    "union SELECT MONTH(EntryDate) AS nFld1, CONCAT(DATENAME(MONTH, EntryDate), '-', YEAR(EntryDate)) AS sFld1, NULL AS dFld1,NULL AS dFld2,    SUM(NetAmount) AS dFld3 FROM tblPurchaseReturnMaster WHERE EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "'GROUP BY YEAR(EntryDate), MONTH(EntryDate), DATENAME(MONTH, EntryDate) )" +
+                //    "(SELECT  nFld1,sFld1,sum(isnull(dFld1,0)) dFld1,ISNULL(sum(dFld2),0) dFld2,ISNULL(sum(dFld3),0) dFld3";
+                //dmnSearchDetBill.Table = "DT";
+                //dmnSearchDetBill.WhereNdGroupBy = "";
+                //dmnSearchDetBill.OrderBy = "GROUP BY sFld1,nFld1)";
+
+                //dmnSearchDetBill.Select = " MONTH(EntryDate) AS nFld1, CONCAT(DATENAME(MONTH, EntryDate), '-', YEAR(EntryDate)) AS sFld1, SUM(NetAmount) AS dFld1,0 AS dFld2,0 AS dFld3 FROM tblSalesMaster WHERE EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' GROUP BY  YEAR(EntryDate), MONTH(EntryDate), DATENAME(MONTH, EntryDate) " +
+                //" UNION SELECT MONTH(EntryDate) AS nFld1, CONCAT(DATENAME(MONTH, EntryDate), '-', YEAR(EntryDate)) AS sFld1, 0 AS dFld1, SUM(NetAmount) AS dFld2, 0 AS dFld3 FROM tblPurchaseMaster WHERE EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate < ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' GROUP BY  YEAR(EntryDate), MONTH(EntryDate), DATENAME(MONTH, EntryDate) " +
+                //" UNION SELECT 	MONTH(EntryDate) AS nFld1, CONCAT(DATENAME(MONTH, EntryDate), '-', YEAR(EntryDate)) AS sFld1, 0 AS dFld1,0 AS dFld2,    SUM(NetAmount) AS dFld3 ";
+                //dmnSearchDetBill.Table = " tblPurchaseReturnMaster";
+                //dmnSearchDetBill.WhereNdGroupBy = "WHERE EntryDate >= '" + financialYearStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND EntryDate< ' " + financialYearEnd.ToString("yyyy-MM-dd HH:mm:ss")+"' ";
+                //dmnSearchDetBill.OrderBy = " GROUP BY YEAR(EntryDate), MONTH(EntryDate), DATENAME(MONTH, EntryDate)";
+                //var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                //var allMonths = Enumerable.Range(1, 12);
+
+                //var sortedResult = allMonths
+                //    .GroupJoin(
+                //        invoiceBillMasters,
+                //        month => month,
+                //        invoice => invoice.nFld1,
+                //        (month, invoices) => new
+                //        {
+                //            nFld1 = month,
+                //            sFld1 = invoices.Any() ? invoices.First().sFld1 : null,
+                //            dFld1 = invoices.Sum(item => item.dFld1),
+                //            dFld2 = invoices.Sum(item => item.dFld2),
+                //            dFld3 = invoices.Sum(item => item.dFld3)
+                //        })
+                //    .OrderBy(item => item.nFld1)
+                //    .ToList();
+
+
+
+                //if (invoiceBillMasters.Count > 0)
+                //{
+                //    invoiceBillMasters[0].nFld1 = 0;
+                //}
+                #endregion
+
+                var sortedResult = invoiceBillMasters
+                    .OrderBy(item => CustomOrder(item.nFld1))
+                    .ToList();
+                int CustomOrder(int nFld1)
                 {
-                    invoiceBillMasters[0].nFld1 = 0;
+                    if (nFld1 >= 4 && nFld1 <= 12)                    
+                        return nFld1;                    
+                    else
+                        return nFld1 + 100;                    
                 }
 
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7", "dFld8", "dFld9", "dFld10", "dFld11", "dFld12", "nFld1"))
+
+                using (var reader = ObjectReader.Create(sortedResult, "sFld1", "dFld1", "dFld2", "dFld3", "nFld1"))
                 {
                     dt_Rpt.Load(reader);
                 }
                 dsReport.Tables.Add(dt_Rpt);
-                reportDocument.Load(Path + @"\Rpt_AnuvalGameRevenue.rpt");
+                reportDocument.Load(Path + @"\Rpt_Annuvalreport.rpt");
                 reportDocument.SetDataSource(dsReport);
-
 
                 /* header section*/
                 Addressdata = Get_CompantDetails();
@@ -1016,31 +1063,16 @@ namespace FoodandBeverage.Report
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
 
-                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
-                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyFromDtm", financialYearStart);
+                reportDocument.SetParameterValue("MyToDatem", financialYearEnd);
 
-                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
-                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("From_re_time", financialYearStart);
+                reportDocument.SetParameterValue("To_re_time", financialYearEnd);
                 /* report Heading  */
 
                 financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
-                reportDocument.SetParameterValue("Heading", "Annuval Game Revenue Report " + financialYear);
+                reportDocument.SetParameterValue("Heading", "Annuval Revenue Report " + financialYear);
 
-
-                /*paramter passing crystal month name */
-                reportDocument.SetParameterValue("lbl_apr", "Apr" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_may", "May" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_jun", "Jun" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_jul", "Jul" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_aug", "Aug" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_sep", "Sep" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_oct", "Oct" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_nov", "Nov" + "\n" + financialYearStart.Year);
-                reportDocument.SetParameterValue("lbl_dec", "Dec" + "\n" + financialYearStart.Year);
-
-                reportDocument.SetParameterValue("lbl_jan", "Jan" + "\n" + financialYearEnd.Year);
-                reportDocument.SetParameterValue("lbl_feb", "Feb" + "\n" + financialYearEnd.Year);
-                reportDocument.SetParameterValue("lbl_mar", "Mar" + "\n" + financialYearEnd.Year);
 
                 if (FlagExcel)
                 {
@@ -1786,7 +1818,7 @@ namespace FoodandBeverage.Report
             switch (Reportid)
             {
                 case (int)ReportType.salesReportItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(47,48)";
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(47,48,38)";
                     break;
 
                 case (int)ReportType.inventoryReportItem:
