@@ -444,7 +444,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.Amount = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iamount].Value);
                             dmnPurchase.DisPer = Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisper].Value);
                             dmnPurchase.PrId = Convert.ToInt32(dgvProduct.Rows[i].Cells[ipridno].Value);
-                            dmnPurchase.Expiredate = Convert.ToDateTime(dgvProduct.Rows[i].Cells[iexpiredate].Value);
+                            //dmnPurchase.Expiredate = Convert.ToDateTime(dgvProduct.Rows[i].Cells[iexpiredate].Value);
 
                             var InsertStatus = bllPurchase.AddEditDataDet("prdInsert_Upd_PurchaseDetails", dmnPurchase);
                             if (InsertStatus == null)
@@ -1285,6 +1285,11 @@ namespace FoodandBeverage.Forms
                 else if (e.ColumnIndex == iexpiredate)
                 {
                     pnl_dtpexp.Visible = true;
+                    int panelWidthPercentage = 30;
+                    int panelheightPercentage = 5;
+                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                    pnl_dtpexp.Size = new Size(panelWidth, panelHeight);
                     pnl_dtpexp.Location = new Point(this.ClientSize.Width / 2 - pnl_dtpexp.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_dtpexp.Size.Height / 2));
 
                     //    // initialize DateTimePicker
@@ -2021,8 +2026,10 @@ namespace FoodandBeverage.Forms
 
         private void dtp_exp_ValueChanged(object sender, EventArgs e)
         {
-            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iexpiredate].Value = dtp_exp.Value;
+           string formattedDate = dtp_exp.Value.ToString("dd/MM/yyyy");
+            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iexpiredate].Value = formattedDate;
             pnl_dtpexp.Visible = false;
         }
+
     }
 }

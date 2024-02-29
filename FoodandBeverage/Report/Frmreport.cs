@@ -331,15 +331,15 @@ namespace FoodandBeverage.Report
                     //case 18:
                     //    s_FillReport_GameRevenue();
                     //    break;
-                    //case 19:
-                    //    s_FillReport_Redumption();
-                    //    break;
+                    case 19:
+                        s_FillReport_supplierPurchase_return(); ;
+                        break;
                     case 20:
                         s_FillReport_Purchase_Return();
                         break;
-                    //case 22:
-                    //    s_FillReport_consolidate();
-                    //    break;
+                    case 22:
+                        s_FillReport_supplierPurchase();
+                        break;
                     case 23:
                         s_FillReport_Purchase();
                         break;
@@ -893,6 +893,76 @@ namespace FoodandBeverage.Report
             chk_time.Checked = false;
             btnserach_Click(sender, e);
         }
+        public void s_FillReport_supplierPurchase_return()
+        {
+            try
+            {    
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+
+                dmnSearchDetBill.Select = "v.VendorName as sFld1,(select CONVERT(varchar(50), pm.EntryDate, 105)) as sFld2,(select CONVERT(varchar(50), prm.EntryDate, 105)) as sFld3,h.Name as sFld4,h.Email as sFld5,h.Phone as sFld6,h.Address as sFld7," +
+                    "pd.Quantity as dFld1,prd.Quantity as dFld2,prm.DiscountAmount as dFld3,prm.NetAmount as dFld4,prm.BalAmnt as dFld5,prm.RcvAmnt as dFld6";
+                dmnSearchDetBill.Table = " tblPurchaseReturnMaster prm left join tblPurchaseReturnDetails prd on prd.PurchaseReturnMasterId = prm.PurchaseReturnMasterId left join tblVendor v on v.VendorId = prm.LedgerId left join tblPurchaseMaster pm on pm.PurchaseMasterId =prm.PurchaseMasterId left join tblPurchaseDetails pd on pd.PurchaseDetailId =prd.PurchaseDetailId left join tblHotelRegistration h on h.BranchId=pm.BranchId";
+                dmnSearchDetBill.WhereNdGroupBy = "where prm.EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and prm.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  prm.BranchId = " + BranchId;
+                dmnSearchDetBill.OrderBy = "Order By prd.PurchaseReturnDetailsId";
+                if (cmbSublist.SelectedIndex ==0)
+                {
+                    dmnSearchDetBill.WhereNdGroupBy = "where  prm.EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and prm.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  prm.BranchId = " + BranchId;
+                }
+                else
+                {
+                    dmnSearchDetBill.WhereNdGroupBy = "where prm.LedgerId = " + cmbSublist.SelectedIndex + " and  prm.EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and prm.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  prm.BranchId = " + BranchId;
+
+                }
+
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_Supplier_purchasereturn.rpt");
+                reportDocument.SetDataSource(dsReport);
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
         public void s_FillReport_Purchase_Return()
         {
             try
@@ -1290,6 +1360,74 @@ namespace FoodandBeverage.Report
             crv_report.RefreshReport();
             crv_report.ReportSource = reportDocument;
         }
+        
+        public void s_FillReport_supplierPurchase()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "v.VendorName as sFld1,pm.EntryNo as sFld2,(select CONVERT(varchar(50), pm.EntryDate, 105)) as sFld3,h.Name as sFld4,h.Email as sFld5,h.Phone as sFld6,h.Address as sFld7,pm.TotalQuantity as dFld1,pm.DiscountAmount as dFld2,pm.NetAmount as dFld3,pm.RcvAmnt as dFld4,pm.BalAmnt as dFld5";
+                dmnSearchDetBill.Table = " tblPurchaseMaster pm left join tblVendor v on v.VendorId = pm.LedgerId left join tblPurchaseDetails pd on pd.PurchaseMasterId =pm.PurchaseMasterId left join tblHotelRegistration h on h.BranchId=pm.BranchId";
+
+                if (cmbSublist.SelectedIndex==0)
+                {
+                    dmnSearchDetBill.WhereNdGroupBy = "where  pm.EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and" +
+    " pm.EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  pm.BranchId = " + BranchId;
+                }
+                else
+                {
+                    dmnSearchDetBill.WhereNdGroupBy = "where pm.LedgerId = " + cmbSublist.SelectedIndex + " and pm.EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and" +
+" pm.EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  pm.BranchId = " + BranchId;
+                }
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "dFld1", "dFld2", "dFld3","dFld4","dFld5"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_Supplier.rpt");
+                reportDocument.SetDataSource(dsReport);
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
         public void s_FillReport_Purchase()
         {
             try
@@ -1447,6 +1585,48 @@ namespace FoodandBeverage.Report
                     List<string> sublistOptions = new List<string> { "Complete", "Pending", "Cancelled" };
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
+                }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 22)
+                {
+                    tlp_sublist.Visible = true;
+                    tlp_reorder.Visible = false;
+                    tlp_finyear.Visible = false;
+                    tblReportCategory.Visible = false;
+                    cmbSublist.DataSource = null;
+                    tabDateTimePanel.Visible = true;
+                    tblReportCategory.Visible = true;
+
+                    BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "VendorId,VendorName";
+                    objSearch.Table = " tblVendor";
+                    objSearch.WhereNdGroupBy = "where Status=1";
+                    objSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                    cmbSublist.DataSource = gridSource;
+                    cmbSublist.ValueMember = "Id";
+                    cmbSublist.DisplayMember = "Value";
+                }
+                else if (Convert.ToInt32(cmbreport.SelectedValue) == 19)
+                {
+                    tlp_sublist.Visible = true;
+                    tlp_reorder.Visible = false;
+                    tlp_finyear.Visible = false;
+                    tblReportCategory.Visible = false;
+                    cmbSublist.DataSource = null;
+                    tabDateTimePanel.Visible = true;
+                    tblReportCategory.Visible = true;
+
+                    BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "VendorId,VendorName";
+                    objSearch.Table = " tblVendor";
+                    objSearch.WhereNdGroupBy = "where Status=1";
+                    objSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                    cmbSublist.DataSource = gridSource;
+                    cmbSublist.ValueMember = "Id";
+                    cmbSublist.DisplayMember = "Value";
                 }
                 else
                 {
@@ -1844,6 +2024,9 @@ namespace FoodandBeverage.Report
                     break;
                 case (int)ReportType.TableTurnoverReports:
                     objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(44)";
+                    break;
+                case (int)ReportType.VendorReports:
+                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(22,19)";
                     break;
             }
             objSearch.OrderBy = "order by Id";

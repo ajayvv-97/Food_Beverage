@@ -211,6 +211,7 @@ namespace FoodandBeverage.Interfaces
         loyaltyProgramItem = 7,
         Purchasereportitem = 8,
         MenuAnalysisReports=9,
-        TableTurnoverReports=10
+        TableTurnoverReports=10,
+        VendorReports=11
     };
 }

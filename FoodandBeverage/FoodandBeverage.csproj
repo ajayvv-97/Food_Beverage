@@ -414,6 +414,18 @@
       <DependentUpon>Rpt_Stockusage.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\Rpt_Supplier.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Supplier.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\Rpt_Supplier_purchasereturn.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Supplier_purchasereturn.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\Rpt_TableOccupancyReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -606,6 +618,14 @@
     <EmbeddedResource Include="Report\Rpt_Stockusage.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Stockusage.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_Supplier.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Supplier.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_Supplier_purchasereturn.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Supplier_purchasereturn.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Rpt_TableOccupancyReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

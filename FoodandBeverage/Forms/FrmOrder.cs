@@ -420,6 +420,7 @@ namespace FoodandBeverage.Forms
                     btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
                 }
                 #endregion Main 
+
                 ShowLoadingdGif();
                 setperfixsale();
                 btn_clear_cus.Visible = true;
@@ -434,6 +435,7 @@ namespace FoodandBeverage.Forms
                 //}
                 //if (rcount == 0)
                 //    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+
             }
             catch (Exception ex)
             {
@@ -6436,7 +6438,7 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                         {
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.TableStaus(0);
+                            _instanceFrmdash.LoadTableStaus(0);
                         }
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
@@ -7074,7 +7076,7 @@ namespace FoodandBeverage.Forms
                                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                                     {
                                         FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                        _instanceFrmdash.TableStaus(0);
+                                        _instanceFrmdash.LoadTableStaus(0);
                                     }
                                     //ClearAll();
                                     this.Close();
@@ -7244,7 +7246,7 @@ namespace FoodandBeverage.Forms
                                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                                     {
                                         FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                        _instanceFrmdash.TableStaus(0);
+                                        _instanceFrmdash.LoadTableStaus(0);
                                     }
                                     //ClearAll();
                                     this.Close();
@@ -7289,8 +7291,9 @@ namespace FoodandBeverage.Forms
         {
             if (combined_Status)
             {
+
                 int panelWidthPercentage = 32;
-                int panelheightPercentage = 37;
+                int panelheightPercentage = 36;
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 flp_payment_option.Size = new Size(panelWidth, panelHeight);
@@ -7301,7 +7304,7 @@ namespace FoodandBeverage.Forms
             else
             {
                 int panelWidthPercentage = 43;
-                int panelheightPercentage = 37;
+                int panelheightPercentage = 36;
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 flp_payment_option.Size = new Size(panelWidth, panelHeight);
@@ -7407,7 +7410,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int payid = 0;
+                int payid = 0, panelWidthPercentage = 0, panelheightPercentage = 0, panelWidth = 0, panelHeight = 0;
                 Button clickedButton = sender as Button;
                 switch (clickedButton.Name)
                 {
@@ -7444,10 +7447,10 @@ namespace FoodandBeverage.Forms
                         dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                         dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                        int panelWidthPercentage = 50;
-                        int panelheightPercentage = 70;
-                        int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                        int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                         panelWidthPercentage = 50;
+                         panelheightPercentage = 70;
+                         panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                         panelHeight = (int)(this.Height * panelheightPercentage / 100);
                         pnl_partpayment.Size = new Size(panelWidth, panelHeight);
 
                         pnl_partpayment.Location = new Point(this.ClientSize.Width / 2 - pnl_partpayment.Size.Width / 2, this.ClientSize.Height / 2 - pnl_partpayment.Size.Height / 2);
@@ -7987,7 +7990,7 @@ namespace FoodandBeverage.Forms
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                     {
                         FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                        _instanceFrmdash.TableStaus(0);
+                        _instanceFrmdash.LoadTableStaus(0);
                     }
                     this.Close();
                 }
@@ -8782,7 +8785,7 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                         {
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.TableStaus(0);
+                            _instanceFrmdash.LoadTableStaus(0);
                         }
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{

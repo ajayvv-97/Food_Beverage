@@ -160,8 +160,7 @@ namespace FoodandBeverage.Forms
             Menuhome.Focus();
             this.DoubleBuffered = true;
             RoundPictureBoxCorners(pb_appicon, 10);
-            TableStaus(0);
-            //initTimer();
+            LoadTableStaus(0);
             //pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
             Roundform(30);
             // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
@@ -547,14 +546,14 @@ namespace FoodandBeverage.Forms
             {
                 ChangeButtonBorder(button);
             }
-            TableStaus(0);
+            LoadTableStaus(0);
         }
         public class CategoryInfo
         {
             public int Fcid { get; set; }
             public string CategoryName { get; set; }
         }
-        public void TableStaus(int serachmode)
+        public void LoadTableStaus(int serachmode)
         {
             try
             {
@@ -587,7 +586,7 @@ namespace FoodandBeverage.Forms
                 bool flag = false;
                 for (int j = 0; j < gridSource.Count; j++)
                 {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1)
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) // gridSource[j].Field7 bookinmasterid
                     {
                         DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                         if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes))))
@@ -597,6 +596,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
+
                 if (flag)
                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -634,6 +634,7 @@ namespace FoodandBeverage.Forms
                         int countcateitem = 0;
                         TableLayoutPanel tlp_category = new TableLayoutPanel();
 
+                        #region main heading tablelayoutpanel and label  Category
                         tlp_category.Name = "tlp_category_" + category.CategoryName;
                         tlp_category.Tag = category.CategoryName;
                         tlp_category.Dock = DockStyle.Top;
@@ -654,6 +655,7 @@ namespace FoodandBeverage.Forms
                         lblcategory_head.BackColor = Color.Transparent;
                         lblcategory_head.Dock = DockStyle.Top;
                         lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
+                        #endregion
 
                         int rowIndex = 1;
                         int columnIndex = 0;
@@ -672,6 +674,7 @@ namespace FoodandBeverage.Forms
                                 PictureBox pictureBox = new PictureBox();
                                 Label lbltablename = new Label();
 
+                                #region  Panel inside tablelayoutpanel
                                 Panel pnl_box = new Panel();
                                 pnl_box.Name = "pnl_box" + gridSource[i].Field4;
                                 pnl_box.Tag = gridSource[i].Field3;
@@ -679,16 +682,33 @@ namespace FoodandBeverage.Forms
                                 pnl_box.Width = 120;
                                 pnl_box.Height = 80;
                                 pnl_box.BackColor = Color.Transparent;
+                                #endregion
 
+                                #region  TableLayoutPanel inner 
+                                // Configure the TableLayoutPanel
+                                tlp_table_inner.RowCount = 2;
+                                tlp_table_inner.Name = "tlpbox" + gridSource[i].Field4;
+                                tlp_table_inner.Tag = gridSource[i].Field3;
+                                tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
+                                tlp_table_inner.Dock = DockStyle.None;
+                                tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
+                                //tlp_table_inner.Width = 100;
+                                //tlp_table_inner.Height = 65;
+                                tlp_table_inner.Dock = DockStyle.Fill;
+                                #endregion
+
+                                #region  picture for table inside tablelayoutpanel inner
                                 // Configure the PictureBox
-                                pictureBox.Name = "pb" + gridSource[i].Field4;
+                                pictureBox.Name = "pbtable" + gridSource[i].Field4;
                                 pictureBox.Tag = gridSource[i].Field3;
                                 pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                                 pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
                                 tlp_table_inner.Dock = DockStyle.Fill;
+                                #endregion
 
+                                #region  tablename  for table inside tablelayoutpanel inner
                                 // Configure the Label
-                                lbltablename.Name = "lb" + gridSource[i].Field4;
+                                lbltablename.Name = "lbtablename" + gridSource[i].Field4;
                                 lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                                 lbltablename.Tag = gridSource[i].Field3;
                                 lbltablename.Text = gridSource[i].Field4;
@@ -703,21 +723,13 @@ namespace FoodandBeverage.Forms
                                 //    lbltablename.ForeColor = Color.Blue;
                                 else
                                     lbltablename.ForeColor = Color.Green;
+                                #endregion
 
                                 // Add the PictureBox and Label to the TableLayoutPanel
                                 tlp_table_inner.Controls.Add(pictureBox, 0, 0); // PictureBox in the first row
                                 tlp_table_inner.Controls.Add(lbltablename, 0, 1); // Label in the second row
 
-                                // Configure the TableLayoutPanel
-                                tlp_table_inner.RowCount = 2;
-                                tlp_table_inner.Name = "tlp" + gridSource[i].Field4;
-                                tlp_table_inner.Tag = gridSource[i].Field3;
-                                tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                                tlp_table_inner.Dock = DockStyle.None;
-                                tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
-                                //tlp_table_inner.Width = 100;
-                                //tlp_table_inner.Height = 65;
-                                tlp_table_inner.Dock = DockStyle.Fill;
+
                                 pictureBox.MouseHover += pictureBox_MouseHover;
                                 pictureBox.MouseLeave += pictureBox_MouseLeave;
                                 pictureBox.Click += new EventHandler(tableClickEventHandler);
@@ -731,6 +743,7 @@ namespace FoodandBeverage.Forms
                                 lbltablename.AccessibleDescription = "0";
                                 pnl_box.AccessibleDescription = "0";
 
+                                #region Normal Order 
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
                                 {
                                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
@@ -741,7 +754,7 @@ namespace FoodandBeverage.Forms
                                     var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
                                     PictureBox dynamic_pic = new PictureBox();
-                                    dynamic_pic.Name = "pb" + gridSource[i].Field4;
+                                    dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
                                     dynamic_pic.Tag = gridSource[i].Field3;
 
                                     if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
@@ -759,12 +772,15 @@ namespace FoodandBeverage.Forms
                                     dynamic_pic.Click += new EventHandler(tableClickEventHandler);
                                     dynamic_pic.AccessibleDescription = "0";
                                 }
+                                #endregion
+
+                                #region Rservation Bokking Order
                                 else//reservation booking order
                                 {
                                     if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                     {
                                         PictureBox dynamic_pic = new PictureBox();
-                                        dynamic_pic.Name = "pb" + gridSource[i].Field4;
+                                        dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
                                         dynamic_pic.Tag = gridSource[i].Field3;
                                         dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
                                         dynamic_pic.BackColor = Color.Transparent;
@@ -826,8 +842,7 @@ namespace FoodandBeverage.Forms
 
                                     }
                                 }
-
-
+                                #endregion
 
                                 tlp_category.Controls.Add(pnl_box, columnIndex, rowIndex);
                                 columnIndex++;
@@ -844,11 +859,315 @@ namespace FoodandBeverage.Forms
                     tlp_table_dashboard_main.Controls.Add(tlp_table_dashboard, 0, 1);
                     panelDesktop.Controls.Add(tlp_table_dashboard_main);
                 }
+
+                initTimer();
             }
             catch (Exception ex)
             {
 
             }
+        }
+        public void TableStaus(int serachmode)
+        {           
+            try
+            {
+                AutoTimer.Stop();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6,bm.BookmasterId Field7,bm.BookingDateTime EndDate, " +
+                    "(select COUNT(m.BookmasterId) from tblBookDetails d left join tblbookMaster m on d.BookmasterId=m.BookmasterId where m.Status=1 and Rid=0 and d.Status=1 and SYSDATETIME() >=DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) and d.MTID=ti.Tid) as Field8";
+                dmnSearch.Table = " tblTable_info  ti " +
+                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                    "LEFT JOIN tblBookDetails bd ON bd.MTID=ti.Tid and Rid=0 and  bd.Status=1 " +
+                    "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId and bm.Status=1 and SYSDATETIME() >= DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
+                dmnSearch.OrderBy = "";
+                switch (serachmode)
+                {
+                    case 0:
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                        break;
+                    case 1:
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1";
+                        break;
+                    case 2:
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.RevStatus=1";
+                        break;
+                    case 3:
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.RevStatus=0";
+                        break;
+                }
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                bool flag = false;
+                for (int j = 0; j < gridSource.Count; j++)
+                {
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) // gridSource[j].Field7 bookinmasterid
+                    {
+                        DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes))))
+                        {
+                            CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
+                            flag = true;
+                        }
+                    }
+                }
+
+                if (flag)
+                    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
+                List<CategoryInfo> categoryList = new List<CategoryInfo>();
+                foreach (var fcid in distinctCategories)
+                {
+                    string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
+
+                    if (categoryName != null)
+                    {
+                        categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
+                    }
+                }
+
+                if (gridSource.Count > 0)
+                {
+                    foreach (var category in categoryList)
+                    {
+                        for (int i = 0; i < gridSource.Count; i++)
+                        {
+                            string pnl_boxname = "pnl_box" + gridSource[i].Field4;
+                            string tlpboxname = "tlpbox" + gridSource[i].Field4;
+                            string pbtablename = "pbtable" + gridSource[i].Field4;
+                            string lbtable = "lbtablename" + gridSource[i].Field4;
+                            string dynamicPicName = "pbgif" + gridSource[i].Field4;
+                            Panel pnl_box = this.Controls.Find(pnl_boxname, true).FirstOrDefault() as Panel;
+                            TableLayoutPanel tlp_table_inner = this.Controls.Find(tlpboxname, true).FirstOrDefault() as TableLayoutPanel;
+                            PictureBox pictureBox = this.Controls.Find(pbtablename, true).FirstOrDefault() as PictureBox;
+                            Label lbltablename = this.Controls.Find(lbtable, true).FirstOrDefault() as Label;
+                            PictureBox existingPictureBox = pnl_box.Controls.Find(dynamicPicName, true).FirstOrDefault() as PictureBox;
+                            //if (existingPictureBox != null)
+                            //    existingPictureBox.Visible = false;
+
+                            if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
+                            {
+                                #region  tablename  for table inside tablelayoutpanel inner
+
+                                if (Convert.ToInt32(gridSource[i].Field5) == 1)
+                                    lbltablename.ForeColor = Color.Red;
+                                //else if (gridSource[i].RevStatus == 1)
+                                //    lbltablename.ForeColor = Color.Blue;
+                                else
+                                    lbltablename.ForeColor = Color.Green;
+                                #endregion
+
+                                tlp_table_inner.AccessibleDescription = "0";
+                                pictureBox.AccessibleDescription = "0";
+                                lbltablename.AccessibleDescription = "0";
+                                pnl_box.AccessibleDescription = "0";
+
+                                #region Normal Order -- not reservation order 
+                                if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
+                                {
+                                    BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                                    dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
+                                    dmnSearch.Table = "tblOrderDetails";
+                                    dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].Field6;
+                                    dmnSearch.OrderBy = "";
+                                    var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
+                                    if (existingPictureBox == null)
+                                    {
+                                        PictureBox dynamic_pic = new PictureBox();
+                                        dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
+                                        dynamic_pic.Tag = gridSource[i].Field3;
+                                        dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                                        dynamic_pic.BackColor = Color.Transparent;
+                                        dynamic_pic.Width = 50;
+                                        dynamic_pic.Height = 50;
+                                        pnl_box.Controls.Add(dynamic_pic);
+                                        dynamic_pic.BringToFront();
+                                        dynamic_pic.Margin = new Padding(20, 10, 0, 0);
+                                        dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+
+                                        if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                            dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                        else
+                                            dynamic_pic.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
+                                        dynamic_pic.AccessibleDescription = "0";
+
+                                    }
+                                    else
+                                    {
+                                        if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                            existingPictureBox.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                        else
+                                            existingPictureBox.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
+
+                                        existingPictureBox.AccessibleDescription = "0";
+                                        existingPictureBox.Visible = true;
+                                        existingPictureBox.Width = 50;
+                                        existingPictureBox.Height = 50;
+                                    }
+
+
+                                }
+                                #endregion
+
+                                #region Rservation Bokking Order
+                                else if (Convert.ToInt32(gridSource[i].Field5) == 0)//reservation booking order
+                                {
+                                    if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
+                                    {
+                                        #region order sent to kitchen ( running or complete )
+                                        if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
+                                        {
+                                            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                                            dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
+                                            dmnSearch.Table = "tblOrderDetails";
+                                            dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].Field6;
+                                            dmnSearch.OrderBy = "";
+                                            var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
+
+                                            if (existingPictureBox == null)
+                                            {
+                                                PictureBox dynamic_pic = new PictureBox();
+                                                dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
+                                                dynamic_pic.Tag = gridSource[i].Field3;
+                                                dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                                                dynamic_pic.BackColor = Color.Transparent;
+                                                dynamic_pic.Width = 50;
+                                                dynamic_pic.Height = 50;
+                                                pnl_box.Controls.Add(dynamic_pic);
+                                                dynamic_pic.BringToFront();
+                                                dynamic_pic.Margin = new Padding(20, 10, 0, 0);
+                                                dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+
+                                                if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                                else
+                                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
+
+                                                dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                            }
+                                            else
+                                            {
+                                                if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                                        existingPictureBox.Image = FoodandBeverage.Properties.Resources.running_table_pic;
+                                                    else
+                                                        existingPictureBox.Image = FoodandBeverage.Properties.Resources.billcomplete_GIF;
+                                                existingPictureBox.AccessibleDescription = "0";
+                                                existingPictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                existingPictureBox.Visible = true;
+                                            }      
+                                            
+                                            lbltablename.ForeColor = Color.Red;
+                                            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                            pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                            lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                            pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+
+                                        }
+                                        #endregion
+
+                                        #region order not  sent to kitchen reservation or overtime 
+                                        else //order not  sent to kitchen reservation or overtime 
+                                        {
+                                            DateTime modifiedEndDate = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                                            if ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[i].EndDate.AddMinutes(AddMinutes)))
+                                            {
+                                                if (existingPictureBox == null)
+                                                {
+                                                    PictureBox dynamic_pic = new PictureBox();
+                                                    dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
+                                                    dynamic_pic.Tag = gridSource[i].Field3;
+                                                    dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                                                    dynamic_pic.BackColor = Color.Transparent;
+                                                    dynamic_pic.Width = 60;
+                                                    dynamic_pic.Height = 35;
+                                                    pnl_box.Controls.Add(dynamic_pic);
+                                                    dynamic_pic.BringToFront();
+                                                    dynamic_pic.Margin = new Padding(20, 10, 0, 0);
+                                                    dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+                                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserved_icon;
+                                                    dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                }
+                                                else
+                                                {    
+                                                    existingPictureBox.Image = FoodandBeverage.Properties.Resources.reserved_icon;
+                                                    existingPictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                    existingPictureBox.Width = 60;
+                                                    existingPictureBox.Height = 35;
+                                                } 
+                                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                existingPictureBox.Visible = true;
+
+                                            }
+                                            else
+                                            {
+                                                if (existingPictureBox == null)
+                                                {
+                                                    PictureBox dynamic_pic = new PictureBox();
+                                                    dynamic_pic.Name = "pbgif" + gridSource[i].Field4;
+                                                    dynamic_pic.Tag = gridSource[i].Field3;
+                                                    dynamic_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                                                    dynamic_pic.BackColor = Color.Transparent;
+                                                    dynamic_pic.Width = 60;
+                                                    dynamic_pic.Height = 35;
+                                                    pnl_box.Controls.Add(dynamic_pic);
+                                                    dynamic_pic.BringToFront();
+                                                    dynamic_pic.Margin = new Padding(20, 10, 0, 0);
+                                                    dynamic_pic.Click += new EventHandler(tableClickEventHandler);
+                                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserved_icon;
+                                                    dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserve_icon_overtime;
+                                                    dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                }
+                                                else
+                                                {
+                                                    existingPictureBox.Image = FoodandBeverage.Properties.Resources.reserve_icon_overtime;
+                                                    existingPictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                    existingPictureBox.Visible = true;
+                                                    existingPictureBox.Width = 60;
+                                                    existingPictureBox.Height = 35;
+                                                }
+                      
+                                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                         
+
+                                            }
+
+                                        }
+                                        #endregion
+
+                                    }
+                                    else
+                                    {
+                                        if (existingPictureBox != null)
+                                            existingPictureBox.Visible = false;
+                                    }
+
+
+                                }
+                                #endregion
+                                else
+                                {
+                                    if (existingPictureBox != null)
+                                        existingPictureBox.Visible = false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                initTimer();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         public void CheckexpireTable(int tid, int Bmid)
@@ -948,6 +1267,7 @@ namespace FoodandBeverage.Forms
                             _instanceFrmOrder.Show();
                             _instanceFrmOrder.BringToFront();
                         }
+                        
                     }
                     else
                     {
@@ -1389,6 +1709,7 @@ namespace FoodandBeverage.Forms
 
         private void CollapseMenu()
         {
+            AutoTimer.Stop();
             if (Menuhome.Width > 150) //Collapse menu
             {
                 flp_menu.Dock = DockStyle.None;
@@ -1441,6 +1762,7 @@ namespace FoodandBeverage.Forms
 
         private void Menuoperation_Click(object sender, EventArgs e)
         {
+            AutoTimer.Stop();
             panelDesktop.Controls.Clear();
 
             ib_Company.Visible = true;
@@ -1488,6 +1810,7 @@ namespace FoodandBeverage.Forms
 
         private void Menubilling_Click(object sender, EventArgs e)
         {
+            AutoTimer.Stop();
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
@@ -1640,13 +1963,9 @@ namespace FoodandBeverage.Forms
                                         lbltablename.Text = gridSource[i].TableCode;
                                         lbltablename.ForeColor = Color.Black;
                                         lbltablename.BackColor = Color.Transparent;
-                                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                                        if (gridSource[i].OrderStatus == 1)
-                                            lbltablename.ForeColor = Color.Red;
-                                        else if (gridSource[i].RevStatus == 1)
-                                            lbltablename.ForeColor = Color.Yellow;
-                                        else
-                                            lbltablename.ForeColor = Color.Green;
+                                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);        
+                                        lbltablename.ForeColor = Color.Red;
+                      
                                         if (Convert.ToInt32(gridSource[i].OrderStatus) == 1)
                                             tlp_table_inner.Controls.Add(chkBox_sele, 0, 0);
                                         // Add the PictureBox and Label to the TableLayoutPanel 
@@ -1765,6 +2084,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AutoTimer.Stop();
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -1784,6 +2104,7 @@ namespace FoodandBeverage.Forms
                 ToolStripMenuItem Purchaseitem = new ToolStripMenuItem("Purchase Report");
                 ToolStripMenuItem MenuAnalysisReports = new ToolStripMenuItem("Menu Analysis Reports");
                 ToolStripMenuItem TableTurnoverReports = new ToolStripMenuItem("Table Turnover Reports");
+                ToolStripMenuItem VendorReports = new ToolStripMenuItem("Supplier Reports");
 
 
                 salesReportItem.Click += SalesReportItem_Click;
@@ -1797,6 +2118,7 @@ namespace FoodandBeverage.Forms
                 Purchaseitem.Click += PurchaseitemItem_Click;
                 MenuAnalysisReports.Click += MenuAnalysisReports_Click;
                 TableTurnoverReports.Click += TableTurnoverReports_Click;
+                VendorReports.Click += VendorReports_Click;
 
                 contextMenu.Items.Add(salesReportItem);
                 contextMenu.Items.Add(inventoryReportItem);
@@ -1809,6 +2131,7 @@ namespace FoodandBeverage.Forms
                 contextMenu.Items.Add(Purchaseitem);
                 contextMenu.Items.Add(TableTurnoverReports);
                 contextMenu.Items.Add(MenuAnalysisReports);
+                contextMenu.Items.Add(VendorReports);
 
                 contextMenu.Show(Cursor.Position);
 
@@ -1817,6 +2140,37 @@ namespace FoodandBeverage.Forms
             {
             }           
 
+        }
+        
+    private void VendorReports_Click(object sender, EventArgs e)
+        {
+            panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+            {
+                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                {
+                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                }
+                else
+                {
+                    _instanceFrmreport.Close();
+                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
+                    newFrmreport.TopLevel = false;
+                    newFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(newFrmreport);
+                    newFrmreport.Show();
+                }
+            }
+            else
+            {
+                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
+                _instanceFrmreport.TopLevel = false;
+                _instanceFrmreport.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(_instanceFrmreport);
+                _instanceFrmreport.Show();
+            }
         }
         private void TableTurnoverReports_Click(object sender, EventArgs e)
         {
@@ -2095,6 +2449,7 @@ namespace FoodandBeverage.Forms
 
         private void Menusetting_Click(object sender, EventArgs e)
         {
+            AutoTimer.Stop();
             if (sender is Button button)
             {
                 ChangeButtonBorder(button);
@@ -2304,22 +2659,26 @@ namespace FoodandBeverage.Forms
 
         private void btn_avial_Click(object sender, EventArgs e)
         {
-            TableStaus(3);
+            AutoTimer.Stop();
+            LoadTableStaus(3);
         }
 
         private void btn_rev_Click(object sender, EventArgs e)
         {
-            TableStaus(2);
+            AutoTimer.Stop();
+            LoadTableStaus(2);
         }
 
         private void btn_running_Click(object sender, EventArgs e)
         {
-            TableStaus(1);
+            AutoTimer.Stop();
+            LoadTableStaus(1);
         }
 
         private void btntrefresh_Click(object sender, EventArgs e)
         {
-            TableStaus(0);
+            AutoTimer.Stop();
+            LoadTableStaus(0);
         }
 
         private void ib_Category_Click(object sender, EventArgs e)
@@ -3407,6 +3766,7 @@ namespace FoodandBeverage.Forms
 
         private void menuEmployee_Click(object sender, EventArgs e)
         {
+            AutoTimer.Stop();
             panelDesktop.Controls.Clear();
             flpEmployee.Dock = DockStyle.Fill;
             panelDesktop.Controls.Add(flpEmployee);
@@ -3814,6 +4174,71 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public class ComboBoxItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value;
+            }
+        }
+        public void FillTablecode_Comb(int rowindex, int salemasterid,int ordermasterid, int ordertype)
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+                if (ordertype==0)
+                {
+                    objSearch.Select = "bd.MTID id,bd.Name value";
+                    objSearch.Table = "tblOrderMaster om " +
+                        "left join tblbookMaster bm on om.BookmasterId=bm.BookmasterId " +
+                        "left join tblBookDetails bd on bd.BookmasterId=bm.BookmasterId and bd.Rid=0 ";
+                    objSearch.WhereNdGroupBy = "where om.OrderMasterId=" + ordermasterid;
+                    objSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                    gridSource[0].Id = 0;
+                    gridSource[0].Value = "Show Table";
+                    dropDown.DataSource = gridSource;
+                    dropDown.ValueMember = "Id";
+                    dropDown.DisplayMember = "Value";
+
+                    dropDown.Value = gridSource[0].Id;
+                    dropDown.ReadOnly = false;
+                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                }
+                else
+                {
+                    objSearch.Select = "com.tid id,ti.TableCode value";
+                    objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
+                    objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
+                    objSearch.OrderBy = "";
+                    var  gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                    gridSource[0].Id = 0;
+                    gridSource[0].Value = "Show Table";
+                    dropDown.DataSource = gridSource;
+                    dropDown.ValueMember = "Id";
+                    dropDown.DisplayMember = "Value";
+
+                    dropDown.Value = gridSource[0].Id;
+                    dropDown.ReadOnly = false;
+                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
 
         private void btn_prevbill_Click(object sender, EventArgs e)
         {
@@ -3836,7 +4261,7 @@ namespace FoodandBeverage.Forms
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10";
+                dmnSearch.Select = "Top 20 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -3845,7 +4270,6 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-
                     int imageSize = 32;
                     dgvorderview.Rows.Add(gridSource.Count);
                     int x = dgvorderview.RowCount;
@@ -3854,7 +4278,28 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field1;
                         dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
+
                         dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field3;
+                        #region multiple table code case reservation 
+                        if (Convert.ToInt32(gridSource[i].Field11) == 0)
+                        {
+                            FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field6), Convert.ToInt32(gridSource[i].Field13), Convert.ToInt32(gridSource[i].Field12));
+                        }
+                        else
+                        {
+                            DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
+                            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                            ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
+                            comboBoxItems.Add(comboBoxItem);
+                            dropDown.DataSource = comboBoxItems;
+                            dropDown.ValueMember = "Id";
+                            dropDown.DisplayMember = "Value";
+                            dropDown.Value = comboBoxItems[0].Id;
+                            dropDown.ReadOnly = true;
+                        }
+                        #endregion
+
+
                         dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
                         dgvorderview.Rows[rowIndex].Cells[ordermasteridno].Value = gridSource[i].Field6;
                         dgvorderview.Rows[rowIndex].Cells[netamountno].Value = gridSource[i].Field7;
