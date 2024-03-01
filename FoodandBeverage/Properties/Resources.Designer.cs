@@ -153,6 +153,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnnext {
+            get {
+                object obj = ResourceManager.GetObject("btnnext", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btnpre {
+            get {
+                object obj = ResourceManager.GetObject("btnpre", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap button_cancelled_order {
             get {
                 object obj = ResourceManager.GetObject("button_cancelled_order", resourceCulture);
@@ -276,16 +296,6 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap close_price_change1 {
             get {
                 object obj = ResourceManager.GetObject("close_price_change1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap close_price_change2 {
-            get {
-                object obj = ResourceManager.GetObject("close_price_change2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

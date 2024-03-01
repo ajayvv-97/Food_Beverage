@@ -584,19 +584,20 @@ namespace FoodandBeverage.Forms
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 bool flag = false;
+                
                 for (int j = 0; j < gridSource.Count; j++)
                 {
                     if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) // gridSource[j].Field7 bookinmasterid
                     {
                         DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes))))
+                        DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(AddMinutes));
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0 &&DateTime.Now >afterAddMinutes)
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
                         }
                     }
                 }
-
                 if (flag)
                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -901,10 +902,11 @@ namespace FoodandBeverage.Forms
                 bool flag = false;
                 for (int j = 0; j < gridSource.Count; j++)
                 {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) // gridSource[j].Field7 bookinmasterid
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
                     {
-                        DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[j].EndDate.AddMinutes(AddMinutes))))
+                        DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                        DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && DateTime.Now > afterAddMinutes)
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
@@ -912,8 +914,8 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                if (flag)
-                    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //if (flag)
+                //    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -1355,6 +1357,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AutoTimer.Stop();
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
                 string textvalue = clickedControl.AccessibleDescription;
@@ -4536,7 +4539,10 @@ namespace FoodandBeverage.Forms
             panl_msgsettings.Visible = false;
         }
 
-        
+        private void dgvorderview_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
+        }
     }
 
 }

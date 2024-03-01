@@ -424,6 +424,7 @@ namespace FoodandBeverage.Forms
                 ShowLoadingdGif();
                 setperfixsale();
                 btn_clear_cus.Visible = true;
+
                 //int rcount = 0;
                 //for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
                 //{
@@ -815,9 +816,9 @@ namespace FoodandBeverage.Forms
                     {
                         BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
                         DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "*";
-                        dmnSearch.Table = "tblOrderDetails";
-                        dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + gridSourcemaster[j].OrderMasterId + " and Status IN (1, 2, 3,4) and Orderno=" + orderNo;
+                        dmnSearch.Select = "od.*,ti.TableCode as TableCode";
+                        dmnSearch.Table = "tblOrderDetails od left join tblTable_info ti on ti.Tid=od.tid";
+                        dmnSearch.WhereNdGroupBy = "where od.OrderMasterId= " + gridSourcemaster[j].OrderMasterId + " and od.Status IN (1, 2, 3,4) and Orderno=" + orderNo;
                         dmnSearch.OrderBy = "";
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
@@ -835,7 +836,7 @@ namespace FoodandBeverage.Forms
                             lblcategory_head.Name = "lbcate_head_" + gridSourcemaster[j].OrderMasterId;
                             lblcategory_head.Tag = gridSourcemaster[j].OrderMasterId;
                             int ordernumber = j + 1;
-                            lblcategory_head.Text = "Order ID : " + ordernumber + "           [" + gridSource[0].CreatedDateTime + "]";
+                            lblcategory_head.Text = "Order ID : " + ordernumber + "           [" + gridSource[0].CreatedDateTime + "]" + "    Table : "+ gridSource[0].TableCode;
                             lblcategory_head.ForeColor = Color.Black;
                             lblcategory_head.BackColor = Color.Transparent;
                             lblcategory_head.Dock = DockStyle.Fill;
@@ -1435,6 +1436,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                btn_refresh.Visible = true;
+                btn_frm_close.Visible = true;
                 int rowToRemove = 0;
                 List<int> columnsToRemove = new List<int> { 1, 2, 3 };
 

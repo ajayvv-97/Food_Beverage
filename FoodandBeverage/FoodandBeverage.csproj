@@ -1117,5 +1117,11 @@
   <ItemGroup>
     <None Include="Resources\cleaning.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnpre.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnnext.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

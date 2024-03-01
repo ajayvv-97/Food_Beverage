@@ -49,6 +49,8 @@ namespace Domain
         public string MainRemarks { get; set; }
         public int Tid { get; set; }
         public int KOTPrintStatus { get; set; }
+        public string TableCode { get; set; }
+        
     }
     
 
