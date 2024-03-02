@@ -1099,7 +1099,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3)";
-                dmnSearchmaster.WhereNdGroupBy = "where tid= " + tableId + " and om.Status=1";
+                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status=1";
                 dmnSearchmaster.OrderBy = "";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)

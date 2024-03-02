@@ -104,6 +104,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pd
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Mi.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Ul.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportSource.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.Shared.dll
@@ -118,6 +119,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\MetroFramework.Fonts.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\WinFormAnimation.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Document.NET.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Words.NET.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\zxing.dll
@@ -138,6 +140,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\stdole.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
@@ -180,3 +183,4 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmDashboardReport.resources

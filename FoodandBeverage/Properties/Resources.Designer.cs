@@ -1183,6 +1183,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap rupee_indian {
+            get {
+                object obj = ResourceManager.GetObject("rupee_indian", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SaveButton {
             get {
                 object obj = ResourceManager.GetObject("SaveButton", resourceCulture);

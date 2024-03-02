@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
+      "CircularProgressBar/2.8.0.16": {
+        "type": "package",
+        "compile": {
+          "lib/net40/CircularProgressBar.dll": {}
+        },
+        "runtime": {
+          "lib/net40/CircularProgressBar.dll": {}
+        }
+      },
       "Dapper/1.60.6": {
         "type": "package",
         "dependencies": {
@@ -348,6 +357,9 @@
       "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "CircularProgressBar": "2.8.0.16"
+        },
         "compile": {
           "bin/placeholder/Domain.dll": {}
         },
@@ -358,6 +370,21 @@
     }
   },
   "libraries": {
+    "CircularProgressBar/2.8.0.16": {
+      "sha512": "P31wJxwTcQ2mA7wB4X+tnc9QlfSNyPzEOyt3qjf2/6cLLi8mERAfEwNcgt3Qv38/Xiyreo/nVYDe2zIVEv4SQw==",
+      "type": "package",
+      "path": "circularprogressbar/2.8.0.16",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "circularprogressbar.2.8.0.16.nupkg.sha512",
+        "circularprogressbar.nuspec",
+        "lib/net40/CircularProgressBar.dll",
+        "lib/net40/CircularProgressBar.xml",
+        "readme.txt"
+      ]
+    },
     "Dapper/1.60.6": {
       "sha512": "mmnJNhKMeF2KhvVXDoVQlFxre8aJAo71YBJrKqFlvuqzYC2QiXUq94/GCDBJzU7paq4GqpkV2glw3308TcGibw==",
       "type": "package",
@@ -1598,6 +1625,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "CircularProgressBar >= 2.8.0.16",
       "Dapper >= 1.60.6",
       "Domain >= 1.0.0",
       "NETStandard.Library >= 2.0.3",
@@ -1647,6 +1675,10 @@
       "netstandard2.0": {
         "targetAlias": "netstandard2.0",
         "dependencies": {
+          "CircularProgressBar": {
+            "target": "Package",
+            "version": "[2.8.0.16, )"
+          },
           "Dapper": {
             "target": "Package",
             "version": "[1.60.6, )"
@@ -1675,5 +1707,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CircularProgressBar 2.8.0.16' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CircularProgressBar",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
 }

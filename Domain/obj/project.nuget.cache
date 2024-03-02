@@ -1,11 +1,23 @@
 {
   "version": 2,
-  "dgSpecHash": "DTYxb+dBr3sPcAG4JsP8SXZNwV286OXjNhSnG8GXFQ681SqVM69eGyWA6K5mnf1HxgNhGMNo61K89M4Lo7Lzqg==",
+  "dgSpecHash": "jNiRiCohS1YogoHCVIMLGGCAmGIORJmnx6Ou8+y3dvFG3GSpb0yQv97oIlCjGXURY+vLYKX/TBEWx0d3pLEHUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ajay\\.nuget\\packages\\circularprogressbar\\2.8.0.16\\circularprogressbar.2.8.0.16.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CircularProgressBar 2.8.0.16' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CircularProgressBar",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
 }

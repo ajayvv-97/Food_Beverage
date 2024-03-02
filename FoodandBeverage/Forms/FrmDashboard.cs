@@ -233,9 +233,7 @@ namespace FoodandBeverage.Forms
             dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             panelDesktop.Controls.Clear();
-            panelDesktop.Controls.Add(pnl_dashboard);
-            pnl_dashboard.Dock = DockStyle.Fill;
-            pnl_dashboard.Visible = true;
+
         }
         #region Color Setting
         private bool IsValidHtmlColor(string color)
@@ -525,15 +523,14 @@ namespace FoodandBeverage.Forms
             button.FlatAppearance.BorderColor = Color.Black;
             button.FlatAppearance.BorderSize = 1;
         }
-
+ 
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
             {
-                AutoTimer.Stop();
+
                 if (screenWidth > 1367 && screenHeight > 769)
                 {
-
                     foreach (Control control in flp_operations.Controls)
                     {
                         if (control is Button buttonm)
@@ -557,9 +554,32 @@ namespace FoodandBeverage.Forms
                     ChangeButtonBorder(button);
                 }
                 panelDesktop.Controls.Clear();
-                panelDesktop.Controls.Add(pnl_dashboard);
-                pnl_dashboard.Dock = DockStyle.Fill;
-                pnl_dashboard.Visible = true;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instancePurchaseReturn.Dock = DockStyle.None;
+                        ResizeForm(_instancePurchaseReturn);
+                        panelDesktop.Controls.Add(_instancePurchaseReturn);
+                        _instancePurchaseReturn.Show();
+                        _instancePurchaseReturn.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
+                    _instancePurchaseReturn.Dock = DockStyle.None;
+                    ResizeForm(_instancePurchaseReturn);
+                    _instancePurchaseReturn.TopLevel = false;
+                    panelDesktop.Controls.Add(_instancePurchaseReturn);
+                    _instancePurchaseReturn.Show();
+                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instancePurchaseReturn.BringToFront();
+                }
+                AutoTimer.Stop();
             }
             catch(Exception ex)
             {
