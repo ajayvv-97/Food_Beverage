@@ -28,6 +28,7 @@ namespace FoodandBeverage.Forms
         public static int tdesno = 6;
         public static int tstatusno = 7;
         public static int tfcid = 8;
+        public static int tactiveno = 9;
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -87,7 +88,7 @@ namespace FoodandBeverage.Forms
                     dmntableinfo.Price = Convert.ToDecimal(txtrate.Text);
                     dmntableinfo.RevStatus = 0;
                     dmntableinfo.OrderStatus = 0;
-                    dmntableinfo.CreatedBy = 1;
+                    dmntableinfo.CreatedBy = FrmDashboard.UserId;
                     dmntableinfo.BranchId = FrmDashboard.BranchId;
                     if (chb_active.Checked)
                         dmntableinfo.Status = 1;
@@ -142,6 +143,7 @@ namespace FoodandBeverage.Forms
             txtdesc.Text = "";
             cmb_category.SelectedIndex = 0;
             btn_del_table.Visible = false;
+            pbactive_in.Visible = false;
         }
 
         private void FrmTableInfo_Load(object sender, EventArgs e)
@@ -222,7 +224,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
                 objSearch.Table = "tblTable_info";
-                objSearch.WhereNdGroupBy = "where status = 1 and Tid=" + tableid;
+                objSearch.WhereNdGroupBy = "where status in(1,2)and Tid=" + tableid;
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
@@ -234,6 +236,21 @@ namespace FoodandBeverage.Forms
                     txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
                     txtrate.Text = Convert.ToString(itemSource[0].Price);
                     btn_del_table.Visible = true;
+
+                    pbactive_in.Image = null;
+                    if (itemSource[0].Status == 2)
+                    {
+                        pbactive_in.Image = Properties.Resources.ACTIVIATE;
+                        pbactive_in.Tag = 2;
+                    }
+                    else if (itemSource[0].Status == 1)
+                    {
+                        pbactive_in.Image = Properties.Resources.DEACTIVIATE;
+                        pbactive_in.Tag = 1;
+                    }
+
+                    pbactive_in.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbactive_in.Visible = true;
                 }
 
             }
@@ -267,7 +284,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "t.*,c.CategoryName";
                 objSearch.Table = "tblTable_info t LEFT JOIN tblCategory_FTI c ON C.Fcid=T.Fcid";
-                objSearch.WhereNdGroupBy = "where t.status=1";
+                objSearch.WhereNdGroupBy = "where t.status in (1,2)";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 dgv_table.Rows.Clear();
@@ -285,6 +302,14 @@ namespace FoodandBeverage.Forms
                         dgv_table.Rows[i].Cells[tdesno].Value = itemSource[i].Description;
                         dgv_table.Rows[i].Cells[tstatusno].Value = itemSource[i].Status;
                         dgv_table.Rows[i].Cells[tfcid].Value = Convert.ToInt32(itemSource[i].Fcid);
+                        if (itemSource[i].Status == 2)
+                        {
+                            dgv_table.Rows[i].Cells[tactiveno].Value = Properties.Resources.INACTIVEBUTTON;
+                        }
+                        else if(itemSource[i].Status == 1)
+                        {
+                            dgv_table.Rows[i].Cells[tactiveno].Value = Properties.Resources.ACTIVEBUTTON;
+                        }
                     }
                 }
             }
@@ -354,6 +379,19 @@ namespace FoodandBeverage.Forms
                         txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
                         txtrate.Text = Convert.ToString(itemSource[0].Price);
                         btn_del_table.Visible = true;
+                        pbactive_in.Image = null;
+                        if (itemSource[0].Status == 2)
+                        {
+                            pbactive_in.Image = Properties.Resources.ACTIVIATE;
+                            pbactive_in.Tag = 2;
+                        }
+                        else if (itemSource[0].Status == 1)
+                        {
+                            pbactive_in.Image = Properties.Resources.DEACTIVIATE;
+                            pbactive_in.Tag = 1;
+                        }
+                        pbactive_in.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbactive_in.Visible = true;
                     }
                 }
             }
@@ -530,6 +568,52 @@ namespace FoodandBeverage.Forms
         private void FrmTableInfo_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void pbactive_in_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DmnTableinfo dmntableinfo = new DmnTableinfo();
+                BllTableinfo bllmenu = new BllTableinfo();
+                if (string.IsNullOrWhiteSpace(txttid.Text))
+                    txttid.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtrate.Text))
+                    txtrate.Text = "0";
+                dmntableinfo.Tid = Convert.ToInt32(txttid.Text);
+                dmntableinfo.TableCode = txttablecode.Text;
+                dmntableinfo.Capcity = Convert.ToInt32(txtcapcity.Text);
+                dmntableinfo.Description = txtdesc.Text;
+                dmntableinfo.Fcid = Convert.ToInt32(cmb_category.SelectedValue);
+                dmntableinfo.Price = Convert.ToDecimal(txtrate.Text);
+                dmntableinfo.RevStatus = 0;
+                dmntableinfo.OrderStatus = 0;
+                dmntableinfo.CreatedBy = FrmDashboard.UserId;
+                dmntableinfo.BranchId = FrmDashboard.BranchId;
+
+                if(Convert.ToInt32( pbactive_in.Tag)==2)
+                    dmntableinfo.Status = 1;
+                else if (Convert.ToInt32(pbactive_in.Tag) == 1)
+                    dmntableinfo.Status = 2;
+
+                var usertype = bllmenu.AddData("prdInsert_upd_Tableinfo", dmntableinfo);
+
+                if (usertype.Tid > 0)
+                {
+                    if (Convert.ToUInt32(txttid.Text) > 0)
+                        CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    else
+                        CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    clearall();
+                    Filltable();
+                }
+                else
+                    CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

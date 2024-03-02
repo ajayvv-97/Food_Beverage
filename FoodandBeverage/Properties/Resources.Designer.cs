@@ -73,6 +73,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ACTIVEBUTTON {
+            get {
+                object obj = ResourceManager.GetObject("ACTIVEBUTTON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ACTIVIATE {
+            get {
+                object obj = ResourceManager.GetObject("ACTIVIATE", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap add_des_dep_user {
             get {
                 object obj = ResourceManager.GetObject("add_des_dep_user", resourceCulture);
@@ -363,6 +383,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DEACTIVIATE {
+            get {
+                object obj = ResourceManager.GetObject("DEACTIVIATE", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Deafult_food_pic {
             get {
                 object obj = ResourceManager.GetObject("Deafult_food_pic", resourceCulture);
@@ -643,6 +673,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap INACTIVEBUTTON {
+            get {
+                object obj = ResourceManager.GetObject("INACTIVEBUTTON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Internet_Banking {
             get {
                 object obj = ResourceManager.GetObject("Internet_Banking", resourceCulture);
@@ -736,6 +776,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap menu {
             get {
                 object obj = ResourceManager.GetObject("menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap menutable {
+            get {
+                object obj = ResourceManager.GetObject("menutable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

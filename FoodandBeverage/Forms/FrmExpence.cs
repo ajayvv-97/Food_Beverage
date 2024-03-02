@@ -197,7 +197,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = " tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where Status=1";
+                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=3";
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 cmb_reasontype.DataSource = gridSource;
@@ -428,6 +428,7 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
+            combofill();
             FillExpence();
         }
 

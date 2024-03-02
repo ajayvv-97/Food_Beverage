@@ -614,6 +614,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.TabIndex = 9;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
+            this.btnmini.Visible = false;
             this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // btncolse
@@ -686,7 +687,7 @@ namespace FoodandBeverage.Forms
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.58005F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 69F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlp_userdetails.Controls.Add(this.btn_clear_cus, 3, 1);
             this.tlp_userdetails.Controls.Add(this.label32, 0, 5);
             this.tlp_userdetails.Controls.Add(this.label29, 0, 2);
@@ -721,7 +722,7 @@ namespace FoodandBeverage.Forms
             this.btn_clear_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_clear_cus.FlatAppearance.BorderSize = 0;
             this.btn_clear_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clear_cus.Location = new System.Drawing.Point(317, 23);
+            this.btn_clear_cus.Location = new System.Drawing.Point(316, 23);
             this.btn_clear_cus.Name = "btn_clear_cus";
             this.btn_clear_cus.Size = new System.Drawing.Size(51, 1);
             this.btn_clear_cus.TabIndex = 11;
@@ -772,7 +773,7 @@ namespace FoodandBeverage.Forms
             this.txtcusname.Location = new System.Drawing.Point(111, 23);
             this.txtcusname.Multiline = true;
             this.txtcusname.Name = "txtcusname";
-            this.txtcusname.Size = new System.Drawing.Size(154, 1);
+            this.txtcusname.Size = new System.Drawing.Size(153, 1);
             this.txtcusname.TabIndex = 1;
             this.txtcusname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtcusname_KeyPress);
             // 
@@ -783,7 +784,7 @@ namespace FoodandBeverage.Forms
             this.txtaddress.Location = new System.Drawing.Point(111, 23);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
-            this.txtaddress.Size = new System.Drawing.Size(154, 1);
+            this.txtaddress.Size = new System.Drawing.Size(153, 1);
             this.txtaddress.TabIndex = 2;
             // 
             // label30
@@ -817,7 +818,7 @@ namespace FoodandBeverage.Forms
             this.txtemailid.Location = new System.Drawing.Point(111, 22);
             this.txtemailid.Multiline = true;
             this.txtemailid.Name = "txtemailid";
-            this.txtemailid.Size = new System.Drawing.Size(154, 1);
+            this.txtemailid.Size = new System.Drawing.Size(153, 1);
             this.txtemailid.TabIndex = 6;
             this.txtemailid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtemailid_KeyPress);
             this.txtemailid.Leave += new System.EventHandler(this.txtemailid_Leave);
@@ -830,7 +831,7 @@ namespace FoodandBeverage.Forms
             this.txtph.MaxLength = 12;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
-            this.txtph.Size = new System.Drawing.Size(154, 1);
+            this.txtph.Size = new System.Drawing.Size(153, 1);
             this.txtph.TabIndex = 7;
             this.txtph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtph_KeyPress);
             this.txtph.Leave += new System.EventHandler(this.txtph_Leave);
@@ -847,7 +848,7 @@ namespace FoodandBeverage.Forms
             this.tlp_gender.Name = "tlp_gender";
             this.tlp_gender.RowCount = 1;
             this.tlp_gender.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_gender.Size = new System.Drawing.Size(154, 1);
+            this.tlp_gender.Size = new System.Drawing.Size(153, 1);
             this.tlp_gender.TabIndex = 9;
             // 
             // rb_female
@@ -856,7 +857,7 @@ namespace FoodandBeverage.Forms
             this.rb_female.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rb_female.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rb_female.ForeColor = System.Drawing.Color.White;
-            this.rb_female.Location = new System.Drawing.Point(80, 3);
+            this.rb_female.Location = new System.Drawing.Point(79, 3);
             this.rb_female.Name = "rb_female";
             this.rb_female.Size = new System.Drawing.Size(71, 1);
             this.rb_female.TabIndex = 0;
@@ -873,7 +874,7 @@ namespace FoodandBeverage.Forms
             this.rb_male.ForeColor = System.Drawing.Color.White;
             this.rb_male.Location = new System.Drawing.Point(3, 3);
             this.rb_male.Name = "rb_male";
-            this.rb_male.Size = new System.Drawing.Size(71, 1);
+            this.rb_male.Size = new System.Drawing.Size(70, 1);
             this.rb_male.TabIndex = 1;
             this.rb_male.TabStop = true;
             this.rb_male.Text = "Male";
@@ -888,7 +889,7 @@ namespace FoodandBeverage.Forms
             this.btn_edit_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_edit_cus.FlatAppearance.BorderSize = 0;
             this.btn_edit_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_edit_cus.Location = new System.Drawing.Point(271, 23);
+            this.btn_edit_cus.Location = new System.Drawing.Point(270, 23);
             this.btn_edit_cus.Name = "btn_edit_cus";
             this.btn_edit_cus.Size = new System.Drawing.Size(40, 1);
             this.btn_edit_cus.TabIndex = 10;
@@ -4124,7 +4125,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 548F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 549F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -4140,7 +4141,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(182, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(181, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -4159,7 +4160,7 @@ namespace FoodandBeverage.Forms
             "None"});
             this.cmb_itemcategory_split.Location = new System.Drawing.Point(36, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(140, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(139, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button

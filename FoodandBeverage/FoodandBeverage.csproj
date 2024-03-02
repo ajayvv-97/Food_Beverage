@@ -1123,5 +1123,20 @@
   <ItemGroup>
     <None Include="Resources\btnnext.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INACTIVEBUTTON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ACTIVEBUTTON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ACTIVIATE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DEACTIVIATE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menutable.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

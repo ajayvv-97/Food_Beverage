@@ -117,6 +117,9 @@ namespace FoodandBeverage.Forms
                     case 2:
                         objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=2";
                         break;
+                    case 3:
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=3";
+                        break;
                     case 4:
                         objSearch.WhereNdGroupBy = "where status = 1";
                         break;
