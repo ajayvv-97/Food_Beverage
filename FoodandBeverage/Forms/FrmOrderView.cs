@@ -47,6 +47,12 @@ namespace FoodandBeverage.Forms
         public bool PermissionFlag = false;
         List<DmnComboBox> comboBoxItems = new List<DmnComboBox>();
 
+        private List<DmnGridFields> pagedata;
+        private List<DmnGridFields> Resultdata;
+        int currentPage = 1;
+        int pageSize = 20;
+        int totalPages = 0;
+
         public FrmOrderView()
         {
             InitializeComponent();
@@ -140,47 +146,84 @@ namespace FoodandBeverage.Forms
                 txttablecode_serach.Text = "Table Code .....";
                 txtorderid_search.Text = "Order ID .....";
                 txt_product_remove_des.Text = "Reason type here .....";
+                GetDataorders(4);
                 FillOrders();
             }
             catch (Exception ex)
             {
             }
         }
+        private List<DmnGridFields> GetDataorders(int typeno)
+        {
+
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch dmnSearch = new DmnSearch();
+            dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
+            dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+            if (typeno == 4)
+            {
+                dmnSearch.WhereNdGroupBy = "where om.status in (1,2)";
+                dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+            }
+                else if (typeno == Convert.ToInt32(Food_Status.Pending))
+            {
+                dmnSearch.WhereNdGroupBy = "where om.status=1";
+                dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+            }
+            else if (typeno == Convert.ToInt32(Food_Status.FoodProcessing))
+            {
+                dmnSearch.WhereNdGroupBy = "where om.status=2";
+                dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+            }
+            else if (typeno == Convert.ToInt32(Food_Status.Complete))
+            {
+                dmnSearch.WhereNdGroupBy = "where om.status=3";
+                dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+            }
+            else if (typeno == Convert.ToInt32(Food_Status.Cancel))
+            {
+                dmnSearch.WhereNdGroupBy = "where om.status=0";
+                dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+            }
+
+            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+            Resultdata = gridSource;
+            totalPages = (int)Math.Ceiling((double)Resultdata.Count / pageSize);
+            pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+
+            if (currentPage == 1)
+                btnprevious.Enabled = false;
+            else
+                btnprevious.Enabled = true;
+
+            if (currentPage == totalPages)
+                btnnext.Enabled = false;
+            else
+                btnnext.Enabled = true;
+
+            return Resultdata;
+        }
         public void FillOrders()
         {
             try
             {
-                #region Fill Orders in Datagrid
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
-                dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+                var gridSource = pagedata;
                 dgvorderview.Rows.Clear();
-                int rowIndex = 0;
-                for (int j = 1; j <= 4; j++)
+                if (gridSource.Count == 0)
                 {
-                    if (j == 1)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=1";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if(j==2)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=2";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (j == 3)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=3";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (j == 4)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=0";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    btnprevious.Visible = false;
+                    btnnext.Visible = false;
+                }
+                else
+                {
+                    btnprevious.Visible = true;
+                    btnnext.Visible = true;
+                }
+                #region Fill Orders in Datagrid
+                int rowIndex = 0;
+
                     if (gridSource.Count > 0)
                     {
                         int imageSize = 32;
@@ -197,8 +240,7 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[i].Cells[tablecodeno];
-                                dropDown.Items.Clear();
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
                                 List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
                                 ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
                                 comboBoxItems.Add(comboBoxItem);
@@ -208,7 +250,6 @@ namespace FoodandBeverage.Forms
                                 dropDown.Value = comboBoxItems[0].Id;
                                 dropDown.ReadOnly = true;
                             }
-
 
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
@@ -242,12 +283,13 @@ namespace FoodandBeverage.Forms
                             }
                             rowIndex++;
                         }
-                        Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                        Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
                         tlp_sub_main.Controls.Remove(controlToRemove);
-                        tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
+                        tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 2);
                         pnl_ordergallery.Dock = DockStyle.Fill;
                         pnl_ordergallery.Visible = true;
                         pnl_empty_msg.Visible = false;
+                        tlp_next_prev.Visible = true;
                         pnl_details_view.Visible = false;
                         #region old code
                         TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
@@ -351,17 +393,16 @@ namespace FoodandBeverage.Forms
                         //tlp_seletedItem_col.RowCount = currentRowCount + 1;
                         //// Add the new TableLayoutPanel to tlp_seletedItem_main
                         //pnl_ordergallery.Controls.Add(tlp_seletedItem_col);
-                        #endregion
-                        
+                        #endregion                        
                     }
-
-                }
+                //}
                 if (dgvorderview.Rows.Count == 0)
                 {
                     pnl_empty_msg.Visible = true;
+                    tlp_next_prev.Visible = false;
                     pnl_ordergallery.Visible = false;
                     pnl_details_view.Visible = false;
-                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
                     tlp_sub_main.Controls.Remove(controlToRemove);
                     //tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
                     //pnl_dispaly_msg.Dock = DockStyle.Fill;
@@ -473,11 +514,12 @@ namespace FoodandBeverage.Forms
                         {
                             int count = 0;
                             pnl_empty_msg.Visible = false;
+                            tlp_next_prev.Visible = true;
                             pnl_ordergallery.Visible = false;
                             pnl_details_view.Visible = true;
-                            Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                            Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
                             tlp_sub_main.Controls.Remove(controlToRemove);
-                            tlp_sub_main.Controls.Add(pnl_details_view, 0, 1);
+                            tlp_sub_main.Controls.Add(pnl_details_view, 0, 2);
                             pnl_details_view.Dock = DockStyle.Fill;
                             dgv_details_view.Rows.Clear();
                             dgv_details_view.Rows.Add(detailslist.Count);
@@ -593,11 +635,12 @@ namespace FoodandBeverage.Forms
                 {
                     int count = 0;
                     pnl_empty_msg.Visible = false;
+                    tlp_next_prev.Visible = true;
                     pnl_ordergallery.Visible = false;
                     pnl_details_view.Visible = true;
-                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
                     tlp_sub_main.Controls.Remove(controlToRemove);
-                    tlp_sub_main.Controls.Add(pnl_details_view, 0, 1);
+                    tlp_sub_main.Controls.Add(pnl_details_view, 0, 2);
                     pnl_details_view.Dock = DockStyle.Fill;
                     dgv_details_view.Rows.Clear();
                     dgv_details_view.Rows.Add(detailslist.Count);
@@ -675,12 +718,13 @@ namespace FoodandBeverage.Forms
         {
             if(pnl_ordergallery.Visible==false)
             {
-                Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
+                Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
                 tlp_sub_main.Controls.Remove(controlToRemove);
-                tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
+                tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 2);
                 pnl_ordergallery.Dock = DockStyle.Fill;
                 pnl_ordergallery.Visible = true;
                 pnl_empty_msg.Visible = false;
+                tlp_next_prev.Visible = true;
                 pnl_details_view.Visible = false;
                 btn_backorder.Visible = false;
                 FillOrders();
@@ -701,7 +745,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusvalueno].Value) == 0)
+                if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
                 {
                     CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
                 }
@@ -804,117 +848,67 @@ namespace FoodandBeverage.Forms
             if(dgv_details_view.Visible)
                 Filldetails(OrderMasterId);
             else
+            {
+                GetDataorders(4);
                 FillOrders();
+            }
+
 
         }
 
         private void btn_complete_order_Click(object sender, EventArgs e)
         {
-            FillOrders_button(2);
+            GetDataorders(Convert.ToInt32(Food_Status.Complete));
+            FillOrders();
         }
 
         private void btn_Pending_order_Click(object sender, EventArgs e)
         {
-            FillOrders_button(1);
+            GetDataorders(Convert.ToInt32(Food_Status.Pending));
+            FillOrders();
         }
 
         private void btn_cancel_order_Click(object sender, EventArgs e)
         {
-            FillOrders_button(0);
+            GetDataorders(Convert.ToInt32(Food_Status.Cancel));
+            FillOrders();
         }
         public void FillOrders_button(int serachtype)
-        {
+        {      
             try
             {
                 #region Fill Orders in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6";
+                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
                 dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
                 dgvorderview.Rows.Clear();
                 int rowIndex = 0;
-      
-                    if (serachtype == 1)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=1";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (serachtype == 0)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=0";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    else if (serachtype == 2)
-                    {
-                        dmnSearch.WhereNdGroupBy = "where om.status=2";
-                        dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                    }
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource.Count > 0)
-                    {
-                        int imageSize = 32;
-                        dgvorderview.Rows.Add(gridSource.Count);
-                        int x = dgvorderview.RowCount;
-                        for (int i = 0; i < gridSource.Count; i++)
-                        {
-                            dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
-                            dgvorderview.Rows[rowIndex].Cells[orderidno].Value = gridSource[i].Field1;
-                            dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field2;
-                            dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
-                            dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
-                            dgvorderview.Rows[rowIndex].Cells[descno].Value = "";
-                            dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field6;
-
-                            // Set the image for the "statusno" column
-                            if (Convert.ToInt32(gridSource[i].Field4) == 0 || Convert.ToInt32(gridSource[i].Field5) == 0)
-                            {
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
-                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_cancelled;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
-                            }
-                            else if (Convert.ToInt32(gridSource[i].Field4) == 1)
-                            {
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
-                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_pending;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
-                            }
-                            else if (Convert.ToInt32(gridSource[i].Field4) == 2)
-                            {
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
-                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.orderview_complete;//ResizeImage((Image)Properties.Resources.orderview_pending, imageSize, imageSize);
-                            }
-                            rowIndex++;
-                        }
-                        Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
-                        tlp_sub_main.Controls.Remove(controlToRemove);
-                        tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 1);
-                        pnl_ordergallery.Dock = DockStyle.Fill;
-                        pnl_ordergallery.Visible = true;
-                        pnl_empty_msg.Visible = false;
-                        pnl_details_view.Visible = false;
-
-                    }
-                    else
-                    {
-                    pnl_empty_msg.Visible = true;
-                    pnl_ordergallery.Visible = false;
-                    pnl_details_view.Visible = false;
-                    Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 1);
-                    tlp_sub_main.Controls.Remove(controlToRemove);
-                    //tlp_sub_main.Controls.Add(pnl_dispaly_msg, 0, 1);
-                    //pnl_dispaly_msg.Dock = DockStyle.Fill;
-                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
-
+                if (serachtype == 1)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=1";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
                 }
-
+                else if (serachtype == 0)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=0";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                }
+                else if (serachtype == 2)
+                {
+                    dmnSearch.WhereNdGroupBy = "where om.status=2";
+                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                }
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    
                 #endregion
             }
             catch (Exception ex)
             {
 
             }
+
 
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -939,6 +933,50 @@ namespace FoodandBeverage.Forms
         private void dgv_details_view_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        private void btnprevious_Click(object sender, EventArgs e)
+        {
+            if (currentPage == 1)
+                btnprevious.Enabled = false;
+            else
+                btnprevious.Enabled = true;
+
+            if (currentPage == totalPages)
+                btnnext.Enabled = false;
+            else
+                btnnext.Enabled = true;
+            if (currentPage > 1)
+            {
+                // Decrement the current page number
+                currentPage--;
+                // Recalculate the page data
+                pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                FillOrders();
+            }
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+            if (currentPage == 1)
+                btnprevious.Enabled = false;
+            else
+                btnprevious.Enabled = true;
+
+            if (currentPage == totalPages)
+                btnnext.Enabled = false;
+            else
+                btnnext.Enabled = true;
+
+            if (currentPage < totalPages)
+            {
+                // Increment the current page number
+                currentPage++;
+                // Recalculate the page data
+                pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                FillOrders();
+
+            }
         }
     }
 }

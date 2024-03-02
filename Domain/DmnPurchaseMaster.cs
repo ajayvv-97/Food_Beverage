@@ -114,6 +114,7 @@ namespace Domain
         public string Description { get; set; }
         public string PurchasePrefix { get; set; }
         public string PurchaseSrlNo { get; set; }
-
+        public DateTime Expiredate { get; set; }
+        
     }
 }

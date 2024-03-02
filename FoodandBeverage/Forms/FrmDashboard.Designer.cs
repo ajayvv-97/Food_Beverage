@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboard));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -138,7 +139,7 @@ namespace FoodandBeverage.Forms
             this.cmAction = new System.Windows.Forms.DataGridViewImageColumn();
             this.Ordertime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TableCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmbTableCode = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.totalqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.netamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Recieviedamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -560,7 +561,7 @@ namespace FoodandBeverage.Forms
             this.ib_kitchenview.Tag = "Kitchen View";
             this.ib_kitchenview.Text = "Kitchen View";
             this.ib_kitchenview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_kitchenview, "Tax Registartion");
+            this.toolTip1.SetToolTip(this.ib_kitchenview, "Kitchen View");
             this.ib_kitchenview.UseVisualStyleBackColor = false;
             this.ib_kitchenview.Visible = false;
             this.ib_kitchenview.Click += new System.EventHandler(this.ib_kitchenview_Click);
@@ -975,7 +976,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 227F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 247F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -990,7 +991,7 @@ namespace FoodandBeverage.Forms
             // 
             // btntrefresh
             // 
-            this.btntrefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.refresh_button;
+            this.btntrefresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btntrefresh.BackgroundImage")));
             this.btntrefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btntrefresh.FlatAppearance.BorderSize = 0;
             this.btntrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1008,7 +1009,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(72, 3);
+            this.btn_avial.Location = new System.Drawing.Point(66, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -1022,7 +1023,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(211, 3);
+            this.btn_rev.Location = new System.Drawing.Point(191, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -1036,7 +1037,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(145, 3);
+            this.btn_running.Location = new System.Drawing.Point(132, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(52, 42);
             this.btn_running.TabIndex = 2;
@@ -1799,7 +1800,7 @@ namespace FoodandBeverage.Forms
             this.cmAction,
             this.Ordertime,
             this.OrderID,
-            this.TableCode,
+            this.cmbTableCode,
             this.totalqty,
             this.netamount,
             this.Recieviedamount,
@@ -1818,7 +1819,6 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvorderview.Location = new System.Drawing.Point(3, 51);
             this.dgvorderview.Name = "dgvorderview";
-            this.dgvorderview.ReadOnly = true;
             this.dgvorderview.RowHeadersVisible = false;
             this.dgvorderview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1828,6 +1828,7 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.Size = new System.Drawing.Size(330, 358);
             this.dgvorderview.TabIndex = 219;
             this.dgvorderview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellDoubleClick);
+            this.dgvorderview.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvorderview_DataError);
             // 
             // Slno
             // 
@@ -1875,15 +1876,16 @@ namespace FoodandBeverage.Forms
             this.OrderID.ReadOnly = true;
             this.OrderID.Width = 87;
             // 
-            // TableCode
+            // cmbTableCode
             // 
-            this.TableCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cmbTableCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TableCode.DefaultCellStyle = dataGridViewCellStyle5;
-            this.TableCode.HeaderText = "TableCode";
-            this.TableCode.Name = "TableCode";
-            this.TableCode.ReadOnly = true;
-            this.TableCode.Width = 111;
+            this.cmbTableCode.DefaultCellStyle = dataGridViewCellStyle5;
+            this.cmbTableCode.HeaderText = "TableCode";
+            this.cmbTableCode.Name = "cmbTableCode";
+            this.cmbTableCode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cmbTableCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.cmbTableCode.Width = 111;
             // 
             // totalqty
             // 
@@ -1946,7 +1948,6 @@ namespace FoodandBeverage.Forms
             // 
             this.cmordermasterid.HeaderText = "ordermasterid";
             this.cmordermasterid.Name = "cmordermasterid";
-            this.cmordermasterid.ReadOnly = true;
             this.cmordermasterid.Visible = false;
             this.cmordermasterid.Width = 130;
             // 
@@ -2284,7 +2285,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.empty_orders;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(227, 19);
             this.pictureBox1.Name = "pictureBox1";
@@ -2484,18 +2485,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewImageColumn splitAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn stsalemasterid;
         private System.Windows.Forms.DataGridViewTextBoxColumn stpayid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
-        private System.Windows.Forms.DataGridViewImageColumn cmAction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ordertime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TableCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalqty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn netamount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Recieviedamount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Balanceamount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Paymentmethod;
-        private System.Windows.Forms.DataGridViewImageColumn mAction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cmordermasterid;
         private System.Windows.Forms.Panel panl_msgsettings;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tlp_what_gmail;
@@ -2511,5 +2500,17 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Panel pnl_empty_msg;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblmsg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
+        private System.Windows.Forms.DataGridViewImageColumn cmAction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ordertime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderID;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmbTableCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn netamount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Recieviedamount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Balanceamount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Paymentmethod;
+        private System.Windows.Forms.DataGridViewImageColumn mAction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cmordermasterid;
     }
 }

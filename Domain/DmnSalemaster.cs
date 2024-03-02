@@ -98,6 +98,7 @@ namespace Domain
         public decimal AdvanceAmount { get; set; }
         public decimal ReservationTotal { get; set; }
         public int Gender { get; set; }
+        public int TimeDuration { get; set; }
 
     }
 }

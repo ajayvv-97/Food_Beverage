@@ -20,5 +20,6 @@ namespace BLL
             var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }
+
     }
 }
