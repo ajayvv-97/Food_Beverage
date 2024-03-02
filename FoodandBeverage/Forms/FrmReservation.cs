@@ -24,6 +24,7 @@ namespace FoodandBeverage.Forms
         long BranchId = 1030;
         public int finalqty = 0;
         public int BookmasterId = 0;
+
         public FrmReservation()
         {
             InitializeComponent();
@@ -85,7 +86,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-
+            string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
             richTextBoxPhone.Rtf = "{\\rtf1\\ansi " +
             "Phone No \\i0 *\\ulnone\\i\\b " +
                "}";
@@ -188,6 +189,8 @@ namespace FoodandBeverage.Forms
             dgvmenu.Rows.Add(1);
             dtp_from_time.MinDate = DateTime.Now;
             dtpBooking.MinDate = DateTime.Today;
+            dtp_from_time.Format = DateTimePickerFormat.Custom;
+            dtp_from_time.CustomFormat = "hh:mm:ss";
             //dtp_from_time.Value = DateTime.Now;
             redpan.Visible = false;
 
@@ -770,6 +773,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
                 //int timeinterwell = Convert.ToInt32(txt_HR.Text);
                 int r = dgvforms.CurrentCell.RowIndex;
                 string returnValue = string.Empty;
@@ -779,9 +783,9 @@ namespace FoodandBeverage.Forms
                 _objSearch.Select = " Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
                 _objSearch.Table = " tblTable_info   ";
                 _objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId" +
-                    " WHERE BookingDateTime > DATEADD(MINUTE,-" + (txt_HR.Text) + ", SYSDATETIME()) " +
-                    " AND BookingDateTime < DATEADD(MINUTE, " + (txt_HR.Text) + ", SYSDATETIME()) and m.Status= 1  ) " +
-                    " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime > DATEADD(MINUTE,-" + (txt_HR.Text) + ", SYSDATETIME()) and Status= 1 ) ";
+                    " WHERE BookingDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"')" +
+                    " AND BookingDateTime <= DATEADD(MINUTE, " + (txt_HR.Text) + ", '" + dtfrom + "') and m.Status= 1  ) " +
+                    " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"') and Status= 1 ) ";
                 _objSearch.OrderBy = " ";
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
                 {
@@ -1984,7 +1988,7 @@ namespace FoodandBeverage.Forms
                     DmnReservation dmnReservation = new DmnReservation();
 
 
-                    string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
+                    string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
                     dmnReservation.Mobile = txtMob.Text;
@@ -3763,6 +3767,11 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error");
 
             }
+        }
+
+        private void dtpBooking_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_from_time.Value= dtpBooking.Value.Date;
         }
     }
 }
