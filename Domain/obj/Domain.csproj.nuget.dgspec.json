@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[2.8.0.16, )"
             },
+            "LiveCharts.WinForms": {
+              "target": "Package",
+              "version": "[0.9.7.1, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",

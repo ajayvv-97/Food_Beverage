@@ -30,8 +30,17 @@ C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.exe
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CustomMessageBox.pdb
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CircularProgressBar.dll
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.dll
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.WinForms.dll
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.Wpf.dll
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\WinFormAnimation.dll
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\CircularProgressBar.xml
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.pdb
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.xml
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.WinForms.pdb
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.WinForms.xml
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.Wpf.xml
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
 C:\Users\ajay\Desktop\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources

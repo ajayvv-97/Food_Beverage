@@ -352,7 +352,7 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.Name = "tlp_sublist";
             this.tlp_sublist.RowCount = 1;
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.tlp_sublist.Size = new System.Drawing.Size(253, 31);
             this.tlp_sublist.TabIndex = 12;
             this.tlp_sublist.Visible = false;

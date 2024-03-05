@@ -85,6 +85,7 @@ namespace FoodandBeverage.Forms
         Timer AutoTimer;
         public int AddMinutes = 0;
         public List<Namelist> CheckedtableNames = new List<Namelist>();
+        public bool menutable_click = false;
         public void initTimer()
         {
             AutoTimer = new Timer();
@@ -564,6 +565,7 @@ namespace FoodandBeverage.Forms
                         _instancePurchaseReturn.Dock = DockStyle.None;
                         ResizeForm(_instancePurchaseReturn);
                         panelDesktop.Controls.Add(_instancePurchaseReturn);
+                        _instancePurchaseReturn.Filldashboard();
                         _instancePurchaseReturn.Show();
                         _instancePurchaseReturn.BringToFront();
                     }
@@ -579,7 +581,9 @@ namespace FoodandBeverage.Forms
                     _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instancePurchaseReturn.BringToFront();
                 }
-                AutoTimer.Stop();
+                if(menutable_click)
+                    AutoTimer.Stop();
+
             }
             catch(Exception ex)
             {
@@ -4613,6 +4617,7 @@ namespace FoodandBeverage.Forms
                 ChangeButtonBorder(button);
             }
             LoadTableStaus(0);
+            menutable_click = true;
         }
     }
 
