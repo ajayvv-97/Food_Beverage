@@ -1167,5 +1167,26 @@
   <ItemGroup>
     <None Include="Resources\rupee-indian.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cash-on-delivery_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rupay_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\credit-card_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mobile-banking_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upi-icon_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\split_icon_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\part_icon_chart.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

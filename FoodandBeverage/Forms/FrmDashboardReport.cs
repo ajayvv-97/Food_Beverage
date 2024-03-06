@@ -46,7 +46,113 @@ namespace FoodandBeverage.Forms
             SetupCharttotaldiscount();
             FillCharttotaldiscountChart();
 
+            SetupChartExpence();
+            FillChartExpence();
+
+            Fillpaymentdetailed();
+
+            FillBoxdetailed();
+
         }
+        #region ,ODEL BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
+        public void FillBoxdetailed()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
+                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable" +
+                                    " PIVOT( SUM(netamount) FOR Caption IN([CASH], [CREDIT CARD],[UPI], [DEBIT CARD], [BANKING ONLINE], [OTHERS], [PART], [SPLIT]) " +
+                                    ") AS PivotTable";
+                dmnSearch.WhereNdGroupBy = " ";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    ibcash.Text = Convert.ToString(gridSource[0].Field1);
+                    ibcreditcard.Text = Convert.ToString(gridSource[0].Field2);
+                    ibupi.Text = Convert.ToString(gridSource[0].Field3);
+                    ibrupay.Text = Convert.ToString(gridSource[0].Field4);
+                    ibnetbanking.Text = Convert.ToString(gridSource[0].Field5);
+                    ibothers.Text = Convert.ToString(gridSource[0].Field6);
+                    ibpart.Text = Convert.ToString(gridSource[0].Field7);
+                    ibsplit.Text = Convert.ToString(gridSource[0].Field8);
+                    decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
+                                       Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
+                                       Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
+                    ibtotalsumpayment.Text = Convert.ToString(sumtotal);
+                }
+                else
+                {
+                    ibcash.Text = "0.00";
+                    ibcreditcard.Text = "0.00";
+                    ibupi.Text = "0.00";
+                    ibrupay.Text = "0.00";
+                    ibnetbanking.Text = "0.00";
+                    ibothers.Text = "0.00";
+                    ibpart.Text = "0.00";
+                    ibsplit.Text = "0.00";
+                    ibtotalsumpayment.Text = "0.00";
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
+
+        #region PAYMENT DETAILED
+        public void Fillpaymentdetailed()
+        {
+            try
+            {      
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
+                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable"+
+                                    " PIVOT( SUM(netamount) FOR Caption IN([CASH], [CREDIT CARD],[UPI], [DEBIT CARD], [BANKING ONLINE], [OTHERS], [PART], [SPLIT]) "+
+                                    ") AS PivotTable";
+                dmnSearch.WhereNdGroupBy = " ";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    ibcash.Text = Convert.ToString(gridSource[0].Field1);
+                    ibcreditcard.Text = Convert.ToString(gridSource[0].Field2);
+                    ibupi.Text = Convert.ToString(gridSource[0].Field3);
+                    ibrupay.Text = Convert.ToString(gridSource[0].Field4);
+                    ibnetbanking.Text = Convert.ToString(gridSource[0].Field5);
+                    ibothers.Text = Convert.ToString(gridSource[0].Field6);
+                    ibpart.Text = Convert.ToString(gridSource[0].Field7);
+                    ibsplit.Text = Convert.ToString(gridSource[0].Field8);
+                    decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
+                                       Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
+                                       Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
+                    ibtotalsumpayment.Text= Convert.ToString(sumtotal);
+                }
+                else
+                {
+                    ibcash.Text = "0.00";
+                    ibcreditcard.Text = "0.00";
+                    ibupi.Text = "0.00";
+                    ibrupay.Text = "0.00";
+                    ibnetbanking.Text = "0.00";
+                    ibothers.Text = "0.00";
+                    ibpart.Text = "0.00";
+                    ibsplit.Text = "0.00";
+                    ibtotalsumpayment.Text = "0.00";
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
+
+        #region SALEDETAILS 
         public void Filldashboard()
         {
             try
@@ -65,11 +171,11 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    lblsaletotal.Text = Convert.ToString(gridSource[1].Field4);
+                    ibsaletotal.Text = Convert.ToString(gridSource[1].Field4);
                     lbltotalsaleno.Text = Convert.ToString(gridSource[1].Field1) + " Orders";
-                    lbldinetotal.Text = Convert.ToString(gridSource[1].Field3);
+                    ibdinetotal.Text = Convert.ToString(gridSource[1].Field3);
                     lbldinetotalno.Text = Convert.ToString(gridSource[1].Field2) + " Orders";
-                    lblrestotal.Text = Convert.ToString(gridSource[0].Field6);
+                    ibreservatiototal.Text = Convert.ToString(gridSource[0].Field6);
                     lblresno.Text = Convert.ToString(gridSource[0].Field5) + " Orders";
                 }
             }
@@ -78,6 +184,8 @@ namespace FoodandBeverage.Forms
 
             }
         }
+        #endregion
+
         #region TWO BAR CHART SALE AND RESVERTION TIME PEROD 24HRS
         public void FillChartTwoBarChart()
         {
@@ -116,23 +224,45 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
+                    chart_res_dine_sales.Series["s_dine"].Points.Clear();
+                    chart_res_dine_sales.Series["s_reservation"].Points.Clear();
+
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(1, gridSource[1].Field1);  // 12am-4am Reservation
+
+                    chart_res_dine_sales.Series["s_dine"].Points[0].ToolTip = "Dine 12am-4am - Total sales :" + gridSource[0].Field1 + " Orders: " + gridSource[0].Field7;
+                    chart_res_dine_sales.Series["s_reservation"].Points[0].ToolTip = "Reservation 12am-4am - Total sales :" + gridSource[1].Field1 + " Orders: " + gridSource[1].Field7;
 
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(2, gridSource[1].Field2);  // 4am-8am Reservation
 
+                    chart_res_dine_sales.Series["s_dine"].Points[1].ToolTip = "Dine 4am-8am  - Total sales :" + gridSource[0].Field2 + " Orders: " + gridSource[0].Field8;
+                    chart_res_dine_sales.Series["s_reservation"].Points[1].ToolTip = "Reservation 4am-8am  - Total sales :" + gridSource[1].Field2 + " Orders: " + gridSource[1].Field8;
+
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(3, gridSource[1].Field3);  // 8am-12pm Reservation
+
+                    chart_res_dine_sales.Series["s_dine"].Points[2].ToolTip = "Dine 8am-12pm  - Total sales :" + gridSource[0].Field3 + " Orders: " + gridSource[0].Field9;
+                    chart_res_dine_sales.Series["s_reservation"].Points[2].ToolTip = "Reservation 8am-12pm  - Total sales :" + gridSource[1].Field3 + " Orders: " + gridSource[1].Field9;
 
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(4, gridSource[1].Field4);  // 12pm-4pm Reservation
 
+                    chart_res_dine_sales.Series["s_dine"].Points[3].ToolTip = "Dine 12pm-4pm  - Total sales :" + gridSource[0].Field4 + " Orders: " + gridSource[0].Field10;
+                    chart_res_dine_sales.Series["s_reservation"].Points[3].ToolTip = "Reservation 12pm-4pm  - Total sales :" + gridSource[1].Field4 + " Orders: " + gridSource[1].Field10;
+
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(5, gridSource[1].Field5);  // 4pm-8pm Reservation
 
+                    chart_res_dine_sales.Series["s_dine"].Points[4].ToolTip = "Dine 4pm-8pm  - Total sales :" + gridSource[0].Field5 + " Orders: " + gridSource[0].Field11;
+                    chart_res_dine_sales.Series["s_reservation"].Points[4].ToolTip = "Reservation 4pm-8pm  - Total sales :" + gridSource[1].Field5 + " Orders: " + gridSource[1].Field11;
+
                     chart_res_dine_sales.Series["s_dine"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am Dine
                     chart_res_dine_sales.Series["s_reservation"].Points.AddXY(6, gridSource[1].Field6);  // 8pm-12am Reservation
+
+                    chart_res_dine_sales.Series["s_dine"].Points[5].ToolTip = "Dine 8pm-12am  - Total sales :" + gridSource[0].Field6 + " Orders: " + gridSource[0].Field12;
+                    chart_res_dine_sales.Series["s_reservation"].Points[5].ToolTip = "Reservation 8pm-12am  - Total sales :" + gridSource[1].Field6 + " Orders: " + gridSource[1].Field12;
+
                 }
             }
             catch (Exception ex)
@@ -154,6 +284,12 @@ namespace FoodandBeverage.Forms
                 Series seriesReservation = new Series("s_reservation");
                 seriesReservation.ChartType = SeriesChartType.Column;
                 chart_res_dine_sales.Series.Add(seriesReservation);
+
+                chart_res_dine_sales.Legends.Add(new Legend("Legend"));
+                chart_res_dine_sales.Legends["Legend"].Docking = Docking.Bottom;
+                seriesReservation.LegendText = "Reservation";
+                seriesDine.LegendText = "Dine";
+                chart_res_dine_sales.Legends["Legend"].Font = new Font("Arial", 12, FontStyle.Bold);
 
                 // Title
                 Title chartTitledineres = new Title("Dine and Reservation Total");
@@ -219,14 +355,23 @@ namespace FoodandBeverage.Forms
                     else
                         return nFld1 + 100;
                 }
-
+   
                 if (sortedResult.Count > 0)
                 {
-                    for(int i=0;i< sortedResult.Count;i++)
+                    Totalrevenuechart.Series["Sales"].Points.Clear();
+                    Totalrevenuechart.Series["Purchase"].Points.Clear();
+                    Totalrevenuechart.Series["PurchaseReturn"].Points.Clear();
+
+                    for (int i=0;i< sortedResult.Count;i++)
                     {
                         Totalrevenuechart.Series["Sales"].Points.AddXY(i+1, sortedResult[i].dFld1);
                         Totalrevenuechart.Series["Purchase"].Points.AddXY(i+1, sortedResult[i].dFld2);
                         Totalrevenuechart.Series["PurchaseReturn"].Points.AddXY(i+1, sortedResult[i].dFld3);
+
+                        Totalrevenuechart.Series["Sales"].Points[i].ToolTip = $"Sales: "+ sortedResult[i].dFld1;
+                        Totalrevenuechart.Series["Purchase"].Points[i].ToolTip = $"Purchase: "+ sortedResult[i].dFld2;
+                        Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: "+ sortedResult[i].dFld3;
+
                     }
 
                 }
@@ -351,12 +496,20 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
+                    totaldisc_chart.Series["s_totaldiscount"].Points.Clear();
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am 
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am 
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm 
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm 
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm
                     totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am 
+
+                    totaldisc_chart.Series["s_totaldiscount"].Points[0].ToolTip = $"Discount : " + gridSource[0].Field1;
+                    totaldisc_chart.Series["s_totaldiscount"].Points[1].ToolTip = $"Discount : " + gridSource[0].Field2;
+                    totaldisc_chart.Series["s_totaldiscount"].Points[2].ToolTip = $"Discount : " + gridSource[0].Field3;
+                    totaldisc_chart.Series["s_totaldiscount"].Points[3].ToolTip = $"Discount : " + gridSource[0].Field4;
+                    totaldisc_chart.Series["s_totaldiscount"].Points[4].ToolTip = $"Discount : " + gridSource[0].Field5;
+                    totaldisc_chart.Series["s_totaldiscount"].Points[5].ToolTip = $"Discount : " + gridSource[0].Field6;
 
                 }
             }
@@ -403,14 +556,88 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        #region PIE CHART EXPENCE
+        public void SetupChartExpence()
+        {
+            try
+            {
+                expencepiechart.Series.Clear();
+                expencepiechart.Legends.Clear();
+
+                Series seriesExpence = new Series("s_expence");
+                seriesExpence.ChartType = SeriesChartType.Doughnut;
+                expencepiechart.Series.Add(seriesExpence);
+
+                // Add legend
+                expencepiechart.Legends.Add(new Legend("Legend"));
+                expencepiechart.Legends["Legend"].Docking = Docking.Right;
+                seriesExpence.LegendText = "Expence";
+                expencepiechart.Legends["Legend"].Font = new Font("Arial", 8, FontStyle.Regular);
+
+                // Add title
+                Title chartTitleExpence = new Title("Expence");
+                chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
+                expencepiechart.Titles.Add(chartTitleExpence);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void FillChartExpence()
+        {
+            try
+            {
+                BllExpenceChart<DmnGridFields> bllSearch = new BllExpenceChart<DmnGridFields>();
+                DmnGridFields dmnSearch = new DmnGridFields();
+                dmnSearch.StartDate = dtp_dashboard.Value;
+                var gridSource = bllSearch.serachexpencedata("prdexpencechartdata", dmnSearch);
+
+                if (gridSource.Count > 0)
+                {
+
+                    foreach (var row in gridSource)
+                    {
+                        var category = row.Field1;
+                        var amount = row.Field2;
+
+                        var dataPoint = new DataPoint(); 
+                        dataPoint.SetValueXY(category, amount);
+                        expencepiechart.Series["s_expence"].Points.Add(dataPoint);
+                        dataPoint.LegendText = $"{category}: {amount}"; 
+                        dataPoint.ToolTip = $"{category}: {amount}"; 
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        #endregion
+
+
         private void dtp_dashboard_ValueChanged(object sender, EventArgs e)
         {
             Filldashboard();
+            FillChartTwoBarChart();
+            FillCharttotaldiscountChart();
+            FillChartExpence();
+            Fillpaymentdetailed();
         }
 
         private void cmb_fin_year_SelectionChangeCommitted(object sender, EventArgs e)
         {
            FillbarRrevenuChart();
+        }
+
+        private void FrmDashboardReport_Resize(object sender, EventArgs e)
+        {
+           // cmb_fin_year.Location = new Point(Totalrevenuechart.Right, Totalrevenuechart.Top);
         }
     }
 }

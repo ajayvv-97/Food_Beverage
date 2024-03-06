@@ -687,7 +687,7 @@ namespace FoodandBeverage.Forms
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.58005F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.tlp_userdetails.Controls.Add(this.btn_clear_cus, 3, 1);
             this.tlp_userdetails.Controls.Add(this.label32, 0, 5);
             this.tlp_userdetails.Controls.Add(this.label29, 0, 2);
@@ -722,7 +722,7 @@ namespace FoodandBeverage.Forms
             this.btn_clear_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_clear_cus.FlatAppearance.BorderSize = 0;
             this.btn_clear_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clear_cus.Location = new System.Drawing.Point(316, 23);
+            this.btn_clear_cus.Location = new System.Drawing.Point(315, 23);
             this.btn_clear_cus.Name = "btn_clear_cus";
             this.btn_clear_cus.Size = new System.Drawing.Size(51, 1);
             this.btn_clear_cus.TabIndex = 11;
@@ -737,7 +737,7 @@ namespace FoodandBeverage.Forms
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.Location = new System.Drawing.Point(3, 17);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(102, 1);
+            this.label32.Size = new System.Drawing.Size(101, 1);
             this.label32.TabIndex = 8;
             this.label32.Text = "Gender";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -749,7 +749,7 @@ namespace FoodandBeverage.Forms
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.Location = new System.Drawing.Point(3, 20);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(102, 1);
+            this.label29.Size = new System.Drawing.Size(101, 1);
             this.label29.TabIndex = 3;
             this.label29.Text = "Address";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -761,7 +761,7 @@ namespace FoodandBeverage.Forms
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.Location = new System.Drawing.Point(3, 20);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(102, 1);
+            this.label28.Size = new System.Drawing.Size(101, 1);
             this.label28.TabIndex = 0;
             this.label28.Text = "Customer Name";
             this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -770,7 +770,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtcusname.BackColor = System.Drawing.Color.White;
             this.txtcusname.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtcusname.Location = new System.Drawing.Point(111, 23);
+            this.txtcusname.Location = new System.Drawing.Point(110, 23);
             this.txtcusname.Multiline = true;
             this.txtcusname.Name = "txtcusname";
             this.txtcusname.Size = new System.Drawing.Size(153, 1);
@@ -781,7 +781,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtaddress.BackColor = System.Drawing.Color.White;
             this.txtaddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtaddress.Location = new System.Drawing.Point(111, 23);
+            this.txtaddress.Location = new System.Drawing.Point(110, 23);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
             this.txtaddress.Size = new System.Drawing.Size(153, 1);
@@ -794,7 +794,7 @@ namespace FoodandBeverage.Forms
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.Location = new System.Drawing.Point(3, 19);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(102, 1);
+            this.label30.Size = new System.Drawing.Size(101, 1);
             this.label30.TabIndex = 4;
             this.label30.Text = "Email Id";
             this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -806,7 +806,7 @@ namespace FoodandBeverage.Forms
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.Location = new System.Drawing.Point(3, 18);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(102, 1);
+            this.label31.Size = new System.Drawing.Size(101, 1);
             this.label31.TabIndex = 5;
             this.label31.Text = "Ph";
             this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -815,7 +815,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtemailid.BackColor = System.Drawing.Color.White;
             this.txtemailid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtemailid.Location = new System.Drawing.Point(111, 22);
+            this.txtemailid.Location = new System.Drawing.Point(110, 22);
             this.txtemailid.Multiline = true;
             this.txtemailid.Name = "txtemailid";
             this.txtemailid.Size = new System.Drawing.Size(153, 1);
@@ -827,7 +827,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtph.BackColor = System.Drawing.Color.White;
             this.txtph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtph.Location = new System.Drawing.Point(111, 21);
+            this.txtph.Location = new System.Drawing.Point(110, 21);
             this.txtph.MaxLength = 12;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
@@ -844,7 +844,7 @@ namespace FoodandBeverage.Forms
             this.tlp_gender.Controls.Add(this.rb_female, 1, 0);
             this.tlp_gender.Controls.Add(this.rb_male, 0, 0);
             this.tlp_gender.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_gender.Location = new System.Drawing.Point(111, 20);
+            this.tlp_gender.Location = new System.Drawing.Point(110, 20);
             this.tlp_gender.Name = "tlp_gender";
             this.tlp_gender.RowCount = 1;
             this.tlp_gender.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -889,7 +889,7 @@ namespace FoodandBeverage.Forms
             this.btn_edit_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_edit_cus.FlatAppearance.BorderSize = 0;
             this.btn_edit_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_edit_cus.Location = new System.Drawing.Point(270, 23);
+            this.btn_edit_cus.Location = new System.Drawing.Point(269, 23);
             this.btn_edit_cus.Name = "btn_edit_cus";
             this.btn_edit_cus.Size = new System.Drawing.Size(40, 1);
             this.btn_edit_cus.TabIndex = 10;
@@ -4125,7 +4125,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 549F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 550F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -4141,7 +4141,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(181, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(180, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -4160,7 +4160,7 @@ namespace FoodandBeverage.Forms
             "None"});
             this.cmb_itemcategory_split.Location = new System.Drawing.Point(36, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(139, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(138, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button

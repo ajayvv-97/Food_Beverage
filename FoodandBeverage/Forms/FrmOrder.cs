@@ -7430,7 +7430,7 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         break;
                     case "btncreditcard":
-                        payid = Convert.ToInt32(PaymentType.CREDIT);
+                        payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         break;
                     case "btnothers":
                         payid = Convert.ToInt32(PaymentType.OTHERS);
@@ -7526,8 +7526,8 @@ namespace FoodandBeverage.Forms
                         clickedButton.Enabled = false;
                         break;
                     case "btncreditcard_part":
-                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.CREDIT);
-                        dgv_part.Rows[rowno].Cells[2].Value = "CREDIT";
+                        dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.CREDITCARD);
+                        dgv_part.Rows[rowno].Cells[2].Value = "CREDITCARD";
                         dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
                         clickedButton.Enabled = false;
                         break;
@@ -7925,13 +7925,13 @@ namespace FoodandBeverage.Forms
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
                     case "btn_split_credit":
-                        payid = Convert.ToInt32(PaymentType.CREDIT);
-                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.CREDIT);
-                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "CREDIT";
+                        payid = Convert.ToInt32(PaymentType.CREDITCARD);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.CREDITCARD);
+                        dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "CREDITCARD";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;
                         break;
                     case "btn_split_others":
-                        payid = Convert.ToInt32(PaymentType.CREDIT);
+                        payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[4].Value = Convert.ToInt32(PaymentType.OTHERS);
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[3].Value = "OTHERS";
                         dgv_split.Rows[dgv_split.CurrentCell.RowIndex].ReadOnly = true;

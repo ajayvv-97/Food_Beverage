@@ -233,7 +233,35 @@ namespace FoodandBeverage.Forms
             dgvorderview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
+            #region Load Chart Form
             panelDesktop.Controls.Clear();
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+            {
+                FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    _instancePurchaseReturn.Dock = DockStyle.None;
+                    ResizeForm(_instancePurchaseReturn);
+                    panelDesktop.Controls.Add(_instancePurchaseReturn);
+                    _instancePurchaseReturn.Filldashboard();
+                    _instancePurchaseReturn.Show();
+                    _instancePurchaseReturn.BringToFront();
+                }
+            }
+            else
+            {
+                FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
+                _instancePurchaseReturn.Dock = DockStyle.None;
+                ResizeForm(_instancePurchaseReturn);
+                _instancePurchaseReturn.TopLevel = false;
+                panelDesktop.Controls.Add(_instancePurchaseReturn);
+                _instancePurchaseReturn.Show();
+                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                _instancePurchaseReturn.BringToFront();
+            }
+            #endregion
 
         }
         #region Color Setting
@@ -1807,7 +1835,8 @@ namespace FoodandBeverage.Forms
 
         private void Menuoperation_Click(object sender, EventArgs e)
         {
-            AutoTimer.Stop();
+            if (menutable_click)
+                AutoTimer.Stop();
             panelDesktop.Controls.Clear();
 
             ib_Company.Visible = true;

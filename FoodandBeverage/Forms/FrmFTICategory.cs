@@ -97,6 +97,7 @@ namespace FoodandBeverage.Forms
             chk_active.Visible = false;
             btn_del_cate.Visible = false;
             txtfoodCate.Focus();
+            chk_active.Checked = true;
         }
         public void Fillcategory(int n)
         {
