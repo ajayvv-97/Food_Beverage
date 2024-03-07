@@ -73,6 +73,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap active_dinner_table_chart {
+            get {
+                object obj = ResourceManager.GetObject("active_dinner_table_chart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ACTIVEBUTTON {
             get {
                 object obj = ResourceManager.GetObject("ACTIVEBUTTON", resourceCulture);
@@ -256,6 +266,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap button_roundedge2 {
             get {
                 object obj = ResourceManager.GetObject("button_roundedge2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cancelled_chart {
+            get {
+                object obj = ResourceManager.GetObject("cancelled_chart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -546,6 +566,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap food_preparation {
             get {
                 object obj = ResourceManager.GetObject("food_preparation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap foodmenu_chart {
+            get {
+                object obj = ResourceManager.GetObject("foodmenu_chart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1073,6 +1103,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap promotion_chart {
+            get {
+                object obj = ResourceManager.GetObject("promotion_chart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Purchase {
             get {
                 object obj = ResourceManager.GetObject("Purchase", resourceCulture);
@@ -1136,6 +1176,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap report {
             get {
                 object obj = ResourceManager.GetObject("report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reservation_icon_chart {
+            get {
+                object obj = ResourceManager.GetObject("reservation_icon_chart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

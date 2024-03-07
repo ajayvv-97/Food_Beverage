@@ -1188,5 +1188,20 @@
   <ItemGroup>
     <None Include="Resources\part_icon_chart.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reservation-icon_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\promotion_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\active_dinner-table_chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderview_cancelled1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FoodPic1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

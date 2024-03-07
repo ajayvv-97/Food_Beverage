@@ -2,12 +2,9 @@
 using Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -20,6 +17,7 @@ namespace FoodandBeverage.Forms
         public static int UserType = 0;
         public static int Allaccess = 0;
         public int Reportid = 0;
+
        public FrmDashboardReport()
         {
             InitializeComponent();
@@ -29,7 +27,7 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration
-
+        private List<DmnGridFields> Expencedata;
 
         #endregion
         private void FrmDashboardReport_Load(object sender, EventArgs e)
@@ -53,47 +51,93 @@ namespace FoodandBeverage.Forms
 
             FillBoxdetailed();
 
+            FillFast_Slowing();
+
+            tcslow_move.SelectedIndex = 1;
+            tlp_box_frist.Focus();
+
         }
-        #region ,ODEL BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
+
+        #region  FAST AND SOLW MOVING ITEMS
+        public void FillFast_Slowing()
+        {
+            try
+            {
+                //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                //DmnSearch dmnSearch = new DmnSearch();
+                //dmnSearch.Select = " count(*) Field1,0 Field2,0 Field3,0 Field4,0 Field5 ";
+                //dmnSearch.Table = " tblOrderMaster where Status=1  AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                //                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                //                  " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5 from tblMenu where Status = 1" +
+                //                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5 from tblOfferMaster where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
+                //                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5 from tblbookMaster where  Status = 1 AND BookingDateTime <= SYSDATETIME() AND BookingDateTime >= SYSDATETIME()";
+                //dmnSearch.WhereNdGroupBy = " ";
+                //dmnSearch.OrderBy = "";
+                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //if (gridSource.Count > 0)
+                //{
+                //    lblactive.Text = Convert.ToString(gridSource[0].Field1);
+                //    lblcancelled.Text = Convert.ToString(gridSource[0].Field2);
+                //    lblfoodmenu.Text = Convert.ToString(gridSource[0].Field3);
+                //    lblactivepromo.Text = Convert.ToString(gridSource[0].Field4);
+                //    lblupreserva.Text = Convert.ToString(gridSource[0].Field5);
+                //}
+                //else
+                //{
+                //    lblactive.Text = "0.00";
+                //    lblcancelled.Text = "0.00";
+                //    lblfoodmenu.Text = "0.00";
+                //    lblactivepromo.Text = "0.00";
+                //    lblupreserva.Text = "0.00";
+                //}
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
+
+        #region  BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
         public void FillBoxdetailed()
         {
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
-                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable" +
-                                    " PIVOT( SUM(netamount) FOR Caption IN([CASH], [CREDIT CARD],[UPI], [DEBIT CARD], [BANKING ONLINE], [OTHERS], [PART], [SPLIT]) " +
-                                    ") AS PivotTable";
+                dmnSearch.Select = " count(*) Field1,0 Field2,0 Field3,0 Field4,0 Field5,1 Field6 ";
+                dmnSearch.Table = " tblOrderMaster where Status=1  AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                                  " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
+                                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
+                                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime <= SYSDATETIME() AND BookingDateTime >= SYSDATETIME()";
                 dmnSearch.WhereNdGroupBy = " ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                var columnSums = new
+                {
+                    Field1 = gridSource.Sum(item => Convert.ToDecimal(item.Field1)),
+                    Field2 = gridSource.Sum(item => Convert.ToDecimal(item.Field2)),
+                    Field3 = gridSource.Sum(item => Convert.ToDecimal(item.Field3)),
+                    Field4 = gridSource.Sum(item => Convert.ToDecimal(item.Field4)),
+                    Field5 = gridSource.Sum(item => Convert.ToDecimal(item.Field5))
+                };
+
                 if (gridSource.Count > 0)
                 {
-                    ibcash.Text = Convert.ToString(gridSource[0].Field1);
-                    ibcreditcard.Text = Convert.ToString(gridSource[0].Field2);
-                    ibupi.Text = Convert.ToString(gridSource[0].Field3);
-                    ibrupay.Text = Convert.ToString(gridSource[0].Field4);
-                    ibnetbanking.Text = Convert.ToString(gridSource[0].Field5);
-                    ibothers.Text = Convert.ToString(gridSource[0].Field6);
-                    ibpart.Text = Convert.ToString(gridSource[0].Field7);
-                    ibsplit.Text = Convert.ToString(gridSource[0].Field8);
-                    decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
-                                       Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
-                                       Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
-                    ibtotalsumpayment.Text = Convert.ToString(sumtotal);
+                    lblactive.Text = Convert.ToString(columnSums.Field1);
+                    lblcancelled.Text = Convert.ToString(columnSums.Field2);
+                    lblfoodmenu.Text = Convert.ToString(columnSums.Field3);
+                    lblactivepromo.Text = Convert.ToString(columnSums.Field4);
+                    lblupreserva.Text = Convert.ToString(columnSums.Field5);
                 }
                 else
                 {
-                    ibcash.Text = "0.00";
-                    ibcreditcard.Text = "0.00";
-                    ibupi.Text = "0.00";
-                    ibrupay.Text = "0.00";
-                    ibnetbanking.Text = "0.00";
-                    ibothers.Text = "0.00";
-                    ibpart.Text = "0.00";
-                    ibsplit.Text = "0.00";
-                    ibtotalsumpayment.Text = "0.00";
+                    lblactive.Text = "0.00";
+                    lblcancelled.Text = "0.00";
+                    lblfoodmenu.Text = "0.00";
+                    lblactivepromo.Text = "0.00";
+                    lblupreserva.Text = "0.00";
                 }
             }
             catch (Exception ex)
@@ -573,11 +617,6 @@ namespace FoodandBeverage.Forms
                 expencepiechart.Legends["Legend"].Docking = Docking.Right;
                 seriesExpence.LegendText = "Expence";
                 expencepiechart.Legends["Legend"].Font = new Font("Arial", 8, FontStyle.Regular);
-
-                // Add title
-                Title chartTitleExpence = new Title("Expence");
-                chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
-                expencepiechart.Titles.Add(chartTitleExpence);
             }
             catch (Exception ex)
             {
@@ -589,26 +628,74 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                decimal totalexpence = 0;
                 BllExpenceChart<DmnGridFields> bllSearch = new BllExpenceChart<DmnGridFields>();
                 DmnGridFields dmnSearch = new DmnGridFields();
                 dmnSearch.StartDate = dtp_dashboard.Value;
-                var gridSource = bllSearch.serachexpencedata("prdexpencechartdata", dmnSearch);
+                Expencedata = bllSearch.serachexpencedata("prdexpencechartdata", dmnSearch);
 
-                if (gridSource.Count > 0)
+                if (Expencedata.Count > 0)
                 {
+                    expencepiechart.Series["s_expence"].Points.Clear();
 
-                    foreach (var row in gridSource)
+                    int counter = 0;
+                    foreach (var row in Expencedata)
                     {
                         var category = row.Field1;
                         var amount = row.Field2;
 
-                        var dataPoint = new DataPoint(); 
+                        var dataPoint = new DataPoint();
                         dataPoint.SetValueXY(category, amount);
                         expencepiechart.Series["s_expence"].Points.Add(dataPoint);
-                        dataPoint.LegendText = $"{category}: {amount}"; 
-                        dataPoint.ToolTip = $"{category}: {amount}"; 
+
+                        dataPoint.LegendText = $"{category}: {amount}";
+                        dataPoint.ToolTip = $"{category}: {amount}";
+                        totalexpence = totalexpence + Convert.ToDecimal(amount);
+                        counter++;
+                        if (counter >= 4)
+                            break;
                     }
 
+                    if (counter < Expencedata.Count)
+                    {
+                        decimal remainingAmount = Expencedata.Skip(4).Sum(row => Convert.ToDecimal(row.Field2));
+
+                        var dataPointOthers = new DataPoint();
+                        dataPointOthers.SetValueXY("Remaining", remainingAmount);
+
+                        expencepiechart.Series["s_expence"].Points.Add(dataPointOthers);
+
+                        dataPointOthers.LegendText = $"Remaining [Click to viwe more] : {remainingAmount}";
+                        dataPointOthers.ToolTip = "Remaining: "+remainingAmount+"  [Click to viwe more....]";
+
+                        totalexpence = totalexpence + remainingAmount;
+                    }                
+
+                    expencepiechart.Titles.Clear();
+                    Title chartTitleExpence = new Title("Total Expense : " + totalexpence);
+                    chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
+                    expencepiechart.Titles.Add(chartTitleExpence);
+
+                }
+                else
+                {
+                    expencepiechart.Series.Clear();
+                    expencepiechart.Legends.Clear();
+
+                    Series seriesExpence = new Series("s_expence");
+                    seriesExpence.ChartType = SeriesChartType.Doughnut;
+                    expencepiechart.Series.Add(seriesExpence);
+
+                    // Add legend
+                    expencepiechart.Legends.Add(new Legend("Legend"));
+                    expencepiechart.Legends["Legend"].Docking = Docking.Right;
+                    seriesExpence.LegendText = "Expence";
+                    expencepiechart.Legends["Legend"].Font = new Font("Arial", 8, FontStyle.Regular);
+
+                    expencepiechart.Titles.Clear();
+                    Title chartTitleExpence = new Title("No Data");
+                    chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
+                    expencepiechart.Titles.Add(chartTitleExpence);
                 }
             }
             catch (Exception ex)
@@ -616,10 +703,304 @@ namespace FoodandBeverage.Forms
 
             }
         }
+        private void expencepiechart_MouseClick(object sender, MouseEventArgs e)
+        {
+            var r = expencepiechart.HitTest(e.X, e.Y);
+            int index = r.PointIndex;
+
+            if (index == expencepiechart.Series["s_expence"].Points.Count - 1) // Check if "Remaining" category is clicked
+            {
+                int panelWidthPercentage = 30;
+                int panelheightPercentage = 50;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+
+                pnlexpence_viewmore.Size = new Size(panelWidth, panelHeight);
+                pnlexpence_viewmore.Location = new Point(this.ClientSize.Width / 2 - pnlexpence_viewmore.Size.Width / 2, this.ClientSize.Height / 2 - pnlexpence_viewmore.Size.Height / 2);
+                pnlexpence_viewmore.Visible = true;
+
+                int rowIndex = 0;
+                int columnIndex = 0;
+                decimal remexptotal = 0;
+                tlp_expence_viewmore.Controls.Clear();
+
+                #region Column heading Expence View more
+                Label categoryname_h = new Label()
+                {
+                    Text = "Product Name",
+                    Name = "lbl_categoryname_heading",
+                    Dock = DockStyle.Top,
+                    ForeColor = Color.Black,
+                    Font = new Font("Arial", 12, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    BackColor = Color.FromArgb(159, 166, 178),
+                };
+
+                Label amount_h = new Label()
+                {
+                    Text = "Amount",
+                    Name = "lbl_amount_heading",
+                    Dock = DockStyle.Top,
+                    ForeColor = Color.Black,
+                    Font = new Font("Arial", 10, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    BackColor = Color.FromArgb(159, 166, 178),
+                };
+
+                tlp_expence_viewmore.Controls.Add(categoryname_h, columnIndex, rowIndex);
+                columnIndex++;
+                tlp_expence_viewmore.Controls.Add(amount_h, columnIndex, rowIndex);
+                rowIndex++;
+                #endregion
+
+
+                for (int i = 2; i < Expencedata.Count; i++)
+                {
+                    columnIndex = 0;
+                    //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
+                    Label categoryname = new Label()
+                    {
+                        Text = Expencedata[i].Field1,
+                        Name = "lbl_categoryname_" + Expencedata[i].Field1,
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        BackColor = Color.AliceBlue,
+                    };
+
+                    Label amount = new Label()
+                    {
+                        Text = Expencedata[i].Field2,
+                        Name = "lbl_amount_" + Expencedata[i].Field1,
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        BackColor = Color.AliceBlue,
+                    };
+                    remexptotal = remexptotal + Convert.ToDecimal(Expencedata[i].Field2);
+                    tlp_expence_viewmore.Controls.Add(categoryname, columnIndex, rowIndex);
+                    columnIndex++;
+                    tlp_expence_viewmore.Controls.Add(amount, columnIndex, rowIndex);   
+
+                    rowIndex++;
+                }
+                ibrem_exp_total.Text = Convert.ToString(remexptotal);
+                //pnlexpence_viewmore.Controls.Add(tlp_expence_viewmore);
+
+            }
+        }
+        private Image ResizeImage(Image image, Size size)
+        {
+            return new Bitmap(image, size);
+        }
 
 
         #endregion
 
+        #region  SLOW FAST MOVING ITEMS
+        private void tcslow_move_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int rowIndex = 0;
+                int columnIndex = 0;
+                BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
+                DmnGridFields dmnSearch = new DmnGridFields();
+                dmnSearch.StartDate = dtp_dashboard.Value;
+                var resultdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
+                if (tcslow_move.SelectedIndex == 0)
+                {
+                    rowIndex = 0;
+                    tlp_fastmovingitem.Controls.Clear();
+
+                    #region Column heading Fast Moving Item
+                    Label fastmoveitem_h = new Label()
+                    {
+                        Text = "Product Name",
+                        Name = "lbl_product_fast",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+
+                    Label totalamount_h = new Label()
+                    {
+                        Text = "Total Amount",
+                        Name = "lbl_amount_fast",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+
+                    Label occurancefast_h = new Label()
+                    {
+                        Text = "Total No Sales",
+                        Name = "lbl_totalsaleno",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+                    tlp_fastmovingitem.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
+                    columnIndex++;
+                    tlp_fastmovingitem.Controls.Add(totalamount_h, columnIndex, rowIndex);
+                    columnIndex++;
+                    tlp_fastmovingitem.Controls.Add(occurancefast_h, columnIndex, rowIndex);
+                    rowIndex++;
+                    #endregion
+
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        columnIndex = 0;
+                        //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
+                        Label fastmoveitem = new Label()
+                        {
+                            Text = resultdata[i].Field1,
+                            Name = "lbl_categoryname_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 12, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            BackColor = Color.AliceBlue,
+                        };
+
+                        Label totalamount = new Label()
+                        {
+                            Text = resultdata[i].Field2,
+                            Name = "lbl_amount_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.AliceBlue,
+                        };
+
+                        Label occurancefast = new Label()
+                        {
+                            Text = resultdata[i].Field3,
+                            Name = "lbl_occurancefast_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.AliceBlue,
+                        };
+
+
+                        tlp_fastmovingitem.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_fastmovingitem.Controls.Add(totalamount, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_fastmovingitem.Controls.Add(occurancefast, columnIndex, rowIndex);
+                        rowIndex++;
+                    }
+                }
+                else if (tcslow_move.SelectedIndex == 1)
+                {
+                    rowIndex = 0;
+                    tlp_slowingitems.Controls.Clear();
+
+                    #region Column heading Fast Solw Item
+                    Label fastmoveitem_h = new Label()
+                    {
+                        Text = "Product Name",
+                        Name = "lbl_product_Solw",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+
+                    Label totalamount_h = new Label()
+                    {
+                        Text = "Total Amount",
+                        Name = "lbl_amount_solw",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+
+                    Label occurancefast_h = new Label()
+                    {
+                        Text = "Total No Sales",
+                        Name = "lbl_totalsaleno_slow",
+                        Dock = DockStyle.Top,
+                        ForeColor = Color.Black,
+                        Font = new Font("Arial", 13, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        BackColor = Color.FromArgb(159, 166, 178),
+                    };
+                    tlp_slowingitems.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
+                    columnIndex++;
+                    tlp_slowingitems.Controls.Add(totalamount_h, columnIndex, rowIndex);
+                    columnIndex++;
+                    tlp_slowingitems.Controls.Add(occurancefast_h, columnIndex, rowIndex);
+                    rowIndex++;
+                    #endregion
+
+                    for (int i = resultdata.Count - 1; i >= Math.Max(0, resultdata.Count - 10); i--)
+                    {
+                        columnIndex = 0;
+                        Label fastmoveitem = new Label()
+                        {
+                            Text = resultdata[i].Field1,
+                            Name = "lbl_categoryname_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 12, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            BackColor = Color.AliceBlue,
+                        };
+
+                        Label totalamount = new Label()
+                        {
+                            Text = resultdata[i].Field2,
+                            Name = "lbl_amount_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.AliceBlue,
+                        };
+                        Label occuranceslow = new Label()
+                        {
+                            Text = resultdata[i].Field3,
+                            Name = "lbl_occuranceslow_" + resultdata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.AliceBlue,
+                        };
+
+                        tlp_slowingitems.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
+
+
+                        rowIndex++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        #endregion
 
         private void dtp_dashboard_ValueChanged(object sender, EventArgs e)
         {
@@ -628,6 +1009,10 @@ namespace FoodandBeverage.Forms
             FillCharttotaldiscountChart();
             FillChartExpence();
             Fillpaymentdetailed();
+            FillBoxdetailed();
+            FillFast_Slowing();
+            tcslow_move.SelectedIndex = 0;
+            tlp_box_frist.Focus();
         }
 
         private void cmb_fin_year_SelectionChangeCommitted(object sender, EventArgs e)
@@ -639,5 +1024,12 @@ namespace FoodandBeverage.Forms
         {
            // cmb_fin_year.Location = new Point(Totalrevenuechart.Right, Totalrevenuechart.Top);
         }
+
+        private void btnclose_exp_view_Click(object sender, EventArgs e)
+        {
+            pnlexpence_viewmore.Visible = false;
+        }
+
+
     }
 }
