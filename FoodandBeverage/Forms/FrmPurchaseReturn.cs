@@ -310,6 +310,7 @@ namespace FoodandBeverage.Forms
             setperficpurchaseret();
             tlp_textboxes.Enabled = true;
             btnsave.Visible = true;
+            txtpurchaseentry.BackColor = Color.FromArgb(196, 223, 223);
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -787,7 +788,7 @@ namespace FoodandBeverage.Forms
                         netAmount();
                         pnlpurchasedetails.Hide();
                         txtpurchaseentry.Enabled = true;
-                        txtpurchaseentry.BackColor = Color.White;
+                        //txtpurchaseentry.BackColor = Color.White;
                         dgvProduct.Rows[cellproductid].Cells[iname].Style.ForeColor = Color.Black;
                         dgvProduct.Focus();
                     }
@@ -846,7 +847,7 @@ namespace FoodandBeverage.Forms
                     dgvProduct.Focus();
                     pnlpurchasedetails.Hide();
                     txtpurchaseentry.Enabled = true;
-                    txtpurchaseentry.BackColor = Color.White;
+                    //txtpurchaseentry.BackColor = Color.White;
                     dgvProduct.Focus();
 
                 }
@@ -860,7 +861,7 @@ namespace FoodandBeverage.Forms
                     netAmount();
                     pnlpurchasedetails.Hide();
                     txtpurchaseentry.Enabled = true;
-                    txtpurchaseentry.BackColor = Color.White;
+                    //txtpurchaseentry.BackColor = Color.White;
                     dgvProduct.Rows[dgvProduct_rowid].Cells[iname].Style.ForeColor = Color.Black;
                     dgvProduct.Focus();
                 }

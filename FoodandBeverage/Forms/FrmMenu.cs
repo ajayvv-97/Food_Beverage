@@ -85,7 +85,7 @@ namespace FoodandBeverage.Forms
                     int count = 0;
                     for (int i = 0; i < dgv_menu.RowCount; i++)
                     {
-                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)  //&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") )  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
                         {
                             dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                             dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
@@ -1549,36 +1549,41 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ";
-                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";
-                    objSearch.WhereNdGroupBy = "where p.Status=1 and ISNULL(m.MId,0)=0";
-                    objSearch.OrderBy = "";
-                    objSearch.OrderBy = "";
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6 ";
+                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";//
+                    objSearch.WhereNdGroupBy = "where p.Status=1";
+                    objSearch.OrderBy = "order by m.Status desc";
+
                     var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
-                        int rowno = dgv_menu.RowCount - 1;
-                        dgv_menu.Rows.Add(itemSource.Count-1);
+                        dgv_menu.Rows.Clear();
                         for (int i = 0; i < itemSource.Count; i++)
                         {
-                            if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) != Convert.ToInt32(itemSource[0].Field1))
-                            {
-                                dgv_menu.Rows[rowno].Cells[slno].Value = rowno + 1;
-                                dgv_menu.Rows[rowno].Cells[piidno].Value = itemSource[i].Field1;
-                                dgv_menu.Rows[rowno].Cells[pnameno].Value = itemSource[i].Field2;
-                                dgv_menu.Rows[rowno].Cells[pcatno].Value = itemSource[i].Field3;
-                                dgv_menu.Rows[rowno].Cells[ppriceno].Value = itemSource[i].Field4;
-                                dgv_menu.Rows[rowno].Cells[pfcidno].Value = itemSource[i].Field5;
-                                dgv_menu.Rows[rowno].Cells[pmidno].Value = itemSource[i].Field7;
-                                dgv_menu.Rows[rowno].Cells[pnameno].Style.ForeColor = Color.Black;
-                                dgv_menu.Rows[rowno].Cells[pqtyno].Style.BackColor = Color.LightGray;
-                                dgv_menu.Columns[pstatusno].Visible = true;
-                                chk_selectall.Visible = true;
-                                rowno++;
-                            }
-                        }
+                            dgv_menu.Rows.Add();
+                            dgv_menu.Rows[i].Cells[slno].Value = i + 1;
+                            dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
+                            dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
+                            dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
+                            dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
+                            dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+                            dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
+                            dgv_menu.Rows[i].Cells[pnameno].Style.ForeColor = Color.Black;
+                            dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
+                            dgv_menu.Columns[pstatusno].Visible = true;
+                            chk_selectall.Visible = true;
+
+                            if (Convert.ToInt32(itemSource[i].Field6) == 1)
+                                dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                            else
+                                dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                        }                      
 
                     }
+                }
+                else
+                {
+                    Product_Fill();
                 }
             }
             catch(Exception ex)

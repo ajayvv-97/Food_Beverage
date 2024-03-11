@@ -263,6 +263,7 @@ namespace FoodandBeverage.Forms
                             else
                             {
                                 refreshtimer.Stop();
+
                                 #region Main TableLayoutPanel 
                                 // Main TableLayoutPanel for each product
                                 TableLayoutPanel tlp_product_box = new TableLayoutPanel();
@@ -784,7 +785,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                       if (e.ColumnIndex == dactionno)
+           if (e.ColumnIndex == dactionno)
             {
                 DataGridView clickedDataGridView = sender as DataGridView;
                 if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
@@ -1100,13 +1101,14 @@ namespace FoodandBeverage.Forms
                         DataGridView dgv_product_details = this.Controls.Find(dgv_view_name, true).FirstOrDefault() as DataGridView;
                         if (dgv_product_details != null)
                         {
-                            int koid = 0;
+                            int omid = 0,orderno=0;
                             for (int i = 0; i < dgv_product_details.RowCount; i++)
                             {
                                 if(Convert.ToInt32(dgv_product_details.Rows[i].Cells[dstatusno].Value)==1)
                                 {
-                                    koid= Convert.ToInt32(dgv_product_details.Rows[i].Cells[dkoidno].Value);
+                                    omid= Convert.ToInt32(dgv_product_details.Rows[i].Cells[dordermasteridno].Value);
                                     tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
+                                    orderno= Convert.ToInt32(dgv_product_details.Rows[i].Cells[dorderno].Value);
                                     dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[ddetailsidno].Value);
                                     dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dkoidno].Value);
                                     dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dordermasteridno].Value);
@@ -1123,7 +1125,7 @@ namespace FoodandBeverage.Forms
                             pbcancelfoodclciked = false;
                             pnl_products_rem_descr.Visible = false;
 
-                            string tlpname = "tlp_product_box_k_" + koid;
+                            string tlpname = "tlp_product_box_k_" + omid + orderno;
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_sele != null && flp_order_view.Controls.Contains(tlp_sele))
                             {

@@ -351,6 +351,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
         private void btnmini_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;

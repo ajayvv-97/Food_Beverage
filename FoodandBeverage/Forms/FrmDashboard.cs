@@ -106,164 +106,209 @@ namespace FoodandBeverage.Forms
         }
         private void Menulogout_Click(object sender, EventArgs e)
         {
-            this.Close();
-            if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
+            try
             {
-                FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
-                _instanceFrmLogin.Show();
-                _instanceFrmLogin.BringToFront();
-                _instanceFrmLogin.Visible = true;
+                this.Close();
+                if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
+                {
+                    FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
+                    _instanceFrmLogin.Show();
+                    _instanceFrmLogin.BringToFront();
+                    _instanceFrmLogin.Visible = true;
+                }
             }
+            catch(Exception ex)
+            {
+
+            }
+           
         }
 
- 
+
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
-
-            if (screenWidth > 1367 && screenHeight > 769)
+            try
             {
-                desiredWidth = 52;
-                desiredHeight = 52;
 
-                HdesiredWidth = 60;
-                HdesiredHeight = 60;
-                foreach (Control control in flp_operations.Controls)
+                //        if (screenWidth > 1367 && screenHeight > 769)
+                //        {
+                //            desiredWidth = 52;
+                //            desiredHeight = 52;
+
+                //            HdesiredWidth = 60;
+                //            HdesiredHeight = 60;
+                //            foreach (Control control in flp_operations.Controls)
+                //            {
+                //                if (control is Button button)
+                //                {
+                //                    button.Size = new Size(300, 120);
+                //                    button.Margin = new Padding(90, 35, 10, 2);
+                //                    button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style);
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            desiredWidth = 32;
+                //            desiredHeight = 32;
+
+                //            HdesiredWidth = 40;
+                //            HdesiredHeight = 40;
+                //            foreach (Control control in flp_operations.Controls)
+                //            {
+                //                if (control is Button button)
+                //                {
+                //                    button.Size = new Size(212, 89);
+                //                }
+                //            }
+                //        }
+
+                panelDesktop.Controls.Add(tlp_op_menu);
+                tlp_op_menu.Dock = DockStyle.Fill;
+                tlp_op_menu.Visible = true;
+
+                int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+                if (screenWidth > 1367 && screenHeight > 769)
                 {
-                    if (control is Button button)
-                    {
-                        button.Size = new Size(300, 120);
-                        button.Margin = new Padding(90, 35, 10, 2);
-                        button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style);
-                    }
+                    desiredWidth = 52;
+                    desiredHeight = 52;
+
+                    HdesiredWidth = 60;
+                    HdesiredHeight = 60;
                 }
-            }
-            else
-            {
-                desiredWidth = 32;
-                desiredHeight = 32;
-
-                HdesiredWidth = 40;
-                HdesiredHeight = 40;
-                foreach (Control control in flp_operations.Controls)
-                {
-                    if (control is Button button)
-                    {
-                        button.Size = new Size(212, 89);
-                    }
-                }
-            }
-            txtname_search.Text = "Food Name .....";
-            txtitemcode_serach.Text = "Item Code .....";
-            tlp_main.BackColor = menubuttoncolor;
-            flp_navbar.BackColor = menubuttoncolor;
-            btn_minimium.BackColor = menubuttoncolor;
-            Menuhome.Focus();
-            this.DoubleBuffered = true;
-            RoundPictureBoxCorners(pb_appicon, 10);
-            //pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
-            Roundform(30);
-            // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
-            //set color on solidebar header
-            pnl_header.BackColor = menubuttoncolor;
-            pbopbuttoncoloepicker.BackColor = menubuttoncolor;
-            pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-
-            tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-            this.FormBorderStyle = FormBorderStyle.None;
-            timer1.Start();
-            Menuhome.BackColor = menubuttoncolor;
-            Menuoperation.BackColor = menubuttoncolor;
-            Menubilling.BackColor = menubuttoncolor;
-            Menureport.BackColor = menubuttoncolor;
-            Menulogout.BackColor = menubuttoncolor;
-            Menusetting.BackColor = menubuttoncolor;
-            menuEmployee.BackColor = menubuttoncolor;
-            Menutable.BackColor = menubuttoncolor;
-            button_imageset();
-            //flp_menu.BackColor = Color.White;
-            tlp_main_sidebar_pnldesktop.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
-
-            //operation button color 
-            ib_Category.BackColor = opbuttoncolor;
-            ib_Item.BackColor = opbuttoncolor;
-            ib_ingrediant.BackColor = opbuttoncolor;
-            ib_menu.BackColor = opbuttoncolor;
-            ib_unit.BackColor = opbuttoncolor;
-            ib_table.BackColor = opbuttoncolor;
-            ib_purchase.BackColor = opbuttoncolor;
-            ib_purchasereturn.BackColor = opbuttoncolor;
-            ib_tax.BackColor = opbuttoncolor;
-            ib_vendor.BackColor = opbuttoncolor;
-            ib_Discount_offer.BackColor = opbuttoncolor;
-            ib_Expence.BackColor = opbuttoncolor;
-            ib_orderview.BackColor = opbuttoncolor;
-            ib_kitchenview.BackColor = opbuttoncolor;
-            ib_PromoCode.BackColor = opbuttoncolor;
-
-            ib_Company.BackColor = opbuttoncolor;
-            ib_useraccount.BackColor = opbuttoncolor;
-            ib_designation.BackColor = opbuttoncolor;
-            ib_department.BackColor = opbuttoncolor;
-            ib_employee.BackColor = opbuttoncolor;
-            ib_reservation.BackColor = opbuttoncolor;
-            ib_userpermission.BackColor = opbuttoncolor;
-            textb_shape();
-            AppColorSetting();
-            //flpEmployee.Visible = false;
-            //ib_employee.Visible = false;
-            ib_designation.Visible = false;
-            ib_department.Visible = false;
-            ib_useraccount.Visible = false;
-            ib_userpermission.Visible = false;
-            ib_Discount_offer.Visible = false;
-            ib_Expence.Visible = false;
-            ib_PromoCode.Visible = false;
-            FormPermissionChecking();
-
-            dgvorderview.BorderStyle = BorderStyle.None;
-            dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvorderview.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgvorderview.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgvorderview.BackgroundColor = Color.White;
-
-            dgvorderview.EnableHeadersVisualStyles = false;
-            dgvorderview.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvorderview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-            #region Load Chart Form
-            panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
-            {
-                FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
-                if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 else
                 {
+                    desiredWidth = 32;
+                    desiredHeight = 32;
+
+                    HdesiredWidth = 40;
+                    HdesiredHeight = 40;
+                }
+
+
+
+                txtname_search.Text = "Food Name .....";
+                txtitemcode_serach.Text = "Item Code .....";
+                tlp_main.BackColor = menubuttoncolor;
+                flp_navbar.BackColor = menubuttoncolor;
+                btn_minimium.BackColor = menubuttoncolor;
+                Menuhome.Focus();
+                this.DoubleBuffered = true;
+                RoundPictureBoxCorners(pb_appicon, 10);
+                //pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
+                Roundform(30);
+                // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
+                //set color on solidebar header
+                pnl_header.BackColor = menubuttoncolor;
+                pbopbuttoncoloepicker.BackColor = menubuttoncolor;
+                pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+
+                tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                this.FormBorderStyle = FormBorderStyle.None;
+                timer1.Start();
+                Menuhome.BackColor = menubuttoncolor;
+                Menuoperation.BackColor = menubuttoncolor;
+                Menubilling.BackColor = menubuttoncolor;
+                Menureport.BackColor = menubuttoncolor;
+                Menulogout.BackColor = menubuttoncolor;
+                Menusetting.BackColor = menubuttoncolor;
+                menuEmployee.BackColor = menubuttoncolor;
+                Menutable.BackColor = menubuttoncolor;
+                button_imageset();
+                //flp_menu.BackColor = Color.White;
+                tlp_main_sidebar_pnldesktop.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
+
+                //operation button color 
+                ib_Category.BackColor = opbuttoncolor;
+                ib_Item.BackColor = opbuttoncolor;
+                ib_ingrediant.BackColor = opbuttoncolor;
+                ib_menu.BackColor = opbuttoncolor;
+                ib_unit.BackColor = opbuttoncolor;
+                ib_table.BackColor = opbuttoncolor;
+                ib_purchase.BackColor = opbuttoncolor;
+                ib_purchasereturn.BackColor = opbuttoncolor;
+                ib_tax.BackColor = opbuttoncolor;
+                ib_vendor.BackColor = opbuttoncolor;
+                ib_Discount_offer.BackColor = opbuttoncolor;
+                ib_Expence.BackColor = opbuttoncolor;
+                ib_orderview.BackColor = opbuttoncolor;
+                ib_kitchenview.BackColor = opbuttoncolor;
+                ib_PromoCode.BackColor = opbuttoncolor;
+
+                ib_Company.BackColor = opbuttoncolor;
+                ib_useraccount.BackColor = opbuttoncolor;
+                ib_designation.BackColor = opbuttoncolor;
+                ib_department.BackColor = opbuttoncolor;
+                ib_employee.BackColor = opbuttoncolor;
+                ib_reservation.BackColor = opbuttoncolor;
+                ib_userpermission.BackColor = opbuttoncolor;
+                textb_shape();
+                AppColorSetting();
+                //flpEmployee.Visible = false;
+                //ib_employee.Visible = false;
+                ib_designation.Visible = false;
+                ib_department.Visible = false;
+                ib_useraccount.Visible = false;
+                ib_userpermission.Visible = false;
+                ib_Discount_offer.Visible = false;
+                ib_Expence.Visible = false;
+                ib_PromoCode.Visible = false;
+                FormPermissionChecking();
+
+                dgvorderview.BorderStyle = BorderStyle.None;
+                dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvorderview.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvorderview.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvorderview.BackgroundColor = Color.White;
+
+                dgvorderview.EnableHeadersVisualStyles = false;
+                dgvorderview.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvorderview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                #region Load Chart Form
+                panelDesktop.Controls.Clear();
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instancePurchaseReturn.Dock = DockStyle.None;
+                        ResizeForm(_instancePurchaseReturn);
+                        panelDesktop.Controls.Add(_instancePurchaseReturn);
+                        _instancePurchaseReturn.Filldashboard();
+                        _instancePurchaseReturn.Show();
+                        _instancePurchaseReturn.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
                     _instancePurchaseReturn.Dock = DockStyle.None;
                     ResizeForm(_instancePurchaseReturn);
+                    _instancePurchaseReturn.TopLevel = false;
                     panelDesktop.Controls.Add(_instancePurchaseReturn);
-                    _instancePurchaseReturn.Filldashboard();
                     _instancePurchaseReturn.Show();
+                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instancePurchaseReturn.BringToFront();
                 }
+                #endregion
+
             }
-            else
+            catch (Exception ex)
             {
-                FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
-                _instancePurchaseReturn.Dock = DockStyle.None;
-                ResizeForm(_instancePurchaseReturn);
-                _instancePurchaseReturn.TopLevel = false;
-                panelDesktop.Controls.Add(_instancePurchaseReturn);
-                _instancePurchaseReturn.Show();
-                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instancePurchaseReturn.BringToFront();
-            }
-            #endregion
+
+            }        
 
         }
+
         #region Color Setting
         private bool IsValidHtmlColor(string color)
         {
@@ -280,150 +325,158 @@ namespace FoodandBeverage.Forms
 
         public void AppColorSetting()
         {
-            BllSearch<DmnSetting> bllSearch = new BllSearch<DmnSetting>();
-            DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.Select = "*";
-            dmnSearch.Table = "tblsettings";
-            dmnSearch.WhereNdGroupBy = " where Status=1 ";
-            dmnSearch.OrderBy = "";
-            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-            if (gridSource.Count > 0)
+            try
             {
-                if (gridSource[0].APPColor == null && gridSource[0].OperationButtonColor == null && gridSource[0].MenuButtonColor == null)
+                BllSearch<DmnSetting> bllSearch = new BllSearch<DmnSetting>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblsettings";
+                dmnSearch.WhereNdGroupBy = " where Status=1 ";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
                 {
-                    opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-                    pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-                    ib_Category.BackColor = opbuttoncolor;
-                    ib_Item.BackColor = opbuttoncolor;
-                    ib_ingrediant.BackColor = opbuttoncolor;
-                    ib_menu.BackColor = opbuttoncolor;
-                    ib_unit.BackColor = opbuttoncolor;
-                    ib_table.BackColor = opbuttoncolor;
-                    ib_purchase.BackColor = opbuttoncolor;
-                    ib_purchasereturn.BackColor = opbuttoncolor;
-                    ib_tax.BackColor = opbuttoncolor;
-                    ib_vendor.BackColor = opbuttoncolor;
-                    ib_Discount_offer.BackColor = opbuttoncolor;
-                    ib_Expence.BackColor = opbuttoncolor;
-                    ib_orderview.BackColor = opbuttoncolor;
-                    ib_kitchenview.BackColor = opbuttoncolor;
-                    ib_PromoCode.BackColor = opbuttoncolor;
-                    ib_Company.BackColor = opbuttoncolor;
-                    ib_useraccount.BackColor = opbuttoncolor;
-                    ib_designation.BackColor = opbuttoncolor;
-                    ib_department.BackColor = opbuttoncolor;
-                    ib_employee.BackColor = opbuttoncolor;
-                    ib_reservation.BackColor = opbuttoncolor;
-                    ib_userpermission.BackColor = opbuttoncolor;
+                    if (gridSource[0].APPColor == null && gridSource[0].OperationButtonColor == null && gridSource[0].MenuButtonColor == null)
+                    {
+                        opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                        pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                        ib_Category.BackColor = opbuttoncolor;
+                        ib_Item.BackColor = opbuttoncolor;
+                        ib_ingrediant.BackColor = opbuttoncolor;
+                        ib_menu.BackColor = opbuttoncolor;
+                        ib_unit.BackColor = opbuttoncolor;
+                        ib_table.BackColor = opbuttoncolor;
+                        ib_purchase.BackColor = opbuttoncolor;
+                        ib_purchasereturn.BackColor = opbuttoncolor;
+                        ib_tax.BackColor = opbuttoncolor;
+                        ib_vendor.BackColor = opbuttoncolor;
+                        ib_Discount_offer.BackColor = opbuttoncolor;
+                        ib_Expence.BackColor = opbuttoncolor;
+                        ib_orderview.BackColor = opbuttoncolor;
+                        ib_kitchenview.BackColor = opbuttoncolor;
+                        ib_PromoCode.BackColor = opbuttoncolor;
+                        ib_Company.BackColor = opbuttoncolor;
+                        ib_useraccount.BackColor = opbuttoncolor;
+                        ib_designation.BackColor = opbuttoncolor;
+                        ib_department.BackColor = opbuttoncolor;
+                        ib_employee.BackColor = opbuttoncolor;
+                        ib_reservation.BackColor = opbuttoncolor;
+                        ib_userpermission.BackColor = opbuttoncolor;
 
-                    menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-                    pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-                    Menuhome.BackColor = menubuttoncolor;
-                    Menuoperation.BackColor = menubuttoncolor;
-                    Menubilling.BackColor = menubuttoncolor;
-                    Menureport.BackColor = menubuttoncolor;
-                    Menulogout.BackColor = menubuttoncolor;
-                    Menusetting.BackColor = menubuttoncolor;
-                    menuEmployee.BackColor = menubuttoncolor;
-                    Menutable.BackColor = menubuttoncolor;
+                        menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                        pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+                        Menuhome.BackColor = menubuttoncolor;
+                        Menuoperation.BackColor = menubuttoncolor;
+                        Menubilling.BackColor = menubuttoncolor;
+                        Menureport.BackColor = menubuttoncolor;
+                        Menulogout.BackColor = menubuttoncolor;
+                        Menusetting.BackColor = menubuttoncolor;
+                        menuEmployee.BackColor = menubuttoncolor;
+                        Menutable.BackColor = menubuttoncolor;
 
-                    tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-                    pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
+                        tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                        pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
 
+                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                            txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                            txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                            txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
+
+                        Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                        if (btnsetting != null)
+                            btnsetting.BackColor = opbuttoncolor;
+                    }
+                    else
+                    {
+                        Color colorapp, coloropera, colormenu;
+                        if (IsValidHtmlColor(gridSource[0].APPColor))
+                            colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
+                        else
+                            colorapp = Color.FromArgb(34, 46, 80);
+                        // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+
+                        if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
+                            coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
+                        else
+                            coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
+
+                        if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
+                            colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
+                        else
+                            colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
+
+                        if (gridSource[0].Gmail)
+                            chk_gmail.Checked = true;
+                        if (gridSource[0].Whatsapp)
+                            chk_whatsapp.Checked = true;
+
+                        opbuttoncolor = coloropera;
+                        menubuttoncolor = colormenu;
+                        txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
+                        txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
+                        txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
+                        txtsid.Text = Convert.ToString(gridSource[0].SId);
+
+
+                        ib_Category.BackColor = opbuttoncolor;
+                        ib_Item.BackColor = opbuttoncolor;
+                        ib_ingrediant.BackColor = opbuttoncolor;
+                        ib_menu.BackColor = opbuttoncolor;
+                        ib_unit.BackColor = opbuttoncolor;
+                        ib_table.BackColor = opbuttoncolor;
+                        ib_purchase.BackColor = opbuttoncolor;
+                        ib_purchasereturn.BackColor = opbuttoncolor;
+                        ib_tax.BackColor = opbuttoncolor;
+                        ib_vendor.BackColor = opbuttoncolor;
+                        ib_Discount_offer.BackColor = opbuttoncolor;
+                        ib_Expence.BackColor = opbuttoncolor;
+                        ib_orderview.BackColor = opbuttoncolor;
+                        ib_kitchenview.BackColor = opbuttoncolor;
+                        ib_PromoCode.BackColor = opbuttoncolor;
+                        ib_Company.BackColor = opbuttoncolor;
+                        ib_useraccount.BackColor = opbuttoncolor;
+                        ib_designation.BackColor = opbuttoncolor;
+                        ib_department.BackColor = opbuttoncolor;
+                        ib_employee.BackColor = opbuttoncolor;
+                        ib_reservation.BackColor = opbuttoncolor;
+                        ib_userpermission.BackColor = opbuttoncolor;
+                        pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+
+
+
+                        Menuhome.BackColor = menubuttoncolor;
+                        Menuoperation.BackColor = menubuttoncolor;
+                        Menubilling.BackColor = menubuttoncolor;
+                        Menureport.BackColor = menubuttoncolor;
+                        Menulogout.BackColor = menubuttoncolor;
+                        Menusetting.BackColor = menubuttoncolor;
+                        menuEmployee.BackColor = menubuttoncolor;
+                        Menutable.BackColor = menubuttoncolor;
+                        pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+
+                        pbappcoloepicker.BackColor = colorapp;
+                        tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+                    }
+
+                }
+                else
+                {
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                         txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                         txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                        txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
-
-                    Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-                    if (btnsetting != null)
-                        btnsetting.BackColor = opbuttoncolor;
+                        txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                    txtsid.Text = "0";
                 }
-                else
-                {
-                    Color colorapp, coloropera, colormenu;
-                    if (IsValidHtmlColor(gridSource[0].APPColor))
-                        colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
-                    else
-                        colorapp = Color.FromArgb(34, 46, 80);
-                    // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-
-                    if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
-                        coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
-                    else
-                        coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
-
-                    if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
-                        colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
-                    else
-                        colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
-
-                    if (gridSource[0].Gmail)
-                        chk_gmail.Checked = true;
-                    if (gridSource[0].Whatsapp)
-                        chk_whatsapp.Checked = true;
-
-                    opbuttoncolor = coloropera;
-                    menubuttoncolor = colormenu;
-                    txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
-                    txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
-                    txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
-                    txtsid.Text = Convert.ToString(gridSource[0].SId);
-
-
-                    ib_Category.BackColor = opbuttoncolor;
-                    ib_Item.BackColor = opbuttoncolor;
-                    ib_ingrediant.BackColor = opbuttoncolor;
-                    ib_menu.BackColor = opbuttoncolor;
-                    ib_unit.BackColor = opbuttoncolor;
-                    ib_table.BackColor = opbuttoncolor;
-                    ib_purchase.BackColor = opbuttoncolor;
-                    ib_purchasereturn.BackColor = opbuttoncolor;
-                    ib_tax.BackColor = opbuttoncolor;
-                    ib_vendor.BackColor = opbuttoncolor;
-                    ib_Discount_offer.BackColor = opbuttoncolor;
-                    ib_Expence.BackColor = opbuttoncolor;
-                    ib_orderview.BackColor = opbuttoncolor;
-                    ib_kitchenview.BackColor = opbuttoncolor;
-                    ib_PromoCode.BackColor = opbuttoncolor;
-                    ib_Company.BackColor = opbuttoncolor;
-                    ib_useraccount.BackColor = opbuttoncolor;
-                    ib_designation.BackColor = opbuttoncolor;
-                    ib_department.BackColor = opbuttoncolor;
-                    ib_employee.BackColor = opbuttoncolor;
-                    ib_reservation.BackColor = opbuttoncolor;
-                    ib_userpermission.BackColor = opbuttoncolor;
-                    pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-
-
-
-                    Menuhome.BackColor = menubuttoncolor;
-                    Menuoperation.BackColor = menubuttoncolor;
-                    Menubilling.BackColor = menubuttoncolor;
-                    Menureport.BackColor = menubuttoncolor;
-                    Menulogout.BackColor = menubuttoncolor;
-                    Menusetting.BackColor = menubuttoncolor;
-                    menuEmployee.BackColor = menubuttoncolor;
-                    Menutable.BackColor = menubuttoncolor;
-                    pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-
-                    pbappcoloepicker.BackColor = colorapp;
-                    tlp_main_sidebar_pnldesktop.BackColor = colorapp;
-                }
-
             }
-            else
+            catch(Exception ex)
             {
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                txtsid.Text = "0";
+
             }
+
 
         }
         #endregion
@@ -463,6 +516,7 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+
         public void SetButtonImage(Button button, Image originalImage, int desiredWidth, int desiredHeight)
         {
             Image resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
@@ -471,55 +525,64 @@ namespace FoodandBeverage.Forms
 
         public void button_imageset()
         {
-            SetButtonImage(Menuhome, FoodandBeverage.Properties.Resources.icons8_home_50, desiredWidth, desiredHeight);
-            SetButtonImage(Menuoperation, FoodandBeverage.Properties.Resources.operation, desiredWidth, desiredHeight);
-            SetButtonImage(Menubilling, FoodandBeverage.Properties.Resources.bill, desiredWidth, desiredHeight);
-            SetButtonImage(Menureport, FoodandBeverage.Properties.Resources.report, desiredWidth, desiredHeight);
-            SetButtonImage(Menusetting, FoodandBeverage.Properties.Resources.setting, desiredWidth, desiredHeight);
-            SetButtonImage(Menulogout, FoodandBeverage.Properties.Resources.logout, desiredWidth, desiredHeight);
-            SetButtonImage(menuEmployee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-            SetButtonImage(Menutable, FoodandBeverage.Properties.Resources.menutable, desiredWidth, desiredHeight);
+            try
+            {
+                SetButtonImage(Menuhome, FoodandBeverage.Properties.Resources.icons8_home_50, desiredWidth, desiredHeight);
+                SetButtonImage(Menuoperation, FoodandBeverage.Properties.Resources.operation, desiredWidth, desiredHeight);
+                SetButtonImage(Menubilling, FoodandBeverage.Properties.Resources.bill, desiredWidth, desiredHeight);
+                SetButtonImage(Menureport, FoodandBeverage.Properties.Resources.report, desiredWidth, desiredHeight);
+                SetButtonImage(Menusetting, FoodandBeverage.Properties.Resources.setting, desiredWidth, desiredHeight);
+                SetButtonImage(Menulogout, FoodandBeverage.Properties.Resources.logout, desiredWidth, desiredHeight);
+                SetButtonImage(menuEmployee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                SetButtonImage(Menutable, FoodandBeverage.Properties.Resources.menutable, desiredWidth, desiredHeight);
 
-            // Set images for the 'ib_' buttons
-            SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
-            SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
-            SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
-            SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
-            SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
-            SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
-            SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
-            SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
-            SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
-            SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
-            SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
-            SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
-            SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
-            SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
-            SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
+                // Set images for the 'ib_' buttons
+                SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
+                SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
+                SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
+                SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
+                SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
+                SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
+                SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
+                SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
+                SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
+                SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
+                SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
+                SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
+                SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
+                SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
+                SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
 
-            SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-            SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-            SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-            SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-            SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-            SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+                SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
 
-            // SetRoundedButton(ib_Category, 70);
-            //SetRoundedButton(ib_Item, 70);
-            //SetRoundedButton(ib_ingrediant, 70);
-            //SetRoundedButton(ib_menu, 70);
-            //SetRoundedButton(ib_unit, 70);
-            //SetRoundedButton(ib_table, 70);
-            //SetRoundedButton(ib_purchase, 70);
-            //SetRoundedButton(ib_purchasereturn, 70);
-            //SetRoundedButton(ib_tax, 70);
-            //SetRoundedButton(ib_vendor, 70);
-            //SetRoundedButton(ib_withdrawal, 70);
-            //SetRoundedButton(ib_Discount_offer, 70);
-            //SetRoundedButton(ib_orderview, 70);
-            //SetRoundedButton(ib_kitchenview, 70);
-            //SetRoundedButton(ib_PromoCode, 70);
+                // SetRoundedButton(ib_Category, 70);
+                //SetRoundedButton(ib_Item, 70);
+                //SetRoundedButton(ib_ingrediant, 70);
+                //SetRoundedButton(ib_menu, 70);
+                //SetRoundedButton(ib_unit, 70);
+                //SetRoundedButton(ib_table, 70);
+                //SetRoundedButton(ib_purchase, 70);
+                //SetRoundedButton(ib_purchasereturn, 70);
+                //SetRoundedButton(ib_tax, 70);
+                //SetRoundedButton(ib_vendor, 70);
+                //SetRoundedButton(ib_withdrawal, 70);
+                //SetRoundedButton(ib_Discount_offer, 70);
+                //SetRoundedButton(ib_orderview, 70);
+                //SetRoundedButton(ib_kitchenview, 70);
+                //SetRoundedButton(ib_PromoCode, 70);
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+  
 
         }
 
@@ -536,21 +599,29 @@ namespace FoodandBeverage.Forms
 
         private void ChangeButtonBorder(Button button)
         {
-            tlp_tablestatus.Visible = false;
-            flpEmployee.Visible = false;
-            foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+            try
             {
-                menuButton.FlatAppearance.BorderColor = Color.White;
-                menuButton.FlatAppearance.BorderSize = 0;
-                menuButton.BackColor = Color.White;
-                menuButton.ForeColor = Color.Black;
-                menuButton.BackColor = menubuttoncolor;
-                menuButton.ForeColor = Color.White;
+            tlp_tablestatus.Visible = false;
+                tlp_empl_menu.Visible = false;
+            //foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+            //{
+            //    menuButton.FlatAppearance.BorderColor = Color.White;
+            //    menuButton.FlatAppearance.BorderSize = 0;
+            //    menuButton.BackColor = Color.White;
+            //    menuButton.ForeColor = Color.Black;
+            //    menuButton.BackColor = menubuttoncolor;
+            //    menuButton.ForeColor = Color.White;
+            //}
+            //button.BackColor = Color.White;
+            //button.ForeColor = Color.Black;
+            //button.FlatAppearance.BorderColor = Color.Black;
+            //button.FlatAppearance.BorderSize = 1;
             }
-            button.BackColor = Color.White;
-            button.ForeColor = Color.Black;
-            button.FlatAppearance.BorderColor = Color.Black;
-            button.FlatAppearance.BorderSize = 1;
+            catch (Exception ex)
+            {
+
+            }
+
         }
  
         private void Menuhome_Click(object sender, EventArgs e)
@@ -558,26 +629,28 @@ namespace FoodandBeverage.Forms
             try
             {
 
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    foreach (Control control in flp_operations.Controls)
-                    {
-                        if (control is Button buttonm)
-                        {
-                            buttonm.Size = new Size(300, 120);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Control control in flp_operations.Controls)
-                    {
-                        if (control is Button buttonm)
-                        {
-                            buttonm.Size = new Size(212, 89);
-                        }
-                    }
-                }
+                //if (screenWidth > 1367 && screenHeight > 769)
+                //{
+                //    foreach (Control control in flp_operations.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(300, 120);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (Control control in flp_operations.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(212, 89);
+                //        }
+                //    }
+                //}
+
+
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -609,6 +682,7 @@ namespace FoodandBeverage.Forms
                     _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instancePurchaseReturn.BringToFront();
                 }
+
                 if(menutable_click)
                     AutoTimer.Stop();
 
@@ -969,38 +1043,37 @@ namespace FoodandBeverage.Forms
                 }
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                bool flag = false;
-                for (int j = 0; j < gridSource.Count; j++)
-                {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
-                    {
-                        DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 && DateTime.Now > afterAddMinutes)
-                        {
-                            CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
-                            flag = true;
-                        }
-                    }
-                }
-
-                //if (flag)
-                //    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-                var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
-                List<CategoryInfo> categoryList = new List<CategoryInfo>();
-                foreach (var fcid in distinctCategories)
-                {
-                    string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
-
-                    if (categoryName != null)
-                    {
-                        categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
-                    }
-                }
-
                 if (gridSource.Count > 0)
                 {
+                    bool flag = false;
+                    for (int j = 0; j < gridSource.Count; j++)
+                    {
+                        if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
+                        {
+                            DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                            DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
+                            if (Convert.ToInt32(gridSource[j].Field7) > 0 && DateTime.Now > afterAddMinutes)
+                            {
+                                CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
+                                flag = true;
+                            }
+                        }
+                    }
+                    if (flag)
+                        gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                    var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
+                    List<CategoryInfo> categoryList = new List<CategoryInfo>();
+                    foreach (var fcid in distinctCategories)
+                    {
+                        string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
+
+                        if (categoryName != null)
+                        {
+                            categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
+                        }
+                    }
+
                     foreach (var category in categoryList)
                     {
                         for (int i = 0; i < gridSource.Count; i++)
@@ -1670,7 +1743,9 @@ namespace FoodandBeverage.Forms
         }
         private void tlp_category_com_MouseHover(object sender, EventArgs e)
         {
-            TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+            try
+            {
+           TableLayoutPanel tlpcate = sender as TableLayoutPanel;
             string tlpName = "tlp_category_com_" + tlpcate.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1680,10 +1755,18 @@ namespace FoodandBeverage.Forms
                 // Show tooltip with the item name
                 toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+ 
         }
         private void tlp_category_com_MouseLeave(object sender, EventArgs e)
         {
-            TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+            try
+            {
+      TableLayoutPanel tlpcate = sender as TableLayoutPanel;
             string tlpName = "tlp_category_com_" + tlpcate.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1691,10 +1774,18 @@ namespace FoodandBeverage.Forms
             {
                 tlp.BackColor = Color.White;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+      
         }
         private void tlp_category_MouseHover(object sender, EventArgs e)
         {
-            TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+            try
+            {
+           TableLayoutPanel tlpcate = sender as TableLayoutPanel;
             string tlpName = "tlp_category_com_" + tlpcate.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1704,9 +1795,17 @@ namespace FoodandBeverage.Forms
                 // Show tooltip with the item name
                 toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+ 
         }
         private void tlp_category_MouseLeave(object sender, EventArgs e)
         {
+            try
+            {
             TableLayoutPanel tlpcate = sender as TableLayoutPanel;
             string tlpName = "tlp_category_" + tlpcate.Tag;
             // Find the TableLayoutPanel control by name
@@ -1715,10 +1814,18 @@ namespace FoodandBeverage.Forms
             {
                 tlp.BackColor = Color.White;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
         private void pictureBox_com_MouseHover(object sender, EventArgs e)
         {
-            PictureBox pic = sender as PictureBox;
+            try
+            {
+PictureBox pic = sender as PictureBox;
             string tlpName = "tlp_com" + pic.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1727,10 +1834,18 @@ namespace FoodandBeverage.Forms
                 tlp.BackColor = Color.LightBlue;
                 tlp.BorderStyle = BorderStyle.FixedSingle;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
         private void pictureBox_com_MouseLeave(object sender, EventArgs e)
         {
-            PictureBox pic = sender as PictureBox;
+            try
+            {
+        PictureBox pic = sender as PictureBox;
             string tlpName = "tlp_com" + pic.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1739,10 +1854,18 @@ namespace FoodandBeverage.Forms
                 tlp.BackColor = Color.White;
                 tlp.BorderStyle = BorderStyle.None;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+    
         }
         private void pictureBox_MouseHover(object sender, EventArgs e)
         {
-            PictureBox pic = sender as PictureBox;
+            try
+            {
+PictureBox pic = sender as PictureBox;
             string tlpName = "tlp" + pic.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1751,10 +1874,18 @@ namespace FoodandBeverage.Forms
                 tlp.BackColor = Color.LightBlue;
                 tlp.BorderStyle = BorderStyle.FixedSingle;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
-            PictureBox pic = sender as PictureBox;
+            try
+            {
+         PictureBox pic = sender as PictureBox;
             string tlpName = "tlp" + pic.Tag;
             // Find the TableLayoutPanel control by name
             TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
@@ -1763,12 +1894,20 @@ namespace FoodandBeverage.Forms
                 tlp.BackColor = Color.White;
                 tlp.BorderStyle = BorderStyle.None;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+   
         }
 
 
 
         private void RoundPictureBoxCorners(PictureBox pictureBox, int cornerRadius)
         {
+            try
+            {
             GraphicsPath path = new GraphicsPath();
             path.AddArc(0, 0, cornerRadius * 2, cornerRadius * 2, 180, 90); // Top-left corner
             path.AddArc(pictureBox.Width - 2 * cornerRadius, 0, cornerRadius * 2, cornerRadius * 2, 270, 90); // Top-right corner
@@ -1778,53 +1917,69 @@ namespace FoodandBeverage.Forms
 
             pictureBox.Region = new Region(path);
             pb_appicon.Location = new Point((pnl_header.Width - pb_appicon.Width) / 2, (pnl_header.Height - pb_appicon.Height) / 2);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void CollapseMenu()
         {
-            AutoTimer.Stop();
-            if (Menuhome.Width > 150) //Collapse menu
+            try
             {
-                flp_menu.Dock = DockStyle.None;
-                flp_menu.Width = 108;
-                panelMenu.Width = 108;
-                panelMenu.Dock = DockStyle.Fill;
-                flp_menu.Dock = DockStyle.Fill;
-                pnl_header.Width = 95;
-                pb_appicon.Dock = DockStyle.Fill;
+                if (menutable_click)
+                    AutoTimer.Stop();
 
-
-                foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+                if (Menuhome.Width > 150) //Collapse menu
                 {
-                    menuButton.Text = "";
-                    menuButton.Width = 80;
-                    menuButton.ImageAlign = ContentAlignment.MiddleLeft;
-                    menuButton.Padding = new Padding(20, 0, 0, 0);
-                }
-                tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
-                tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
-                RoundPictureBoxCorners(pb_appicon, 10);
-            }
-            else
-            { //Expand menu
-                flp_menu.Dock = DockStyle.Fill;
-                pnl_header.Width = 179;
-                panelMenu.Width = 180;
-                pb_appicon.Width = 97;
+                    flp_menu.Dock = DockStyle.None;
+                    flp_menu.Width = 108;
+                    panelMenu.Width = 108;
+                    panelMenu.Dock = DockStyle.Fill;
+                    flp_menu.Dock = DockStyle.Fill;
+                    pnl_header.Width = 95;
+                    pb_appicon.Dock = DockStyle.Fill;
 
-                foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
-                {
-                    menuButton.Width = 162;
-                    menuButton.Text = menuButton.Tag.ToString();
-                    menuButton.ImageAlign = ContentAlignment.MiddleLeft;
-                    menuButton.Padding = new Padding(10, 0, 0, 0);
+
+                    foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+                    {
+                        menuButton.Text = "";
+                        menuButton.Width = 80;
+                        menuButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        menuButton.Padding = new Padding(20, 0, 0, 0);
+                    }
+                    tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                    tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+                    RoundPictureBoxCorners(pb_appicon, 10);
                 }
-                tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
-                tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 81.27f);
-                RoundPictureBoxCorners(pb_appicon, 10);
+                else
+                { //Expand menu
+                    flp_menu.Dock = DockStyle.Fill;
+                    pnl_header.Width = 179;
+                    panelMenu.Width = 180;
+                    pb_appicon.Width = 97;
+
+                    foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+                    {
+                        menuButton.Width = 162;
+                        menuButton.Text = menuButton.Tag.ToString();
+                        menuButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        menuButton.Padding = new Padding(10, 0, 0, 0);
+                    }
+                    tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
+                    tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 81.27f);
+                    RoundPictureBoxCorners(pb_appicon, 10);
+
+                }
 
             }
-            TableStaus(0);
+            catch (Exception ex)
+            {
+
+            }
+      
         }
 
         private void pnl_header_Click(object sender, EventArgs e)
@@ -1835,7 +1990,9 @@ namespace FoodandBeverage.Forms
 
         private void Menuoperation_Click(object sender, EventArgs e)
         {
-            if (menutable_click)
+            try
+            {
+         if (menutable_click)
                 AutoTimer.Stop();
             panelDesktop.Controls.Clear();
 
@@ -1845,24 +2002,25 @@ namespace FoodandBeverage.Forms
             {
                 ChangeButtonBorder(button);
             }
-            panelDesktop.Controls.Add(flp_operations);
-            flp_operations.Dock = DockStyle.Fill;
-            flp_operations.Visible = true;
+            panelDesktop.Controls.Add(tlp_op_menu);
+                tlp_op_menu.Dock = DockStyle.Fill;
+                tlp_op_menu.Visible = true;
+
             if (screenWidth > 1367 && screenHeight > 769)
             {
                 desiredWidth = 52;
                 desiredHeight = 52;
                 HdesiredWidth = 60;
                 HdesiredHeight = 60;
-                foreach (Control control in flp_operations.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(300, 120);
-                        buttonm.Margin = new Padding(105, 35, 10, 2);
-                        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
-                    }
-                }
+                //foreach (Control control in flp_operations.Controls)
+                //{
+                //    if (control is Button buttonm)
+                //    {
+                //        buttonm.Size = new Size(300, 120);
+                //        buttonm.Margin = new Padding(105, 35, 10, 2);
+                //        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+                //    }
+                //}
 
             }
             else
@@ -1871,26 +2029,41 @@ namespace FoodandBeverage.Forms
                 desiredHeight = 32;
                 HdesiredWidth = 40;
                 HdesiredHeight = 40;
-                foreach (Control control in flp_operations.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(212, 89);
-                    }
-                }
+                //foreach (Control control in flp_operations.Controls)
+                //{
+                //    if (control is Button buttonm)
+                //    {
+                //        buttonm.Size = new Size(212, 89);
+                //    }
+                //}
             }
+            }
+            catch(Exception ex)
+            {
+
+            }
+   
         }
 
 
         private void Menubilling_Click(object sender, EventArgs e)
         {
-            AutoTimer.Stop();
-            if (sender is Button button)
+            try
             {
-                ChangeButtonBorder(button);
+                    if (menutable_click)
+                        AutoTimer.Stop();
+                    if (sender is Button button)
+                    {
+                        ChangeButtonBorder(button);
+                    }
+                    CheckedtableNames.Clear();
+                    Billcomplete_Fill();
             }
-            CheckedtableNames.Clear();
-            Billcomplete_Fill();
+            catch(Exception ex)
+            {
+
+            }
+
         }
         public void Billcomplete_Fill()
         {
@@ -2158,7 +2331,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AutoTimer.Stop();
+                if (menutable_click)
+                    AutoTimer.Stop();
 
                 if (sender is Button button)
                 {
@@ -2219,7 +2393,9 @@ namespace FoodandBeverage.Forms
         
     private void VendorReports_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+   panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2246,10 +2422,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+         
         }
         private void TableTurnoverReports_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+ panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2276,10 +2460,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
         private void MenuAnalysisReports_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+  panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2306,11 +2498,19 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+          
         }
 
         private void PurchaseitemItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+       panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2337,11 +2537,19 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+     
         }
 
         private void ExpenseReportItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+   panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2368,10 +2576,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+         
         }
         private void ReservationSeatingItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+     panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2398,10 +2614,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+       
         }
         private void EmployeePerformanceItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+  panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2428,10 +2652,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+          
         }
         private void PromotionsDiscountsItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+ panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2458,10 +2690,18 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
         private void SalesReportItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+      panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2488,11 +2728,19 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+      
         }
 
         private void InventoryReportItem_Click(object sender, EventArgs e)
         {
-            panelDesktop.Controls.Clear();
+            try
+            {
+   panelDesktop.Controls.Clear();
             if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
             {
                 Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
@@ -2519,80 +2767,94 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(_instanceFrmreport);
                 _instanceFrmreport.Show();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }        
 
         }
 
         private void Menusetting_Click(object sender, EventArgs e)
         {
-            AutoTimer.Stop();
-            if (sender is Button button)
+            try
             {
-                ChangeButtonBorder(button);
-            }
-            panelDesktop.Controls.Clear();
-            flpcolor.Controls.Clear();
-            flpcolor.Dock = DockStyle.Fill;
-            flpcolor.AutoScroll = true;
+                if (menutable_click)
+                    AutoTimer.Stop();
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+                panelDesktop.Controls.Clear();
+                flpcolor.Controls.Clear();
+                flpcolor.Dock = DockStyle.Fill;
+                flpcolor.AutoScroll = true;
 
-            int rowIndex = 0;
-            Control control;
-            int columnIndex = 0;
-            #region Button App Color
-            Button button_type = new Button();
-            button_type.Text = "Appcolor";
-            button_type.Name = "Appcolor";
-            //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-            //button_type.BackgroundImageLayout = ImageLayout.Stretch;
-            button_type.FlatStyle = FlatStyle.Flat;
-            button_type.BackColor = menubuttoncolor;
-            button_type.ForeColor = System.Drawing.Color.White;
-            button_type.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-            if (screenWidth > 1367 && screenHeight > 769)
-            {
-                button_type.Width = 350;
-                button_type.Height = 120;
-            }
-            else
-            {
-                button_type.Width = 212;
-                button_type.Height = 89;
-            }
-            button_type.Margin = new Padding(20, 10, 0, 0);
-            // Add the event handler for the button
-            button_type.Click += new EventHandler(BgClickEventHandler);
-            flpcolor.Controls.Add(button_type);
-            #endregion
+                int rowIndex = 0;
+                Control control;
+                int columnIndex = 0;
+                #region Button App Color
+                Button button_type = new Button();
+                button_type.Text = "Appcolor";
+                button_type.Name = "Appcolor";
+                //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_type.BackgroundImageLayout = ImageLayout.Stretch;
+                button_type.FlatStyle = FlatStyle.Flat;
+                button_type.BackColor = menubuttoncolor;
+                button_type.ForeColor = System.Drawing.Color.White;
+                button_type.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_type.Width = 350;
+                    button_type.Height = 120;
+                }
+                else
+                {
+                    button_type.Width = 212;
+                    button_type.Height = 89;
+                }
+                button_type.Margin = new Padding(20, 10, 0, 0);
+                // Add the event handler for the button
+                button_type.Click += new EventHandler(BgClickEventHandler);
+                flpcolor.Controls.Add(button_type);
+                #endregion
 
-            columnIndex++;
+                columnIndex++;
 
-            #region Button Message Setting
-            Button button_message = new Button();
-            button_message.Text = "Message";
-            button_message.Name = "btn_Message";
-            //button_message.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-            //button_message.BackgroundImageLayout = ImageLayout.Stretch;
-            button_message.FlatStyle = FlatStyle.Flat;
-            button_message.BackColor = menubuttoncolor;
-            button_message.ForeColor = System.Drawing.Color.White;
-            button_message.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-            if (screenWidth > 1367 && screenHeight > 769)
-            {
-                button_message.Width = 350;
-                button_message.Height = 120;
-            }
-            else
-            {
-                button_message.Width = 212;
-                button_message.Height = 89;
-            }
-            button_message.Margin = new Padding(20, 10, 0, 0);
-            // Add the event handler for the button
-            button_message.Click += new EventHandler(button_messageClickEventHandler);
-            flpcolor.Controls.Add(button_message);
-            columnIndex++;
-            #endregion
+                #region Button Message Setting
+                Button button_message = new Button();
+                button_message.Text = "Message";
+                button_message.Name = "btn_Message";
+                //button_message.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_message.BackgroundImageLayout = ImageLayout.Stretch;
+                button_message.FlatStyle = FlatStyle.Flat;
+                button_message.BackColor = menubuttoncolor;
+                button_message.ForeColor = System.Drawing.Color.White;
+                button_message.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_message.Width = 350;
+                    button_message.Height = 120;
+                }
+                else
+                {
+                    button_message.Width = 212;
+                    button_message.Height = 89;
+                }
+                button_message.Margin = new Padding(20, 10, 0, 0);
+                // Add the event handler for the button
+                button_message.Click += new EventHandler(button_messageClickEventHandler);
+                flpcolor.Controls.Add(button_message);
+                columnIndex++;
+                #endregion
 
-            panelDesktop.Controls.Add(flpcolor);
+                panelDesktop.Controls.Add(flpcolor);
+            }
+            catch(Exception)
+            {
+
+            }
+
         }
         private void button_messageClickEventHandler(object sender, EventArgs e)
         {
@@ -2691,6 +2953,8 @@ namespace FoodandBeverage.Forms
 
         private void btnappok_Click(object sender, EventArgs e)
         {
+            try
+            {
             DmnSetting dmnsettingr = new DmnSetting();
             BllSettins BllSettin = new BllSettins();
             if (string.IsNullOrWhiteSpace(txtsid.Text))
@@ -2718,11 +2982,19 @@ namespace FoodandBeverage.Forms
                 AppColorSetting();
             }
             pnlappcolor.Visible = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void pbappcoloepicker_Click(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            try
+            {
+        if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 Color selectedColor = colorDialog1.Color;
                 pbappcoloepicker.BackColor = selectedColor;
@@ -2730,6 +3002,12 @@ namespace FoodandBeverage.Forms
                 if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                     txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+    
         }
 
         private void btn_avial_Click(object sender, EventArgs e)
@@ -2758,7 +3036,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_Category_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null) {
+            try
+            {
+     if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null) {
                 FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
                 if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
                     _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -2781,12 +3061,20 @@ namespace FoodandBeverage.Forms
                 _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmFTICategory.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+       
 
         }
 
         private void ib_Item_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
+            try
+            {
+        if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
             {
                 FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
                 if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
@@ -2810,6 +3098,12 @@ namespace FoodandBeverage.Forms
                 _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceItemRegistartion.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+    
 
         }
         private void ResizeForm(Form form)
@@ -2826,7 +3120,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_ingrediant_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
+            try
+            {
+ if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
             {
                 FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
                 if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
@@ -2854,11 +3150,19 @@ namespace FoodandBeverage.Forms
                 _instanceFrmIngredient.BringToFront();
 
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
 
         private void ib_menu_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
+            try
+            {
+   if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
             {
                 FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
                 if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
@@ -2883,12 +3187,20 @@ namespace FoodandBeverage.Forms
                 _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmMenu.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+         
 
 
         }
 
         private void ib_unit_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
             {
                 FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
@@ -2913,13 +3225,21 @@ namespace FoodandBeverage.Forms
                 _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmUnit.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
 
 
         }
 
         private void ib_table_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
+            try
+            {
+     if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
             {
                 FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
                 if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
@@ -2943,12 +3263,19 @@ namespace FoodandBeverage.Forms
                 _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceTableInfo.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+       
         }
 
         private void ib_purchase_Click(object sender, EventArgs e)
         {
-
-            if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
+            try
+            {
+if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
             {
                 FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
                 if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
@@ -2973,13 +3300,21 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPurchase.BringToFront();
             }
 
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
 
 
         }
 
         private void ib_purchasereturn_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
+            try
+            {
+           if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
             {
                 FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
                 if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
@@ -3004,11 +3339,19 @@ namespace FoodandBeverage.Forms
                 _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instancePurchaseReturn.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+ 
         }
 
         private void ib_tax_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
+            try
+            {
+ if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
             {
                 FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
                 if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
@@ -3033,6 +3376,12 @@ namespace FoodandBeverage.Forms
                 _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceTaxSetting.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
 
         private void SetRoundedButton(Button button, int cornerRadius)
@@ -3225,7 +3574,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_vendor_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
+            try
+            {
+         if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
             {
                 FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
                 if (_instanceFrmVendor.WindowState == FormWindowState.Minimized)
@@ -3249,6 +3600,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmVendor.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+   
         }
 
         private void ib_vendor_MouseLeave(object sender, EventArgs e)
@@ -3335,7 +3692,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_Discount_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmOfferDiscount"] != null)
+            try
+            {
+  if (System.Windows.Forms.Application.OpenForms["FrmOfferDiscount"] != null)
             {
                 FrmOfferDiscount _instanceFrmOfferDiscountr = Application.OpenForms["FrmOfferDiscount"] as FrmOfferDiscount;
                 if (_instanceFrmOfferDiscountr.WindowState == FormWindowState.Minimized)
@@ -3360,11 +3719,19 @@ namespace FoodandBeverage.Forms
                 _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmOfferDiscountr.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+          
         }
 
         private void ib_withdrawal_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmExpence"] != null)
+            try
+            {
+          if (System.Windows.Forms.Application.OpenForms["FrmExpence"] != null)
             {
                 FrmExpence _instanceFrmexpence = Application.OpenForms["FrmExpence"] as FrmExpence;
                 if (_instanceFrmexpence.WindowState == FormWindowState.Minimized)
@@ -3387,6 +3754,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmexpence.Show();
                 _instanceFrmexpence.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+  
         }
 
         private void btn_sidebar_toggle_Click(object sender, EventArgs e)
@@ -3600,7 +3973,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_orderview_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+            try
+            {
+     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
             {
                 FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
                 if (_instanceFrmorderview.WindowState == FormWindowState.Minimized)
@@ -3619,6 +3994,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmorderview.BringToFront();
                 _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+       
         }
 
         private void ib_kitchenview_MouseLeave(object sender, EventArgs e)
@@ -3629,7 +4010,9 @@ namespace FoodandBeverage.Forms
 
         private void ib_kitchenview_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+            try
+            {
+if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
             {
                 FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
                 if (_instanceFrmKitchenView.WindowState == FormWindowState.Minimized)
@@ -3648,11 +4031,19 @@ namespace FoodandBeverage.Forms
                 _instanceFrmKitchenView.Show();
                 _instanceFrmKitchenView.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
 
         private void ib_PromoCode_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmPromo"] != null)
+            try
+            {
+  if (System.Windows.Forms.Application.OpenForms["FrmPromo"] != null)
             {
                 FrmPromo _instanceFrmPromo = Application.OpenForms["FrmPromo"] as FrmPromo;
                 if (_instanceFrmPromo.WindowState == FormWindowState.Minimized)
@@ -3676,6 +4067,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmPromo.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+          
         }
 
         private void ib_PromoCode_MouseLeave(object sender, EventArgs e)
@@ -3686,7 +4083,9 @@ namespace FoodandBeverage.Forms
 
         private void pbopbuttoncoloepicker_Click(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            try
+            {
+      if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 Color selectedColor = colorDialog1.Color;
                 menubuttoncolor = selectedColor;
@@ -3702,10 +4101,18 @@ namespace FoodandBeverage.Forms
                 Menusetting.BackColor = menubuttoncolor;
                 Menutable.BackColor = menubuttoncolor;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+      
         }
 
         private void pbopbuttoncoloepicker_Click_1(object sender, EventArgs e)
         {
+            try
+            {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 Color selectedColor = colorDialog1.Color;
@@ -3741,6 +4148,12 @@ namespace FoodandBeverage.Forms
                 if (btnsetting != null)
                     btnsetting.BackColor = opbuttoncolor;
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void btn_minimium_Click(object sender, EventArgs e)
@@ -3750,7 +4163,9 @@ namespace FoodandBeverage.Forms
 
         private void chkdef_CheckedChanged(object sender, EventArgs e)
         {
-            opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+            try
+            {
+opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
             pbopbuttoncoloepicker.BackColor = opbuttoncolor;
             ib_Category.BackColor = opbuttoncolor;
             ib_Item.BackColor = opbuttoncolor;
@@ -3799,14 +4214,20 @@ namespace FoodandBeverage.Forms
             Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
             if (btnsetting != null)
                 btnsetting.BackColor = opbuttoncolor;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
 
         }
 
         private void ib_Company_Click(object sender, EventArgs e)
         {
-
-
-            if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
+            try
+            {
+        if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
             {
                 FrmRegistration _instanceFrmreg = Application.OpenForms["FrmRegistration"] as FrmRegistration;
                 if (_instanceFrmreg.WindowState == FormWindowState.Minimized)
@@ -3831,6 +4252,13 @@ namespace FoodandBeverage.Forms
                 _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmreg.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+    
 
         }
 
@@ -3843,39 +4271,50 @@ namespace FoodandBeverage.Forms
 
         private void menuEmployee_Click(object sender, EventArgs e)
         {
-            AutoTimer.Stop();
+            try
+            {
+                if (menutable_click)
+                    AutoTimer.Stop();
+
             panelDesktop.Controls.Clear();
-            flpEmployee.Dock = DockStyle.Fill;
-            panelDesktop.Controls.Add(flpEmployee);
-            flpEmployee.Visible = true;
-            if (screenWidth > 1367 && screenHeight > 769)
-            {
-                foreach (Control control in flpEmployee.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(300, 120);
-                        buttonm.Margin = new Padding(105, 35, 10, 2);
-                        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
-                    }
-                }
+                tlp_empl_menu.Dock = DockStyle.Fill;
+            panelDesktop.Controls.Add(tlp_empl_menu);
+                tlp_empl_menu.Visible = true;
+            //if (screenWidth > 1367 && screenHeight > 769)
+            //{
+            //    foreach (Control control in flpEmployee.Controls)
+            //    {
+            //        if (control is Button buttonm)
+            //        {
+            //            buttonm.Size = new Size(300, 120);
+            //            buttonm.Margin = new Padding(105, 35, 10, 2);
+            //            buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (Control control in flpEmployee.Controls)
+            //    {
+            //        if (control is Button buttonm)
+            //        {
+            //            buttonm.Size = new Size(212, 89);
+            //        }
+            //    }
+            //}
             }
-            else
+            catch (Exception ex)
             {
-                foreach (Control control in flpEmployee.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(212, 89);
-                    }
-                }
+
             }
+      
         }
 
         private void ib_employee_Click(object sender, EventArgs e)
         {
-
-            if (System.Windows.Forms.Application.OpenForms["FrmEmployeeShort"] != null)
+            try
+            {
+           if (System.Windows.Forms.Application.OpenForms["FrmEmployeeShort"] != null)
             {
                 FrmEmployeeShort _instanceFrmEmp = Application.OpenForms["FrmEmployeeShort"] as FrmEmployeeShort;
                 if (_instanceFrmEmp.WindowState == FormWindowState.Minimized)
@@ -3899,12 +4338,19 @@ namespace FoodandBeverage.Forms
                 _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmEmp.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+ 
 
         }
 
         private void ib_department_Click(object sender, EventArgs e)
         {
-
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms["FrmDepartment"] != null)
             {
                 FrmDepartment _instanceFrmDep = Application.OpenForms["FrmDepartment"] as FrmDepartment;
@@ -3929,10 +4375,18 @@ namespace FoodandBeverage.Forms
                 _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmDep.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void ib_designation_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms["FrmDesignation"] != null)
             {
                 FrmDesignation _instanceFrmDesig = Application.OpenForms["FrmDesignation"] as FrmDesignation;
@@ -3957,10 +4411,18 @@ namespace FoodandBeverage.Forms
                 _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmDesig.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void ib_useraccount_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms["FrmUserAccount"] != null)
             {
                 FrmUserAccount _instanceFrmuser = Application.OpenForms["FrmUserAccount"] as FrmUserAccount;
@@ -3985,6 +4447,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmuser.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void ib_employee_MouseLeave(object sender, EventArgs e)
@@ -4013,6 +4481,8 @@ namespace FoodandBeverage.Forms
 
         private void ib_reservation_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms[""] != null)
             {
                 FrmReservation _instanceFrmres = Application.OpenForms[""] as FrmReservation;
@@ -4038,6 +4508,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmres.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void ib_reservation_MouseLeave(object sender, EventArgs e)
@@ -4048,6 +4524,8 @@ namespace FoodandBeverage.Forms
 
         private void ib_userpermission_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (System.Windows.Forms.Application.OpenForms["FrmUserPermission"] != null)
             {
                 FrmUserPermission _instanceFrmuserper = Application.OpenForms["FrmUserPermission"] as FrmUserPermission;
@@ -4072,6 +4550,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 _instanceFrmuserper.BringToFront();
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void ib_userpermission_MouseLeave(object sender, EventArgs e)
@@ -4107,13 +4591,14 @@ namespace FoodandBeverage.Forms
                 marginBottom = 2;
             }
 
-            foreach (Control control in flp_operations.Controls)
-                control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);
+            //foreach (Control control in tlp_empl_menu.Controls)
+            //    control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);
 
         }
         public void FormPermissionChecking()
         {
-
+            try
+            {
             BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
             DmnSearch dmnforms = new DmnSearch();
             dmnforms.Select = "*";
@@ -4222,10 +4707,17 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         public bool ChkWritePermission(int formid)
         {
+
             //int UserType = 1;
             BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
             DmnSearch dmnforms = new DmnSearch();
@@ -4318,7 +4810,8 @@ namespace FoodandBeverage.Forms
         }
 
         private void btn_prevbill_Click(object sender, EventArgs e)
-        {
+        {       try
+            {
             panelDesktop.Controls.Clear();
             panelDesktop.Controls.Add(pnl_complebill_prevbill);
             pnl_complebill_prevbill.Dock = DockStyle.Fill;
@@ -4333,8 +4826,7 @@ namespace FoodandBeverage.Forms
 
             btn_backCompleorder.Visible = true;
             btn_prevbill.Visible = false;
-            try
-            {
+     
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -4574,7 +5066,9 @@ namespace FoodandBeverage.Forms
 
         private void btn_save_msg_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtsid.Text))
+            try
+            {
+ if (string.IsNullOrWhiteSpace(txtsid.Text))
                 txtsid.Text = "0";
             DmnSetting dmnmsg = new DmnSetting();
             BllSettins bllmessage = new BllSettins();
@@ -4606,6 +5100,12 @@ namespace FoodandBeverage.Forms
             }
             else
                 CMessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
 
         private void btn_close_msg_Click(object sender, EventArgs e)
@@ -4620,33 +5120,41 @@ namespace FoodandBeverage.Forms
 
         private void Menutable_Click(object sender, EventArgs e)
         {
-            if (screenWidth > 1367 && screenHeight > 769)
+            try
+            {
+                //if (screenWidth > 1367 && screenHeight > 769)
+                //{
+
+                //    foreach (Control control in flp_operations.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(300, 120);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (Control control in flp_operations.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(212, 89);
+                //        }
+                //    }
+                //}
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+                LoadTableStaus(0);
+                menutable_click = true;
+            }
+            catch(Exception ex)
             {
 
-                foreach (Control control in flp_operations.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(300, 120);
-                    }
-                }
             }
-            else
-            {
-                foreach (Control control in flp_operations.Controls)
-                {
-                    if (control is Button buttonm)
-                    {
-                        buttonm.Size = new Size(212, 89);
-                    }
-                }
-            }
-            if (sender is Button button)
-            {
-                ChangeButtonBorder(button);
-            }
-            LoadTableStaus(0);
-            menutable_click = true;
+
         }
     }
 

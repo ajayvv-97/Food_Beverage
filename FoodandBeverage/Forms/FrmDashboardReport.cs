@@ -28,6 +28,7 @@ namespace FoodandBeverage.Forms
 
         #region Declaration
         private List<DmnGridFields> Expencedata;
+        public bool flagexit = false;
 
         #endregion
         private void FrmDashboardReport_Load(object sender, EventArgs e)
@@ -369,60 +370,63 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DateTime financialYearStart;
-                DateTime financialYearEnd;
-                int fin_year;
-                if (cmb_fin_year.SelectedIndex==-1)
+                if (flagexit)
                 {
-                    DateTime currentDate = DateTime.Now;
-                    fin_year = (currentDate.Month < 4) ? currentDate.Year - 1 : currentDate.Year;
-                }
-                else
-                    fin_year = Convert.ToInt32(cmb_fin_year.SelectedValue);
-
-                financialYearStart = new DateTime(fin_year, 4, 1);
-                financialYearEnd = new DateTime(fin_year + 1, 3, 31);
-
-                BllAnnuvalreport<DmnRpt_1> SearchDetails = new BllAnnuvalreport<DmnRpt_1>();
-                DmnRpt_1 dmnSearchDetBill = new DmnRpt_1();
-
-                dmnSearchDetBill.dt1 = Convert.ToDateTime(financialYearStart.ToString("yyyy-MM-dd"));
-                dmnSearchDetBill.dt2 = Convert.ToDateTime(financialYearEnd.ToString("yyyy-MM-dd"));
-                var invoiceBillMasters = SearchDetails.serachreport("prdISerachAnnuvalreport", dmnSearchDetBill);
-                var sortedResult = invoiceBillMasters
-                    .OrderBy(item => CustomOrder(item.nFld1))
-                    .ToList();
-                int CustomOrder(int nFld1)
-                {
-                    if (nFld1 >= 4 && nFld1 <= 12)
-                        return nFld1;
-                    else
-                        return nFld1 + 100;
-                }
-   
-                if (sortedResult.Count > 0)
-                {
-                    Totalrevenuechart.Series["Sales"].Points.Clear();
-                    Totalrevenuechart.Series["Purchase"].Points.Clear();
-                    Totalrevenuechart.Series["PurchaseReturn"].Points.Clear();
-
-                    for (int i=0;i< sortedResult.Count;i++)
+                    DateTime financialYearStart;
+                    DateTime financialYearEnd;
+                    int fin_year;
+                    if (cmb_fin_year.SelectedIndex == -1)
                     {
-                        Totalrevenuechart.Series["Sales"].Points.AddXY(i+1, sortedResult[i].dFld1);
-                        Totalrevenuechart.Series["Purchase"].Points.AddXY(i+1, sortedResult[i].dFld2);
-                        Totalrevenuechart.Series["PurchaseReturn"].Points.AddXY(i+1, sortedResult[i].dFld3);
+                        DateTime currentDate = DateTime.Now;
+                        fin_year = (currentDate.Month < 4) ? currentDate.Year - 1 : currentDate.Year;
+                    }
+                    else
+                        fin_year = Convert.ToInt32(cmb_fin_year.SelectedValue);
 
-                        Totalrevenuechart.Series["Sales"].Points[i].ToolTip = $"Sales: "+ sortedResult[i].dFld1;
-                        Totalrevenuechart.Series["Purchase"].Points[i].ToolTip = $"Purchase: "+ sortedResult[i].dFld2;
-                        Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: "+ sortedResult[i].dFld3;
+                    financialYearStart = new DateTime(fin_year, 4, 1);
+                    financialYearEnd = new DateTime(fin_year + 1, 3, 31);
+
+                    BllAnnuvalreport<DmnRpt_1> SearchDetails = new BllAnnuvalreport<DmnRpt_1>();
+                    DmnRpt_1 dmnSearchDetBill = new DmnRpt_1();
+
+                    dmnSearchDetBill.dt1 = Convert.ToDateTime(financialYearStart.ToString("yyyy-MM-dd"));
+                    dmnSearchDetBill.dt2 = Convert.ToDateTime(financialYearEnd.ToString("yyyy-MM-dd"));
+                    var invoiceBillMasters = SearchDetails.serachreport("prdISerachAnnuvalreport", dmnSearchDetBill);
+                    var sortedResult = invoiceBillMasters
+                        .OrderBy(item => CustomOrder(item.nFld1))
+                        .ToList();
+                    int CustomOrder(int nFld1)
+                    {
+                        if (nFld1 >= 4 && nFld1 <= 12)
+                            return nFld1;
+                        else
+                            return nFld1 + 100;
+                    }
+
+                    if (sortedResult.Count > 0)
+                    {
+                        Totalrevenuechart.Series["Sales"].Points.Clear();
+                        Totalrevenuechart.Series["Purchase"].Points.Clear();
+                        Totalrevenuechart.Series["PurchaseReturn"].Points.Clear();
+
+                        for (int i = 0; i < sortedResult.Count; i++)
+                        {
+                            Totalrevenuechart.Series["Sales"].Points.AddXY(i + 1, sortedResult[i].dFld1);
+                            Totalrevenuechart.Series["Purchase"].Points.AddXY(i + 1, sortedResult[i].dFld2);
+                            Totalrevenuechart.Series["PurchaseReturn"].Points.AddXY(i + 1, sortedResult[i].dFld3);
+
+                            Totalrevenuechart.Series["Sales"].Points[i].ToolTip = $"Sales: " + sortedResult[i].dFld1;
+                            Totalrevenuechart.Series["Purchase"].Points[i].ToolTip = $"Purchase: " + sortedResult[i].dFld2;
+                            Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: " + sortedResult[i].dFld3;
+
+                        }
 
                     }
 
+                    Title existingTitle = Totalrevenuechart.Titles.FirstOrDefault(t => t.Text.StartsWith("Annual Report"));
+                    if (existingTitle != null)
+                        existingTitle.Text = $"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}";
                 }
-
-                Title existingTitle = Totalrevenuechart.Titles.FirstOrDefault(t => t.Text.StartsWith("Annual Report"));
-                if (existingTitle != null)
-                    existingTitle.Text = $"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}";               
             }
             catch (Exception ex)
             {
@@ -431,88 +435,105 @@ namespace FoodandBeverage.Forms
         }
         public void Fill_combo_finyear()
         {
-            BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "*";
-            objSearch.Table = "tblHotelRegistration";
-            objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
-            objSearch.OrderBy = "";
-            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-            int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
-            DateTime currentDate = DateTime.Now;
-            List<DmnComboBox> finYearList = new List<DmnComboBox>();
-            for (int i = currentDate.Year - startYear; i >= 0; i--)
+            try
             {
-                int year = startYear + i;
-                DateTime financialYearStart = new DateTime(year, 4, 1);
-                DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
-                string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
-                DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
-                finYearList.Add(finYear);
+                BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblHotelRegistration";
+                objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    flagexit = true;
+                    int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
+                    DateTime currentDate = DateTime.Now;
+                    List<DmnComboBox> finYearList = new List<DmnComboBox>();
+                    for (int i = currentDate.Year - startYear; i >= 0; i--)
+                    {
+                        int year = startYear + i;
+                        DateTime financialYearStart = new DateTime(year, 4, 1);
+                        DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
+                        string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
+                        DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
+                        finYearList.Add(finYear);
+                    }
+                    cmb_fin_year.DataSource = finYearList;
+                    cmb_fin_year.DisplayMember = "Value";
+                    cmb_fin_year.ValueMember = "Id";
+                }
             }
-            cmb_fin_year.DataSource = finYearList;
-            cmb_fin_year.DisplayMember = "Value";
-            cmb_fin_year.ValueMember = "Id";
+            catch(Exception ex)
+            {
+
+            }
+ 
+
         }
         private void SetupChart_Revenue()
         {
             try
             {
-                DateTime financialYearStart;
-                DmnComboBox selectedFinYear = (DmnComboBox)cmb_fin_year.SelectedItem;
-                int year = Convert.ToInt32(selectedFinYear.Id);
-                financialYearStart = new DateTime(year, 4, 1);
-                DateTime financialYearEnd = financialYearStart.AddYears(1).AddDays(-1); 
+                if(flagexit)
+                {
+                    DateTime financialYearStart;
+                    DmnComboBox selectedFinYear = (DmnComboBox)cmb_fin_year.SelectedItem;
+                    int year = Convert.ToInt32(selectedFinYear.Id);
+                    financialYearStart = new DateTime(year, 4, 1);
+                    DateTime financialYearEnd = financialYearStart.AddYears(1).AddDays(-1);
 
-                Totalrevenuechart.Series.Clear();
-                // Sales series
-                Series seriesSales = new Series("Sales");
-                seriesSales.ChartType = SeriesChartType.Column;
-                Totalrevenuechart.Series.Add(seriesSales);
+                    Totalrevenuechart.Series.Clear();
+                    // Sales series
+                    Series seriesSales = new Series("Sales");
+                    seriesSales.ChartType = SeriesChartType.Column;
+                    Totalrevenuechart.Series.Add(seriesSales);
 
-                // Purchase series
-                Series seriesPurchase = new Series("Purchase");
-                seriesPurchase.ChartType = SeriesChartType.Column;
-                Totalrevenuechart.Series.Add(seriesPurchase);
+                    // Purchase series
+                    Series seriesPurchase = new Series("Purchase");
+                    seriesPurchase.ChartType = SeriesChartType.Column;
+                    Totalrevenuechart.Series.Add(seriesPurchase);
 
-                // Purchase Return series
-                Series seriesPurchaseReturn = new Series("PurchaseReturn");
-                seriesPurchaseReturn.ChartType = SeriesChartType.Column;
-                Totalrevenuechart.Series.Add(seriesPurchaseReturn);
+                    // Purchase Return series
+                    Series seriesPurchaseReturn = new Series("PurchaseReturn");
+                    seriesPurchaseReturn.ChartType = SeriesChartType.Column;
+                    Totalrevenuechart.Series.Add(seriesPurchaseReturn);
 
 
-                Totalrevenuechart.Legends.Add(new Legend("Legend"));
-                Totalrevenuechart.Legends["Legend"].Docking = Docking.Bottom;
-                seriesSales.LegendText = "Sales";
-                seriesPurchase.LegendText = "Purchase";
-                seriesPurchaseReturn.LegendText = "Purchase Return";
-                Totalrevenuechart.Legends["Legend"].Font = new Font("Arial", 12, FontStyle.Bold);
+                    Totalrevenuechart.Legends.Add(new Legend("Legend"));
+                    Totalrevenuechart.Legends["Legend"].Docking = Docking.Bottom;
+                    seriesSales.LegendText = "Sales";
+                    seriesPurchase.LegendText = "Purchase";
+                    seriesPurchaseReturn.LegendText = "Purchase Return";
+                    Totalrevenuechart.Legends["Legend"].Font = new Font("Arial", 12, FontStyle.Bold);
 
-                // Title
-                Title chartTitle = new Title($"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}");
-                chartTitle.Font = new Font(chartTitle.Font.FontFamily, 12, FontStyle.Bold);
-                Totalrevenuechart.Titles.Add(chartTitle);
+                    // Title
+                    Title chartTitle = new Title($"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}");
+                    chartTitle.Font = new Font(chartTitle.Font.FontFamily, 12, FontStyle.Bold);
+                    Totalrevenuechart.Titles.Add(chartTitle);
 
-                Totalrevenuechart.ChartAreas[0].AxisX.Interval = 1;
-                Totalrevenuechart.ChartAreas[0].AxisX.Minimum = 0;
-                Totalrevenuechart.ChartAreas[0].AxisX.Maximum = 13;
+                    Totalrevenuechart.ChartAreas[0].AxisX.Interval = 1;
+                    Totalrevenuechart.ChartAreas[0].AxisX.Minimum = 0;
+                    Totalrevenuechart.ChartAreas[0].AxisX.Maximum = 13;
 
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(0.5, 1.5, $"{financialYearStart:MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(1.5, 2.5, $"{financialYearStart.AddMonths(1):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(2.5, 3.5, $"{financialYearStart.AddMonths(2):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(3.5, 4.5, $"{financialYearStart.AddMonths(3):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(4.5, 5.5, $"{financialYearStart.AddMonths(4):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(5.5, 6.5, $"{financialYearStart.AddMonths(5):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(6.5, 7.5, $"{financialYearStart.AddMonths(6):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(7.5, 8.5, $"{financialYearStart.AddMonths(7):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(8.5, 9.5, $"{financialYearStart.AddMonths(8):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(9.5, 10.5, $"{financialYearStart.AddMonths(9):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(10.5, 11.5, $"{financialYearStart.AddMonths(10):MMM-yyyy}");
-                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(11.5, 12.5, $"{financialYearStart.AddMonths(11):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(0.5, 1.5, $"{financialYearStart:MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(1.5, 2.5, $"{financialYearStart.AddMonths(1):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(2.5, 3.5, $"{financialYearStart.AddMonths(2):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(3.5, 4.5, $"{financialYearStart.AddMonths(3):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(4.5, 5.5, $"{financialYearStart.AddMonths(4):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(5.5, 6.5, $"{financialYearStart.AddMonths(5):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(6.5, 7.5, $"{financialYearStart.AddMonths(6):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(7.5, 8.5, $"{financialYearStart.AddMonths(7):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(8.5, 9.5, $"{financialYearStart.AddMonths(8):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(9.5, 10.5, $"{financialYearStart.AddMonths(9):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(10.5, 11.5, $"{financialYearStart.AddMonths(10):MMM-yyyy}");
+                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(11.5, 12.5, $"{financialYearStart.AddMonths(11):MMM-yyyy}");
 
-                Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+                    Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 9, FontStyle.Bold);
 
-                Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Angle = 0;
+                    Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Angle = 0;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -708,7 +729,7 @@ namespace FoodandBeverage.Forms
             var r = expencepiechart.HitTest(e.X, e.Y);
             int index = r.PointIndex;
 
-            if (index == expencepiechart.Series["s_expence"].Points.Count - 1) // Check if "Remaining" category is clicked
+            if (index == expencepiechart.Series["s_expence"].Points.Count - 1 && expencepiechart.Series["s_expence"].Points.Any()) 
             {
                 int panelWidthPercentage = 30;
                 int panelheightPercentage = 50;
@@ -1030,6 +1051,17 @@ namespace FoodandBeverage.Forms
             pnlexpence_viewmore.Visible = false;
         }
 
-
+        private void btnrefreshreport_Click(object sender, EventArgs e)
+        {
+            Filldashboard();
+            FillChartTwoBarChart();
+            FillCharttotaldiscountChart();
+            FillChartExpence();
+            Fillpaymentdetailed();
+            FillBoxdetailed();
+            FillFast_Slowing();
+            tcslow_move.SelectedIndex = 0;
+            tlp_box_frist.Focus();
+        }
     }
 }
