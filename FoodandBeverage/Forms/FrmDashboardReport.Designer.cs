@@ -29,17 +29,28 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboardReport));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnl_dashboard = new System.Windows.Forms.Panel();
             this.tlp_main_dashboard = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_date_dashboard = new System.Windows.Forms.TableLayoutPanel();
@@ -139,6 +150,54 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.ibrem_exp_total = new FontAwesome.Sharp.IconButton();
             this.label15 = new System.Windows.Forms.Label();
+            this.pnl_boxdetails_dash = new System.Windows.Forms.Panel();
+            this.tlp_boxdetails_sub = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_close_boxdetails = new System.Windows.Forms.Button();
+            this.tlp_pagination = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_four = new System.Windows.Forms.Button();
+            this.btn_three = new System.Windows.Forms.Button();
+            this.btn_two = new System.Windows.Forms.Button();
+            this.btnfrist = new System.Windows.Forms.Button();
+            this.btnprevious = new System.Windows.Forms.Button();
+            this.btnnext = new System.Windows.Forms.Button();
+            this.dgv_activedine = new System.Windows.Forms.DataGridView();
+            this.ad_slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ad_OrdermasterID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ad_DateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ad_TotalQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_reservation = new System.Windows.Forms.DataGridView();
+            this.res_slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_bookingdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_CustomerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.B_Phone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.f_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_TableCode = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.f_Foodname = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dgv_promotion = new System.Windows.Forms.DataGridView();
+            this.ap_slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap_OfferName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap_offerstartdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap_enddate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap_Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_activefood = new System.Windows.Forms.DataGridView();
+            this.fd_slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fd_Productname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fd_currentQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fd_Cate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fd_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_cancelorders = new System.Windows.Forms.DataGridView();
+            this.cd_slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cd_Ordermasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cd_DateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cd_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_offer_type_main = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_oofertype_radio = new System.Windows.Forms.TableLayoutPanel();
+            this.rdcombooffer = new System.Windows.Forms.RadioButton();
+            this.rdproductoffer = new System.Windows.Forms.RadioButton();
+            this.lblboxdetailsheader = new System.Windows.Forms.Label();
+            this.lblnodata = new System.Windows.Forms.Label();
             this.pnl_dashboard.SuspendLayout();
             this.tlp_main_dashboard.SuspendLayout();
             this.tlp_date_dashboard.SuspendLayout();
@@ -191,6 +250,16 @@ namespace FoodandBeverage.Forms
             this.pnlexpence_viewmore.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
+            this.pnl_boxdetails_dash.SuspendLayout();
+            this.tlp_boxdetails_sub.SuspendLayout();
+            this.tlp_pagination.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_activedine)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_reservation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_promotion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_activefood)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_cancelorders)).BeginInit();
+            this.tlp_offer_type_main.SuspendLayout();
+            this.tlp_oofertype_radio.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_dashboard
@@ -234,7 +303,7 @@ namespace FoodandBeverage.Forms
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.13228F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.86773F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tlp_date_dashboard.Controls.Add(this.dtp_dashboard, 1, 0);
             this.tlp_date_dashboard.Controls.Add(this.btnrefreshreport, 2, 0);
             this.tlp_date_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -250,9 +319,9 @@ namespace FoodandBeverage.Forms
             this.dtp_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtp_dashboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_dashboard.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_dashboard.Location = new System.Drawing.Point(678, 3);
+            this.dtp_dashboard.Location = new System.Drawing.Point(676, 3);
             this.dtp_dashboard.Name = "dtp_dashboard";
-            this.dtp_dashboard.Size = new System.Drawing.Size(217, 24);
+            this.dtp_dashboard.Size = new System.Drawing.Size(216, 24);
             this.dtp_dashboard.TabIndex = 0;
             this.dtp_dashboard.ValueChanged += new System.EventHandler(this.dtp_dashboard_ValueChanged);
             // 
@@ -263,7 +332,7 @@ namespace FoodandBeverage.Forms
             this.btnrefreshreport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnrefreshreport.FlatAppearance.BorderSize = 0;
             this.btnrefreshreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnrefreshreport.Location = new System.Drawing.Point(901, 3);
+            this.btnrefreshreport.Location = new System.Drawing.Point(898, 3);
             this.btnrefreshreport.Name = "btnrefreshreport";
             this.btnrefreshreport.Size = new System.Drawing.Size(60, 31);
             this.btnrefreshreport.TabIndex = 1;
@@ -577,6 +646,7 @@ namespace FoodandBeverage.Forms
             this.lbl_act_promo.TabIndex = 0;
             this.lbl_act_promo.Text = "Active Promotions";
             this.lbl_act_promo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_act_promo.Click += new System.EventHandler(this.lblactivepromo_Click);
             // 
             // pictureBox12
             // 
@@ -588,6 +658,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox12.Size = new System.Drawing.Size(31, 46);
             this.pictureBox12.TabIndex = 1;
             this.pictureBox12.TabStop = false;
+            this.pictureBox12.Click += new System.EventHandler(this.lblactivepromo_Click);
             // 
             // lblactivepromo
             // 
@@ -600,6 +671,7 @@ namespace FoodandBeverage.Forms
             this.lblactivepromo.TabIndex = 2;
             this.lblactivepromo.Text = "label23";
             this.lblactivepromo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblactivepromo.Click += new System.EventHandler(this.lblactivepromo_Click);
             // 
             // tableLayoutPanel10
             // 
@@ -643,6 +715,7 @@ namespace FoodandBeverage.Forms
             this.lbl_up_res.TabIndex = 0;
             this.lbl_up_res.Text = "Up Coming Reservations";
             this.lbl_up_res.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_up_res.Click += new System.EventHandler(this.lbl_up_res_Click);
             // 
             // pictureBox13
             // 
@@ -654,6 +727,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox13.Size = new System.Drawing.Size(31, 46);
             this.pictureBox13.TabIndex = 1;
             this.pictureBox13.TabStop = false;
+            this.pictureBox13.Click += new System.EventHandler(this.lbl_up_res_Click);
             // 
             // lblupreserva
             // 
@@ -666,6 +740,7 @@ namespace FoodandBeverage.Forms
             this.lblupreserva.TabIndex = 2;
             this.lblupreserva.Text = "label23";
             this.lblupreserva.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblupreserva.Click += new System.EventHandler(this.lbl_up_res_Click);
             // 
             // tableLayoutPanel6
             // 
@@ -709,6 +784,7 @@ namespace FoodandBeverage.Forms
             this.label18.TabIndex = 0;
             this.label18.Text = "Food Items";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // pictureBox3
             // 
@@ -720,6 +796,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.Size = new System.Drawing.Size(31, 36);
             this.pictureBox3.TabIndex = 1;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.label18_Click);
             // 
             // lblfoodmenu
             // 
@@ -732,6 +809,7 @@ namespace FoodandBeverage.Forms
             this.lblfoodmenu.TabIndex = 2;
             this.lblfoodmenu.Text = "label19";
             this.lblfoodmenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblfoodmenu.Click += new System.EventHandler(this.label18_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -776,6 +854,7 @@ namespace FoodandBeverage.Forms
             this.label16.TabIndex = 0;
             this.label16.Text = "Active Dine";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label16.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox2
             // 
@@ -787,6 +866,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox2.Size = new System.Drawing.Size(31, 36);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // lblactive
             // 
@@ -799,6 +879,7 @@ namespace FoodandBeverage.Forms
             this.lblactive.TabIndex = 2;
             this.lblactive.Text = "label17";
             this.lblactive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblactive.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // tlp_activedine
             // 
@@ -842,6 +923,7 @@ namespace FoodandBeverage.Forms
             this.label14.TabIndex = 0;
             this.label14.Text = "Cancelled ";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label14.Click += new System.EventHandler(this.lblcancelled_Click);
             // 
             // pictureBox1
             // 
@@ -853,6 +935,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox1.Size = new System.Drawing.Size(31, 36);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.lblcancelled_Click);
             // 
             // lblcancelled
             // 
@@ -865,6 +948,7 @@ namespace FoodandBeverage.Forms
             this.lblcancelled.TabIndex = 2;
             this.lblcancelled.Text = "label15";
             this.lblcancelled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblcancelled.Click += new System.EventHandler(this.lblcancelled_Click);
             // 
             // tlp_twobar_discountbar
             // 
@@ -883,19 +967,19 @@ namespace FoodandBeverage.Forms
             // 
             // expencepiechart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.expencepiechart.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.expencepiechart.ChartAreas.Add(chartArea5);
             this.expencepiechart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            legend1.Title = "Expence";
-            this.expencepiechart.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            legend2.Title = "Expence";
+            this.expencepiechart.Legends.Add(legend2);
             this.expencepiechart.Location = new System.Drawing.Point(616, 3);
             this.expencepiechart.Name = "expencepiechart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.expencepiechart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.expencepiechart.Series.Add(series5);
             this.expencepiechart.Size = new System.Drawing.Size(384, 229);
             this.expencepiechart.TabIndex = 0;
             this.expencepiechart.Text = "chart1";
@@ -903,28 +987,28 @@ namespace FoodandBeverage.Forms
             // 
             // chart_res_dine_sales
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart_res_dine_sales.ChartAreas.Add(chartArea2);
+            chartArea6.Name = "ChartArea1";
+            this.chart_res_dine_sales.ChartAreas.Add(chartArea6);
             this.chart_res_dine_sales.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart_res_dine_sales.Location = new System.Drawing.Point(3, 3);
             this.chart_res_dine_sales.Name = "chart_res_dine_sales";
             this.chart_res_dine_sales.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series2.ChartArea = "ChartArea1";
-            series2.Label = "Dine";
-            series2.LabelFormat = "Dine";
-            series2.LabelToolTip = "#TOTAL";
-            series2.Name = "s_dine";
-            series3.ChartArea = "ChartArea1";
-            series3.Label = "Reservation";
-            series3.LabelFormat = "Reservation";
-            series3.LabelToolTip = "#TOTAL";
-            series3.Name = "s_reservation";
-            this.chart_res_dine_sales.Series.Add(series2);
-            this.chart_res_dine_sales.Series.Add(series3);
+            series6.ChartArea = "ChartArea1";
+            series6.Label = "Dine";
+            series6.LabelFormat = "Dine";
+            series6.LabelToolTip = "#TOTAL";
+            series6.Name = "s_dine";
+            series7.ChartArea = "ChartArea1";
+            series7.Label = "Reservation";
+            series7.LabelFormat = "Reservation";
+            series7.LabelToolTip = "#TOTAL";
+            series7.Name = "s_reservation";
+            this.chart_res_dine_sales.Series.Add(series6);
+            this.chart_res_dine_sales.Series.Add(series7);
             this.chart_res_dine_sales.Size = new System.Drawing.Size(607, 229);
             this.chart_res_dine_sales.TabIndex = 3;
-            title1.Name = "Dine And Reservation Sale";
-            this.chart_res_dine_sales.Titles.Add(title1);
+            title3.Name = "Dine And Reservation Sale";
+            this.chart_res_dine_sales.Titles.Add(title3);
             // 
             // tlp_detailpay_expence
             // 
@@ -1420,14 +1504,14 @@ namespace FoodandBeverage.Forms
             // 
             // totaldisc_chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.totaldisc_chart.ChartAreas.Add(chartArea3);
+            chartArea7.Name = "ChartArea1";
+            this.totaldisc_chart.ChartAreas.Add(chartArea7);
             this.totaldisc_chart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totaldisc_chart.Location = new System.Drawing.Point(504, 3);
             this.totaldisc_chart.Name = "totaldisc_chart";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "Series1";
-            this.totaldisc_chart.Series.Add(series4);
+            series8.ChartArea = "ChartArea1";
+            series8.Name = "Series1";
+            this.totaldisc_chart.Series.Add(series8);
             this.totaldisc_chart.Size = new System.Drawing.Size(496, 288);
             this.totaldisc_chart.TabIndex = 4;
             this.totaldisc_chart.Text = "chart1";
@@ -1459,17 +1543,17 @@ namespace FoodandBeverage.Forms
             // 
             // Totalrevenuechart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.Totalrevenuechart.ChartAreas.Add(chartArea4);
+            chartArea8.Name = "ChartArea1";
+            this.Totalrevenuechart.ChartAreas.Add(chartArea8);
             this.Totalrevenuechart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Totalrevenuechart.Location = new System.Drawing.Point(3, 38);
             this.Totalrevenuechart.Name = "Totalrevenuechart";
             this.Totalrevenuechart.Size = new System.Drawing.Size(997, 271);
             this.Totalrevenuechart.TabIndex = 5;
             this.Totalrevenuechart.Text = "chart1";
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title2.Name = "Annuval sales Report";
-            this.Totalrevenuechart.Titles.Add(title2);
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title4.Name = "Annuval sales Report";
+            this.Totalrevenuechart.Titles.Add(title4);
             // 
             // tlp_move_slow_item
             // 
@@ -1519,7 +1603,7 @@ namespace FoodandBeverage.Forms
             this.tlp_fastmovingitem.ColumnCount = 3;
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92611F));
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07389F));
-            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlp_fastmovingitem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_fastmovingitem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlp_fastmovingitem.Location = new System.Drawing.Point(3, 3);
@@ -1547,7 +1631,7 @@ namespace FoodandBeverage.Forms
             this.tlp_slowingitems.ColumnCount = 3;
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.49383F));
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.50617F));
-            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             this.tlp_slowingitems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_slowingitems.Location = new System.Drawing.Point(3, 3);
             this.tlp_slowingitems.Name = "tlp_slowingitems";
@@ -1659,11 +1743,610 @@ namespace FoodandBeverage.Forms
             this.label15.TabIndex = 0;
             this.label15.Text = "Total";
             // 
+            // pnl_boxdetails_dash
+            // 
+            this.pnl_boxdetails_dash.Controls.Add(this.tlp_boxdetails_sub);
+            this.pnl_boxdetails_dash.Location = new System.Drawing.Point(0, 0);
+            this.pnl_boxdetails_dash.Name = "pnl_boxdetails_dash";
+            this.pnl_boxdetails_dash.Size = new System.Drawing.Size(665, 388);
+            this.pnl_boxdetails_dash.TabIndex = 2;
+            this.pnl_boxdetails_dash.Visible = false;
+            // 
+            // tlp_boxdetails_sub
+            // 
+            this.tlp_boxdetails_sub.BackColor = System.Drawing.Color.SteelBlue;
+            this.tlp_boxdetails_sub.ColumnCount = 3;
+            this.tlp_boxdetails_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.954802F));
+            this.tlp_boxdetails_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 92.03092F));
+            this.tlp_boxdetails_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.014273F));
+            this.tlp_boxdetails_sub.Controls.Add(this.btn_close_boxdetails, 2, 0);
+            this.tlp_boxdetails_sub.Controls.Add(this.tlp_pagination, 1, 2);
+            this.tlp_boxdetails_sub.Controls.Add(this.lblboxdetailsheader, 1, 0);
+            this.tlp_boxdetails_sub.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_boxdetails_sub.Location = new System.Drawing.Point(0, 0);
+            this.tlp_boxdetails_sub.Name = "tlp_boxdetails_sub";
+            this.tlp_boxdetails_sub.RowCount = 3;
+            this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.707865F));
+            this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.29214F));
+            this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tlp_boxdetails_sub.Size = new System.Drawing.Size(665, 388);
+            this.tlp_boxdetails_sub.TabIndex = 0;
+            // 
+            // btn_close_boxdetails
+            // 
+            this.btn_close_boxdetails.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_close_boxdetails.BackgroundImage")));
+            this.btn_close_boxdetails.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_close_boxdetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_close_boxdetails.FlatAppearance.BorderSize = 0;
+            this.btn_close_boxdetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close_boxdetails.Location = new System.Drawing.Point(641, 3);
+            this.btn_close_boxdetails.Name = "btn_close_boxdetails";
+            this.btn_close_boxdetails.Size = new System.Drawing.Size(21, 25);
+            this.btn_close_boxdetails.TabIndex = 2;
+            this.btn_close_boxdetails.UseVisualStyleBackColor = true;
+            this.btn_close_boxdetails.Click += new System.EventHandler(this.btn_close_boxdetails_Click);
+            // 
+            // tlp_pagination
+            // 
+            this.tlp_pagination.ColumnCount = 8;
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlp_pagination.Controls.Add(this.btn_four, 5, 0);
+            this.tlp_pagination.Controls.Add(this.btn_three, 4, 0);
+            this.tlp_pagination.Controls.Add(this.btn_two, 3, 0);
+            this.tlp_pagination.Controls.Add(this.btnfrist, 2, 0);
+            this.tlp_pagination.Controls.Add(this.btnprevious, 1, 0);
+            this.tlp_pagination.Controls.Add(this.btnnext, 6, 0);
+            this.tlp_pagination.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_pagination.Location = new System.Drawing.Point(29, 359);
+            this.tlp_pagination.Name = "tlp_pagination";
+            this.tlp_pagination.RowCount = 1;
+            this.tlp_pagination.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_pagination.Size = new System.Drawing.Size(606, 26);
+            this.tlp_pagination.TabIndex = 3;
+            // 
+            // btn_four
+            // 
+            this.btn_four.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_four.Location = new System.Drawing.Point(378, 3);
+            this.btn_four.Name = "btn_four";
+            this.btn_four.Size = new System.Drawing.Size(69, 20);
+            this.btn_four.TabIndex = 6;
+            this.btn_four.Text = "4";
+            this.btn_four.UseVisualStyleBackColor = true;
+            // 
+            // btn_three
+            // 
+            this.btn_three.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_three.Location = new System.Drawing.Point(303, 3);
+            this.btn_three.Name = "btn_three";
+            this.btn_three.Size = new System.Drawing.Size(69, 20);
+            this.btn_three.TabIndex = 5;
+            this.btn_three.Text = "3";
+            this.btn_three.UseVisualStyleBackColor = true;
+            // 
+            // btn_two
+            // 
+            this.btn_two.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_two.Location = new System.Drawing.Point(228, 3);
+            this.btn_two.Name = "btn_two";
+            this.btn_two.Size = new System.Drawing.Size(69, 20);
+            this.btn_two.TabIndex = 4;
+            this.btn_two.Text = "2";
+            this.btn_two.UseVisualStyleBackColor = true;
+            // 
+            // btnfrist
+            // 
+            this.btnfrist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnfrist.Location = new System.Drawing.Point(153, 3);
+            this.btnfrist.Name = "btnfrist";
+            this.btnfrist.Size = new System.Drawing.Size(69, 20);
+            this.btnfrist.TabIndex = 3;
+            this.btnfrist.Text = "1";
+            this.btnfrist.UseVisualStyleBackColor = true;
+            // 
+            // btnprevious
+            // 
+            this.btnprevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnprevious.Location = new System.Drawing.Point(78, 3);
+            this.btnprevious.Name = "btnprevious";
+            this.btnprevious.Size = new System.Drawing.Size(69, 20);
+            this.btnprevious.TabIndex = 0;
+            this.btnprevious.Text = "<<";
+            this.btnprevious.UseVisualStyleBackColor = true;
+            this.btnprevious.Click += new System.EventHandler(this.btnprevious_Click);
+            // 
+            // btnnext
+            // 
+            this.btnnext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnnext.Location = new System.Drawing.Point(453, 3);
+            this.btnnext.Name = "btnnext";
+            this.btnnext.Size = new System.Drawing.Size(69, 20);
+            this.btnnext.TabIndex = 1;
+            this.btnnext.Text = ">>";
+            this.btnnext.UseVisualStyleBackColor = true;
+            this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
+            // 
+            // dgv_activedine
+            // 
+            this.dgv_activedine.AllowUserToAddRows = false;
+            this.dgv_activedine.AllowUserToDeleteRows = false;
+            this.dgv_activedine.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_activedine.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgv_activedine.ColumnHeadersHeight = 40;
+            this.dgv_activedine.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ad_slno,
+            this.ad_OrdermasterID,
+            this.ad_DateTime,
+            this.ad_TotalQuantity});
+            this.dgv_activedine.Location = new System.Drawing.Point(17, 244);
+            this.dgv_activedine.Name = "dgv_activedine";
+            this.dgv_activedine.ReadOnly = true;
+            this.dgv_activedine.RowHeadersVisible = false;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activedine.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgv_activedine.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_activedine.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activedine.RowTemplate.Height = 35;
+            this.dgv_activedine.Size = new System.Drawing.Size(603, 111);
+            this.dgv_activedine.TabIndex = 4;
+            this.dgv_activedine.Visible = false;
+            // 
+            // ad_slno
+            // 
+            this.ad_slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ad_slno.HeaderText = "Slno";
+            this.ad_slno.Name = "ad_slno";
+            this.ad_slno.ReadOnly = true;
+            this.ad_slno.Width = 61;
+            // 
+            // ad_OrdermasterID
+            // 
+            this.ad_OrdermasterID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ad_OrdermasterID.HeaderText = "OrdermasterID";
+            this.ad_OrdermasterID.Name = "ad_OrdermasterID";
+            this.ad_OrdermasterID.ReadOnly = true;
+            this.ad_OrdermasterID.Width = 126;
+            // 
+            // ad_DateTime
+            // 
+            this.ad_DateTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ad_DateTime.HeaderText = "DateTime";
+            this.ad_DateTime.Name = "ad_DateTime";
+            this.ad_DateTime.ReadOnly = true;
+            // 
+            // ad_TotalQuantity
+            // 
+            this.ad_TotalQuantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ad_TotalQuantity.HeaderText = "TotalQuantity";
+            this.ad_TotalQuantity.Name = "ad_TotalQuantity";
+            this.ad_TotalQuantity.ReadOnly = true;
+            // 
+            // dgv_reservation
+            // 
+            this.dgv_reservation.AllowUserToAddRows = false;
+            this.dgv_reservation.AllowUserToDeleteRows = false;
+            this.dgv_reservation.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_reservation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgv_reservation.ColumnHeadersHeight = 40;
+            this.dgv_reservation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.res_slno,
+            this.b_bookingdate,
+            this.b_CustomerName,
+            this.B_Phone,
+            this.b_Gender,
+            this.f_Address,
+            this.b_TableCode,
+            this.f_Foodname});
+            this.dgv_reservation.Location = new System.Drawing.Point(10, 425);
+            this.dgv_reservation.Name = "dgv_reservation";
+            this.dgv_reservation.RowHeadersVisible = false;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_reservation.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgv_reservation.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_reservation.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_reservation.RowTemplate.Height = 35;
+            this.dgv_reservation.Size = new System.Drawing.Size(783, 111);
+            this.dgv_reservation.TabIndex = 5;
+            this.dgv_reservation.Visible = false;
+            this.dgv_reservation.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_reservation_DataError);
+            // 
+            // res_slno
+            // 
+            this.res_slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.res_slno.HeaderText = "Slno";
+            this.res_slno.Name = "res_slno";
+            this.res_slno.Width = 61;
+            // 
+            // b_bookingdate
+            // 
+            this.b_bookingdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.b_bookingdate.HeaderText = "Booking Date";
+            this.b_bookingdate.Name = "b_bookingdate";
+            this.b_bookingdate.Width = 108;
+            // 
+            // b_CustomerName
+            // 
+            this.b_CustomerName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.b_CustomerName.HeaderText = "Customer Name";
+            this.b_CustomerName.Name = "b_CustomerName";
+            // 
+            // B_Phone
+            // 
+            this.B_Phone.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.B_Phone.HeaderText = "Phone No";
+            this.B_Phone.Name = "B_Phone";
+            this.B_Phone.Width = 87;
+            // 
+            // b_Gender
+            // 
+            this.b_Gender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.b_Gender.HeaderText = "Gender";
+            this.b_Gender.Name = "b_Gender";
+            this.b_Gender.Width = 79;
+            // 
+            // f_Address
+            // 
+            this.f_Address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.f_Address.HeaderText = "Address";
+            this.f_Address.Name = "f_Address";
+            this.f_Address.Width = 83;
+            // 
+            // b_TableCode
+            // 
+            this.b_TableCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.b_TableCode.HeaderText = "TableCode";
+            this.b_TableCode.Name = "b_TableCode";
+            this.b_TableCode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.b_TableCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.b_TableCode.Width = 101;
+            // 
+            // f_Foodname
+            // 
+            this.f_Foodname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.f_Foodname.HeaderText = "FoodDetails";
+            this.f_Foodname.Name = "f_Foodname";
+            this.f_Foodname.Width = 90;
+            // 
+            // dgv_promotion
+            // 
+            this.dgv_promotion.AllowUserToAddRows = false;
+            this.dgv_promotion.AllowUserToDeleteRows = false;
+            this.dgv_promotion.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_promotion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            this.dgv_promotion.ColumnHeadersHeight = 40;
+            this.dgv_promotion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ap_slno,
+            this.ap_OfferName,
+            this.ap_offerstartdate,
+            this.ap_enddate,
+            this.ap_Discount,
+            this.ap_Price});
+            this.dgv_promotion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_promotion.Location = new System.Drawing.Point(3, 26);
+            this.dgv_promotion.Name = "dgv_promotion";
+            this.dgv_promotion.ReadOnly = true;
+            this.dgv_promotion.RowHeadersVisible = false;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_promotion.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            this.dgv_promotion.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_promotion.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_promotion.RowTemplate.Height = 35;
+            this.dgv_promotion.Size = new System.Drawing.Size(465, 151);
+            this.dgv_promotion.TabIndex = 6;
+            // 
+            // ap_slno
+            // 
+            this.ap_slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ap_slno.HeaderText = "Slno";
+            this.ap_slno.Name = "ap_slno";
+            this.ap_slno.ReadOnly = true;
+            this.ap_slno.Width = 61;
+            // 
+            // ap_OfferName
+            // 
+            this.ap_OfferName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ap_OfferName.HeaderText = "OfferName";
+            this.ap_OfferName.Name = "ap_OfferName";
+            this.ap_OfferName.ReadOnly = true;
+            // 
+            // ap_offerstartdate
+            // 
+            this.ap_offerstartdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ap_offerstartdate.HeaderText = "Start Date";
+            this.ap_offerstartdate.Name = "ap_offerstartdate";
+            this.ap_offerstartdate.ReadOnly = true;
+            this.ap_offerstartdate.Width = 88;
+            // 
+            // ap_enddate
+            // 
+            this.ap_enddate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ap_enddate.HeaderText = "Offer End Date";
+            this.ap_enddate.Name = "ap_enddate";
+            this.ap_enddate.ReadOnly = true;
+            this.ap_enddate.Width = 115;
+            // 
+            // ap_Discount
+            // 
+            this.ap_Discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ap_Discount.HeaderText = "Discount %";
+            this.ap_Discount.Name = "ap_Discount";
+            this.ap_Discount.ReadOnly = true;
+            this.ap_Discount.Width = 96;
+            // 
+            // ap_Price
+            // 
+            this.ap_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ap_Price.HeaderText = "Price";
+            this.ap_Price.Name = "ap_Price";
+            this.ap_Price.ReadOnly = true;
+            this.ap_Price.Width = 65;
+            // 
+            // dgv_activefood
+            // 
+            this.dgv_activefood.AllowUserToAddRows = false;
+            this.dgv_activefood.AllowUserToDeleteRows = false;
+            this.dgv_activefood.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_activefood.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgv_activefood.ColumnHeadersHeight = 40;
+            this.dgv_activefood.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.fd_slno,
+            this.fd_Productname,
+            this.fd_currentQty,
+            this.fd_Cate,
+            this.fd_price});
+            this.dgv_activefood.Location = new System.Drawing.Point(619, 362);
+            this.dgv_activefood.Name = "dgv_activefood";
+            this.dgv_activefood.ReadOnly = true;
+            this.dgv_activefood.RowHeadersVisible = false;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activefood.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            this.dgv_activefood.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_activefood.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activefood.RowTemplate.Height = 35;
+            this.dgv_activefood.Size = new System.Drawing.Size(384, 161);
+            this.dgv_activefood.TabIndex = 7;
+            this.dgv_activefood.Visible = false;
+            // 
+            // fd_slno
+            // 
+            this.fd_slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.fd_slno.HeaderText = "Slno";
+            this.fd_slno.Name = "fd_slno";
+            this.fd_slno.ReadOnly = true;
+            this.fd_slno.Width = 61;
+            // 
+            // fd_Productname
+            // 
+            this.fd_Productname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fd_Productname.HeaderText = "Food Name";
+            this.fd_Productname.Name = "fd_Productname";
+            this.fd_Productname.ReadOnly = true;
+            // 
+            // fd_currentQty
+            // 
+            this.fd_currentQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fd_currentQty.HeaderText = "Current Quantity";
+            this.fd_currentQty.Name = "fd_currentQty";
+            this.fd_currentQty.ReadOnly = true;
+            this.fd_currentQty.Width = 123;
+            // 
+            // fd_Cate
+            // 
+            this.fd_Cate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fd_Cate.HeaderText = "Category name";
+            this.fd_Cate.Name = "fd_Cate";
+            this.fd_Cate.ReadOnly = true;
+            this.fd_Cate.Width = 117;
+            // 
+            // fd_price
+            // 
+            this.fd_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fd_price.HeaderText = "Price";
+            this.fd_price.Name = "fd_price";
+            this.fd_price.ReadOnly = true;
+            this.fd_price.Width = 65;
+            // 
+            // dgv_cancelorders
+            // 
+            this.dgv_cancelorders.AllowUserToAddRows = false;
+            this.dgv_cancelorders.AllowUserToDeleteRows = false;
+            this.dgv_cancelorders.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_cancelorders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            this.dgv_cancelorders.ColumnHeadersHeight = 40;
+            this.dgv_cancelorders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.cd_slno,
+            this.cd_Ordermasterid,
+            this.cd_DateTime,
+            this.cd_reason});
+            this.dgv_cancelorders.Location = new System.Drawing.Point(10, 273);
+            this.dgv_cancelorders.Name = "dgv_cancelorders";
+            this.dgv_cancelorders.ReadOnly = true;
+            this.dgv_cancelorders.RowHeadersVisible = false;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_cancelorders.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            this.dgv_cancelorders.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_cancelorders.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_cancelorders.RowTemplate.Height = 35;
+            this.dgv_cancelorders.Size = new System.Drawing.Size(603, 111);
+            this.dgv_cancelorders.TabIndex = 8;
+            this.dgv_cancelorders.Visible = false;
+            // 
+            // cd_slno
+            // 
+            this.cd_slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.cd_slno.HeaderText = "Slno";
+            this.cd_slno.Name = "cd_slno";
+            this.cd_slno.ReadOnly = true;
+            this.cd_slno.Width = 61;
+            // 
+            // cd_Ordermasterid
+            // 
+            this.cd_Ordermasterid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cd_Ordermasterid.HeaderText = "OrdermasterId";
+            this.cd_Ordermasterid.Name = "cd_Ordermasterid";
+            this.cd_Ordermasterid.ReadOnly = true;
+            this.cd_Ordermasterid.Width = 124;
+            // 
+            // cd_DateTime
+            // 
+            this.cd_DateTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cd_DateTime.HeaderText = "DateTime";
+            this.cd_DateTime.Name = "cd_DateTime";
+            this.cd_DateTime.ReadOnly = true;
+            this.cd_DateTime.Width = 94;
+            // 
+            // cd_reason
+            // 
+            this.cd_reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.cd_reason.HeaderText = "Cancel Description";
+            this.cd_reason.Name = "cd_reason";
+            this.cd_reason.ReadOnly = true;
+            // 
+            // tlp_offer_type_main
+            // 
+            this.tlp_offer_type_main.ColumnCount = 1;
+            this.tlp_offer_type_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_offer_type_main.Controls.Add(this.dgv_promotion, 0, 1);
+            this.tlp_offer_type_main.Controls.Add(this.tlp_oofertype_radio, 0, 0);
+            this.tlp_offer_type_main.Location = new System.Drawing.Point(0, 50);
+            this.tlp_offer_type_main.Name = "tlp_offer_type_main";
+            this.tlp_offer_type_main.RowCount = 2;
+            this.tlp_offer_type_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.33333F));
+            this.tlp_offer_type_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.66666F));
+            this.tlp_offer_type_main.Size = new System.Drawing.Size(471, 180);
+            this.tlp_offer_type_main.TabIndex = 4;
+            this.tlp_offer_type_main.Visible = false;
+            // 
+            // tlp_oofertype_radio
+            // 
+            this.tlp_oofertype_radio.ColumnCount = 2;
+            this.tlp_oofertype_radio.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.73118F));
+            this.tlp_oofertype_radio.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.26881F));
+            this.tlp_oofertype_radio.Controls.Add(this.rdproductoffer, 0, 0);
+            this.tlp_oofertype_radio.Controls.Add(this.rdcombooffer, 1, 0);
+            this.tlp_oofertype_radio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_oofertype_radio.Location = new System.Drawing.Point(3, 3);
+            this.tlp_oofertype_radio.Name = "tlp_oofertype_radio";
+            this.tlp_oofertype_radio.RowCount = 1;
+            this.tlp_oofertype_radio.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_oofertype_radio.Size = new System.Drawing.Size(465, 17);
+            this.tlp_oofertype_radio.TabIndex = 7;
+            // 
+            // rdcombooffer
+            // 
+            this.rdcombooffer.AutoSize = true;
+            this.rdcombooffer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdcombooffer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdcombooffer.ForeColor = System.Drawing.Color.White;
+            this.rdcombooffer.Location = new System.Drawing.Point(117, 3);
+            this.rdcombooffer.Name = "rdcombooffer";
+            this.rdcombooffer.Size = new System.Drawing.Size(345, 11);
+            this.rdcombooffer.TabIndex = 0;
+            this.rdcombooffer.TabStop = true;
+            this.rdcombooffer.Text = "Combo Offer";
+            this.rdcombooffer.UseVisualStyleBackColor = true;
+            this.rdcombooffer.CheckedChanged += new System.EventHandler(this.rdcombooffer_CheckedChanged);
+            // 
+            // rdproductoffer
+            // 
+            this.rdproductoffer.AutoSize = true;
+            this.rdproductoffer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdproductoffer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdproductoffer.ForeColor = System.Drawing.Color.White;
+            this.rdproductoffer.Location = new System.Drawing.Point(3, 3);
+            this.rdproductoffer.Name = "rdproductoffer";
+            this.rdproductoffer.Size = new System.Drawing.Size(108, 11);
+            this.rdproductoffer.TabIndex = 1;
+            this.rdproductoffer.TabStop = true;
+            this.rdproductoffer.Text = "Product Offer";
+            this.rdproductoffer.UseVisualStyleBackColor = true;
+            this.rdproductoffer.CheckedChanged += new System.EventHandler(this.rdproductoffer_CheckedChanged);
+            // 
+            // lblboxdetailsheader
+            // 
+            this.lblboxdetailsheader.AutoSize = true;
+            this.lblboxdetailsheader.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblboxdetailsheader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblboxdetailsheader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblboxdetailsheader.ForeColor = System.Drawing.Color.White;
+            this.lblboxdetailsheader.Location = new System.Drawing.Point(29, 0);
+            this.lblboxdetailsheader.Name = "lblboxdetailsheader";
+            this.lblboxdetailsheader.Size = new System.Drawing.Size(606, 31);
+            this.lblboxdetailsheader.TabIndex = 4;
+            this.lblboxdetailsheader.Text = "label17";
+            this.lblboxdetailsheader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblnodata
+            // 
+            this.lblnodata.AutoSize = true;
+            this.lblnodata.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblnodata.ForeColor = System.Drawing.Color.Red;
+            this.lblnodata.Location = new System.Drawing.Point(29, 31);
+            this.lblnodata.Name = "lblnodata";
+            this.lblnodata.Size = new System.Drawing.Size(84, 24);
+            this.lblnodata.TabIndex = 5;
+            this.lblnodata.Text = "No Data";
+            this.lblnodata.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FrmDashboardReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 562);
+            this.Controls.Add(this.lblnodata);
+            this.Controls.Add(this.tlp_offer_type_main);
+            this.Controls.Add(this.dgv_reservation);
+            this.Controls.Add(this.dgv_activefood);
+            this.Controls.Add(this.dgv_cancelorders);
+            this.Controls.Add(this.dgv_activedine);
+            this.Controls.Add(this.pnl_boxdetails_dash);
             this.Controls.Add(this.pnlexpence_viewmore);
             this.Controls.Add(this.pnl_dashboard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -1740,7 +2423,20 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
+            this.pnl_boxdetails_dash.ResumeLayout(false);
+            this.tlp_boxdetails_sub.ResumeLayout(false);
+            this.tlp_boxdetails_sub.PerformLayout();
+            this.tlp_pagination.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_activedine)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_reservation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_promotion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_activefood)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_cancelorders)).EndInit();
+            this.tlp_offer_type_main.ResumeLayout(false);
+            this.tlp_oofertype_radio.ResumeLayout(false);
+            this.tlp_oofertype_radio.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1845,5 +2541,53 @@ namespace FoodandBeverage.Forms
         private FontAwesome.Sharp.IconButton ibrem_exp_total;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnrefreshreport;
+        private System.Windows.Forms.Panel pnl_boxdetails_dash;
+        private System.Windows.Forms.TableLayoutPanel tlp_boxdetails_sub;
+        private System.Windows.Forms.Button btn_close_boxdetails;
+        private System.Windows.Forms.TableLayoutPanel tlp_pagination;
+        private System.Windows.Forms.Button btn_four;
+        private System.Windows.Forms.Button btn_three;
+        private System.Windows.Forms.Button btn_two;
+        private System.Windows.Forms.Button btnfrist;
+        private System.Windows.Forms.Button btnprevious;
+        private System.Windows.Forms.Button btnnext;
+        private System.Windows.Forms.DataGridView dgv_activedine;
+        private System.Windows.Forms.DataGridView dgv_reservation;
+        private System.Windows.Forms.DataGridView dgv_promotion;
+        private System.Windows.Forms.DataGridView dgv_activefood;
+        private System.Windows.Forms.DataGridView dgv_cancelorders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad_slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad_OrdermasterID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad_DateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad_TotalQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cd_slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cd_Ordermasterid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cd_DateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cd_reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn res_slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn b_bookingdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn b_CustomerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn B_Phone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn b_Gender;
+        private System.Windows.Forms.DataGridViewTextBoxColumn f_Address;
+        private System.Windows.Forms.DataGridViewComboBoxColumn b_TableCode;
+        private System.Windows.Forms.DataGridViewComboBoxColumn f_Foodname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_OfferName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_offerstartdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_enddate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_Discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fd_slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fd_Productname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fd_currentQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fd_Cate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fd_price;
+        private System.Windows.Forms.TableLayoutPanel tlp_offer_type_main;
+        private System.Windows.Forms.TableLayoutPanel tlp_oofertype_radio;
+        private System.Windows.Forms.RadioButton rdproductoffer;
+        private System.Windows.Forms.RadioButton rdcombooffer;
+        private System.Windows.Forms.Label lblboxdetailsheader;
+        private System.Windows.Forms.Label lblnodata;
     }
 }

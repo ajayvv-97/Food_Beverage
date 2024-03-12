@@ -1116,7 +1116,7 @@ namespace FoodandBeverage.Forms
                                     decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);
                                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                                     dmnRemove_order.Status = 0;
-                                    dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
+                                    dmnRemove_order.OrderCancelNotes = txt_product_remove_des.Text;
                                     var InsertStatusP = bll_order.Remove_order("prd_remove_KitchenOrder", dmnRemove_order);
                                 }
 

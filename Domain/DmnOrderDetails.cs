@@ -50,7 +50,9 @@ namespace Domain
         public int Tid { get; set; }
         public int KOTPrintStatus { get; set; }
         public string TableCode { get; set; }
-        
+        public string OrderCancelNotes { get; set; }
+
+
     }
     
 

@@ -29,8 +29,50 @@ namespace FoodandBeverage.Forms
         #region Declaration
         private List<DmnGridFields> Expencedata;
         public bool flagexit = false;
+        private List<DmnGridFields> Result_table_menu; 
+        #endregion
+
+        #region Grid Declaration
+        //active dine grid
+        public static int adslno = 0;
+        public static int adordermasteridno = 1;
+        public static int addateno = 2;
+        public static int adtotalqtyno = 3;
+
+        //Cancel order  grid
+        public static int cslno = 0;
+        public static int cordermasteridno = 1;
+        public static int cdateno = 2;
+        public static int cresdesno = 3;
+
+        //active Promotion grid
+        public static int apslno = 0;
+        public static int apoffernameno = 1;
+        public static int apstartdateno = 2;
+        public static int apenddateno = 3;
+        public static int apdiscountperno = 4;
+        public static int appriceno = 5;
+
+        //active Food grid
+        public static int fslno = 0;
+        public static int ffoodnameno = 1;
+        public static int fcurrentqtyno = 2;
+        public static int fcategoryno = 3;
+        public static int fpriceno = 4;
+
+        //upcoming reservation grid
+        public static int rslno = 0;
+        public static int rdatetimeno = 1;
+        public static int rcutsnameno = 2;
+        public static int rphoneno = 3;
+        public static int rgenderno = 4;
+        public static int raddressno = 5;
+        public static int rtablecode = 6;
+        public static int rfooddetailsno = 7;
 
         #endregion
+
+
         private void FrmDashboardReport_Load(object sender, EventArgs e)
         {
             Filldashboard();
@@ -57,6 +99,76 @@ namespace FoodandBeverage.Forms
             tcslow_move.SelectedIndex = 1;
             tlp_box_frist.Focus();
 
+            #region Box Details Grid 
+            //dine active
+            dgv_activedine.BorderStyle = BorderStyle.None;
+            dgv_activedine.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_activedine.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_activedine.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_activedine.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_activedine.BackgroundColor = Color.White;
+
+            dgv_activedine.EnableHeadersVisualStyles = false;
+            dgv_activedine.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_activedine.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_activedine.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            //dgv_cancelorders
+
+            dgv_cancelorders.BorderStyle = BorderStyle.None;
+            dgv_cancelorders.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_cancelorders.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_cancelorders.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_cancelorders.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_cancelorders.BackgroundColor = Color.White;
+
+            dgv_cancelorders.EnableHeadersVisualStyles = false;
+            dgv_cancelorders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_cancelorders.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_cancelorders.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            // Styling for dgv_activefood
+            dgv_activefood.BorderStyle = BorderStyle.None;
+            dgv_activefood.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_activefood.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_activefood.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_activefood.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_activefood.BackgroundColor = Color.White;
+
+            dgv_activefood.EnableHeadersVisualStyles = false;
+            dgv_activefood.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_activefood.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_activefood.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            // Styling for dgv_reservation
+            dgv_reservation.BorderStyle = BorderStyle.None;
+            dgv_reservation.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_reservation.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_reservation.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_reservation.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_reservation.BackgroundColor = Color.White;
+
+            dgv_reservation.EnableHeadersVisualStyles = false;
+            dgv_reservation.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_reservation.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_reservation.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            // Styling for dgv_promotion
+            dgv_promotion.BorderStyle = BorderStyle.None;
+            dgv_promotion.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_promotion.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_promotion.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_promotion.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_promotion.BackgroundColor = Color.White;
+
+            dgv_promotion.EnableHeadersVisualStyles = false;
+            dgv_promotion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_promotion.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_promotion.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            rdproductoffer.Checked = true;
+
+            #endregion
         }
 
         #region  FAST AND SOLW MOVING ITEMS
@@ -99,6 +211,7 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+
         #region  BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
         public void FillBoxdetailed()
         {
@@ -110,8 +223,8 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Table = " tblOrderMaster where Status=1  AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
-                                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
-                                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime <= SYSDATETIME() AND BookingDateTime >= SYSDATETIME()";
+                                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
+                                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
                 dmnSearch.WhereNdGroupBy = " ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1062,6 +1175,511 @@ namespace FoodandBeverage.Forms
             FillFast_Slowing();
             tcslow_move.SelectedIndex = 0;
             tlp_box_frist.Focus();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)//Active Order in Dine selected day
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Dine List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+                pnl_boxdetails_dash.Visible = true;
+
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "ti.OrderMasterId Field1 ,CreatedDateTime Field2,TotalQuantity Field3";
+                dmnSearch.Table = "tblTable_info ti left join tblOrderMaster om on om.OrderMasterId =ti.OrderMasterId ";
+                dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderMasterId >0";
+                dmnSearch.OrderBy = "order by  ti.OrderMasterId Desc";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    dgv_activedine.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(dgv_activedine, 1, 1);
+                    dgv_activedine.Dock = DockStyle.Fill;
+
+                    dgv_activedine.Rows.Clear();
+                    dgv_activedine.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_activedine.Rows[i].Cells[adslno].Value = i + 1;
+                        dgv_activedine.Rows[i].Cells[adordermasteridno].Value = resultdate[i].Field1;
+                        dgv_activedine.Rows[i].Cells[addateno].Value = resultdate[i].Field2;
+                        dgv_activedine.Rows[i].Cells[adtotalqtyno].Value = resultdate[i].Field3;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+
+        }
+
+        private void lblcancelled_Click(object sender, EventArgs e)//Cancel orders selected day
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Cancel Order List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "DISTINCT om.OrderMasterId AS Field1,om.CreatedDateTime AS Field2,ko.OrderCancelNotes AS Field3";
+                dmnSearch.Table = " tblOrderMaster om LEFT JOIN tblkitchenOrder ko ON ko.OrderMasterId = om.OrderMasterId AND ko.Status = 0 ";
+                dmnSearch.WhereNdGroupBy = "where om.Status=0  AND CONVERT(DATE, om.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')";
+                dmnSearch.OrderBy = "order by  om.OrderMasterId Desc";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    dgv_cancelorders.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(dgv_cancelorders, 1, 1);
+                    dgv_cancelorders.Dock = DockStyle.Fill;
+
+                    dgv_cancelorders.Rows.Clear();
+                    dgv_cancelorders.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_cancelorders.Rows[i].Cells[cslno].Value = i + 1;
+                        dgv_cancelorders.Rows[i].Cells[cordermasteridno].Value = resultdate[i].Field1;
+                        dgv_cancelorders.Rows[i].Cells[cdateno].Value = resultdate[i].Field2;
+                        dgv_cancelorders.Rows[i].Cells[cresdesno].Value = resultdate[i].Field3;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)//Active Fodd items
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Menu List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "Name Field1,m.Quantity Field2,c.CategoryName Field3,p.Price Field4 ";
+                dmnSearch.Table = "tblMenu m " +
+                    "left join tblCategory_FTI c on c.Fcid=m.Fcid " +
+                    "left join tblProduct p on p.ProductId=m.ProductId";
+                dmnSearch.WhereNdGroupBy = "where m.Status = 1 ";
+                dmnSearch.OrderBy = "order by  m.Name";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    dgv_activefood.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(dgv_activefood, 1, 1);
+                    dgv_activefood.Dock = DockStyle.Fill;
+
+                    dgv_activefood.Rows.Clear();
+                    dgv_activefood.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_activefood.Rows[i].Cells[fslno].Value = i + 1;
+                        dgv_activefood.Rows[i].Cells[ffoodnameno].Value = resultdate[i].Field1;
+                        dgv_activefood.Rows[i].Cells[fcurrentqtyno].Value = resultdate[i].Field2;
+                        dgv_activefood.Rows[i].Cells[fcategoryno].Value = resultdate[i].Field3;
+                        dgv_activefood.Rows[i].Cells[fpriceno].Value = resultdate[i].Field4;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+          
+
+        }
+
+        private void lblactivepromo_Click(object sender, EventArgs e)//Active Promotions
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Promotion List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+           
+                dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
+                dmnSearch.Table = "tblOfferMaster";
+                if (rdproductoffer.Checked)
+                {
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dgv_promotion.Columns[appriceno].Visible = false;
+                }
+                else if (rdcombooffer.Checked)
+                {
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dgv_promotion.Columns[appriceno].Visible = true;
+                }                
+
+                dmnSearch.OrderBy = "order by  Omid desc";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    tlp_offer_type_main.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                    tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                    dgv_promotion.Rows.Clear();
+                    dgv_promotion.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_promotion.Rows[i].Cells[apslno].Value = i + 1;
+                        dgv_promotion.Rows[i].Cells[apoffernameno].Value = resultdate[i].Field1;
+                        dgv_promotion.Rows[i].Cells[apstartdateno].Value = resultdate[i].Field2;
+                        dgv_promotion.Rows[i].Cells[apenddateno].Value = resultdate[i].Field3;
+                        dgv_promotion.Rows[i].Cells[apdiscountperno].Value = resultdate[i].Field4;
+                        dgv_promotion.Rows[i].Cells[appriceno].Value = resultdate[i].Field5;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+
+        }
+
+        private void lbl_up_res_Click(object sender, EventArgs e)//UP coming reservations
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Upcoming Reservation List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "BookingDateTime Field1,bm.cusName Field2,Mobile Field3,gender Field4,Address Field5,bm.BookmasterId Field6,bd.Name Field7,bd.Rid Field8,bd.MTID Field9";
+                dmnSearch.Table = "tblbookMaster bm left join tblBookDetails bd on bm.BookmasterId=bd.BookmasterId";
+                dmnSearch.WhereNdGroupBy = "where bm.Status = 1 AND  BookingDateTime >= SYSDATETIME()";
+                dmnSearch.OrderBy = "order by bm.BookmasterId DESC ";
+                Result_table_menu = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                var uniqueResults = Result_table_menu
+                    .GroupBy(item => item.Field6) 
+                    .Select(group => group.First())
+                    .ToList();
+                if (uniqueResults.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    dgv_reservation.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(dgv_reservation, 1, 1);
+                    dgv_reservation.Dock = DockStyle.Fill;
+
+                    dgv_reservation.Rows.Clear();
+                    dgv_reservation.Rows.Add(uniqueResults.Count);
+
+                    for (int i = 0; i < uniqueResults.Count; i++)
+                    {
+                        dgv_reservation.Rows[i].Cells[rslno].Value = i + 1;
+                        dgv_reservation.Rows[i].Cells[rdatetimeno].Value = uniqueResults[i].Field1;
+                        dgv_reservation.Rows[i].Cells[rcutsnameno].Value = uniqueResults[i].Field2;
+                        dgv_reservation.Rows[i].Cells[rphoneno].Value = uniqueResults[i].Field3;
+
+                        if (Convert.ToInt32(uniqueResults[i].Field4) == 1)
+                            dgv_reservation.Rows[i].Cells[rgenderno].Value = "male";
+                        else if (Convert.ToInt32(uniqueResults[i].Field4) == 2)
+                            dgv_reservation.Rows[i].Cells[rgenderno].Value = "female";
+                        else
+                            dgv_reservation.Rows[i].Cells[rgenderno].Value = "Others";
+
+                        dgv_reservation.Rows[i].Cells[raddressno].Value = uniqueResults[i].Field5;
+                        FillTablecode_Reservation(Convert.ToInt32(uniqueResults[i].Field6),i);
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+        }
+        public void FillTablecode_Reservation(int bmid,int rowno)
+        {
+            try
+            {
+                #region Fill Food Item 
+                var filteredResult = Result_table_menu
+                    .Where(item => Convert.ToInt32(item.Field6) == bmid && Convert.ToInt32(item.Field8) == 1)
+                    .Select(item => new DmnGridFields
+                    {
+                        Field1 = item.Field7, // Name
+                         Field2 = item.Field9, // MTID
+                    })
+                    .ToList();
+
+                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgv_reservation.Rows[rowno].Cells[rfooddetailsno];
+                dropDown.DataSource = filteredResult;
+                dropDown.ValueMember = "Field2";
+                dropDown.DisplayMember = "Field1";
+
+                DmnGridFields newItem = new DmnGridFields
+                {
+                    Field1 = "Show Items",
+                    Field2 = "0",
+                };
+                filteredResult.Add(newItem);
+                dropDown.Value = filteredResult.Last().Field2;
+                #endregion
+
+                #region Fill Combo Table code
+                var filteredResulttablecode = Result_table_menu
+                    .Where(item => Convert.ToInt32(item.Field6) == bmid && Convert.ToInt32(item.Field8) == 0)
+                    .Select(item => new DmnGridFields
+                    {
+                        Field1 = item.Field7, 
+                        Field2 = item.Field9, 
+                    })
+                    .ToList();
+
+                DataGridViewComboBoxCell dropDown_table = (DataGridViewComboBoxCell)dgv_reservation.Rows[rowno].Cells[rtablecode];
+                dropDown_table.DataSource = filteredResulttablecode;
+                dropDown_table.ValueMember = "Field2";
+                dropDown_table.DisplayMember = "Field1";
+
+                DmnGridFields newItemtable = new DmnGridFields
+                {
+                    Field1 = "Show Table Code",
+                    Field2 = "0",
+                };
+                filteredResulttablecode.Add(newItemtable);
+                dropDown_table.Value = filteredResulttablecode.Last().Field2;
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void btn_close_boxdetails_Click(object sender, EventArgs e)
+        {
+            pnl_boxdetails_dash.Visible = false;
+        }
+
+        private void btnprevious_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rdproductoffer_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdproductoffer.Checked)
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
+                dmnSearch.Table = "tblOfferMaster";
+                dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                dgv_promotion.Columns[appriceno].Visible = false;
+                dmnSearch.OrderBy = "order by  Omid desc";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    tlp_offer_type_main.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                    tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                    dgv_promotion.Rows.Clear();
+                    dgv_promotion.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_promotion.Rows[i].Cells[apslno].Value = i + 1;
+                        dgv_promotion.Rows[i].Cells[apoffernameno].Value = resultdate[i].Field1;
+                        dgv_promotion.Rows[i].Cells[apstartdateno].Value = resultdate[i].Field2;
+                        dgv_promotion.Rows[i].Cells[apenddateno].Value = resultdate[i].Field3;
+                        dgv_promotion.Rows[i].Cells[apdiscountperno].Value = resultdate[i].Field4;
+                        dgv_promotion.Rows[i].Cells[appriceno].Value = resultdate[i].Field5;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+            }
+        }
+
+        private void rdcombooffer_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdcombooffer.Checked)
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+
+                dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
+                dmnSearch.Table = "tblOfferMaster";
+                dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                dgv_promotion.Columns[appriceno].Visible = true;             
+
+                dmnSearch.OrderBy = "order by  Omid desc";
+                var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (resultdate.Count > 0)
+                {
+                    lblnodata.Visible = false;
+                    tlp_offer_type_main.Visible = true;
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                    tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                    dgv_promotion.Rows.Clear();
+                    dgv_promotion.Rows.Add(resultdate.Count);
+
+                    for (int i = 0; i < resultdate.Count; i++)
+                    {
+                        dgv_promotion.Rows[i].Cells[apslno].Value = i + 1;
+                        dgv_promotion.Rows[i].Cells[apoffernameno].Value = resultdate[i].Field1;
+                        dgv_promotion.Rows[i].Cells[apstartdateno].Value = resultdate[i].Field2;
+                        dgv_promotion.Rows[i].Cells[apenddateno].Value = resultdate[i].Field3;
+                        dgv_promotion.Rows[i].Cells[apdiscountperno].Value = resultdate[i].Field4;
+                        dgv_promotion.Rows[i].Cells[appriceno].Value = resultdate[i].Field5;
+                    }
+                }
+                else
+                {
+                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                    lblnodata.Dock = DockStyle.Fill;
+                    lblnodata.Visible = true;
+                }
+
+            }
+        }
+
+        private void dgv_reservation_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

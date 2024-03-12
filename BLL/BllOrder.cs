@@ -143,7 +143,7 @@ namespace BLL
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
-            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
+            parms.Add("OrderCancelNotes", objTestClass.OrderCancelNotes);
             parms.Add("Quantity", objTestClass.Quantity);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);
