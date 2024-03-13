@@ -703,12 +703,11 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6,bm.BookmasterId Field7,bm.BookingDateTime EndDate, " +
-                    "(select COUNT(m.BookmasterId) from tblBookDetails d left join tblbookMaster m on d.BookmasterId=m.BookmasterId where m.Status=1 and Rid=0 and d.Status=1 and SYSDATETIME() >=DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) and d.MTID=ti.Tid) as Field8";
+                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
-                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    "LEFT JOIN tblBookDetails bd ON bd.MTID=ti.Tid and Rid=0 and  bd.Status=1 " +
-                    "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId and bm.Status=1 and SYSDATETIME() >= DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
                 switch (serachmode)
                 {
@@ -725,8 +724,9 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.RevStatus=0";
                         break;
                 }
-                dmnSearch.OrderBy = "";
+                dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                 bool flag = false;
                 
                 for (int j = 0; j < gridSource.Count; j++)
@@ -742,8 +742,17 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
+
                 if (flag)
                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //else
+                //{
+                //    if (Convert.ToInt32(gridSource[0].Field9) < gridSource.Count)
+                //        gridSource = gridSource
+                //       .GroupBy(item => item.Field4)
+                //       .Select(group => group.First())
+                //       .ToList();
+                //}
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -1019,12 +1028,11 @@ namespace FoodandBeverage.Forms
                 AutoTimer.Stop();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6,bm.BookmasterId Field7,bm.BookingDateTime EndDate, " +
-                    "(select COUNT(m.BookmasterId) from tblBookDetails d left join tblbookMaster m on d.BookmasterId=m.BookmasterId where m.Status=1 and Rid=0 and d.Status=1 and SYSDATETIME() >=DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) and d.MTID=ti.Tid) as Field8";
+                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
-                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    "LEFT JOIN tblBookDetails bd ON bd.MTID=ti.Tid and Rid=0 and  bd.Status=1 " +
-                    "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId and bm.Status=1 and SYSDATETIME() >= DATEADD(MINUTE,-" + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime) ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
                 switch (serachmode)
                 {
@@ -1041,7 +1049,7 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.RevStatus=0";
                         break;
                 }
-                dmnSearch.OrderBy = "";
+                dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
@@ -1061,6 +1069,14 @@ namespace FoodandBeverage.Forms
                     }
                     if (flag)
                         gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    //else
+                    //{
+                    //    if (Convert.ToInt32(gridSource[0].Field9) < gridSource.Count)
+                    //        gridSource = gridSource
+                    //       .GroupBy(item => item.Field4)
+                    //       .Select(group => group.First())
+                    //       .ToList();
+                    //}
 
                     var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                     List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -1087,6 +1103,12 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_table_inner = this.Controls.Find(tlpboxname, true).FirstOrDefault() as TableLayoutPanel;
                             PictureBox pictureBox = this.Controls.Find(pbtablename, true).FirstOrDefault() as PictureBox;
                             Label lbltablename = this.Controls.Find(lbtable, true).FirstOrDefault() as Label;
+
+                            if (pnl_box == null)
+                            {
+                                AutoTimer.Stop();
+                                return;
+                            }
                             PictureBox existingPictureBox = pnl_box.Controls.Find(dynamicPicName, true).FirstOrDefault() as PictureBox;
                             //if (existingPictureBox != null)
                             //    existingPictureBox.Visible = false;
@@ -1992,57 +2014,58 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-         if (menutable_click)
-                AutoTimer.Stop();
-            panelDesktop.Controls.Clear();
+                if (menutable_click)
+                    AutoTimer.Stop();
 
-            ib_Company.Visible = true;
+                panelDesktop.Controls.Clear();
 
-            if (sender is Button button)
-            {
-                ChangeButtonBorder(button);
-            }
-            panelDesktop.Controls.Add(tlp_op_menu);
+                ib_Company.Visible = true;
+
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+                panelDesktop.Controls.Add(tlp_op_menu);
                 tlp_op_menu.Dock = DockStyle.Fill;
                 tlp_op_menu.Visible = true;
 
-            if (screenWidth > 1367 && screenHeight > 769)
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    desiredWidth = 52;
+                    desiredHeight = 52;
+                    HdesiredWidth = 60;
+                    HdesiredHeight = 60;
+                    //foreach (Control control in flp_operations.Controls)
+                    //{
+                    //    if (control is Button buttonm)
+                    //    {
+                    //        buttonm.Size = new Size(300, 120);
+                    //        buttonm.Margin = new Padding(105, 35, 10, 2);
+                    //        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+                    //    }
+                    //}
+
+                }
+                else
+                {
+                    desiredWidth = 32;
+                    desiredHeight = 32;
+                    HdesiredWidth = 40;
+                    HdesiredHeight = 40;
+                    //foreach (Control control in flp_operations.Controls)
+                    //{
+                    //    if (control is Button buttonm)
+                    //    {
+                    //        buttonm.Size = new Size(212, 89);
+                    //    }
+                    //}
+                }
+            }
+            catch (Exception ex)
             {
-                desiredWidth = 52;
-                desiredHeight = 52;
-                HdesiredWidth = 60;
-                HdesiredHeight = 60;
-                //foreach (Control control in flp_operations.Controls)
-                //{
-                //    if (control is Button buttonm)
-                //    {
-                //        buttonm.Size = new Size(300, 120);
-                //        buttonm.Margin = new Padding(105, 35, 10, 2);
-                //        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
-                //    }
-                //}
 
             }
-            else
-            {
-                desiredWidth = 32;
-                desiredHeight = 32;
-                HdesiredWidth = 40;
-                HdesiredHeight = 40;
-                //foreach (Control control in flp_operations.Controls)
-                //{
-                //    if (control is Button buttonm)
-                //    {
-                //        buttonm.Size = new Size(212, 89);
-                //    }
-                //}
-            }
-            }
-            catch(Exception ex)
-            {
 
-            }
-   
         }
 
 

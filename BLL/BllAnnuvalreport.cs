@@ -14,8 +14,8 @@ namespace BLL
 
             DAL.DapperRepository<T> dapper = new DAL.DapperRepository<T>();
             DynamicParameters parms = new DynamicParameters();
-            parms.Add("dt1", objSearch.dt1);
-            parms.Add("dt2", objSearch.dt2);
+            parms.Add("sFld2", objSearch.sFld2);
+            parms.Add("sFld3", objSearch.sFld3);
             var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }

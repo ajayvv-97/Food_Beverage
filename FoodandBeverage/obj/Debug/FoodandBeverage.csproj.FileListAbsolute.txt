@@ -98,22 +98,27 @@ C:\Users\aljo\Desktop\F and Be\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBe
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Mi.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Ul.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportSource.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.Shared.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.Windows.Forms.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FastMember.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FontAwesome.Sharp.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\zxing.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe.config
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportSource.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.Shared.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.Windows.Forms.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.WinForms.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.Wpf.dll
@@ -125,7 +130,6 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Newtonsoft.Json.dl
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\WinFormAnimation.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Document.NET.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Xceed.Words.NET.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\zxing.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\zxing.presentation.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportAppServer.DataDefModel.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportAppServer.ClientDoc.dll
@@ -140,11 +144,8 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.R
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportAppServer.ObjectFactory.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.ReportAppServer.CommonControls.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\stdole.dll
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.xml
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.xml
@@ -185,7 +186,6 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Fo
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmVendor.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmExpence.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.LoadingGif.resources
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Report.Frmreport.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.SaleBill.FrmSaleInvoice.resources
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.GenerateResource.cache
