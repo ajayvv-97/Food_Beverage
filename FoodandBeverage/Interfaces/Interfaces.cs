@@ -214,4 +214,9 @@ namespace FoodandBeverage.Interfaces
         TableTurnoverReports=10,
         VendorReports=11
     };
+    public enum Rev_Cancel_Type
+    {
+        Normalcancel = 1,
+        reservation_Order = 2
+    };
 }

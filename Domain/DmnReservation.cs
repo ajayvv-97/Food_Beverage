@@ -42,6 +42,7 @@ namespace Domain
         public Decimal FinalAmount { get; set; }
         public int RevStatus { get; set; }
         public int Tid { get; set; }
+        public int Cancel_Type { get; set; }
 
 
 

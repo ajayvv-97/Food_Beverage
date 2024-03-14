@@ -707,11 +707,11 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " count(*) Field1,0 Field2,0 Field3,0 Field4,0 Field5,1 Field6 ";
-                dmnSearch.Table = " tblOrderMaster where Status=1  AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
-                                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                dmnSearch.Table = " tblTable_info where Status=1  AND OrderStatus>0 or OrderMasterId>0 " +
+                                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE,'" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
                                   " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
-                                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
+                                  " union select 0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
                 dmnSearch.WhereNdGroupBy = " ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -744,8 +744,39 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
-            }
+            }           
         }
+
+        private void btnprevious_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnfrist_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_two_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_three_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_four_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region PAYMENT DETAILED
@@ -1691,16 +1722,8 @@ namespace FoodandBeverage.Forms
             FillFast_Slowing();
             tcslow_move.SelectedIndex = 0;
             tlp_box_frist.Focus();
-        }  
-        private void btnprevious_Click(object sender, EventArgs e)
-        {
-
         }
 
-        private void btnnext_Click(object sender, EventArgs e)
-        {
-
-        }
- 
+    
     }
 }

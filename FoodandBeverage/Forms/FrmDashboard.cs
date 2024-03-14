@@ -305,8 +305,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
-            }        
-
+            }       
         }
 
         #region Color Setting
@@ -1590,9 +1589,11 @@ namespace FoodandBeverage.Forms
                             BllReservation bllReservation = new BllReservation();
                             DmnReservation dmnReservation = new DmnReservation();
                             dmnReservation.BookmasterId = Convert.ToInt32(bmasterid);
+                            dmnReservation.OrderMasterId = 0;
                             dmnReservation.CreatedBy = FrmDashboard.UserId;
                             dmnReservation.Status = 0;
                             dmnReservation.BranchId = 1030;
+                            dmnReservation.Cancel_Type = Convert.ToInt32(Rev_Cancel_Type.Normalcancel);
                             var InsertStatus = bllReservation.Reservation_Delete("prd_deleteReservation", dmnReservation);
                             if (InsertStatus.BookmasterId > 0)
                             {
