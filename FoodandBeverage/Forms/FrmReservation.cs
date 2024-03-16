@@ -782,7 +782,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.ColumnHeaders = "Tid,TableCode,Price,Capcity,Description";
                 _objSearch.Select = " Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
                 _objSearch.Table = " tblTable_info   ";
-                _objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId" +
+                _objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId and d.status=1" +
                     " WHERE BookingDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"')" +
                     " AND BookingDateTime <= DATEADD(MINUTE, " + (txt_HR.Text) + ", '" + dtfrom + "') and m.Status= 1  ) " +
                     " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"') and Status= 1 ) ";
@@ -2176,7 +2176,7 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value);
                                     dmnOrderDetails.ProductType = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
                                     dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value);
-                                    dmnOrderDetails.MarketPrice = Convert.ToInt32(dgvmenu.Rows[i].Cells[imarketprice].Value);
+                                    dmnOrderDetails.MarketPrice = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imarketprice].Value);
                                     dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
                                     dmnOrderDetails.DiscountAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisamt].Value);
                                     dmnOrderDetails.DiscountPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisper].Value);

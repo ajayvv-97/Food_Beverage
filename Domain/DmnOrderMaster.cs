@@ -29,6 +29,9 @@ namespace Domain
         public decimal AdvancePay { get; set; }
         public string CustomerName { get; set; }
         public int Gender { get; set; }
+        public int Tablecount { get; set; }
+
+        
     }
-    
+
 }

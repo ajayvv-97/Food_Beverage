@@ -703,8 +703,8 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
@@ -1028,8 +1028,8 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";

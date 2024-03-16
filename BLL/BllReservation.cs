@@ -130,5 +130,21 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+
+        public DmnReservationDetails Reservation_Table_Delete(string procedureName, DmnReservationDetails objTestClass)
+        {
+            DAL.DapperRepository<DmnReservationDetails> objDapperRepository = new DAL.DapperRepository<DmnReservationDetails>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("BookdetailId", objTestClass.BookdetailId);
+            parms.Add("BookmasterId", objTestClass.BookmasterId);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("Price", objTestClass.Price);
+            parms.Add("Tid", objTestClass.Tid);
+            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }
