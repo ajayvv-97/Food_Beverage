@@ -628,7 +628,7 @@ namespace FoodandBeverage.Forms
                                 PictureBox pb_cancelfood = new PictureBox()
                                 {
                                     Name = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17,
-                                    Image = Properties.Resources.close_price_change,  // Replace "YourRemoveImage" with the name of your resource image
+                                    Image = Properties.Resources.close_price_change, 
                                     SizeMode = PictureBoxSizeMode.StretchImage,
                                     Dock = DockStyle.None,
                                     Tag = gridSourcedetails[0].Field17,
@@ -1124,6 +1124,7 @@ namespace FoodandBeverage.Forms
                    
                             pbcancelfoodclciked = false;
                             pnl_products_rem_descr.Visible = false;
+                            txt_product_remove_des.Text = "";
 
                             string tlpname = "tlp_product_box_k_" + omid + orderno;
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;

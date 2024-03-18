@@ -101,7 +101,7 @@ namespace FoodandBeverage.Report
             // 
             // tlp_top_row
             // 
-            this.tlp_top_row.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tlp_top_row.BackColor = System.Drawing.SystemColors.Control;
             this.tlp_top_row.ColumnCount = 5;
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -132,7 +132,7 @@ namespace FoodandBeverage.Report
             // 
             // tabDateTimePanel
             // 
-            this.tabDateTimePanel.BackColor = System.Drawing.Color.Lime;
+            this.tabDateTimePanel.BackColor = System.Drawing.Color.Transparent;
             this.tabDateTimePanel.ColumnCount = 8;
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());

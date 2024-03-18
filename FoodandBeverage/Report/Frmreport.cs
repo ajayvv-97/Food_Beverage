@@ -51,28 +51,36 @@ namespace FoodandBeverage.Report
         }
         public void Fill_combo_finyear()
         {
-            BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "*";
-            objSearch.Table = "tblHotelRegistration";
-            objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
-            objSearch.OrderBy = "";
-            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-            int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
-            DateTime currentDate = DateTime.Now;
-            List<DmnComboBox> finYearList = new List<DmnComboBox>();
-            for (int i = currentDate.Year - startYear; i >= 0; i--)
+            try
             {
-                int year = startYear + i;
-                DateTime financialYearStart = new DateTime(year, 4, 1);
-                DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
-                string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
-                DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
-                finYearList.Add(finYear);
+                BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblHotelRegistration";
+                objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
+                DateTime currentDate = DateTime.Now;
+                List<DmnComboBox> finYearList = new List<DmnComboBox>();
+                for (int i = currentDate.Year - startYear; i >= 0; i--)
+                {
+                    int year = startYear + i;
+                    DateTime financialYearStart = new DateTime(year, 4, 1);
+                    DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
+                    string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
+                    DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
+                    finYearList.Add(finYear);
+                }
+                cmb_fin_year.DataSource = finYearList;
+                cmb_fin_year.DisplayMember = "Value";
+                cmb_fin_year.ValueMember = "Id";
             }
-            cmb_fin_year.DataSource = finYearList;
-            cmb_fin_year.DisplayMember = "Value";
-            cmb_fin_year.ValueMember = "Id";
+            catch (Exception ex)
+            {
+
+            }
+
         }
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
@@ -80,196 +88,204 @@ namespace FoodandBeverage.Report
         }
         public void Checktime_Date()
         {
-            Control controlToRemove, controlToRemove1, controlToRemove2;
-
-            if (chk_time.Checked)
+            try
             {
-                if (this.Width > 805)
+                Control controlToRemove, controlToRemove1, controlToRemove2;
+
+                if (chk_time.Checked)
                 {
-                    controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 1);
-                    tabDateTimePanel.Controls.Remove(controlToRemove);
-                    controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 1);
-                    tabDateTimePanel.Controls.Remove(controlToRemove1);
-
-                    controlToRemove2 = tlp_top_row.GetControlFromPosition(3, 0);
-                    tlp_top_row.Controls.Remove(controlToRemove2);
-
-                    dtpfrom.Dock = DockStyle.Fill;
-                    dtpto.Dock = DockStyle.Fill;
-                    label5.Dock = DockStyle.Fill;
-                    label6.Dock = DockStyle.Fill;
-                    dtp_from_time.Dock = DockStyle.Fill;
-                    dtp_to_time.Dock = DockStyle.Fill;
-                    tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                    tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-                    tabDateTimePanel.Controls.Add(label6, 1, 0);
-                    tabDateTimePanel.Controls.Add(label5, 4, 0);
-                    tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
-                    tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
-                }
-                else
-                {
-                    if (Convert.ToInt32(cmbreport.SelectedValue) == 36)
+                    if (this.Width > 805)
                     {
-                        if (chk_time.Checked == true)
-                        {
-                            dtpfrom.Dock = DockStyle.Fill;
-                            dtpto.Dock = DockStyle.Fill;
-                            label6.Dock = DockStyle.Fill;
-                            label5.Dock = DockStyle.Fill;
-                            dtp_from_time.Dock = DockStyle.Fill;
-                            dtp_to_time.Dock = DockStyle.Fill;
-                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-                            tabDateTimePanel.Controls.Add(label6, 1, 0);
-                            tabDateTimePanel.Controls.Add(label5, 4, 0);
-                            tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
-                            tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
-                            //btn_search_second.Visible = false;
-                        }
-                        else
-                        {
-                            controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
-                            tabDateTimePanel.Controls.Remove(controlToRemove);
-                            controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
-                            tabDateTimePanel.Controls.Remove(controlToRemove1);
-
-                            dtpfrom.Dock = DockStyle.Fill;
-                            dtpto.Dock = DockStyle.Fill;
-                            label6.Dock = DockStyle.Fill;
-                            label5.Dock = DockStyle.Fill;
-                            dtp_from_time.Dock = DockStyle.Fill;
-                            dtp_to_time.Dock = DockStyle.Fill;
-
-                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-
-                            tabDateTimePanel.Controls.Add(chk_time, 0, 0);
-                            tabDateTimePanel.Controls.Add(label6, 1, 0);
-                            tabDateTimePanel.Controls.Add(label5, 4, 0);
-                        }
-
-                    }
-                    else
-                    {
-                        controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
+                        controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 1);
                         tabDateTimePanel.Controls.Remove(controlToRemove);
-                        controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
+                        controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 1);
                         tabDateTimePanel.Controls.Remove(controlToRemove1);
+
+                        controlToRemove2 = tlp_top_row.GetControlFromPosition(3, 0);
+                        tlp_top_row.Controls.Remove(controlToRemove2);
 
                         dtpfrom.Dock = DockStyle.Fill;
                         dtpto.Dock = DockStyle.Fill;
-                        label6.Dock = DockStyle.Fill;
                         label5.Dock = DockStyle.Fill;
+                        label6.Dock = DockStyle.Fill;
                         dtp_from_time.Dock = DockStyle.Fill;
                         dtp_to_time.Dock = DockStyle.Fill;
-
                         tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
                         tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-                        tabDateTimePanel.Controls.Add(label6, 4, 0);
-                        tabDateTimePanel.Controls.Add(label5, 4, 1);
-                        tabDateTimePanel.Controls.Add(dtp_from_time, 2, 1);
-                        tabDateTimePanel.Controls.Add(dtp_to_time, 5, 1);
-
-                    }
-                }
-                dtp_from_time.Visible = true;
-                dtp_to_time.Visible = true;
-                tabDateTimePanel.PerformLayout();
-            }
-            else
-            {
-                if (this.Width > 805)
-                {
-                    controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 1);
-                    tabDateTimePanel.Controls.Remove(controlToRemove);
-                    controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 1);
-                    tabDateTimePanel.Controls.Remove(controlToRemove1);
-                    dtpfrom.Dock = DockStyle.Fill;
-                    dtpto.Dock = DockStyle.Fill;
-                    label6.Dock = DockStyle.Fill;
-                    label5.Dock = DockStyle.Fill;
-                    dtp_from_time.Dock = DockStyle.Fill;
-                    dtp_to_time.Dock = DockStyle.Fill;
-                    tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                    tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-                    tabDateTimePanel.Controls.Add(label6, 1, 0);
-                    tabDateTimePanel.Controls.Add(label5, 4, 0);
-                    tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
-                    tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
-                }
-                else
-                {
-                    if (Convert.ToInt32(cmbreport.SelectedValue) == 36)
-                    {
-                        if (chk_time.Checked == true)
-                        {
-                            dtpfrom.Dock = DockStyle.Fill;
-                            dtpto.Dock = DockStyle.Fill;
-                            label6.Dock = DockStyle.Fill;
-                            label5.Dock = DockStyle.Fill;
-                            dtp_from_time.Dock = DockStyle.Fill;
-                            dtp_to_time.Dock = DockStyle.Fill;
-                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-                            tabDateTimePanel.Controls.Add(label6, 1, 0);
-                            tabDateTimePanel.Controls.Add(label5, 4, 0);
-                            tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
-                            tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
-                            //btn_search_second.Visible = false;
-                        }
-                        else
-                        {
-                            controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
-                            tabDateTimePanel.Controls.Remove(controlToRemove);
-                            controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
-                            tabDateTimePanel.Controls.Remove(controlToRemove1);
-
-                            dtpfrom.Dock = DockStyle.Fill;
-                            dtpto.Dock = DockStyle.Fill;
-                            label6.Dock = DockStyle.Fill;
-                            label5.Dock = DockStyle.Fill;
-                            dtp_from_time.Dock = DockStyle.Fill;
-                            dtp_to_time.Dock = DockStyle.Fill;
-
-                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-
-                            tabDateTimePanel.Controls.Add(chk_time, 0, 0);
-                            tabDateTimePanel.Controls.Add(label6, 1, 0);
-                            tabDateTimePanel.Controls.Add(label5, 4, 0);
-                        }
-
-                    }
-                    else
-                    {
-                        controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
-                        tabDateTimePanel.Controls.Remove(controlToRemove);
-                        controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
-                        tabDateTimePanel.Controls.Remove(controlToRemove1);
-
-                        dtpfrom.Dock = DockStyle.Fill;
-                        dtpto.Dock = DockStyle.Fill;
-                        label6.Dock = DockStyle.Fill;
-                        label5.Dock = DockStyle.Fill;
-                        dtp_from_time.Dock = DockStyle.Fill;
-                        dtp_to_time.Dock = DockStyle.Fill;
-
-                        tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-                        tabDateTimePanel.Controls.Add(dtpto, 5, 0);
-
-                        tabDateTimePanel.Controls.Add(chk_time, 0, 0);
                         tabDateTimePanel.Controls.Add(label6, 1, 0);
                         tabDateTimePanel.Controls.Add(label5, 4, 0);
-
-                        tabDateTimePanel.Controls.Add(dtp_from_time, 2, 1);
-                        tabDateTimePanel.Controls.Add(dtp_to_time, 5, 1);
+                        tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
+                        tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
                     }
+                    else
+                    {
+                        if (Convert.ToInt32(cmbreport.SelectedValue) == 36)
+                        {
+                            if (chk_time.Checked == true)
+                            {
+                                dtpfrom.Dock = DockStyle.Fill;
+                                dtpto.Dock = DockStyle.Fill;
+                                label6.Dock = DockStyle.Fill;
+                                label5.Dock = DockStyle.Fill;
+                                dtp_from_time.Dock = DockStyle.Fill;
+                                dtp_to_time.Dock = DockStyle.Fill;
+                                tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                                tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+                                tabDateTimePanel.Controls.Add(label6, 1, 0);
+                                tabDateTimePanel.Controls.Add(label5, 4, 0);
+                                tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
+                                tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
+                                //btn_search_second.Visible = false;
+                            }
+                            else
+                            {
+                                controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
+                                tabDateTimePanel.Controls.Remove(controlToRemove);
+                                controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
+                                tabDateTimePanel.Controls.Remove(controlToRemove1);
+
+                                dtpfrom.Dock = DockStyle.Fill;
+                                dtpto.Dock = DockStyle.Fill;
+                                label6.Dock = DockStyle.Fill;
+                                label5.Dock = DockStyle.Fill;
+                                dtp_from_time.Dock = DockStyle.Fill;
+                                dtp_to_time.Dock = DockStyle.Fill;
+
+                                tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                                tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+
+                                tabDateTimePanel.Controls.Add(chk_time, 0, 0);
+                                tabDateTimePanel.Controls.Add(label6, 1, 0);
+                                tabDateTimePanel.Controls.Add(label5, 4, 0);
+                            }
+
+                        }
+                        else
+                        {
+                            controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
+                            tabDateTimePanel.Controls.Remove(controlToRemove);
+                            controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
+                            tabDateTimePanel.Controls.Remove(controlToRemove1);
+
+                            dtpfrom.Dock = DockStyle.Fill;
+                            dtpto.Dock = DockStyle.Fill;
+                            label6.Dock = DockStyle.Fill;
+                            label5.Dock = DockStyle.Fill;
+                            dtp_from_time.Dock = DockStyle.Fill;
+                            dtp_to_time.Dock = DockStyle.Fill;
+
+                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+                            tabDateTimePanel.Controls.Add(label6, 4, 0);
+                            tabDateTimePanel.Controls.Add(label5, 4, 1);
+                            tabDateTimePanel.Controls.Add(dtp_from_time, 2, 1);
+                            tabDateTimePanel.Controls.Add(dtp_to_time, 5, 1);
+
+                        }
+                    }
+                    dtp_from_time.Visible = true;
+                    dtp_to_time.Visible = true;
+                    tabDateTimePanel.PerformLayout();
                 }
-                dtp_from_time.Visible = false;
-                dtp_to_time.Visible = false;
-                tabDateTimePanel.PerformLayout();
+                else
+                {
+                    if (this.Width > 805)
+                    {
+                        controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 1);
+                        tabDateTimePanel.Controls.Remove(controlToRemove);
+                        controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 1);
+                        tabDateTimePanel.Controls.Remove(controlToRemove1);
+                        dtpfrom.Dock = DockStyle.Fill;
+                        dtpto.Dock = DockStyle.Fill;
+                        label6.Dock = DockStyle.Fill;
+                        label5.Dock = DockStyle.Fill;
+                        dtp_from_time.Dock = DockStyle.Fill;
+                        dtp_to_time.Dock = DockStyle.Fill;
+                        tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                        tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+                        tabDateTimePanel.Controls.Add(label6, 1, 0);
+                        tabDateTimePanel.Controls.Add(label5, 4, 0);
+                        tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
+                        tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(cmbreport.SelectedValue) == 36)
+                        {
+                            if (chk_time.Checked == true)
+                            {
+                                dtpfrom.Dock = DockStyle.Fill;
+                                dtpto.Dock = DockStyle.Fill;
+                                label6.Dock = DockStyle.Fill;
+                                label5.Dock = DockStyle.Fill;
+                                dtp_from_time.Dock = DockStyle.Fill;
+                                dtp_to_time.Dock = DockStyle.Fill;
+                                tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                                tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+                                tabDateTimePanel.Controls.Add(label6, 1, 0);
+                                tabDateTimePanel.Controls.Add(label5, 4, 0);
+                                tabDateTimePanel.Controls.Add(dtp_from_time, 3, 0);
+                                tabDateTimePanel.Controls.Add(dtp_to_time, 6, 0);
+                                //btn_search_second.Visible = false;
+                            }
+                            else
+                            {
+                                controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
+                                tabDateTimePanel.Controls.Remove(controlToRemove);
+                                controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
+                                tabDateTimePanel.Controls.Remove(controlToRemove1);
+
+                                dtpfrom.Dock = DockStyle.Fill;
+                                dtpto.Dock = DockStyle.Fill;
+                                label6.Dock = DockStyle.Fill;
+                                label5.Dock = DockStyle.Fill;
+                                dtp_from_time.Dock = DockStyle.Fill;
+                                dtp_to_time.Dock = DockStyle.Fill;
+
+                                tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                                tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+
+                                tabDateTimePanel.Controls.Add(chk_time, 0, 0);
+                                tabDateTimePanel.Controls.Add(label6, 1, 0);
+                                tabDateTimePanel.Controls.Add(label5, 4, 0);
+                            }
+
+                        }
+                        else
+                        {
+                            controlToRemove = tabDateTimePanel.GetControlFromPosition(3, 0);
+                            tabDateTimePanel.Controls.Remove(controlToRemove);
+                            controlToRemove1 = tabDateTimePanel.GetControlFromPosition(6, 0);
+                            tabDateTimePanel.Controls.Remove(controlToRemove1);
+
+                            dtpfrom.Dock = DockStyle.Fill;
+                            dtpto.Dock = DockStyle.Fill;
+                            label6.Dock = DockStyle.Fill;
+                            label5.Dock = DockStyle.Fill;
+                            dtp_from_time.Dock = DockStyle.Fill;
+                            dtp_to_time.Dock = DockStyle.Fill;
+
+                            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                            tabDateTimePanel.Controls.Add(dtpto, 5, 0);
+
+                            tabDateTimePanel.Controls.Add(chk_time, 0, 0);
+                            tabDateTimePanel.Controls.Add(label6, 1, 0);
+                            tabDateTimePanel.Controls.Add(label5, 4, 0);
+
+                            tabDateTimePanel.Controls.Add(dtp_from_time, 2, 1);
+                            tabDateTimePanel.Controls.Add(dtp_to_time, 5, 1);
+                        }
+                    }
+                    dtp_from_time.Visible = false;
+                    dtp_to_time.Visible = false;
+                    tabDateTimePanel.PerformLayout();
+                }
             }
+            catch (Exception ex)
+            {
+
+            }
+
 
         }
 
@@ -845,53 +861,85 @@ namespace FoodandBeverage.Report
 
         private void btnpickcolor_Click(object sender, EventArgs e)
         {
-            ColorDialog cd_headingcolor = new ColorDialog();
-            DialogResult result = cd_headingcolor.ShowDialog();
-            if (result == DialogResult.OK)
+            try
             {
-                ColorChk = true;
-                selectedColor = cd_headingcolor.Color;
-                btnpickcolor.BackColor = selectedColor;
-                //FindAndSetColor
+                ColorDialog cd_headingcolor = new ColorDialog();
+                DialogResult result = cd_headingcolor.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    ColorChk = true;
+                    selectedColor = cd_headingcolor.Color;
+                    btnpickcolor.BackColor = selectedColor;
+                    //FindAndSetColor
+                }
+                else
+                    ColorChk = false;
             }
-            else
-                ColorChk = false;
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
         private void btnWeekEnd_Click(object sender, EventArgs e)
         {
-            DateTime currentDate = DateTime.Now;
+            try
+            {             DateTime currentDate = DateTime.Now;
             //currentDate=Convert.ToDateTime("2023-05-28 10:40:00");
             chk_time.Checked = false;
             int d = Convert.ToInt32(-(int)currentDate.DayOfWeek);
             dtpfrom.Value = currentDate.AddDays(-(int)currentDate.DayOfWeek - 1); // Start date of the current week
             dtpto.Value = currentDate.AddDays(-(int)currentDate.DayOfWeek); // End date of the current week
-            btnserach_Click(sender, e);
+            btnserach_Click(sender, e);}
+            catch (Exception ex)
+            {
+
+            }
+
         }
         private void btnWeekly_Click(object sender, EventArgs e)
         {
-            DateTime currentDate = DateTime.Now;
+            try
+            {            DateTime currentDate = DateTime.Now;
             //currentDate=Convert.ToDateTime("2023-05-28 10:40:00");
             chk_time.Checked = false;
             dtpfrom.Value = currentDate.AddDays(-(int)currentDate.DayOfWeek);
             dtpto.Value = dtpfrom.Value.AddDays(6);
-            btnserach_Click(sender, e);
+            btnserach_Click(sender, e); }
+            catch (Exception ex)
+            {
+
+            }
+
         }
         private void btnMonthly_Click(object sender, EventArgs e)
         {
-            DateTime currentDate = DateTime.Now;
+            try
+            {             DateTime currentDate = DateTime.Now;
             dtpfrom.Value = new DateTime(currentDate.Year, currentDate.Month, 1);
             dtpto.Value = dtpfrom.Value.AddMonths(1).AddDays(-1);
             chk_time.Checked = false;
-            btnserach_Click(sender, e);
+            btnserach_Click(sender, e);}
+            catch (Exception ex)
+            {
+
+            }
+
         }
         private void btnYealy_Click(object sender, EventArgs e)
         {
-            DateTime currentDate = DateTime.Now;
+            try
+            {             DateTime currentDate = DateTime.Now;
             dtpfrom.Value = new DateTime(currentDate.Year, 1, 1);
             dtpto.Value = new DateTime(currentDate.Year, 12, 31);
             chk_time.Checked = false;
-            btnserach_Click(sender, e);
+            btnserach_Click(sender, e);}
+            catch (Exception ex)
+            {
+
+            }
+
         }
         public void s_FillReport_supplierPurchase_return()
         {
@@ -1191,7 +1239,8 @@ namespace FoodandBeverage.Report
 
         public void s_FillReport_Stockusage()
         {
-            ReportDocument reportDocument = new ReportDocument();
+            try
+            {ReportDocument reportDocument = new ReportDocument();
             DataSet dsReport = new DataSet();
             DataTable dt_Rpt = new DataTable("Rpt_DT");
             BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
@@ -1233,13 +1282,18 @@ namespace FoodandBeverage.Report
             }
             crv_report.ReuseParameterValuesOnRefresh = true;
             crv_report.RefreshReport();
-            crv_report.ReportSource = reportDocument;
+            crv_report.ReportSource = reportDocument; }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
 
         public void s_FillReport_Expence()
         {
-
-            ReportDocument reportDocument = new ReportDocument();
+            try
+            {  ReportDocument reportDocument = new ReportDocument();
             DataSet dsReport = new DataSet();
             DataTable dt_Rpt = new DataTable("Rpt_DT");
             BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
@@ -1286,11 +1340,18 @@ namespace FoodandBeverage.Report
             }
             crv_report.ReuseParameterValuesOnRefresh = true;
             crv_report.RefreshReport();
-            crv_report.ReportSource = reportDocument;
+            crv_report.ReportSource = reportDocument;}
+            catch (Exception ex)
+            {
+
+            }
+
+           
         }
         public void s_FillReport_Reorder()
         {
-            string Reorder_Name = "";
+            try
+            {   string Reorder_Name = "";
             ReportDocument reportDocument = new ReportDocument();
             DataSet dsReport = new DataSet();
             DataTable dt_Rpt = new DataTable("Rpt_DT");
@@ -1358,7 +1419,12 @@ namespace FoodandBeverage.Report
             }
             crv_report.ReuseParameterValuesOnRefresh = true;
             crv_report.RefreshReport();
-            crv_report.ReportSource = reportDocument;
+            crv_report.ReportSource = reportDocument;}
+            catch (Exception ex)
+            {
+
+            }
+          
         }
         
         public void s_FillReport_supplierPurchase()
@@ -1489,6 +1555,7 @@ namespace FoodandBeverage.Report
         }
         private List<DmnHRegistration> Get_CompantDetails()
         {
+
             BllSearch<DmnHRegistration> bllSearchcompany = new BllSearch<DmnHRegistration>();
             DmnSearch dmnSearchcompany = new DmnSearch();
             dmnSearchcompany.Select = "Name,Email,Phone,Address,city,GSTNO";
@@ -1499,7 +1566,8 @@ namespace FoodandBeverage.Report
         }
         private void FindAndSetColor(ReportDocument report, string objectName, Color color)
         {
-            foreach (Section section in report.ReportDefinition.Sections)
+            try
+            {  foreach (Section section in report.ReportDefinition.Sections)
             {
                 foreach (ReportObject reportObject in section.ReportObjects)
                 {
@@ -1510,7 +1578,12 @@ namespace FoodandBeverage.Report
                         break;
                     }
                 }
+            } }
+            catch (Exception ex)
+            {
+
             }
+          
         }
 
         private void cmbreport_SelectionChangeCommitted(object sender, EventArgs e)
@@ -1643,7 +1716,8 @@ namespace FoodandBeverage.Report
         }
         public void s_FillReport_Inventory(int typeid)
         {
-            string Inventry_Name = "";
+            try
+            { string Inventry_Name = "";
             ReportDocument reportDocument = new ReportDocument();
             DataSet dsReport = new DataSet();
             DataTable dt_Rpt = new DataTable("Rpt_DT");
@@ -1711,7 +1785,12 @@ namespace FoodandBeverage.Report
             }
             crv_report.ReuseParameterValuesOnRefresh = true;
             crv_report.RefreshReport();
-            crv_report.ReportSource = reportDocument;
+            crv_report.ReportSource = reportDocument;}
+            catch (Exception ex)
+            {
+
+            }
+            
         }
         public void s_FillReport_Offerlist()
         {
@@ -1989,52 +2068,62 @@ namespace FoodandBeverage.Report
         }
         public void combofill_report()
         {
-            cmbreport.DataSource = null;
-            BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch = new DmnSearch();
-            objSearch.Select = " G.GTypeSubId as Id, G.Caption as Value";
-            objSearch.Table = " tblGeneralOptions G";
-            switch (Reportid)
+            try
             {
-                case (int)ReportType.salesReportItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(47,48,38)";
-                    break;
+                cmbreport.DataSource = null;
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch = new DmnSearch();
+                objSearch.Select = " G.GTypeSubId as Id, G.Caption as Value";
+                objSearch.Table = " tblGeneralOptions G";
+                switch (Reportid)
+                {
+                    case (int)ReportType.salesReportItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(47,48,38)";
+                        break;
 
-                case (int)ReportType.inventoryReportItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(24,27,37)";
-                    break;
-                case (int)ReportType.promotionsDiscountsItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(10)";
-                    break;
-                case (int)ReportType.employeePerformanceItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(11)";
-                    break;
-                case (int)ReportType.expenseReportItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(25)";
-                    break;
-                case (int)ReportType.reservationSeatingItem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(46,45)";
-                    break;
-                case (int)ReportType.Purchasereportitem:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(20,23)";
-                    break;
-                case (int)ReportType.MenuAnalysisReports:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(7,8)";
-                    break;
-                case (int)ReportType.TableTurnoverReports:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(44)";
-                    break;
-                case (int)ReportType.VendorReports:
-                    objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(22,19)";
-                    break;
+                    case (int)ReportType.inventoryReportItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(24,27,37)";
+                        break;
+                    case (int)ReportType.promotionsDiscountsItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(10)";
+                        break;
+                    case (int)ReportType.employeePerformanceItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(11)";
+                        break;
+                    case (int)ReportType.expenseReportItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(25)";
+                        break;
+                    case (int)ReportType.reservationSeatingItem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(46,45)";
+                        break;
+                    case (int)ReportType.Purchasereportitem:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(20,23)";
+                        break;
+                    case (int)ReportType.MenuAnalysisReports:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(7,8)";
+                        break;
+                    case (int)ReportType.TableTurnoverReports:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(44)";
+                        break;
+                    case (int)ReportType.VendorReports:
+                        objSearch.WhereNdGroupBy = " WHERE G.GTypeId= 51 and GTypeSubId in(22,19)";
+                        break;
+                }
+                objSearch.OrderBy = "order by Id";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+
+                cmbreport.DataSource = gridSource;
+                cmbreport.ValueMember = "Id";
+                cmbreport.DisplayMember = "value";
             }
-            objSearch.OrderBy = "order by Id";
-            var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+            catch(Exception ex)
+            {
 
-            cmbreport.DataSource = gridSource;
-            cmbreport.ValueMember = "Id";
-            cmbreport.DisplayMember = "value";
+            }
+            
+
         }
+        
     }
 }

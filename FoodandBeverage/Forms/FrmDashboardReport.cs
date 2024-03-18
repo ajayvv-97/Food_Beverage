@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -17,8 +19,7 @@ namespace FoodandBeverage.Forms
         public static int UserType = 0;
         public static int Allaccess = 0;
         public int Reportid = 0;
-
-       public FrmDashboardReport()
+        public FrmDashboardReport()
         {
             InitializeComponent();
             UserId = Convert.ToInt32(FrmLogin.UserId);
@@ -33,8 +34,20 @@ namespace FoodandBeverage.Forms
 
         private int currentPage = 1;
         private int totalPages = 0;
-        private List<DmnGridFields> searchData = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_Activeorder = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_CancelOrder = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_ActiveFood = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_Activereservation = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_ActivePromotion_offer = new List<DmnGridFields>();
+        private List<DmnGridFields> searchData_ActivePromotion_combo = new List<DmnGridFields>();
         int pageSize = 1;
+
+
+        Color baseColor = Color.DarkGray; 
+        Color pressedColor = Color.LightGray;
+        Color unpressedColor = Color.FromArgb(225, 242, 255); 
+        Color activeColor = Color.FromArgb(255, 255, 255); 
+
         #endregion
 
         #region Grid Declaration
@@ -171,6 +184,8 @@ namespace FoodandBeverage.Forms
             dgv_promotion.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             rdproductoffer.Checked = true;
+
+            SetColumnPadding(tlp_pagination, 2,5, new Padding(20, 10, 20, 10));
 
             #endregion
         }
@@ -381,7 +396,7 @@ namespace FoodandBeverage.Forms
             dgv_activedine.Visible = false;
             dgv_cancelorders.Visible = false;
             dgv_reservation.Visible = false;
-            dgv_promotion.Visible = false;
+            tlp_offer_type_main.Visible = false;
 
             dgv_activefood.Rows.Clear();
             dgv_activedine.Rows.Clear();
@@ -403,11 +418,11 @@ namespace FoodandBeverage.Forms
                 dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
                 dgv_promotion.Columns[appriceno].Visible = false;
                 dmnSearch.OrderBy = "order by  Omid desc";
-                searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_offer.Count / pageSize);
 
                 currentPage = 1;
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
 
                 DisplayDataForCurrentPage();
 
@@ -421,19 +436,17 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-
                 dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
                 dmnSearch.Table = "tblOfferMaster";
                 dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
                 dgv_promotion.Columns[appriceno].Visible = true;
 
                 dmnSearch.OrderBy = "order by  Omid desc";
-                searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);
 
                 currentPage = 1;
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
-
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 DisplayDataForCurrentPage();
 
             }
@@ -506,10 +519,21 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
-            }           
+            }
         }
 
         #region Pagination
+
+        private void ResetOtherButtonsBackColor(Button currentButton)
+        {
+            foreach (Control control in tlp_pagination.Controls)
+            {
+                if (control is Button button && button != currentButton)
+                {
+                    button.BackColor = baseColor;
+                }
+            }
+        }
 
         private void btnprevious_Click(object sender, EventArgs e)
         {
@@ -519,7 +543,10 @@ namespace FoodandBeverage.Forms
                 {
                     currentPage--;
                     DisplayDataForCurrentPage();
-                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
+
+                    btnfrist.BackColor = pressedColor;
+                    ResetOtherButtonsBackColor(btnfrist);
                 }
                 UpdatePageButtonsText();
             }
@@ -530,45 +557,30 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
                 if (currentPage < totalPages)
                 {
                     currentPage++;
                     DisplayDataForCurrentPage();
                     UpdatePageButtonsText();
-                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
+
+                    btnfrist.BackColor = pressedColor;
+                    ResetOtherButtonsBackColor(btnfrist);
+
                 }
             }
             catch { }
         }
-
-        private void UpdatePageButtonsText()
-        {
-            try
-            {
-                if(currentPage<=totalPages)
-                {
-                    int startPage = currentPage;
-                    btnfrist.Text = (startPage).ToString();
-                    btn_two.Text = (startPage + 1).ToString();
-                    btn_three.Text = (startPage + 2).ToString();
-                    btn_four.Text = (startPage + 3).ToString();
-                    btnfrist.Visible = startPage <= totalPages;
-                    btn_two.Visible = (startPage + 1) <= totalPages;
-                    btn_three.Visible = (startPage + 2) <= totalPages;
-                    btn_four.Visible = (startPage + 3) <= totalPages;
-                }
-
-            }
-            catch { }
-        }
-
         private void btnfrist_Click(object sender, EventArgs e)
         {
             try
             {
                 currentPage = Convert.ToInt32(btnfrist.Text);
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 DisplayDataForCurrentPage();
+                btnfrist.BackColor = pressedColor;
+                ResetOtherButtonsBackColor(btnfrist);
             }
             catch { }
         }
@@ -578,8 +590,10 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentPage = Convert.ToInt32(btn_two.Text);
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 DisplayDataForCurrentPage();
+                btn_two.BackColor = pressedColor;
+                ResetOtherButtonsBackColor(btn_two);
             }
             catch { }
         }
@@ -589,8 +603,10 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentPage = Convert.ToInt32(btn_three.Text);
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 DisplayDataForCurrentPage();
+                btn_three.BackColor = pressedColor;
+                ResetOtherButtonsBackColor(btn_three);
             }
             catch { }
         }
@@ -600,24 +616,57 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentPage = Convert.ToInt32(btn_four.Text);
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 DisplayDataForCurrentPage();
+                btn_four.BackColor = pressedColor;
+                ResetOtherButtonsBackColor(btn_four);
             }
             catch { }
         }
 
-   
+
+
+        private void UpdatePageButtonsText()
+        {
+            try
+            {
+               if (currentPage <= totalPages)
+                {
+                    int startPage = currentPage;
+                    btnfrist.Text = (startPage).ToString();
+                    btn_two.Text = (startPage + 1).ToString();
+                    btn_three.Text = (startPage + 2).ToString();
+                    btn_four.Text = (startPage + 3).ToString();
+
+                    btnfrist.Visible = startPage <= totalPages;
+                    btn_two.Visible = (startPage + 1) <= totalPages;
+                    btn_three.Visible = (startPage + 2) <= totalPages;
+                    btn_four.Visible = (startPage + 3) <= totalPages;
+                }
+            }
+            catch { }
+        }
+
+       
+
+
 
         private void UpdateData()
         {
             try
             {
-                searchData.Clear();
+                //searchData_Activeorder,searchData_CancelOrder,searchData_ActivePromotion,searchData_ActiveFood,searchData_Activereservation
+                currentPage = 1;
+                btnfrist.Text = "1";
+                btn_two.Text = "2";
+                btn_three.Text = "3";
+                btn_four.Text = "4";
 
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 if (dgv_activefood.Visible)
                 {
+                    searchData_ActiveFood.Clear();
                     dmnSearch.Select = "Name Field1,m.Quantity Field2,c.CategoryName Field3,p.Price Field4 ";
                     dmnSearch.Table = "tblMenu m " +
                                       "left join tblCategory_FTI c on c.Fcid=m.Fcid " +
@@ -625,21 +674,25 @@ namespace FoodandBeverage.Forms
                     dmnSearch.WhereNdGroupBy = "where m.Status = 1 ";
                     dmnSearch.OrderBy = "order by  m.Name";
                     var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                    searchData_ActiveFood = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    totalPages = (int)Math.Ceiling((double)searchData_ActiveFood.Count / pageSize);
                 }
-                else if(dgv_activedine.Visible)
+
+                else if (dgv_activedine.Visible)
                 {
+                    searchData_Activeorder.Clear();
                     dmnSearch.Select = "ti.OrderMasterId Field1 ,CreatedDateTime Field2,TotalQuantity Field3";
                     dmnSearch.Table = "tblTable_info ti left join tblOrderMaster om on om.OrderMasterId =ti.OrderMasterId ";
                     dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderMasterId >0";
                     dmnSearch.OrderBy = "order by  ti.OrderMasterId Desc";
                     var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                    searchData_Activeorder = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    totalPages = (int)Math.Ceiling((double)searchData_Activeorder.Count / pageSize);
                 }
+
                 else if (dgv_reservation.Visible)
                 {
+                    searchData_Activereservation.Clear();
                     dmnSearch.Select = "BookingDateTime Field1,bm.cusName Field2,Mobile Field3,gender Field4,Address Field5,bm.BookmasterId Field6,bd.Name Field7,bd.Rid Field8,bd.MTID Field9";
                     dmnSearch.Table = "tblbookMaster bm left join tblBookDetails bd on bm.BookmasterId=bd.BookmasterId";
                     dmnSearch.WhereNdGroupBy = "where bm.Status = 1 AND  BookingDateTime >= SYSDATETIME()";
@@ -649,43 +702,62 @@ namespace FoodandBeverage.Forms
                         .GroupBy(item => item.Field6)
                         .Select(group => group.First())
                         .ToList();
-                    searchData = searchData;
-                    totalPages = (int)Math.Ceiling((double)uniqueResults.Count / pageSize);
+                    searchData_Activereservation = uniqueResults;
+                    totalPages = (int)Math.Ceiling((double)searchData_Activereservation.Count / pageSize);
                 }
-                else if (dgv_activedine.Visible)
+
+                else if (dgv_cancelorders.Visible)
                 {
+                    searchData_CancelOrder.Clear();
                     dmnSearch.Select = "DISTINCT om.OrderMasterId AS Field1,om.CreatedDateTime AS Field2,ko.OrderCancelNotes AS Field3";
                     dmnSearch.Table = " tblOrderMaster om LEFT JOIN tblkitchenOrder ko ON ko.OrderMasterId = om.OrderMasterId AND ko.Status = 0 ";
                     dmnSearch.WhereNdGroupBy = "where om.Status=0  AND CONVERT(DATE, om.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')";
                     dmnSearch.OrderBy = "order by  om.OrderMasterId Desc";
-                    searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                    searchData_CancelOrder = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    totalPages = (int)Math.Ceiling((double)searchData_CancelOrder.Count / pageSize);
                 }
-                else if(tlp_offer_type_main.Visible)
+
+                else if (tlp_offer_type_main.Visible)
                 {
+
                     dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
                     dmnSearch.Table = "tblOfferMaster";
                     if (rdproductoffer.Checked)
                     {
-                        dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                        searchData_ActivePromotion_offer.Clear();
                         dgv_promotion.Columns[appriceno].Visible = false;
+                        dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                        dmnSearch.OrderBy = "order by  Omid desc";
+
+                        searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_offer.Count / pageSize);
+
                     }
                     else if (rdcombooffer.Checked)
                     {
-                        dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                        searchData_ActivePromotion_combo.Clear();
                         dgv_promotion.Columns[appriceno].Visible = true;
-                    }
-                    dmnSearch.OrderBy = "order by  Omid desc";
+                        dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                        dmnSearch.OrderBy = "order by  Omid desc";
 
-                    searchData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    totalPages = (int)Math.Ceiling((double)searchData.Count / pageSize);
+                        searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);
 
+
+
+               }
+                }
+                DisplayDataForCurrentPage();
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
+                if (currentPage <= totalPages)
+                {
+                    int startPage = currentPage;
+                    btnfrist.Visible = startPage <= totalPages;
+                    btn_two.Visible = (startPage + 1) <= totalPages;
+                    btn_three.Visible = (startPage + 2) <= totalPages;
+                    btn_four.Visible = (startPage + 3) <= totalPages;
                 }
 
-                currentPage = 1;
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
-
-                DisplayDataForCurrentPage();
             }
             catch { }
         }
@@ -693,14 +765,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int startIndex = (currentPage - 1) * pageSize;
-                int endIndex = Math.Min(startIndex + pageSize, searchData.Count);
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage);
+                int startIndex = 0;
+                int endIndex = 0;
+                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 tlp_pagination.Visible = true;
-                if (searchData.Count > 0)
+
+                if (dgv_activedine.Visible)
                 {
-                    if(dgv_activedine.Visible)
+                    if (searchData_Activeorder.Count > 0)
                     {
+                        startIndex = (currentPage - 1) * pageSize;
+                        endIndex = Math.Min(startIndex + pageSize, searchData_Activeorder.Count);
+
                         lblnodata.Visible = false;
                         dgv_activedine.Visible = true;
                         Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
@@ -710,18 +786,40 @@ namespace FoodandBeverage.Forms
                         dgv_activedine.Dock = DockStyle.Fill;
 
                         dgv_activedine.Rows.Clear();
-                        dgv_activedine.Rows.Add(searchData.Count);
+                        dgv_activedine.Rows.Add(endIndex - startIndex);
 
-                        for (int i = 0; i < searchData.Count; i++)
+                        for (int i = startIndex, j = 0; i < endIndex; i++, j++)
                         {
-                            dgv_activedine.Rows[i].Cells[adslno].Value = i + 1;
-                            dgv_activedine.Rows[i].Cells[adordermasteridno].Value = searchData[i].Field1;
-                            dgv_activedine.Rows[i].Cells[addateno].Value = searchData[i].Field2;
-                            dgv_activedine.Rows[i].Cells[adtotalqtyno].Value = searchData[i].Field3;
+                            dgv_activedine.Rows[j].Cells[adslno].Value = i + 1;
+                            dgv_activedine.Rows[j].Cells[adordermasteridno].Value = searchData_Activeorder[i].Field1;
+                            dgv_activedine.Rows[j].Cells[addateno].Value = searchData_Activeorder[i].Field2;
+                            dgv_activedine.Rows[j].Cells[adtotalqtyno].Value = searchData_Activeorder[i].Field3;
                         }
+
                     }
-                    else if (dgv_cancelorders.Visible)
+                    else
                     {
+                        Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                        tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                        tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                        lblnodata.Dock = DockStyle.Fill;
+                        lblnodata.Visible = true;
+
+                        dgv_activefood.Visible = false;
+                        dgv_activedine.Visible = false;
+                        dgv_cancelorders.Visible = false;
+                        dgv_reservation.Visible = false;
+                        tlp_offer_type_main.Visible = false;
+                        tlp_pagination.Visible = false;
+                    }
+                }
+                else if (dgv_cancelorders.Visible)
+                {
+                    if (searchData_CancelOrder.Count > 0)
+                    {
+                        startIndex = (currentPage - 1) * pageSize;
+                        endIndex = Math.Min(startIndex + pageSize, searchData_CancelOrder.Count);
                         lblnodata.Visible = false;
                         dgv_cancelorders.Visible = true;
                         Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
@@ -731,18 +829,42 @@ namespace FoodandBeverage.Forms
                         dgv_cancelorders.Dock = DockStyle.Fill;
 
                         dgv_cancelorders.Rows.Clear();
-                        dgv_cancelorders.Rows.Add(searchData.Count);
+                        dgv_cancelorders.Rows.Add(endIndex - startIndex);
 
-                        for (int i = 0; i < searchData.Count; i++)
+                        for (int i = startIndex, j = 0; i < endIndex; i++, j++)
                         {
-                            dgv_cancelorders.Rows[i].Cells[cslno].Value = i + 1;
-                            dgv_cancelorders.Rows[i].Cells[cordermasteridno].Value = searchData[i].Field1;
-                            dgv_cancelorders.Rows[i].Cells[cdateno].Value = searchData[i].Field2;
-                            dgv_cancelorders.Rows[i].Cells[cresdesno].Value = searchData[i].Field3;
+                            dgv_cancelorders.Rows[j].Cells[cslno].Value = i + 1;
+                            dgv_cancelorders.Rows[j].Cells[cordermasteridno].Value = searchData_CancelOrder[i].Field1;
+                            dgv_cancelorders.Rows[j].Cells[cdateno].Value = searchData_CancelOrder[i].Field2;
+                            dgv_cancelorders.Rows[j].Cells[cresdesno].Value = searchData_CancelOrder[i].Field3;
                         }
+
                     }
-                    else if (dgv_activefood.Visible)
+                    else
                     {
+                        Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                        tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                        tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                        lblnodata.Dock = DockStyle.Fill;
+                        lblnodata.Visible = true;
+
+                        dgv_activefood.Visible = false;
+                        dgv_activedine.Visible = false;
+                        dgv_cancelorders.Visible = false;
+                        dgv_reservation.Visible = false;
+                        tlp_offer_type_main.Visible = false;
+                        tlp_pagination.Visible = false;
+                    }
+
+                }
+                else if (dgv_activefood.Visible)
+                {
+                    if (searchData_ActiveFood.Count > 0)
+                    {
+                        startIndex = (currentPage - 1) * pageSize;
+                        endIndex = Math.Min(startIndex + pageSize, searchData_ActiveFood.Count);
+
                         lblnodata.Visible = false;
                         dgv_activefood.Visible = true;
                         Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
@@ -757,14 +879,38 @@ namespace FoodandBeverage.Forms
                         for (int i = startIndex, j = 0; i < endIndex; i++, j++)
                         {
                             dgv_activefood.Rows[j].Cells[fslno].Value = i + 1;
-                            dgv_activefood.Rows[j].Cells[ffoodnameno].Value = searchData[i].Field1;
-                            dgv_activefood.Rows[j].Cells[fcurrentqtyno].Value = searchData[i].Field2;
-                            dgv_activefood.Rows[j].Cells[fcategoryno].Value = searchData[i].Field3;
-                            dgv_activefood.Rows[j].Cells[fpriceno].Value = searchData[i].Field4;
+                            dgv_activefood.Rows[j].Cells[ffoodnameno].Value = searchData_ActiveFood[i].Field1;
+                            dgv_activefood.Rows[j].Cells[fcurrentqtyno].Value = searchData_ActiveFood[i].Field2;
+                            dgv_activefood.Rows[j].Cells[fcategoryno].Value = searchData_ActiveFood[i].Field3;
+                            dgv_activefood.Rows[j].Cells[fpriceno].Value = searchData_ActiveFood[i].Field4;
                         }
+
                     }
-                    else if (dgv_reservation.Visible)
+                    else
                     {
+                        Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                        tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                        tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                        lblnodata.Dock = DockStyle.Fill;
+                        lblnodata.Visible = true;
+
+                        dgv_activefood.Visible = false;
+                        dgv_activedine.Visible = false;
+                        dgv_cancelorders.Visible = false;
+                        dgv_reservation.Visible = false;
+                        tlp_offer_type_main.Visible = false;
+                        tlp_pagination.Visible = false;
+                    }
+
+                }
+                else if (dgv_reservation.Visible)
+                {
+                    if (searchData_Activereservation.Count > 0)
+                    {
+                        startIndex = (currentPage - 1) * pageSize;
+                        endIndex = Math.Min(startIndex + pageSize, searchData_Activereservation.Count);
+
                         lblnodata.Visible = false;
                         dgv_reservation.Visible = true;
                         Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
@@ -774,88 +920,188 @@ namespace FoodandBeverage.Forms
                         dgv_reservation.Dock = DockStyle.Fill;
 
                         dgv_reservation.Rows.Clear();
-                        dgv_reservation.Rows.Add(searchData.Count);
+                        dgv_reservation.Rows.Add(endIndex - startIndex);
 
-                        for (int i = 0; i < searchData.Count; i++)
+                        for (int i = startIndex, j = 0; i < endIndex; i++, j++)
                         {
-                            dgv_reservation.Rows[i].Cells[rslno].Value = i + 1;
-                            dgv_reservation.Rows[i].Cells[rdatetimeno].Value = searchData[i].Field1;
-                            dgv_reservation.Rows[i].Cells[rcutsnameno].Value = searchData[i].Field2;
-                            dgv_reservation.Rows[i].Cells[rphoneno].Value = searchData[i].Field3;
+                            dgv_reservation.Rows[j].Cells[rslno].Value = i + 1;
+                            dgv_reservation.Rows[j].Cells[rdatetimeno].Value = searchData_Activereservation[i].Field1;
+                            dgv_reservation.Rows[j].Cells[rcutsnameno].Value = searchData_Activereservation[i].Field2;
+                            dgv_reservation.Rows[j].Cells[rphoneno].Value = searchData_Activereservation[i].Field3;
 
-                            if (Convert.ToInt32(searchData[i].Field4) == 1)
+                            if (Convert.ToInt32(searchData_Activereservation[i].Field4) == 1)
                                 dgv_reservation.Rows[i].Cells[rgenderno].Value = "male";
-                            else if (Convert.ToInt32(searchData[i].Field4) == 2)
+                            else if (Convert.ToInt32(searchData_Activereservation[i].Field4) == 2)
                                 dgv_reservation.Rows[i].Cells[rgenderno].Value = "female";
                             else
                                 dgv_reservation.Rows[i].Cells[rgenderno].Value = "Others";
 
-                            dgv_reservation.Rows[i].Cells[raddressno].Value = searchData[i].Field5;
-                            FillTablecode_Reservation(Convert.ToInt32(searchData[i].Field6), i);
+                            dgv_reservation.Rows[i].Cells[raddressno].Value = searchData_Activereservation[i].Field5;
+                            FillTablecode_Reservation(Convert.ToInt32(searchData_Activereservation[i].Field6), i);
                         }
-                    }
-                    else if(tlp_offer_type_main.Visible)
-                    {
 
-                        lblnodata.Visible = false;
-                        tlp_offer_type_main.Visible = true;
+                    }
+                    else
+                    {
                         Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
                         tlp_boxdetails_sub.Controls.Remove(controlToRemove);
 
-                        tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
-                        tlp_offer_type_main.Dock = DockStyle.Fill;
+                        tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
+                        lblnodata.Dock = DockStyle.Fill;
+                        lblnodata.Visible = true;
 
-                        dgv_promotion.Rows.Clear();
-                        dgv_promotion.Rows.Add(searchData.Count);
-
-                        for (int i = 0; i < searchData.Count; i++)
-                        {
-                            dgv_promotion.Rows[i].Cells[apslno].Value = i + 1;
-                            dgv_promotion.Rows[i].Cells[apoffernameno].Value = searchData[i].Field1;
-                            dgv_promotion.Rows[i].Cells[apstartdateno].Value = searchData[i].Field2;
-                            dgv_promotion.Rows[i].Cells[apenddateno].Value = searchData[i].Field3;
-                            dgv_promotion.Rows[i].Cells[apdiscountperno].Value = searchData[i].Field4;
-                            dgv_promotion.Rows[i].Cells[appriceno].Value = searchData[i].Field5;
-                        }
+                        dgv_activefood.Visible = false;
+                        dgv_activedine.Visible = false;
+                        dgv_cancelorders.Visible = false;
+                        dgv_reservation.Visible = false;
+                        tlp_offer_type_main.Visible = false;
+                        tlp_pagination.Visible = false;
                     }
 
-                    UpdatePageButtonsText();
                 }
-                else
+                else if (tlp_offer_type_main.Visible)
                 {
-                    Control controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
-                    tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+                    if (rdproductoffer.Checked)
+                    {
+                        if (searchData_ActivePromotion_offer.Count > 0)
+                        {
+                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                            tlp_offer_type_main.Controls.Remove(controlToRemove);
 
-                    tlp_boxdetails_sub.Controls.Add(lblnodata, 1, 1);
-                    lblnodata.Dock = DockStyle.Fill;
-                    lblnodata.Visible = true;
+                            tlp_offer_type_main.Controls.Add(dgv_promotion, 1, 1);
+                            dgv_promotion.Dock = DockStyle.Fill;
+                            lblnodata_offer.Visible = false;
+                            dgv_promotion.Visible = true;
 
-                    dgv_activefood.Visible = false;
-                    dgv_activedine.Visible = false; 
-                    dgv_cancelorders.Visible = false; 
-                    dgv_reservation.Visible = false;
-                    tlp_offer_type_main.Visible = false;
-                    tlp_pagination.Visible = false;
+                            startIndex = (currentPage - 1) * pageSize;
+                            endIndex = Math.Min(startIndex + pageSize, searchData_ActivePromotion_offer.Count);
+
+                            lblnodata.Visible = false;
+                            tlp_offer_type_main.Visible = true;
+                            controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                            tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                            tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                            tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                            dgv_promotion.Rows.Clear();
+                            dgv_promotion.Rows.Add(endIndex - startIndex);
+
+                            for (int i = startIndex, j = 0; i < endIndex; i++, j++)
+                            {
+                                dgv_promotion.Rows[j].Cells[apslno].Value = i + 1;
+                                dgv_promotion.Rows[j].Cells[apoffernameno].Value = searchData_ActivePromotion_offer[i].Field1;
+                                dgv_promotion.Rows[j].Cells[apstartdateno].Value = searchData_ActivePromotion_offer[i].Field2;
+                                dgv_promotion.Rows[j].Cells[apenddateno].Value = searchData_ActivePromotion_offer[i].Field3;
+                                dgv_promotion.Rows[j].Cells[apdiscountperno].Value = searchData_ActivePromotion_offer[i].Field4;
+                                dgv_promotion.Rows[j].Cells[appriceno].Value = searchData_ActivePromotion_offer[i].Field5;
+                            }   
+                        }
+                        else
+                        {
+                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                            tlp_offer_type_main.Controls.Remove(controlToRemove);
+
+                            tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
+                            lblnodata_offer.Dock = DockStyle.Fill;
+                            lblnodata_offer.Visible = true;
+                            dgv_promotion.Visible = false;
+
+                            ////dgv_activefood.Visible = false;
+                            ////dgv_activedine.Visible = false;
+                            ////dgv_cancelorders.Visible = false;
+                            ////dgv_reservation.Visible = false;
+                            ////tlp_offer_type_main.Visible = false;
+                            tlp_pagination.Visible = false;
+                        }
+
+                    }
+                    else if (rdcombooffer.Checked)
+                    {
+                        if (searchData_ActivePromotion_combo.Count > 0)
+                        {
+                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                            tlp_offer_type_main.Controls.Remove(controlToRemove);
+
+                            tlp_offer_type_main.Controls.Add(dgv_promotion, 1, 1);
+                            dgv_promotion.Dock = DockStyle.Fill;
+                            lblnodata_offer.Visible = false;
+                            dgv_promotion.Visible = true;
+
+                            startIndex = (currentPage - 1) * pageSize;
+                            endIndex = Math.Min(startIndex + pageSize, searchData_ActivePromotion_combo.Count);
+
+                            lblnodata.Visible = false;
+                            tlp_offer_type_main.Visible = true;
+                             controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                            tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                            tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                            tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                            dgv_promotion.Rows.Clear();
+                            dgv_promotion.Rows.Add(endIndex - startIndex);
+
+                            for (int i = startIndex, j = 0; i < endIndex; i++, j++)
+                            {
+                                dgv_promotion.Rows[j].Cells[apslno].Value = i + 1;
+                                dgv_promotion.Rows[j].Cells[apoffernameno].Value = searchData_ActivePromotion_combo[i].Field1;
+                                dgv_promotion.Rows[j].Cells[apstartdateno].Value = searchData_ActivePromotion_combo[i].Field2;
+                                dgv_promotion.Rows[j].Cells[apenddateno].Value = searchData_ActivePromotion_combo[i].Field3;
+                                dgv_promotion.Rows[j].Cells[apdiscountperno].Value = searchData_ActivePromotion_combo[i].Field4;
+                                dgv_promotion.Rows[j].Cells[appriceno].Value = searchData_ActivePromotion_combo[i].Field5;
+                            }
+
+                        }
+                        else
+                        {
+                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                            tlp_offer_type_main.Controls.Remove(controlToRemove);
+
+                            tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
+                            lblnodata_offer.Dock = DockStyle.Fill;
+                            lblnodata_offer.Visible = true;
+                            dgv_promotion.Visible = false;
+                            tlp_pagination.Visible = false;
+                        }
+
+                    }
                 }
+               // UpdatePageButtonsText();
+
             }
-            catch { }
+            catch(Exception ex)
+            {
+
+            }
         }
 
+        private void SetColumnPadding(TableLayoutPanel tlp, int columnStart, int columnEnd, Padding padding)
+        {
+            for (int col = columnStart; col <= columnEnd; col++)
+            {
+                Control control = tlp.GetControlFromPosition(col, 0); 
+                if (control != null)
+                {
+                    control.Margin = padding;
+                }
+            }
+        }
 
         #endregion
 
-
         #endregion
+
 
         #region PAYMENT DETAILED
         public void Fillpaymentdetailed()
         {
             try
-            {      
+            {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS (Loyalty)],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
-                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode and GTypeId=2  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable"+
+                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode and GTypeId=2  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable" +
                                     " PIVOT( SUM(netamount) FOR Caption IN([CASH], [CREDIT CARD],[UPI], [DEBIT CARD], [BANKING ONLINE], [OTHERS (Loyalty)], [PART], [SPLIT]) " +
                                     ") AS PivotTable";
                 dmnSearch.WhereNdGroupBy = " ";
@@ -874,7 +1120,7 @@ namespace FoodandBeverage.Forms
                     decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
                                        Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
                                        Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
-                    ibtotalsumpayment.Text= Convert.ToString(sumtotal);
+                    ibtotalsumpayment.Text = Convert.ToString(sumtotal);
                 }
                 else
                 {
@@ -899,7 +1145,7 @@ namespace FoodandBeverage.Forms
         #region SALEDETAILS 
         public void Filldashboard()
         {
-            try 
+            try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -1099,7 +1345,7 @@ namespace FoodandBeverage.Forms
                     BllAnnuvalreport<DmnRpt_1> SearchDetails = new BllAnnuvalreport<DmnRpt_1>();
                     DmnRpt_1 dmnSearchDetBill = new DmnRpt_1();
 
-                    dmnSearchDetBill.sFld2 =financialYearStart.ToString("yyyy-MM-dd");
+                    dmnSearchDetBill.sFld2 = financialYearStart.ToString("yyyy-MM-dd");
                     dmnSearchDetBill.sFld3 = financialYearEnd.ToString("yyyy-MM-dd");
                     var invoiceBillMasters = SearchDetails.serachreport("prdISerachAnnuvalreport", dmnSearchDetBill);
                     var sortedResult = invoiceBillMasters
@@ -1130,7 +1376,7 @@ namespace FoodandBeverage.Forms
                             Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: " + sortedResult[i].dFld3;
                         }
                     }
-       
+
                     Totalrevenuechart.ChartAreas[0].AxisX.Interval = 1;
                     Totalrevenuechart.ChartAreas[0].AxisX.Minimum = 0;
                     Totalrevenuechart.ChartAreas[0].AxisX.Maximum = 13;
@@ -1193,7 +1439,7 @@ namespace FoodandBeverage.Forms
                     cmb_fin_year.ValueMember = "Id";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -1202,7 +1448,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if(flagexit)
+                if (flagexit)
                 {
                     DateTime financialYearStart;
                     DmnComboBox selectedFinYear = (DmnComboBox)cmb_fin_year.SelectedItem;
@@ -1260,11 +1506,11 @@ namespace FoodandBeverage.Forms
 
                     Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Angle = 0;
                 }
-                
+
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         #endregion
@@ -1414,11 +1660,11 @@ namespace FoodandBeverage.Forms
                         expencepiechart.Series["s_expence"].Points.Add(dataPointOthers);
 
                         dataPointOthers.LegendText = $"Remaining [Click to viwe more] : {remainingAmount}";
-                        dataPointOthers.ToolTip = "Remaining: "+remainingAmount+"  [Click to viwe more....]";
+                        dataPointOthers.ToolTip = "Remaining: " + remainingAmount + "  [Click to viwe more....]";
                         //dataPointOthers.Font = new Font("Arial", 10, FontStyle.Bold);
 
                         totalexpence = totalexpence + remainingAmount;
-                    }                
+                    }
 
                     expencepiechart.Titles.Clear();
                     Title chartTitleExpence = new Title("Total Expense : " + totalexpence);
@@ -1457,7 +1703,7 @@ namespace FoodandBeverage.Forms
             var r = expencepiechart.HitTest(e.X, e.Y);
             int index = r.PointIndex;
 
-            if (index == expencepiechart.Series["s_expence"].Points.Count - 1 && expencepiechart.Series["s_expence"].Points.Any()) 
+            if (index == expencepiechart.Series["s_expence"].Points.Count - 1 && expencepiechart.Series["s_expence"].Points.Any())
             {
                 int panelWidthPercentage = 30;
                 int panelheightPercentage = 50;
@@ -1530,7 +1776,7 @@ namespace FoodandBeverage.Forms
                     remexptotal = remexptotal + Convert.ToDecimal(Expencedata[i].Field2);
                     tlp_expence_viewmore.Controls.Add(categoryname, columnIndex, rowIndex);
                     columnIndex++;
-                    tlp_expence_viewmore.Controls.Add(amount, columnIndex, rowIndex);   
+                    tlp_expence_viewmore.Controls.Add(amount, columnIndex, rowIndex);
 
                     rowIndex++;
                 }
@@ -1766,12 +2012,12 @@ namespace FoodandBeverage.Forms
 
         private void cmb_fin_year_SelectionChangeCommitted(object sender, EventArgs e)
         {
-           FillbarRrevenuChart();
+            FillbarRrevenuChart();
         }
 
         private void FrmDashboardReport_Resize(object sender, EventArgs e)
         {
-           // cmb_fin_year.Location = new Point(Totalrevenuechart.Right, Totalrevenuechart.Top);
+            // cmb_fin_year.Location = new Point(Totalrevenuechart.Right, Totalrevenuechart.Top);
         }
 
         private void btnclose_exp_view_Click(object sender, EventArgs e)
@@ -1792,6 +2038,40 @@ namespace FoodandBeverage.Forms
             tlp_box_frist.Focus();
         }
 
-    
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Tab:       
+                    return true;
+
+                case Keys.Enter:           
+                    return true;
+
+                case Keys.Escape:
+                    if (pnl_boxdetails_dash.Visible)
+                    {
+                        pnl_boxdetails_dash.Visible = false; 
+                        dgv_activefood.Visible = false;
+                        dgv_activedine.Visible = false;
+                        dgv_cancelorders.Visible = false;
+                        dgv_reservation.Visible = false;
+                        tlp_offer_type_main.Visible = false;
+
+                        dgv_activefood.Rows.Clear();
+                        dgv_activedine.Rows.Clear();
+                        dgv_cancelorders.Rows.Clear();
+                        dgv_reservation.Rows.Clear();
+                        dgv_promotion.Rows.Clear();
+
+                        tlp_pagination.Visible = false;
+                    }
+
+                    return true;
+
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
     }
 }

@@ -29,87 +29,87 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle321 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle340 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle341 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle322 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle323 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle324 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle325 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle326 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle327 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle328 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle329 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle330 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle331 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle332 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle333 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle334 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle335 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle336 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle337 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle338 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle339 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle342 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle361 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle362 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle343 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle344 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle345 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle346 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle347 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle348 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle349 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle350 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle351 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle352 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle353 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle354 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle355 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle356 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle357 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle358 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle359 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle360 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle363 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle364 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle365 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle366 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle368 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle369 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle367 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle370 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle373 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle374 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle371 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle372 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmOrder));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle375 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle392 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle393 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle376 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle377 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle378 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle379 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle380 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle381 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle382 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle383 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle384 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle385 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle386 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle387 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle388 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle389 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle390 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle391 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle394 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle399 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle400 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle395 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle396 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle397 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle398 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnl_tableorder = new System.Windows.Forms.Panel();
             this.tlp_tableorder = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
@@ -174,6 +174,7 @@ namespace FoodandBeverage.Forms
             this.tlp_product_des_reg = new System.Windows.Forms.TableLayoutPanel();
             this.txt_product_des = new System.Windows.Forms.TextBox();
             this.btn_save_product_des = new System.Windows.Forms.Button();
+            this.btn_close_prod_des = new System.Windows.Forms.Button();
             this.lblheader_product_des = new System.Windows.Forms.Label();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_print_bill = new System.Windows.Forms.Button();
@@ -434,7 +435,6 @@ namespace FoodandBeverage.Forms
             this.bookinmasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_close_tableprice = new System.Windows.Forms.Button();
-            this.btn_close_prod_des = new System.Windows.Forms.Button();
             this.label33 = new System.Windows.Forms.Label();
             this.txtreservationtotal = new System.Windows.Forms.TextBox();
             this.pnl_tableorder.SuspendLayout();
@@ -712,7 +712,7 @@ namespace FoodandBeverage.Forms
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.58005F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             this.tlp_userdetails.Controls.Add(this.btn_clear_cus, 3, 1);
             this.tlp_userdetails.Controls.Add(this.label32, 0, 5);
             this.tlp_userdetails.Controls.Add(this.label29, 0, 2);
@@ -747,7 +747,7 @@ namespace FoodandBeverage.Forms
             this.btn_clear_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_clear_cus.FlatAppearance.BorderSize = 0;
             this.btn_clear_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clear_cus.Location = new System.Drawing.Point(308, 23);
+            this.btn_clear_cus.Location = new System.Drawing.Point(307, 23);
             this.btn_clear_cus.Name = "btn_clear_cus";
             this.btn_clear_cus.Size = new System.Drawing.Size(51, 1);
             this.btn_clear_cus.TabIndex = 11;
@@ -762,7 +762,7 @@ namespace FoodandBeverage.Forms
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.Location = new System.Drawing.Point(3, 17);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(99, 1);
+            this.label32.Size = new System.Drawing.Size(98, 1);
             this.label32.TabIndex = 8;
             this.label32.Text = "Gender";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -774,7 +774,7 @@ namespace FoodandBeverage.Forms
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.Location = new System.Drawing.Point(3, 20);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(99, 1);
+            this.label29.Size = new System.Drawing.Size(98, 1);
             this.label29.TabIndex = 3;
             this.label29.Text = "Address";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -786,7 +786,7 @@ namespace FoodandBeverage.Forms
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.Location = new System.Drawing.Point(3, 20);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(99, 1);
+            this.label28.Size = new System.Drawing.Size(98, 1);
             this.label28.TabIndex = 0;
             this.label28.Text = "Customer Name";
             this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -795,7 +795,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtcusname.BackColor = System.Drawing.Color.White;
             this.txtcusname.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtcusname.Location = new System.Drawing.Point(108, 23);
+            this.txtcusname.Location = new System.Drawing.Point(107, 23);
             this.txtcusname.Multiline = true;
             this.txtcusname.Name = "txtcusname";
             this.txtcusname.Size = new System.Drawing.Size(148, 1);
@@ -806,7 +806,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtaddress.BackColor = System.Drawing.Color.White;
             this.txtaddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtaddress.Location = new System.Drawing.Point(108, 23);
+            this.txtaddress.Location = new System.Drawing.Point(107, 23);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
             this.txtaddress.Size = new System.Drawing.Size(148, 1);
@@ -819,7 +819,7 @@ namespace FoodandBeverage.Forms
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.Location = new System.Drawing.Point(3, 19);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(99, 1);
+            this.label30.Size = new System.Drawing.Size(98, 1);
             this.label30.TabIndex = 4;
             this.label30.Text = "Email Id";
             this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -831,7 +831,7 @@ namespace FoodandBeverage.Forms
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.Location = new System.Drawing.Point(3, 18);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(99, 1);
+            this.label31.Size = new System.Drawing.Size(98, 1);
             this.label31.TabIndex = 5;
             this.label31.Text = "Ph";
             this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -840,7 +840,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtemailid.BackColor = System.Drawing.Color.White;
             this.txtemailid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtemailid.Location = new System.Drawing.Point(108, 22);
+            this.txtemailid.Location = new System.Drawing.Point(107, 22);
             this.txtemailid.Multiline = true;
             this.txtemailid.Name = "txtemailid";
             this.txtemailid.Size = new System.Drawing.Size(148, 1);
@@ -852,7 +852,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtph.BackColor = System.Drawing.Color.White;
             this.txtph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtph.Location = new System.Drawing.Point(108, 21);
+            this.txtph.Location = new System.Drawing.Point(107, 21);
             this.txtph.MaxLength = 12;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
@@ -869,7 +869,7 @@ namespace FoodandBeverage.Forms
             this.tlp_gender.Controls.Add(this.rb_female, 1, 0);
             this.tlp_gender.Controls.Add(this.rb_male, 0, 0);
             this.tlp_gender.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_gender.Location = new System.Drawing.Point(108, 20);
+            this.tlp_gender.Location = new System.Drawing.Point(107, 20);
             this.tlp_gender.Name = "tlp_gender";
             this.tlp_gender.RowCount = 1;
             this.tlp_gender.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -914,7 +914,7 @@ namespace FoodandBeverage.Forms
             this.btn_edit_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_edit_cus.FlatAppearance.BorderSize = 0;
             this.btn_edit_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_edit_cus.Location = new System.Drawing.Point(262, 23);
+            this.btn_edit_cus.Location = new System.Drawing.Point(261, 23);
             this.btn_edit_cus.Name = "btn_edit_cus";
             this.btn_edit_cus.Size = new System.Drawing.Size(40, 1);
             this.btn_edit_cus.TabIndex = 10;
@@ -1438,6 +1438,19 @@ namespace FoodandBeverage.Forms
             this.btn_save_product_des.UseVisualStyleBackColor = true;
             this.btn_save_product_des.Click += new System.EventHandler(this.btn_save_product_des_Click);
             // 
+            // btn_close_prod_des
+            // 
+            this.btn_close_prod_des.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
+            this.btn_close_prod_des.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_close_prod_des.FlatAppearance.BorderSize = 0;
+            this.btn_close_prod_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close_prod_des.Location = new System.Drawing.Point(273, 3);
+            this.btn_close_prod_des.Name = "btn_close_prod_des";
+            this.btn_close_prod_des.Size = new System.Drawing.Size(28, 28);
+            this.btn_close_prod_des.TabIndex = 1;
+            this.btn_close_prod_des.UseVisualStyleBackColor = true;
+            this.btn_close_prod_des.Click += new System.EventHandler(this.btn_close_prod_des_Click);
+            // 
             // lblheader_product_des
             // 
             this.lblheader_product_des.AutoSize = true;
@@ -1809,14 +1822,14 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.AllowUserToDeleteRows = false;
             this.Dgv_Selected_Item.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Dgv_Selected_Item.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle321.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle321.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle321.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle321.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle321.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle321.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle321.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Selected_Item.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle321;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Selected_Item.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.Dgv_Selected_Item.ColumnHeadersHeight = 40;
             this.Dgv_Selected_Item.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Slno,
@@ -1854,14 +1867,14 @@ namespace FoodandBeverage.Forms
             this.offertype,
             this.smainremarks,
             this.originalqty});
-            dataGridViewCellStyle340.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle340.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle340.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle340.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle340.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle340.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle340.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Selected_Item.DefaultCellStyle = dataGridViewCellStyle340;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Selected_Item.DefaultCellStyle = dataGridViewCellStyle20;
             this.Dgv_Selected_Item.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_Selected_Item.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.Dgv_Selected_Item.Location = new System.Drawing.Point(3, 40);
@@ -1869,8 +1882,8 @@ namespace FoodandBeverage.Forms
             this.Dgv_Selected_Item.ReadOnly = true;
             this.Dgv_Selected_Item.RowHeadersVisible = false;
             this.Dgv_Selected_Item.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle341.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.Dgv_Selected_Item.RowsDefaultCellStyle = dataGridViewCellStyle341;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Dgv_Selected_Item.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.Dgv_Selected_Item.RowTemplate.Height = 30;
             this.Dgv_Selected_Item.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.Dgv_Selected_Item.Size = new System.Drawing.Size(983, 385);
@@ -1879,10 +1892,10 @@ namespace FoodandBeverage.Forms
             // Slno
             // 
             this.Slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle322.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
-            dataGridViewCellStyle322.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle322.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Slno.DefaultCellStyle = dataGridViewCellStyle322;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Slno.DefaultCellStyle = dataGridViewCellStyle2;
             this.Slno.HeaderText = "Sl.No";
             this.Slno.MaxInputLength = 100;
             this.Slno.MinimumWidth = 6;
@@ -1894,10 +1907,10 @@ namespace FoodandBeverage.Forms
             // barcode
             // 
             this.barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle323.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle323.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle323.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.barcode.DefaultCellStyle = dataGridViewCellStyle323;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.barcode.DefaultCellStyle = dataGridViewCellStyle3;
             this.barcode.HeaderText = "Barcode";
             this.barcode.MinimumWidth = 6;
             this.barcode.Name = "barcode";
@@ -1907,8 +1920,8 @@ namespace FoodandBeverage.Forms
             // ProductType
             // 
             this.ProductType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle324.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ProductType.DefaultCellStyle = dataGridViewCellStyle324;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ProductType.DefaultCellStyle = dataGridViewCellStyle4;
             this.ProductType.HeaderText = "ProductType";
             this.ProductType.Name = "ProductType";
             this.ProductType.ReadOnly = true;
@@ -1918,10 +1931,10 @@ namespace FoodandBeverage.Forms
             // name
             // 
             this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle325.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle325.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle325.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.name.DefaultCellStyle = dataGridViewCellStyle325;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.name.DefaultCellStyle = dataGridViewCellStyle5;
             this.name.HeaderText = "Name";
             this.name.MinimumWidth = 6;
             this.name.Name = "name";
@@ -1931,10 +1944,10 @@ namespace FoodandBeverage.Forms
             // Unit
             // 
             this.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle326.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle326.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle326.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Unit.DefaultCellStyle = dataGridViewCellStyle326;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Unit.DefaultCellStyle = dataGridViewCellStyle6;
             this.Unit.HeaderText = "Unit";
             this.Unit.MinimumWidth = 6;
             this.Unit.Name = "Unit";
@@ -1944,11 +1957,11 @@ namespace FoodandBeverage.Forms
             // Qty
             // 
             this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle327.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle327.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle327.Format = "N3";
-            dataGridViewCellStyle327.NullValue = null;
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle327;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.Format = "N3";
+            dataGridViewCellStyle7.NullValue = null;
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle7;
             this.Qty.HeaderText = "Qty";
             this.Qty.MaxInputLength = 5;
             this.Qty.MinimumWidth = 6;
@@ -1959,12 +1972,12 @@ namespace FoodandBeverage.Forms
             // Prate
             // 
             this.Prate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle328.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle328.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle328.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle328.Format = "N2";
-            dataGridViewCellStyle328.NullValue = null;
-            this.Prate.DefaultCellStyle = dataGridViewCellStyle328;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.Format = "N2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Prate.DefaultCellStyle = dataGridViewCellStyle8;
             this.Prate.HeaderText = "Prate";
             this.Prate.MaxInputLength = 5;
             this.Prate.MinimumWidth = 6;
@@ -1975,12 +1988,12 @@ namespace FoodandBeverage.Forms
             // Amount
             // 
             this.Amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle329.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle329.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle329.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle329.Format = "N2";
-            dataGridViewCellStyle329.NullValue = null;
-            this.Amount.DefaultCellStyle = dataGridViewCellStyle329;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.Amount.DefaultCellStyle = dataGridViewCellStyle9;
             this.Amount.HeaderText = "Amount";
             this.Amount.MinimumWidth = 6;
             this.Amount.Name = "Amount";
@@ -1990,11 +2003,11 @@ namespace FoodandBeverage.Forms
             // Disc
             // 
             this.Disc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle330.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle330.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle330.Format = "N2";
-            dataGridViewCellStyle330.NullValue = null;
-            this.Disc.DefaultCellStyle = dataGridViewCellStyle330;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.NullValue = null;
+            this.Disc.DefaultCellStyle = dataGridViewCellStyle10;
             this.Disc.HeaderText = "Disc%";
             this.Disc.MaxInputLength = 5;
             this.Disc.MinimumWidth = 6;
@@ -2005,11 +2018,11 @@ namespace FoodandBeverage.Forms
             // DiscAmt
             // 
             this.DiscAmt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle331.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle331.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle331.Format = "N2";
-            dataGridViewCellStyle331.NullValue = null;
-            this.DiscAmt.DefaultCellStyle = dataGridViewCellStyle331;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.Format = "N2";
+            dataGridViewCellStyle11.NullValue = null;
+            this.DiscAmt.DefaultCellStyle = dataGridViewCellStyle11;
             this.DiscAmt.HeaderText = "Disc.Amt";
             this.DiscAmt.MaxInputLength = 6;
             this.DiscAmt.MinimumWidth = 6;
@@ -2020,8 +2033,8 @@ namespace FoodandBeverage.Forms
             // TaxPerr
             // 
             this.TaxPerr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle332.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.TaxPerr.DefaultCellStyle = dataGridViewCellStyle332;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.TaxPerr.DefaultCellStyle = dataGridViewCellStyle12;
             this.TaxPerr.HeaderText = "Tax%";
             this.TaxPerr.MaxInputLength = 3;
             this.TaxPerr.Name = "TaxPerr";
@@ -2031,8 +2044,8 @@ namespace FoodandBeverage.Forms
             // pTaxAmt
             // 
             this.pTaxAmt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle333.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.pTaxAmt.DefaultCellStyle = dataGridViewCellStyle333;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.pTaxAmt.DefaultCellStyle = dataGridViewCellStyle13;
             this.pTaxAmt.HeaderText = "TaxAmt";
             this.pTaxAmt.MinimumWidth = 6;
             this.pTaxAmt.Name = "pTaxAmt";
@@ -2042,12 +2055,12 @@ namespace FoodandBeverage.Forms
             // Total
             // 
             this.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle334.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle334.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle334.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle334.Format = "N2";
-            dataGridViewCellStyle334.NullValue = null;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle334;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.Format = "N2";
+            dataGridViewCellStyle14.NullValue = null;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle14;
             this.Total.HeaderText = "Total";
             this.Total.MinimumWidth = 6;
             this.Total.Name = "Total";
@@ -2057,9 +2070,9 @@ namespace FoodandBeverage.Forms
             // itemid
             // 
             this.itemid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle335.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle335.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemid.DefaultCellStyle = dataGridViewCellStyle335;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.itemid.DefaultCellStyle = dataGridViewCellStyle15;
             this.itemid.HeaderText = "itemid";
             this.itemid.MinimumWidth = 6;
             this.itemid.Name = "itemid";
@@ -2070,8 +2083,8 @@ namespace FoodandBeverage.Forms
             // PTax
             // 
             this.PTax.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle336.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.PTax.DefaultCellStyle = dataGridViewCellStyle336;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.PTax.DefaultCellStyle = dataGridViewCellStyle16;
             this.PTax.HeaderText = "Tax";
             this.PTax.MinimumWidth = 6;
             this.PTax.Name = "PTax";
@@ -2081,8 +2094,8 @@ namespace FoodandBeverage.Forms
             // TaxType
             // 
             this.TaxType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle337.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.TaxType.DefaultCellStyle = dataGridViewCellStyle337;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.TaxType.DefaultCellStyle = dataGridViewCellStyle17;
             this.TaxType.HeaderText = "TaxType";
             this.TaxType.Name = "TaxType";
             this.TaxType.ReadOnly = true;
@@ -2092,8 +2105,8 @@ namespace FoodandBeverage.Forms
             // pSrate
             // 
             this.pSrate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle338.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.pSrate.DefaultCellStyle = dataGridViewCellStyle338;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.pSrate.DefaultCellStyle = dataGridViewCellStyle18;
             this.pSrate.HeaderText = "Srate";
             this.pSrate.MaxInputLength = 5;
             this.pSrate.MinimumWidth = 6;
@@ -2104,8 +2117,8 @@ namespace FoodandBeverage.Forms
             // pMRP
             // 
             this.pMRP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle339.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.pMRP.DefaultCellStyle = dataGridViewCellStyle339;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.pMRP.DefaultCellStyle = dataGridViewCellStyle19;
             this.pMRP.HeaderText = "MRP";
             this.pMRP.MinimumWidth = 6;
             this.pMRP.Name = "pMRP";
@@ -2511,14 +2524,14 @@ namespace FoodandBeverage.Forms
             this.dgv_exitsting_product.AllowUserToDeleteRows = false;
             this.dgv_exitsting_product.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgv_exitsting_product.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle342.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle342.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle342.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle342.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle342.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle342.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle342.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_exitsting_product.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle342;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_exitsting_product.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_exitsting_product.ColumnHeadersHeight = 40;
             this.dgv_exitsting_product.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -2553,14 +2566,14 @@ namespace FoodandBeverage.Forms
             this.dataGridViewTextBoxColumn30,
             this.dataGridViewTextBoxColumn31,
             this.dataGridViewTextBoxColumn32});
-            dataGridViewCellStyle361.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle361.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle361.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle361.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle361.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle361.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle361.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_exitsting_product.DefaultCellStyle = dataGridViewCellStyle361;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_exitsting_product.DefaultCellStyle = dataGridViewCellStyle41;
             this.dgv_exitsting_product.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_exitsting_product.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgv_exitsting_product.Location = new System.Drawing.Point(3, 37);
@@ -2568,8 +2581,8 @@ namespace FoodandBeverage.Forms
             this.dgv_exitsting_product.ReadOnly = true;
             this.dgv_exitsting_product.RowHeadersVisible = false;
             this.dgv_exitsting_product.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle362.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_exitsting_product.RowsDefaultCellStyle = dataGridViewCellStyle362;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_exitsting_product.RowsDefaultCellStyle = dataGridViewCellStyle42;
             this.dgv_exitsting_product.RowTemplate.Height = 30;
             this.dgv_exitsting_product.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_exitsting_product.Size = new System.Drawing.Size(913, 420);
@@ -2578,10 +2591,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle343.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
-            dataGridViewCellStyle343.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle343.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle343;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle23;
             this.dataGridViewTextBoxColumn1.HeaderText = "Sl.No";
             this.dataGridViewTextBoxColumn1.MaxInputLength = 100;
             this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
@@ -2593,10 +2606,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle344.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle344.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle344.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle344;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle24;
             this.dataGridViewTextBoxColumn2.HeaderText = "Barcode";
             this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
@@ -2606,8 +2619,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle345.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle345;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle25;
             this.dataGridViewTextBoxColumn3.HeaderText = "ProductType";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -2617,10 +2630,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle346.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle346.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle346.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle346;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle26;
             this.dataGridViewTextBoxColumn4.HeaderText = "Name";
             this.dataGridViewTextBoxColumn4.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -2630,10 +2643,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle347.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle347.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle347.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle347;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle27;
             this.dataGridViewTextBoxColumn5.HeaderText = "Unit";
             this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
@@ -2643,11 +2656,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle348.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle348.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle348.Format = "N3";
-            dataGridViewCellStyle348.NullValue = null;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle348;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle28.Format = "N3";
+            dataGridViewCellStyle28.NullValue = null;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle28;
             this.dataGridViewTextBoxColumn6.HeaderText = "Qty";
             this.dataGridViewTextBoxColumn6.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn6.MinimumWidth = 6;
@@ -2658,12 +2671,12 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn7
             // 
             this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle349.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle349.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle349.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle349.Format = "N2";
-            dataGridViewCellStyle349.NullValue = null;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle349;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle29.Format = "N2";
+            dataGridViewCellStyle29.NullValue = null;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle29;
             this.dataGridViewTextBoxColumn7.HeaderText = "Prate";
             this.dataGridViewTextBoxColumn7.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn7.MinimumWidth = 6;
@@ -2674,12 +2687,12 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle350.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle350.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle350.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle350.Format = "N2";
-            dataGridViewCellStyle350.NullValue = null;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle350;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle30.Format = "N2";
+            dataGridViewCellStyle30.NullValue = null;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle30;
             this.dataGridViewTextBoxColumn8.HeaderText = "Amount";
             this.dataGridViewTextBoxColumn8.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
@@ -2689,11 +2702,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn9
             // 
             this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle351.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle351.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle351.Format = "N2";
-            dataGridViewCellStyle351.NullValue = null;
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle351;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle31.Format = "N2";
+            dataGridViewCellStyle31.NullValue = null;
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle31;
             this.dataGridViewTextBoxColumn9.HeaderText = "Disc%";
             this.dataGridViewTextBoxColumn9.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn9.MinimumWidth = 6;
@@ -2704,11 +2717,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn10
             // 
             this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle352.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle352.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle352.Format = "N2";
-            dataGridViewCellStyle352.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle352;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle32.Format = "N2";
+            dataGridViewCellStyle32.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle32;
             this.dataGridViewTextBoxColumn10.HeaderText = "Disc.Amt";
             this.dataGridViewTextBoxColumn10.MaxInputLength = 6;
             this.dataGridViewTextBoxColumn10.MinimumWidth = 6;
@@ -2719,8 +2732,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn11
             // 
             this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle353.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle353;
+            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle33;
             this.dataGridViewTextBoxColumn11.HeaderText = "Tax%";
             this.dataGridViewTextBoxColumn11.MaxInputLength = 3;
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
@@ -2730,8 +2743,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle354.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle354;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle34;
             this.dataGridViewTextBoxColumn12.HeaderText = "TaxAmt";
             this.dataGridViewTextBoxColumn12.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
@@ -2741,12 +2754,12 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn13
             // 
             this.dataGridViewTextBoxColumn13.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle355.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle355.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle355.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle355.Format = "N2";
-            dataGridViewCellStyle355.NullValue = null;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle355;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle35.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle35.Format = "N2";
+            dataGridViewCellStyle35.NullValue = null;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle35;
             this.dataGridViewTextBoxColumn13.HeaderText = "Total";
             this.dataGridViewTextBoxColumn13.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
@@ -2756,9 +2769,9 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn14
             // 
             this.dataGridViewTextBoxColumn14.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle356.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle356.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn14.DefaultCellStyle = dataGridViewCellStyle356;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle36.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn14.DefaultCellStyle = dataGridViewCellStyle36;
             this.dataGridViewTextBoxColumn14.HeaderText = "itemid";
             this.dataGridViewTextBoxColumn14.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
@@ -2769,8 +2782,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn15
             // 
             this.dataGridViewTextBoxColumn15.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle357.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn15.DefaultCellStyle = dataGridViewCellStyle357;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn15.DefaultCellStyle = dataGridViewCellStyle37;
             this.dataGridViewTextBoxColumn15.HeaderText = "Tax";
             this.dataGridViewTextBoxColumn15.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
@@ -2780,8 +2793,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn16
             // 
             this.dataGridViewTextBoxColumn16.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle358.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn16.DefaultCellStyle = dataGridViewCellStyle358;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn16.DefaultCellStyle = dataGridViewCellStyle38;
             this.dataGridViewTextBoxColumn16.HeaderText = "TaxType";
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
@@ -2791,8 +2804,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn17
             // 
             this.dataGridViewTextBoxColumn17.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle359.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle359;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle39;
             this.dataGridViewTextBoxColumn17.HeaderText = "Srate";
             this.dataGridViewTextBoxColumn17.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn17.MinimumWidth = 6;
@@ -2803,8 +2816,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn18
             // 
             this.dataGridViewTextBoxColumn18.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle360.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle360;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle40;
             this.dataGridViewTextBoxColumn18.HeaderText = "MRP";
             this.dataGridViewTextBoxColumn18.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
@@ -2984,36 +2997,36 @@ namespace FoodandBeverage.Forms
             // dgv_viewmore
             // 
             this.dgv_viewmore.AllowUserToAddRows = false;
-            dataGridViewCellStyle363.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle363.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle363.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle363.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle363.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle363.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle363.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle363;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle43.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
             this.dgv_viewmore.ColumnHeadersHeight = 40;
             this.dgv_viewmore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_viewmore.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.vslno,
             this.vproductname,
             this.vqty});
-            dataGridViewCellStyle364.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle364.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle364.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle364.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle364.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle364.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle364.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_viewmore.DefaultCellStyle = dataGridViewCellStyle364;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle44.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle44.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_viewmore.DefaultCellStyle = dataGridViewCellStyle44;
             this.dgv_viewmore.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_viewmore.Location = new System.Drawing.Point(27, 42);
             this.dgv_viewmore.Name = "dgv_viewmore";
             this.dgv_viewmore.RowHeadersVisible = false;
             this.dgv_viewmore.RowHeadersWidth = 50;
-            dataGridViewCellStyle365.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle365.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle365;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle45.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle45;
             this.dgv_viewmore.RowTemplate.Height = 30;
             this.dgv_viewmore.Size = new System.Drawing.Size(492, 249);
             this.dgv_viewmore.TabIndex = 2;
@@ -3512,14 +3525,14 @@ namespace FoodandBeverage.Forms
             // dgv_part
             // 
             this.dgv_part.AllowUserToAddRows = false;
-            dataGridViewCellStyle366.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle366.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle366.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle366.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle366.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle366.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle366.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_part.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle366;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle46.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_part.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
             this.dgv_part.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_part.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.pslno,
@@ -3527,25 +3540,25 @@ namespace FoodandBeverage.Forms
             this.ppaymenttype,
             this.paction,
             this.Ppayid});
-            dataGridViewCellStyle368.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle368.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle368.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle368.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle368.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle368.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle368.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_part.DefaultCellStyle = dataGridViewCellStyle368;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle48.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle48.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_part.DefaultCellStyle = dataGridViewCellStyle48;
             this.dgv_part.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_part.Location = new System.Drawing.Point(3, 222);
             this.dgv_part.Name = "dgv_part";
-            dataGridViewCellStyle369.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle369.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle369.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle369.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle369.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle369.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle369.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_part.RowHeadersDefaultCellStyle = dataGridViewCellStyle369;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle49.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle49.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle49.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle49.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle49.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle49.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_part.RowHeadersDefaultCellStyle = dataGridViewCellStyle49;
             this.dgv_part.RowHeadersVisible = false;
             this.dgv_part.RowHeadersWidth = 42;
             this.dgv_part.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3568,8 +3581,8 @@ namespace FoodandBeverage.Forms
             // pamount
             // 
             this.pamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle367.NullValue = "0";
-            this.pamount.DefaultCellStyle = dataGridViewCellStyle367;
+            dataGridViewCellStyle47.NullValue = "0";
+            this.pamount.DefaultCellStyle = dataGridViewCellStyle47;
             this.pamount.HeaderText = "Amount";
             this.pamount.Name = "pamount";
             // 
@@ -3824,14 +3837,14 @@ namespace FoodandBeverage.Forms
             // dgv_split
             // 
             this.dgv_split.AllowUserToAddRows = false;
-            dataGridViewCellStyle370.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle370.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle370.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle370.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle370.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle370.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle370.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_split.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle370;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle50.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle50.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle50.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_split.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle50;
             this.dgv_split.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_split.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn33,
@@ -3846,25 +3859,25 @@ namespace FoodandBeverage.Forms
             this.OdAmount,
             this.PromoAmt,
             this.DiscountAmount});
-            dataGridViewCellStyle373.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle373.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle373.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle373.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle373.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle373.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle373.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_split.DefaultCellStyle = dataGridViewCellStyle373;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle53.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle53.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle53.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle53.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle53.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle53.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_split.DefaultCellStyle = dataGridViewCellStyle53;
             this.dgv_split.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_split.Location = new System.Drawing.Point(4, 253);
             this.dgv_split.Name = "dgv_split";
-            dataGridViewCellStyle374.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle374.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle374.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle374.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle374.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle374.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle374.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_split.RowHeadersDefaultCellStyle = dataGridViewCellStyle374;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle54.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle54.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle54.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle54.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle54.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle54.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_split.RowHeadersDefaultCellStyle = dataGridViewCellStyle54;
             this.dgv_split.RowHeadersVisible = false;
             this.dgv_split.RowHeadersWidth = 42;
             this.dgv_split.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3884,8 +3897,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn34
             // 
             this.dataGridViewTextBoxColumn34.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle371.NullValue = "0";
-            this.dataGridViewTextBoxColumn34.DefaultCellStyle = dataGridViewCellStyle371;
+            dataGridViewCellStyle51.NullValue = "0";
+            this.dataGridViewTextBoxColumn34.DefaultCellStyle = dataGridViewCellStyle51;
             this.dataGridViewTextBoxColumn34.HeaderText = "Amount";
             this.dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
             this.dataGridViewTextBoxColumn34.ReadOnly = true;
@@ -3893,10 +3906,10 @@ namespace FoodandBeverage.Forms
             // splitAction
             // 
             this.splitAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle372.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle372.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle372.NullValue")));
-            dataGridViewCellStyle372.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.splitAction.DefaultCellStyle = dataGridViewCellStyle372;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle52.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle52.NullValue")));
+            dataGridViewCellStyle52.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.splitAction.DefaultCellStyle = dataGridViewCellStyle52;
             this.splitAction.HeaderText = "Action";
             this.splitAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.splitAction.Name = "splitAction";
@@ -4139,7 +4152,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 557F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 558F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -4155,7 +4168,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(173, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(172, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(152, 26);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -4172,7 +4185,7 @@ namespace FoodandBeverage.Forms
             this.cmb_itemcategory_split.FormattingEnabled = true;
             this.cmb_itemcategory_split.Items.AddRange(new object[] {
             "None"});
-            this.cmb_itemcategory_split.Location = new System.Drawing.Point(35, 3);
+            this.cmb_itemcategory_split.Location = new System.Drawing.Point(34, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
             this.cmb_itemcategory_split.Size = new System.Drawing.Size(132, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
@@ -4356,14 +4369,14 @@ namespace FoodandBeverage.Forms
             this.dgv_combined.AllowUserToDeleteRows = false;
             this.dgv_combined.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgv_combined.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle375.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle375.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle375.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle375.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle375.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle375.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle375.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_combined.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle375;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle55.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle55.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle55.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle55.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle55.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_combined.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle55;
             this.dgv_combined.ColumnHeadersHeight = 40;
             this.dgv_combined.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn38,
@@ -4389,22 +4402,22 @@ namespace FoodandBeverage.Forms
             this.VatAmount,
             this.MarketPrice,
             this.comtabletype});
-            dataGridViewCellStyle392.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle392.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle392.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle392.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle392.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle392.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle392.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_combined.DefaultCellStyle = dataGridViewCellStyle392;
+            dataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle72.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle72.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle72.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle72.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle72.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle72.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_combined.DefaultCellStyle = dataGridViewCellStyle72;
             this.dgv_combined.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgv_combined.Location = new System.Drawing.Point(124, 303);
             this.dgv_combined.Name = "dgv_combined";
             this.dgv_combined.ReadOnly = true;
             this.dgv_combined.RowHeadersVisible = false;
             this.dgv_combined.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle393.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_combined.RowsDefaultCellStyle = dataGridViewCellStyle393;
+            dataGridViewCellStyle73.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_combined.RowsDefaultCellStyle = dataGridViewCellStyle73;
             this.dgv_combined.RowTemplate.Height = 30;
             this.dgv_combined.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_combined.Size = new System.Drawing.Size(786, 93);
@@ -4414,10 +4427,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn38
             // 
             this.dataGridViewTextBoxColumn38.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle376.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle376.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle376.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle376;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle56.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle56;
             this.dataGridViewTextBoxColumn38.HeaderText = "Barcode";
             this.dataGridViewTextBoxColumn38.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn38.Name = "dataGridViewTextBoxColumn38";
@@ -4427,10 +4440,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn40
             // 
             this.dataGridViewTextBoxColumn40.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle377.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle377.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle377.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn40.DefaultCellStyle = dataGridViewCellStyle377;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle57.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle57.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn40.DefaultCellStyle = dataGridViewCellStyle57;
             this.dataGridViewTextBoxColumn40.HeaderText = "Name";
             this.dataGridViewTextBoxColumn40.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn40.Name = "dataGridViewTextBoxColumn40";
@@ -4440,10 +4453,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn41
             // 
             this.dataGridViewTextBoxColumn41.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle378.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle378.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle378.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn41.DefaultCellStyle = dataGridViewCellStyle378;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle58.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle58.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn41.DefaultCellStyle = dataGridViewCellStyle58;
             this.dataGridViewTextBoxColumn41.HeaderText = "Unit";
             this.dataGridViewTextBoxColumn41.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn41.Name = "dataGridViewTextBoxColumn41";
@@ -4453,11 +4466,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn42
             // 
             this.dataGridViewTextBoxColumn42.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle379.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle379.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle379.Format = "N3";
-            dataGridViewCellStyle379.NullValue = null;
-            this.dataGridViewTextBoxColumn42.DefaultCellStyle = dataGridViewCellStyle379;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle59.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle59.Format = "N3";
+            dataGridViewCellStyle59.NullValue = null;
+            this.dataGridViewTextBoxColumn42.DefaultCellStyle = dataGridViewCellStyle59;
             this.dataGridViewTextBoxColumn42.HeaderText = "Qty";
             this.dataGridViewTextBoxColumn42.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn42.MinimumWidth = 6;
@@ -4468,11 +4481,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn45
             // 
             this.dataGridViewTextBoxColumn45.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle380.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle380.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle380.Format = "N2";
-            dataGridViewCellStyle380.NullValue = null;
-            this.dataGridViewTextBoxColumn45.DefaultCellStyle = dataGridViewCellStyle380;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle60.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle60.Format = "N2";
+            dataGridViewCellStyle60.NullValue = null;
+            this.dataGridViewTextBoxColumn45.DefaultCellStyle = dataGridViewCellStyle60;
             this.dataGridViewTextBoxColumn45.HeaderText = "Disc%";
             this.dataGridViewTextBoxColumn45.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn45.MinimumWidth = 6;
@@ -4483,11 +4496,11 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn46
             // 
             this.dataGridViewTextBoxColumn46.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle381.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle381.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle381.Format = "N2";
-            dataGridViewCellStyle381.NullValue = null;
-            this.dataGridViewTextBoxColumn46.DefaultCellStyle = dataGridViewCellStyle381;
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle61.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle61.Format = "N2";
+            dataGridViewCellStyle61.NullValue = null;
+            this.dataGridViewTextBoxColumn46.DefaultCellStyle = dataGridViewCellStyle61;
             this.dataGridViewTextBoxColumn46.HeaderText = "Disc.Amt";
             this.dataGridViewTextBoxColumn46.MaxInputLength = 6;
             this.dataGridViewTextBoxColumn46.MinimumWidth = 6;
@@ -4498,8 +4511,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn47
             // 
             this.dataGridViewTextBoxColumn47.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle382.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn47.DefaultCellStyle = dataGridViewCellStyle382;
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn47.DefaultCellStyle = dataGridViewCellStyle62;
             this.dataGridViewTextBoxColumn47.HeaderText = "Tax%";
             this.dataGridViewTextBoxColumn47.MaxInputLength = 3;
             this.dataGridViewTextBoxColumn47.Name = "dataGridViewTextBoxColumn47";
@@ -4509,8 +4522,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn48
             // 
             this.dataGridViewTextBoxColumn48.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle383.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn48.DefaultCellStyle = dataGridViewCellStyle383;
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn48.DefaultCellStyle = dataGridViewCellStyle63;
             this.dataGridViewTextBoxColumn48.HeaderText = "TaxAmt";
             this.dataGridViewTextBoxColumn48.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn48.Name = "dataGridViewTextBoxColumn48";
@@ -4520,12 +4533,12 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn44
             // 
             this.dataGridViewTextBoxColumn44.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle384.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle384.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle384.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle384.Format = "N2";
-            dataGridViewCellStyle384.NullValue = null;
-            this.dataGridViewTextBoxColumn44.DefaultCellStyle = dataGridViewCellStyle384;
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle64.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle64.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle64.Format = "N2";
+            dataGridViewCellStyle64.NullValue = null;
+            this.dataGridViewTextBoxColumn44.DefaultCellStyle = dataGridViewCellStyle64;
             this.dataGridViewTextBoxColumn44.HeaderText = "Amount";
             this.dataGridViewTextBoxColumn44.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn44.Name = "dataGridViewTextBoxColumn44";
@@ -4535,12 +4548,12 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn49
             // 
             this.dataGridViewTextBoxColumn49.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle385.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle385.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle385.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle385.Format = "N2";
-            dataGridViewCellStyle385.NullValue = null;
-            this.dataGridViewTextBoxColumn49.DefaultCellStyle = dataGridViewCellStyle385;
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle65.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle65.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle65.Format = "N2";
+            dataGridViewCellStyle65.NullValue = null;
+            this.dataGridViewTextBoxColumn49.DefaultCellStyle = dataGridViewCellStyle65;
             this.dataGridViewTextBoxColumn49.HeaderText = "Total";
             this.dataGridViewTextBoxColumn49.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn49.Name = "dataGridViewTextBoxColumn49";
@@ -4550,9 +4563,9 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn50
             // 
             this.dataGridViewTextBoxColumn50.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle386.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle386.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn50.DefaultCellStyle = dataGridViewCellStyle386;
+            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle66.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn50.DefaultCellStyle = dataGridViewCellStyle66;
             this.dataGridViewTextBoxColumn50.HeaderText = "itemid";
             this.dataGridViewTextBoxColumn50.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn50.Name = "dataGridViewTextBoxColumn50";
@@ -4570,8 +4583,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn51
             // 
             this.dataGridViewTextBoxColumn51.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle387.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn51.DefaultCellStyle = dataGridViewCellStyle387;
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn51.DefaultCellStyle = dataGridViewCellStyle67;
             this.dataGridViewTextBoxColumn51.HeaderText = "Tax";
             this.dataGridViewTextBoxColumn51.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn51.Name = "dataGridViewTextBoxColumn51";
@@ -4581,8 +4594,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn52
             // 
             this.dataGridViewTextBoxColumn52.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle388.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn52.DefaultCellStyle = dataGridViewCellStyle388;
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn52.DefaultCellStyle = dataGridViewCellStyle68;
             this.dataGridViewTextBoxColumn52.HeaderText = "TaxType";
             this.dataGridViewTextBoxColumn52.Name = "dataGridViewTextBoxColumn52";
             this.dataGridViewTextBoxColumn52.ReadOnly = true;
@@ -4592,8 +4605,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn53
             // 
             this.dataGridViewTextBoxColumn53.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle389.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn53.DefaultCellStyle = dataGridViewCellStyle389;
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn53.DefaultCellStyle = dataGridViewCellStyle69;
             this.dataGridViewTextBoxColumn53.HeaderText = "Srate";
             this.dataGridViewTextBoxColumn53.MaxInputLength = 5;
             this.dataGridViewTextBoxColumn53.MinimumWidth = 6;
@@ -4604,8 +4617,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn54
             // 
             this.dataGridViewTextBoxColumn54.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle390.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn54.DefaultCellStyle = dataGridViewCellStyle390;
+            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn54.DefaultCellStyle = dataGridViewCellStyle70;
             this.dataGridViewTextBoxColumn54.HeaderText = "MRP";
             this.dataGridViewTextBoxColumn54.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn54.Name = "dataGridViewTextBoxColumn54";
@@ -4615,8 +4628,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn39
             // 
             this.dataGridViewTextBoxColumn39.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle391.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn39.DefaultCellStyle = dataGridViewCellStyle391;
+            dataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn39.DefaultCellStyle = dataGridViewCellStyle71;
             this.dataGridViewTextBoxColumn39.HeaderText = "ProductType";
             this.dataGridViewTextBoxColumn39.Name = "dataGridViewTextBoxColumn39";
             this.dataGridViewTextBoxColumn39.ReadOnly = true;
@@ -4760,14 +4773,14 @@ namespace FoodandBeverage.Forms
             this.dgv_tableprice.AllowUserToDeleteRows = false;
             this.dgv_tableprice.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgv_tableprice.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle394.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle394.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle394.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle394.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle394.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle394.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle394.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_tableprice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle394;
+            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle74.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle74.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle74.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle74.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle74.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle74.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tableprice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle74;
             this.dgv_tableprice.ColumnHeadersHeight = 40;
             this.dgv_tableprice.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn37,
@@ -4778,14 +4791,14 @@ namespace FoodandBeverage.Forms
             this.bookdetailsid,
             this.bookinmasterid,
             this.tid});
-            dataGridViewCellStyle399.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle399.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle399.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle399.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle399.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle399.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle399.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_tableprice.DefaultCellStyle = dataGridViewCellStyle399;
+            dataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle79.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle79.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle79.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle79.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle79.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle79.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_tableprice.DefaultCellStyle = dataGridViewCellStyle79;
             this.dgv_tableprice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_tableprice.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgv_tableprice.Location = new System.Drawing.Point(3, 28);
@@ -4793,8 +4806,8 @@ namespace FoodandBeverage.Forms
             this.dgv_tableprice.ReadOnly = true;
             this.dgv_tableprice.RowHeadersVisible = false;
             this.dgv_tableprice.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle400.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_tableprice.RowsDefaultCellStyle = dataGridViewCellStyle400;
+            dataGridViewCellStyle80.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_tableprice.RowsDefaultCellStyle = dataGridViewCellStyle80;
             this.dgv_tableprice.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_tableprice.RowTemplate.Height = 30;
             this.dgv_tableprice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -4806,10 +4819,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn37
             // 
             this.dataGridViewTextBoxColumn37.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle395.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
-            dataGridViewCellStyle395.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle395.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn37.DefaultCellStyle = dataGridViewCellStyle395;
+            dataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle75.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle75.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn37.DefaultCellStyle = dataGridViewCellStyle75;
             this.dataGridViewTextBoxColumn37.HeaderText = "Sl.No";
             this.dataGridViewTextBoxColumn37.MaxInputLength = 100;
             this.dataGridViewTextBoxColumn37.MinimumWidth = 6;
@@ -4821,10 +4834,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn43
             // 
             this.dataGridViewTextBoxColumn43.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle396.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle396.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle396.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn43.DefaultCellStyle = dataGridViewCellStyle396;
+            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle76.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle76.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn43.DefaultCellStyle = dataGridViewCellStyle76;
             this.dataGridViewTextBoxColumn43.HeaderText = "Table Name";
             this.dataGridViewTextBoxColumn43.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn43.Name = "dataGridViewTextBoxColumn43";
@@ -4833,8 +4846,8 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn55
             // 
             this.dataGridViewTextBoxColumn55.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle397.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn55.DefaultCellStyle = dataGridViewCellStyle397;
+            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn55.DefaultCellStyle = dataGridViewCellStyle77;
             this.dataGridViewTextBoxColumn55.HeaderText = "Table Category";
             this.dataGridViewTextBoxColumn55.Name = "dataGridViewTextBoxColumn55";
             this.dataGridViewTextBoxColumn55.ReadOnly = true;
@@ -4844,10 +4857,10 @@ namespace FoodandBeverage.Forms
             // dataGridViewTextBoxColumn56
             // 
             this.dataGridViewTextBoxColumn56.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle398.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle398.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle398.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn56.DefaultCellStyle = dataGridViewCellStyle398;
+            dataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle78.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle78.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn56.DefaultCellStyle = dataGridViewCellStyle78;
             this.dataGridViewTextBoxColumn56.HeaderText = "Charges";
             this.dataGridViewTextBoxColumn56.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn56.Name = "dataGridViewTextBoxColumn56";
@@ -4899,19 +4912,6 @@ namespace FoodandBeverage.Forms
             this.btn_close_tableprice.TabIndex = 11;
             this.btn_close_tableprice.UseVisualStyleBackColor = false;
             this.btn_close_tableprice.Click += new System.EventHandler(this.btn_close_tableprice_Click);
-            // 
-            // btn_close_prod_des
-            // 
-            this.btn_close_prod_des.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change;
-            this.btn_close_prod_des.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_close_prod_des.FlatAppearance.BorderSize = 0;
-            this.btn_close_prod_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close_prod_des.Location = new System.Drawing.Point(273, 3);
-            this.btn_close_prod_des.Name = "btn_close_prod_des";
-            this.btn_close_prod_des.Size = new System.Drawing.Size(28, 28);
-            this.btn_close_prod_des.TabIndex = 1;
-            this.btn_close_prod_des.UseVisualStyleBackColor = true;
-            this.btn_close_prod_des.Click += new System.EventHandler(this.btn_close_prod_des_Click);
             // 
             // label33
             // 

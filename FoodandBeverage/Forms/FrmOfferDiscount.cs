@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
             int nHeightEllipse
         );
 
+
         #region Grid Declaration
         public static int comslno = 0;
         public static int cbarcodeno = 1;
