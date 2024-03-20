@@ -1092,7 +1092,6 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-
         #region PAYMENT DETAILED
         public void Fillpaymentdetailed()
         {
@@ -1149,12 +1148,12 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,SUM(netamount) AS Field2 from tblSalesMaster  where Status=1 " +
-                " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '2024-03-13') THEN 1 ELSE 0 END) AS Field1," +
-                " SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '2024-03-13') THEN netamount ELSE 0 END) AS Field2" +
+                dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 " +
+                " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END) AS Field1," +
+                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
                 " from tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid where om.BookmasterId = 0  and sm.Status = 1" +
-                " union select 3 Field3 ,  SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '2024-03-13') THEN 1 ELSE 0 END) AS Field1," +
-                " SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '2024-03-13') THEN netamount ELSE 0 END) AS Field2";
+                " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
+                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2";
                 dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
                 dmnSearch.WhereNdGroupBy = "where om.BookmasterId > 0 and sm.Status = 1 ";
                 dmnSearch.OrderBy = "";
@@ -1162,13 +1161,24 @@ namespace FoodandBeverage.Forms
                 if (gridSource.Count > 0)
                 {
                     ibsaletotal.Text = Convert.ToString(gridSource[0].Field1);//sale
-                    lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field2) + " Orders";
+                    if (Convert.ToDecimal(gridSource[0].Field2 )== 0)
+                        lbltotalsaleno.Text = "0 Orders";      
+                    else
+                        lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field2) + " Orders";
+
 
                     ibdinetotal.Text = Convert.ToString(gridSource[1].Field1);//dine
-                    lbldinetotalno.Text = Convert.ToString(gridSource[1].Field2) + " Orders";
+                    if (Convert.ToDecimal(gridSource[1].Field2) == 0)
+                        lbldinetotalno.Text = "0 Orders";
+                    else
+                        lbldinetotalno.Text = Convert.ToString(gridSource[1].Field2) + " Orders";
+
 
                     ibreservatiototal.Text = Convert.ToString(gridSource[2].Field1);//reservation
-                    lblresno.Text = Convert.ToString(gridSource[2].Field2) + " Orders";
+                    if (Convert.ToDecimal(gridSource[2].Field2) == 0)
+                        lblresno.Text = "0 Orders";
+                    else
+                        lblresno.Text = Convert.ToString(gridSource[2].Field2) + " Orders";
                 }
             }
             catch (Exception ex)
@@ -1802,7 +1812,7 @@ namespace FoodandBeverage.Forms
                 int columnIndex = 0;
                 BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
                 DmnGridFields dmnSearch = new DmnGridFields();
-                dmnSearch.StartDate = dtp_dashboard.Value;
+                dmnSearch.Field1 = dtp_dashboard.Value.ToString("yyyy-MM-dd");
                 var resultdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
                 if (tcslow_move.SelectedIndex == 0)
                 {
@@ -1935,6 +1945,7 @@ namespace FoodandBeverage.Forms
                         TextAlign = ContentAlignment.MiddleCenter,
                         BackColor = Color.FromArgb(159, 166, 178),
                     };
+
                     tlp_slowingitems.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
                     columnIndex++;
                     tlp_slowingitems.Controls.Add(totalamount_h, columnIndex, rowIndex);
@@ -1945,47 +1956,51 @@ namespace FoodandBeverage.Forms
 
                     for (int i = resultdata.Count - 1; i >= Math.Max(0, resultdata.Count - 10); i--)
                     {
-                        columnIndex = 0;
-                        Label fastmoveitem = new Label()
+                        if (Convert.ToDecimal( resultdata[i].Field3) <5)
                         {
-                            Text = resultdata[i].Field1,
-                            Name = "lbl_categoryname_" + resultdata[i].Field1,
-                            Dock = DockStyle.Top,
-                            ForeColor = Color.Black,
-                            Font = new Font("Arial", 12, FontStyle.Bold),
-                            TextAlign = ContentAlignment.MiddleLeft,
-                            BackColor = Color.AliceBlue,
-                        };
+                            columnIndex = 0;
+                            Label fastmoveitem = new Label()
+                            {
+                                Text = resultdata[i].Field1,
+                                Name = "lbl_categoryname_" + resultdata[i].Field1,
+                                Dock = DockStyle.Top,
+                                ForeColor = Color.Black,
+                                Font = new Font("Arial", 12, FontStyle.Bold),
+                                TextAlign = ContentAlignment.MiddleLeft,
+                                BackColor = Color.AliceBlue,
+                            };
 
-                        Label totalamount = new Label()
-                        {
-                            Text = resultdata[i].Field2,
-                            Name = "lbl_amount_" + resultdata[i].Field1,
-                            Dock = DockStyle.Top,
-                            ForeColor = Color.Black,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
-                            TextAlign = ContentAlignment.MiddleCenter,
-                            BackColor = Color.AliceBlue,
-                        };
-                        Label occuranceslow = new Label()
-                        {
-                            Text = resultdata[i].Field3,
-                            Name = "lbl_occuranceslow_" + resultdata[i].Field1,
-                            Dock = DockStyle.Top,
-                            ForeColor = Color.Black,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
-                            TextAlign = ContentAlignment.MiddleCenter,
-                            BackColor = Color.AliceBlue,
-                        };
+                            Label totalamount = new Label()
+                            {
+                                Text = resultdata[i].Field2,
+                                Name = "lbl_amount_" + resultdata[i].Field1,
+                                Dock = DockStyle.Top,
+                                ForeColor = Color.Black,
+                                Font = new Font("Arial", 10, FontStyle.Bold),
+                                TextAlign = ContentAlignment.MiddleCenter,
+                                BackColor = Color.AliceBlue,
+                            };
+                            Label occuranceslow = new Label()
+                            {
+                                Text = resultdata[i].Field3,
+                                Name = "lbl_occuranceslow_" + resultdata[i].Field1,
+                                Dock = DockStyle.Top,
+                                ForeColor = Color.Black,
+                                Font = new Font("Arial", 10, FontStyle.Bold),
+                                TextAlign = ContentAlignment.MiddleCenter,
+                                BackColor = Color.AliceBlue,
+                            };
 
-                        tlp_slowingitems.Controls.Add(fastmoveitem, columnIndex, rowIndex);
-                        columnIndex++;
-                        tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
-                        columnIndex++;
-                        tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
+                            tlp_slowingitems.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+                            columnIndex++;
+                            tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
+                            columnIndex++;
+                            tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
 
 
-                        rowIndex++;
+                            rowIndex++;
+                        }
+                      
                     }
                 }
             }

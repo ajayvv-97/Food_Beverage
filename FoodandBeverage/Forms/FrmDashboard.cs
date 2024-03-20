@@ -13,9 +13,6 @@ using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
-using CrystalDecisions.CrystalReports.Engine;
-using FastMember;
-using CrystalDecisions.Shared;
 
 namespace FoodandBeverage.Forms
 {
@@ -1347,7 +1344,7 @@ namespace FoodandBeverage.Forms
                 dmnReservation.CreatedBy = FrmDashboard.UserId;
                 dmnReservation.Status = 0;
                 dmnReservation.BranchId = 1030;
-                var InsertStatus = bllReservation.Reservation_Delete("prd_CheckexpireTableReservation", dmnReservation);
+                var InsertStatus = bllReservation.Reservation_expire_Delete("prd_CheckexpireTableReservation", dmnReservation);
                 if (InsertStatus.BookmasterId > 0)
                 {
 
@@ -1594,7 +1591,7 @@ namespace FoodandBeverage.Forms
                             dmnReservation.Status = 0;
                             dmnReservation.BranchId = 1030;
                             dmnReservation.Cancel_Type = Convert.ToInt32(Rev_Cancel_Type.Normalcancel);
-                            var InsertStatus = bllReservation.Reservation_Delete("prd_deleteReservation", dmnReservation);
+                            var InsertStatus = bllReservation.Reservation_Delete_dashboard("prd_deleteReservation", dmnReservation);
                             if (InsertStatus.BookmasterId > 0)
                             {
                                 CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);

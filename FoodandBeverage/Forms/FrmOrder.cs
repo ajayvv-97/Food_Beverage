@@ -6898,6 +6898,8 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Promo code has expired.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+            else
+                CMessageBox.Show("Promo code Invalid.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         }
         public void finaltotalqty()
