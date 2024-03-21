@@ -815,18 +815,18 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    if (string.IsNullOrWhiteSpace(txtmrp.Text))
-                        txtmrp.Text = "0";
-                    decimal discountAmnt = Convert.ToDecimal(txtDisPer.Text.Trim()) * Convert.ToDecimal(txtmrp.Text) / 100;
+                    if (string.IsNullOrWhiteSpace(txtprice.Text))
+                        txtprice.Text = "0";
+                    decimal discountAmnt = Convert.ToDecimal(txtDisPer.Text.Trim()) * Convert.ToDecimal(txtprice.Text) / 100;
                     txtDiscAmnt.Text = discountAmnt.ToString("N2");
                 }
             }
         }
         public void discountPer()
         {
-            if (txtDiscAmnt.Text != "" && txtmrp.Text != "" && Convert.ToDecimal(txtmrp.Text) != 0)
+            if (txtDiscAmnt.Text != "" && txtprice.Text != "" && Convert.ToDecimal(txtprice.Text) != 0)
             {
-                if (Convert.ToDecimal(txtDiscAmnt.Text) > Convert.ToDecimal(txtmrp.Text))
+                if (Convert.ToDecimal(txtDiscAmnt.Text) > Convert.ToDecimal(txtprice.Text))
                 {
                     MessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtDiscAmnt.Focus();

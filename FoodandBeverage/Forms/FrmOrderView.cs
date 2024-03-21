@@ -797,7 +797,6 @@ namespace FoodandBeverage.Forms
                     dgv_details_view.Rows[dgv_details_view_rowno].Cells[dnotesno].Value = txt_product_remove_des.Text;
                     pnl_products_rem_descr.Visible = false;
 
-
                     txt_product_remove_des.Text = "";
                     Filldetails(OrderMasterId);
                     if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
@@ -810,9 +809,7 @@ namespace FoodandBeverage.Forms
             catch(Exception ex)
             {
 
-            }
-
-       
+            }       
         }
 
         private void btn_cancel_product_des_Click(object sender, EventArgs e)

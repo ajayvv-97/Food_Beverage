@@ -354,7 +354,7 @@ namespace FoodandBeverage.Forms
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
                 {
-                    CMessageBox.Show("offer Already Exist Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("offer Already Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
                 return true;
@@ -404,6 +404,9 @@ namespace FoodandBeverage.Forms
                 dtp_from_time.Value = DateTime.Now;
                 dtp_to_time.Value = DateTime.Now;
 
+                dtp_to_date.Value = DateTime.Now;
+                dtp_from_date.Value = DateTime.Now;
+
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
                 foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
@@ -415,6 +418,7 @@ namespace FoodandBeverage.Forms
                 dgv_sele_cmb_products.Rows.Clear();
                 txtcombo_omid.Text = "";
                 btn_del_combo.Visible = false;
+                txttaxamt.Text = "";
 
                 #region tax fill reset
                 Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
@@ -2765,6 +2769,12 @@ public bool MandatoryCheck_Combo()
                 txtcmbo_offername.Focus();
                 return false;
             }
+            else if (dtp_to_date.Value==dtp_from_date.Value)
+            {
+                CMessageBox.Show("From' date cannot be the same as the 'To' date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtp_to_date.Focus();
+                return false;
+            }
             else if (cmbtax.Text == "")
             {
                 CMessageBox.Show("Please select Tax", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -3190,60 +3200,65 @@ public bool MandatoryCheck_Combo()
                 int rowindex = e.RowIndex;
                 if (Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dsaletypeno].Value) == 1)
                 {
-                    #region Check MultiplePrice
-                    BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "Top(1) pr.SRate Field3,i.DiscountPer Field2,i.Itemname Field1,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,i.TaxType Field6,i.Tax Field7,i.ItemId Field8,pr.Id Field9,i.TaxSettingsId Field10,i.ItemCode_UPC Field11";
-                    objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=i.TaxSettingsId";
-                    objSearch.WhereNdGroupBy = "where i.status = 1 and  pr.QOH > 0 and i.itemid=" + Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dproductidno].Value);
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
-                    if (gridSource.Count > 0)
+                    int pid = Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dproductidno].Value);
+                    int saletype = Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dsaletypeno].Value);
+                    if (checkOffer_product(pid, saletype))
                     {
-                        for (int i = 0; i < dgv_sigle_product.RowCount; i++)
+                        #region Check MultiplePrice
+                        BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch.Select = "Top(1) pr.SRate Field3,i.DiscountPer Field2,i.Itemname Field1,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,i.TaxType Field6,i.Tax Field7,i.ItemId Field8,pr.Id Field9,i.TaxSettingsId Field10,i.ItemCode_UPC Field11";
+                        objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=i.TaxSettingsId";
+                        objSearch.WhereNdGroupBy = "where i.status = 1 and  pr.QOH > 0 and i.itemid=" + Convert.ToInt32(dgv_product_list.Rows[e.RowIndex].Cells[dproductidno].Value);
+                        objSearch.OrderBy = "";
+                        var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (gridSource.Count > 0)
                         {
-                            if (Convert.ToInt32(dgv_sigle_product.Rows[i].Cells[sproductidno].Value) == Convert.ToInt32(gridSource[0].Field8) &&
-                               Convert.ToInt32(dgv_sigle_product.Rows[i].Cells[stabletypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))
+                            for (int i = 0; i < dgv_sigle_product.RowCount; i++)
                             {
-                                CMessageBox.Show("Item Already on Offer list", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return;
+                                if (Convert.ToInt32(dgv_sigle_product.Rows[i].Cells[sproductidno].Value) == Convert.ToInt32(gridSource[0].Field8) &&
+                                   Convert.ToInt32(dgv_sigle_product.Rows[i].Cells[stabletypeno].Value) == Convert.ToInt32(Tabletype.DirectSale))
+                                {
+                                    CMessageBox.Show("Item Already on Offer list", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    return;
+                                }
                             }
+
+                            tlp_product_list.Visible = false;
+                            int r = dgv_sigle_product.Rows.Count - 1;
+                            dgv_sigle_product.Rows[r].Cells[sslno].Value = r + 1;
+                            dgv_sigle_product.Rows[r].Cells[sbarcodeno].Value = gridSource[0].Field11;
+                            dgv_sigle_product.Rows[r].Cells[sproductno].Value = gridSource[0].Field1;
+                            dgv_sigle_product.Rows[r].Cells[srundisper].Value = gridSource[0].Field2;
+                            dgv_sigle_product.Rows[r].Cells[spriceno].Value = gridSource[0].Field3;
+                            if (Convert.ToString(gridSource[0].Field6) == "GST")
+                                dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[0].Field4;
+                            else
+                                dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[0].Field5;
+                            dgv_sigle_product.Rows[r].Cells[staxtypeno].Value = gridSource[0].Field6;
+                            dgv_sigle_product.Rows[r].Cells[staxno].Value = gridSource[0].Field7;
+                            dgv_sigle_product.Rows[r].Cells[sproductidno].Value = gridSource[0].Field8;
+                            dgv_sigle_product.Rows[r].Cells[spridno].Value = gridSource[0].Field9;
+                            dgv_sigle_product.Rows[r].Cells[staxsettingidno].Value = gridSource[0].Field10;
+                            dgv_sigle_product.Rows[r].Cells[sstatusno].Value = 1;
+                            dgv_sigle_product.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.DirectSale);
+                            cellCaulcation(r);
+
+
+                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[r].Cells[sactionno];
+                            cellcolumntype.Value = Properties.Resources.delete;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            dgv_sigle_product.Rows.Add();
+
+                            r = dgv_sigle_product.Rows.Count - 1;
+                            cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[r].Cells[sactionno];
+                            if (r % 2 == 0)
+                                cellcolumntype.Value = Properties.Resources.grid_unslect_color;
+                            else
+                                cellcolumntype.Value = Properties.Resources.grid_select;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                         }
-
-                        tlp_product_list.Visible = false;
-                        int r = dgv_sigle_product.Rows.Count - 1;
-                        dgv_sigle_product.Rows[r].Cells[sslno].Value = r + 1;
-                        dgv_sigle_product.Rows[r].Cells[sbarcodeno].Value = gridSource[0].Field11;
-                        dgv_sigle_product.Rows[r].Cells[sproductno].Value = gridSource[0].Field1; 
-                        dgv_sigle_product.Rows[r].Cells[srundisper].Value = gridSource[0].Field2;
-                        dgv_sigle_product.Rows[r].Cells[spriceno].Value = gridSource[0].Field3;
-                        if (Convert.ToString(gridSource[0].Field6) == "GST")
-                            dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[0].Field4;
-                        else
-                            dgv_sigle_product.Rows[r].Cells[staxperno].Value = gridSource[0].Field5;
-                        dgv_sigle_product.Rows[r].Cells[staxtypeno].Value = gridSource[0].Field6;
-                        dgv_sigle_product.Rows[r].Cells[staxno].Value = gridSource[0].Field7;
-                        dgv_sigle_product.Rows[r].Cells[sproductidno].Value = gridSource[0].Field8;
-                        dgv_sigle_product.Rows[r].Cells[spridno].Value = gridSource[0].Field9;
-                        dgv_sigle_product.Rows[r].Cells[staxsettingidno].Value = gridSource[0].Field10;
-                        dgv_sigle_product.Rows[r].Cells[sstatusno].Value = 1;
-                        dgv_sigle_product.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.DirectSale);
-                        cellCaulcation(r);
-
-
-                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[r].Cells[sactionno];
-                        cellcolumntype.Value = Properties.Resources.delete;
-                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                        dgv_sigle_product.Rows.Add();
-
-                        r = dgv_sigle_product.Rows.Count - 1;
-                        cellcolumntype = (DataGridViewImageCell)dgv_sigle_product.Rows[r].Cells[sactionno];
-                        if (r % 2 == 0)
-                            cellcolumntype.Value = Properties.Resources.grid_unslect_color;
-                        else
-                            cellcolumntype.Value = Properties.Resources.grid_select;
-                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
                     }
 
                     #endregion

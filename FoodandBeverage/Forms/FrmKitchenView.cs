@@ -133,6 +133,7 @@ namespace FoodandBeverage.Forms
 
             txtorderid_search.Text = "Order Id ....";
             txttablecode.Text = "Table Code....";
+            txt_product_remove_des.Text = "Reason type here .....";
             textb_shape();
             tlp_order_col.Dock = DockStyle.Fill;
             InitTimer();
@@ -783,13 +784,16 @@ namespace FoodandBeverage.Forms
         }
         private void dgv_product_details_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
+         try
+         {
            if (e.ColumnIndex == dactionno)
             {
-                DataGridView clickedDataGridView = sender as DataGridView;
-                if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
+                    refreshtimer.Stop();
+                    DataGridView clickedDataGridView = sender as DataGridView;
+                    if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
                 {
+                        txt_product_remove_des.Text = "Reason type here .....";
+                        txt_product_remove_des.ForeColor = Color.LightGray;
                     dgv_view_name = clickedDataGridView.Name;
                     dgv_view_rowno = e.RowIndex;
                     pnl_products_rem_descr.Visible = true;
@@ -800,7 +804,7 @@ namespace FoodandBeverage.Forms
                     pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
                     pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                     lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
-                    txt_product_remove_des.Focus();
+                    //txt_product_remove_des.Focus();
                 }
             }
             else if (e.ColumnIndex == dptypeno)
@@ -865,7 +869,7 @@ namespace FoodandBeverage.Forms
                 pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                 pbcancelfoodclciked = true;
                 lblheader_product_des.Text = "Order Cancel";
-                txt_product_remove_des.Focus();
+                //txt_product_remove_des.Focus();
             }
             catch (Exception ex)
             {
@@ -1051,8 +1055,8 @@ namespace FoodandBeverage.Forms
             if (txt_product_remove_des.Text == "Reason type here .....")
             {
                 txt_product_remove_des.Text = "";
-                txt_product_remove_des.ForeColor = Color.Black;
             }
+            txt_product_remove_des.ForeColor = Color.Black;
         }
 
         private void txt_product_remove_des_Leave(object sender, EventArgs e)
@@ -1060,18 +1064,23 @@ namespace FoodandBeverage.Forms
             if (txt_product_remove_des.Text == "")
             {
                 txt_product_remove_des.Text = "Reason type here .....";
-                txt_product_remove_des.ForeColor = Color.DarkGray;
+ 
             }
+            txt_product_remove_des.ForeColor = Color.DarkGray;
         }
 
         private void btn_cancel_product_des_Click(object sender, EventArgs e)
         {
             pnl_products_rem_descr.Visible = false;
+            txt_product_remove_des.Text = "Reason type here .....";
+            refreshtimer.Start();
         }
 
         private void btn_close_prod_des_Click(object sender, EventArgs e)
         {
             pnl_products_rem_descr.Visible = false;
+            txt_product_remove_des.Text = "Reason type here .....";
+            refreshtimer.Start();
         }
         public bool MandatoryCheck()
         {
@@ -1117,11 +1126,10 @@ namespace FoodandBeverage.Forms
                                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                                     dmnRemove_order.Status = 0;
                                     dmnRemove_order.OrderCancelNotes = txt_product_remove_des.Text;
-                                    var InsertStatusP = bll_order.Remove_order("prd_remove_KitchenOrder", dmnRemove_order);
+                                    var InsertStatusP = bll_order.Remove_order_ALL("prd_remove_KitchenOrder", dmnRemove_order);
                                 }
 
-                            }
-                   
+                            }                   
                             pbcancelfoodclciked = false;
                             pnl_products_rem_descr.Visible = false;
                             txt_product_remove_des.Text = "";
@@ -1134,7 +1142,8 @@ namespace FoodandBeverage.Forms
                                 tlp_sele.Dispose();
                             }
                         }
-         
+                        refreshtimer.Start();
+
                     }
                     else
                     {   

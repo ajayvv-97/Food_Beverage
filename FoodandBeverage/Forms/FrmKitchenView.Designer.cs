@@ -563,11 +563,11 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 489);
+            this.Controls.Add(this.pnl_products_rem_descr);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pnl_kitchenorderBill);
             this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_empty_msg);
-            this.Controls.Add(this.pnl_products_rem_descr);
             this.Controls.Add(this.tlp_main);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

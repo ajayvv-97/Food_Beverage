@@ -137,13 +137,29 @@ namespace BLL
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
         }
+        public DmnOrderMaster Remove_order_ALL(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("OrderCancelNotes", objTestClass.OrderCancelNotes);
+            parms.Add("Quantity", objTestClass.Quantity);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("koid", objTestClass.koid);
+            parms.Add("Tid", objTestClass.Tid);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
         public DmnOrderMaster Remove_order(string procedureName, DmnOrderMaster objTestClass)
         {
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
-            parms.Add("RemoveNotes", objTestClass.OrderCancelNotes);
+            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("Quantity", objTestClass.Quantity);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);

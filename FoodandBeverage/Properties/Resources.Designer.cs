@@ -1213,9 +1213,9 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap reserve_icon_overtime {
+        internal static System.Drawing.Bitmap reserve_icon {
             get {
-                object obj = ResourceManager.GetObject("reserve_icon_overtime", resourceCulture);
+                object obj = ResourceManager.GetObject("reserve_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1226,16 +1226,6 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap reserved {
             get {
                 object obj = ResourceManager.GetObject("reserved", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap reserved_icon {
-            get {
-                object obj = ResourceManager.GetObject("reserved_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
