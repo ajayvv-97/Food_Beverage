@@ -476,6 +476,9 @@ namespace FoodandBeverage.Forms
                 dtp_from_time_s.Value = DateTime.Now;
                 dtp_to_time_s.Value = DateTime.Now;
 
+                dtp_to_date_s.Value= DateTime.Now;
+                dtp_from_date_s.Value = DateTime.Now;
+
                 txtofferdes_s.Text = "";
                 txtofferdsiper_s.Text = "";
                 txtoffername_s.Text = "";
@@ -758,16 +761,30 @@ namespace FoodandBeverage.Forms
 
             if (string.IsNullOrEmpty(txtoffername_s.Text))
             {
-                CMessageBox.Show("Please Enter Offer Name", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please Enter Offer Name", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtoffername_s.Focus();
                 return false;
             }
-           else if (Convert.ToDecimal(txtofferdsiper_s.Text)==0)
+           
+            else if (dtp_from_date_s.Value.Date == dtp_to_date_s.Value.Date && dtp_to_time_s.Value.TimeOfDay == dtp_from_time_s.Value.TimeOfDay)
             {
-                CMessageBox.Show("Please Enter Discount %", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("From' date cannot be the same as the 'To' date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtp_to_date.Focus();
+                return false;
+            }
+            else if (dtp_from_date_s.Value > dtp_to_date_s.Value)
+            {
+                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
+                dtp_to_date_s.Focus();
+                return false;
+            }
+            else if (Convert.ToDecimal(txtofferdsiper_s.Text)==0)
+            {
+                CMessageBox.Show("Please Enter Discount %", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtofferdsiper_s.Focus();
                 return false;
             }
+            
 
             return true;
         }
@@ -822,13 +839,23 @@ namespace FoodandBeverage.Forms
                                 txtofferdsiper_s.Text = gridSource[0].Field19;
                                 txtofferdes_s.Text = gridSource[0].Field20;
 
-                                dtp_from_date_s.MinDate = gridSource[0].StartDate.Date;
+                                if (gridSource[0].StartDate >= DateTime.Now)
+                                    dtp_from_date_s.MinDate = DateTime.Now;
+                                else 
+                                    dtp_from_date_s.MinDate = gridSource[0].StartDate.Date;
+
+
+                                if (gridSource[0].EndDate >= DateTime.Now)
+                                    dtp_to_date_s.MinDate = DateTime.Now;
+                                else
+                                    dtp_to_date_s.MinDate = gridSource[0].EndDate.Date;
+
                                 // Set the "from" date and time
                                 dtp_from_date_s.Value = gridSource[0].StartDate.Date;
                                 dtp_from_time_s.Value = gridSource[0].StartDate;
 
                                 // Set the "to" date and time
-                                dtp_to_date_s.MinDate = gridSource[0].EndDate.Date; 
+                                dtp_to_date_s.Value = gridSource[0].EndDate.Date; 
                                 dtp_to_time_s.Value = gridSource[0].EndDate;
 
                                 dgv_sigle_product.Rows.Clear();
@@ -976,15 +1003,22 @@ namespace FoodandBeverage.Forms
                                 DateTime fromDateTime = itemSource[0].StartDate;
                                 DateTime toDateTime = itemSource[0].EndDate;
 
-                                dtp_from_date.MinDate = fromDateTime.Date;
-                                dtp_to_date.MinDate = toDateTime.Date;
+                                if (fromDateTime >= itemSource[0].StartDate)
+                                    dtp_from_date.MinDate = DateTime.Now;
+                                else
+                                    dtp_from_date.MinDate = fromDateTime.Date;
+
+                                if (itemSource[0].EndDate >= DateTime.Now)
+                                    dtp_to_date.MinDate = DateTime.Now;
+                                else
+                                    dtp_to_date.MinDate = itemSource[0].EndDate.Date;
 
                                 // Set the "from" date and time
-                                dtp_from_date.MinDate = fromDateTime.Date;
+                                dtp_from_date.Value = fromDateTime.Date;
                                 dtp_from_time.Value = fromDateTime;
 
                                 // Set the "to" date and time
-                                dtp_to_date.MinDate = toDateTime.Date;
+                                dtp_to_date.Value = toDateTime.Date;
                                 dtp_to_time.Value = toDateTime;
 
                                 cmbtaxtype.Text= itemSource[0].Field20;
@@ -2769,9 +2803,15 @@ public bool MandatoryCheck_Combo()
                 txtcmbo_offername.Focus();
                 return false;
             }
-            else if (dtp_to_date.Value==dtp_from_date.Value)
+            else if (dtp_to_date.Value==dtp_from_date.Value && dtp_to_date.Value.TimeOfDay == dtp_from_date.Value.TimeOfDay)
             {
                 CMessageBox.Show("From' date cannot be the same as the 'To' date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtp_to_date.Focus();
+                return false;
+            }
+            else if (dtp_from_date.Value > dtp_to_date.Value)
+            {
+                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
                 dtp_to_date.Focus();
                 return false;
             }
@@ -3091,20 +3131,20 @@ public bool MandatoryCheck_Combo()
 
         private void dtp_to_date_s_ValueChanged(object sender, EventArgs e)
         {
-            DateTime selectedDate = dtp_to_date_s.Value.Date;
-            DateTime currentDate = DateTime.Now.Date;
-            if (selectedDate < currentDate)
-            {
-                dtp_to_date_s.Value = currentDate;
-            }
+            //DateTime selectedDate = dtp_to_date_s.Value.Date;
+            //DateTime currentDate = DateTime.Now.Date;
+            //if (selectedDate < currentDate)
+            //{
+            //    dtp_to_date_s.Value = currentDate;
+            //}
 
-            DateTime fromDate = dtp_from_date_s.Value;
-            DateTime toDate = dtp_to_date_s.Value;
-            if (toDate < fromDate)
-            {
-                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
-                dtp_to_date_s.Value = fromDate;
-            }
+            //DateTime fromDate = dtp_from_date_s.Value;
+            //DateTime toDate = dtp_to_date_s.Value;
+            //if (toDate < fromDate)
+            //{
+            //    CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
+            //    dtp_to_date_s.Value = fromDate;
+            //}
         }
 
         private void dtp_from_time_s_ValueChanged(object sender, EventArgs e)
@@ -3147,20 +3187,20 @@ public bool MandatoryCheck_Combo()
 
         private void dtp_to_date_ValueChanged(object sender, EventArgs e)
         {
-            DateTime selectedDate = dtp_to_date.Value.Date;
-            DateTime currentDate = DateTime.Now.Date;
-            if (selectedDate < currentDate)
-            {
-                dtp_to_date.Value = currentDate;
-            }
+            //DateTime selectedDate = dtp_to_date.Value.Date;
+            //DateTime currentDate = DateTime.Now.Date;
+            //if (selectedDate < currentDate)
+            //{
+            //    dtp_to_date.Value = currentDate;
+            //}
 
-            DateTime fromDate = dtp_from_date.Value;
-            DateTime toDate = dtp_to_date.Value;
-            if (toDate < fromDate)
-            {
-                CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
-                dtp_to_date.Value = fromDate;
-            }
+            //DateTime fromDate = dtp_from_date.Value;
+            //DateTime toDate = dtp_to_date.Value;
+            //if (toDate < fromDate)
+            //{
+            //    CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
+            //    dtp_to_date.Value = fromDate;
+            //}
         }
 
         private void btn_grid_product_close_Click(object sender, EventArgs e)

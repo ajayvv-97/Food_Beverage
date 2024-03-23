@@ -9,7 +9,6 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
@@ -696,9 +695,16 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
+                //dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
+                //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
+                //    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
+                //dmnSearch.Table = " tblTable_info  ti " +
+                //    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
+                //dmnSearch.OrderBy = "";
+
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId and bm.Status = 1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid ) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId and bm.Status=1 where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid )  EndDate";
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
@@ -721,23 +727,22 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 bool flag = false;
-                
                 for (int j = 0; j < gridSource.Count; j++)
                 {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) // gridSource[j].Field7 bookinmasterid
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
                     {
-                        DateTime modifiedEndDate = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 &&DateTime.Now >afterAddMinutes)
+                        DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                        DateTime afterAddMinutes = gridSource[j].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0 )//&& DateTime.Now > afterAddMinutes
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
                         }
                     }
                 }
-
                 if (flag)
                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                 //else
                 //{
                 //    if (Convert.ToInt32(gridSource[0].Field9) < gridSource.Count)
@@ -957,8 +962,10 @@ namespace FoodandBeverage.Forms
                                         #region order not  sent to kitchen reservation or overtime 
                                         else //order not  sent to kitchen reservation or overtime 
                                         {
-                                            DateTime modifiedEndDate = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                                            if ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[i].EndDate.AddMinutes(AddMinutes)))
+                                            DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                                            DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
+
+                                            if (DateTime.Now>= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
                                             {
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserve_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -968,9 +975,8 @@ namespace FoodandBeverage.Forms
                                                 dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 dynamic_pic.Visible = true;
                                             }
-                                           else if (DateTime.Now > gridSource[i].EndDate.AddMinutes(AddMinutes))// set expired  icon
+                                            else if (Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
-                                                
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.expired_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 pictureBox.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
@@ -979,19 +985,31 @@ namespace FoodandBeverage.Forms
                                                 dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 dynamic_pic.Visible = true;
                                             }
-                                            else //reservation order time has not been yet and not expried
-                                            {
-                                                tlp_table_inner.AccessibleDescription = "0";
-                                                pictureBox.AccessibleDescription = "0";
-                                                lbltablename.AccessibleDescription = "0";
-                                                pnl_box.AccessibleDescription = "0";
-                                                dynamic_pic.AccessibleDescription = "0";
-                                                dynamic_pic.Visible = false;
-                                            }
+                                            //else //reservation order time has not been yet and not expried
+                                            //{
+                                            //    tlp_table_inner.AccessibleDescription = "0";
+                                            //    pictureBox.AccessibleDescription = "0";
+                                            //    lbltablename.AccessibleDescription = "0";
+                                            //    pnl_box.AccessibleDescription = "0";
+                                            //    dynamic_pic.AccessibleDescription = "0";
+                                            //    dynamic_pic.Visible = false;
+                                            //}
 
                                         }
                                         #endregion
 
+                                    }
+                                    else
+                                    {
+                                        if (dynamic_pic != null)
+                                            dynamic_pic.Visible = false;
+
+                                        tlp_table_inner.AccessibleDescription = "0";
+                                        pictureBox.AccessibleDescription = "0";
+                                        lbltablename.AccessibleDescription = "0";
+                                        pnl_box.AccessibleDescription = "0";
+                                        dynamic_pic.AccessibleDescription = "0";
+                                        dynamic_pic.Visible = false;
                                     }
                                 }
                                 #endregion
@@ -1027,8 +1045,8 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid and rid=0  order by bd.BookmasterId desc) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -3, BookingDateTime) and MTID = ti.tid and rid=0  order by bd.BookmasterId desc)  EndDate";
+                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, "+ -Convert.ToDecimal(FrmLogin.BookingInterwell)+ ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
@@ -1057,8 +1075,8 @@ namespace FoodandBeverage.Forms
                         if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
                         {
                             DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                            DateTime afterAddMinutes = gridSource[j].EndDate.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                            if (Convert.ToInt32(gridSource[j].Field7) > 0 && DateTime.Now > afterAddMinutes)
+                            DateTime afterAddMinutes = gridSource[j].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
+                            if (Convert.ToInt32(gridSource[j].Field7) > 0)//
                             {
                                 CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                                 flag = true;
@@ -1067,6 +1085,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (flag)
                         gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                     //else
                     //{
                     //    if (Convert.ToInt32(gridSource[0].Field9) < gridSource.Count)
@@ -1189,9 +1208,11 @@ namespace FoodandBeverage.Forms
                                         #region order not  sent to kitchen reservation or overtime 
                                         else //order not  sent to kitchen reservation or overtime 
                                         {
-                                            DateTime modifiedEndDate = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                                            if ((modifiedEndDate <= DateTime.Now) && (DateTime.Now <= gridSource[i].EndDate.AddMinutes(AddMinutes)))// set reserved icon
+                                            DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                                            DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
+                                            if (DateTime.Now >= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
                                             {
+
                                                 existingPictureBox.Width = 60;
                                                 existingPictureBox.Height = 35;
 
@@ -1206,8 +1227,9 @@ namespace FoodandBeverage.Forms
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             }
-                                            else if(DateTime.Now > gridSource[i].EndDate.AddMinutes(AddMinutes))// set expired  icon
+                                            else if(Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
+
                                                 existingPictureBox.Width = 60;
                                                 existingPictureBox.Height = 35;
                                                 existingPictureBox.Image = FoodandBeverage.Properties.Resources.expired_icon;
@@ -1222,32 +1244,43 @@ namespace FoodandBeverage.Forms
                                                 pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
 
                                             }
-                                            else //reservation order time not 
-                                            {
-                                                existingPictureBox.Width = 60;
-                                                existingPictureBox.Height = 35;
+                                            //else //reservation order time not 
+                                            //{
+                                            //    existingPictureBox.Width = 60;
+                                            //    existingPictureBox.Height = 35;
 
-                                                existingPictureBox.Visible = false;
-                                                existingPictureBox.Width = 60;
-                                                existingPictureBox.Height = 35;
+                                            //    existingPictureBox.Visible = false;
+                                            //    existingPictureBox.Width = 60;
+                                            //    existingPictureBox.Height = 35;
 
-                                                tlp_table_inner.AccessibleDescription = "0";
-                                                pictureBox.AccessibleDescription = "0";
-                                                lbltablename.AccessibleDescription = "0";
-                                                pnl_box.AccessibleDescription = "0";
-                                            }
+                                            //    tlp_table_inner.AccessibleDescription = "0";
+                                            //    pictureBox.AccessibleDescription = "0";
+                                            //    lbltablename.AccessibleDescription = "0";
+                                            //    pnl_box.AccessibleDescription = "0";
+                                            //}
                                         }
                                         #endregion
                                     }
-              
+                                    else
+                                    {
+                                        if (existingPictureBox != null)
+                                            existingPictureBox.Visible = false;
 
-
+                                        tlp_table_inner.AccessibleDescription = "0";
+                                        pictureBox.AccessibleDescription = "0";
+                                        lbltablename.AccessibleDescription = "0";
+                                        pnl_box.AccessibleDescription = "0";
+                                    }
                                 }
                                 #endregion
                                 else
                                 {
                                     if (existingPictureBox != null)
                                         existingPictureBox.Visible = false;
+                                    tlp_table_inner.AccessibleDescription = "0";
+                                    pictureBox.AccessibleDescription = "0";
+                                    lbltablename.AccessibleDescription = "0";
+                                    pnl_box.AccessibleDescription = "0";
                                 }
                             }
                             
@@ -2752,7 +2785,7 @@ PictureBox pic = sender as PictureBox;
                 //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
                 //button_type.BackgroundImageLayout = ImageLayout.Stretch;
                 button_type.FlatStyle = FlatStyle.Flat;
-                button_type.BackColor = menubuttoncolor;
+                button_type.BackColor = opbuttoncolor;
                 button_type.ForeColor = System.Drawing.Color.White;
                 button_type.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
                 if (screenWidth > 1367 && screenHeight > 769)
@@ -2780,7 +2813,7 @@ PictureBox pic = sender as PictureBox;
                 //button_message.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
                 //button_message.BackgroundImageLayout = ImageLayout.Stretch;
                 button_message.FlatStyle = FlatStyle.Flat;
-                button_message.BackColor = menubuttoncolor;
+                button_message.BackColor = opbuttoncolor;
                 button_message.ForeColor = System.Drawing.Color.White;
                 button_message.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
                 if (screenWidth > 1367 && screenHeight > 769)
@@ -4052,7 +4085,8 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 Menulogout.BackColor = menubuttoncolor;
                 Menusetting.BackColor = menubuttoncolor;
                 Menutable.BackColor = menubuttoncolor;
-            }
+                menuEmployee.BackColor = menubuttoncolor;
+                }
             }
             catch (Exception ex)
             {
@@ -4063,6 +4097,7 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
 
         private void pbopbuttoncoloepicker_Click_1(object sender, EventArgs e)
         {
+            
             try
             {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
@@ -4099,7 +4134,11 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
                 if (btnsetting != null)
                     btnsetting.BackColor = opbuttoncolor;
-            }
+
+                Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
+                    if (btnwhatsappsetting != null)
+                        btnwhatsappsetting.BackColor = opbuttoncolor;
+                }
             }
             catch (Exception ex)
             {
@@ -4117,55 +4156,63 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-            pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-            ib_Category.BackColor = opbuttoncolor;
-            ib_Item.BackColor = opbuttoncolor;
-            ib_ingrediant.BackColor = opbuttoncolor;
-            ib_menu.BackColor = opbuttoncolor;
-            ib_unit.BackColor = opbuttoncolor;
-            ib_table.BackColor = opbuttoncolor;
-            ib_purchase.BackColor = opbuttoncolor;
-            ib_purchasereturn.BackColor = opbuttoncolor;
-            ib_tax.BackColor = opbuttoncolor;
-            ib_vendor.BackColor = opbuttoncolor;
-            ib_Discount_offer.BackColor = opbuttoncolor;
-            ib_Expence.BackColor = opbuttoncolor;
-            ib_orderview.BackColor = opbuttoncolor;
-            ib_kitchenview.BackColor = opbuttoncolor;
-            ib_PromoCode.BackColor = opbuttoncolor;
-            ib_Company.BackColor = opbuttoncolor;
-            ib_useraccount.BackColor = opbuttoncolor;
-            ib_designation.BackColor = opbuttoncolor;
-            ib_department.BackColor = opbuttoncolor;
-            ib_employee.BackColor = opbuttoncolor;
-            ib_reservation.BackColor = opbuttoncolor;
-            ib_userpermission.BackColor = opbuttoncolor;
+                if(chkdef.Checked)
+                {
+                    opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                    pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                    ib_Category.BackColor = opbuttoncolor;
+                    ib_Item.BackColor = opbuttoncolor;
+                    ib_ingrediant.BackColor = opbuttoncolor;
+                    ib_menu.BackColor = opbuttoncolor;
+                    ib_unit.BackColor = opbuttoncolor;
+                    ib_table.BackColor = opbuttoncolor;
+                    ib_purchase.BackColor = opbuttoncolor;
+                    ib_purchasereturn.BackColor = opbuttoncolor;
+                    ib_tax.BackColor = opbuttoncolor;
+                    ib_vendor.BackColor = opbuttoncolor;
+                    ib_Discount_offer.BackColor = opbuttoncolor;
+                    ib_Expence.BackColor = opbuttoncolor;
+                    ib_orderview.BackColor = opbuttoncolor;
+                    ib_kitchenview.BackColor = opbuttoncolor;
+                    ib_PromoCode.BackColor = opbuttoncolor;
+                    ib_Company.BackColor = opbuttoncolor;
+                    ib_useraccount.BackColor = opbuttoncolor;
+                    ib_designation.BackColor = opbuttoncolor;
+                    ib_department.BackColor = opbuttoncolor;
+                    ib_employee.BackColor = opbuttoncolor;
+                    ib_reservation.BackColor = opbuttoncolor;
+                    ib_userpermission.BackColor = opbuttoncolor;
 
-            menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-            pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-            Menuhome.BackColor = menubuttoncolor;
-            Menuoperation.BackColor = menubuttoncolor;
-            Menubilling.BackColor = menubuttoncolor;
-            Menureport.BackColor = menubuttoncolor;
-            Menulogout.BackColor = menubuttoncolor;
-            Menusetting.BackColor = menubuttoncolor;
-            menuEmployee.BackColor = menubuttoncolor;
-            Menutable.BackColor = menubuttoncolor;
+                    menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                    pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+                    Menuhome.BackColor = menubuttoncolor;
+                    Menuoperation.BackColor = menubuttoncolor;
+                    Menubilling.BackColor = menubuttoncolor;
+                    Menureport.BackColor = menubuttoncolor;
+                    Menulogout.BackColor = menubuttoncolor;
+                    Menusetting.BackColor = menubuttoncolor;
+                    menuEmployee.BackColor = menubuttoncolor;
+                    Menutable.BackColor = menubuttoncolor;
 
-            tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-            pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
+                    tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                    pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
 
-            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
 
-            Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-            if (btnsetting != null)
-                btnsetting.BackColor = opbuttoncolor;
+                    Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                    if (btnsetting != null)
+                        btnsetting.BackColor = opbuttoncolor;
+
+                    Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
+                    if (btnwhatsappsetting != null)
+                        btnwhatsappsetting.BackColor = opbuttoncolor;
+                }
+
             }
             catch (Exception ex)
             {

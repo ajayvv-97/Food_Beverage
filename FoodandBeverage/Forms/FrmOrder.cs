@@ -2526,14 +2526,15 @@ namespace FoodandBeverage.Forms
                                 {
                                     if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
                                     {
-                                        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                                        decimal cqoh = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                        if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                                         {
                                             CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                             return;
                                         }
                                         else
                                         {
+                                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                                             string txtname = "txtqty_" + gridSource[0].Field4 + "_" + Convert.ToInt32(Tabletype.DirectSale);
                                             TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
                                             int cur_qty = Convert.ToInt32(qty.Text) + 1;
@@ -2768,16 +2769,16 @@ namespace FoodandBeverage.Forms
                     {
                         if (Convert.ToInt32(gridSource[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
                         {
-                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                            decimal cqoh = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                             {
                                 CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) - 1;
+                                //Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) - 1;
                                 txtitemcode_serach.Text = "";
                                 txtitemcode_serach.Focus();
                                 return;
                             }
-
+                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
                             rowno = i;
                             string txtname = "txtqty_" + clickedControl.AccessibleDescription + "_" + Convert.ToInt32(Tabletype.DirectSale);
@@ -3437,13 +3438,14 @@ namespace FoodandBeverage.Forms
                     {
                         if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 2)
                         {
-                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                            decimal cqoh = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                             {
                                 CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 return;
                             }
 
+                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             string txtname = "txtqty_" + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) + "_" + Convert.ToInt32(Tabletype.DirectSale);
                             TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
                             int cur_qty = Convert.ToInt32(qty.Text) + 1;
@@ -4318,8 +4320,8 @@ namespace FoodandBeverage.Forms
                     {
                         dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,ofd.Discountper Field4,ofd.ProductType Field5";
                         dmnSearch.Table = "tblProduct p " +
-                            "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId " +
-                            "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
+                            "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and ofd.status=1 " +
+                            "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.status=1 ";
                         dmnSearch.WhereNdGroupBy = " where p.Status=1 AND ofm.OfferType=0 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Omid =" + clickedControl.Tag;
                         dmnSearch.OrderBy = "";
                     }
@@ -4327,8 +4329,8 @@ namespace FoodandBeverage.Forms
                     {
                         dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,1 as Field3,ofd.Discountper Field4,ofd.ProductType Field5";
                         dmnSearch.Table = "tblItem i " +
-                            "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId " +
-                            "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid  ";
+                            "LEFT JOIN tblOfferDetails ofd on ofd.ProductId=i.ItemId and ofd.status=1" +
+                            "LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.status=1  ";
                         dmnSearch.WhereNdGroupBy = " where i.Status=1 AND ofm.OfferType=0 and i.Saletype=1 AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Omid =" + clickedControl.Tag;
                         dmnSearch.OrderBy = "";
                     }
@@ -7123,6 +7125,12 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.CreatedBy = FrmDashboard.UserId;
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 1;
+
+                        if(Booking_Status)
+                            dmnsalemaster.Rev_Status = 1;
+                        else
+                            dmnsalemaster.Rev_Status = 0;
+
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                         if (InsertStatusP.SalesMasterId != 0)
                         {
@@ -7291,6 +7299,12 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 0;
                         dmnsalemaster.BookmasterId = Bookingmasterid;
+
+                        if (Booking_Status)
+                            dmnsalemaster.Rev_Status = 1;
+                        else
+                            dmnsalemaster.Rev_Status = 0;
+
                         dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
                         dmnsalemaster.ReservationTotal = Convert.ToDecimal(txtreservationtotal.Text);
                         FinalTax();
@@ -7308,7 +7322,7 @@ namespace FoodandBeverage.Forms
                         int min = duration.Seconds;
                         dmnsalemaster.TimeDuration = min;
 
-                        var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
+                        var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
                         {

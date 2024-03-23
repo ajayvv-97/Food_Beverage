@@ -1987,8 +1987,9 @@ namespace FoodandBeverage.Forms
                     DmnOrderDetails dmnOrderDetails = new DmnOrderDetails();
                     DmnReservation dmnReservation = new DmnReservation();
 
-
                     string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
+                    dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
+
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
                     dmnReservation.Mobile = txtMob.Text;
@@ -2001,7 +2002,7 @@ namespace FoodandBeverage.Forms
                     dmnReservation.BookingType = Convert.ToString(cboBtype.SelectedValue);
                     dmnReservation.NoOfPeople = txtNOP.Text;
                     dmnReservation.BranchId = 1030;
-                    dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
+
                     dmnReservation.ReservationTotal = Convert.ToDecimal(lblSTotal.Text);
                     dmnReservation.MenuTotal = Convert.ToDecimal(lblMTotal.Text);
                     dmnReservation.GrandTotal = Convert.ToDecimal(lblGTotal.Text);
@@ -2038,7 +2039,6 @@ namespace FoodandBeverage.Forms
                         }
 
                     }
-
                     dmnReservation.AdvancePay = Convert.ToDecimal(txtadvpa.Text);
                     dmnReservation.CashRev = Convert.ToDecimal(rcvamt.Text);
                     dmnReservation.BalnceAmt = Convert.ToDecimal(lblBalAmt.Text);

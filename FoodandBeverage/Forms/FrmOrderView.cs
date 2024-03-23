@@ -148,6 +148,7 @@ namespace FoodandBeverage.Forms
                 txt_product_remove_des.Text = "Reason type here .....";
                 GetDataorders(4);
                 FillOrders();
+                lblorderheading.Text = "Pending Orders";
             }
             catch (Exception ex)
             {
@@ -159,7 +160,7 @@ namespace FoodandBeverage.Forms
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             DmnSearch dmnSearch = new DmnSearch();
             dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8";
+                "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
             dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
 
             if (typeno == 4)
@@ -253,7 +254,7 @@ namespace FoodandBeverage.Forms
 
                             dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                             dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
-                            dgvorderview.Rows[rowIndex].Cells[descno].Value = "";
+                            dgvorderview.Rows[rowIndex].Cells[descno].Value = gridSource[i].Field9;
                             dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field6;      
 
                             // Set the image for the "statusno" column
@@ -291,6 +292,7 @@ namespace FoodandBeverage.Forms
                         pnl_empty_msg.Visible = false;
                         tlp_next_prev.Visible = true;
                         pnl_details_view.Visible = false;
+
                         #region old code
                         TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
                         //float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
@@ -842,7 +844,8 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_detaislview_Click(object sender, EventArgs e)
         {
-            if(dgv_details_view.Visible)
+            lblorderheading.Text = "Pending Orders";
+            if (dgv_details_view.Visible)
                 Filldetails(OrderMasterId);
             else
             {
@@ -855,18 +858,21 @@ namespace FoodandBeverage.Forms
 
         private void btn_complete_order_Click(object sender, EventArgs e)
         {
+            lblorderheading.Text = "Sucessfull Orders";
             GetDataorders(Convert.ToInt32(Food_Status.Complete));
             FillOrders();
         }
 
         private void btn_Pending_order_Click(object sender, EventArgs e)
         {
+            lblorderheading.Text = "Pending Orders";
             GetDataorders(Convert.ToInt32(Food_Status.Pending));
             FillOrders();
         }
 
         private void btn_cancel_order_Click(object sender, EventArgs e)
         {
+            lblorderheading.Text = "Cancelled Orders";
             GetDataorders(Convert.ToInt32(Food_Status.Cancel));
             FillOrders();
         }

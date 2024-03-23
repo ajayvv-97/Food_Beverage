@@ -55,7 +55,8 @@ namespace BLL
             parms.Add("Email", objTestClass.Email);
             parms.Add("Gender", objTestClass.Gender);
             parms.Add("TimeDuration", objTestClass.TimeDuration);
-            
+            parms.Add("Rev_Status", objTestClass.Rev_Status);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }

@@ -99,6 +99,8 @@ namespace Domain
         public decimal ReservationTotal { get; set; }
         public int Gender { get; set; }
         public int TimeDuration { get; set; }
+        public int Rev_Status { get; set; }
+        
 
     }
 }

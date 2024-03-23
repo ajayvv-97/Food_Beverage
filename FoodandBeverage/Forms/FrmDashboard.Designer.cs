@@ -394,7 +394,7 @@ namespace FoodandBeverage.Forms
             this.Menutable.Text = "Table";
             this.Menutable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Menutable.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.Menutable, "Logout");
+            this.toolTip1.SetToolTip(this.Menutable, "Table");
             this.Menutable.UseVisualStyleBackColor = false;
             this.Menutable.Click += new System.EventHandler(this.Menutable_Click);
             // 
@@ -520,7 +520,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 262F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 266F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -541,7 +541,7 @@ namespace FoodandBeverage.Forms
             this.btntrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntrefresh.Location = new System.Drawing.Point(3, 3);
             this.btntrefresh.Name = "btntrefresh";
-            this.btntrefresh.Size = new System.Drawing.Size(52, 42);
+            this.btntrefresh.Size = new System.Drawing.Size(50, 42);
             this.btntrefresh.TabIndex = 3;
             this.toolTip1.SetToolTip(this.btntrefresh, "Refresh Dashboard");
             this.btntrefresh.UseVisualStyleBackColor = true;
@@ -553,7 +553,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(61, 3);
+            this.btn_avial.Location = new System.Drawing.Point(59, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(52, 42);
             this.btn_avial.TabIndex = 0;
@@ -567,7 +567,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(177, 3);
+            this.btn_rev.Location = new System.Drawing.Point(172, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -581,9 +581,9 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(122, 3);
+            this.btn_running.Location = new System.Drawing.Point(119, 3);
             this.btn_running.Name = "btn_running";
-            this.btn_running.Size = new System.Drawing.Size(49, 42);
+            this.btn_running.Size = new System.Drawing.Size(47, 42);
             this.btn_running.TabIndex = 2;
             this.toolTip1.SetToolTip(this.btn_running, "currently Running Table");
             this.btn_running.UseVisualStyleBackColor = true;
@@ -1079,7 +1079,7 @@ namespace FoodandBeverage.Forms
             this.pnlappcolor.Controls.Add(this.chkentercolor);
             this.pnlappcolor.Controls.Add(this.pbappcoloepicker);
             this.pnlappcolor.Controls.Add(this.lblappcolor);
-            this.pnlappcolor.Location = new System.Drawing.Point(250, 52);
+            this.pnlappcolor.Location = new System.Drawing.Point(250, 267);
             this.pnlappcolor.Name = "pnlappcolor";
             this.pnlappcolor.Size = new System.Drawing.Size(421, 351);
             this.pnlappcolor.TabIndex = 0;
@@ -1320,7 +1320,7 @@ namespace FoodandBeverage.Forms
             this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
             this.ib_employee.Name = "ib_employee";
             this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_employee.Size = new System.Drawing.Size(104, 24);
+            this.ib_employee.Size = new System.Drawing.Size(91, 24);
             this.ib_employee.TabIndex = 18;
             this.ib_employee.Tag = "Employee";
             this.ib_employee.Text = "Employee";
@@ -1344,11 +1344,11 @@ namespace FoodandBeverage.Forms
             this.ib_department.IconColor = System.Drawing.Color.White;
             this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ib_department.IconSize = 30;
-            this.ib_department.Location = new System.Drawing.Point(194, 10);
+            this.ib_department.Location = new System.Drawing.Point(181, 10);
             this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
             this.ib_department.Name = "ib_department";
             this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_department.Size = new System.Drawing.Size(104, 24);
+            this.ib_department.Size = new System.Drawing.Size(91, 24);
             this.ib_department.TabIndex = 19;
             this.ib_department.Tag = "Department";
             this.ib_department.Text = "Department";
@@ -1376,7 +1376,7 @@ namespace FoodandBeverage.Forms
             this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
             this.ib_designation.Name = "ib_designation";
             this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_designation.Size = new System.Drawing.Size(104, 24);
+            this.ib_designation.Size = new System.Drawing.Size(91, 24);
             this.ib_designation.TabIndex = 20;
             this.ib_designation.Tag = "Designation ";
             this.ib_designation.Text = "Designation ";
@@ -1400,11 +1400,11 @@ namespace FoodandBeverage.Forms
             this.ib_useraccount.IconColor = System.Drawing.Color.White;
             this.ib_useraccount.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ib_useraccount.IconSize = 30;
-            this.ib_useraccount.Location = new System.Drawing.Point(358, 10);
+            this.ib_useraccount.Location = new System.Drawing.Point(332, 10);
             this.ib_useraccount.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
             this.ib_useraccount.Name = "ib_useraccount";
             this.ib_useraccount.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_useraccount.Size = new System.Drawing.Size(106, 24);
+            this.ib_useraccount.Size = new System.Drawing.Size(92, 24);
             this.ib_useraccount.TabIndex = 21;
             this.ib_useraccount.Tag = "User Account";
             this.ib_useraccount.Text = "User Account";
@@ -1428,11 +1428,11 @@ namespace FoodandBeverage.Forms
             this.ib_userpermission.IconColor = System.Drawing.Color.White;
             this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ib_userpermission.IconSize = 30;
-            this.ib_userpermission.Location = new System.Drawing.Point(194, 54);
+            this.ib_userpermission.Location = new System.Drawing.Point(181, 54);
             this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
             this.ib_userpermission.Name = "ib_userpermission";
             this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_userpermission.Size = new System.Drawing.Size(104, 24);
+            this.ib_userpermission.Size = new System.Drawing.Size(91, 24);
             this.ib_userpermission.TabIndex = 22;
             this.ib_userpermission.Tag = "User Permission";
             this.ib_userpermission.Text = "User Permission";
@@ -2367,7 +2367,7 @@ namespace FoodandBeverage.Forms
             this.tlp_empl_menu.Controls.Add(this.ib_department, 1, 0);
             this.tlp_empl_menu.Controls.Add(this.ib_useraccount, 2, 0);
             this.tlp_empl_menu.Controls.Add(this.ib_employee, 0, 0);
-            this.tlp_empl_menu.Location = new System.Drawing.Point(501, 163);
+            this.tlp_empl_menu.Location = new System.Drawing.Point(541, 162);
             this.tlp_empl_menu.Name = "tlp_empl_menu";
             this.tlp_empl_menu.RowCount = 6;
             this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
@@ -2376,7 +2376,7 @@ namespace FoodandBeverage.Forms
             this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.Size = new System.Drawing.Size(494, 267);
+            this.tlp_empl_menu.Size = new System.Drawing.Size(454, 268);
             this.tlp_empl_menu.TabIndex = 23;
             this.tlp_empl_menu.Visible = false;
             // 
@@ -2385,11 +2385,11 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 748);
+            this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.tlp_empl_menu);
             this.Controls.Add(this.tlp_op_menu);
             this.Controls.Add(this.pnl_empty_msg);
             this.Controls.Add(this.pnl_complebill_prevbill);
-            this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.panl_msgsettings);
             this.Controls.Add(this.pnl_previous_bill);
             this.Controls.Add(this.pnl_split);

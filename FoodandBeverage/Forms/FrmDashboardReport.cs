@@ -1151,11 +1151,11 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 " +
                 " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END) AS Field1," +
                 " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
-                " from tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid where om.BookmasterId = 0  and sm.Status = 1" +
+                " from tblSalesMaster sm where sm.Rev_Status=0 and sm.Status = 1" +
                 " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
                 " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2";
                 dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
-                dmnSearch.WhereNdGroupBy = "where om.BookmasterId > 0 and sm.Status = 1 ";
+                dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
@@ -1207,7 +1207,7 @@ namespace FoodandBeverage.Forms
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 12 AND 16 THEN 1 END) AS Field10," +
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 16 AND 20 THEN 1 END) AS Field11," +
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 20 AND 24 THEN 1 END) AS Field12" +
-                    " FROM tblSalesMaster WHERE Status = 1 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') union " +
+                    " FROM tblSalesMaster WHERE Status = 1 and Rev_Status=0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') union " +
                     "select  1 as Field13,SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 00 AND 4 THEN netamount ELSE 0 END) AS Field1," +
                                     "SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 4 AND 8 THEN netamount ELSE 0 END) AS Field2," +
                                     "SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 8 AND 12 THEN netamount ELSE 0 END) AS Field3," +
@@ -1220,8 +1220,8 @@ namespace FoodandBeverage.Forms
                                     "COUNT(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 12 AND 16 THEN 1 END) AS Field10," +
                                     "COUNT(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 16 AND 20 THEN 1 END) AS Field11," +
                                     "COUNT(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 20 AND 24 THEN 1 END) AS Field12";
-                dmnSearch.Table = "tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId =sm.OrderMasterid ";
-                dmnSearch.WhereNdGroupBy = " where om.BookmasterId > 0 and sm.Status=1 AND CONVERT(DATE, sm.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') ";
+                dmnSearch.Table = "tblSalesMaster sm  ";
+                dmnSearch.WhereNdGroupBy = " where sm.Rev_Status=1 AND sm.Status=1 AND CONVERT(DATE, sm.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
