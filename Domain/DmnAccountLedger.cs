@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnAccountLedger : DmnItem
+    public class DmnAccountLedger
     {
         public long LedgerId { get; set; }
         public string LedgerCode { get; set; }
@@ -19,6 +19,7 @@ namespace Domain
         public string EmailId { get; set; }
         public string Remarks { get; set; }
         public decimal DiscountPer { get; set; }
+        public decimal DiscountAmt { get; set; }
         public int CreditDays { get; set; }
         public decimal CreditLimit { get; set; }
         public long BranchId { get; set; }
@@ -38,23 +39,14 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public string Photo { get; set; }
-        public decimal loypoints { get; set; }
-        public decimal redimpoints { get; set; }
-        public decimal loycash { get; set; }
-        public decimal Total_loypoints { get; set; }
-        public int cardstatus { get; set; }
         public int cardtype { get; set; }
-
-        public DateTime vfrom { get; set; }
-
-        public DateTime vto { get; set; }
-
-        public DateTime dob { get; set; }
-
-        public int age { get; set; }
-
-        public int gender { get; set; }
-        public int MemberShip { get; set; }
+        public decimal CardBalance { get; set; }
+        public int MembId { get; set; }
+        public int Gender { get; set; }
+        public string MemberShip { get; set; }
+        public decimal CashBonusBalance { get; set; }
+        public decimal TokenBalance { get; set; }
+        public decimal PointBalance { get; set; }
 
 
 

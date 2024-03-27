@@ -1533,6 +1533,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap wifi_card_payment_ {
+            get {
+                object obj = ResourceManager.GetObject("wifi_card_payment_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap withdraw {
             get {
                 object obj = ResourceManager.GetObject("withdraw", resourceCulture);

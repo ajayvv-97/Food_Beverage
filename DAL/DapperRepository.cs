@@ -193,10 +193,38 @@ namespace DAL
         public List<T> SelectQuery(string sp, DynamicParameters param)
         {
             List<T> lstResult = null;
-
+           
             using (IDbConnection connection = OpenConnection())
             {
                 lstResult = connection.Query<T>(sp, param, commandType: CommandType.StoredProcedure).ToList();
+            }
+
+            return lstResult;
+        }
+        #endregion SelectQuery
+
+        #region SelectQuery_CardAccount Fetch
+        /// <summary>
+        /// SelectQuery
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+
+        public List<T>SelectQuery_CardAcc(string sp, DynamicParameters param)
+        {
+            List<T> lstResult = null;
+            string connectionString = "Data Source=192.168.0.40;Initial Catalog=mPOS_DBNew;Persist Security Info=True;User ID=sa;Password=,rhsm098";
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    lstResult = connection.Query<T>(sp, param, commandType: CommandType.StoredProcedure).ToList();
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
             return lstResult;

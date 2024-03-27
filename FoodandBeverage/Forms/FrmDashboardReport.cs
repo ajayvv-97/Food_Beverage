@@ -40,7 +40,7 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> searchData_Activereservation = new List<DmnGridFields>();
         private List<DmnGridFields> searchData_ActivePromotion_offer = new List<DmnGridFields>();
         private List<DmnGridFields> searchData_ActivePromotion_combo = new List<DmnGridFields>();
-        int pageSize = 1;
+        int pageSize = 5;
 
 
         Color baseColor = Color.DarkGray; 

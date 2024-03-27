@@ -56,8 +56,10 @@ namespace BLL
             parms.Add("Gender", objTestClass.Gender);
             parms.Add("TimeDuration", objTestClass.TimeDuration);
             parms.Add("Rev_Status", objTestClass.Rev_Status);
+            parms.Add("ICardNo", objTestClass.ICardNo); 
+            parms.Add("CBalance", objTestClass.CBalance); 
 
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }
 

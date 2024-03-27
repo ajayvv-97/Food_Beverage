@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Classes;
+using System.Text;
 
 namespace FoodandBeverage.Forms
 {
@@ -23,6 +24,7 @@ namespace FoodandBeverage.Forms
         public int tableId = 0;
         public int Bookingmasterid = 0;
         public int BookingType = 0;
+        ClsDocument clsDocument = new ClsDocument();
         ClsGeneral ClsGeneral = new ClsGeneral();
         public FrmOrder(int tid, int booktype, int bmasterid, List<FrmDashboard.Namelist> checkedtableNames)
         {
@@ -176,6 +178,8 @@ namespace FoodandBeverage.Forms
         public DateTime OrderDateTime;
 
         public bool bookinorder_F = false;//chcek frist order from reservation page
+
+        string reading_RFID = "";
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -7042,6 +7046,8 @@ namespace FoodandBeverage.Forms
                         txtdiscountamt_promo.Text = "0";
                     if (string.IsNullOrEmpty(lblorderid.Text))
                         lblorderid.Text = "0";
+                    if (string.IsNullOrEmpty(txt_cardbalance.Text))
+                        txt_cardbalance.Text = "0";
                     if (checkedtableNames.Count > 0)
                     {
                         #region CoBined  Save Salemaster And Saledetails
@@ -7130,6 +7136,9 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.Rev_Status = 1;
                         else
                             dmnsalemaster.Rev_Status = 0;
+
+                        dmnsalemaster.ICardNo = reading_RFID;
+                        dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);                        
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                         if (InsertStatusP.SalesMasterId != 0)
@@ -7321,6 +7330,8 @@ namespace FoodandBeverage.Forms
                         var duration = DateTime.Now - OrderDateTime;
                         int min = duration.Seconds;
                         dmnsalemaster.TimeDuration = min;
+                        dmnsalemaster.ICardNo = reading_RFID;
+                        dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
                         #region details
@@ -7589,7 +7600,14 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         break;
                     case "btnothers":
-                        payid = Convert.ToInt32(PaymentType.OTHERS);
+                         panelWidthPercentage = 25;
+                         panelheightPercentage = 20;
+                         panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                         panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                        pnlwifi.Size = new Size(panelWidth, panelHeight);
+                        pnlwifi.Location = new Point(this.ClientSize.Width / 2 - pnlwifi.Size.Width / 2, this.ClientSize.Height / 2 - pnlwifi.Size.Height / 2);
+                        pnlwifi.Visible = true;
+                        wificard_timer.Start();
                         break;
                     case "Btnpartpayment":
                         payid = Convert.ToInt32(PaymentType.PART);
@@ -7639,7 +7657,7 @@ namespace FoodandBeverage.Forms
                         break;
                 }
                 flp_payment_option.Visible = false;
-                if (clickedButton.Name != "Btnpartpayment")
+                if (clickedButton.Name != "Btnpartpayment" && clickedButton.Name != "btnothers")
                     paybillcal(payid);
             }
             catch (Exception ex)
@@ -9164,6 +9182,133 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+
+        private void btn_cardacc_close_Click(object sender, EventArgs e)
+        {
+            pnl_cardAcoount.Visible = false;
+            tlp_tableorder.Enabled = true;
+        }
+
+        private void btn_card_paynow_Click(object sender, EventArgs e)
+        {
+            paybillcal(Convert.ToInt32(PaymentType.OTHERS));
+        }
+
+        private void btnwificancel_Click(object sender, EventArgs e)
+        {
+            tlp_tableorder.Enabled = true;
+            pnlwifi.Visible = false;
+        }
+
+        private void wificard_timer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                 reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
+                if (reading_RFID != "Card not in contact")
+                {
+                    wificard_timer.Stop();
+                    if (reading_RFID == "" || reading_RFID == "empty" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication")
+                        reading_RFID = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
+                    reading_RFID = RemoveSpecialCharacters(reading_RFID.Trim());
+                    if (reading_RFID == "" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication" || reading_RFID == "Cardnotincontact")
+                    {
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        BllSearch<DmnAccountLedger> bllSearch = new BllSearch<DmnAccountLedger>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "*";
+                        dmnSearch.Table = " mPOS_DBNew.dbo.tblAccountLedger";
+                        dmnSearch.WhereNdGroupBy = "Where ICardNo = '" + reading_RFID + "'";
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData_CardAcc("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            lbl_card_netamount.Text = txtnetamount.Text;
+                            txt_cardbalance.Text = Convert.ToString(gridSource[0].CardBalance);
+                            txt_cardaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
+                            txtcardemail.Text = Convert.ToString(gridSource[0].EmailId);
+                            txt_cardph.Text = Convert.ToString(gridSource[0].Mobile);
+                            txt_cardaccname.Text = Convert.ToString(gridSource[0].LedgerName);
+
+                            string modified_cardno = "XXXX XX" + reading_RFID.Substring(reading_RFID.Length - 6, 6);
+                            txt_cardno.Text = Convert.ToString(modified_cardno);
+
+                            if (Convert.ToInt32(gridSource[0].Gender) == 1)
+                                lbl_cardgender.Text = "Male";
+                            else if (Convert.ToInt32(gridSource[0].Gender) == 2)
+                                lbl_cardgender.Text = "Female";
+                            else 
+                                lbl_cardgender.Text = "Others";
+
+                            int LedgerId = Convert.ToInt32(gridSource[0].Gender);
+                            bool imageExist = clsDocument.FileExistOrNot(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                            pb_cardprofile.Image = null;
+                            if (imageExist)
+                            {
+                                pb_cardprofile.Image = null;
+                                pb_cardprofile.BackgroundImage = clsDocument.DownloadImage(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                                pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
+                            }
+                            else
+                            {
+                                if (Convert.ToInt32(gridSource[0].Gender) == 1)
+                                    pb_cardprofile.BackgroundImage=Properties.Resources.Profilepicmale;
+                                else if (Convert.ToInt32(gridSource[0].Gender) == 2)
+                                    pb_cardprofile.BackgroundImage = Properties.Resources.Profilepicfemale;
+                                else
+                                    pb_cardprofile.BackgroundImage = Properties.Resources.user_add_edit;
+
+                                pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
+                            }
+
+                            if (Convert.ToDecimal(gridSource[0].CardBalance) < Convert.ToDecimal(txtnetamount.Text))
+                            {
+                                lbl_insff_cashbal.Visible = true;
+                                btn_card_paynow.Visible = false;
+                            }
+                            else
+                            {
+                                lbl_insff_cashbal.Visible = false;
+                                btn_card_paynow.Visible = true;                                
+                            }
+                            int panelWidthPercentage = 70;
+                            int panelheightPercentage = 50;
+                            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                            pnl_cardAcoount.Size = new Size(panelWidth, panelHeight);
+                            pnl_cardAcoount.Location = new Point(this.ClientSize.Width / 2 - pnl_cardAcoount.Size.Width / 2, this.ClientSize.Height / 2 - pnl_cardAcoount.Size.Height / 2);
+                            pnl_cardAcoount.Visible = true;
+                            pnlwifi.Visible = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+
+        private void btn_close_cardaccount_Click(object sender, EventArgs e)
+        {
+            pnl_cardAcoount.Visible = false;
+            tlp_tableorder.Enabled = true;
         }
     }
 }

@@ -100,7 +100,11 @@ namespace Domain
         public int Gender { get; set; }
         public int TimeDuration { get; set; }
         public int Rev_Status { get; set; }
+        public string ICardNo { get; set; }
+        public decimal CBalance { get; set; }
         
+
+
 
     }
 }
