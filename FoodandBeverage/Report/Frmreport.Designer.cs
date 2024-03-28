@@ -160,6 +160,7 @@ namespace FoodandBeverage.Report
             // 
             // dtp_to_time
             // 
+            this.dtp_to_time.Dock = System.Windows.Forms.DockStyle.Left;
             this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtp_to_time.Location = new System.Drawing.Point(502, 3);

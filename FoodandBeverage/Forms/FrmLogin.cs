@@ -51,6 +51,13 @@ namespace FoodandBeverage.Forms
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
+            //int panelWidthPercentage =60;
+            //int panelheightPercentage = 60;
+            //int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+            //int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+            //pnl_login.Size = new Size(panelWidth, panelHeight);
+            
+            pnl_login.Location = new Point((this.ClientSize.Width / 2 - pnl_login.Size.Width / 2), this.ClientSize.Height / 2 - pnl_login.Size.Height / 2);
             textb_shape();
         }
         #region TexBox Round function

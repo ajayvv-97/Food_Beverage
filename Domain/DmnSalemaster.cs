@@ -102,9 +102,8 @@ namespace Domain
         public int Rev_Status { get; set; }
         public string ICardNo { get; set; }
         public decimal CBalance { get; set; }
+        public int TapType { get; set; }
+        public int LedgerId { get; set; }
         
-
-
-
     }
 }

@@ -29,28 +29,28 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboardReport));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnl_dashboard = new System.Windows.Forms.Panel();
             this.tlp_main_dashboard = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_date_dashboard = new System.Windows.Forms.TableLayoutPanel();
@@ -266,11 +266,12 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_dashboard
             // 
+            this.pnl_dashboard.AutoSize = true;
             this.pnl_dashboard.Controls.Add(this.tlp_main_dashboard);
             this.pnl_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_dashboard.Location = new System.Drawing.Point(0, 0);
             this.pnl_dashboard.Name = "pnl_dashboard";
-            this.pnl_dashboard.Size = new System.Drawing.Size(1009, 562);
+            this.pnl_dashboard.Size = new System.Drawing.Size(791, 562);
             this.pnl_dashboard.TabIndex = 3;
             // 
             // tlp_main_dashboard
@@ -295,7 +296,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main_dashboard.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main_dashboard.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main_dashboard.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main_dashboard.Size = new System.Drawing.Size(1009, 562);
+            this.tlp_main_dashboard.Size = new System.Drawing.Size(791, 562);
             this.tlp_main_dashboard.TabIndex = 0;
             // 
             // tlp_date_dashboard
@@ -305,7 +306,7 @@ namespace FoodandBeverage.Forms
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.13228F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.86773F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tlp_date_dashboard.Controls.Add(this.dtp_dashboard, 1, 0);
             this.tlp_date_dashboard.Controls.Add(this.btnrefreshreport, 2, 0);
             this.tlp_date_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -313,7 +314,7 @@ namespace FoodandBeverage.Forms
             this.tlp_date_dashboard.Name = "tlp_date_dashboard";
             this.tlp_date_dashboard.RowCount = 1;
             this.tlp_date_dashboard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_date_dashboard.Size = new System.Drawing.Size(1003, 37);
+            this.tlp_date_dashboard.Size = new System.Drawing.Size(785, 37);
             this.tlp_date_dashboard.TabIndex = 1;
             // 
             // dtp_dashboard
@@ -321,9 +322,9 @@ namespace FoodandBeverage.Forms
             this.dtp_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtp_dashboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_dashboard.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_dashboard.Location = new System.Drawing.Point(669, 3);
+            this.dtp_dashboard.Location = new System.Drawing.Point(502, 3);
             this.dtp_dashboard.Name = "dtp_dashboard";
-            this.dtp_dashboard.Size = new System.Drawing.Size(214, 24);
+            this.dtp_dashboard.Size = new System.Drawing.Size(159, 24);
             this.dtp_dashboard.TabIndex = 0;
             this.dtp_dashboard.ValueChanged += new System.EventHandler(this.dtp_dashboard_ValueChanged);
             // 
@@ -334,7 +335,7 @@ namespace FoodandBeverage.Forms
             this.btnrefreshreport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnrefreshreport.FlatAppearance.BorderSize = 0;
             this.btnrefreshreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnrefreshreport.Location = new System.Drawing.Point(889, 3);
+            this.btnrefreshreport.Location = new System.Drawing.Point(667, 3);
             this.btnrefreshreport.Name = "btnrefreshreport";
             this.btnrefreshreport.Size = new System.Drawing.Size(60, 31);
             this.btnrefreshreport.TabIndex = 1;
@@ -353,7 +354,7 @@ namespace FoodandBeverage.Forms
             this.tlp_box_details.RowCount = 2;
             this.tlp_box_details.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_box_details.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_box_details.Size = new System.Drawing.Size(1003, 236);
+            this.tlp_box_details.Size = new System.Drawing.Size(785, 236);
             this.tlp_box_details.TabIndex = 1;
             // 
             // tlp_box_frist
@@ -372,7 +373,7 @@ namespace FoodandBeverage.Forms
             this.tlp_box_frist.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_box_frist.RowCount = 1;
             this.tlp_box_frist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_box_frist.Size = new System.Drawing.Size(997, 117);
+            this.tlp_box_frist.Size = new System.Drawing.Size(779, 117);
             this.tlp_box_frist.TabIndex = 2;
             // 
             // pnl_cur_date_sales
@@ -380,9 +381,9 @@ namespace FoodandBeverage.Forms
             this.pnl_cur_date_sales.BackColor = System.Drawing.Color.White;
             this.pnl_cur_date_sales.Controls.Add(this.tlp_cur_total);
             this.pnl_cur_date_sales.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_cur_date_sales.Location = new System.Drawing.Point(336, 8);
+            this.pnl_cur_date_sales.Location = new System.Drawing.Point(264, 8);
             this.pnl_cur_date_sales.Name = "pnl_cur_date_sales";
-            this.pnl_cur_date_sales.Size = new System.Drawing.Size(323, 101);
+            this.pnl_cur_date_sales.Size = new System.Drawing.Size(250, 101);
             this.pnl_cur_date_sales.TabIndex = 1;
             // 
             // tlp_cur_total
@@ -399,7 +400,7 @@ namespace FoodandBeverage.Forms
             this.tlp_cur_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_cur_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_cur_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_cur_total.Size = new System.Drawing.Size(323, 101);
+            this.tlp_cur_total.Size = new System.Drawing.Size(250, 101);
             this.tlp_cur_total.TabIndex = 1;
             // 
             // ibdinetotal
@@ -416,7 +417,7 @@ namespace FoodandBeverage.Forms
             this.ibdinetotal.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.ibdinetotal.Location = new System.Drawing.Point(3, 36);
             this.ibdinetotal.Name = "ibdinetotal";
-            this.ibdinetotal.Size = new System.Drawing.Size(317, 27);
+            this.ibdinetotal.Size = new System.Drawing.Size(244, 27);
             this.ibdinetotal.TabIndex = 26;
             this.ibdinetotal.Text = "iconButton1";
             this.ibdinetotal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -430,7 +431,7 @@ namespace FoodandBeverage.Forms
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(317, 33);
+            this.label5.Size = new System.Drawing.Size(244, 33);
             this.label5.TabIndex = 0;
             this.label5.Text = "Dine In";
             // 
@@ -440,7 +441,7 @@ namespace FoodandBeverage.Forms
             this.lbldinetotalno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbldinetotalno.Location = new System.Drawing.Point(3, 66);
             this.lbldinetotalno.Name = "lbldinetotalno";
-            this.lbldinetotalno.Size = new System.Drawing.Size(317, 35);
+            this.lbldinetotalno.Size = new System.Drawing.Size(244, 35);
             this.lbldinetotalno.TabIndex = 2;
             this.lbldinetotalno.Text = "label7";
             // 
@@ -451,7 +452,7 @@ namespace FoodandBeverage.Forms
             this.pnltotalsales.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnltotalsales.Location = new System.Drawing.Point(8, 8);
             this.pnltotalsales.Name = "pnltotalsales";
-            this.pnltotalsales.Size = new System.Drawing.Size(322, 101);
+            this.pnltotalsales.Size = new System.Drawing.Size(250, 101);
             this.pnltotalsales.TabIndex = 0;
             // 
             // tlp_saletotal
@@ -469,7 +470,7 @@ namespace FoodandBeverage.Forms
             this.tlp_saletotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_saletotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_saletotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_saletotal.Size = new System.Drawing.Size(322, 101);
+            this.tlp_saletotal.Size = new System.Drawing.Size(250, 101);
             this.tlp_saletotal.TabIndex = 0;
             // 
             // ibsaletotal
@@ -486,7 +487,7 @@ namespace FoodandBeverage.Forms
             this.ibsaletotal.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.ibsaletotal.Location = new System.Drawing.Point(3, 36);
             this.ibsaletotal.Name = "ibsaletotal";
-            this.ibsaletotal.Size = new System.Drawing.Size(316, 27);
+            this.ibsaletotal.Size = new System.Drawing.Size(244, 27);
             this.ibsaletotal.TabIndex = 25;
             this.ibsaletotal.Text = "iconButton1";
             this.ibsaletotal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -500,7 +501,7 @@ namespace FoodandBeverage.Forms
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(316, 33);
+            this.label4.Size = new System.Drawing.Size(244, 33);
             this.label4.TabIndex = 0;
             this.label4.Text = "Total Sales";
             // 
@@ -510,7 +511,7 @@ namespace FoodandBeverage.Forms
             this.lbltotalsaleno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltotalsaleno.Location = new System.Drawing.Point(3, 66);
             this.lbltotalsaleno.Name = "lbltotalsaleno";
-            this.lbltotalsaleno.Size = new System.Drawing.Size(316, 35);
+            this.lbltotalsaleno.Size = new System.Drawing.Size(244, 35);
             this.lbltotalsaleno.TabIndex = 2;
             this.lbltotalsaleno.Text = "label6";
             // 
@@ -519,9 +520,9 @@ namespace FoodandBeverage.Forms
             this.pnlrestotal.BackColor = System.Drawing.Color.White;
             this.pnlrestotal.Controls.Add(this.tableLayoutPanel1);
             this.pnlrestotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlrestotal.Location = new System.Drawing.Point(665, 8);
+            this.pnlrestotal.Location = new System.Drawing.Point(520, 8);
             this.pnlrestotal.Name = "pnlrestotal";
-            this.pnlrestotal.Size = new System.Drawing.Size(324, 101);
+            this.pnlrestotal.Size = new System.Drawing.Size(251, 101);
             this.pnlrestotal.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -538,7 +539,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(324, 101);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 101);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // ibreservatiototal
@@ -555,7 +556,7 @@ namespace FoodandBeverage.Forms
             this.ibreservatiototal.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.ibreservatiototal.Location = new System.Drawing.Point(3, 36);
             this.ibreservatiototal.Name = "ibreservatiototal";
-            this.ibreservatiototal.Size = new System.Drawing.Size(318, 27);
+            this.ibreservatiototal.Size = new System.Drawing.Size(245, 27);
             this.ibreservatiototal.TabIndex = 27;
             this.ibreservatiototal.Text = "iconButton1";
             this.ibreservatiototal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -569,7 +570,7 @@ namespace FoodandBeverage.Forms
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(318, 33);
+            this.label1.Size = new System.Drawing.Size(245, 33);
             this.label1.TabIndex = 0;
             this.label1.Text = "Reservation";
             // 
@@ -579,7 +580,7 @@ namespace FoodandBeverage.Forms
             this.lblresno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblresno.Location = new System.Drawing.Point(3, 66);
             this.lblresno.Name = "lblresno";
-            this.lblresno.Size = new System.Drawing.Size(318, 35);
+            this.lblresno.Size = new System.Drawing.Size(245, 35);
             this.lblresno.TabIndex = 2;
             this.lblresno.Text = "label7";
             // 
@@ -603,7 +604,7 @@ namespace FoodandBeverage.Forms
             this.tlp_box_second_row.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_box_second_row.RowCount = 1;
             this.tlp_box_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_box_second_row.Size = new System.Drawing.Size(997, 114);
+            this.tlp_box_second_row.Size = new System.Drawing.Size(779, 114);
             this.tlp_box_second_row.TabIndex = 3;
             // 
             // tableLayoutPanel8
@@ -614,12 +615,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.Controls.Add(this.tableLayoutPanel9, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.lblactivepromo, 0, 1);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(599, 8);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(467, 8);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(191, 98);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(147, 98);
             this.tableLayoutPanel8.TabIndex = 5;
             // 
             // tableLayoutPanel9
@@ -634,7 +635,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(185, 52);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(141, 52);
             this.tableLayoutPanel9.TabIndex = 1;
             // 
             // lbl_act_promo
@@ -644,7 +645,7 @@ namespace FoodandBeverage.Forms
             this.lbl_act_promo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.lbl_act_promo.Location = new System.Drawing.Point(3, 0);
             this.lbl_act_promo.Name = "lbl_act_promo";
-            this.lbl_act_promo.Size = new System.Drawing.Size(142, 52);
+            this.lbl_act_promo.Size = new System.Drawing.Size(98, 52);
             this.lbl_act_promo.TabIndex = 0;
             this.lbl_act_promo.Text = "Active Promotions";
             this.lbl_act_promo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -655,7 +656,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox12.BackgroundImage = global::FoodandBeverage.Properties.Resources.promotion_chart;
             this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox12.Location = new System.Drawing.Point(151, 3);
+            this.pictureBox12.Location = new System.Drawing.Point(107, 3);
             this.pictureBox12.Name = "pictureBox12";
             this.pictureBox12.Size = new System.Drawing.Size(31, 46);
             this.pictureBox12.TabIndex = 1;
@@ -669,7 +670,7 @@ namespace FoodandBeverage.Forms
             this.lblactivepromo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblactivepromo.Location = new System.Drawing.Point(3, 58);
             this.lblactivepromo.Name = "lblactivepromo";
-            this.lblactivepromo.Size = new System.Drawing.Size(185, 40);
+            this.lblactivepromo.Size = new System.Drawing.Size(141, 40);
             this.lblactivepromo.TabIndex = 2;
             this.lblactivepromo.Text = "label23";
             this.lblactivepromo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -683,12 +684,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel10.Controls.Add(this.tableLayoutPanel11, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.lblupreserva, 0, 1);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(796, 8);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(620, 8);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 2;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(193, 98);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(151, 98);
             this.tableLayoutPanel10.TabIndex = 4;
             // 
             // tableLayoutPanel11
@@ -703,7 +704,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(187, 52);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(145, 52);
             this.tableLayoutPanel11.TabIndex = 1;
             // 
             // lbl_up_res
@@ -713,7 +714,7 @@ namespace FoodandBeverage.Forms
             this.lbl_up_res.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.lbl_up_res.Location = new System.Drawing.Point(3, 0);
             this.lbl_up_res.Name = "lbl_up_res";
-            this.lbl_up_res.Size = new System.Drawing.Size(144, 52);
+            this.lbl_up_res.Size = new System.Drawing.Size(102, 52);
             this.lbl_up_res.TabIndex = 0;
             this.lbl_up_res.Text = "Up Coming Reservations";
             this.lbl_up_res.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -724,7 +725,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox13.BackgroundImage = global::FoodandBeverage.Properties.Resources.reservation_icon_chart;
             this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox13.Location = new System.Drawing.Point(153, 3);
+            this.pictureBox13.Location = new System.Drawing.Point(111, 3);
             this.pictureBox13.Name = "pictureBox13";
             this.pictureBox13.Size = new System.Drawing.Size(31, 46);
             this.pictureBox13.TabIndex = 1;
@@ -738,7 +739,7 @@ namespace FoodandBeverage.Forms
             this.lblupreserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblupreserva.Location = new System.Drawing.Point(3, 58);
             this.lblupreserva.Name = "lblupreserva";
-            this.lblupreserva.Size = new System.Drawing.Size(187, 40);
+            this.lblupreserva.Size = new System.Drawing.Size(145, 40);
             this.lblupreserva.TabIndex = 2;
             this.lblupreserva.Text = "label23";
             this.lblupreserva.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -752,12 +753,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel7, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblfoodmenu, 0, 1);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(402, 8);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(314, 8);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(191, 98);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(147, 98);
             this.tableLayoutPanel6.TabIndex = 2;
             // 
             // tableLayoutPanel7
@@ -772,7 +773,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(185, 42);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(141, 42);
             this.tableLayoutPanel7.TabIndex = 1;
             // 
             // label18
@@ -782,7 +783,7 @@ namespace FoodandBeverage.Forms
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.label18.Location = new System.Drawing.Point(3, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(142, 42);
+            this.label18.Size = new System.Drawing.Size(98, 42);
             this.label18.TabIndex = 0;
             this.label18.Text = "Food Items";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -793,7 +794,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.BackgroundImage = global::FoodandBeverage.Properties.Resources.foodmenu_chart;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Location = new System.Drawing.Point(151, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(107, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(31, 36);
             this.pictureBox3.TabIndex = 1;
@@ -807,7 +808,7 @@ namespace FoodandBeverage.Forms
             this.lblfoodmenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblfoodmenu.Location = new System.Drawing.Point(3, 48);
             this.lblfoodmenu.Name = "lblfoodmenu";
-            this.lblfoodmenu.Size = new System.Drawing.Size(185, 50);
+            this.lblfoodmenu.Size = new System.Drawing.Size(141, 50);
             this.lblfoodmenu.TabIndex = 2;
             this.lblfoodmenu.Text = "label19";
             this.lblfoodmenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -827,7 +828,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(191, 98);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(147, 98);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel5
@@ -842,7 +843,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(185, 42);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(141, 42);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // label16
@@ -852,7 +853,7 @@ namespace FoodandBeverage.Forms
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.label16.Location = new System.Drawing.Point(3, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(142, 42);
+            this.label16.Size = new System.Drawing.Size(98, 42);
             this.label16.TabIndex = 0;
             this.label16.Text = "Active Dine";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -863,7 +864,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox2.BackgroundImage = global::FoodandBeverage.Properties.Resources.active_dinner_table_chart;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(151, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(107, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(31, 36);
             this.pictureBox2.TabIndex = 1;
@@ -877,7 +878,7 @@ namespace FoodandBeverage.Forms
             this.lblactive.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblactive.Location = new System.Drawing.Point(3, 48);
             this.lblactive.Name = "lblactive";
-            this.lblactive.Size = new System.Drawing.Size(185, 50);
+            this.lblactive.Size = new System.Drawing.Size(141, 50);
             this.lblactive.TabIndex = 2;
             this.lblactive.Text = "label17";
             this.lblactive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -891,12 +892,12 @@ namespace FoodandBeverage.Forms
             this.tlp_activedine.Controls.Add(this.tableLayoutPanel4, 0, 0);
             this.tlp_activedine.Controls.Add(this.lblcancelled, 0, 1);
             this.tlp_activedine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_activedine.Location = new System.Drawing.Point(205, 8);
+            this.tlp_activedine.Location = new System.Drawing.Point(161, 8);
             this.tlp_activedine.Name = "tlp_activedine";
             this.tlp_activedine.RowCount = 2;
             this.tlp_activedine.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_activedine.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tlp_activedine.Size = new System.Drawing.Size(191, 98);
+            this.tlp_activedine.Size = new System.Drawing.Size(147, 98);
             this.tlp_activedine.TabIndex = 0;
             // 
             // tableLayoutPanel4
@@ -911,7 +912,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(185, 42);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(141, 42);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // label14
@@ -921,7 +922,7 @@ namespace FoodandBeverage.Forms
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.label14.Location = new System.Drawing.Point(3, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(142, 42);
+            this.label14.Size = new System.Drawing.Size(98, 42);
             this.label14.TabIndex = 0;
             this.label14.Text = "Cancelled ";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -932,7 +933,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancelled_chart;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(151, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(107, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(31, 36);
             this.pictureBox1.TabIndex = 1;
@@ -946,7 +947,7 @@ namespace FoodandBeverage.Forms
             this.lblcancelled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblcancelled.Location = new System.Drawing.Point(3, 48);
             this.lblcancelled.Name = "lblcancelled";
-            this.lblcancelled.Size = new System.Drawing.Size(185, 50);
+            this.lblcancelled.Size = new System.Drawing.Size(141, 50);
             this.lblcancelled.TabIndex = 2;
             this.lblcancelled.Text = "label15";
             this.lblcancelled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -964,53 +965,53 @@ namespace FoodandBeverage.Forms
             this.tlp_twobar_discountbar.Name = "tlp_twobar_discountbar";
             this.tlp_twobar_discountbar.RowCount = 1;
             this.tlp_twobar_discountbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_twobar_discountbar.Size = new System.Drawing.Size(1003, 235);
+            this.tlp_twobar_discountbar.Size = new System.Drawing.Size(785, 235);
             this.tlp_twobar_discountbar.TabIndex = 5;
             // 
             // expencepiechart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.expencepiechart.ChartAreas.Add(chartArea1);
+            chartArea9.Name = "ChartArea1";
+            this.expencepiechart.ChartAreas.Add(chartArea9);
             this.expencepiechart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            legend1.Title = "Expence";
-            this.expencepiechart.Legends.Add(legend1);
-            this.expencepiechart.Location = new System.Drawing.Point(616, 3);
+            legend3.Name = "Legend1";
+            legend3.Title = "Expence";
+            this.expencepiechart.Legends.Add(legend3);
+            this.expencepiechart.Location = new System.Drawing.Point(483, 3);
             this.expencepiechart.Name = "expencepiechart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.expencepiechart.Series.Add(series1);
-            this.expencepiechart.Size = new System.Drawing.Size(384, 229);
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series9.Legend = "Legend1";
+            series9.Name = "Series1";
+            this.expencepiechart.Series.Add(series9);
+            this.expencepiechart.Size = new System.Drawing.Size(299, 229);
             this.expencepiechart.TabIndex = 0;
             this.expencepiechart.Text = "chart1";
             this.expencepiechart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.expencepiechart_MouseClick);
             // 
             // chart_res_dine_sales
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart_res_dine_sales.ChartAreas.Add(chartArea2);
+            chartArea10.Name = "ChartArea1";
+            this.chart_res_dine_sales.ChartAreas.Add(chartArea10);
             this.chart_res_dine_sales.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart_res_dine_sales.Location = new System.Drawing.Point(3, 3);
             this.chart_res_dine_sales.Name = "chart_res_dine_sales";
             this.chart_res_dine_sales.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series2.ChartArea = "ChartArea1";
-            series2.Label = "Dine";
-            series2.LabelFormat = "Dine";
-            series2.LabelToolTip = "#TOTAL";
-            series2.Name = "s_dine";
-            series3.ChartArea = "ChartArea1";
-            series3.Label = "Reservation";
-            series3.LabelFormat = "Reservation";
-            series3.LabelToolTip = "#TOTAL";
-            series3.Name = "s_reservation";
-            this.chart_res_dine_sales.Series.Add(series2);
-            this.chart_res_dine_sales.Series.Add(series3);
-            this.chart_res_dine_sales.Size = new System.Drawing.Size(607, 229);
+            series10.ChartArea = "ChartArea1";
+            series10.Label = "Dine";
+            series10.LabelFormat = "Dine";
+            series10.LabelToolTip = "#TOTAL";
+            series10.Name = "s_dine";
+            series11.ChartArea = "ChartArea1";
+            series11.Label = "Reservation";
+            series11.LabelFormat = "Reservation";
+            series11.LabelToolTip = "#TOTAL";
+            series11.Name = "s_reservation";
+            this.chart_res_dine_sales.Series.Add(series10);
+            this.chart_res_dine_sales.Series.Add(series11);
+            this.chart_res_dine_sales.Size = new System.Drawing.Size(474, 229);
             this.chart_res_dine_sales.TabIndex = 3;
-            title1.Name = "Dine And Reservation Sale";
-            this.chart_res_dine_sales.Titles.Add(title1);
+            title5.Name = "Dine And Reservation Sale";
+            this.chart_res_dine_sales.Titles.Add(title5);
             // 
             // tlp_detailpay_expence
             // 
@@ -1025,7 +1026,7 @@ namespace FoodandBeverage.Forms
             this.tlp_detailpay_expence.Name = "tlp_detailpay_expence";
             this.tlp_detailpay_expence.RowCount = 1;
             this.tlp_detailpay_expence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_detailpay_expence.Size = new System.Drawing.Size(1003, 294);
+            this.tlp_detailpay_expence.Size = new System.Drawing.Size(785, 294);
             this.tlp_detailpay_expence.TabIndex = 6;
             // 
             // tlp_paymentdetailstotal
@@ -1044,7 +1045,7 @@ namespace FoodandBeverage.Forms
             this.tlp_paymentdetailstotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.346939F));
             this.tlp_paymentdetailstotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.65306F));
             this.tlp_paymentdetailstotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlp_paymentdetailstotal.Size = new System.Drawing.Size(495, 288);
+            this.tlp_paymentdetailstotal.Size = new System.Drawing.Size(386, 288);
             this.tlp_paymentdetailstotal.TabIndex = 1;
             // 
             // label2
@@ -1054,7 +1055,7 @@ namespace FoodandBeverage.Forms
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(8, 5);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(479, 18);
+            this.label2.Size = new System.Drawing.Size(370, 18);
             this.label2.TabIndex = 0;
             this.label2.Text = "Total Sales";
             // 
@@ -1101,7 +1102,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(479, 220);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(370, 220);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // label12
@@ -1302,7 +1303,7 @@ namespace FoodandBeverage.Forms
             this.ibcash.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibcash.Location = new System.Drawing.Point(145, 3);
             this.ibcash.Name = "ibcash";
-            this.ibcash.Size = new System.Drawing.Size(331, 21);
+            this.ibcash.Size = new System.Drawing.Size(348, 21);
             this.ibcash.TabIndex = 24;
             this.ibcash.Text = "iconButton1";
             this.ibcash.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1323,7 +1324,7 @@ namespace FoodandBeverage.Forms
             this.ibrupay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibrupay.Location = new System.Drawing.Point(145, 30);
             this.ibrupay.Name = "ibrupay";
-            this.ibrupay.Size = new System.Drawing.Size(331, 21);
+            this.ibrupay.Size = new System.Drawing.Size(348, 21);
             this.ibrupay.TabIndex = 25;
             this.ibrupay.Text = "iconButton1";
             this.ibrupay.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1344,7 +1345,7 @@ namespace FoodandBeverage.Forms
             this.ibnetbanking.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibnetbanking.Location = new System.Drawing.Point(145, 57);
             this.ibnetbanking.Name = "ibnetbanking";
-            this.ibnetbanking.Size = new System.Drawing.Size(331, 21);
+            this.ibnetbanking.Size = new System.Drawing.Size(348, 21);
             this.ibnetbanking.TabIndex = 26;
             this.ibnetbanking.Text = "iconButton1";
             this.ibnetbanking.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1365,7 +1366,7 @@ namespace FoodandBeverage.Forms
             this.ibupi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibupi.Location = new System.Drawing.Point(145, 84);
             this.ibupi.Name = "ibupi";
-            this.ibupi.Size = new System.Drawing.Size(331, 21);
+            this.ibupi.Size = new System.Drawing.Size(348, 21);
             this.ibupi.TabIndex = 27;
             this.ibupi.Text = "iconButton1";
             this.ibupi.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1386,7 +1387,7 @@ namespace FoodandBeverage.Forms
             this.ibcreditcard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibcreditcard.Location = new System.Drawing.Point(145, 111);
             this.ibcreditcard.Name = "ibcreditcard";
-            this.ibcreditcard.Size = new System.Drawing.Size(331, 21);
+            this.ibcreditcard.Size = new System.Drawing.Size(348, 21);
             this.ibcreditcard.TabIndex = 28;
             this.ibcreditcard.Text = "iconButton1";
             this.ibcreditcard.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1407,7 +1408,7 @@ namespace FoodandBeverage.Forms
             this.ibothers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibothers.Location = new System.Drawing.Point(145, 138);
             this.ibothers.Name = "ibothers";
-            this.ibothers.Size = new System.Drawing.Size(331, 21);
+            this.ibothers.Size = new System.Drawing.Size(348, 21);
             this.ibothers.TabIndex = 29;
             this.ibothers.Text = "iconButton1";
             this.ibothers.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1428,7 +1429,7 @@ namespace FoodandBeverage.Forms
             this.ibpart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibpart.Location = new System.Drawing.Point(145, 165);
             this.ibpart.Name = "ibpart";
-            this.ibpart.Size = new System.Drawing.Size(331, 21);
+            this.ibpart.Size = new System.Drawing.Size(348, 21);
             this.ibpart.TabIndex = 30;
             this.ibpart.Text = "iconButton1";
             this.ibpart.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1449,7 +1450,7 @@ namespace FoodandBeverage.Forms
             this.ibsplit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ibsplit.Location = new System.Drawing.Point(145, 192);
             this.ibsplit.Name = "ibsplit";
-            this.ibsplit.Size = new System.Drawing.Size(331, 25);
+            this.ibsplit.Size = new System.Drawing.Size(348, 25);
             this.ibsplit.TabIndex = 31;
             this.ibsplit.Text = "iconButton1";
             this.ibsplit.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1468,7 +1469,7 @@ namespace FoodandBeverage.Forms
             this.tlp_saledetail_total.Name = "tlp_saledetail_total";
             this.tlp_saledetail_total.RowCount = 1;
             this.tlp_saledetail_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_saledetail_total.Size = new System.Drawing.Size(479, 28);
+            this.tlp_saledetail_total.Size = new System.Drawing.Size(370, 28);
             this.tlp_saledetail_total.TabIndex = 2;
             // 
             // ibtotalsumpayment
@@ -1483,9 +1484,9 @@ namespace FoodandBeverage.Forms
             this.ibtotalsumpayment.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibtotalsumpayment.IconSize = 20;
             this.ibtotalsumpayment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ibtotalsumpayment.Location = new System.Drawing.Point(142, 3);
+            this.ibtotalsumpayment.Location = new System.Drawing.Point(111, 3);
             this.ibtotalsumpayment.Name = "ibtotalsumpayment";
-            this.ibtotalsumpayment.Size = new System.Drawing.Size(334, 22);
+            this.ibtotalsumpayment.Size = new System.Drawing.Size(256, 22);
             this.ibtotalsumpayment.TabIndex = 32;
             this.ibtotalsumpayment.Text = "iconButton1";
             this.ibtotalsumpayment.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1499,22 +1500,22 @@ namespace FoodandBeverage.Forms
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(3, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(133, 28);
+            this.label13.Size = new System.Drawing.Size(102, 28);
             this.label13.TabIndex = 8;
             this.label13.Text = "Total ";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // totaldisc_chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.totaldisc_chart.ChartAreas.Add(chartArea3);
+            chartArea11.Name = "ChartArea1";
+            this.totaldisc_chart.ChartAreas.Add(chartArea11);
             this.totaldisc_chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.totaldisc_chart.Location = new System.Drawing.Point(504, 3);
+            this.totaldisc_chart.Location = new System.Drawing.Point(395, 3);
             this.totaldisc_chart.Name = "totaldisc_chart";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "Series1";
-            this.totaldisc_chart.Series.Add(series4);
-            this.totaldisc_chart.Size = new System.Drawing.Size(496, 288);
+            series12.ChartArea = "ChartArea1";
+            series12.Name = "Series1";
+            this.totaldisc_chart.Series.Add(series12);
+            this.totaldisc_chart.Size = new System.Drawing.Size(387, 288);
             this.totaldisc_chart.TabIndex = 4;
             this.totaldisc_chart.Text = "chart1";
             // 
@@ -1530,7 +1531,7 @@ namespace FoodandBeverage.Forms
             this.tlp_revenue_yearcom.RowCount = 2;
             this.tlp_revenue_yearcom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.21795F));
             this.tlp_revenue_yearcom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.78205F));
-            this.tlp_revenue_yearcom.Size = new System.Drawing.Size(1003, 312);
+            this.tlp_revenue_yearcom.Size = new System.Drawing.Size(785, 312);
             this.tlp_revenue_yearcom.TabIndex = 5;
             // 
             // cmb_fin_year
@@ -1545,17 +1546,17 @@ namespace FoodandBeverage.Forms
             // 
             // Totalrevenuechart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.Totalrevenuechart.ChartAreas.Add(chartArea4);
+            chartArea12.Name = "ChartArea1";
+            this.Totalrevenuechart.ChartAreas.Add(chartArea12);
             this.Totalrevenuechart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Totalrevenuechart.Location = new System.Drawing.Point(3, 38);
             this.Totalrevenuechart.Name = "Totalrevenuechart";
-            this.Totalrevenuechart.Size = new System.Drawing.Size(997, 271);
+            this.Totalrevenuechart.Size = new System.Drawing.Size(779, 271);
             this.Totalrevenuechart.TabIndex = 5;
             this.Totalrevenuechart.Text = "chart1";
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title2.Name = "Annuval sales Report";
-            this.Totalrevenuechart.Titles.Add(title2);
+            title6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title6.Name = "Annuval sales Report";
+            this.Totalrevenuechart.Titles.Add(title6);
             // 
             // tlp_move_slow_item
             // 
@@ -1569,7 +1570,7 @@ namespace FoodandBeverage.Forms
             this.tlp_move_slow_item.Name = "tlp_move_slow_item";
             this.tlp_move_slow_item.RowCount = 1;
             this.tlp_move_slow_item.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_move_slow_item.Size = new System.Drawing.Size(1003, 318);
+            this.tlp_move_slow_item.Size = new System.Drawing.Size(785, 318);
             this.tlp_move_slow_item.TabIndex = 7;
             // 
             // tcslow_move
@@ -1583,7 +1584,7 @@ namespace FoodandBeverage.Forms
             this.tcslow_move.Name = "tcslow_move";
             this.tcslow_move.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tcslow_move.SelectedIndex = 0;
-            this.tcslow_move.Size = new System.Drawing.Size(495, 312);
+            this.tcslow_move.Size = new System.Drawing.Size(386, 312);
             this.tcslow_move.TabIndex = 0;
             this.tcslow_move.SelectedIndexChanged += new System.EventHandler(this.tcslow_move_SelectedIndexChanged);
             // 
@@ -1595,7 +1596,7 @@ namespace FoodandBeverage.Forms
             this.tpfastmoving.Location = new System.Drawing.Point(4, 32);
             this.tpfastmoving.Name = "tpfastmoving";
             this.tpfastmoving.Padding = new System.Windows.Forms.Padding(3);
-            this.tpfastmoving.Size = new System.Drawing.Size(487, 276);
+            this.tpfastmoving.Size = new System.Drawing.Size(378, 276);
             this.tpfastmoving.TabIndex = 0;
             this.tpfastmoving.Text = "Fast Moving Item";
             // 
@@ -1605,14 +1606,14 @@ namespace FoodandBeverage.Forms
             this.tlp_fastmovingitem.ColumnCount = 3;
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92611F));
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07389F));
-            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
             this.tlp_fastmovingitem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_fastmovingitem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlp_fastmovingitem.Location = new System.Drawing.Point(3, 3);
             this.tlp_fastmovingitem.Name = "tlp_fastmovingitem";
             this.tlp_fastmovingitem.RowCount = 1;
             this.tlp_fastmovingitem.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_fastmovingitem.Size = new System.Drawing.Size(481, 270);
+            this.tlp_fastmovingitem.Size = new System.Drawing.Size(372, 270);
             this.tlp_fastmovingitem.TabIndex = 0;
             // 
             // tabPage2
@@ -1623,7 +1624,7 @@ namespace FoodandBeverage.Forms
             this.tabPage2.Location = new System.Drawing.Point(4, 32);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(487, 276);
+            this.tabPage2.Size = new System.Drawing.Size(378, 276);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Solw Moving Item";
             // 
@@ -1633,13 +1634,13 @@ namespace FoodandBeverage.Forms
             this.tlp_slowingitems.ColumnCount = 3;
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.49383F));
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.50617F));
-            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
             this.tlp_slowingitems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_slowingitems.Location = new System.Drawing.Point(3, 3);
             this.tlp_slowingitems.Name = "tlp_slowingitems";
             this.tlp_slowingitems.RowCount = 1;
             this.tlp_slowingitems.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_slowingitems.Size = new System.Drawing.Size(481, 270);
+            this.tlp_slowingitems.Size = new System.Drawing.Size(372, 270);
             this.tlp_slowingitems.TabIndex = 1;
             // 
             // pnlexpence_viewmore
@@ -1748,9 +1749,10 @@ namespace FoodandBeverage.Forms
             // pnl_boxdetails_dash
             // 
             this.pnl_boxdetails_dash.Controls.Add(this.tlp_boxdetails_sub);
-            this.pnl_boxdetails_dash.Location = new System.Drawing.Point(0, 0);
+            this.pnl_boxdetails_dash.Location = new System.Drawing.Point(255, 404);
             this.pnl_boxdetails_dash.Name = "pnl_boxdetails_dash";
-            this.pnl_boxdetails_dash.Size = new System.Drawing.Size(677, 455);
+            this.pnl_boxdetails_dash.Padding = new System.Windows.Forms.Padding(4);
+            this.pnl_boxdetails_dash.Size = new System.Drawing.Size(422, 96);
             this.pnl_boxdetails_dash.TabIndex = 2;
             this.pnl_boxdetails_dash.Visible = false;
             // 
@@ -1765,13 +1767,13 @@ namespace FoodandBeverage.Forms
             this.tlp_boxdetails_sub.Controls.Add(this.tlp_pagination, 1, 2);
             this.tlp_boxdetails_sub.Controls.Add(this.lblboxdetailsheader, 1, 0);
             this.tlp_boxdetails_sub.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_boxdetails_sub.Location = new System.Drawing.Point(0, 0);
+            this.tlp_boxdetails_sub.Location = new System.Drawing.Point(4, 4);
             this.tlp_boxdetails_sub.Name = "tlp_boxdetails_sub";
             this.tlp_boxdetails_sub.RowCount = 3;
             this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.707865F));
             this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.29214F));
             this.tlp_boxdetails_sub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlp_boxdetails_sub.Size = new System.Drawing.Size(677, 455);
+            this.tlp_boxdetails_sub.Size = new System.Drawing.Size(414, 88);
             this.tlp_boxdetails_sub.TabIndex = 0;
             // 
             // btn_close_boxdetails
@@ -1781,9 +1783,9 @@ namespace FoodandBeverage.Forms
             this.btn_close_boxdetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_close_boxdetails.FlatAppearance.BorderSize = 0;
             this.btn_close_boxdetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close_boxdetails.Location = new System.Drawing.Point(652, 3);
+            this.btn_close_boxdetails.Location = new System.Drawing.Point(400, 3);
             this.btn_close_boxdetails.Name = "btn_close_boxdetails";
-            this.btn_close_boxdetails.Size = new System.Drawing.Size(22, 29);
+            this.btn_close_boxdetails.Size = new System.Drawing.Size(11, 1);
             this.btn_close_boxdetails.TabIndex = 2;
             this.btn_close_boxdetails.UseVisualStyleBackColor = true;
             this.btn_close_boxdetails.Click += new System.EventHandler(this.btn_close_boxdetails_Click);
@@ -1807,11 +1809,11 @@ namespace FoodandBeverage.Forms
             this.tlp_pagination.Controls.Add(this.btnnext, 6, 0);
             this.tlp_pagination.Controls.Add(this.lblpageno, 0, 0);
             this.tlp_pagination.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_pagination.Location = new System.Drawing.Point(29, 413);
+            this.tlp_pagination.Location = new System.Drawing.Point(19, 46);
             this.tlp_pagination.Name = "tlp_pagination";
             this.tlp_pagination.RowCount = 1;
             this.tlp_pagination.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_pagination.Size = new System.Drawing.Size(617, 39);
+            this.tlp_pagination.Size = new System.Drawing.Size(375, 39);
             this.tlp_pagination.TabIndex = 3;
             // 
             // btn_four
@@ -1821,9 +1823,9 @@ namespace FoodandBeverage.Forms
             this.btn_four.FlatAppearance.BorderSize = 0;
             this.btn_four.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_four.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_four.Location = new System.Drawing.Point(407, 3);
+            this.btn_four.Location = new System.Drawing.Point(247, 3);
             this.btn_four.Name = "btn_four";
-            this.btn_four.Size = new System.Drawing.Size(64, 33);
+            this.btn_four.Size = new System.Drawing.Size(36, 33);
             this.btn_four.TabIndex = 6;
             this.btn_four.Text = "4";
             this.btn_four.UseVisualStyleBackColor = false;
@@ -1836,9 +1838,9 @@ namespace FoodandBeverage.Forms
             this.btn_three.FlatAppearance.BorderSize = 0;
             this.btn_three.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_three.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_three.Location = new System.Drawing.Point(337, 3);
+            this.btn_three.Location = new System.Drawing.Point(205, 3);
             this.btn_three.Name = "btn_three";
-            this.btn_three.Size = new System.Drawing.Size(64, 33);
+            this.btn_three.Size = new System.Drawing.Size(36, 33);
             this.btn_three.TabIndex = 5;
             this.btn_three.Text = "3";
             this.btn_three.UseVisualStyleBackColor = false;
@@ -1851,9 +1853,9 @@ namespace FoodandBeverage.Forms
             this.btn_two.FlatAppearance.BorderSize = 0;
             this.btn_two.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_two.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_two.Location = new System.Drawing.Point(267, 3);
+            this.btn_two.Location = new System.Drawing.Point(163, 3);
             this.btn_two.Name = "btn_two";
-            this.btn_two.Size = new System.Drawing.Size(64, 33);
+            this.btn_two.Size = new System.Drawing.Size(36, 33);
             this.btn_two.TabIndex = 4;
             this.btn_two.Text = "2";
             this.btn_two.UseVisualStyleBackColor = false;
@@ -1866,9 +1868,9 @@ namespace FoodandBeverage.Forms
             this.btnfrist.FlatAppearance.BorderSize = 0;
             this.btnfrist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnfrist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnfrist.Location = new System.Drawing.Point(197, 3);
+            this.btnfrist.Location = new System.Drawing.Point(121, 3);
             this.btnfrist.Name = "btnfrist";
-            this.btnfrist.Size = new System.Drawing.Size(64, 33);
+            this.btnfrist.Size = new System.Drawing.Size(36, 33);
             this.btnfrist.TabIndex = 3;
             this.btnfrist.Text = "1";
             this.btnfrist.UseVisualStyleBackColor = false;
@@ -1880,9 +1882,9 @@ namespace FoodandBeverage.Forms
             this.btnprevious.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnprevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprevious.Location = new System.Drawing.Point(110, 3);
+            this.btnprevious.Location = new System.Drawing.Point(68, 3);
             this.btnprevious.Name = "btnprevious";
-            this.btnprevious.Size = new System.Drawing.Size(81, 33);
+            this.btnprevious.Size = new System.Drawing.Size(47, 33);
             this.btnprevious.TabIndex = 0;
             this.btnprevious.Text = "<<";
             this.btnprevious.UseVisualStyleBackColor = false;
@@ -1894,9 +1896,9 @@ namespace FoodandBeverage.Forms
             this.btnnext.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnnext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnnext.Location = new System.Drawing.Point(477, 3);
+            this.btnnext.Location = new System.Drawing.Point(289, 3);
             this.btnnext.Name = "btnnext";
-            this.btnnext.Size = new System.Drawing.Size(81, 33);
+            this.btnnext.Size = new System.Drawing.Size(47, 33);
             this.btnnext.TabIndex = 1;
             this.btnnext.Text = ">>";
             this.btnnext.UseVisualStyleBackColor = false;
@@ -1910,7 +1912,7 @@ namespace FoodandBeverage.Forms
             this.lblpageno.ForeColor = System.Drawing.Color.White;
             this.lblpageno.Location = new System.Drawing.Point(3, 0);
             this.lblpageno.Name = "lblpageno";
-            this.lblpageno.Size = new System.Drawing.Size(101, 39);
+            this.lblpageno.Size = new System.Drawing.Size(59, 39);
             this.lblpageno.TabIndex = 7;
             this.lblpageno.Text = "pageno";
             this.lblpageno.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1922,9 +1924,9 @@ namespace FoodandBeverage.Forms
             this.lblboxdetailsheader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblboxdetailsheader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblboxdetailsheader.ForeColor = System.Drawing.Color.White;
-            this.lblboxdetailsheader.Location = new System.Drawing.Point(29, 0);
+            this.lblboxdetailsheader.Location = new System.Drawing.Point(19, 0);
             this.lblboxdetailsheader.Name = "lblboxdetailsheader";
-            this.lblboxdetailsheader.Size = new System.Drawing.Size(617, 35);
+            this.lblboxdetailsheader.Size = new System.Drawing.Size(375, 3);
             this.lblboxdetailsheader.TabIndex = 4;
             this.lblboxdetailsheader.Text = "label17";
             this.lblboxdetailsheader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1934,14 +1936,14 @@ namespace FoodandBeverage.Forms
             this.dgv_activedine.AllowUserToAddRows = false;
             this.dgv_activedine.AllowUserToDeleteRows = false;
             this.dgv_activedine.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_activedine.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_activedine.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.dgv_activedine.ColumnHeadersHeight = 40;
             this.dgv_activedine.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ad_slno,
@@ -1952,9 +1954,9 @@ namespace FoodandBeverage.Forms
             this.dgv_activedine.Name = "dgv_activedine";
             this.dgv_activedine.ReadOnly = true;
             this.dgv_activedine.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_activedine.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activedine.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_activedine.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_activedine.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_activedine.RowTemplate.Height = 35;
@@ -1997,14 +1999,14 @@ namespace FoodandBeverage.Forms
             this.dgv_reservation.AllowUserToAddRows = false;
             this.dgv_reservation.AllowUserToDeleteRows = false;
             this.dgv_reservation.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_reservation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_reservation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.dgv_reservation.ColumnHeadersHeight = 40;
             this.dgv_reservation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.res_slno,
@@ -2018,9 +2020,9 @@ namespace FoodandBeverage.Forms
             this.dgv_reservation.Location = new System.Drawing.Point(10, 425);
             this.dgv_reservation.Name = "dgv_reservation";
             this.dgv_reservation.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_reservation.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_reservation.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.dgv_reservation.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_reservation.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_reservation.RowTemplate.Height = 35;
@@ -2091,14 +2093,14 @@ namespace FoodandBeverage.Forms
             this.dgv_promotion.AllowUserToAddRows = false;
             this.dgv_promotion.AllowUserToDeleteRows = false;
             this.dgv_promotion.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_promotion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_promotion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.dgv_promotion.ColumnHeadersHeight = 40;
             this.dgv_promotion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ap_slno,
@@ -2111,9 +2113,9 @@ namespace FoodandBeverage.Forms
             this.dgv_promotion.Name = "dgv_promotion";
             this.dgv_promotion.ReadOnly = true;
             this.dgv_promotion.RowHeadersVisible = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_promotion.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_promotion.RowsDefaultCellStyle = dataGridViewCellStyle26;
             this.dgv_promotion.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_promotion.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_promotion.RowTemplate.Height = 35;
@@ -2173,14 +2175,14 @@ namespace FoodandBeverage.Forms
             this.dgv_activefood.AllowUserToAddRows = false;
             this.dgv_activefood.AllowUserToDeleteRows = false;
             this.dgv_activefood.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_activefood.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_activefood.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
             this.dgv_activefood.ColumnHeadersHeight = 40;
             this.dgv_activefood.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.fd_slno,
@@ -2192,9 +2194,9 @@ namespace FoodandBeverage.Forms
             this.dgv_activefood.Name = "dgv_activefood";
             this.dgv_activefood.ReadOnly = true;
             this.dgv_activefood.RowHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_activefood.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_activefood.RowsDefaultCellStyle = dataGridViewCellStyle28;
             this.dgv_activefood.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_activefood.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_activefood.RowTemplate.Height = 35;
@@ -2246,14 +2248,14 @@ namespace FoodandBeverage.Forms
             this.dgv_cancelorders.AllowUserToAddRows = false;
             this.dgv_cancelorders.AllowUserToDeleteRows = false;
             this.dgv_cancelorders.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_cancelorders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_cancelorders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             this.dgv_cancelorders.ColumnHeadersHeight = 40;
             this.dgv_cancelorders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cd_slno,
@@ -2264,9 +2266,9 @@ namespace FoodandBeverage.Forms
             this.dgv_cancelorders.Name = "dgv_cancelorders";
             this.dgv_cancelorders.ReadOnly = true;
             this.dgv_cancelorders.RowHeadersVisible = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_cancelorders.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_cancelorders.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.dgv_cancelorders.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgv_cancelorders.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_cancelorders.RowTemplate.Height = 35;
@@ -2310,12 +2312,12 @@ namespace FoodandBeverage.Forms
             this.tlp_offer_type_main.ColumnCount = 1;
             this.tlp_offer_type_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_offer_type_main.Controls.Add(this.tlp_oofertype_radio, 0, 0);
-            this.tlp_offer_type_main.Location = new System.Drawing.Point(0, 50);
+            this.tlp_offer_type_main.Location = new System.Drawing.Point(0, 292);
             this.tlp_offer_type_main.Name = "tlp_offer_type_main";
             this.tlp_offer_type_main.RowCount = 2;
             this.tlp_offer_type_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.042552F));
             this.tlp_offer_type_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.95745F));
-            this.tlp_offer_type_main.Size = new System.Drawing.Size(730, 405);
+            this.tlp_offer_type_main.Size = new System.Drawing.Size(708, 70);
             this.tlp_offer_type_main.TabIndex = 4;
             this.tlp_offer_type_main.Visible = false;
             // 
@@ -2331,7 +2333,7 @@ namespace FoodandBeverage.Forms
             this.tlp_oofertype_radio.Name = "tlp_oofertype_radio";
             this.tlp_oofertype_radio.RowCount = 1;
             this.tlp_oofertype_radio.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_oofertype_radio.Size = new System.Drawing.Size(724, 30);
+            this.tlp_oofertype_radio.Size = new System.Drawing.Size(702, 1);
             this.tlp_oofertype_radio.TabIndex = 7;
             // 
             // rdproductoffer
@@ -2342,7 +2344,7 @@ namespace FoodandBeverage.Forms
             this.rdproductoffer.ForeColor = System.Drawing.Color.White;
             this.rdproductoffer.Location = new System.Drawing.Point(3, 3);
             this.rdproductoffer.Name = "rdproductoffer";
-            this.rdproductoffer.Size = new System.Drawing.Size(173, 24);
+            this.rdproductoffer.Size = new System.Drawing.Size(167, 1);
             this.rdproductoffer.TabIndex = 1;
             this.rdproductoffer.TabStop = true;
             this.rdproductoffer.Text = "Product Offer";
@@ -2355,9 +2357,9 @@ namespace FoodandBeverage.Forms
             this.rdcombooffer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rdcombooffer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdcombooffer.ForeColor = System.Drawing.Color.White;
-            this.rdcombooffer.Location = new System.Drawing.Point(182, 3);
+            this.rdcombooffer.Location = new System.Drawing.Point(176, 3);
             this.rdcombooffer.Name = "rdcombooffer";
-            this.rdcombooffer.Size = new System.Drawing.Size(539, 24);
+            this.rdcombooffer.Size = new System.Drawing.Size(523, 1);
             this.rdcombooffer.TabIndex = 0;
             this.rdcombooffer.TabStop = true;
             this.rdcombooffer.Text = "Combo Offer";
@@ -2369,7 +2371,7 @@ namespace FoodandBeverage.Forms
             this.lblnodata.AutoSize = true;
             this.lblnodata.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblnodata.ForeColor = System.Drawing.Color.Red;
-            this.lblnodata.Location = new System.Drawing.Point(29, 31);
+            this.lblnodata.Location = new System.Drawing.Point(99, 6);
             this.lblnodata.Name = "lblnodata";
             this.lblnodata.Size = new System.Drawing.Size(84, 24);
             this.lblnodata.TabIndex = 5;
@@ -2394,7 +2396,7 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1009, 562);
+            this.ClientSize = new System.Drawing.Size(791, 562);
             this.Controls.Add(this.lblnodata_offer);
             this.Controls.Add(this.dgv_promotion);
             this.Controls.Add(this.pnl_boxdetails_dash);

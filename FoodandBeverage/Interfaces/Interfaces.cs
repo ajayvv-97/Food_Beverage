@@ -105,7 +105,8 @@ namespace FoodandBeverage.Interfaces
         Refund = 4,
         ClearCard = 5,
         Consolidation = 6,
-        CardSplit = 7
+        CardSplit = 7,
+        FandBPayment = 8
     };
 
 

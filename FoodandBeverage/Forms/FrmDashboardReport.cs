@@ -2039,9 +2039,19 @@ namespace FoodandBeverage.Forms
         {
             pnlexpence_viewmore.Visible = false;
         }
-
+        #region please wait loading
+        private async void ShowLoadingdGif()
+        {
+            this.Opacity = 0;
+            LoadingGif gifForm = new LoadingGif();
+            gifForm.StartPosition = FormStartPosition.CenterScreen;
+            gifForm.ShowDialog();
+            this.Opacity = 100;
+        }
+        #endregion
         private void btnrefreshreport_Click(object sender, EventArgs e)
         {
+            ShowLoadingdGif();
             Filldashboard();
             FillChartTwoBarChart();
             FillCharttotaldiscountChart();

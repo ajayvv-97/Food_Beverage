@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
         public int Bookingmasterid = 0;
         public int BookingType = 0;
         ClsDocument clsDocument = new ClsDocument();
-        ClsGeneral ClsGeneral = new ClsGeneral();
+        ClsGeneral clsGeneral = new ClsGeneral();
         public FrmOrder(int tid, int booktype, int bmasterid, List<FrmDashboard.Namelist> checkedtableNames)
         {
             tableId = tid;
@@ -180,6 +180,7 @@ namespace FoodandBeverage.Forms
         public bool bookinorder_F = false;//chcek frist order from reservation page
 
         string reading_RFID = "";
+        public bool RFID_Status = false;
         #endregion
 
         private void btn_tableorder_Click(object sender, EventArgs e)
@@ -5895,19 +5896,19 @@ namespace FoodandBeverage.Forms
 
         private void tlp_payment_outerdesign_Paint(object sender, PaintEventArgs e)
         {
-            float borderRadius = 10f; // adjust this value to change the roundness of the corners
-            GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(tlp_payment_outerdesign.ClientRectangle.X, tlp_payment_outerdesign.ClientRectangle.Y, tlp_payment_outerdesign.ClientRectangle.Width, tlp_payment_outerdesign.ClientRectangle.Height);
-            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
-            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
-            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
-            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
-            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
-            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
-            path.CloseFigure();
-            tlp_payment_outerdesign.Region = new Region(path);
+            //float borderRadius = 10f; // adjust this value to change the roundness of the corners
+            //GraphicsPath path = new GraphicsPath();
+            //RectangleF rect = new RectangleF(tlp_payment_outerdesign.ClientRectangle.X, tlp_payment_outerdesign.ClientRectangle.Y, tlp_payment_outerdesign.ClientRectangle.Width, tlp_payment_outerdesign.ClientRectangle.Height);
+            //path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+            //path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+            //path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+            //path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+            //path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+            //path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+            //path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+            //path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+            //path.CloseFigure();
+            //tlp_payment_outerdesign.Region = new Region(path);
         }
 
         private void tlp_seletedItem_main_Paint(object sender, PaintEventArgs e)
@@ -6736,7 +6737,7 @@ namespace FoodandBeverage.Forms
             tlp_serach_main.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 66.21f);
             tlp_food_cate.Visible = true;
             textb_shape();
-
+            RFID_Status = false;
             if (OrderRunning_Status)
             {
                 Promodetailsid = 0;
@@ -7062,14 +7063,31 @@ namespace FoodandBeverage.Forms
 
                         dmnsalemaster.EntryNo = txtinvoiceno.Text;
 
-                        dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
-                        dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                        dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                        dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                        if (rb_male.Checked)
-                            dmnsalemaster.Gender = 1;
+                        if(RFID_Status)
+                        {
+                            dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                            dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                            dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                            dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                            dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);                            
+                            if (lbl_cardgender.Text == "Male")
+                                dmnsalemaster.Gender = 1;
+                            else if (lbl_cardgender.Text == "Female")
+                                dmnsalemaster.Gender = 2;
+                            else if (lbl_cardgender.Text == "Others")
+                                dmnsalemaster.Gender = 3;
+                        }
                         else
-                            dmnsalemaster.Gender = 2;
+                        {
+                            dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                            dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                            dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                            dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                            if (rb_male.Checked)
+                                dmnsalemaster.Gender = 1;
+                            else
+                                dmnsalemaster.Gender = 2;
+                        }
 
                         dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                         dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
@@ -7124,7 +7142,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.TotalSGST = TotalIGST / 2;
                         dmnsalemaster.TotalVAT = TotalVAT;
                         dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
-                        ////dmnsalemaster.mDevice = clsGeneral.FetchMacId();
+                        dmnsalemaster.mDevice = clsGeneral.FetchMacId();
                         //dmnsalemaster.Remark = txtRemark.Text; 
                         dmnsalemaster.BranchId = FrmDashboard.BranchId;
                         dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
@@ -7138,7 +7156,8 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.Rev_Status = 0;
 
                         dmnsalemaster.ICardNo = reading_RFID;
-                        dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);                        
+                        dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
+                        dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                         if (InsertStatusP.SalesMasterId != 0)
@@ -7261,14 +7280,32 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                         dmnsalemaster.OaAmount = Convert.ToDecimal(txtotheraddamt.Text);
 
-                        dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
-                        dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                        dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                        dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                        if (rb_male.Checked)
-                            dmnsalemaster.Gender = 1;
+                        if (RFID_Status)
+                        {
+                            dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                            dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                            dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                            dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                            dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
+
+                            if (lbl_cardgender.Text == "Male")
+                                dmnsalemaster.Gender = 1;
+                            else if (lbl_cardgender.Text == "Female")
+                                dmnsalemaster.Gender = 2;
+                            else if (lbl_cardgender.Text == "Others")
+                                dmnsalemaster.Gender = 3;
+                        }
                         else
-                            dmnsalemaster.Gender = 2;
+                        {
+                            dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                            dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                            dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                            dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                            if (rb_male.Checked)
+                                dmnsalemaster.Gender = 1;
+                            else
+                                dmnsalemaster.Gender = 2;
+                        }
 
                         if (txtother_descr.Text == "Description Type Here ...")
                             dmnsalemaster.OaDesc = "";
@@ -7324,14 +7361,15 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.TotalSGST = TotalSGST;
                         dmnsalemaster.TotalVAT = TotalVAT;
                         dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
-                        //
-                        //dmnsalemaster.mDevice = clsGeneral.FetchMacId();
+                        dmnsalemaster.mDevice = clsGeneral.FetchMacId();
 
                         var duration = DateTime.Now - OrderDateTime;
                         int min = duration.Seconds;
                         dmnsalemaster.TimeDuration = min;
+
                         dmnsalemaster.ICardNo = reading_RFID;
                         dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
+                        dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
                         #region details
@@ -7454,7 +7492,9 @@ namespace FoodandBeverage.Forms
                 }
             }
             catch (Exception ex)
-            { }
+            {
+
+            }
 
         }
         private void btn_print_bill_Click(object sender, EventArgs e)
@@ -7571,11 +7611,6 @@ namespace FoodandBeverage.Forms
             pnlproductviewmore.Visible = false;
         }
 
-        private void btn_billtype_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btncash_Click(object sender, EventArgs e)
         {
             try
@@ -7600,8 +7635,8 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         break;
                     case "btnothers":
-                         panelWidthPercentage = 25;
-                         panelheightPercentage = 20;
+                         panelWidthPercentage = 40;
+                         panelheightPercentage = 30;
                          panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                          panelHeight = (int)(this.Height * panelheightPercentage / 100);
                         pnlwifi.Size = new Size(panelWidth, panelHeight);
@@ -8666,9 +8701,45 @@ namespace FoodandBeverage.Forms
             tlp_gridview.Visible = false;
         }
 
+        private Timer opacityTimer;
+        private bool isFadingOut = false;
+        private const int timerInterval = 100;
+        private int fadeStep = 1;
+        private int maxFadeStep = 20; // Maximum fade step value
+
+        private Timer opacityTimer_tlp;
+        private bool isFadingOut_tlp = false;
+        private const int timerInterval_tlp = 25;
+        private int fadeStep_tlp = 10;
+
         private void btn_custom_details_Click(object sender, EventArgs e)
         {
-            if (pnl_userdetails.Visible)
+            isFadingOut = true;
+            isFadingOut_tlp = true;
+            StartFadingOut(); // Start fading out both panels
+        }
+
+        private void StartFadingOut()
+        {
+            if (opacityTimer == null)
+            {
+                opacityTimer = new Timer();
+                opacityTimer.Interval = timerInterval;
+                opacityTimer.Tick += OpacityTimer_Tick;
+            }
+            opacityTimer.Start();
+
+            if (opacityTimer_tlp == null)
+            {
+                opacityTimer_tlp = new Timer();
+                opacityTimer_tlp.Interval = timerInterval;
+                opacityTimer_tlp.Tick += OpacityTimer_tlp_payment_main_Tick;
+            }
+            isFadingOut = true;
+            isFadingOut_tlp = true;
+            opacityTimer_tlp.Start();
+
+            if (pnl_userdetails.Visible) // If pnl_userdetails is visible
             {
                 if (txtentrie_descr.Visible == false)
                 {
@@ -8680,7 +8751,6 @@ namespace FoodandBeverage.Forms
                     tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
                     txtentrie_descr.Visible = false;
                 }
-
                 pnl_userdetails.Visible = false;
                 tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.AutoSize);
                 tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
@@ -8689,10 +8759,10 @@ namespace FoodandBeverage.Forms
                 tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
                 tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
                 tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
-
-
+                isFadingOut = true;
+                isFadingOut_tlp = false;
             }
-            else
+            else // If pnl_userdetails is not visible
             {
                 tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
                 tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.AutoSize);
@@ -8715,8 +8785,63 @@ namespace FoodandBeverage.Forms
                 pnl_userdetails.Visible = true;
                 pnl_userdetails.Dock = DockStyle.Fill;
 
-                textb_shape();
+                isFadingOut = false;
+                isFadingOut_tlp = false;
 
+                textb_shape();
+            }
+            if (opacityTimer == null)
+            {
+                opacityTimer = new Timer();
+                opacityTimer.Interval = timerInterval;
+                opacityTimer.Tick += OpacityTimer_Tick;
+            }
+            opacityTimer.Start();
+
+            if (opacityTimer_tlp == null)
+            {
+                opacityTimer_tlp = new Timer();
+                opacityTimer_tlp.Interval = timerInterval;
+                opacityTimer_tlp.Tick += OpacityTimer_tlp_payment_main_Tick;
+            }
+            opacityTimer_tlp.Start();
+        }
+
+        private void OpacityTimer_Tick(object sender, EventArgs e)
+        {
+            // Fading for pnl_userdetails
+            Color currentColor = pnl_userdetails.BackColor;
+            int newAlpha = isFadingOut ? currentColor.A - fadeStep : currentColor.A + fadeStep;
+            newAlpha = Math.Max(0, Math.Min(newAlpha, 255));
+            pnl_userdetails.BackColor = Color.FromArgb(newAlpha, currentColor.R, currentColor.G, currentColor.B);
+
+            if ((isFadingOut && newAlpha <= 0) || (!isFadingOut && newAlpha >= 255))
+            {
+                opacityTimer.Stop();
+                pnl_userdetails.Visible = !isFadingOut; // Hide panel if fading out, show panel if fading in
+            }
+            else
+            {
+                // Increase the fade step gradually up to the maximum value
+                if (fadeStep < maxFadeStep)
+                {
+                    fadeStep++;
+                }
+            }
+        }
+
+        private void OpacityTimer_tlp_payment_main_Tick(object sender, EventArgs e)
+        {
+            // Fading for tlp_payment_main
+            Color currentColor = tlp_payment_main.BackColor;
+            int newAlpha = isFadingOut_tlp ? currentColor.A - fadeStep_tlp : currentColor.A + fadeStep_tlp;
+            newAlpha = Math.Max(0, Math.Min(newAlpha, 255));
+            tlp_payment_main.BackColor = Color.FromArgb(newAlpha, currentColor.R, currentColor.G, currentColor.B);
+
+            if ((isFadingOut_tlp && newAlpha <= 0) || (!isFadingOut_tlp && newAlpha >= 255))
+            {
+                opacityTimer_tlp.Stop();
+                tlp_payment_main.Visible = !isFadingOut_tlp; // Hide control if fading out, show control if fading in
             }
         }
 
@@ -8752,7 +8877,7 @@ namespace FoodandBeverage.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtemailid.Text))
             {
-                if (ClsGeneral.CheckEmailId(this, txtemailid.Text) != true)
+                if (clsGeneral.CheckEmailId(this, txtemailid.Text) != true)
                     txtemailid.Focus();
             }
         }
@@ -9188,24 +9313,28 @@ namespace FoodandBeverage.Forms
         {
             pnl_cardAcoount.Visible = false;
             tlp_tableorder.Enabled = true;
+            blinkTimer.Stop();
         }
 
         private void btn_card_paynow_Click(object sender, EventArgs e)
         {
+            pnl_cardAcoount.Visible = false;
             paybillcal(Convert.ToInt32(PaymentType.OTHERS));
+            blinkTimer.Stop();
         }
 
         private void btnwificancel_Click(object sender, EventArgs e)
         {
             tlp_tableorder.Enabled = true;
             pnlwifi.Visible = false;
+            blinkTimer.Stop();
         }
 
         private void wificard_timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                 reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
+                reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
                 if (reading_RFID != "Card not in contact")
                 {
                     wificard_timer.Stop();
@@ -9215,9 +9344,14 @@ namespace FoodandBeverage.Forms
                     if (reading_RFID == "" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication" || reading_RFID == "Cardnotincontact")
                     {
                         CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RFID_Status = false;
+                        wificard_timer.Start();
+                        blinkTimer.Stop();
                     }
                     else
                     {
+                        wificard_timer.Stop();
+                        RFID_Status = true;
                         BllSearch<DmnAccountLedger> bllSearch = new BllSearch<DmnAccountLedger>();
                         DmnSearch dmnSearch = new DmnSearch();
                         dmnSearch.Select = "*";
@@ -9227,6 +9361,7 @@ namespace FoodandBeverage.Forms
                         var gridSource = bllSearch.GetSearchData_CardAcc("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
                         {
+                            blinkTimer.Start();
                             lbl_card_netamount.Text = txtnetamount.Text;
                             txt_cardbalance.Text = Convert.ToString(gridSource[0].CardBalance);
                             txt_cardaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
@@ -9244,7 +9379,8 @@ namespace FoodandBeverage.Forms
                             else 
                                 lbl_cardgender.Text = "Others";
 
-                            int LedgerId = Convert.ToInt32(gridSource[0].Gender);
+                            int LedgerId = Convert.ToInt32(gridSource[0].LedgerId);
+                            txt_LedgerId.Text  = Convert.ToString(gridSource[0].LedgerId);
                             bool imageExist = clsDocument.FileExistOrNot(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
                             pb_cardprofile.Image = null;
                             if (imageExist)
@@ -9309,6 +9445,12 @@ namespace FoodandBeverage.Forms
         {
             pnl_cardAcoount.Visible = false;
             tlp_tableorder.Enabled = true;
+            blinkTimer.Stop();
+        }
+
+        private void blinkTimer_Tick(object sender, EventArgs e)
+        {
+          lbl_insff_cashbal.Visible = !lbl_insff_cashbal.Visible;            
         }
     }
 }
