@@ -332,9 +332,9 @@ namespace FoodandBeverage.Report
                     case 11:
                         s_FillReport_EmployeeList();
                         break;
-                    //case 14:
-                    //    s_FillReport_DetailRechargeReport();
-                    //    break;
+                    case 14:
+                        s_FillReport_MidasCard_PaymetReport();
+                        break;
                     //case 15:
                     //    s_FillReport_GameList();
                     //    break;
@@ -710,6 +710,63 @@ namespace FoodandBeverage.Report
                 }
                 dsReport.Tables.Add(dt_Rpt);
                 reportDocument.Load(Path + @"\Rpt_reservation.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        
+        public void s_FillReport_MidasCard_PaymetReport()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,CusName  as sFld3,Telephone  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Table = "tblSalesMaster s";
+                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId;
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1", "dFld2", "dFld3", "dFld4"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_SaleReport.rpt");
                 reportDocument.SetDataSource(dsReport);
 
                 /* header section*/

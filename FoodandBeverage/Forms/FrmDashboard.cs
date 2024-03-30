@@ -116,14 +116,14 @@ namespace FoodandBeverage.Forms
                     _instanceFrmLogin.Visible = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
-            }           
+            }
         }
 
         #region please wait loading
-        private  void ShowLoadingdGif()
+        private void ShowLoadingdGif()
         {
             this.Opacity = 0;
             LoadingGIF_Timer gifForm = new LoadingGIF_Timer();
@@ -469,7 +469,7 @@ namespace FoodandBeverage.Forms
                     txtsid.Text = "0";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -575,11 +575,11 @@ namespace FoodandBeverage.Forms
                 //SetRoundedButton(ib_PromoCode, 70);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-  
+
 
         }
 
@@ -598,21 +598,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-            tlp_tablestatus.Visible = false;
+                tlp_tablestatus.Visible = false;
                 tlp_empl_menu.Visible = false;
-            //foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
-            //{
-            //    menuButton.FlatAppearance.BorderColor = Color.White;
-            //    menuButton.FlatAppearance.BorderSize = 0;
-            //    menuButton.BackColor = Color.White;
-            //    menuButton.ForeColor = Color.Black;
-            //    menuButton.BackColor = menubuttoncolor;
-            //    menuButton.ForeColor = Color.White;
-            //}
-            //button.BackColor = Color.White;
-            //button.ForeColor = Color.Black;
-            //button.FlatAppearance.BorderColor = Color.Black;
-            //button.FlatAppearance.BorderSize = 1;
+                //foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
+                //{
+                //    menuButton.FlatAppearance.BorderColor = Color.White;
+                //    menuButton.FlatAppearance.BorderSize = 0;
+                //    menuButton.BackColor = Color.White;
+                //    menuButton.ForeColor = Color.Black;
+                //    menuButton.BackColor = menubuttoncolor;
+                //    menuButton.ForeColor = Color.White;
+                //}
+                //button.BackColor = Color.White;
+                //button.ForeColor = Color.Black;
+                //button.FlatAppearance.BorderColor = Color.Black;
+                //button.FlatAppearance.BorderSize = 1;
             }
             catch (Exception ex)
             {
@@ -620,7 +620,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
- 
+
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
@@ -669,7 +669,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 else
-                {   
+                {
                     FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
                     _instanceDashboardReport.Dock = DockStyle.Fill;
                     ResizeForm(_instanceDashboardReport);
@@ -684,10 +684,10 @@ namespace FoodandBeverage.Forms
                     AutoTimer.Stop();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
-            }  
+            }
         }
         public class CategoryInfo
         {
@@ -722,10 +722,10 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1";
                         break;
                     case 2:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.RevStatus=1";
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1 and ti.OrderMasterId >0";
                         break;
                     case 3:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.RevStatus=0";
+                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0";
                         break;
                 }
                 dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
@@ -738,7 +738,7 @@ namespace FoodandBeverage.Forms
                     {
                         DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                         DateTime afterAddMinutes = gridSource[j].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0 )//&& DateTime.Now > afterAddMinutes
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0)//&& DateTime.Now > afterAddMinutes
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
@@ -970,7 +970,7 @@ namespace FoodandBeverage.Forms
                                             DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                                             DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
 
-                                            if (DateTime.Now>= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
+                                            if (DateTime.Now >= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
                                             {
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserve_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -1043,7 +1043,7 @@ namespace FoodandBeverage.Forms
             }
         }
         public void TableStaus(int serachmode)
-        {           
+        {
             try
             {
                 AutoTimer.Stop();
@@ -1051,7 +1051,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
                     "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, "+ -Convert.ToDecimal(FrmLogin.BookingInterwell)+ ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate";
+                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate";
                 dmnSearch.Table = " tblTable_info  ti " +
                     " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 dmnSearch.OrderBy = "";
@@ -1189,7 +1189,7 @@ namespace FoodandBeverage.Forms
                                             dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].Field6;
                                             dmnSearch.OrderBy = "";
                                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                                            if(gridSource_order.Count>0)
+                                            if (gridSource_order.Count > 0)
                                             {
                                                 existingPictureBox.Width = 50;
                                                 existingPictureBox.Height = 50;
@@ -1232,7 +1232,7 @@ namespace FoodandBeverage.Forms
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             }
-                                            else if(Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
+                                            else if (Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
 
                                                 existingPictureBox.Width = 60;
@@ -1288,7 +1288,7 @@ namespace FoodandBeverage.Forms
                                     pnl_box.AccessibleDescription = "0";
                                 }
                             }
-                            
+
                         }
                     }
                 }
@@ -1399,7 +1399,7 @@ namespace FoodandBeverage.Forms
                             _instanceFrmOrder.Show();
                             _instanceFrmOrder.BringToFront();
                         }
-                        
+
                     }
                     else
                     {
@@ -1734,75 +1734,75 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-           TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-            string tlpName = "tlp_category_com_" + tlpcate.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.LightBlue;
-                // Show tooltip with the item name
-                toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
-            }
+                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+                string tlpName = "tlp_category_com_" + tlpcate.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.LightBlue;
+                    // Show tooltip with the item name
+                    toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
+                }
             }
             catch (Exception ex)
             {
 
             }
- 
+
         }
         private void tlp_category_com_MouseLeave(object sender, EventArgs e)
         {
             try
             {
-      TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-            string tlpName = "tlp_category_com_" + tlpcate.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.White;
-            }
+                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+                string tlpName = "tlp_category_com_" + tlpcate.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.White;
+                }
             }
             catch (Exception ex)
             {
 
             }
-      
+
         }
         private void tlp_category_MouseHover(object sender, EventArgs e)
         {
             try
             {
-           TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-            string tlpName = "tlp_category_com_" + tlpcate.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.LightBlue;
-                // Show tooltip with the item name
-                toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
-            }
+                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+                string tlpName = "tlp_category_com_" + tlpcate.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.LightBlue;
+                    // Show tooltip with the item name
+                    toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
+                }
             }
             catch (Exception ex)
             {
 
             }
- 
+
         }
         private void tlp_category_MouseLeave(object sender, EventArgs e)
         {
             try
             {
-            TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-            string tlpName = "tlp_category_" + tlpcate.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.White;
-            }
+                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
+                string tlpName = "tlp_category_" + tlpcate.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.White;
+                }
             }
             catch (Exception ex)
             {
@@ -1814,81 +1814,81 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-PictureBox pic = sender as PictureBox;
-            string tlpName = "tlp_com" + pic.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.LightBlue;
-                tlp.BorderStyle = BorderStyle.FixedSingle;
-            }
+                PictureBox pic = sender as PictureBox;
+                string tlpName = "tlp_com" + pic.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.LightBlue;
+                    tlp.BorderStyle = BorderStyle.FixedSingle;
+                }
             }
             catch (Exception ex)
             {
 
             }
-            
+
         }
         private void pictureBox_com_MouseLeave(object sender, EventArgs e)
         {
             try
             {
-        PictureBox pic = sender as PictureBox;
-            string tlpName = "tlp_com" + pic.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.White;
-                tlp.BorderStyle = BorderStyle.None;
-            }
+                PictureBox pic = sender as PictureBox;
+                string tlpName = "tlp_com" + pic.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.White;
+                    tlp.BorderStyle = BorderStyle.None;
+                }
             }
             catch (Exception ex)
             {
 
             }
-    
+
         }
         private void pictureBox_MouseHover(object sender, EventArgs e)
         {
             try
             {
-PictureBox pic = sender as PictureBox;
-            string tlpName = "tlp" + pic.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.LightBlue;
-                tlp.BorderStyle = BorderStyle.FixedSingle;
-            }
+                PictureBox pic = sender as PictureBox;
+                string tlpName = "tlp" + pic.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.LightBlue;
+                    tlp.BorderStyle = BorderStyle.FixedSingle;
+                }
             }
             catch (Exception ex)
             {
 
             }
-            
+
         }
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             try
             {
-         PictureBox pic = sender as PictureBox;
-            string tlpName = "tlp" + pic.Tag;
-            // Find the TableLayoutPanel control by name
-            TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-            if (tlp != null)
-            {
-                tlp.BackColor = Color.White;
-                tlp.BorderStyle = BorderStyle.None;
-            }
+                PictureBox pic = sender as PictureBox;
+                string tlpName = "tlp" + pic.Tag;
+                // Find the TableLayoutPanel control by name
+                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
+                if (tlp != null)
+                {
+                    tlp.BackColor = Color.White;
+                    tlp.BorderStyle = BorderStyle.None;
+                }
             }
             catch (Exception ex)
             {
 
             }
-   
+
         }
 
 
@@ -1897,15 +1897,15 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-            GraphicsPath path = new GraphicsPath();
-            path.AddArc(0, 0, cornerRadius * 2, cornerRadius * 2, 180, 90); // Top-left corner
-            path.AddArc(pictureBox.Width - 2 * cornerRadius, 0, cornerRadius * 2, cornerRadius * 2, 270, 90); // Top-right corner
-            path.AddArc(pictureBox.Width - 2 * cornerRadius, pictureBox.Height - 2 * cornerRadius, cornerRadius * 2, cornerRadius * 2, 0, 90); // Bottom-right corner
-            path.AddArc(0, pictureBox.Height - 2 * cornerRadius, cornerRadius * 2, cornerRadius * 2, 90, 90); // Bottom-left corner
-            path.CloseFigure();
+                GraphicsPath path = new GraphicsPath();
+                path.AddArc(0, 0, cornerRadius * 2, cornerRadius * 2, 180, 90); // Top-left corner
+                path.AddArc(pictureBox.Width - 2 * cornerRadius, 0, cornerRadius * 2, cornerRadius * 2, 270, 90); // Top-right corner
+                path.AddArc(pictureBox.Width - 2 * cornerRadius, pictureBox.Height - 2 * cornerRadius, cornerRadius * 2, cornerRadius * 2, 0, 90); // Bottom-right corner
+                path.AddArc(0, pictureBox.Height - 2 * cornerRadius, cornerRadius * 2, cornerRadius * 2, 90, 90); // Bottom-left corner
+                path.CloseFigure();
 
-            pictureBox.Region = new Region(path);
-            pb_appicon.Location = new Point((pnl_header.Width - pb_appicon.Width) / 2, (pnl_header.Height - pb_appicon.Height) / 2);
+                pictureBox.Region = new Region(path);
+                pb_appicon.Location = new Point((pnl_header.Width - pb_appicon.Width) / 2, (pnl_header.Height - pb_appicon.Height) / 2);
             }
             catch (Exception ex)
             {
@@ -1968,7 +1968,7 @@ PictureBox pic = sender as PictureBox;
             {
 
             }
-      
+
         }
 
         private void pnl_header_Click(object sender, EventArgs e)
@@ -2040,16 +2040,16 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-                    if (menutable_click)
-                        AutoTimer.Stop();
-                    if (sender is Button button)
-                    {
-                        ChangeButtonBorder(button);
-                    }
-                    CheckedtableNames.Clear();
-                    Billcomplete_Fill();
+                if (menutable_click)
+                    AutoTimer.Stop();
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+                CheckedtableNames.Clear();
+                Billcomplete_Fill();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -2200,9 +2200,9 @@ PictureBox pic = sender as PictureBox;
                                         lbltablename.Text = gridSource[i].TableCode;
                                         lbltablename.ForeColor = Color.Black;
                                         lbltablename.BackColor = Color.Transparent;
-                                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);        
+                                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
                                         lbltablename.ForeColor = Color.Red;
-                      
+
                                         if (Convert.ToInt32(gridSource[i].OrderStatus) == 1)
                                             tlp_table_inner.Controls.Add(chkBox_sele, 0, 0);
                                         // Add the PictureBox and Label to the TableLayoutPanel 
@@ -2375,393 +2375,393 @@ PictureBox pic = sender as PictureBox;
                 contextMenu.Show(Cursor.Position);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-            }           
+            }
 
         }
-        
-    private void VendorReports_Click(object sender, EventArgs e)
+
+        private void VendorReports_Click(object sender, EventArgs e)
         {
             try
             {
-   panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-         
+
         }
         private void TableTurnoverReports_Click(object sender, EventArgs e)
         {
             try
             {
- panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-           
+
         }
         private void MenuAnalysisReports_Click(object sender, EventArgs e)
         {
             try
             {
-  panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-          
+
         }
 
         private void PurchaseitemItem_Click(object sender, EventArgs e)
         {
             try
             {
-       panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-     
+
         }
 
         private void ExpenseReportItem_Click(object sender, EventArgs e)
         {
             try
             {
-   panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-         
+
         }
         private void ReservationSeatingItem_Click(object sender, EventArgs e)
         {
             try
             {
-     panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-       
+
         }
         private void EmployeePerformanceItem_Click(object sender, EventArgs e)
         {
             try
             {
-  panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-          
+
         }
         private void PromotionsDiscountsItem_Click(object sender, EventArgs e)
         {
             try
             {
- panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-           
+
         }
         private void SalesReportItem_Click(object sender, EventArgs e)
         {
             try
             {
-      panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
             }
-      
+
         }
 
         private void InventoryReportItem_Click(object sender, EventArgs e)
         {
             try
             {
-   panelDesktop.Controls.Clear();
-            if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-            {
-                Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
                 {
-                    _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
                 }
                 else
                 {
-                    _instanceFrmreport.Close();
-                    Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
-                    newFrmreport.TopLevel = false;
-                    newFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(newFrmreport);
-                    newFrmreport.Show();
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
                 }
-            }
-            else
-            {
-                Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
-                _instanceFrmreport.TopLevel = false;
-                _instanceFrmreport.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmreport);
-                _instanceFrmreport.Show();
-            }
             }
             catch (Exception ex)
             {
 
-            }        
+            }
 
         }
 
@@ -2840,7 +2840,7 @@ PictureBox pic = sender as PictureBox;
 
                 panelDesktop.Controls.Add(flpcolor);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -2945,33 +2945,33 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-            DmnSetting dmnsettingr = new DmnSetting();
-            BllSettins BllSettin = new BllSettins();
-            if (string.IsNullOrWhiteSpace(txtsid.Text))
-                txtsid.Text = "0";
-            dmnsettingr.SId = Convert.ToInt32(txtsid.Text);
-            dmnsettingr.APPColor = txtappcolorname.Text;
-            dmnsettingr.MenuButtonColor = txtmenubuttoncolorname.Text;
-            dmnsettingr.OperationButtonColor = txtoperbuttoncolorname.Text;
-            //dmnsettingr.Description = txtdesc.Text;
-            dmnsettingr.Status = 1;
-            dmnsettingr.BranchId = FrmDashboard.BranchId;
-            dmnsettingr.CreatedBy = FrmDashboard.UserId;
-            var InsertStatus = BllSettin.AddEditDataSetting("prdInsert_Upd_Setting", dmnsettingr);
-            if (InsertStatus == null)
-            {
-                CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //break;
-            }
-            if (InsertStatus != null)
-            {
-                if (Convert.ToInt32(txtsid.Text) > 0)
-                    CMessageBox.Show("Update Successfuly ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    CMessageBox.Show("Save Successfuly ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                AppColorSetting();
-            }
-            pnlappcolor.Visible = false;
+                DmnSetting dmnsettingr = new DmnSetting();
+                BllSettins BllSettin = new BllSettins();
+                if (string.IsNullOrWhiteSpace(txtsid.Text))
+                    txtsid.Text = "0";
+                dmnsettingr.SId = Convert.ToInt32(txtsid.Text);
+                dmnsettingr.APPColor = txtappcolorname.Text;
+                dmnsettingr.MenuButtonColor = txtmenubuttoncolorname.Text;
+                dmnsettingr.OperationButtonColor = txtoperbuttoncolorname.Text;
+                //dmnsettingr.Description = txtdesc.Text;
+                dmnsettingr.Status = 1;
+                dmnsettingr.BranchId = FrmDashboard.BranchId;
+                dmnsettingr.CreatedBy = FrmDashboard.UserId;
+                var InsertStatus = BllSettin.AddEditDataSetting("prdInsert_Upd_Setting", dmnsettingr);
+                if (InsertStatus == null)
+                {
+                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //break;
+                }
+                if (InsertStatus != null)
+                {
+                    if (Convert.ToInt32(txtsid.Text) > 0)
+                        CMessageBox.Show("Update Successfuly ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        CMessageBox.Show("Save Successfuly ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AppColorSetting();
+                }
+                pnlappcolor.Visible = false;
             }
             catch (Exception ex)
             {
@@ -2984,20 +2984,20 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-        if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Color selectedColor = colorDialog1.Color;
-                pbappcoloepicker.BackColor = selectedColor;
-                tlp_main_sidebar_pnldesktop.BackColor = selectedColor;
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
-            }
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Color selectedColor = colorDialog1.Color;
+                    pbappcoloepicker.BackColor = selectedColor;
+                    tlp_main_sidebar_pnldesktop.BackColor = selectedColor;
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                }
             }
             catch (Exception ex)
             {
 
             }
-    
+
         }
 
         private void btn_avial_Click(object sender, EventArgs e)
@@ -3028,35 +3028,36 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-     if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null) {
-                FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
-                if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
-                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
+                {
+                    FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
+                    if (_instanceFrmFTICategory.WindowState == FormWindowState.Minimized)
+                        _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmFTICategory.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmFTICategory);
+                        panelDesktop.Controls.Add(_instanceFrmFTICategory);
+                        _instanceFrmFTICategory.Show();
+                        _instanceFrmFTICategory.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmFTICategory.Dock = DockStyle.None;
+                    FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
                     ResizeForm(_instanceFrmFTICategory);
+                    _instanceFrmFTICategory.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmFTICategory);
                     _instanceFrmFTICategory.Show();
+                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmFTICategory.BringToFront();
                 }
-            }
-            else
-            {
-                FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
-                ResizeForm(_instanceFrmFTICategory);
-                _instanceFrmFTICategory.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                _instanceFrmFTICategory.Show();
-                _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmFTICategory.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-       
+
 
         }
 
@@ -3064,36 +3065,36 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-        if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
-            {
-                FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
-                if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
-                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
+                {
+                    FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
+                    if (_instanceItemRegistartion.WindowState == FormWindowState.Minimized)
+                        _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceItemRegistartion.Dock = DockStyle.None;
+                        ResizeForm(_instanceItemRegistartion);
+                        panelDesktop.Controls.Add(_instanceItemRegistartion);
+                        _instanceItemRegistartion.Show();
+                        _instanceItemRegistartion.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceItemRegistartion.Dock = DockStyle.None;
+                    FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
                     ResizeForm(_instanceItemRegistartion);
+                    _instanceItemRegistartion.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceItemRegistartion);
                     _instanceItemRegistartion.Show();
+                    _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceItemRegistartion.BringToFront();
                 }
-            }
-            else
-            {
-                FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
-                ResizeForm(_instanceItemRegistartion);
-                _instanceItemRegistartion.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceItemRegistartion);
-                _instanceItemRegistartion.Show();
-                _instanceItemRegistartion.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceItemRegistartion.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-    
+
 
         }
         private void ResizeForm(Form form)
@@ -3112,77 +3113,77 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
- if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
-            {
-                FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
-                if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
+                if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
                 {
-                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    //ResizeForm(_instanceFrmIngredient);
+                    FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
+                    if (_instanceFrmIngredient.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        //ResizeForm(_instanceFrmIngredient);
+                    }
+                    else
+                    {
+                        _instanceFrmIngredient.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmIngredient);
+                        panelDesktop.Controls.Add(_instanceFrmIngredient);
+                        _instanceFrmIngredient.Show();
+                        _instanceFrmIngredient.BringToFront();
+                    }
                 }
                 else
                 {
-                    _instanceFrmIngredient.Dock = DockStyle.None;
+                    FrmIngredient _instanceFrmIngredient = new FrmIngredient();
                     ResizeForm(_instanceFrmIngredient);
+                    _instanceFrmIngredient.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmIngredient);
                     _instanceFrmIngredient.Show();
+                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmIngredient.BringToFront();
-                }
-            }
-            else
-            {
-                FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                ResizeForm(_instanceFrmIngredient);
-                _instanceFrmIngredient.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmIngredient);
-                _instanceFrmIngredient.Show();
-                _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmIngredient.BringToFront();
 
-            }
+                }
             }
             catch (Exception ex)
             {
 
             }
-           
+
         }
 
         private void ib_menu_Click(object sender, EventArgs e)
         {
             try
             {
-   if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
-            {
-                FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
-                if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
-                    _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
+                {
+                    FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
+                    if (_instanceFrmMenu.WindowState == FormWindowState.Minimized)
+                        _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmMenu.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmMenu);
+                        panelDesktop.Controls.Add(_instanceFrmMenu);
+                        _instanceFrmMenu.Show();
+                        _instanceFrmMenu.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmMenu.Dock = DockStyle.None;
+                    FrmMenu _instanceFrmMenu = new FrmMenu();
                     ResizeForm(_instanceFrmMenu);
+                    _instanceFrmMenu.TopLevel = false;
+                    _instanceFrmMenu.Dock = DockStyle.Fill;
                     panelDesktop.Controls.Add(_instanceFrmMenu);
                     _instanceFrmMenu.Show();
+                    _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmMenu.BringToFront();
                 }
-            }
-            else
-            {
-                FrmMenu _instanceFrmMenu = new FrmMenu();
-                ResizeForm(_instanceFrmMenu);
-                _instanceFrmMenu.TopLevel = false;
-                _instanceFrmMenu.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(_instanceFrmMenu);
-                _instanceFrmMenu.Show();
-                _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmMenu.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-         
+
 
 
         }
@@ -3191,30 +3192,30 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
-            {
-                FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
-                if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
-                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
+                {
+                    FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
+                    if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
+                        _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmUnit.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmUnit);
+                        panelDesktop.Controls.Add(_instanceFrmUnit);
+                        _instanceFrmUnit.Show();
+                        _instanceFrmUnit.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmUnit.Dock = DockStyle.None;
+                    FrmUnit _instanceFrmUnit = new FrmUnit();
                     ResizeForm(_instanceFrmUnit);
+                    _instanceFrmUnit.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmUnit);
                     _instanceFrmUnit.Show();
+                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmUnit.BringToFront();
                 }
-            }
-            else
-            {
-                FrmUnit _instanceFrmUnit = new FrmUnit();
-                ResizeForm(_instanceFrmUnit);
-                _instanceFrmUnit.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmUnit);
-                _instanceFrmUnit.Show();
-                _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmUnit.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -3229,73 +3230,73 @@ PictureBox pic = sender as PictureBox;
         {
             try
             {
-     if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
-            {
-                FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
-                if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
-                    _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
+                {
+                    FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
+                    if (_instanceTableInfo.WindowState == FormWindowState.Minimized)
+                        _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceTableInfo.Dock = DockStyle.None;
+                        ResizeForm(_instanceTableInfo);
+                        panelDesktop.Controls.Add(_instanceTableInfo);
+                        _instanceTableInfo.Show();
+                        _instanceTableInfo.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceTableInfo.Dock = DockStyle.None;
+                    FrmTableInfo _instanceTableInfo = new FrmTableInfo();
                     ResizeForm(_instanceTableInfo);
+                    _instanceTableInfo.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceTableInfo);
                     _instanceTableInfo.Show();
+                    _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceTableInfo.BringToFront();
                 }
-            }
-            else
-            {
-                FrmTableInfo _instanceTableInfo = new FrmTableInfo();
-                ResizeForm(_instanceTableInfo);
-                _instanceTableInfo.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceTableInfo);
-                _instanceTableInfo.Show();
-                _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceTableInfo.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-       
+
         }
 
         private void ib_purchase_Click(object sender, EventArgs e)
         {
             try
             {
-if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
-            {
-                FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
-                if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
-                    _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
+                {
+                    FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
+                    if (_instanceFrmPurchase.WindowState == FormWindowState.Minimized)
+                        _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmPurchase.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmPurchase);
+                        panelDesktop.Controls.Add(_instanceFrmPurchase);
+                        _instanceFrmPurchase.Show();
+                        _instanceFrmPurchase.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmPurchase.Dock = DockStyle.None;
+                    FrmPurchase _instanceFrmPurchase = new FrmPurchase();
                     ResizeForm(_instanceFrmPurchase);
+                    _instanceFrmPurchase.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmPurchase);
                     _instanceFrmPurchase.Show();
+                    _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmPurchase.BringToFront();
                 }
-            }
-            else
-            {
-                FrmPurchase _instanceFrmPurchase = new FrmPurchase();
-                ResizeForm(_instanceFrmPurchase);
-                _instanceFrmPurchase.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmPurchase);
-                _instanceFrmPurchase.Show();
-                _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmPurchase.BringToFront();
-            }
 
             }
             catch (Exception ex)
             {
 
             }
-            
+
 
 
         }
@@ -3304,74 +3305,74 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
         {
             try
             {
-           if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
-            {
-                FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
-                if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
+                {
+                    FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
+                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
+                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instancePurchaseReturn.Dock = DockStyle.None;
+                        ResizeForm(_instancePurchaseReturn);
+                        panelDesktop.Controls.Add(_instancePurchaseReturn);
+                        _instancePurchaseReturn.Show();
+                        _instancePurchaseReturn.BringToFront();
+                    }
+                }
                 else
                 {
+                    FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
                     _instancePurchaseReturn.Dock = DockStyle.None;
                     ResizeForm(_instancePurchaseReturn);
+                    _instancePurchaseReturn.TopLevel = false;
                     panelDesktop.Controls.Add(_instancePurchaseReturn);
                     _instancePurchaseReturn.Show();
+                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instancePurchaseReturn.BringToFront();
                 }
-            }
-            else
-            {
-                FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
-                _instancePurchaseReturn.Dock = DockStyle.None;
-                ResizeForm(_instancePurchaseReturn);
-                _instancePurchaseReturn.TopLevel = false;
-                panelDesktop.Controls.Add(_instancePurchaseReturn);
-                _instancePurchaseReturn.Show();
-                _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instancePurchaseReturn.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
- 
+
         }
 
         private void ib_tax_Click(object sender, EventArgs e)
         {
             try
             {
- if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
-            {
-                FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
-                if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
-                    _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
+                {
+                    FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
+                    if (_instanceTaxSetting.WindowState == FormWindowState.Minimized)
+                        _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceTaxSetting.Dock = DockStyle.None;
+                        ResizeForm(_instanceTaxSetting);
+                        panelDesktop.Controls.Add(_instanceTaxSetting);
+                        _instanceTaxSetting.Show();
+                        _instanceTaxSetting.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceTaxSetting.Dock = DockStyle.None;
+                    FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
                     ResizeForm(_instanceTaxSetting);
+                    _instanceTaxSetting.TopLevel = false;
+                    _instanceTaxSetting.Dock = DockStyle.None;
                     panelDesktop.Controls.Add(_instanceTaxSetting);
                     _instanceTaxSetting.Show();
+                    _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceTaxSetting.BringToFront();
                 }
-            }
-            else
-            {
-                FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
-                ResizeForm(_instanceTaxSetting);
-                _instanceTaxSetting.TopLevel = false;
-                _instanceTaxSetting.Dock = DockStyle.None;
-                panelDesktop.Controls.Add(_instanceTaxSetting);
-                _instanceTaxSetting.Show();
-                _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceTaxSetting.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-           
+
         }
 
         private void SetRoundedButton(Button button, int cornerRadius)
@@ -3566,36 +3567,36 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
         {
             try
             {
-         if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
-            {
-                FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
-                if (_instanceFrmVendor.WindowState == FormWindowState.Minimized)
-                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
+                {
+                    FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
+                    if (_instanceFrmVendor.WindowState == FormWindowState.Minimized)
+                        _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmVendor.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmVendor);
+                        panelDesktop.Controls.Add(_instanceFrmVendor);
+                        _instanceFrmVendor.Show();
+                        _instanceFrmVendor.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmVendor.Dock = DockStyle.None;
+                    FrmVendor _instanceFrmVendor = new FrmVendor();
                     ResizeForm(_instanceFrmVendor);
+                    _instanceFrmVendor.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmVendor);
                     _instanceFrmVendor.Show();
+                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmVendor.BringToFront();
                 }
-            }
-            else
-            {
-                FrmVendor _instanceFrmVendor = new FrmVendor();
-                ResizeForm(_instanceFrmVendor);
-                _instanceFrmVendor.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmVendor);
-                _instanceFrmVendor.Show();
-                _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmVendor.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-   
+
         }
 
         private void ib_vendor_MouseLeave(object sender, EventArgs e)
@@ -3627,6 +3628,10 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
                         tlp_main_sidebar_pnldesktop.Dock = DockStyle.Fill;
                         tlp_main_sidebar_pnldesktop.Visible = true;
                     }
+                    else if (pnlappcolor.Visible)
+                        pnlappcolor.Visible = false;
+                    else if (panl_msgsettings.Visible)
+                        panl_msgsettings.Visible = false;
                     else
                         Closeform();
                     return true;
@@ -3684,72 +3689,72 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
         {
             try
             {
-  if (System.Windows.Forms.Application.OpenForms["FrmOfferDiscount"] != null)
-            {
-                FrmOfferDiscount _instanceFrmOfferDiscountr = Application.OpenForms["FrmOfferDiscount"] as FrmOfferDiscount;
-                if (_instanceFrmOfferDiscountr.WindowState == FormWindowState.Minimized)
-                    _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmOfferDiscount"] != null)
+                {
+                    FrmOfferDiscount _instanceFrmOfferDiscountr = Application.OpenForms["FrmOfferDiscount"] as FrmOfferDiscount;
+                    if (_instanceFrmOfferDiscountr.WindowState == FormWindowState.Minimized)
+                        _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmOfferDiscountr.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmOfferDiscountr);
+                        panelDesktop.Controls.Add(_instanceFrmOfferDiscountr);
+                        _instanceFrmOfferDiscountr.Show();
+                        _instanceFrmOfferDiscountr.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmOfferDiscountr.Dock = DockStyle.None;
+                    FrmOfferDiscount _instanceFrmOfferDiscountr = new FrmOfferDiscount();
                     ResizeForm(_instanceFrmOfferDiscountr);
+                    _instanceFrmOfferDiscountr.TopLevel = false;
+                    _instanceFrmOfferDiscountr.Dock = DockStyle.None;
                     panelDesktop.Controls.Add(_instanceFrmOfferDiscountr);
                     _instanceFrmOfferDiscountr.Show();
+                    _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmOfferDiscountr.BringToFront();
                 }
-            }
-            else
-            {
-                FrmOfferDiscount _instanceFrmOfferDiscountr = new FrmOfferDiscount();
-                ResizeForm(_instanceFrmOfferDiscountr);
-                _instanceFrmOfferDiscountr.TopLevel = false;
-                _instanceFrmOfferDiscountr.Dock = DockStyle.None;
-                panelDesktop.Controls.Add(_instanceFrmOfferDiscountr);
-                _instanceFrmOfferDiscountr.Show();
-                _instanceFrmOfferDiscountr.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmOfferDiscountr.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-          
+
         }
 
         private void ib_withdrawal_Click(object sender, EventArgs e)
         {
             try
             {
-          if (System.Windows.Forms.Application.OpenForms["FrmExpence"] != null)
-            {
-                FrmExpence _instanceFrmexpence = Application.OpenForms["FrmExpence"] as FrmExpence;
-                if (_instanceFrmexpence.WindowState == FormWindowState.Minimized)
-                    _instanceFrmexpence.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmExpence"] != null)
+                {
+                    FrmExpence _instanceFrmexpence = Application.OpenForms["FrmExpence"] as FrmExpence;
+                    if (_instanceFrmexpence.WindowState == FormWindowState.Minimized)
+                        _instanceFrmexpence.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmexpence.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmexpence);
+                        panelDesktop.Controls.Add(_instanceFrmexpence);
+                        _instanceFrmexpence.Show();
+                        _instanceFrmexpence.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmexpence.Dock = DockStyle.None;
+                    FrmExpence _instanceFrmexpence = new FrmExpence();
                     ResizeForm(_instanceFrmexpence);
+                    _instanceFrmexpence.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmexpence);
                     _instanceFrmexpence.Show();
                     _instanceFrmexpence.BringToFront();
                 }
             }
-            else
-            {
-                FrmExpence _instanceFrmexpence = new FrmExpence();
-                ResizeForm(_instanceFrmexpence);
-                _instanceFrmexpence.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmexpence);
-                _instanceFrmexpence.Show();
-                _instanceFrmexpence.BringToFront();
-            }
-            }
             catch (Exception ex)
             {
 
             }
-  
+
         }
 
         private void btn_sidebar_toggle_Click(object sender, EventArgs e)
@@ -3965,31 +3970,31 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
         {
             try
             {
-     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-            {
-                FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                if (_instanceFrmorderview.WindowState == FormWindowState.Minimized)
-                    _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                {
+                    FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                    if (_instanceFrmorderview.WindowState == FormWindowState.Minimized)
+                        _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmorderview.Show();
+                        _instanceFrmorderview.BringToFront();
+                        _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                }
                 else
                 {
+                    FrmOrderView _instanceFrmorderview = new FrmOrderView();
                     _instanceFrmorderview.Show();
                     _instanceFrmorderview.BringToFront();
                     _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 }
             }
-            else
-            {
-                FrmOrderView _instanceFrmorderview = new FrmOrderView();
-                _instanceFrmorderview.Show();
-                _instanceFrmorderview.BringToFront();
-                _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            }
-            }
             catch (Exception ex)
             {
 
             }
-       
+
         }
 
         private void ib_kitchenview_MouseLeave(object sender, EventArgs e)
@@ -4002,67 +4007,67 @@ if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
         {
             try
             {
-if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
-            {
-                FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                if (_instanceFrmKitchenView.WindowState == FormWindowState.Minimized)
-                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                {
+                    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                    if (_instanceFrmKitchenView.WindowState == FormWindowState.Minimized)
+                        _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmKitchenView.Show();
+                        _instanceFrmKitchenView.BringToFront();
+                        _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                }
                 else
                 {
+                    FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView();
+                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmKitchenView.Show();
                     _instanceFrmKitchenView.BringToFront();
-                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 }
-            }
-            else
-            {
-                FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView();
-                _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmKitchenView.Show();
-                _instanceFrmKitchenView.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-            
+
         }
 
         private void ib_PromoCode_Click(object sender, EventArgs e)
         {
             try
             {
-  if (System.Windows.Forms.Application.OpenForms["FrmPromo"] != null)
-            {
-                FrmPromo _instanceFrmPromo = Application.OpenForms["FrmPromo"] as FrmPromo;
-                if (_instanceFrmPromo.WindowState == FormWindowState.Minimized)
-                    _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmPromo"] != null)
+                {
+                    FrmPromo _instanceFrmPromo = Application.OpenForms["FrmPromo"] as FrmPromo;
+                    if (_instanceFrmPromo.WindowState == FormWindowState.Minimized)
+                        _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmPromo.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmPromo);
+                        panelDesktop.Controls.Add(_instanceFrmPromo);
+                        _instanceFrmPromo.Show();
+                        _instanceFrmPromo.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmPromo.Dock = DockStyle.None;
+                    FrmPromo _instanceFrmPromo = new FrmPromo();
                     ResizeForm(_instanceFrmPromo);
+                    _instanceFrmPromo.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmPromo);
                     _instanceFrmPromo.Show();
+                    _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmPromo.BringToFront();
                 }
-            }
-            else
-            {
-                FrmPromo _instanceFrmPromo = new FrmPromo();
-                ResizeForm(_instanceFrmPromo);
-                _instanceFrmPromo.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmPromo);
-                _instanceFrmPromo.Show();
-                _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmPromo.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
-          
+
         }
 
         private void ib_PromoCode_MouseLeave(object sender, EventArgs e)
@@ -4075,72 +4080,72 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-      if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Color selectedColor = colorDialog1.Color;
-                menubuttoncolor = selectedColor;
-                pbsidebuttoncoloepicker.BackColor = selectedColor;
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Color selectedColor = colorDialog1.Color;
+                    menubuttoncolor = selectedColor;
+                    pbsidebuttoncoloepicker.BackColor = selectedColor;
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
 
-                Menuhome.BackColor = menubuttoncolor;
-                Menuoperation.BackColor = menubuttoncolor;
-                Menubilling.BackColor = menubuttoncolor;
-                Menureport.BackColor = menubuttoncolor;
-                Menulogout.BackColor = menubuttoncolor;
-                Menusetting.BackColor = menubuttoncolor;
-                Menutable.BackColor = menubuttoncolor;
-                menuEmployee.BackColor = menubuttoncolor;
+                    Menuhome.BackColor = menubuttoncolor;
+                    Menuoperation.BackColor = menubuttoncolor;
+                    Menubilling.BackColor = menubuttoncolor;
+                    Menureport.BackColor = menubuttoncolor;
+                    Menulogout.BackColor = menubuttoncolor;
+                    Menusetting.BackColor = menubuttoncolor;
+                    Menutable.BackColor = menubuttoncolor;
+                    menuEmployee.BackColor = menubuttoncolor;
                 }
             }
             catch (Exception ex)
             {
 
             }
-      
+
         }
 
         private void pbopbuttoncoloepicker_Click_1(object sender, EventArgs e)
         {
-            
+
             try
             {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Color selectedColor = colorDialog1.Color;
-                opbuttoncolor = selectedColor;
-                pbopbuttoncoloepicker.BackColor = selectedColor;
-                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                    txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Color selectedColor = colorDialog1.Color;
+                    opbuttoncolor = selectedColor;
+                    pbopbuttoncoloepicker.BackColor = selectedColor;
+                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                        txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
 
-                //operation button color 
-                ib_Category.BackColor = opbuttoncolor;
-                ib_Item.BackColor = opbuttoncolor;
-                ib_ingrediant.BackColor = opbuttoncolor;
-                ib_menu.BackColor = opbuttoncolor;
-                ib_unit.BackColor = opbuttoncolor;
-                ib_table.BackColor = opbuttoncolor;
-                ib_purchase.BackColor = opbuttoncolor;
-                ib_purchasereturn.BackColor = opbuttoncolor;
-                ib_tax.BackColor = opbuttoncolor;
-                ib_vendor.BackColor = opbuttoncolor;
-                ib_Discount_offer.BackColor = opbuttoncolor;
-                ib_Expence.BackColor = opbuttoncolor;
-                ib_orderview.BackColor = opbuttoncolor;
-                ib_kitchenview.BackColor = opbuttoncolor;
-                ib_PromoCode.BackColor = opbuttoncolor;
-                ib_Company.BackColor = opbuttoncolor;
-                ib_useraccount.BackColor = opbuttoncolor;
-                ib_designation.BackColor = opbuttoncolor;
-                ib_department.BackColor = opbuttoncolor;
-                ib_employee.BackColor = opbuttoncolor;
-                ib_reservation.BackColor = opbuttoncolor;
-                ib_userpermission.BackColor = opbuttoncolor;
-                Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-                if (btnsetting != null)
-                    btnsetting.BackColor = opbuttoncolor;
+                    //operation button color 
+                    ib_Category.BackColor = opbuttoncolor;
+                    ib_Item.BackColor = opbuttoncolor;
+                    ib_ingrediant.BackColor = opbuttoncolor;
+                    ib_menu.BackColor = opbuttoncolor;
+                    ib_unit.BackColor = opbuttoncolor;
+                    ib_table.BackColor = opbuttoncolor;
+                    ib_purchase.BackColor = opbuttoncolor;
+                    ib_purchasereturn.BackColor = opbuttoncolor;
+                    ib_tax.BackColor = opbuttoncolor;
+                    ib_vendor.BackColor = opbuttoncolor;
+                    ib_Discount_offer.BackColor = opbuttoncolor;
+                    ib_Expence.BackColor = opbuttoncolor;
+                    ib_orderview.BackColor = opbuttoncolor;
+                    ib_kitchenview.BackColor = opbuttoncolor;
+                    ib_PromoCode.BackColor = opbuttoncolor;
+                    ib_Company.BackColor = opbuttoncolor;
+                    ib_useraccount.BackColor = opbuttoncolor;
+                    ib_designation.BackColor = opbuttoncolor;
+                    ib_department.BackColor = opbuttoncolor;
+                    ib_employee.BackColor = opbuttoncolor;
+                    ib_reservation.BackColor = opbuttoncolor;
+                    ib_userpermission.BackColor = opbuttoncolor;
+                    Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                    if (btnsetting != null)
+                        btnsetting.BackColor = opbuttoncolor;
 
-                Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
+                    Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
                     if (btnwhatsappsetting != null)
                         btnwhatsappsetting.BackColor = opbuttoncolor;
                 }
@@ -4161,7 +4166,7 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-                if(chkdef.Checked)
+                if (chkdef.Checked)
                 {
                     opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
                     pbopbuttoncoloepicker.BackColor = opbuttoncolor;
@@ -4223,7 +4228,7 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
             {
 
             }
-            
+
 
         }
 
@@ -4231,38 +4236,38 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-        if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
-            {
-                FrmRegistration _instanceFrmreg = Application.OpenForms["FrmRegistration"] as FrmRegistration;
-                if (_instanceFrmreg.WindowState == FormWindowState.Minimized)
-                    _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
+                {
+                    FrmRegistration _instanceFrmreg = Application.OpenForms["FrmRegistration"] as FrmRegistration;
+                    if (_instanceFrmreg.WindowState == FormWindowState.Minimized)
+                        _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmreg.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmreg);
+                        panelDesktop.Controls.Add(_instanceFrmreg);
+                        _instanceFrmreg.Show();
+                        _instanceFrmreg.BringToFront();
+                    }
+                }
                 else
                 {
+                    FrmRegistration _instanceFrmreg = new FrmRegistration();
+                    _instanceFrmreg.Margin = new Padding(20, 10, 0, 0);
+                    _instanceFrmreg.TopLevel = false;
                     _instanceFrmreg.Dock = DockStyle.None;
-                    ResizeForm(_instanceFrmreg);
                     panelDesktop.Controls.Add(_instanceFrmreg);
                     _instanceFrmreg.Show();
+                    _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmreg.BringToFront();
                 }
-            }
-            else
-            {
-                FrmRegistration _instanceFrmreg = new FrmRegistration();
-                _instanceFrmreg.Margin = new Padding(20, 10, 0, 0);
-                _instanceFrmreg.TopLevel = false;
-                _instanceFrmreg.Dock = DockStyle.None;
-                panelDesktop.Controls.Add(_instanceFrmreg);
-                _instanceFrmreg.Show();
-                _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmreg.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
 
-    
+
 
         }
 
@@ -4280,74 +4285,75 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 if (menutable_click)
                     AutoTimer.Stop();
 
-            panelDesktop.Controls.Clear();
+                panelDesktop.Controls.Clear();
                 tlp_empl_menu.Dock = DockStyle.Fill;
-            panelDesktop.Controls.Add(tlp_empl_menu);
+                panelDesktop.Controls.Add(tlp_empl_menu);
                 tlp_empl_menu.Visible = true;
-            //if (screenWidth > 1367 && screenHeight > 769)
-            //{
-            //    foreach (Control control in flpEmployee.Controls)
-            //    {
-            //        if (control is Button buttonm)
-            //        {
-            //            buttonm.Size = new Size(300, 120);
-            //            buttonm.Margin = new Padding(105, 35, 10, 2);
-            //            buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (Control control in flpEmployee.Controls)
-            //    {
-            //        if (control is Button buttonm)
-            //        {
-            //            buttonm.Size = new Size(212, 89);
-            //        }
-            //    }
-            //}
+
+                //if (screenWidth > 1367 && screenHeight > 769)
+                //{
+                //    foreach (Control control in flpEmployee.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(300, 120);
+                //            buttonm.Margin = new Padding(105, 35, 10, 2);
+                //            buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (Control control in flpEmployee.Controls)
+                //    {
+                //        if (control is Button buttonm)
+                //        {
+                //            buttonm.Size = new Size(212, 89);
+                //        }
+                //    }
+                //}
             }
             catch (Exception ex)
             {
 
             }
-      
+
         }
 
         private void ib_employee_Click(object sender, EventArgs e)
         {
             try
             {
-           if (System.Windows.Forms.Application.OpenForms["FrmEmployeeShort"] != null)
-            {
-                FrmEmployeeShort _instanceFrmEmp = Application.OpenForms["FrmEmployeeShort"] as FrmEmployeeShort;
-                if (_instanceFrmEmp.WindowState == FormWindowState.Minimized)
-                    _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmEmployeeShort"] != null)
+                {
+                    FrmEmployeeShort _instanceFrmEmp = Application.OpenForms["FrmEmployeeShort"] as FrmEmployeeShort;
+                    if (_instanceFrmEmp.WindowState == FormWindowState.Minimized)
+                        _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmEmp.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmEmp);
+                        panelDesktop.Controls.Add(_instanceFrmEmp);
+                        _instanceFrmEmp.Show();
+                        _instanceFrmEmp.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmEmp.Dock = DockStyle.None;
+                    FrmEmployeeShort _instanceFrmEmp = new FrmEmployeeShort();
                     ResizeForm(_instanceFrmEmp);
+                    _instanceFrmEmp.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmEmp);
                     _instanceFrmEmp.Show();
+                    _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmEmp.BringToFront();
                 }
-            }
-            else
-            {
-                FrmEmployeeShort _instanceFrmEmp = new FrmEmployeeShort();
-                ResizeForm(_instanceFrmEmp);
-                _instanceFrmEmp.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmEmp);
-                _instanceFrmEmp.Show();
-                _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmEmp.BringToFront();
-            }
             }
             catch (Exception ex)
             {
 
             }
- 
+
 
         }
 
@@ -4355,30 +4361,30 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms["FrmDepartment"] != null)
-            {
-                FrmDepartment _instanceFrmDep = Application.OpenForms["FrmDepartment"] as FrmDepartment;
-                if (_instanceFrmDep.WindowState == FormWindowState.Minimized)
-                    _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmDepartment"] != null)
+                {
+                    FrmDepartment _instanceFrmDep = Application.OpenForms["FrmDepartment"] as FrmDepartment;
+                    if (_instanceFrmDep.WindowState == FormWindowState.Minimized)
+                        _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmDep.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmDep);
+                        panelDesktop.Controls.Add(_instanceFrmDep);
+                        _instanceFrmDep.Show();
+                        _instanceFrmDep.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmDep.Dock = DockStyle.None;
+                    FrmDepartment _instanceFrmDep = new FrmDepartment();
                     ResizeForm(_instanceFrmDep);
+                    _instanceFrmDep.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmDep);
                     _instanceFrmDep.Show();
+                    _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmDep.BringToFront();
                 }
-            }
-            else
-            {
-                FrmDepartment _instanceFrmDep = new FrmDepartment();
-                ResizeForm(_instanceFrmDep);
-                _instanceFrmDep.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmDep);
-                _instanceFrmDep.Show();
-                _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmDep.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -4391,30 +4397,30 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms["FrmDesignation"] != null)
-            {
-                FrmDesignation _instanceFrmDesig = Application.OpenForms["FrmDesignation"] as FrmDesignation;
-                if (_instanceFrmDesig.WindowState == FormWindowState.Minimized)
-                    _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmDesignation"] != null)
+                {
+                    FrmDesignation _instanceFrmDesig = Application.OpenForms["FrmDesignation"] as FrmDesignation;
+                    if (_instanceFrmDesig.WindowState == FormWindowState.Minimized)
+                        _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmDesig.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmDesig);
+                        panelDesktop.Controls.Add(_instanceFrmDesig);
+                        _instanceFrmDesig.Show();
+                        _instanceFrmDesig.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmDesig.Dock = DockStyle.None;
+                    FrmDesignation _instanceFrmDesig = new FrmDesignation();
                     ResizeForm(_instanceFrmDesig);
+                    _instanceFrmDesig.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmDesig);
                     _instanceFrmDesig.Show();
+                    _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmDesig.BringToFront();
                 }
-            }
-            else
-            {
-                FrmDesignation _instanceFrmDesig = new FrmDesignation();
-                ResizeForm(_instanceFrmDesig);
-                _instanceFrmDesig.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmDesig);
-                _instanceFrmDesig.Show();
-                _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmDesig.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -4427,30 +4433,30 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms["FrmUserAccount"] != null)
-            {
-                FrmUserAccount _instanceFrmuser = Application.OpenForms["FrmUserAccount"] as FrmUserAccount;
-                if (_instanceFrmuser.WindowState == FormWindowState.Minimized)
-                    _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmUserAccount"] != null)
+                {
+                    FrmUserAccount _instanceFrmuser = Application.OpenForms["FrmUserAccount"] as FrmUserAccount;
+                    if (_instanceFrmuser.WindowState == FormWindowState.Minimized)
+                        _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmuser.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmuser);
+                        panelDesktop.Controls.Add(_instanceFrmuser);
+                        _instanceFrmuser.Show();
+                        _instanceFrmuser.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmuser.Dock = DockStyle.None;
+                    FrmUserAccount _instanceFrmuser = new FrmUserAccount();
                     ResizeForm(_instanceFrmuser);
+                    _instanceFrmuser.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmuser);
                     _instanceFrmuser.Show();
+                    _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmuser.BringToFront();
                 }
-            }
-            else
-            {
-                FrmUserAccount _instanceFrmuser = new FrmUserAccount();
-                ResizeForm(_instanceFrmuser);
-                _instanceFrmuser.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmuser);
-                _instanceFrmuser.Show();
-                _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmuser.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -4487,31 +4493,31 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms[""] != null)
-            {
-                FrmReservation _instanceFrmres = Application.OpenForms[""] as FrmReservation;
-                if (_instanceFrmres.WindowState == FormWindowState.Minimized)
-                    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms[""] != null)
+                {
+                    FrmReservation _instanceFrmres = Application.OpenForms[""] as FrmReservation;
+                    if (_instanceFrmres.WindowState == FormWindowState.Minimized)
+                        _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmres.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmres);
+                        panelDesktop.Controls.Add(_instanceFrmres);
+                        _instanceFrmres.Show();
+                        _instanceFrmres.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmres.Dock = DockStyle.None;
+                    FrmReservation _instanceFrmres = new FrmReservation();
                     ResizeForm(_instanceFrmres);
+                    _instanceFrmres.TopLevel = false;
+                    _instanceFrmres.Dock = DockStyle.None;
                     panelDesktop.Controls.Add(_instanceFrmres);
                     _instanceFrmres.Show();
+                    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmres.BringToFront();
                 }
-            }
-            else
-            {
-                FrmReservation _instanceFrmres = new FrmReservation();
-                ResizeForm(_instanceFrmres);
-                _instanceFrmres.TopLevel = false;
-                _instanceFrmres.Dock = DockStyle.None;
-                panelDesktop.Controls.Add(_instanceFrmres);
-                _instanceFrmres.Show();
-                _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmres.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -4530,30 +4536,30 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            if (System.Windows.Forms.Application.OpenForms["FrmUserPermission"] != null)
-            {
-                FrmUserPermission _instanceFrmuserper = Application.OpenForms["FrmUserPermission"] as FrmUserPermission;
-                if (_instanceFrmuserper.WindowState == FormWindowState.Minimized)
-                    _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (System.Windows.Forms.Application.OpenForms["FrmUserPermission"] != null)
+                {
+                    FrmUserPermission _instanceFrmuserper = Application.OpenForms["FrmUserPermission"] as FrmUserPermission;
+                    if (_instanceFrmuserper.WindowState == FormWindowState.Minimized)
+                        _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmuserper.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmuserper);
+                        panelDesktop.Controls.Add(_instanceFrmuserper);
+                        _instanceFrmuserper.Show();
+                        _instanceFrmuserper.BringToFront();
+                    }
+                }
                 else
                 {
-                    _instanceFrmuserper.Dock = DockStyle.None;
+                    FrmUserPermission _instanceFrmuserper = new FrmUserPermission();
                     ResizeForm(_instanceFrmuserper);
+                    _instanceFrmuserper.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmuserper);
                     _instanceFrmuserper.Show();
+                    _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmuserper.BringToFront();
                 }
-            }
-            else
-            {
-                FrmUserPermission _instanceFrmuserper = new FrmUserPermission();
-                ResizeForm(_instanceFrmuserper);
-                _instanceFrmuserper.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmuserper);
-                _instanceFrmuserper.Show();
-                _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmuserper.BringToFront();
-            }
             }
             catch (Exception ex)
             {
@@ -4603,114 +4609,114 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
-            BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
-            DmnSearch dmnforms = new DmnSearch();
-            dmnforms.Select = "*";
-            dmnforms.Table = " tblforms ";
-            dmnforms.WhereNdGroupBy = " where  Status=1 and UserType=" + UserType;
-            dmnforms.OrderBy = "order by Form";
-            var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
-            if (gridesource.Count > 0)
-            {
-                for (int i = gridesource.Count() - 1; i >= 0; i--)
+                BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+                DmnSearch dmnforms = new DmnSearch();
+                dmnforms.Select = "*";
+                dmnforms.Table = " tblforms ";
+                dmnforms.WhereNdGroupBy = " where  Status=1 and UserType=" + UserType;
+                dmnforms.OrderBy = "order by Form";
+                var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
+                if (gridesource.Count > 0)
                 {
-                    if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
+                    for (int i = gridesource.Count() - 1; i >= 0; i--)
                     {
-                        ib_orderview.Visible = true;
+                        if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
+                        {
+                            ib_orderview.Visible = true;
 
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
-                    {
-                        ib_kitchenview.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
+                        {
+                            ib_kitchenview.Visible = true;
 
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
-                    {
-                        ib_Category.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
-                    {
-                        ib_Item.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
-                    {
-                        ib_ingrediant.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
-                    {
-                        ib_menu.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
-                    {
-                        ib_unit.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
-                    {
-                        ib_table.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
-                    {
-                        ib_purchase.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
-                    {
-                        ib_purchasereturn.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
-                    {
-                        ib_tax.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
-                    {
-                        ib_vendor.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
-                    {
-                        ib_Discount_offer.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
+                        {
+                            ib_Category.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
+                        {
+                            ib_Item.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
+                        {
+                            ib_ingrediant.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
+                        {
+                            ib_menu.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
+                        {
+                            ib_unit.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
+                        {
+                            ib_table.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
+                        {
+                            ib_purchase.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
+                        {
+                            ib_purchasereturn.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
+                        {
+                            ib_tax.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
+                        {
+                            ib_vendor.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
+                        {
+                            ib_Discount_offer.Visible = true;
 
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
-                    {
-                        ib_Expence.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
-                    {
-                        ib_PromoCode.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
-                    {
-                        ib_Company.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
-                    {
-                        ib_reservation.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
-                    {
-                        ib_employee.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
-                    {
-                        ib_department.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
-                    {
-                        ib_designation.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
-                    {
-                        ib_useraccount.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
-                    {
-                        ib_userpermission.Visible = true;
-                    }
-                    else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
-                    {
-                        ib_orderview.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
+                        {
+                            ib_Expence.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
+                        {
+                            ib_PromoCode.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
+                        {
+                            ib_Company.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
+                        {
+                            ib_reservation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
+                        {
+                            ib_employee.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
+                        {
+                            ib_department.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
+                        {
+                            ib_designation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
+                        {
+                            ib_useraccount.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
+                        {
+                            ib_userpermission.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
+                        {
+                            ib_orderview.Visible = true;
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -4763,14 +4769,14 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 return Value;
             }
         }
-        public void FillTablecode_Comb(int rowindex, int salemasterid,int ordermasterid, int ordertype)
+        public void FillTablecode_Comb(int rowindex, int salemasterid, int ordermasterid, int ordertype)
         {
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
                 DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
-                if (ordertype==0)
+                if (ordertype == 0)
                 {
                     objSearch.Select = "bd.MTID id,bd.Name value";
                     objSearch.Table = "tblOrderMaster om " +
@@ -4795,7 +4801,7 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                     objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
                     objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
                     objSearch.OrderBy = "";
-                    var  gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                     gridSource[0].Id = 0;
                     gridSource[0].Value = "Show Table";
                     dropDown.DataSource = gridSource;
@@ -4814,23 +4820,24 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         }
 
         private void btn_prevbill_Click(object sender, EventArgs e)
-        {       try
+        {
+            try
             {
-            panelDesktop.Controls.Clear();
-            panelDesktop.Controls.Add(pnl_complebill_prevbill);
-            pnl_complebill_prevbill.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Clear();
+                panelDesktop.Controls.Add(pnl_complebill_prevbill);
+                pnl_complebill_prevbill.Dock = DockStyle.Fill;
 
-            Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-            tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-            tlp_compl_pre_bill.Controls.Add(pnl_previous_bill, 0, 1);
-            tlp_compl_pre_bill.Dock = DockStyle.Fill;
-            pnl_previous_bill.Dock = DockStyle.Fill;
-            pnl_previous_bill.Visible = true;
-            pnl_empty_msg.Visible = false;
+                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+                tlp_compl_pre_bill.Controls.Add(pnl_previous_bill, 0, 1);
+                tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                pnl_previous_bill.Dock = DockStyle.Fill;
+                pnl_previous_bill.Visible = true;
+                pnl_empty_msg.Visible = false;
 
-            btn_backCompleorder.Visible = true;
-            btn_prevbill.Visible = false;
-     
+                btn_backCompleorder.Visible = true;
+                btn_prevbill.Visible = false;
+
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -5072,44 +5079,44 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
         {
             try
             {
- if (string.IsNullOrWhiteSpace(txtsid.Text))
-                txtsid.Text = "0";
-            DmnSetting dmnmsg = new DmnSetting();
-            BllSettins bllmessage = new BllSettins();
-            dmnmsg.SId = Convert.ToInt32(txtsid.Text);
-            if (chk_whatsapp.Checked)
-                dmnmsg.Whatsapp = true;
-            else
-                dmnmsg.Whatsapp = false;
-
-            if (chk_gmail.Checked)
-                dmnmsg.Gmail = true;
-            else
-                dmnmsg.Gmail = false;
-            dmnmsg.BranchId = FrmDashboard.BranchId;
-            dmnmsg.CreatedBy = FrmDashboard.UserId;
-            dmnmsg.Status = 1;
-
-            var InsertStatus = bllmessage.AddEditDataSetting_msg("prdInsertMessage", dmnmsg);
-            if (InsertStatus.SId > 0)
-            {
-                if (Convert.ToInt32(txtsid.Text) > 0)
-                    CMessageBox.Show("update sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (string.IsNullOrWhiteSpace(txtsid.Text))
+                    txtsid.Text = "0";
+                DmnSetting dmnmsg = new DmnSetting();
+                BllSettins bllmessage = new BllSettins();
+                dmnmsg.SId = Convert.ToInt32(txtsid.Text);
+                if (chk_whatsapp.Checked)
+                    dmnmsg.Whatsapp = true;
                 else
+                    dmnmsg.Whatsapp = false;
+
+                if (chk_gmail.Checked)
+                    dmnmsg.Gmail = true;
+                else
+                    dmnmsg.Gmail = false;
+                dmnmsg.BranchId = FrmDashboard.BranchId;
+                dmnmsg.CreatedBy = FrmDashboard.UserId;
+                dmnmsg.Status = 1;
+
+                var InsertStatus = bllmessage.AddEditDataSetting_msg("prdInsertMessage", dmnmsg);
+                if (InsertStatus.SId > 0)
                 {
-                    CMessageBox.Show("sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtsid.Text = Convert.ToString(InsertStatus.SId);
+                    if (Convert.ToInt32(txtsid.Text) > 0)
+                        CMessageBox.Show("update sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        CMessageBox.Show("sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtsid.Text = Convert.ToString(InsertStatus.SId);
+                    }
+                    panl_msgsettings.Visible = false;
                 }
-                panl_msgsettings.Visible = false;
-            }
-            else
-                CMessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    CMessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
 
             }
-           
+
         }
 
         private void btn_close_msg_Click(object sender, EventArgs e)
@@ -5154,7 +5161,7 @@ if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 LoadTableStaus(0);
                 menutable_click = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

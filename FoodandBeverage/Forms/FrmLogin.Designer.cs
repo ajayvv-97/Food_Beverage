@@ -123,6 +123,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // label2
             // 
@@ -134,6 +135,7 @@ namespace FoodandBeverage.Forms
             this.label2.Size = new System.Drawing.Size(180, 36);
             this.label2.TabIndex = 6;
             this.label2.Text = "Midas Fun";
+            this.label2.Visible = false;
             // 
             // label1
             // 
@@ -145,6 +147,7 @@ namespace FoodandBeverage.Forms
             this.label1.Size = new System.Drawing.Size(259, 36);
             this.label1.TabIndex = 7;
             this.label1.Text = "Food  Beverage";
+            this.label1.Visible = false;
             // 
             // pnl_login
             // 
@@ -171,7 +174,6 @@ namespace FoodandBeverage.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnl_login.ResumeLayout(false);

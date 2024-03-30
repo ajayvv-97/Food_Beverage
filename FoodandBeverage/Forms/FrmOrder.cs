@@ -1585,7 +1585,11 @@ namespace FoodandBeverage.Forms
 
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
+
+                    tlp_dis_pro_des.Controls.Remove(tlp_dis_pro_des.GetControlFromPosition(1, 0));
+                    tlp_dis_pro_des.Controls.Add(btn_entire_desc, 1, 0);
                     btn_entire_desc.Visible = true;
+   
                 }
 
                 else if (typeno == 2)
@@ -1602,6 +1606,9 @@ namespace FoodandBeverage.Forms
                     btn_print_bill.Visible = true;
                     btn_promo_code.Visible = true;
                     btn_entire_desc.Visible = false;
+                    tlp_dis_pro_des.Controls.Remove(tlp_dis_pro_des.GetControlFromPosition(1, 0));
+                    tlp_dis_pro_des.Controls.Add(btn_promo_code, 1, 0);
+
                 }
                 else
                 {
@@ -1614,6 +1621,9 @@ namespace FoodandBeverage.Forms
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
                     btn_entire_desc.Visible = false;
+
+                    tlp_dis_pro_des.Controls.Remove(tlp_dis_pro_des.GetControlFromPosition(1, 0));
+
                 }
             }
             catch (Exception ex)
@@ -6384,6 +6394,8 @@ namespace FoodandBeverage.Forms
             }
             else
             {
+                tlp_seletedItem_main.Visible = false;
+
                 tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
                 tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
                 tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
@@ -6405,6 +6417,7 @@ namespace FoodandBeverage.Forms
                 txtentrie_descr.Visible = true;
                 txtentrie_descr.Dock = DockStyle.Fill;
                 textb_shape();
+                tlp_seletedItem_main.Visible = true;
             }
 
         }
@@ -8701,149 +8714,7 @@ namespace FoodandBeverage.Forms
             tlp_gridview.Visible = false;
         }
 
-        private Timer opacityTimer;
-        private bool isFadingOut = false;
-        private const int timerInterval = 100;
-        private int fadeStep = 1;
-        private int maxFadeStep = 20; // Maximum fade step value
-
-        private Timer opacityTimer_tlp;
-        private bool isFadingOut_tlp = false;
-        private const int timerInterval_tlp = 25;
-        private int fadeStep_tlp = 10;
-
-        private void btn_custom_details_Click(object sender, EventArgs e)
-        {
-            isFadingOut = true;
-            isFadingOut_tlp = true;
-            StartFadingOut(); // Start fading out both panels
-        }
-
-        private void StartFadingOut()
-        {
-            if (opacityTimer == null)
-            {
-                opacityTimer = new Timer();
-                opacityTimer.Interval = timerInterval;
-                opacityTimer.Tick += OpacityTimer_Tick;
-            }
-            opacityTimer.Start();
-
-            if (opacityTimer_tlp == null)
-            {
-                opacityTimer_tlp = new Timer();
-                opacityTimer_tlp.Interval = timerInterval;
-                opacityTimer_tlp.Tick += OpacityTimer_tlp_payment_main_Tick;
-            }
-            isFadingOut = true;
-            isFadingOut_tlp = true;
-            opacityTimer_tlp.Start();
-
-            if (pnl_userdetails.Visible) // If pnl_userdetails is visible
-            {
-                if (txtentrie_descr.Visible == false)
-                {
-                    tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
-                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
-                    tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
-                    tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
-                    tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
-                    txtentrie_descr.Visible = false;
-                }
-                pnl_userdetails.Visible = false;
-                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
-                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
-                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
-                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
-                isFadingOut = true;
-                isFadingOut_tlp = false;
-            }
-            else // If pnl_userdetails is not visible
-            {
-                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
-                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
-                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
-                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-
-                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
-
-                if (txtentrie_descr.Visible)
-                {
-                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
-                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 12);
-                }
-                else
-                {
-                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
-                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
-                }
-                pnl_userdetails.Visible = true;
-                pnl_userdetails.Dock = DockStyle.Fill;
-
-                isFadingOut = false;
-                isFadingOut_tlp = false;
-
-                textb_shape();
-            }
-            if (opacityTimer == null)
-            {
-                opacityTimer = new Timer();
-                opacityTimer.Interval = timerInterval;
-                opacityTimer.Tick += OpacityTimer_Tick;
-            }
-            opacityTimer.Start();
-
-            if (opacityTimer_tlp == null)
-            {
-                opacityTimer_tlp = new Timer();
-                opacityTimer_tlp.Interval = timerInterval;
-                opacityTimer_tlp.Tick += OpacityTimer_tlp_payment_main_Tick;
-            }
-            opacityTimer_tlp.Start();
-        }
-
-        private void OpacityTimer_Tick(object sender, EventArgs e)
-        {
-            // Fading for pnl_userdetails
-            Color currentColor = pnl_userdetails.BackColor;
-            int newAlpha = isFadingOut ? currentColor.A - fadeStep : currentColor.A + fadeStep;
-            newAlpha = Math.Max(0, Math.Min(newAlpha, 255));
-            pnl_userdetails.BackColor = Color.FromArgb(newAlpha, currentColor.R, currentColor.G, currentColor.B);
-
-            if ((isFadingOut && newAlpha <= 0) || (!isFadingOut && newAlpha >= 255))
-            {
-                opacityTimer.Stop();
-                pnl_userdetails.Visible = !isFadingOut; // Hide panel if fading out, show panel if fading in
-            }
-            else
-            {
-                // Increase the fade step gradually up to the maximum value
-                if (fadeStep < maxFadeStep)
-                {
-                    fadeStep++;
-                }
-            }
-        }
-
-        private void OpacityTimer_tlp_payment_main_Tick(object sender, EventArgs e)
-        {
-            // Fading for tlp_payment_main
-            Color currentColor = tlp_payment_main.BackColor;
-            int newAlpha = isFadingOut_tlp ? currentColor.A - fadeStep_tlp : currentColor.A + fadeStep_tlp;
-            newAlpha = Math.Max(0, Math.Min(newAlpha, 255));
-            tlp_payment_main.BackColor = Color.FromArgb(newAlpha, currentColor.R, currentColor.G, currentColor.B);
-
-            if ((isFadingOut_tlp && newAlpha <= 0) || (!isFadingOut_tlp && newAlpha >= 255))
-            {
-                opacityTimer_tlp.Stop();
-                tlp_payment_main.Visible = !isFadingOut_tlp; // Hide control if fading out, show control if fading in
-            }
-        }
+       
 
         private void txtph_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -9452,5 +9323,74 @@ namespace FoodandBeverage.Forms
         {
           lbl_insff_cashbal.Visible = !lbl_insff_cashbal.Visible;            
         }
+
+        private void btn_custom_details_Click(object sender, EventArgs e)
+        {
+            tlp_payment_main.SuspendLayout();
+            tlp_payment_outerdesign.SuspendLayout();
+            pnl_userdetails.SuspendLayout();
+            tlp_seletedItem_main.SuspendLayout();
+            tlp_seletedItem_main.Visible = false;
+            tlp_grid_headername.Visible = false;
+            if (pnl_userdetails.Visible) // If pnl_userdetails is visible
+            {
+                if (txtentrie_descr.Visible == false)
+                {
+                    tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
+                    tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                    tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 11F);
+                    txtentrie_descr.Visible = false;
+                }
+                pnl_userdetails.Visible = false;
+                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 81.54F);
+                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+
+                pnl_userdetails.Visible = false;
+            }
+            else // If pnl_userdetails is not visible
+            {
+                tlp_payment_main.RowStyles[0] = new RowStyle(SizeType.Percent, 5.90F);
+                tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                tlp_payment_main.RowStyles[3] = new RowStyle(SizeType.Percent, 2.16F);
+                tlp_payment_main.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+
+                tlp_payment_outerdesign.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
+
+                if (txtentrie_descr.Visible)
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 12);
+                }
+                else
+                {
+                    tlp_payment_main.RowStyles[1] = new RowStyle(SizeType.Percent, 38);
+                    tlp_payment_main.RowStyles[5] = new RowStyle(SizeType.Percent, 10.39F);
+                }
+
+                pnl_userdetails.Visible = true;
+                pnl_userdetails.Dock = DockStyle.Fill;
+
+
+            }
+
+            tlp_payment_main.ResumeLayout();
+            tlp_payment_outerdesign.ResumeLayout();
+            pnl_userdetails.ResumeLayout();
+            tlp_seletedItem_main.ResumeLayout();
+            tlp_seletedItem_main.Visible = true;
+            tlp_grid_headername.Visible = true;
+            textb_shape();
+        }
+        
+
     }
 }
