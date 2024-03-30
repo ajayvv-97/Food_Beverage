@@ -190,7 +190,7 @@ namespace FoodandBeverage.Forms
             dtp_from_time.MinDate = DateTime.Now;
             dtpBooking.MinDate = DateTime.Today;
             dtp_from_time.Format = DateTimePickerFormat.Custom;
-            dtp_from_time.CustomFormat = "hh:mm:ss";
+            dtp_from_time.CustomFormat = "hh:mm:ss tt";
             //dtp_from_time.Value = DateTime.Now;
             redpan.Visible = false;
 
