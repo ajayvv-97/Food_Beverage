@@ -33,18 +33,12 @@ namespace FoodandBeverage.Report
             this.tlp_report_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_top_row = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
-            this.tabDateTimePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.dtp_to_time = new System.Windows.Forms.DateTimePicker();
-            this.dtpto = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
-            this.dtpfrom = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
-            this.chk_time = new System.Windows.Forms.CheckBox();
             this.cmbreport = new System.Windows.Forms.ComboBox();
             this.tlp_finyear = new System.Windows.Forms.TableLayoutPanel();
             this.cmb_fin_year = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.tabDateTimePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_time = new System.Windows.Forms.CheckBox();
             this.tlp_second_row = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_reorder = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,11 +55,17 @@ namespace FoodandBeverage.Report
             this.labheaderboxcolor = new System.Windows.Forms.Label();
             this.btnserach = new System.Windows.Forms.Button();
             this.crv_report = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.dtp_to_time = new System.Windows.Forms.DateTimePicker();
+            this.dtpto = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
+            this.dtpfrom = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
             this.tlp_top_row.SuspendLayout();
-            this.tabDateTimePanel.SuspendLayout();
             this.tlp_finyear.SuspendLayout();
+            this.tabDateTimePanel.SuspendLayout();
             this.tlp_second_row.SuspendLayout();
             this.tlp_reorder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).BeginInit();
@@ -93,9 +93,9 @@ namespace FoodandBeverage.Report
             this.tlp_report_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_report_main.Name = "tlp_report_main";
             this.tlp_report_main.RowCount = 3;
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.24209F));
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.007449F));
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.50538F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.54562F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.683427F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.58473F));
             this.tlp_report_main.Size = new System.Drawing.Size(903, 537);
             this.tlp_report_main.TabIndex = 49;
             // 
@@ -109,15 +109,15 @@ namespace FoodandBeverage.Report
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.Controls.Add(this.label4, 0, 0);
-            this.tlp_top_row.Controls.Add(this.tabDateTimePanel, 4, 0);
             this.tlp_top_row.Controls.Add(this.cmbreport, 1, 0);
             this.tlp_top_row.Controls.Add(this.tlp_finyear, 3, 0);
+            this.tlp_top_row.Controls.Add(this.tabDateTimePanel, 4, 0);
             this.tlp_top_row.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_top_row.Location = new System.Drawing.Point(3, 3);
             this.tlp_top_row.Name = "tlp_top_row";
             this.tlp_top_row.RowCount = 1;
             this.tlp_top_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_top_row.Size = new System.Drawing.Size(897, 49);
+            this.tlp_top_row.Size = new System.Drawing.Size(897, 56);
             this.tlp_top_row.TabIndex = 0;
             // 
             // label4
@@ -129,109 +129,6 @@ namespace FoodandBeverage.Report
             this.label4.Size = new System.Drawing.Size(57, 18);
             this.label4.TabIndex = 21;
             this.label4.Text = "Report ";
-            // 
-            // tabDateTimePanel
-            // 
-            this.tabDateTimePanel.BackColor = System.Drawing.Color.Transparent;
-            this.tabDateTimePanel.ColumnCount = 8;
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.Controls.Add(this.dtp_to_time, 7, 0);
-            this.tabDateTimePanel.Controls.Add(this.dtpto, 6, 0);
-            this.tabDateTimePanel.Controls.Add(this.label5, 5, 0);
-            this.tabDateTimePanel.Controls.Add(this.dtp_from_time, 4, 0);
-            this.tabDateTimePanel.Controls.Add(this.dtpfrom, 3, 0);
-            this.tabDateTimePanel.Controls.Add(this.label6, 2, 0);
-            this.tabDateTimePanel.Controls.Add(this.chk_time, 1, 0);
-            this.tabDateTimePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabDateTimePanel.Location = new System.Drawing.Point(573, 3);
-            this.tabDateTimePanel.Name = "tabDateTimePanel";
-            this.tabDateTimePanel.RowCount = 2;
-            this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tabDateTimePanel.Size = new System.Drawing.Size(706, 43);
-            this.tabDateTimePanel.TabIndex = 33;
-            // 
-            // dtp_to_time
-            // 
-            this.dtp_to_time.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_to_time.Location = new System.Drawing.Point(502, 3);
-            this.dtp_to_time.Name = "dtp_to_time";
-            this.dtp_to_time.Size = new System.Drawing.Size(111, 26);
-            this.dtp_to_time.TabIndex = 32;
-            this.dtp_to_time.Visible = false;
-            // 
-            // dtpto
-            // 
-            this.dtpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpto.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpto.Location = new System.Drawing.Point(393, 3);
-            this.dtpto.Name = "dtpto";
-            this.dtpto.Size = new System.Drawing.Size(103, 26);
-            this.dtpto.TabIndex = 29;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(353, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 32);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "To :";
-            // 
-            // dtp_from_time
-            // 
-            this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_from_time.Location = new System.Drawing.Point(236, 3);
-            this.dtp_from_time.Name = "dtp_from_time";
-            this.dtp_from_time.Size = new System.Drawing.Size(111, 26);
-            this.dtp_from_time.TabIndex = 31;
-            this.dtp_from_time.Visible = false;
-            // 
-            // dtpfrom
-            // 
-            this.dtpfrom.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpfrom.Location = new System.Drawing.Point(127, 3);
-            this.dtpfrom.Name = "dtpfrom";
-            this.dtpfrom.Size = new System.Drawing.Size(103, 26);
-            this.dtpfrom.TabIndex = 28;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(69, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 32);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "From :";
-            // 
-            // chk_time
-            // 
-            this.chk_time.AutoSize = true;
-            this.chk_time.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.chk_time.Location = new System.Drawing.Point(3, 3);
-            this.chk_time.Name = "chk_time";
-            this.chk_time.Size = new System.Drawing.Size(60, 26);
-            this.chk_time.TabIndex = 34;
-            this.chk_time.Text = "Time";
-            this.chk_time.UseVisualStyleBackColor = true;
-            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
             // 
             // cmbreport
             // 
@@ -256,7 +153,7 @@ namespace FoodandBeverage.Report
             this.tlp_finyear.Name = "tlp_finyear";
             this.tlp_finyear.RowCount = 1;
             this.tlp_finyear.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_finyear.Size = new System.Drawing.Size(310, 43);
+            this.tlp_finyear.Size = new System.Drawing.Size(310, 50);
             this.tlp_finyear.TabIndex = 50;
             this.tlp_finyear.Visible = false;
             // 
@@ -276,9 +173,44 @@ namespace FoodandBeverage.Report
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 43);
+            this.label8.Size = new System.Drawing.Size(100, 50);
             this.label8.TabIndex = 7;
             this.label8.Text = "Financial Year";
+            // 
+            // tabDateTimePanel
+            // 
+            this.tabDateTimePanel.BackColor = System.Drawing.Color.Transparent;
+            this.tabDateTimePanel.ColumnCount = 8;
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.Controls.Add(this.chk_time, 0, 0);
+            this.tabDateTimePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabDateTimePanel.Location = new System.Drawing.Point(573, 3);
+            this.tabDateTimePanel.Name = "tabDateTimePanel";
+            this.tabDateTimePanel.RowCount = 2;
+            this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tabDateTimePanel.Size = new System.Drawing.Size(666, 50);
+            this.tabDateTimePanel.TabIndex = 33;
+            // 
+            // chk_time
+            // 
+            this.chk_time.AutoSize = true;
+            this.chk_time.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.chk_time.Location = new System.Drawing.Point(3, 3);
+            this.chk_time.Name = "chk_time";
+            this.chk_time.Size = new System.Drawing.Size(60, 22);
+            this.chk_time.TabIndex = 34;
+            this.chk_time.Text = "Time";
+            this.chk_time.UseVisualStyleBackColor = true;
+            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
             // 
             // tlp_second_row
             // 
@@ -297,11 +229,11 @@ namespace FoodandBeverage.Report
             this.tlp_second_row.Controls.Add(this.labheaderboxcolor, 2, 0);
             this.tlp_second_row.Controls.Add(this.btnserach, 6, 0);
             this.tlp_second_row.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_second_row.Location = new System.Drawing.Point(3, 58);
+            this.tlp_second_row.Location = new System.Drawing.Point(3, 65);
             this.tlp_second_row.Name = "tlp_second_row";
             this.tlp_second_row.RowCount = 1;
             this.tlp_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_second_row.Size = new System.Drawing.Size(897, 37);
+            this.tlp_second_row.Size = new System.Drawing.Size(897, 46);
             this.tlp_second_row.TabIndex = 1;
             // 
             // tlp_reorder
@@ -316,7 +248,7 @@ namespace FoodandBeverage.Report
             this.tlp_reorder.Name = "tlp_reorder";
             this.tlp_reorder.RowCount = 1;
             this.tlp_reorder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_reorder.Size = new System.Drawing.Size(151, 31);
+            this.tlp_reorder.Size = new System.Drawing.Size(151, 40);
             this.tlp_reorder.TabIndex = 50;
             this.tlp_reorder.Visible = false;
             // 
@@ -327,7 +259,7 @@ namespace FoodandBeverage.Report
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 31);
+            this.label1.Size = new System.Drawing.Size(71, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "Enter Qty";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -353,8 +285,8 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.Name = "tlp_sublist";
             this.tlp_sublist.RowCount = 1;
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tlp_sublist.Size = new System.Drawing.Size(253, 31);
+            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlp_sublist.Size = new System.Drawing.Size(253, 40);
             this.tlp_sublist.TabIndex = 12;
             this.tlp_sublist.Visible = false;
             // 
@@ -365,7 +297,7 @@ namespace FoodandBeverage.Report
             this.lblsublist.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.lblsublist.Location = new System.Drawing.Point(3, 0);
             this.lblsublist.Name = "lblsublist";
-            this.lblsublist.Size = new System.Drawing.Size(54, 31);
+            this.lblsublist.Size = new System.Drawing.Size(54, 40);
             this.lblsublist.TabIndex = 12;
             this.lblsublist.Text = "List";
             this.lblsublist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -397,7 +329,7 @@ namespace FoodandBeverage.Report
             this.tblReportCategory.Name = "tblReportCategory";
             this.tblReportCategory.RowCount = 1;
             this.tblReportCategory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblReportCategory.Size = new System.Drawing.Size(377, 31);
+            this.tblReportCategory.Size = new System.Drawing.Size(377, 40);
             this.tblReportCategory.TabIndex = 45;
             // 
             // btnYealy
@@ -407,7 +339,7 @@ namespace FoodandBeverage.Report
             this.btnYealy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.btnYealy.Location = new System.Drawing.Point(285, 3);
             this.btnYealy.Name = "btnYealy";
-            this.btnYealy.Size = new System.Drawing.Size(89, 25);
+            this.btnYealy.Size = new System.Drawing.Size(89, 34);
             this.btnYealy.TabIndex = 47;
             this.btnYealy.Text = "Yearly";
             this.btnYealy.UseVisualStyleBackColor = true;
@@ -420,7 +352,7 @@ namespace FoodandBeverage.Report
             this.btnWeekEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnWeekEnd.Location = new System.Drawing.Point(3, 3);
             this.btnWeekEnd.Name = "btnWeekEnd";
-            this.btnWeekEnd.Size = new System.Drawing.Size(88, 25);
+            this.btnWeekEnd.Size = new System.Drawing.Size(88, 34);
             this.btnWeekEnd.TabIndex = 43;
             this.btnWeekEnd.Text = "WeekEnd";
             this.btnWeekEnd.UseVisualStyleBackColor = true;
@@ -433,7 +365,7 @@ namespace FoodandBeverage.Report
             this.btnMonthly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.btnMonthly.Location = new System.Drawing.Point(191, 3);
             this.btnMonthly.Name = "btnMonthly";
-            this.btnMonthly.Size = new System.Drawing.Size(88, 25);
+            this.btnMonthly.Size = new System.Drawing.Size(88, 34);
             this.btnMonthly.TabIndex = 46;
             this.btnMonthly.Text = "Monthly";
             this.btnMonthly.UseVisualStyleBackColor = true;
@@ -446,7 +378,7 @@ namespace FoodandBeverage.Report
             this.btnWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.btnWeekly.Location = new System.Drawing.Point(97, 3);
             this.btnWeekly.Name = "btnWeekly";
-            this.btnWeekly.Size = new System.Drawing.Size(88, 25);
+            this.btnWeekly.Size = new System.Drawing.Size(88, 34);
             this.btnWeekly.TabIndex = 44;
             this.btnWeekly.Text = "Weekly";
             this.btnWeekly.UseVisualStyleBackColor = true;
@@ -459,7 +391,7 @@ namespace FoodandBeverage.Report
             this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
             this.btnpickcolor.Name = "btnpickcolor";
-            this.btnpickcolor.Size = new System.Drawing.Size(47, 31);
+            this.btnpickcolor.Size = new System.Drawing.Size(47, 40);
             this.btnpickcolor.TabIndex = 47;
             this.btnpickcolor.UseVisualStyleBackColor = true;
             this.btnpickcolor.Click += new System.EventHandler(this.btnpickcolor_Click);
@@ -471,7 +403,7 @@ namespace FoodandBeverage.Report
             this.labheaderboxcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.labheaderboxcolor.Location = new System.Drawing.Point(419, 0);
             this.labheaderboxcolor.Name = "labheaderboxcolor";
-            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 37);
+            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 46);
             this.labheaderboxcolor.TabIndex = 46;
             this.labheaderboxcolor.Text = "Header color";
             this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -485,7 +417,7 @@ namespace FoodandBeverage.Report
             this.btnserach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnserach.Location = new System.Drawing.Point(955, 3);
             this.btnserach.Name = "btnserach";
-            this.btnserach.Size = new System.Drawing.Size(96, 31);
+            this.btnserach.Size = new System.Drawing.Size(96, 40);
             this.btnserach.TabIndex = 48;
             this.btnserach.UseVisualStyleBackColor = true;
             this.btnserach.Click += new System.EventHandler(this.btnserach_Click);
@@ -496,7 +428,7 @@ namespace FoodandBeverage.Report
             this.crv_report.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.crv_report.Cursor = System.Windows.Forms.Cursors.Default;
             this.crv_report.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.crv_report.Location = new System.Drawing.Point(3, 101);
+            this.crv_report.Location = new System.Drawing.Point(3, 117);
             this.crv_report.Name = "crv_report";
             this.crv_report.ShowCloseButton = false;
             this.crv_report.ShowCopyButton = false;
@@ -508,15 +440,79 @@ namespace FoodandBeverage.Report
             this.crv_report.ShowRefreshButton = false;
             this.crv_report.ShowTextSearchButton = false;
             this.crv_report.ShowZoomButton = false;
-            this.crv_report.Size = new System.Drawing.Size(897, 433);
+            this.crv_report.Size = new System.Drawing.Size(897, 417);
             this.crv_report.TabIndex = 2;
             this.crv_report.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
+            // 
+            // dtp_to_time
+            // 
+            this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_to_time.Location = new System.Drawing.Point(0, 0);
+            this.dtp_to_time.Name = "dtp_to_time";
+            this.dtp_to_time.Size = new System.Drawing.Size(111, 26);
+            this.dtp_to_time.TabIndex = 32;
+            this.dtp_to_time.Visible = false;
+            // 
+            // dtpto
+            // 
+            this.dtpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpto.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpto.Location = new System.Drawing.Point(0, 0);
+            this.dtpto.Name = "dtpto";
+            this.dtpto.Size = new System.Drawing.Size(103, 26);
+            this.dtpto.TabIndex = 29;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 18);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "To :";
+            // 
+            // dtp_from_time
+            // 
+            this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_from_time.Location = new System.Drawing.Point(0, 0);
+            this.dtp_from_time.Name = "dtp_from_time";
+            this.dtp_from_time.Size = new System.Drawing.Size(111, 26);
+            this.dtp_from_time.TabIndex = 31;
+            this.dtp_from_time.Visible = false;
+            // 
+            // dtpfrom
+            // 
+            this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpfrom.Location = new System.Drawing.Point(0, 0);
+            this.dtpfrom.Name = "dtpfrom";
+            this.dtpfrom.Size = new System.Drawing.Size(103, 26);
+            this.dtpfrom.TabIndex = 28;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 18);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "From :";
             // 
             // Frmreport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(903, 537);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.dtpfrom);
+            this.Controls.Add(this.dtp_from_time);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.dtpto);
+            this.Controls.Add(this.dtp_to_time);
             this.Controls.Add(this.pnl_report);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Frmreport";
@@ -526,10 +522,10 @@ namespace FoodandBeverage.Report
             this.tlp_report_main.ResumeLayout(false);
             this.tlp_top_row.ResumeLayout(false);
             this.tlp_top_row.PerformLayout();
-            this.tabDateTimePanel.ResumeLayout(false);
-            this.tabDateTimePanel.PerformLayout();
             this.tlp_finyear.ResumeLayout(false);
             this.tlp_finyear.PerformLayout();
+            this.tabDateTimePanel.ResumeLayout(false);
+            this.tabDateTimePanel.PerformLayout();
             this.tlp_second_row.ResumeLayout(false);
             this.tlp_second_row.PerformLayout();
             this.tlp_reorder.ResumeLayout(false);
@@ -539,6 +535,7 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.PerformLayout();
             this.tblReportCategory.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -210,7 +210,6 @@ namespace DAL
         /// <param name="sp"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public List<T>SelectQuery_CardAcc(string sp, DynamicParameters param)
         {
             List<T> lstResult = null;
