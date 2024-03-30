@@ -320,6 +320,12 @@
     <Compile Include="Forms\LoadingGif.Designer.cs">
       <DependentUpon>LoadingGif.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LoadingGIF_Timer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadingGIF_Timer.Designer.cs">
+      <DependentUpon>LoadingGIF_Timer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserControls\FrmDataGridView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -567,6 +573,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoadingGif.resx">
       <DependentUpon>LoadingGif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadingGIF_Timer.resx">
+      <DependentUpon>LoadingGIF_Timer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1205,6 +1214,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\expired_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wifi-card payment-.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_icon_wifi.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

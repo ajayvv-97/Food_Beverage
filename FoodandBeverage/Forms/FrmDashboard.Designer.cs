@@ -224,7 +224,7 @@ namespace FoodandBeverage.Forms
             this.panelMenu.AutoScrollMargin = new System.Drawing.Size(0, 50);
             this.panelMenu.AutoScrollMinSize = new System.Drawing.Size(0, 10);
             this.panelMenu.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelMenu.BackColor = System.Drawing.Color.Blue;
+            this.panelMenu.BackColor = System.Drawing.Color.Transparent;
             this.panelMenu.Controls.Add(this.flp_menu);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMenu.ForeColor = System.Drawing.SystemColors.Window;
@@ -520,7 +520,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.24028F));
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.57895F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 266F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 268F));
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
@@ -567,7 +567,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(172, 3);
+            this.btn_rev.Location = new System.Drawing.Point(171, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(52, 42);
             this.btn_rev.TabIndex = 1;
@@ -581,7 +581,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(119, 3);
+            this.btn_running.Location = new System.Drawing.Point(118, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(47, 42);
             this.btn_running.TabIndex = 2;
@@ -1688,7 +1688,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_main
             // 
-            this.tlp_main.BackColor = System.Drawing.Color.Yellow;
+            this.tlp_main.BackColor = System.Drawing.Color.Transparent;
             this.tlp_main.ColumnCount = 1;
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main.Controls.Add(this.flp_navbar, 0, 0);

@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
+using System.Threading.Tasks;
 
 namespace FoodandBeverage.Forms
 {
@@ -82,6 +83,7 @@ namespace FoodandBeverage.Forms
         public double AddMinutes = Convert.ToDouble(FrmLogin.BookingInterwell);
         public List<Namelist> CheckedtableNames = new List<Namelist>();
         public bool menutable_click = false;
+        private LoadingGIF_Timer loadingForm;
         public void initTimer()
         {
             AutoTimer = new Timer();
@@ -104,6 +106,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                this.Opacity = 0;
                 this.Close();
                 if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
                 {
@@ -116,48 +119,42 @@ namespace FoodandBeverage.Forms
             catch(Exception ex)
             {
 
-            }
-           
+            }           
         }
-        private void FrmDashboard_Load(object sender, EventArgs e)
+
+        #region please wait loading
+        private  void ShowLoadingdGif()
+        {
+            this.Opacity = 0;
+            LoadingGIF_Timer gifForm = new LoadingGIF_Timer();
+            gifForm.StartPosition = FormStartPosition.CenterScreen;
+            gifForm.ShowDialog();
+        }
+        #endregion
+
+        private async void FrmDashboard_Load(object sender, EventArgs e)
+        {
+            this.Opacity = 0;
+            Task.Run(() =>
+            {
+                loadingForm = new LoadingGIF_Timer();
+                loadingForm.StartPosition = FormStartPosition.CenterScreen;
+                Application.Run(loadingForm);
+            });
+            LoadMainForm();
+            //await Task.Delay(10000); 
+            if (loadingForm != null && !loadingForm.IsDisposed)
+            {
+                loadingForm.Invoke(new Action(() => loadingForm.Close()));
+            }
+            this.Opacity = 100;
+        }
+
+
+        private void LoadMainForm()
         {
             try
             {
-
-                //        if (screenWidth > 1367 && screenHeight > 769)
-                //        {
-                //            desiredWidth = 52;
-                //            desiredHeight = 52;
-
-                //            HdesiredWidth = 60;
-                //            HdesiredHeight = 60;
-                //            foreach (Control control in flp_operations.Controls)
-                //            {
-                //                if (control is Button button)
-                //                {
-                //                    button.Size = new Size(300, 120);
-                //                    button.Margin = new Padding(90, 35, 10, 2);
-                //                    button.Font = new Font(button.Font.FontFamily, 16, button.Font.Style);
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            desiredWidth = 32;
-                //            desiredHeight = 32;
-
-                //            HdesiredWidth = 40;
-                //            HdesiredHeight = 40;
-                //            foreach (Control control in flp_operations.Controls)
-                //            {
-                //                if (control is Button button)
-                //                {
-                //                    button.Size = new Size(212, 89);
-                //                }
-                //            }
-                //        }
-
-
                 panelDesktop.Controls.Add(tlp_op_menu);
                 tlp_op_menu.Dock = DockStyle.Fill;
                 tlp_op_menu.Visible = true;
@@ -268,38 +265,46 @@ namespace FoodandBeverage.Forms
 
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
-                    FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
-                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                        _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else
                     {
-                        _instancePurchaseReturn.Dock = DockStyle.None;
-                        ResizeForm(_instancePurchaseReturn);
-                        panelDesktop.Controls.Add(_instancePurchaseReturn);
-                        _instancePurchaseReturn.Filldashboard();
-                        _instancePurchaseReturn.Show();
-                        _instancePurchaseReturn.BringToFront();
+                        _instanceDashboardReport.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceDashboardReport);
+                        panelDesktop.Controls.Add(_instanceDashboardReport);
+                        _instanceDashboardReport.Filldashboard();
+                        _instanceDashboardReport.Show();
+                        _instanceDashboardReport.BringToFront();
                     }
                 }
                 else
                 {
-                    FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
-                    _instancePurchaseReturn.Dock = DockStyle.None;
-                    ResizeForm(_instancePurchaseReturn);
-                    _instancePurchaseReturn.TopLevel = false;
-                    panelDesktop.Controls.Add(_instancePurchaseReturn);
-                    _instancePurchaseReturn.Show();
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instancePurchaseReturn.BringToFront();
+                    FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
+                    _instanceDashboardReport.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceDashboardReport);
+                    _instanceDashboardReport.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceDashboardReport);
+                    _instanceDashboardReport.Show();
+                    // _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceDashboardReport.BringToFront();
                 }
                 #endregion
-
+                //if (System.Windows.Forms.Application.OpenForms["LoadingGIF_Timer"] != null)
+                //{
+                //    FrmRegistration _instanceLoadingGIF = Application.OpenForms["LoadingGIF_Timer"] as FrmRegistration;
+                //    _instanceLoadingGIF.Close();
+                //}
+                //this.Opacity = 100;
             }
             catch (Exception ex)
             {
 
-            }       
+            }
         }
+
+
+
 
         #region Color Setting
         private bool IsValidHtmlColor(string color)
@@ -650,32 +655,32 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Clear();
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
-                    FrmDashboardReport _instancePurchaseReturn = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
-                    if (_instancePurchaseReturn.WindowState == FormWindowState.Minimized)
-                        _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                        _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else
                     {
-                        _instancePurchaseReturn.Dock = DockStyle.None;
-                        ResizeForm(_instancePurchaseReturn);
-                        panelDesktop.Controls.Add(_instancePurchaseReturn);
-                        _instancePurchaseReturn.Filldashboard();
-                        _instancePurchaseReturn.Show();
-                        _instancePurchaseReturn.BringToFront();
+                        _instanceDashboardReport.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceDashboardReport);
+                        panelDesktop.Controls.Add(_instanceDashboardReport);
+                        _instanceDashboardReport.Filldashboard();
+                        _instanceDashboardReport.Show();
+                        _instanceDashboardReport.BringToFront();
                     }
                 }
                 else
-                {
-                    FrmDashboardReport _instancePurchaseReturn = new FrmDashboardReport();
-                    _instancePurchaseReturn.Dock = DockStyle.None;
-                    ResizeForm(_instancePurchaseReturn);
-                    _instancePurchaseReturn.TopLevel = false;
-                    panelDesktop.Controls.Add(_instancePurchaseReturn);
-                    _instancePurchaseReturn.Show();
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instancePurchaseReturn.BringToFront();
+                {   
+                    FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
+                    _instanceDashboardReport.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceDashboardReport);
+                    _instanceDashboardReport.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceDashboardReport);
+                    _instanceDashboardReport.Show();
+                    _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceDashboardReport.BringToFront();
                 }
 
-                if(menutable_click)
+                if (menutable_click)
                     AutoTimer.Stop();
 
             }
