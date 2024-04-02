@@ -179,6 +179,10 @@ namespace FoodandBeverage.Forms
             btn_del_ingre.Visible = false;
             txtSgstPrcnt.Text = "";
             txtCgstPrcnt.Text = "";
+
+            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[0].Cells[Raction];
+            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            cell.Value = Properties.Resources.add_row;
         }
         public bool MandatoryCheck()
         {
@@ -359,11 +363,11 @@ namespace FoodandBeverage.Forms
             {
                 if (e.ColumnIndex == Raction)
                 {
-
                     if (e.RowIndex == dgv_registartion.Rows.Count - 1)
                     {
                         if (IsValidData(e.RowIndex))
                             return;
+
                         DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[e.RowIndex].Cells[Raction];
                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         cell.Value = Properties.Resources.delete;
@@ -372,6 +376,10 @@ namespace FoodandBeverage.Forms
                         rearrange_slno();
                         dgv_registartion.CurrentCell = dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[1];
                         dgv_registartion.Focus();
+
+                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[Raction];
+                        cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        cell1.Value = Properties.Resources.add_row;
                     }
                     else if (dgv_registartion.Rows[e.RowIndex].Cells[RIng_DetailsIdno].Value == null && Convert.ToInt32(dgv_registartion.Rows[e.RowIndex].Cells[Ritemidno].Value) > 0)
                     {
@@ -383,6 +391,9 @@ namespace FoodandBeverage.Forms
                             for (int i = 0; i < n; i++)
                                 dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
                             dgv_registartion.Rows.Add(1);
+                            DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[Raction];
+                            cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            cell1.Value = Properties.Resources.add_row;
 
                             n = dgv_registartion.RowCount;
                             for (int i = 0; i < n; i++)
@@ -426,6 +437,9 @@ namespace FoodandBeverage.Forms
                                 for (int i = 0; i < n; i++)
                                     dgv_registartion.Rows[i].Cells[Rslno].Value = i + 1;
                                 dgv_registartion.Rows.Add(1);
+                                DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[Raction];
+                                cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                cell1.Value = Properties.Resources.add_row;
 
                                 n = dgv_registartion.RowCount;
                                 for (int i = 0; i < n; i++)
@@ -498,16 +512,16 @@ namespace FoodandBeverage.Forms
             }
             return false;
         }
-        private void dgv_registartion_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.ColumnIndex == 4)
-            {
-                if (e.RowIndex == dgv_registartion.Rows.Count - 1)
-                    e.Value = Properties.Resources.add_row;
-                else
-                    e.Value = Properties.Resources.delete;
-            }
-        }
+        //private void dgv_registartion_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        //{
+        //    if (e.ColumnIndex == 4)
+        //    {
+        //        if (e.RowIndex == dgv_registartion.Rows.Count - 1)
+        //            e.Value = Properties.Resources.add_row;
+        //        else
+        //            e.Value = Properties.Resources.delete;
+        //    }
+        //}
 
         private void btnclose_Click(object sender, EventArgs e)
         {
@@ -583,7 +597,7 @@ namespace FoodandBeverage.Forms
                     objSearchDetails.OrderBy = "";
                     var gridSource_pro = bllSearchdetails.GetSearchData("prdSearch", objSearchDetails);
                     dgv_registartion.Rows.Clear();
-
+                    int cnt = 0;
                     for (int i = 0; i < gridSource_pro.Count; i++)
                     {
                         if(Convert.ToInt32(gridSource_pro[i].Field6)==1)
@@ -597,11 +611,16 @@ namespace FoodandBeverage.Forms
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[i].Cells[Raction];
                             cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                             cell.Value = Properties.Resources.delete;
+                            cnt = cnt + 1;
                         }
                     }
                     if(dgv_registartion.RowCount==0)
                         dgv_registartion.Rows.Add();
                     rearrange_slno();
+                    dgv_registartion.Rows.Add();
+                    DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[cnt].Cells[Raction];
+                    cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    cell1.Value = Properties.Resources.add_row;
                 }
             }
             catch (Exception ex)
@@ -705,7 +724,7 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
                 tlp_registration.Controls.Add(txtdes, 3, 6);
                 //row3
-                tlp_registration.Controls.Add(btn_del_ingre, 1, 8);
+                tlp_registration.Controls.Add(btn_del_ingre, 0, 8);
 
             }
         }
@@ -1930,6 +1949,11 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+
+        private void btnadd_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

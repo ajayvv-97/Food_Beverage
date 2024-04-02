@@ -91,7 +91,7 @@ namespace FoodandBeverage.Forms
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         TableLayoutPanel tlp_price_list = new TableLayoutPanel();
-
+        public bool LoadFlag = true;
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -209,11 +209,26 @@ namespace FoodandBeverage.Forms
             tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
             #endregion
 
-            dtp_to_date_s.MinDate = DateTime.Now;
+             dtp_to_date_s.MinDate = DateTime.Now;
             dtp_from_date_s.MinDate = DateTime.Now;
+
+            dtp_to_time_s.MinDate = DateTime.Now;
+            dtp_from_time_s.MinDate = DateTime.Now;
 
             dtp_to_date.MinDate = DateTime.Now;
             dtp_from_date.MinDate = DateTime.Now;
+
+            dtp_to_time.MinDate = DateTime.Now;
+            dtp_from_time.MinDate = DateTime.Now;
+
+            //dtp_to_date.Value = DateTime.Now;
+            //dtp_from_date.Value = DateTime.Now;
+
+            //dtp_to_time.Value = DateTime.Now;
+            //dtp_from_time.Value = DateTime.Now;
+
+            LoadFlag = false;
+
 
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
@@ -398,14 +413,25 @@ namespace FoodandBeverage.Forms
         public void ClearAll()
         {
             if (tlp_combo.Visible)
-            {                
-                dtp_to_date.MinDate = DateTime.Now;
-                dtp_from_date.MinDate = DateTime.Now;
-                dtp_from_time.Value = DateTime.Now;
-                dtp_to_time.Value = DateTime.Now;
+            {
+                LoadFlag = true;
+                dtp_to_date.MinDate = DateTime.Now.Date;
+                dtp_from_date.MinDate = DateTime.Now.Date;
+
+                dtp_to_time.MinDate = DateTime.Now;
+                dtp_from_time.MinDate = DateTime.Now;
 
                 dtp_to_date.Value = DateTime.Now;
                 dtp_from_date.Value = DateTime.Now;
+
+                dtp_to_time.Value = DateTime.Now;
+                dtp_from_time.Value = DateTime.Now;
+
+                dtp_from_date.Enabled = true;
+                dtp_from_time.Enabled = true;
+
+                LoadFlag = false;
+
 
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
@@ -827,7 +853,7 @@ namespace FoodandBeverage.Forms
                             objSearch.Select = "fd.Productname Field1,fd.DiscountPer Field2,fd.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,fd.TaxType Field6,fd.Tax Field7,fd.ProductId Field8,fd.producttype Field9,fd.Prid Field10,fd.FinalPrice Field11,fd.DiscountAmt Field12," +
                                 "fd.Description Field13,fd.Odid Field14,fd.ItemCode_UPC Field15,OfferstartDatetime StartDate,OfferEndDatetime EndDate,"+
                                             "(select DiscountPer from tblProduct where status = 1 and ProductId = fd.ProductId) Field16," +
-                    "(select DiscountPer from tblItem where status = 1 and ItemId = fd.ProductId) Field17,fm.Offername Field18 ,fm.Discountper Field19,fm.description Field20,tx.TaxSettingsId Field21";
+                                    "(select DiscountPer from tblItem where status = 1 and ItemId = fd.ProductId) Field17,fm.Offername Field18 ,fm.Discountper Field19,fm.description Field20,tx.TaxSettingsId Field21";
                             objSearch.Table = "tblOfferDetails  fd LEFT JOIN tblOfferMaster fm ON fm.Omid=fd.Omid LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=fd.TaxSettingsId";
                             objSearch.WhereNdGroupBy = "where fd.status = 1 and fd.omid ="+ omid;
                             objSearch.OrderBy = "";
@@ -980,7 +1006,6 @@ namespace FoodandBeverage.Forms
                             var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                             if (itemSource.Count > 0)
                             {
-
                                 tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
                                 tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
                                 btn_del_combo.Visible = true;
@@ -1003,22 +1028,40 @@ namespace FoodandBeverage.Forms
                                 DateTime fromDateTime = itemSource[0].StartDate;
                                 DateTime toDateTime = itemSource[0].EndDate;
 
-                                if (fromDateTime >= itemSource[0].StartDate)
+                                if (itemSource[0].StartDate >= DateTime.Now)
+                                {
                                     dtp_from_date.MinDate = DateTime.Now;
+                                    dtp_from_time.MinDate = DateTime.Now;
+                                    dtp_from_date.Value = itemSource[0].StartDate;
+                                    dtp_from_time.Value = itemSource[0].StartDate;
+                                }
                                 else
-                                    dtp_from_date.MinDate = fromDateTime.Date;
+                                {
+                                    dtp_from_date.Enabled = false;
+                                    dtp_from_time.Enabled = false;
+
+                                    dtp_from_date.MinDate = itemSource[0].StartDate;
+                                    dtp_from_time.MinDate = itemSource[0].StartDate;
+                                    dtp_from_date.Value = itemSource[0].StartDate;
+                                    dtp_from_time.Value = itemSource[0].StartDate;
+
+                                }
+
 
                                 if (itemSource[0].EndDate >= DateTime.Now)
+                                {
                                     dtp_to_date.MinDate = DateTime.Now;
+                                    dtp_to_date.Value = itemSource[0].EndDate;
+                                    dtp_to_time.Value = itemSource[0].EndDate;
+                                }
                                 else
+                                {
                                     dtp_to_date.MinDate = itemSource[0].EndDate.Date;
+                                    // Set the "to" date and time
+                                    dtp_to_date.Value = toDateTime.Date;
 
-                                // Set the "from" date and time
-                                dtp_from_date.Value = fromDateTime.Date;
-                                dtp_from_time.Value = fromDateTime;
-
-                                // Set the "to" date and time
-                                dtp_to_date.Value = toDateTime.Date;
+                                }
+                                dtp_to_time.MinDate = toDateTime;
                                 dtp_to_time.Value = toDateTime;
 
                                 cmbtaxtype.Text= itemSource[0].Field20;
@@ -3119,6 +3162,8 @@ public bool MandatoryCheck_Combo()
             //    txtcombo_finalprice.Focus();
             //}
         }
+
+        #region Product offer datetime evnet
         private void dtp_from_date_s_ValueChanged(object sender, EventArgs e)
         {
             DateTime selectedDate = dtp_from_date_s.Value.Date;
@@ -3128,7 +3173,6 @@ public bool MandatoryCheck_Combo()
                 dtp_from_date_s.Value = currentDate;
             }
         }
-
         private void dtp_to_date_s_ValueChanged(object sender, EventArgs e)
         {
             //DateTime selectedDate = dtp_to_date_s.Value.Date;
@@ -3149,59 +3193,76 @@ public bool MandatoryCheck_Combo()
 
         private void dtp_from_time_s_ValueChanged(object sender, EventArgs e)
         {
-            DateTime selectedDate = dtp_from_date_s.Value.Date;
-            DateTime selectedTime = dtp_from_time_s.Value;
+            //DateTime selectedDate = dtp_from_date_s.Value.Date;
+            //DateTime selectedTime = dtp_from_time_s.Value;
 
-            DateTime currentDateTime = DateTime.Now;
-            DateTime selectedDateTime = selectedDate + selectedTime.TimeOfDay;
+            //DateTime currentDateTime = DateTime.Now;
+            //DateTime selectedDateTime = selectedDate + selectedTime.TimeOfDay;
 
-            if (selectedDateTime < currentDateTime)
-            {
-                dtp_from_time_s.Value = currentDateTime;
-            }
+            //if (selectedDateTime < currentDateTime)
+            //{
+            //    dtp_from_time_s.Value = currentDateTime;
+            //}
         }
+        #endregion
 
-        private void dtp_from_date_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime selectedDate = dtp_from_date.Value.Date;
-            DateTime currentDate = DateTime.Now.Date;
-            if (selectedDate < currentDate)
-            {
-                dtp_from_date.Value = currentDate;
-            }
-        }
 
-        private void dtp_from_time_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime selectedDate = dtp_from_date.Value.Date;
-            DateTime selectedTime = dtp_from_time.Value;
-
-            DateTime currentDateTime = DateTime.Now;
-            DateTime selectedDateTime = selectedDate + selectedTime.TimeOfDay;
-
-            if (selectedDateTime < currentDateTime)
-            {
-                dtp_from_time.Value = currentDateTime;
-            }
-        }
-
+        #region Combo offer
         private void dtp_to_date_ValueChanged(object sender, EventArgs e)
         {
-            //DateTime selectedDate = dtp_to_date.Value.Date;
-            //DateTime currentDate = DateTime.Now.Date;
-            //if (selectedDate < currentDate)
-            //{
-            //    dtp_to_date.Value = currentDate;
-            //}
-
-            //DateTime fromDate = dtp_from_date.Value;
-            //DateTime toDate = dtp_to_date.Value;
-            //if (toDate < fromDate)
-            //{
-            //    CMessageBox.Show("To Date Cannot Be Before From Date. Please Select a Valid Date.");
-            //    dtp_to_date.Value = fromDate;
-            //}
+            if(LoadFlag==false)
+            {
+                DateTime selectedDate = dtp_to_date.Value.Date;
+                DateTime currentDate = DateTime.Now.Date;
+                if(selectedDate == currentDate)
+                {
+                    dtp_to_time.MinDate = DateTime.Now;
+                    dtp_to_time.Value = DateTime.Now;
+                }
+                else
+                {
+                    dtp_to_time.MinDate = dtp_to_date.Value.Date;
+                }
+            }
         }
+        private void dtp_from_date_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (LoadFlag == false)
+                {
+                    DateTime selectedDate = dtp_from_date.Value.Date;
+
+                    DateTime currentDate = DateTime.Now.Date;
+
+                    if (selectedDate == currentDate)
+                    {
+                        dtp_from_time.MinDate = DateTime.Now;
+                        dtp_from_time.Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        dtp_from_time.MinDate = dtp_from_date.Value.Date;
+
+                    }
+                    dtp_to_date.MinDate = dtp_from_date.Value;
+                    dtp_to_date.Value = dtp_from_date.Value;
+                    DateTime selectedDate_To = dtp_to_date.Value.Date;
+                    if (selectedDate_To == currentDate)
+                    {
+                        dtp_to_time.MinDate = DateTime.Now;
+                        dtp_to_time.Value = DateTime.Now;
+                    }
+                    else
+                        dtp_to_time.MinDate = dtp_to_date.Value.Date;
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }           
+        }
+        #endregion
 
         private void btn_grid_product_close_Click(object sender, EventArgs e)
         {

@@ -83,34 +83,72 @@ namespace FoodandBeverage.Forms
 
                     BllMenu bllmenu = new BllMenu();
                     int count = 0;
-                    for (int i = 0; i < dgv_menu.RowCount; i++)
+
+                    if (rb_item.Checked)
                     {
-                        if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") )  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                        for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
-                            dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
-                            dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
-                            dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
-                            dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                            dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
-                            dmnmenu.CreatedBy = FrmDashboard.UserId;
-                            dmnmenu.BranchId = FrmDashboard.BranchId;
-                            if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                                dmnmenu.Status = 1;
-                            else
-                                dmnmenu.Status = 0;
-                            usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
-                            count++;
+                            if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != ""))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                            {
+                                dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
+                                dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
+                                dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
+                                dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
+                                dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.CreatedBy = FrmDashboard.UserId;
+                                dmnmenu.BranchId = FrmDashboard.BranchId;
+                                if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                                    dmnmenu.Status = 1;
+                                else
+                                    dmnmenu.Status = 0;
+                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                                count++;
+                            }
+                        }
+                        if (count == dgv_menu.RowCount)
+                        {
+                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+                            cmbSearchlist.SelectedIndex = -1;
+                            cmbMenu_category.SelectedIndex = -1;
+                            txtsearchlist.Text = "";
+                            txtsearch.Text = "";
+
+                            Item_Fill();
                         }
                     }
-                    if (count == dgv_menu.RowCount-1)
+                    else if (rb_product.Checked)
                     {
-                        CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        clearall();
-                        Product_Fill();
+                        for (int i = 0; i < dgv_menu.RowCount; i++)
+                        {
+                            if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && ( Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value)  >0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true) ))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                            {
+                                dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
+                                dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
+                                dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
+                                dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
+                                dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.CreatedBy = FrmDashboard.UserId;
+                                dmnmenu.BranchId = FrmDashboard.BranchId;
+                                if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                                    dmnmenu.Status = 1;
+                                else
+                                    dmnmenu.Status = 0;
+                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                                count++;
+                            }
+                        }
+                        if (count > 0)
+                        {
+                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            clearall();
+                            Product_Fill();
+                        }
                     }
-                    //else
-                        //CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                //else
+                //CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
             catch (Exception ex)
             {
@@ -126,7 +164,6 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 if(searchmode==0)
                 {
-
                     dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
                     dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                         "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
@@ -171,23 +208,24 @@ namespace FoodandBeverage.Forms
                         {
                             dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                             dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
-                            dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
-
-                            Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
-                            int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
-                            Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
-                            chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
-                            chk_selectall.BackColor = Color.White;
-                            chk_selectall.Size = new Size(18, 18);
-                            chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
-                            dgv_menu.Controls.Add(chk_selectall);
+                            dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;       
                         }
                         else if (rb_item.Checked)
                             dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
 
                     }
+
                     if (rb_product.Checked)
                     {
+                        Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                        int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                        Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                        chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                        chk_selectall.BackColor = Color.White;
+                        chk_selectall.Size = new Size(18, 18);
+                        chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                        dgv_menu.Controls.Add(chk_selectall);
+
                         chk_seleall_pro.Visible = true;
                         chk_selectall.Visible = true;
                     }
@@ -205,11 +243,11 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    if (rb_product.Checked) 
+                        chk_seleall_pro.Visible = true;
                     chk_selectall.Visible = false;
-                    CMessageBox.Show("No Products For This Category");
+                    CMessageBox.Show("No Products For This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -247,6 +285,20 @@ namespace FoodandBeverage.Forms
             //    cmbMenu_category.Focus();
             //    return false;
             //}
+            bool flagcount = true;
+            for(int i=0;i<dgv_menu.RowCount;i++)
+            {
+                if(Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value)>0)
+                {
+                    flagcount = false;
+                    break;
+                }
+            }
+            if(flagcount)
+            {
+                CMessageBox.Show("Please Select Food To The List", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
             return true;
         }
@@ -397,16 +449,16 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
-           Fillmenu(0);
-            if(rb_product.Checked && dgv_menu.RowCount==0)
+            if (rb_product.Checked && dgv_menu.RowCount == 0)
             {
                 dgv_menu.Rows.Clear();
                 dgv_menu.Rows.Add();
                 int r = dgv_menu.RowCount - 1;
                 dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
                 dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
-            }
 
+            }
+            chk_seleall_pro.Checked = false;
         }
         public void clearall()
         {
@@ -414,9 +466,17 @@ namespace FoodandBeverage.Forms
             cmbMenu_category.SelectedIndex = -1;
             txtsearchlist.Text = "";
             txtsearch.Text = "";
-            rb_item.Checked = false;
-            rb_product.Checked = true;
-            chk_seleall_pro.Checked = false;
+
+            //if (rb_product.Checked==false)
+            //{
+            //    rb_product.Checked = true;
+            //    chk_seleall_pro.Checked = false;
+            //}
+            //rb_item.Checked = false;
+            if (rb_product.Checked)
+                Product_Fill();
+            else if (rb_item.Checked)
+                Item_Fill();
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
@@ -795,8 +855,10 @@ namespace FoodandBeverage.Forms
             {
                 Item_Fill();
             }
-            if (rb_product.Checked)
+            else if (rb_product.Checked)
             {
+                if (chk_seleall_pro.Checked)
+                    chk_seleall_pro.Checked = false;
                 Product_Fill();
             }
 
@@ -871,6 +933,7 @@ namespace FoodandBeverage.Forms
                 {
                     chk_selectall.Visible = true;
                     chk_seleall_pro.Visible = true;
+
                 }
                 else if (rb_item.Checked)
                 {
@@ -878,11 +941,15 @@ namespace FoodandBeverage.Forms
                     chk_selectall.Visible = false;
                     chk_seleall_pro.Visible = false;
                 }
+                if (chk_seleall_pro.Checked)
+                    chk_seleall_pro.Checked = false;
             }
             else
             {
+                if (chk_seleall_pro.Checked)
+                    chk_seleall_pro.Checked = false;
                 chk_selectall.Visible = false;
-                CMessageBox.Show("No Products For This Name");
+                CMessageBox.Show("No Products For This Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
         }
@@ -992,7 +1059,9 @@ namespace FoodandBeverage.Forms
                     tlp_menu_Gallery_main.Controls.Add(tlp_gallery_sub, 0, 1);
                 }
                 else
-                    CMessageBox.Show("No Products For This Category");
+                    CMessageBox.Show("No Products For This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
             }
             catch (Exception ex)
             {
@@ -1255,7 +1324,7 @@ namespace FoodandBeverage.Forms
 
                 }
                 else
-                    CMessageBox.Show("No Products For This Category");
+                    CMessageBox.Show("No Products For This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -1319,6 +1388,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    chk_seleall_pro.Visible = true;
                     chk_selectall.Visible = false;
                     dgv_menu.Rows.Clear();
                     dgv_menu.Rows.Add();
@@ -1341,6 +1411,9 @@ namespace FoodandBeverage.Forms
                 cmbMenu_category.SelectedIndex = -1;
                 Item_Fill();
                 txtsearchlist.Text = "";
+
+                if (chk_seleall_pro.Checked)
+                    chk_seleall_pro.Checked = false;
             }
 
         }
@@ -1549,7 +1622,7 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6 ";
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";//
                     objSearch.WhereNdGroupBy = "where p.Status=1";
                     objSearch.OrderBy = "order by m.Status desc";
@@ -1577,13 +1650,23 @@ namespace FoodandBeverage.Forms
                                 dgv_menu.Rows[i].Cells[pstatusno].Value = true;
                             else
                                 dgv_menu.Rows[i].Cells[pstatusno].Value = false;
-                        }                      
+                        }
+
+                        Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                        chk_selectall.Checked = false;
+                        int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                        Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                        chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                        chk_selectall.BackColor = Color.White;
+                        chk_selectall.Size = new Size(18, 18);
+                        chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                        dgv_menu.Controls.Add(chk_selectall);
 
                     }
                 }
                 else
                 {
-                    Product_Fill();
+                   // Product_Fill();
                 }
             }
             catch(Exception ex)
