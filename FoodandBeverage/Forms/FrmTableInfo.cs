@@ -39,6 +39,31 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
+        
+       public bool MandatoryCheck_Activeorder()
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch objSearch = new DmnSearch();
+            objSearch.Select = "count(*) Field1";
+            objSearch.Table = "tblTable_info";
+            objSearch.WhereNdGroupBy = "where status=1 and OrderStatus=1 and Tid=" + txttid.Text;
+            objSearch.OrderBy = "";
+            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+            if (itemSource.Count > 0)
+            {
+                if(Convert.ToInt32(itemSource[0].Field1)>0)
+                {
+                    CMessageBox.Show("There is Already An Active Order For This Table.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if(Convert.ToInt32(itemSource[0].Field1) == 0)
+                {
+                    return true;
+                } 
+            }
+            return true;
+        }
+
         public bool MandatoryCheck()
         {
             if (txttablecode.Text == "" || txttablecode.Text == null)
@@ -218,8 +243,7 @@ namespace FoodandBeverage.Forms
         public void Filldetails(int tableid)
         {
             try
-            {
-              
+            {              
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
@@ -267,7 +291,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_del_table_Click(object sender, EventArgs e)
         {
-
             var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
@@ -574,41 +597,44 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DmnTableinfo dmntableinfo = new DmnTableinfo();
-                BllTableinfo bllmenu = new BllTableinfo();
-                if (string.IsNullOrWhiteSpace(txttid.Text))
-                    txttid.Text = "0";
-                if (string.IsNullOrWhiteSpace(txtrate.Text))
-                    txtrate.Text = "0";
-                dmntableinfo.Tid = Convert.ToInt32(txttid.Text);
-                dmntableinfo.TableCode = txttablecode.Text;
-                dmntableinfo.Capcity = Convert.ToInt32(txtcapcity.Text);
-                dmntableinfo.Description = txtdesc.Text;
-                dmntableinfo.Fcid = Convert.ToInt32(cmb_category.SelectedValue);
-                dmntableinfo.Price = Convert.ToDecimal(txtrate.Text);
-                dmntableinfo.RevStatus = 0;
-                dmntableinfo.OrderStatus = 0;
-                dmntableinfo.CreatedBy = FrmDashboard.UserId;
-                dmntableinfo.BranchId = FrmDashboard.BranchId;
-
-                if(Convert.ToInt32( pbactive_in.Tag)==2)
-                    dmntableinfo.Status = 1;
-                else if (Convert.ToInt32(pbactive_in.Tag) == 1)
-                    dmntableinfo.Status = 2;
-
-                var usertype = bllmenu.AddData("prdInsert_upd_Tableinfo", dmntableinfo);
-
-                if (usertype.Tid > 0)
+                if (MandatoryCheck_Activeorder())
                 {
-                    if (Convert.ToUInt32(txttid.Text) > 0)
-                        CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    else
-                        CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    clearall();
-                    Filltable();
-                }
+                    DmnTableinfo dmntableinfo = new DmnTableinfo();
+                    BllTableinfo bllmenu = new BllTableinfo();
+                    if (string.IsNullOrWhiteSpace(txttid.Text))
+                        txttid.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtrate.Text))
+                        txtrate.Text = "0";
+                    dmntableinfo.Tid = Convert.ToInt32(txttid.Text);
+                    dmntableinfo.TableCode = txttablecode.Text;
+                    dmntableinfo.Capcity = Convert.ToInt32(txtcapcity.Text);
+                    dmntableinfo.Description = txtdesc.Text;
+                    dmntableinfo.Fcid = Convert.ToInt32(cmb_category.SelectedValue);
+                    dmntableinfo.Price = Convert.ToDecimal(txtrate.Text);
+                    dmntableinfo.RevStatus = 0;
+                    dmntableinfo.OrderStatus = 0;
+                    dmntableinfo.CreatedBy = FrmDashboard.UserId;
+                    dmntableinfo.BranchId = FrmDashboard.BranchId;
+
+                    if (Convert.ToInt32(pbactive_in.Tag) == 2)
+                        dmntableinfo.Status = 1;
+                    else if (Convert.ToInt32(pbactive_in.Tag) == 1)
+                        dmntableinfo.Status = 2;
+
+                    var usertype = bllmenu.AddData("prdInsert_upd_Tableinfo", dmntableinfo);
+
+                    if (usertype.Tid > 0)
+                    {
+                        if (Convert.ToUInt32(txttid.Text) > 0)
+                            CMessageBox.Show(" Update Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        else
+                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        clearall();
+                        Filltable();
+                    }                
                 else
                     CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch(Exception ex)
             {

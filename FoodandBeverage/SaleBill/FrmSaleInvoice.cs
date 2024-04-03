@@ -30,7 +30,7 @@ namespace FoodandBeverage.SaleBill
         public string folderPath = Application.StartupPath + "\\Barcode";
         private HttpClient httpClient;
         public static int BType = 0;
-        public string RPTPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//Application.StartupPath + @"\SaleBill";
+        public string RPTPath = Application.StartupPath + @"\SaleBill\";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
         public string locationname_api;
         public decimal netamount_api = 0;
         public string cusname_api;

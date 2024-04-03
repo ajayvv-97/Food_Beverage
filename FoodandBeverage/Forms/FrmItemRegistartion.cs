@@ -328,7 +328,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
             }  
-            else if (cmbtax.Text == "")
+            if (cmbtax.Text == "")
             {
                 CMessageBox.Show("Please Select Tax", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbtax.Focus();
@@ -640,15 +640,11 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lblunit, 2, 5);
                     tlp_registration.Controls.Add(lbltax, 3, 5);
 
-
-
                     //row2
                     tlp_registration.Controls.Add(txtdisper, 0, 6);
                     tlp_registration.Controls.Add(txtdisamt, 1, 6);
                     tlp_registration.Controls.Add(cmbunit, 2, 6);
                     tlp_registration.Controls.Add(cmbtax, 3, 6);
-
-
 
                     //row3
                     tlp_registration.Controls.Add(lbltaxtype, 0, 7);
@@ -662,7 +658,6 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
                     tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
                     tlp_registration.Controls.Add(tlp_des_rem, 3, 8);
-
 
                     cmbIgstPrcnt.Focus();
                 }

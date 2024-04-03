@@ -9223,16 +9223,18 @@ namespace FoodandBeverage.Forms
                     {
                         wificard_timer.Stop();
                         RFID_Status = true;
+                        btn_card_paynow.Visible = false;
+                        lbl_insff_cashbal.Visible = false;
                         BllSearch<DmnAccountLedger> bllSearch = new BllSearch<DmnAccountLedger>();
                         DmnSearch dmnSearch = new DmnSearch();
                         dmnSearch.Select = "*";
                         dmnSearch.Table = " mPOS_DBNew.dbo.tblAccountLedger";
-                        dmnSearch.WhereNdGroupBy = "Where ICardNo = '" + reading_RFID + "'";
+                        dmnSearch.WhereNdGroupBy = "Where status = 1 and  ICardNo = '" + reading_RFID + "'" ;
                         dmnSearch.OrderBy = "";
                         var gridSource = bllSearch.GetSearchData_CardAcc("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
                         {
-                            blinkTimer.Start();
+                            blinkTimer.Stop();
                             lbl_card_netamount.Text = txtnetamount.Text;
                             txt_cardbalance.Text = Convert.ToString(gridSource[0].CardBalance);
                             txt_cardaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
@@ -9275,10 +9277,12 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToDecimal(gridSource[0].CardBalance) < Convert.ToDecimal(txtnetamount.Text))
                             {
                                 lbl_insff_cashbal.Visible = true;
+                                blinkTimer.Start();
                                 btn_card_paynow.Visible = false;
                             }
                             else
                             {
+                                blinkTimer.Stop();
                                 lbl_insff_cashbal.Visible = false;
                                 btn_card_paynow.Visible = true;                                
                             }
@@ -9390,7 +9394,10 @@ namespace FoodandBeverage.Forms
             tlp_grid_headername.Visible = true;
             textb_shape();
         }
-        
 
+        private void pbwifi_Click(object sender, EventArgs e)
+        {
+            wificard_timer.Start();
+        }
     }
 }

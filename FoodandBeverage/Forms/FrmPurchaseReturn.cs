@@ -311,6 +311,7 @@ namespace FoodandBeverage.Forms
             tlp_textboxes.Enabled = true;
             btnsave.Visible = true;
             txtpurchaseentry.BackColor = Color.FromArgb(196, 223, 223);
+            txtdocno.ReadOnly = false;
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -1966,6 +1967,7 @@ namespace FoodandBeverage.Forms
                             lblNetAmt.Text = gridSource1[0].NetAmount.ToString();
                             lblTotal.Text = gridSource1[0].TotalGross.ToString();
                             tlp_textboxes.Enabled = false;
+                            txtdocno.ReadOnly = true;
 
                             DmnSearch dmnSearch1 = new DmnSearch();
                             BllSearch<DmnPurchaseReturnMaster> _bllSearch1 = new BllSearch<DmnPurchaseReturnMaster>();
