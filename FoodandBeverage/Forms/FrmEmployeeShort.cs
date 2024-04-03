@@ -1399,8 +1399,8 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                flag = false;
+                                CMessageBox.Show(" Need To Assign One Permission Atleast For Role Registration", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                //flag = false;
 
                             }
                         }
