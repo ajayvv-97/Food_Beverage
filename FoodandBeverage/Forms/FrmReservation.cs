@@ -86,7 +86,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-            string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
+            string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
             richTextBoxPhone.Rtf = "{\\rtf1\\ansi " +
             "Phone No \\i0 *\\ulnone\\i\\b " +
                "}";
@@ -190,8 +190,8 @@ namespace FoodandBeverage.Forms
             dtp_from_time.MinDate = DateTime.Now;
             dtpBooking.MinDate = DateTime.Today;
             dtp_from_time.Format = DateTimePickerFormat.Custom;
-            dtp_from_time.CustomFormat = "hh:mm:ss tt";
-            //dtp_from_time.Value = DateTime.Now;
+            dtp_from_time.CustomFormat = "HH:mm:ss:tt";
+
             redpan.Visible = false;
 
             FrmDashboard frmDash = new FrmDashboard();
@@ -250,54 +250,59 @@ namespace FoodandBeverage.Forms
 
         public void clear()
         {
-            chb_active.Checked = true;
-            button1.Visible = false;
-            dgvforms.Rows.Clear();
-            dgvmenu.Rows.Clear();
-            txtAddress.Text = "";
-            txtEmail.Text = "";
-            txtMob.Text = "";
-            txtNam.Text = "";
-            txtNOP.Text = "";
-            txtRemarks.Text = "";
-            cboBtype.SelectedValue = "select";
-            cboGender.SelectedValue = "select";
-            dgvforms.Rows.Add(1);
-            dgvmenu.Rows.Add(1);
-            mbtnSave.Visible = true;
-            txtBookmasterId.Text = "0";
-            txtordermasterid.Text = "0";
-            lblSTotal.Text = "";
-            lblMTotal.Text = "";
-            lblGTotal.Text = "";
-            discountper.Text = "";
-            totaldiscountamt.Text = "0.00";
-            oaamount.Text = "0.00";
-            oadesc.Text = "";
-            odamt.Text = "0.00";
-            oddesc.Text = "";
-            netamount.Text = "0.00";
-            sterms.Text = "";
-            txtadvpa.Text = "0.00";
-            rcvamt.Text = "0.00";
-            lblBalAmt.Text = "0.00";
-            lblNetAmt.Text = "0.00";
-            lblBAmt.Text = "0.00";
-            discountper.Text = "0.00";
-            label21.Visible = false;
-            lblBAmt.Visible = false;
-            panelProductPopup.Visible = false;
-            //pnlCustHead.Hide();
-            //dgvItemPop.Visible = false;
-            dgvmenu.Enabled = true;
-            dgvmenu.Focus();
-            dtpBooking.Value = DateTime.Now;
-            redpan.Visible = false;
-            dtp_from_time.MinDate = DateTime.Now;
+            try
+            {
+                chb_active.Checked = true;
+                button1.Visible = false;
+                dgvforms.Rows.Clear();
+                dgvmenu.Rows.Clear();
+                txtAddress.Text = "";
+                txtEmail.Text = "";
+                txtMob.Text = "";
+                txtNam.Text = "";
+                txtNOP.Text = "";
+                txtRemarks.Text = "";
+                cboBtype.SelectedValue = "select";
+                cboGender.SelectedValue = "select";
+                dgvforms.Rows.Add(1);
+                dgvmenu.Rows.Add(1);
+                mbtnSave.Visible = true;
+                txtBookmasterId.Text = "0";
+                txtordermasterid.Text = "0";
+                lblSTotal.Text = "";
+                lblMTotal.Text = "";
+                lblGTotal.Text = "";
+                discountper.Text = "";
+                totaldiscountamt.Text = "0.00";
+                oaamount.Text = "0.00";
+                oadesc.Text = "";
+                odamt.Text = "0.00";
+                oddesc.Text = "";
+                netamount.Text = "0.00";
+                sterms.Text = "";
+                txtadvpa.Text = "0.00";
+                rcvamt.Text = "0.00";
+                lblBalAmt.Text = "0.00";
+                lblNetAmt.Text = "0.00";
+                lblBAmt.Text = "0.00";
+                discountper.Text = "0.00";
+                label21.Visible = false;
+                lblBAmt.Visible = false;
+                panelProductPopup.Visible = false;
+                dgvmenu.Enabled = true;
+                dgvmenu.Focus();
+                dtp_from_time.MinDate = DateTime.Now;
+                dtpBooking.MinDate = DateTime.Today;
+                dtpBooking.Value = DateTime.Now;
+                redpan.Visible = false;
+                //tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+                //tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                button1.Visible = false;
+            }
+            catch(Exception ex)
+            {
 
-            tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
-            tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
-            button1.Visible = false;
+            }
         }
         public bool CheckEmailId(Form form, string EmailId)
         {
@@ -449,160 +454,7 @@ namespace FoodandBeverage.Forms
         //    }
         //}
 
-        private void mbtnSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool CUst = false;
-                if (MandatoryCheck())
-                {
-
-                    BllReservation bllReservation = new BllReservation();
-                    DmnReservation dmnReservation = new DmnReservation();
-                    //dmnReservation.BookmasterId = BookmasterId;
-                    dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
-                    dmnReservation.cusName = txtNam.Text;
-                    dmnReservation.Mobile = txtMob.Text;
-                    dmnReservation.Address = txtAddress.Text;
-                    dmnReservation.EmailId = txtEmail.Text;
-                    dmnReservation.Remarks = txtRemarks.Text;
-                    dmnReservation.gender = Convert.ToString(cboGender.SelectedValue);
-                    dmnReservation.CreatedBy = 1;
-                    dmnReservation.Status = 1;
-                    dmnReservation.BookingType = Convert.ToString(cboBtype.SelectedValue);
-                    dmnReservation.NoOfPeople = txtNOP.Text;
-                    dmnReservation.BranchId = 1030;
-                    dmnReservation.BookingDateTime = dtpBooking.Value;
-                    dmnReservation.ReservationTotal = Convert.ToDecimal(lblSTotal.Text);
-                    dmnReservation.MenuTotal = Convert.ToDecimal(lblMTotal.Text);
-                    dmnReservation.GrandTotal = Convert.ToDecimal(lblGTotal.Text);
-                    dmnReservation.DiscountAmt = Convert.ToDecimal(totaldiscountamt.Text);
-
-                    dmnReservation.DiscountPer = Convert.ToDecimal(discountper.Text);
-                    dmnReservation.OtherAdd = Convert.ToDecimal(oaamount.Text);
-                    dmnReservation.OtherDed = Convert.ToDecimal(odamt.Text);
-                    dmnReservation.OtherAddText = oadesc.Text;
-                    dmnReservation.OtherDedText = oddesc.Text;
-                    dmnReservation.NetAmount = Convert.ToDecimal(netamount.Text);
-                    dmnReservation.Terms = sterms.Text;
-                    dmnReservation.BalnceNeed = Convert.ToDecimal(lblBAmt.Text);
-                    if (Convert.ToDecimal(txtBookmasterId.Text) != 0)
-                    {
-                        if (Convert.ToDecimal(lblBalAmt.Text) > 0)
-                        {
-                            txtadvpa.Text = (Convert.ToDecimal(txtadvpa.Text) + Convert.ToDecimal(rcvamt.Text)).ToString();
-                        }
-                        else
-                        {
-                            dmnReservation.FinalAmount = dmnReservation.BalnceNeed;
-                            dmnReservation.BalnceNeed = 0;
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (Convert.ToDecimal(lblBalAmt.Text) <= 0 && Convert.ToDecimal(txtadvpa.Text) == 0)
-                        {
-
-                            dmnReservation.FinalAmount = dmnReservation.BalnceNeed;
-                            dmnReservation.BalnceNeed = 0;
-                        }
-
-                    }
-
-                    dmnReservation.AdvancePay = Convert.ToDecimal(txtadvpa.Text);
-                    dmnReservation.CashRev = Convert.ToDecimal(rcvamt.Text);
-                    dmnReservation.BalnceAmt = Convert.ToDecimal(lblBalAmt.Text);
-
-
-                    var InsertStatusP = bllReservation.AddData("prdInsert_Upd_bookMaster", dmnReservation);
-
-                    if (InsertStatusP.BookmasterId != 0)
-                    {
-                        bool datadetails = false;
-                        DmnReservationDetails dmnReservation1 = new DmnReservationDetails();
-                        for (int i = 0; i < dgvforms.Rows.Count - 1; i++)
-                        {
-
-                            if (Convert.ToString(dgvforms.Rows[i].Cells[itid].Value) != null && Convert.ToString(dgvforms.Rows[i].Cells[itid].Value) != "")
-                            {
-                                dmnReservation1.MTID = Convert.ToInt32(dgvforms.Rows[i].Cells[itid].Value);
-
-                                dmnReservation1.BookmasterId = InsertStatusP.BookmasterId;
-                                dmnReservation1.BookdetailId = Convert.ToInt32(dgvforms.Rows[i].Cells[iTBookingDetailId].Value);
-
-                                dmnReservation1.Name = Convert.ToString(dgvforms.Rows[i].Cells[itablename].Value);
-                                dmnReservation1.Quantity = Convert.ToInt32(dgvforms.Rows[i].Cells[icapacity].Value);
-                                dmnReservation1.Price = Convert.ToInt32(dgvforms.Rows[i].Cells[iprice].Value);
-                                dmnReservation1.Description = Convert.ToString(dgvforms.Rows[i].Cells[idescription].Value);
-                                dmnReservation1.CreatedBy = 1;
-                                dmnReservation1.BranchId = 1030;
-                                dmnReservation1.Rid = Convert.ToInt32(TableMenu.Rid);
-                                dmnReservation1.Status = 1;
-
-                                datadetails = bllReservation.AddDetails("prdInsert_Upd_bookDetails", dmnReservation1);
-
-                            }
-
-                        }
-                        for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
-                        {
-
-                            if (Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != null && Convert.ToString(dgvmenu.Rows[i].Cells[imid].Value) != "")
-                            {
-                                dmnReservation1.MTID = Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value);
-
-                                dmnReservation1.BookmasterId = InsertStatusP.BookmasterId;
-                                dmnReservation1.BookdetailId = Convert.ToInt32(dgvmenu.Rows[i].Cells[imBookingDetailId].Value);
-                                dmnReservation1.Name = Convert.ToString(dgvmenu.Rows[i].Cells[imname].Value);
-                                dmnReservation1.Quantity = Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
-                                dmnReservation1.Price = Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
-                                dmnReservation1.Description = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
-                                dmnReservation1.CreatedBy = 1;
-                                dmnReservation1.BranchId = 1030;
-                                dmnReservation1.Rid = Convert.ToInt32(TableMenu.Mid);
-                                dmnReservation1.Status = 1;
-                                dmnReservation1.Net = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
-                                datadetails = bllReservation.AddDetails("prdInsert_Upd_bookDetails", dmnReservation1);
-
-                            }
-
-                        }
-                        if (datadetails == true)
-                        {
-                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else if (datadetails == false)
-                        {
-                            CMessageBox.Show("Unable To Save ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-                        }
-                    }
-                    //else
-                    //{
-                    //    bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
-
-
-                    //    if (saveStatus == true)
-                    //    {
-                    //        MessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //    }
-                    //    else if (saveStatus == false)
-                    //    {
-                    //        MessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    //    }
-                    //}
-                    clear();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+        
 
         private void txtNam_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1003,176 +855,10 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void mbtnList_Click(object sender, EventArgs e)
-        {
-            Reservationlist();
-        }
+        
         public void Reservationlist()
         {
-            try
-            {
-                //btn_delt.Visible = true;
-                CalNetAmt();
-                label21.Visible = true;
-                lblBAmt.Visible = true;
-                string returnValue = string.Empty;
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DataTable dtColumnAlign = new DataTable();
-                DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "Id,cusName,Address,Mobile,Remarks";
-                _objSearch.Select = "BookmasterId as Id,cusName as Field1,Address as Field2,Mobile as Field3,Remarks as Field4";
-                _objSearch.Table = "tblbookMaster";
-                _objSearch.WhereNdGroupBy = " WHERE Status = 1";
-                _objSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-                if (gridSource.Count == 0)
-                {
-                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    button1.Visible = false;
-                }
-                else
-                {
-                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-                    {
-                        var dialogResult = search.ShowDialog();
-                        if (dialogResult == DialogResult.OK)
-                        {
-                            returnValue = Convert.ToString(search._retValue);
-                        }
-                    }
-
-                    if (returnValue != "")
-                    {
-                        mbtnSave.Visible = true;
-                        DmnSearch dmnSearch = new DmnSearch();
-                        BllSearch<DmnReservation> _bllSearch = new BllSearch<DmnReservation>();
-                        dmnSearch.Select = "*";
-                        dmnSearch.Table = "tblbookMaster";
-
-                        dmnSearch.WhereNdGroupBy = " Where BranchId = +  1030 and BookmasterId ='" + returnValue + "'";
-                        dmnSearch.OrderBy = "";
-                        var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-                        //tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
-                        //tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
-                        //tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
-                        button1.Visible = true;
-
-                        txtNam.Text = Convert.ToString(gridSource1[0].cusName);
-                        txtAddress.Text = Convert.ToString(gridSource1[0].Address);
-                        cboGender.SelectedValue = Convert.ToInt64(gridSource1[0].gender);
-                        txtMob.Text = Convert.ToString(gridSource1[0].Mobile);
-                        txtEmail.Text = Convert.ToString(gridSource1[0].EmailId);
-                        txtNOP.Text = Convert.ToString(gridSource1[0].NoOfPeople);
-                        cboBtype.SelectedValue = Convert.ToInt64(gridSource1[0].BookingType);
-                        txtRemarks.Text = Convert.ToString(gridSource1[0].Remarks);
-                        txtBookmasterId.Text = Convert.ToString(gridSource1[0].BookmasterId);
-                        lblSTotal.Text = Convert.ToString(gridSource1[0].ReservationTotal);
-                        lblMTotal.Text = Convert.ToString(gridSource1[0].MenuTotal);
-                        lblGTotal.Text = Convert.ToString(gridSource1[0].GrandTotal);
-                        discountper.Text = Convert.ToString(gridSource1[0].DiscountPer);
-                        totaldiscountamt.Text = Convert.ToString(gridSource1[0].DiscountAmt);
-                        oaamount.Text = Convert.ToString(gridSource1[0].OtherAdd);
-                        odamt.Text = Convert.ToString(gridSource1[0].OtherDed);
-                        oadesc.Text = Convert.ToString(gridSource1[0].OtherAddText);
-                        oddesc.Text = Convert.ToString(gridSource1[0].OtherDedText);
-                        netamount.Text = Convert.ToString(gridSource1[0].NetAmount);
-                        sterms.Text = Convert.ToString(gridSource1[0].Terms);
-                        txtadvpa.Text = Convert.ToString(gridSource1[0].AdvancePay);
-                        rcvamt.Text = Convert.ToDecimal(gridSource1[0].CashRev).ToString();
-                        dtp_from_time.MinDate = gridSource1[0].BookingDateTime;
-                        dtp_from_time.Value = gridSource1[0].BookingDateTime;
-                        lblNetAmt.Text = Convert.ToString(gridSource1[0].NetAmount);
-                        decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
-                        decimal bal = Convert.ToDecimal(lblBalAmt.Text);
-                        decimal net = Convert.ToDecimal(netamount.Text);
-                        decimal balanceneed = 0;
-                        decimal cashreciv = Convert.ToDecimal(rcvamt.Text);
-                        decimal finalAmt = Convert.ToDecimal(gridSource1[0].FinalAmount);
-                        rcvamt.Text = "0";
-                        lblBalAmt.Text = "0";
-                        balanceneed = net - (adpayment + finalAmt);
-                        lblBAmt.Text = balanceneed.ToString("0.0");
-                        //calmenu();
-
-                        if (Convert.ToDecimal(finalAmt) > 0)
-                        {
-                            label21.Text = "Final Settlement :";
-                            lblBAmt.Text = finalAmt.ToString();
-                            mbtnSave.Visible = false;
-                        }
-                        else if (Convert.ToDecimal(lblBAmt.Text) > 0)
-                        {
-                            label21.Text = "Balance To Pay :";
-                        }
-                        if (Convert.ToDecimal(lblBAmt.Text) == 0)
-                        {
-                            label21.Text = "Amount Settled :";
-                            lblBAmt.Text = "0";
-                            mbtnSave.Visible = false;
-
-                        }
-
-
-                        DmnSearch dmnSearch1 = new DmnSearch();
-                        BllSearch<DmnReservationDetails> _bllSearch1 = new BllSearch<DmnReservationDetails>();
-                        dmnSearch1.Select = "*";
-                        dmnSearch1.Table = "tblBookDetails ";
-                        dmnSearch1.WhereNdGroupBy = " Where BookmasterId ='" + returnValue + "'";
-                        var gridSource2 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
-                        if (gridSource2.Count > 0)
-                        {
-                            dgvforms.Rows.Clear();
-                            dgvmenu.Rows.Clear();
-                            //dgvforms.Rows.Add(gridSource2.Count);
-                            int r = 0;
-                            int r1 = 0;
-                            for (int i = 0; i < gridSource2.Count; i++)
-                            {
-                                if (gridSource2[i].Rid == Convert.ToInt32(TableMenu.Rid))
-                                {
-                                    dgvforms.Rows.Add(1);
-                                    //dgvforms.Rows[i].Cells[0].Value = i + 1;
-
-                                    dgvforms.Rows[r].Cells[itid].Value = gridSource2[i].MTID;
-                                    dgvforms.Rows[r].Cells[iTBookingDetailId].Value = gridSource2[i].BookdetailId;
-                                    dgvforms.Rows[r].Cells[itablename].Value = gridSource2[i].Name;
-                                    dgvforms.Rows[r].Cells[iprice].Value = gridSource2[i].Price;
-                                    dgvforms.Rows[r].Cells[icapacity].Value = gridSource2[i].Quantity;
-                                    dgvforms.Rows[r].Cells[idescription].Value = gridSource2[i].Description;
-
-                                    r++;
-                                }
-                                else
-                                {
-                                    dgvmenu.Rows.Add(1);
-                                    dgvmenu.Rows[r1].Cells[imid].Value = gridSource2[i].MTID;
-                                    dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = gridSource2[i].BookdetailId;
-                                    //dgvmenu.Rows[i].Cells[0].Value = i + 1;
-                                    //dgvmenu.Rows[i].Cells[BookmasterId].Value = gridSource2[i].BookmasterId;
-                                    dgvmenu.Rows[r1].Cells[imname].Value = gridSource2[i].Name;
-                                    dgvmenu.Rows[r1].Cells[iTax].Value = gridSource2[i].Tax;
-                                    dgvmenu.Rows[r1].Cells[istaxamt].Value = gridSource2[i].TaxAmt;
-                                    dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource2[i].TaxPer;
-                                    dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource2[i].TaxType;
-                                    dgvmenu.Rows[r1].Cells[imprice].Value = gridSource2[i].Price;
-                                    dgvmenu.Rows[r1].Cells[iqty].Value = gridSource2[i].Quantity;
-                                    dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource2[i].Description;
-                                    dgvmenu.Rows[r1].Cells[isamount].Value = gridSource2[i].Net;
-                                    r1++;
-                                }
-                            }
-                            dgvforms.Rows.Add(1);
-                            dgvmenu.Rows.Add(1);
-                        }
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
+           
         }
 
         private void guna2DataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -1962,7 +1648,172 @@ namespace FoodandBeverage.Forms
 
         private void mbtnList_Click_1(object sender, EventArgs e)
         {
-            Reservationlist();
+            try
+            {
+                //btn_delt.Visible = true;
+                CalNetAmt();
+                label21.Visible = true;
+                lblBAmt.Visible = true;
+                string returnValue = string.Empty;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DataTable dtColumnAlign = new DataTable();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "Id,cusName,Address,Mobile,Remarks";
+                _objSearch.Select = "BookmasterId as Id,cusName as Field1,Address as Field2,Mobile as Field3,Remarks as Field4";
+                _objSearch.Table = "tblbookMaster";
+                _objSearch.WhereNdGroupBy = " WHERE Status = 1";
+                _objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    button1.Visible = false;
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    {
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToString(search._retValue);
+                        }
+                    }
+
+                    if (returnValue != "")
+                    {
+                        mbtnSave.Visible = true;
+                        DmnSearch dmnSearch = new DmnSearch();
+                        BllSearch<DmnReservation> _bllSearch = new BllSearch<DmnReservation>();
+                        dmnSearch.Select = "*";
+                        dmnSearch.Table = "tblbookMaster";
+
+                        dmnSearch.WhereNdGroupBy = " Where BranchId = +  1030 and BookmasterId ='" + returnValue + "'";
+                        dmnSearch.OrderBy = "";
+                        var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                        //tableLayoutPanel10.ColumnStyles[0] = new ColumnStyle(SizeType.Percent,80);
+                        //tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
+                        //tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
+                        button1.Visible = true;
+
+                        txtNam.Text = Convert.ToString(gridSource1[0].cusName);
+                        txtAddress.Text = Convert.ToString(gridSource1[0].Address);
+                        cboGender.SelectedValue = Convert.ToInt64(gridSource1[0].gender);
+                        txtMob.Text = Convert.ToString(gridSource1[0].Mobile);
+                        txtEmail.Text = Convert.ToString(gridSource1[0].EmailId);
+                        txtNOP.Text = Convert.ToString(gridSource1[0].NoOfPeople);
+                        cboBtype.SelectedValue = Convert.ToInt64(gridSource1[0].BookingType);
+                        txtRemarks.Text = Convert.ToString(gridSource1[0].Remarks);
+                        txtBookmasterId.Text = Convert.ToString(gridSource1[0].BookmasterId);
+                        lblSTotal.Text = Convert.ToString(gridSource1[0].ReservationTotal);
+                        lblMTotal.Text = Convert.ToString(gridSource1[0].MenuTotal);
+                        lblGTotal.Text = Convert.ToString(gridSource1[0].GrandTotal);
+                        discountper.Text = Convert.ToString(gridSource1[0].DiscountPer);
+                        totaldiscountamt.Text = Convert.ToString(gridSource1[0].DiscountAmt);
+                        oaamount.Text = Convert.ToString(gridSource1[0].OtherAdd);
+                        odamt.Text = Convert.ToString(gridSource1[0].OtherDed);
+                        oadesc.Text = Convert.ToString(gridSource1[0].OtherAddText);
+                        oddesc.Text = Convert.ToString(gridSource1[0].OtherDedText);
+                        netamount.Text = Convert.ToString(gridSource1[0].NetAmount);
+                        sterms.Text = Convert.ToString(gridSource1[0].Terms);
+                        txtadvpa.Text = Convert.ToString(gridSource1[0].AdvancePay);
+                        rcvamt.Text = Convert.ToDecimal(gridSource1[0].CashRev).ToString();
+                        dtp_from_time.MinDate = gridSource1[0].BookingDateTime;
+                        dtp_from_time.Value = gridSource1[0].BookingDateTime;
+                        dtpBooking.MinDate = gridSource1[0].BookingDateTime;
+                        dtpBooking.Value = gridSource1[0].BookingDateTime;
+                        lblNetAmt.Text = Convert.ToString(gridSource1[0].NetAmount);
+                        decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
+                        decimal bal = Convert.ToDecimal(lblBalAmt.Text);
+                        decimal net = Convert.ToDecimal(netamount.Text);
+                        decimal balanceneed = 0;
+                        decimal cashreciv = Convert.ToDecimal(rcvamt.Text);
+                        decimal finalAmt = Convert.ToDecimal(gridSource1[0].FinalAmount);
+                        rcvamt.Text = "0";
+                        lblBalAmt.Text = "0";
+                        balanceneed = net - (adpayment + finalAmt);
+                        lblBAmt.Text = balanceneed.ToString("0.0");
+                        //calmenu();
+
+                        if (Convert.ToDecimal(finalAmt) > 0)
+                        {
+                            label21.Text = "Final Settlement :";
+                            lblBAmt.Text = finalAmt.ToString();
+                            mbtnSave.Visible = false;
+                        }
+                        else if (Convert.ToDecimal(lblBAmt.Text) > 0)
+                        {
+                            label21.Text = "Balance To Pay :";
+                        }
+                        if (Convert.ToDecimal(lblBAmt.Text) == 0)
+                        {
+                            label21.Text = "Amount Settled :";
+                            lblBAmt.Text = "0";
+                            mbtnSave.Visible = false;
+
+                        }
+
+
+                        DmnSearch dmnSearch1 = new DmnSearch();
+                        BllSearch<DmnReservationDetails> _bllSearch1 = new BllSearch<DmnReservationDetails>();
+                        dmnSearch1.Select = "*";
+                        dmnSearch1.Table = "tblBookDetails ";
+                        dmnSearch1.WhereNdGroupBy = " Where BookmasterId ='" + returnValue + "'";
+                        var gridSource2 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
+                        if (gridSource2.Count > 0)
+                        {
+                            dgvforms.Rows.Clear();
+                            dgvmenu.Rows.Clear();
+                            //dgvforms.Rows.Add(gridSource2.Count);
+                            int r = 0;
+                            int r1 = 0;
+                            for (int i = 0; i < gridSource2.Count; i++)
+                            {
+                                if (gridSource2[i].Rid == Convert.ToInt32(TableMenu.Rid))
+                                {
+                                    dgvforms.Rows.Add(1);
+                                    //dgvforms.Rows[i].Cells[0].Value = i + 1;
+
+                                    dgvforms.Rows[r].Cells[itid].Value = gridSource2[i].MTID;
+                                    dgvforms.Rows[r].Cells[iTBookingDetailId].Value = gridSource2[i].BookdetailId;
+                                    dgvforms.Rows[r].Cells[itablename].Value = gridSource2[i].Name;
+                                    dgvforms.Rows[r].Cells[iprice].Value = gridSource2[i].Price;
+                                    dgvforms.Rows[r].Cells[icapacity].Value = gridSource2[i].Quantity;
+                                    dgvforms.Rows[r].Cells[idescription].Value = gridSource2[i].Description;
+
+                                    r++;
+                                }
+                                else
+                                {
+                                    dgvmenu.Rows.Add(1);
+                                    dgvmenu.Rows[r1].Cells[imid].Value = gridSource2[i].MTID;
+                                    dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = gridSource2[i].BookdetailId;
+                                    //dgvmenu.Rows[i].Cells[0].Value = i + 1;
+                                    //dgvmenu.Rows[i].Cells[BookmasterId].Value = gridSource2[i].BookmasterId;
+                                    dgvmenu.Rows[r1].Cells[imname].Value = gridSource2[i].Name;
+                                    dgvmenu.Rows[r1].Cells[iTax].Value = gridSource2[i].Tax;
+                                    dgvmenu.Rows[r1].Cells[istaxamt].Value = gridSource2[i].TaxAmt;
+                                    dgvmenu.Rows[r1].Cells[iTaxper].Value = gridSource2[i].TaxPer;
+                                    dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource2[i].TaxType;
+                                    dgvmenu.Rows[r1].Cells[imprice].Value = gridSource2[i].Price;
+                                    dgvmenu.Rows[r1].Cells[iqty].Value = gridSource2[i].Quantity;
+                                    dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource2[i].Description;
+                                    dgvmenu.Rows[r1].Cells[isamount].Value = gridSource2[i].Net;
+                                    r1++;
+                                }
+                            }
+                            dgvforms.Rows.Add(1);
+                            dgvmenu.Rows.Add(1);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void mbtnClose_Click_1(object sender, EventArgs e)
@@ -1987,7 +1838,7 @@ namespace FoodandBeverage.Forms
                     DmnOrderDetails dmnOrderDetails = new DmnOrderDetails();
                     DmnReservation dmnReservation = new DmnReservation();
 
-                    string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
+                    string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
 
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
@@ -3771,7 +3622,7 @@ namespace FoodandBeverage.Forms
 
         private void dtpBooking_ValueChanged(object sender, EventArgs e)
         {
-            dtp_from_time.Value= dtpBooking.Value.Date;
+            //dtp_from_time.Value= dtpBooking.Value.Date;
         }
     }
 }
