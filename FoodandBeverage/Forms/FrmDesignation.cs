@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
     {
         #region Declaration
         ClsGeneral objGeneral = new ClsGeneral();
-        long BranchId = 1030;
+        long BranchId = FrmLogin.BranchId;
         long UserId = 1;
         long DesignationId = 0;
         #endregion
@@ -42,7 +42,7 @@ namespace FoodandBeverage.Forms
             objSearch = new DmnSearch();
             objSearch.Select = "DepartmentId,DepartmentName";
             objSearch.Table = " tblDepartment ";
-            objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + 1030;
+            //objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + BranchId;
             var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
             mcmbDepartment.DataSource = gridSource;
             mcmbDepartment.ValueMember = "Id";
@@ -83,8 +83,10 @@ namespace FoodandBeverage.Forms
         {
             dtpWorkingHrs.Text = "08:00";
             DesignationId = 0;
-          //   listTbx = { mtxtName };
-          //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
+            mtxtName.Text = "";
+            mcmbDepartment.SelectedIndex = 0;
+            //   listTbx = { mtxtName };
+            //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
             fillGridView();
            
             mcmbDepartment.Focus();
@@ -92,7 +94,8 @@ namespace FoodandBeverage.Forms
             {
                 mbtnSave.Enabled = false;
             }
-            
+            //FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
+            //frmEmployeeShort.FillCombo();
 
         }
         public Boolean NameExist()
@@ -244,10 +247,13 @@ namespace FoodandBeverage.Forms
                             else
                                 CMessageBox.Show("\n" + mtxtName.Text+" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        RefreshForm();
+                        
                         fillGridView();
                         dtpWorkingHrs.Text = "08:00";
-                        
+                        FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
+                        frmEmployeeShort.FillCombo();
+                        RefreshForm();
+
                     }
                     if (string.IsNullOrWhiteSpace(mtxtName.Text))
                     {

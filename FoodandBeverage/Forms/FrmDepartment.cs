@@ -117,18 +117,21 @@ namespace FoodandBeverage.Forms
         public void RefreshForm()
         {
             DepartmentId = 0;
-
+            mtxtEmpSrlNo.Text = "";
+            mtxtName.Text = "";
+            mtxtCode.Text = "";
 
             //MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
             //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
             fillGridView();
             mtxtName.Focus();
             mtxtEmpSrlNo.ReadOnly = false;
-            if (string.IsNullOrWhiteSpace(mtxtName.Text))
+            if (!string.IsNullOrWhiteSpace(mtxtName.Text))
             {
                 mbtnSave.Enabled = false;
 
             }
+           
 
         }
         public Boolean NameExist()
@@ -384,10 +387,12 @@ namespace FoodandBeverage.Forms
                         }
                         
                         fillGridView();
-                       
+                        
                     }
                     RefreshForm();
                     mtxtName.Focus();
+                    FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
+                    frmEmployeeShort.FillCombo();
                 }
 
               

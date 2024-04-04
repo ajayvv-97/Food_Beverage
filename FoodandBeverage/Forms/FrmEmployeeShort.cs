@@ -245,7 +245,7 @@ namespace FoodandBeverage.Forms
         {
             timer1.Start();
         }
-        public void FillCombo()
+        public void FillCombo1()
         {
             //Department
             BllSearch<DmnComboBox> bllSearchDep = new BllSearch<DmnComboBox>();
@@ -255,7 +255,7 @@ namespace FoodandBeverage.Forms
             //if (FrmDashBoard.Allaccess == 1)
             //    dmnSearchDep.WhereNdGroupBy = "Where Status =1";
             //else
-            //    dmnSearchDep.WhereNdGroupBy = "Where Status =1 and BranchId=" + Convert.ToInt32(mcmblocation.SelectedValue);
+            dmnSearchDep.WhereNdGroupBy = "Where Status =1 and BranchId=" + BranchId;
             //dmnSearchDep.OrderBy = "order by Value";
             //mcmbDepartmentId.DataSource = null;
             var departmentSource = bllSearchDep.GetSearchData("prdComboFill", dmnSearchDep);
@@ -268,7 +268,52 @@ namespace FoodandBeverage.Forms
             DmnSearch dmnSearchDes = new DmnSearch();
             dmnSearchDes.Select = "DesignationId,DesignationName";
             dmnSearchDes.Table = " tblDesignation ";
-         
+            dmnSearchDes.WhereNdGroupBy = "Where Status =1 and BranchId=" + BranchId;
+            mcmbDesignationId.DataSource = null;
+            var designationSource = bllSearchDes.GetSearchData("prdComboFill", dmnSearchDes);
+            mcmbDesignationId.DataSource = designationSource;
+            mcmbDesignationId.DisplayMember = "Value";
+            mcmbDesignationId.ValueMember = "Id";
+
+            //Gender
+            
+
+            //Account type         
+            BllSearch<DmnComboBox> blllocation = new BllSearch<DmnComboBox>();
+            DmnSearch dmnlocation = new DmnSearch();
+            dmnlocation.Select = "LocId,Name";
+            dmnlocation.Table = " tblLocationDetails ";
+            dmnlocation.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
+            dmnlocation.OrderBy = "order by Value";
+            ///var location = blllocation.GetSearchData("prdComboFill", dmnlocation);
+            //mcmblocation.DataSource = location;
+            //mcmblocation.DisplayMember = "Value";
+            //mcmblocation.ValueMember = "Id";
+        }
+        public void FillCombo()
+        {
+            //Department
+            BllSearch<DmnComboBox> bllSearchDep = new BllSearch<DmnComboBox>();
+            DmnSearch dmnSearchDep = new DmnSearch();
+            dmnSearchDep.Select = "DepartmentId,DepartmentName";
+            dmnSearchDep.Table = "tblDepartment";
+            //if (FrmDashBoard.Allaccess == 1)
+            //    dmnSearchDep.WhereNdGroupBy = "Where Status =1";
+            //else
+              dmnSearchDep.WhereNdGroupBy = "Where Status =1 and BranchId=" + BranchId;
+            //dmnSearchDep.OrderBy = "order by Value";
+            //mcmbDepartmentId.DataSource = null;
+            var departmentSource = bllSearchDep.GetSearchData("prdComboFill", dmnSearchDep);
+            mcmbDepartmentId.DisplayMember = "Value";
+            mcmbDepartmentId.ValueMember = "Id";
+            mcmbDepartmentId.DataSource = departmentSource;
+
+            //Designation
+            BllSearch<DmnComboBox> bllSearchDes = new BllSearch<DmnComboBox>();
+            DmnSearch dmnSearchDes = new DmnSearch();
+            dmnSearchDes.Select = "DesignationId,DesignationName";
+            dmnSearchDes.Table = " tblDesignation ";
+            dmnSearchDes.WhereNdGroupBy = "Where Status =1 and BranchId=" + BranchId;
             mcmbDesignationId.DataSource = null;
             var designationSource = bllSearchDes.GetSearchData("prdComboFill", dmnSearchDes);
             mcmbDesignationId.DataSource = designationSource;
@@ -535,7 +580,7 @@ namespace FoodandBeverage.Forms
             FrmDesignation frmDesignation = new FrmDesignation();
             frmDesignation.StartPosition = FormStartPosition.CenterParent;
             frmDesignation.ShowDialog();
-            FillCombo();
+            FillCombo1();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -543,7 +588,7 @@ namespace FoodandBeverage.Forms
             FrmDepartment frmDepartment = new FrmDepartment();
             frmDepartment.StartPosition = FormStartPosition.CenterParent;
             frmDepartment.ShowDialog();
-            FillCombo();
+            FillCombo1();
         }
 
         private void txtphone_KeyPress(object sender, KeyPressEventArgs e)
@@ -1354,7 +1399,8 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show(" Need To Assign One Permission Atleast For Role Registration", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                //flag = false;
 
                             }
                         }
@@ -1412,7 +1458,7 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-
+                                
                                 bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
                                 if (saveStatus)
                                 {
@@ -2416,6 +2462,18 @@ namespace FoodandBeverage.Forms
         {
             mpbAdd.BackgroundImage = FoodandBeverage.Properties.Resources.plus;
         }
+
+        private void dtpBirthDate_ValueChanged(object sender, EventArgs e)
+        {
+            string dob = dtpBirthDate.Value.ToString("yyyy");
+            string dt = DateTime.Now.ToString("yyyy");
+            int age = Convert.ToInt32(dt) - Convert.ToInt32(dob);
+           if(age <= 18)
+            {
+                CMessageBox.Show("Age mustbe above 18 !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+    
 
         public void FillForms(int id)
         {
