@@ -133,6 +133,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.TabIndex = 9;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
+            this.btnmini.Visible = false;
             this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // btncolse

@@ -969,8 +969,9 @@ namespace FoodandBeverage.Forms
                                         {
                                             DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                                             DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
-
-                                            if (DateTime.Now >= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
+                                            DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                                            DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
+                                            if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
                                             {
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.reserve_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -980,7 +981,7 @@ namespace FoodandBeverage.Forms
                                                 dynamic_pic.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 dynamic_pic.Visible = true;
                                             }
-                                            else if (Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
+                                            else if (ExpdateNow > Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
                                                 dynamic_pic.Image = FoodandBeverage.Properties.Resources.expired_icon;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
@@ -1215,9 +1216,10 @@ namespace FoodandBeverage.Forms
                                         {
                                             DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                                             DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                                            if (DateTime.Now >= modifiedEndDate_before && DateTime.Now <= modifiedEndDate_after)
+                                            DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                                            DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
+                                            if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
                                             {
-
                                                 existingPictureBox.Width = 60;
                                                 existingPictureBox.Height = 35;
 
@@ -1232,7 +1234,7 @@ namespace FoodandBeverage.Forms
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 pnl_box.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             }
-                                            else if (Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm")) > Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm")))// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
+                                            else if (ExpdateNow >= Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
 
                                                 existingPictureBox.Width = 60;
@@ -1288,11 +1290,9 @@ namespace FoodandBeverage.Forms
                                     pnl_box.AccessibleDescription = "0";
                                 }
                             }
-
                         }
                     }
                 }
-
                 initTimer();
             }
             catch (Exception ex)
