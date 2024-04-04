@@ -2463,6 +2463,18 @@ namespace FoodandBeverage.Forms
             mpbAdd.BackgroundImage = FoodandBeverage.Properties.Resources.plus;
         }
 
+        private void dtpBirthDate_ValueChanged(object sender, EventArgs e)
+        {
+            string dob = dtpBirthDate.Value.ToString("yyyy");
+            string dt = DateTime.Now.ToString("yyyy");
+            int age = Convert.ToInt32(dt) - Convert.ToInt32(dob);
+           if(age <= 18)
+            {
+                CMessageBox.Show("Age mustbe above 18 !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+    
+
         public void FillForms(int id)
         {
             dgvforms.Rows.Clear();

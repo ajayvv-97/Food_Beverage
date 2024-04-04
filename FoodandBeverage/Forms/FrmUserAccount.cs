@@ -349,15 +349,15 @@ namespace FoodandBeverage.Forms.UserAccount
                 //}
                 _objSearch.OrderBy = " Order By Username ASC ";
 
-                //using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 80, (this.Height - 130), this.Location.Y + 50, this.Location.X + 20))
-                //{
-                //    var dialogResult = search.ShowDialog();
-                //    if (dialogResult == DialogResult.OK)
-                //    {
-                //        returnValue = Convert.ToString(search._retValue);
-                //        UserAccountId = Convert.ToInt32(returnValue);
-                //    }
-                //}
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 80, (this.Height - 130), this.Location.Y + 50, this.Location.X + 20))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToString(search._retValue);
+                        UserAccountId = Convert.ToInt32(returnValue);
+                    }
+                }
                 if (returnValue.ToString() != "")
                 {
                     UserAccountId = Convert.ToInt32(returnValue.ToString());

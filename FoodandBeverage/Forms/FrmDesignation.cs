@@ -42,7 +42,7 @@ namespace FoodandBeverage.Forms
             objSearch = new DmnSearch();
             objSearch.Select = "DepartmentId,DepartmentName";
             objSearch.Table = " tblDepartment ";
-            objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + BranchId;
+            //objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + BranchId;
             var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
             mcmbDepartment.DataSource = gridSource;
             mcmbDepartment.ValueMember = "Id";
