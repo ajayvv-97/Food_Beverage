@@ -663,7 +663,7 @@ namespace FoodandBeverage.Forms
                         _instanceDashboardReport.Dock = DockStyle.Fill;
                         ResizeForm(_instanceDashboardReport);
                         panelDesktop.Controls.Add(_instanceDashboardReport);
-                        _instanceDashboardReport.Filldashboard();
+                        _instanceDashboardReport.RefreshCharts();
                         _instanceDashboardReport.Show();
                         _instanceDashboardReport.BringToFront();
                     }
@@ -1518,20 +1518,24 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                _instanceFrmOrder.Show();
+                                //this.Visible = false;
+                                _instanceFrmOrder.ShowDialog();
                                 _instanceFrmOrder.BringToFront();
+
                             }
                         }
                         else
                         {
                             int tagValue;
                             if (clickedControl.Tag != null)
-                            {
+                            {            
+                                //this.Visible = false;
+                                //this.Hide();
                                 FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames);
                                 _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                                 _instanceFrmOrder.Opacity = 0;
                                 _instanceFrmOrder.Visible = false;
-                                _instanceFrmOrder.Show();
+                                _instanceFrmOrder.ShowDialog();
                                 _instanceFrmOrder.BringToFront();
                             }
                         }
@@ -1590,6 +1594,7 @@ namespace FoodandBeverage.Forms
                         _instanceFrmOrder.BringToFront();
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -4727,7 +4732,6 @@ namespace FoodandBeverage.Forms
 
         public bool ChkWritePermission(int formid)
         {
-
             //int UserType = 1;
             BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
             DmnSearch dmnforms = new DmnSearch();
@@ -5167,6 +5171,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        
     }
 
 }

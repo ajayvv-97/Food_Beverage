@@ -189,6 +189,29 @@ namespace FoodandBeverage.Forms
 
             #endregion
         }
+        #region SALEDETAILS 
+        public void RefreshCharts()
+        {
+            try
+            {
+                ShowLoadingdGif();
+                Filldashboard();
+                FillChartTwoBarChart();
+                FillCharttotaldiscountChart();
+                FillChartExpence();
+                Fillpaymentdetailed();
+                FillBoxdetailed();
+                FillFast_Slowing();
+                tcslow_move.SelectedIndex = 0;
+                tlp_box_frist.Focus();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
+
 
         #region  FAST AND SOLW MOVING ITEMS
         public void FillFast_Slowing()

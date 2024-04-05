@@ -183,22 +183,6 @@ namespace FoodandBeverage.Forms
         public bool RFID_Status = false;
         #endregion
 
-        private void btn_tableorder_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private async Task StartHubConnection()
-        {
-            try
-            {
-                await _hubConnection.Start();
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (log it, display an error message, etc.)
-                MessageBox.Show($"Error starting SignalR connection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         #region please wait loading
         private async void ShowLoadingdGif()
         {
@@ -221,6 +205,7 @@ namespace FoodandBeverage.Forms
                     else
                         btn_saveKOT.Enabled = false;
                 }
+
                 combined_Status = false;
                 //ShowLoadingdGif();
                 //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
@@ -439,6 +424,11 @@ namespace FoodandBeverage.Forms
                 #endregion Main 
 
                 ShowLoadingdGif();
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    _instanceFrmdash.Visible = true;
+                }
                 setperfixsale();
                 btn_clear_cus.Visible = true;
 
@@ -464,7 +454,8 @@ namespace FoodandBeverage.Forms
                 dgv_tableprice.EnableHeadersVisualStyles = false;
                 dgv_tableprice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
                 dgv_tableprice.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;           
+
             }
             catch (Exception ex)
             {
@@ -494,7 +485,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         public void settablecode()
         {
             try
@@ -769,7 +759,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
         public void CheckRe_Bookingorder()
         {
             try
@@ -2204,7 +2193,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         public void GridSlno_Refresh()
         {
             try
@@ -2275,7 +2263,7 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
                         Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
                         Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = 0;
-                        Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 3;
+                        Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
                         Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 1;
 
                         Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.DarkGray;
@@ -2338,7 +2326,7 @@ namespace FoodandBeverage.Forms
                         buttonitemname.Text = gridSource[0].Field1;
                         buttonitemname.Name = "buttonitemname_" + gridSource[0].Id + "_" + Convert.ToInt32(Tabletype.ComboProduct);
                         buttonitemname.Tag = gridSource[0].Id;
-                        buttonitemname.AccessibleDescription = "3" + Convert.ToInt32(Tabletype.ComboProduct);
+                        buttonitemname.AccessibleDescription = "3";// + Convert.ToInt32(Tabletype.ComboProduct);
                         buttonitemname.BackColor = Color.Beige;
                         buttonitemname.Height = 40;
                         buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
@@ -2649,7 +2637,7 @@ namespace FoodandBeverage.Forms
                                 buttonitemname.Text = gridSourceDetails[0].Field1;
                                 buttonitemname.Name = "buttonitemname_" + gridSourceDetails[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
                                 buttonitemname.Tag = gridSourceDetails[0].Field15;
-                                buttonitemname.AccessibleDescription = "1" + Convert.ToInt32(Tabletype.DirectSale);
+                                buttonitemname.AccessibleDescription = "2";// + Convert.ToInt32(Tabletype.DirectSale);
                                 buttonitemname.BackColor = Color.Beige;
                                 buttonitemname.Height = 40;
                                 buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
@@ -2888,7 +2876,7 @@ namespace FoodandBeverage.Forms
                     buttonitemname.Text = gridSource[0].Field1;
                     buttonitemname.Name = "buttonitemname_" + gridSource[0].Field15 + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     buttonitemname.Tag = gridSource[0].Field15;
-                    buttonitemname.AccessibleDescription = "1";
+                    buttonitemname.AccessibleDescription = "2";
                     buttonitemname.BackColor = Color.Beige;
                     buttonitemname.Height = 40;
                     buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
@@ -3121,7 +3109,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         public void cellDiscountPercentage(int cellproductid)
         {
             try
@@ -3173,7 +3160,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
         private void pb_item_deleteClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -3301,20 +3287,22 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         private void buttonitemnameClickEventHandler(object sender, EventArgs e)
         {
             try
             {
                 Control clickedControl = sender as Control;
-                string textvalue = clickedControl.AccessibleDescription;
-                string[] parts = textvalue.Split(',');
-                int saletype = 0, tabletype = 0;
-                if (parts.Length >= 2)
-                {
-                    saletype = Convert.ToInt32(parts[0]);
-                    tabletype = Convert.ToInt32(parts[1]);
-                }
+                saletype =Convert.ToInt32(clickedControl.AccessibleDescription);
+                //string[] parts = textvalue.Split(',');
+                //int saletype = 0, tabletype = 0;
+                //if (parts.Length >= 2)
+                //{
+                //    saletype = Convert.ToInt32(parts[0]);
+                //    tabletype = Convert.ToInt32(parts[1]);
+                //}
+                //else
+                //{
+                //}
                 Proid_Prid = Convert.ToInt32(clickedControl.Tag);
                 txt_product_des.Text = "Description Type Here .....";
                 txt_product_des.ForeColor = Color.Gray;
@@ -3324,11 +3312,11 @@ namespace FoodandBeverage.Forms
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 pnl_products_descr.Size = new Size(panelWidth, panelHeight);
 
-                if (saletype == 1)
+                if (saletype == Convert.ToInt32(Tabletype.DirectSale))
                 {
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == tabletype)
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
                         {
                             txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                             txt_product_des.ForeColor = Color.Black;
@@ -3336,11 +3324,11 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
-                else if (saletype == 3)
+                else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
                 {
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == tabletype)
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                         {
                             txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                             txt_product_des.ForeColor = Color.Black;
@@ -3349,7 +3337,7 @@ namespace FoodandBeverage.Forms
 
                     }
                 }
-                else
+                else//Product Items
                 {
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
@@ -3372,7 +3360,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         private void ButtonbuttonAddClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -3428,6 +3415,7 @@ namespace FoodandBeverage.Forms
 
             }
         }
+
         #region Quantity calculation _Deletion Combo Product Item
         public void CalcTotalAmt_Add_prid(int prid, int producttype)
         {
@@ -4059,7 +4047,6 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
-
         private void SidebuttonOfferClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -4315,7 +4302,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         private void SpecialOfferSubMenuClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -4523,9 +4509,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
-
-
         private void SidebuttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -4642,7 +4625,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         private void txtname_search_Enter(object sender, EventArgs e)
         {
             if (txtname_search.Text == "Food Name .....")
@@ -4652,7 +4634,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void txtitemcode_serach_Enter(object sender, EventArgs e)
         {
             if (txtitemcode_serach.Text == "Item Code .....")
@@ -4661,7 +4642,6 @@ namespace FoodandBeverage.Forms
                 txtitemcode_serach.ForeColor = Color.Black;
             }
         }
-
         private void txtname_search_Leave(object sender, EventArgs e)
         {
             if (txtname_search.Text == "")
@@ -5898,6 +5878,11 @@ namespace FoodandBeverage.Forms
                     {
                         pnl_split_itemwise.Visible = false;
                     }
+                    else if (flp_payment_option.Visible)
+                    {
+                        flp_payment_option.Visible = false;
+                        tlp_tableorder.Enabled = true;
+                    }
                     else
                     {
                         FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -5947,7 +5932,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_save_product_des_Click(object sender, EventArgs e)
         {
-            if (saletype == 1)
+            if (saletype == Convert.ToInt32(Tabletype.DirectSale))
             {
                 for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                 {
@@ -5960,7 +5945,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-            else if (saletype == 3)
+            else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
             {
                 for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                 {
@@ -5973,7 +5958,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-            else
+            else//Product Item
             {
                 for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                 {
@@ -6572,6 +6557,7 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                         {
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            _instanceFrmdash.Visible = true;
                             _instanceFrmdash.LoadTableStaus(0);
                         }
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
@@ -6789,6 +6775,7 @@ namespace FoodandBeverage.Forms
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
             {
                 FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                _instanceFrmdash.Visible = true;
                 _instanceFrmdash.LoadTableStaus(0);
             }
             this.Close();
@@ -7416,7 +7403,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
                                         dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
-                                        dmnsaledetails.CreatedBy = 1;
+                                        dmnsaledetails.CreatedBy = FrmDashboard.UserId;
                                         dmnsaledetails.Status = 1;
 
                                         dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
@@ -7470,7 +7457,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
+        
 
         public void setperfixsale()
         {
@@ -7702,6 +7689,7 @@ namespace FoodandBeverage.Forms
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
             {
                 FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                _instanceFrmdash.Visible = true;
                 _instanceFrmdash.LoadTableStaus(0);
             }
             this.Close();
@@ -8045,7 +8033,8 @@ namespace FoodandBeverage.Forms
         private void btn_close_split_Click(object sender, EventArgs e)
         {
             pnl_split.Visible = false;
-            tlp_tableorder.Enabled = true;
+            tlp_tableorder.Enabled = true;           
+            
         }
 
         private void btn_close_split2_Click(object sender, EventArgs e)
@@ -8980,6 +8969,7 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                         {
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            _instanceFrmdash.Visible = true;
                             _instanceFrmdash.LoadTableStaus(0);
                         }
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
@@ -9029,6 +9019,7 @@ namespace FoodandBeverage.Forms
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                     {
                         FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instanceFrmdash.Visible = true;
                         _instanceFrmdash.LoadTableStaus(0);
                     }
                 }
@@ -9398,8 +9389,6 @@ namespace FoodandBeverage.Forms
 
                 pnl_userdetails.Visible = true;
                 pnl_userdetails.Dock = DockStyle.Fill;
-
-
             }
 
             tlp_payment_main.ResumeLayout();
@@ -9415,5 +9404,6 @@ namespace FoodandBeverage.Forms
         {
             wificard_timer.Start();
         }
+       
     }
 }

@@ -54,7 +54,7 @@ namespace FoodandBeverage.Forms
         private readonly IHubProxy _hubProxy;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        public string RPTPath =Application.StartupPath + @"\KitchenBill"; 
+        public string RPTPath =  @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";
         TableLayoutPanel tlp_order_col = new TableLayoutPanel();
 
         private void btncolse_Click(object sender, EventArgs e)
@@ -280,7 +280,7 @@ namespace FoodandBeverage.Forms
                                         tlp_product_box.Enabled = false;
                                 }
                                 int WidthPercentage = 30;
-                                int heightPercentage = 30;
+                                int heightPercentage = 40;
                                 int controlWidth = (int)(this.Width * WidthPercentage / 100);
                                 int controlHeight = (int)(this.Height * heightPercentage / 100);
                                 tlp_product_box.Size = new Size(controlWidth, controlHeight);
@@ -291,7 +291,7 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Margin = new Padding(20, 10, 0, 0);
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // 50% height
-                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent,25));
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                                 ApplyRoundedCorners(tlp_product_box);
                                 #endregion
@@ -451,7 +451,7 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                                 dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                                 dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                                dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                                 dgv_product_details.Columns[ddetailsidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                                 dgv_product_details.Columns[dkoidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                                 dgv_product_details.Columns[dtidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -550,17 +550,37 @@ namespace FoodandBeverage.Forms
                                 #endregion
 
                                 #region Description
-                                Label lbl_Description = new Label()
+                                Panel pnldesc = new Panel();
+                                pnldesc.Name = "pnl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                pnldesc.AutoScroll = true;
+                                pnldesc.Dock = DockStyle.Fill;
+
+                                //pnldesc.Padding = new Padding(8, 8, 8, 8);
+                                //Label lbl_Description = new Label()
+                                //{
+                                //    Text = "Note :   " + gridSourcedetails[0].Field16,
+                                //    Name = "lbl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                //    Dock = DockStyle.Fill,
+                                //    ForeColor = Color.White,
+                                //    AutoSize = true,
+                                //    BackColor = Color.Transparent,
+                                //};
+                                TextBox txt_Description = new TextBox()
                                 {
                                     Text = "Note :   " + gridSourcedetails[0].Field16,
-                                    Name = "lbl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Name = "txt_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17,
                                     Dock = DockStyle.Fill,
                                     ForeColor = Color.White,
-                                    AutoSize = true
-
+                                    BackColor= boxcolor,
+                                    ReadOnly = true, 
+                                    Multiline = true, 
+                                   ScrollBars = ScrollBars.Vertical ,
+                                    BorderStyle = BorderStyle.None,
                                 };
+
+                                pnldesc.Controls.Add(txt_Description);
                                 if (gridSourcedetails[0].Field16 != null && gridSourcedetails[0].Field16 != "")
-                                    tlp_product_box.Controls.Add(lbl_Description, 0, 2);
+                                    tlp_product_box.Controls.Add(pnldesc, 0, 2);
                                 #endregion
 
                                 #region Ready and Close Button Thrid Row
