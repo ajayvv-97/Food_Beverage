@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
         ClsDocument clsDocument = new ClsDocument();
         FilterInfoCollection FilterInfoCollection;
         VideoCaptureDevice VideoCaptureDevice;
-        long BranchId = 1030;//16
+        long BranchId = FrmDashboard.BranchId;//16
         long UserId = Forms.FrmLogin.UserId;//1
         public static int Allaccess = 0;
         public static int ReportLevelID = 0;
@@ -144,7 +144,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = "tblEmployee as emp " +
                                "left join tblDepartment as dp on emp.DepartmentId = dp.DepartmentId " +
                                "left join tblDesignation as ds on emp.DesignationId = ds.DesignationId";
-                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " +1030;
+                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " +BranchId;
 
                 _objSearch.OrderBy = " Order By EmployeeName ASC ";
 
@@ -398,7 +398,7 @@ namespace FoodandBeverage.Forms
                 txtempcode.Text = gridSource[0].EmployeeCode;
                 EmployeeId = gridSource[0].EmployeeId;
                 UserAccountId = gridSource[0].UserAccountId;
-                BranchId = 1030;
+                BranchId = FrmDashboard.BranchId;
                 if (gridSource[0].Status == 1)
                     chkactive.Checked = true;
                 else
@@ -746,9 +746,9 @@ namespace FoodandBeverage.Forms
             dmnSearch.Select = " EmployeeName";
             dmnSearch.Table = " tblEmployee";
             if (EmployeeId == 0)
-                dmnSearch.WhereNdGroupBy = "Where EmployeeName='" + txtEmpName.Text + "' and Status=0 and BranchId=" + 1030;
+                dmnSearch.WhereNdGroupBy = "Where EmployeeName='" + txtEmpName.Text + "' and Status=0 and BranchId=" + BranchId;
             else
-                dmnSearch.WhereNdGroupBy = "Where EmployeeName='" + txtEmpName.Text + "' and Status=0 and EmployeeId!='" + EmployeeId + "' and BranchId=" + 1030;
+                dmnSearch.WhereNdGroupBy = "Where EmployeeName='" + txtEmpName.Text + "' and Status=0 and EmployeeId!='" + EmployeeId + "' and BranchId=" + BranchId;
 
             var employee = bllSearch.GetSearchData("prdSearch", dmnSearch);
             if (employee.Count == 0)
@@ -897,11 +897,11 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId = 1030;
+                    dmnEmployee.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
-                    dmnEmployee.ModifiedBy = 1;
-                    dmnEmployee.CreatedBy = 1;
+                    dmnEmployee.ModifiedBy = Convert.ToInt32(FrmLogin.UserId);
+                    dmnEmployee.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                     //dmnEmployee.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                     if (empImgExt != "")
                     {
@@ -1047,7 +1047,7 @@ namespace FoodandBeverage.Forms
                             dmnUserAccount.UserAccountId = UserAccountId;
                             dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                             dmnUserAccount.Username = txtuname.Text;
-                            dmnUserAccount.BranchId = 1030;
+                            dmnUserAccount.BranchId = FrmDashboard.BranchId ;
                             dmnUserAccount.CreatedBy = FrmLogin.UserId;
                             dmnUserAccount.EmployeeId = EmployeeId;
                             dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
@@ -1273,7 +1273,7 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId =1030;
+                    dmnEmployee.BranchId =FrmDashboard.BranchId;
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = FrmLogin.UserId;
@@ -1372,7 +1372,7 @@ namespace FoodandBeverage.Forms
                             }
                             if (flag == true && MandatoryCheck())
                             {
-                                dmnForms.CreatedBy = 1;
+                                dmnForms.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                                 dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
                                 //if (cmbapptype.Text == "BackOffice")
                                 //    dmnForms.FormType = 1;
@@ -1424,7 +1424,7 @@ namespace FoodandBeverage.Forms
                             dmnUserAccount.UserAccountId = UserAccountId;
                             dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                             dmnUserAccount.Username = txtuname.Text;
-                            dmnUserAccount.BranchId = 1030;
+                            dmnUserAccount.BranchId = FrmDashboard.BranchId;
                             dmnUserAccount.CreatedBy = FrmLogin.UserId;
                             dmnUserAccount.EmployeeId = EmployeeId;
                             dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
@@ -1826,7 +1826,7 @@ namespace FoodandBeverage.Forms
 
             LocationFill();
            
-            BranchId = 1030;
+            BranchId = FrmDashboard.BranchId;
 
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Employee)))
@@ -1845,13 +1845,13 @@ namespace FoodandBeverage.Forms
             {
                 mbtnSave.Enabled = true;
                 btnusertype.Enabled = true;
-                BranchId = 1030;
+                BranchId = FrmDashboard.BranchId;
             }
             else
             {
                 mbtnSave.Enabled = false;
                 btnusertype.Enabled = false;
-                BranchId = 1030;
+                BranchId = FrmDashboard.BranchId;
             }
             if(FrmLogin.UserId==1 && Convert.ToString(FrmLogin.EmployeName) == "test")
             {
@@ -1871,7 +1871,7 @@ namespace FoodandBeverage.Forms
                 objSearch.Select = "e.*,UserAccountId,UserAccountTypeId,Username,PasswordHash,PasswordSalt";
                 objSearch.Table = " tblEmployee e " +
                                   " left join tblUserAccount a on a.EmployeeId=e.EmployeeId ";
-                objSearch.WhereNdGroupBy = "Where e.EmployeeId = " + empid + "e.Branchid = " + 1030;
+                objSearch.WhereNdGroupBy = "Where e.EmployeeId = " + empid + "e.Branchid = " + BranchId;
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 EmployeeId = empid;
                 txtEmpName.Text = gridSource[0].EmployeeName;
@@ -1948,7 +1948,7 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId = 1030;
+                    dmnEmployee.BranchId = FrmDashboard.BranchId;
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = FrmLogin.UserId;
@@ -2047,7 +2047,7 @@ namespace FoodandBeverage.Forms
                             }
                             if (flag == true && MandatoryCheck())
                             {
-                                dmnForms.CreatedBy = 1;
+                                dmnForms.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                                 dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
                                 //if (cmbapptype.Text == "BackOffice")
                                 //    dmnForms.FormType = 1;
@@ -2098,8 +2098,8 @@ namespace FoodandBeverage.Forms
                             dmnUserAccount.UserAccountId = UserAccountId;
                             dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                             dmnUserAccount.Username = txtuname.Text;
-                            dmnUserAccount.BranchId = 1030;
-                            dmnUserAccount.CreatedBy = 1;
+                            dmnUserAccount.BranchId = Convert.ToInt32(FrmLogin.BranchId);
+                            dmnUserAccount.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                             dmnUserAccount.EmployeeId = EmployeeId;
                             dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
                             DmnUserAccount userAccount;
@@ -2177,7 +2177,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = "tblEmployee as emp " +
                                "left join tblDepartment as dp on emp.DepartmentId = dp.DepartmentId " +
                                "left join tblDesignation as ds on emp.DesignationId = ds.DesignationId";
-                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + 1030;
+                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + BranchId;
 
                 _objSearch.OrderBy = " Order By EmployeeName ASC ";
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
@@ -2273,7 +2273,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = "tblEmployee as emp " +
                                "left join tblDepartment as dp on emp.DepartmentId = dp.DepartmentId " +
                                "left join tblDesignation as ds on emp.DesignationId = ds.DesignationId";
-                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + 1030;
+                _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + BranchId;
                 _objSearch.OrderBy = " Order By EmployeeName ASC ";
 
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
@@ -2395,7 +2395,7 @@ namespace FoodandBeverage.Forms
                         BllUserAccount bllUser = new BllUserAccount();
                         dmnUser.UserAccountType = txtusertype.Text;
                         dmnUser.Note = txtdescr.Text;
-                        dmnUser.CreatedBy = 1;
+                        dmnUser.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                         dmnUser.Status = 1;
                         bool usertype = bllUser.AddUserType("prdInsertUserType", dmnUser);
                         FillComboUserType();

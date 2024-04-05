@@ -76,7 +76,7 @@ namespace FoodandBeverage.Forms
 							{
 								dmnPromoDetails.Code = Convert.ToString(dgvProCode.Rows[i].Cells[2].Value);
 								dmnPromoDetails.Status = 1;
-								dmnPromoDetails.CreatedBy = 1;
+								dmnPromoDetails.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
 								bool details = bllPromo.AddPromoDetails("PrdInsertUpdPromoDetails", dmnPromoDetails);
 								if (details == false)
 								{

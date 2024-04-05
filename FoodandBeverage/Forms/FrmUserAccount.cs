@@ -256,7 +256,7 @@ namespace FoodandBeverage.Forms.UserAccount
                     _objSearch.Table = "tblEmployee as emp " +
                                    "left join tblDepartment as dp on emp.DepartmentId = dp.DepartmentId " +
                                    "left join tblDesignation as ds on emp.DesignationId = ds.DesignationId";
-                    _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + 1030;
+                    _objSearch.WhereNdGroupBy = "Where emp.Status=1 and emp.BranchId = " + BranchId;
                     _objSearch.OrderBy = " Order By EmployeeName ASC ";
                     using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 30, (this.Height - 30), this.Location.Y + 50, this.Location.X + 50))
                     {

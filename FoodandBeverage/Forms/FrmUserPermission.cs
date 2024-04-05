@@ -33,7 +33,7 @@ namespace FoodandBeverage.Forms
         ClsDocument clsDocument = new ClsDocument();
         FilterInfoCollection FilterInfoCollection;
         VideoCaptureDevice VideoCaptureDevice;
-        long BranchId = 1030;//16
+        long BranchId = FrmDashboard.BranchId;//16
         long UserId = Forms.FrmLogin.UserId;//1
         public static int Allaccess = 0;
         public static int ReportLevelID = 0;

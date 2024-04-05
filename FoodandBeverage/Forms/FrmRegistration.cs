@@ -138,8 +138,8 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Certificate = Convert.ToString(certi1.Text);
                 dmnRegistration.Certificate1 = Convert.ToString(certi2.Text);
                 dmnRegistration.Certificate2 = Convert.ToString(certi3.Text);
-                dmnRegistration.CreatedBy = 1;
-                dmnRegistration.BranchId = 1030;
+                dmnRegistration.CreatedBy = FrmDashboard.BranchId;
+                dmnRegistration.BranchId = FrmDashboard.BranchId;
                 dmnRegistration.Status = 1;
                 var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
                 if (InsertStatus.Id != 0)
@@ -1008,8 +1008,8 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Certificate2 = Convert.ToString(certi3.Text);
                 dmnRegistration.BookingInerwell = Convert.ToInt32(tbl_BookingIn.Text);
                 //pb2.BackgroundImage = DocumentType.HotelRegistrationProofPics;
-                dmnRegistration.CreatedBy = 1;
-                dmnRegistration.BranchId = 1030;
+                dmnRegistration.CreatedBy = FrmDashboard.UserId;
+                dmnRegistration.BranchId = FrmDashboard.BranchId;
                 dmnRegistration.Status = 1;
                 var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
                 if (InsertStatus.Id != 0)
@@ -1041,14 +1041,14 @@ namespace FoodandBeverage.Forms
                             InsertStatus.Photo = "";
                             InsertStatus.Photo = "";
                         }
-                        FrmDashboard.BranchId = 1030;
+                        FrmDashboard.BranchId = FrmDashboard.BranchId;
                         CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                       
                         this.Close();
                     }
                     else
                     {
-                        FrmDashboard.BranchId = 1030;
+                        FrmDashboard.BranchId = FrmDashboard.BranchId;
                         CMessageBox.Show("Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                        
                     }

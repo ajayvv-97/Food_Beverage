@@ -21,7 +21,7 @@ namespace FoodandBeverage.Forms
     {
         ClsGeneral ClsGeneral = new ClsGeneral();
         ClsDocument clsDocument = new ClsDocument();
-        long BranchId = 1030;
+        long BranchId = FrmDashboard.BranchId;
         public int finalqty = 0;
         public int BookmasterId = 0;
 
@@ -190,7 +190,7 @@ namespace FoodandBeverage.Forms
             dtp_from_time.MinDate = DateTime.Now;
             dtpBooking.MinDate = DateTime.Today;
             dtp_from_time.Format = DateTimePickerFormat.Custom;
-            dtp_from_time.CustomFormat = "HH:mm:ss:tt";
+            dtp_from_time.CustomFormat = "hh:mm:tt";
 
             redpan.Visible = false;
 
@@ -290,6 +290,7 @@ namespace FoodandBeverage.Forms
                 lblBAmt.Visible = false;
                 panelProductPopup.Visible = false;
                 dgvmenu.Enabled = true;
+                txtadvpa.Enabled = true;
                 dgvmenu.Focus();
                 dtp_from_time.MinDate = DateTime.Now;
                 dtpBooking.MinDate = DateTime.Today;
@@ -316,7 +317,7 @@ namespace FoodandBeverage.Forms
             return true;
         }
 
-        public void capasity()
+        public bool capasity()
         {
             if (int.TryParse(txtNOP.Text, out int capacity))
             {
@@ -331,6 +332,7 @@ namespace FoodandBeverage.Forms
                         if (int.TryParse(row.Cells[icapacity].Value.ToString(), out int personCapacity))
                         {
                             totalCapacity += personCapacity;
+
                         }
                     }
                 }
@@ -338,16 +340,18 @@ namespace FoodandBeverage.Forms
                 {
 
                     // The capacity entered in the TextBox is greater than or equal to the total capacity in the grid
-                    CMessageBox.Show("Capacity is not sufficient for the people", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    CMessageBox.Show("Table capacity is not sufficient for the quantity of people.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
 
                 }
-
+                return true;
             }
+            else
+                return false;
         }
         public bool MandatoryCheck()
         {
-            capasity();
+            bool data =false;
             for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
             {
                 if (Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value) == "0" || Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value) == "")
@@ -393,7 +397,7 @@ namespace FoodandBeverage.Forms
             }
             else if (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == "" || (Convert.ToString(dgvforms.Rows[0].Cells[itablename].Value) == null))
             {
-                CMessageBox.Show("Please select a table first. This is a mandatory field.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please select a table first..", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             else if (lblGTotal.Text == "00")
@@ -403,11 +407,18 @@ namespace FoodandBeverage.Forms
             }
             else if (!string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                return ClsGeneral.CheckEmailId(this, txtEmail.Text);
+                data =  ClsGeneral.CheckEmailId(this, txtEmail.Text);
 
             }
-
-            return true;
+            
+            if(data == true)
+            {
+                return  capasity();
+            }
+            else
+            {
+                return false;
+            }
         }
         public void FillCombo()
         {
@@ -625,7 +636,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("hh:mm:ss");
+                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                 //int timeinterwell = Convert.ToInt32(txt_HR.Text);
                 int r = dgvforms.CurrentCell.RowIndex;
                 string returnValue = string.Empty;
@@ -635,9 +646,9 @@ namespace FoodandBeverage.Forms
                 _objSearch.Select = " Tid as Id,TableCode as Field1,Price as Field2,Capcity as Field3,Description as Field4 ";
                 _objSearch.Table = " tblTable_info   ";
                 _objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId and d.status=1" +
-                    " WHERE BookingDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"')" +
+                    " WHERE BookingDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '" + dtfrom + "')" +
                     " AND BookingDateTime <= DATEADD(MINUTE, " + (txt_HR.Text) + ", '" + dtfrom + "') and m.Status= 1  ) " +
-                    " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '"+ dtfrom+"') and Status= 1 ) ";
+                    " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '" + dtfrom + "') and Status= 1 ) ";
                 _objSearch.OrderBy = " ";
                 using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
                 {
@@ -656,6 +667,12 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "Where Tid = " + returnValue;
                 objSearch.OrderBy = " ";
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if(gridSource.Count==0)
+                {
+                    CMessageBox.Show("As of right now, seats are reserved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                { 
 
                 if (gridSource.Count > 0)
                 {
@@ -668,7 +685,7 @@ namespace FoodandBeverage.Forms
                         if (Convert.ToInt32(dgvforms.Rows[i].Cells[itid].Value) == gridSource[0].Tid)
                         {
                             flag = false;
-                            //qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                          
 
 
 
@@ -693,6 +710,7 @@ namespace FoodandBeverage.Forms
                         dgvforms.Rows[r].Cells[idescription].Value = gridSource[0].Decription;
                     }
                 }
+            }
             }
             catch (Exception ex)
             { }
@@ -757,63 +775,89 @@ namespace FoodandBeverage.Forms
                 lblSTotal.Text = totalSum.ToString();
             }
             Sum();
+            CalNetAmt();
         }
 
 
 
         private void cboBtype_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
-            dgvforms.Rows.Clear();
-            dgvforms.Rows.Add(1);
-            if (Convert.ToInt32(cboBtype.SelectedValue) == Convert.ToInt32(Reservation.Restaurant))
+            try
             {
+                int cunt = 0;
+                string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                 dgvforms.Rows.Clear();
                 dgvforms.Rows.Add(1);
-                BllSearch<Dmntable> bllSearch = new BllSearch<Dmntable>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = " tblTable_info";
-                objSearch.WhereNdGroupBy = " Where Status=1";
-                objSearch.OrderBy = " ";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                dgvforms.Rows.Add(gridSource.Count);
-                for (int i = 0; i < gridSource.Count; i++)
+                if (Convert.ToInt32(cboBtype.SelectedValue) == Convert.ToInt32(Reservation.Restaurant))
                 {
-
-
-                    dgvforms.Rows[i].Cells[itid].Value = gridSource[i].Tid;
-                    dgvforms.Rows[i].Cells[itablename].Value = gridSource[i].TableCode;
-                    dgvforms.Rows[i].Cells[iprice].Value = gridSource[i].Price;
-                    dgvforms.Rows[i].Cells[icapacity].Value = gridSource[i].Capcity;
-                    dgvforms.Rows[i].Cells[idescription].Value = gridSource[i].Decription;
-
-                }
-            }
-            if (dgvforms.CurrentCell.ColumnIndex >= 0 && dgvforms.CurrentCell.RowIndex >= 0)
-            {
-                // Specify the column index for which you want to calculate the sum
-
-
-                decimal totalSum = 0;
-
-                foreach (DataGridViewRow row in dgvforms.Rows)
-                {
-                    if (row.Cells[iprice].Value != null)
+                    dgvforms.Rows.Clear();
+                    dgvforms.Rows.Add(1);
+                    BllSearch<Dmntable> bllSearch = new BllSearch<Dmntable>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.Select = "*,(Select Count(*) from tblTable_info where Status =1)tblCnt";
+                    objSearch.Table = " tblTable_info";
+                    objSearch.WhereNdGroupBy = " WHERE Tid NOT IN ( SELECT MTID  FROM tblbookMaster m LEFT JOIN tblBookDetails d ON m.BookmasterId = d.BookmasterId and d.status=1" +
+                        " WHERE BookingDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '" + dtfrom + "')" +
+                        " AND BookingDateTime <= DATEADD(MINUTE, " + (txt_HR.Text) + ", '" + dtfrom + "') and m.Status= 1  ) " +
+                        " and Status=1 AND Tid NOT IN (SELECT Tid  FROM tblOrderMaster WHERE CreatedDateTime >= DATEADD(MINUTE,-" + (txt_HR.Text) + ", '" + dtfrom + "') and Status= 1 ) ";
+                    objSearch.OrderBy = " ";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    
+                    if (gridSource.Count == 0)
                     {
-                        decimal cellValue;
-                        if (decimal.TryParse(row.Cells[iprice].Value.ToString(), out cellValue))
+                        CMessageBox.Show("As of right now, seats are reserved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        cunt = Convert.ToInt32(gridSource[0].tblCnt - gridSource.Count);
+                        if(cunt > 0)
                         {
-                            totalSum += cellValue;
+                            CMessageBox.Show("Several of the chairs are currently in use..", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
+                        dgvforms.Rows.Add(gridSource.Count);
+                        for (int i = 0; i < gridSource.Count; i++)
+                        {
+
+
+                            dgvforms.Rows[i].Cells[itid].Value = gridSource[i].Tid;
+                            dgvforms.Rows[i].Cells[itablename].Value = gridSource[i].TableCode;
+                            dgvforms.Rows[i].Cells[iprice].Value = gridSource[i].Price;
+                            dgvforms.Rows[i].Cells[icapacity].Value = gridSource[i].Capcity;
+                            dgvforms.Rows[i].Cells[idescription].Value = gridSource[i].Decription;
+
+                        }
+
                     }
                 }
+                if (dgvforms.CurrentCell.ColumnIndex >= 0 && dgvforms.CurrentCell.RowIndex >= 0)
+                {
+                    // Specify the column index for which you want to calculate the sum
 
-                // Display the sum in a TextBox
-                lblSTotal.Text = totalSum.ToString();
+
+                    decimal totalSum = 0;
+
+                    foreach (DataGridViewRow row in dgvforms.Rows)
+                    {
+                        if (row.Cells[iprice].Value != null)
+                        {
+                            decimal cellValue;
+                            if (decimal.TryParse(row.Cells[iprice].Value.ToString(), out cellValue))
+                            {
+                                totalSum += cellValue;
+                            }
+                        }
+                    }
+
+                    // Display the sum in a TextBox
+                    lblSTotal.Text = totalSum.ToString();
+                }
+                Sum();
             }
-            Sum();
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private void dgvmenu_KeyDown(object sender, KeyEventArgs e)
@@ -879,14 +923,14 @@ namespace FoodandBeverage.Forms
         {
             if (int.TryParse(txtNOP.Text, out int capacity))
             {
-                // Assume the DataGridView has a column named "CapacityColumn" containing the capacity for each row
+                
                 int totalCapacity = 0;
 
                 foreach (DataGridViewRow row in dgvforms.Rows)
                 {
                     if (!row.IsNewRow && row.Cells[icapacity].Value != null)
                     {
-                        // Parse the capacity value from the grid
+                       
                         if (int.TryParse(row.Cells[icapacity].Value.ToString(), out int personCapacity))
                         {
                             totalCapacity += personCapacity;
@@ -907,7 +951,7 @@ namespace FoodandBeverage.Forms
         }
         private void dgvforms_Leave(object sender, EventArgs e)
         {
-            CapacityCheck();
+            //CapacityCheck();
             Sum();
             CalNetAmt();
         }
@@ -1500,10 +1544,9 @@ namespace FoodandBeverage.Forms
                 {
                     rcvamt.Text = "0.00";
                 }
-                if (txtBookmasterId.Text == "0")
-                {
+              
                     lblBalAmt.Text = (Convert.ToDecimal(lblBAmt.Text) - Convert.ToDecimal(rcvamt.Text)).ToString();
-                }
+                
             }
             catch (Exception ex)
             { }
@@ -1524,13 +1567,22 @@ namespace FoodandBeverage.Forms
 
         public void Sum()
         {
-            if (decimal.TryParse(lblSTotal.Text, out decimal value1) && decimal.TryParse(lblMTotal.Text, out decimal value2))
+            try
             {
                 // Calculate the sum
+                //decimal sum = value1 + value2;
+                if (String.IsNullOrEmpty(lblMTotal.Text))
+                    lblMTotal.Text = "0";
+                decimal value1 = Convert.ToDecimal(lblSTotal.Text);
+                decimal value2 = Convert.ToDecimal(lblMTotal.Text);
                 decimal sum = value1 + value2;
 
                 // Display the sum in the resultTextBox
                 lblGTotal.Text = sum.ToString();
+            }
+            catch(Exception ex)
+            {
+
             }
 
         }
@@ -1654,6 +1706,7 @@ namespace FoodandBeverage.Forms
                 CalNetAmt();
                 label21.Visible = true;
                 lblBAmt.Visible = true;
+                txtadvpa.Enabled = false;
                 string returnValue = string.Empty;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DataTable dtColumnAlign = new DataTable();
@@ -1688,7 +1741,7 @@ namespace FoodandBeverage.Forms
                         dmnSearch.Select = "*";
                         dmnSearch.Table = "tblbookMaster";
 
-                        dmnSearch.WhereNdGroupBy = " Where BranchId = +  1030 and BookmasterId ='" + returnValue + "'";
+                        dmnSearch.WhereNdGroupBy = " Where BranchId = "+ BranchId + "   and BookmasterId ='" + returnValue + "'";
                         dmnSearch.OrderBy = "";
                         var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -1848,13 +1901,15 @@ namespace FoodandBeverage.Forms
                     dmnReservation.EmailId = txtEmail.Text;
                     dmnReservation.Remarks = txtRemarks.Text;
                     dmnReservation.gender = Convert.ToString(cboGender.SelectedValue);
-                    dmnReservation.CreatedBy = 1;
+                    dmnReservation.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                     dmnReservation.Status = 1;
                     dmnReservation.BookingType = Convert.ToString(cboBtype.SelectedValue);
                     dmnReservation.NoOfPeople = txtNOP.Text;
-                    dmnReservation.BranchId = 1030;
+                    dmnReservation.BranchId = Convert.ToInt32(FrmLogin.BranchId);
 
                     dmnReservation.ReservationTotal = Convert.ToDecimal(lblSTotal.Text);
+                    if (String.IsNullOrEmpty(lblMTotal.Text))
+                        lblMTotal.Text = "0";
                     dmnReservation.MenuTotal = Convert.ToDecimal(lblMTotal.Text);
                     dmnReservation.GrandTotal = Convert.ToDecimal(lblGTotal.Text);
                     dmnReservation.DiscountAmt = Convert.ToDecimal(totaldiscountamt.Text);
@@ -1896,8 +1951,10 @@ namespace FoodandBeverage.Forms
                     if (chb_active.Checked)
                         dmnReservation.Status = 1;
                     else
+                    {
+                        CMessageBox.Show("status", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                         dmnReservation.Status = 0;
-
+                    }
                     var InsertStatusP = bllReservation.AddData("prdInsert_Upd_bookMaster", dmnReservation);
 
                     if (InsertStatusP.BookmasterId != 0)
@@ -1918,8 +1975,8 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.Quantity = Convert.ToInt32(dgvforms.Rows[i].Cells[icapacity].Value);
                                 dmnReservation1.Price = Convert.ToInt32(dgvforms.Rows[i].Cells[iprice].Value);
                                 dmnReservation1.Description = Convert.ToString(dgvforms.Rows[i].Cells[idescription].Value);
-                                dmnReservation1.CreatedBy = 1;
-                                dmnReservation1.BranchId = 1030;
+                                dmnReservation1.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
+                                dmnReservation1.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                                 dmnReservation1.Rid = Convert.ToInt32(TableMenu.Rid);
 
 
@@ -1954,8 +2011,8 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.SGSTAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isgst].Value);
                                 dmnReservation1.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
                                 dmnReservation1.Description = Convert.ToString(dgvmenu.Rows[i].Cells[imdescription].Value);
-                                dmnReservation1.CreatedBy = 1;
-                                dmnReservation1.BranchId = 1030;
+                                dmnReservation1.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
+                                dmnReservation1.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                                 dmnReservation1.Rid = Convert.ToInt32(TableMenu.Mid);
                                 dmnReservation1.Status = 1;
                                 dmnReservation1.Net = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
@@ -1985,7 +2042,7 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.Gender = Convert.ToInt32(cboGender.SelectedValue);
                         dmnordermaster.Email = txtEmail.Text;
                         dmnordermaster.BranchId = FrmDashboard.BranchId;
-                        dmnordermaster.CreatedBy = 1;
+                        dmnordermaster.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                         dmnordermaster.Status = 1;
                         dmnordermaster.Tid = 0;
                         var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
@@ -2019,8 +2076,8 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.PurchaseRate = Convert.ToDecimal(dgvmenu.Rows[i].Cells[iprate].Value);
                                     dmnOrderDetails.PrId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprid].Value);
                                     dmnOrderDetails.VATAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[ivat].Value);
-                                    dmnOrderDetails.CreatedBy = 1;
-                                    dmnOrderDetails.BranchId = 1030;
+                                    dmnOrderDetails.CreatedBy = Convert.ToInt32(FrmLogin.UserId); 
+                                    dmnOrderDetails.BranchId = Convert.ToInt32(FrmLogin.BranchId); 
                                     dmnOrderDetails.Status = 4;
                                     dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
                                     dmnOrderDetails.Amount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
@@ -3623,6 +3680,18 @@ namespace FoodandBeverage.Forms
         private void dtpBooking_ValueChanged(object sender, EventArgs e)
         {
             //dtp_from_time.Value= dtpBooking.Value.Date;
+        }
+
+        private void discountper_Enter(object sender, EventArgs e)
+        {
+            Sum();
+            CalNetAmt();
+        }
+
+        private void netamount_Enter(object sender, EventArgs e)
+        {
+            Sum();
+            CalNetAmt();
         }
     }
 }
