@@ -17,6 +17,7 @@ namespace Domain
         public long BranchId { get; set; }
         public long CreatedBy { get; set; }
         public decimal Price { get; set; }
+        public int tblCnt { get; set; }
 
     }
 }

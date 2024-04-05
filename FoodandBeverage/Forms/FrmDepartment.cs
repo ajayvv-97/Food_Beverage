@@ -28,8 +28,8 @@ namespace FoodandBeverage.Forms
     {
         #region Declaration
         ClsGeneral objGeneral = new ClsGeneral();
-        long BranchId = 1030;
-        long UserId = 1;
+        long BranchId = FrmDashboard.BranchId;
+        long UserId = FrmDashboard.UserId;
         long DepartmentId = 0;
         #endregion
         #region Functions
@@ -103,7 +103,7 @@ namespace FoodandBeverage.Forms
             dmnSearch.ColumnHeaders = "Id,Department,Department Code,Employee Sr.No";
             dmnSearch.Select = "DepartmentId as Id,DepartmentName as Field1,DepartmentCode as Field2,EmployeeSrlNoStart as Field3";
             dmnSearch.Table = "tblDepartment";
-            dmnSearch.WhereNdGroupBy = "Where Status = 1 and BranchId=" +1030;
+            dmnSearch.WhereNdGroupBy = "Where Status = 1 and BranchId=" +BranchId;
             dmnSearch.OrderBy = "Order By DepartmentName ASC";
             var gridSource = frmGridSearch.GetSearchGrid(dmnSearch);
             foreach (DataGridViewColumn col in gridSource.Columns)
@@ -184,7 +184,7 @@ namespace FoodandBeverage.Forms
 
                 if (DepartmentId == 0)
                 {
-                    objSearch.WhereNdGroupBy = " Where DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND Status=1 AND BranchId = " + 1030;
+                    objSearch.WhereNdGroupBy = " Where DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND Status=1 AND BranchId = " + BranchId;
                 }
                 else
                 {
@@ -359,12 +359,12 @@ namespace FoodandBeverage.Forms
                         BllDepartment bllDepartment = new BllDepartment();
                         dmnDepartment.DepartmentName = mtxtName.Text;
                         dmnDepartment.DepartmentCode = mtxtCode.Text;
-                        dmnDepartment.BranchId = 1030;
+                        dmnDepartment.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                         dmnDepartment.Status = 1;
                         if (DepartmentId == 0)
                         {
                             dmnDepartment.EmployeeSrlNoStart = Convert.ToInt64(mtxtEmpSrlNo.Text);
-                            dmnDepartment.CreatedBy = 1;
+                            dmnDepartment.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                             var lstData = bllDepartment.AddData("prdInsertDepartment", dmnDepartment);
                             savestatus = lstData;
                             if (savestatus)
