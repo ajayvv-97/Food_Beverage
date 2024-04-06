@@ -83,7 +83,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.733333F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.26667F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel3.Controls.Add(this.label23, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.btncolse, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox10, 0, 0);
@@ -93,7 +93,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(754, 31);
             this.tableLayoutPanel3.TabIndex = 286;
             // 
@@ -116,9 +116,9 @@ namespace FoodandBeverage.Forms
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(718, 3);
+            this.btncolse.Location = new System.Drawing.Point(717, 3);
             this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(33, 25);
+            this.btncolse.Size = new System.Drawing.Size(34, 25);
             this.btncolse.TabIndex = 11;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
@@ -143,7 +143,7 @@ namespace FoodandBeverage.Forms
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(680, 3);
+            this.btnmini.Location = new System.Drawing.Point(679, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(32, 25);
             this.btnmini.TabIndex = 10;

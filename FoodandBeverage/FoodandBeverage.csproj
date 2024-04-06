@@ -146,6 +146,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DS_Sale.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmAddon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmAddon.Designer.cs">
+      <DependentUpon>FrmAddon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -491,6 +497,9 @@
     <Compile Include="SaleBill\FrmSaleInvoice.Designer.cs">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FrmAddon.resx">
+      <DependentUpon>FrmAddon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -1230,6 +1239,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\cancel_icon_wifi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
