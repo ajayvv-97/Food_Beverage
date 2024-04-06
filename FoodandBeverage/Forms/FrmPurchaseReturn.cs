@@ -196,7 +196,7 @@ namespace FoodandBeverage.Forms
                     dmnPurchase.Remark = remarks.Text;
                     dmnPurchase.Terms = sterms.Text;
                     dmnPurchase.BranchId = FrmDashboard.BranchId;
-                    dmnPurchase.CreatedBy = 1;
+                    dmnPurchase.CreatedBy = FrmDashboard.UserId;
                     dmnPurchase.Status = 1;
 
                     var InsertStatusP = bllPurchase.AddEditData("prdInsert_Upd_PurchaseReturnMaster", dmnPurchase);

@@ -37,7 +37,7 @@ namespace FoodandBeverage.Report
         string Timeformat = "HH:mm:ss";
         DateTime fTime, tTime;
         public List<DmnHRegistration> Addressdata;
-        string Path = Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
+        string Path = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";//Application.StartupPath + @"\Report";
         public Color selectedColor;
         public bool ColorChk = false;
         bool FlagExcel = false;
@@ -230,7 +230,6 @@ namespace FoodandBeverage.Report
         {
             try
             {
-
                 if (chk_time.Checked == true)
                 {
                     fTime = Convert.ToDateTime(dtpfrom.Value.ToString(Dtformat) + " " + dtp_from_time.Value.ToString(Timeformat));
@@ -704,8 +703,8 @@ namespace FoodandBeverage.Report
                     dt_Rpt.Load(reader);
                 }
                 dsReport.Tables.Add(dt_Rpt);
-                string x = Application.StartupPath + @"\Report"+ @"\Rpt_MidasCardPayment.rpt";
-                MessageBox.Show(this, x, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //string x = Application.StartupPath + @"\Report"+ @"\Rpt_MidasCardPayment.rpt";
+                //MessageBox.Show(this, x, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 reportDocument.Load(Path + @"\Rpt_MidasCardPayment.rpt");
                 reportDocument.SetDataSource(dsReport);
