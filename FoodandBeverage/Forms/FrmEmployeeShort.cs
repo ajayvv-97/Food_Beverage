@@ -236,8 +236,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtEmpAddress.Focus();
             }
         }
 
@@ -561,8 +560,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                dtpBirthDate.Focus();
             }
         }
 
@@ -612,8 +610,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtemail.Focus();
             }
         }
 
@@ -621,8 +618,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtICardNo1.Focus();
             }
         }
 
@@ -630,8 +626,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                txtnote.Focus();
             }
         }
 
@@ -639,8 +634,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                mbtnSave.Focus();
             }
         }
 
@@ -2433,8 +2427,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                mcmbDepartmentId.Focus();
             }
         }
 
@@ -2473,7 +2466,14 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show("Age mustbe above 18 !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-    
+
+        private void cboGender_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                mcmbDesignationId.Focus();
+            }
+        }
 
         public void FillForms(int id)
         {
