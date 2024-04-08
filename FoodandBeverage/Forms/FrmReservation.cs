@@ -1704,9 +1704,8 @@ namespace FoodandBeverage.Forms
             {
                 //btn_delt.Visible = true;
                 CalNetAmt();
-                label21.Visible = true;
-                lblBAmt.Visible = true;
-                txtadvpa.Enabled = false;
+                
+                
                 string returnValue = string.Empty;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DataTable dtColumnAlign = new DataTable();
@@ -1749,7 +1748,9 @@ namespace FoodandBeverage.Forms
                         //tableLayoutPanel10.ColumnStyles[1] = new ColumnStyle(SizeType.Percent,20);
                         //tableLayoutPanel10.Controls.Add(btn_delt, 1,0);
                         button1.Visible = true;
-
+                        txtadvpa.Enabled = false;
+                        label21.Visible = true;
+                        lblBAmt.Visible = true;
                         txtNam.Text = Convert.ToString(gridSource1[0].cusName);
                         txtAddress.Text = Convert.ToString(gridSource1[0].Address);
                         cboGender.SelectedValue = Convert.ToInt64(gridSource1[0].gender);
