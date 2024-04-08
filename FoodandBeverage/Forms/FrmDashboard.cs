@@ -235,6 +235,7 @@ namespace FoodandBeverage.Forms
                 ib_employee.BackColor = opbuttoncolor;
                 ib_reservation.BackColor = opbuttoncolor;
                 ib_userpermission.BackColor = opbuttoncolor;
+                ib_addon.BackColor = opbuttoncolor;
                 textb_shape();
                 AppColorSetting();
                 //flpEmployee.Visible = false;
@@ -359,6 +360,7 @@ namespace FoodandBeverage.Forms
                         ib_employee.BackColor = opbuttoncolor;
                         ib_reservation.BackColor = opbuttoncolor;
                         ib_userpermission.BackColor = opbuttoncolor;
+                        ib_addon.BackColor = opbuttoncolor;
 
                         menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
                         pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
@@ -439,6 +441,7 @@ namespace FoodandBeverage.Forms
                         ib_employee.BackColor = opbuttoncolor;
                         ib_reservation.BackColor = opbuttoncolor;
                         ib_userpermission.BackColor = opbuttoncolor;
+                        ib_addon.BackColor = opbuttoncolor;
                         pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
 
@@ -557,6 +560,7 @@ namespace FoodandBeverage.Forms
                 SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
                 SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
                 SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+                SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
 
                 // SetRoundedButton(ib_Category, 70);
                 //SetRoundedButton(ib_Item, 70);
@@ -3550,6 +3554,9 @@ namespace FoodandBeverage.Forms
                     case "ib_userpermission":
                         originalImage = FoodandBeverage.Properties.Resources.userpermisson;
                         break;
+                    case "ib_addon":
+                        originalImage = FoodandBeverage.Properties.Resources.addon;
+                        break;
                 }
 
 
@@ -4146,6 +4153,7 @@ namespace FoodandBeverage.Forms
                     ib_employee.BackColor = opbuttoncolor;
                     ib_reservation.BackColor = opbuttoncolor;
                     ib_userpermission.BackColor = opbuttoncolor;
+                    ib_addon.BackColor = opbuttoncolor;
                     Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
                     if (btnsetting != null)
                         btnsetting.BackColor = opbuttoncolor;
@@ -4197,6 +4205,7 @@ namespace FoodandBeverage.Forms
                     ib_employee.BackColor = opbuttoncolor;
                     ib_reservation.BackColor = opbuttoncolor;
                     ib_userpermission.BackColor = opbuttoncolor;
+                    ib_addon.BackColor = opbuttoncolor;
 
                     menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
                     pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
@@ -4720,6 +4729,10 @@ namespace FoodandBeverage.Forms
                         {
                             ib_orderview.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Status == 1)
+                        {
+                            ib_addon.Visible = true;
+                        }
                     }
                 }
             }
@@ -5171,7 +5184,49 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        
+
+        private void ib_addon_MouseLeave(object sender, EventArgs e)
+        {
+            ib_addon.Text = Convert.ToString(ib_addon.Tag);
+            SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
+        }
+
+        private void ib_addon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (System.Windows.Forms.Application.OpenForms["FrmAddon"] != null)
+                {
+                    FrmAddon _instanceFrmAddon = Application.OpenForms["FrmAddon"] as FrmAddon;
+                    if (_instanceFrmAddon.WindowState == FormWindowState.Minimized)
+                        _instanceFrmAddon.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmAddon.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmAddon);
+                        panelDesktop.Controls.Add(_instanceFrmAddon);
+                        _instanceFrmAddon.Show();
+                        _instanceFrmAddon.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmAddon _instanceFrmAddon = new FrmAddon();
+                    ResizeForm(_instanceFrmAddon);
+                    _instanceFrmAddon.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmAddon);
+                    _instanceFrmAddon.Show();
+                    _instanceFrmAddon.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmAddon.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+        }
     }
 
 }

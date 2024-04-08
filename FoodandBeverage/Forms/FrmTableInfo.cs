@@ -196,6 +196,7 @@ namespace FoodandBeverage.Forms
             dgv_table.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_table.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -232,7 +233,6 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
-
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {

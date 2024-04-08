@@ -1518,7 +1518,7 @@ namespace FoodandBeverage.Forms
             this.tlp_save_close.ColumnCount = 3;
             this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.05357F));
             this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.94643F));
-            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tlp_save_close.Controls.Add(this.btnCloseCst, 2, 0);
             this.tlp_save_close.Controls.Add(this.btnSaveCust, 1, 0);
             this.tlp_save_close.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1535,9 +1535,9 @@ namespace FoodandBeverage.Forms
             this.btnCloseCst.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCloseCst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseCst.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnCloseCst.Location = new System.Drawing.Point(220, 3);
+            this.btnCloseCst.Location = new System.Drawing.Point(219, 3);
             this.btnCloseCst.Name = "btnCloseCst";
-            this.btnCloseCst.Size = new System.Drawing.Size(89, 43);
+            this.btnCloseCst.Size = new System.Drawing.Size(90, 43);
             this.btnCloseCst.TabIndex = 5;
             this.btnCloseCst.Text = "Close";
             this.btnCloseCst.UseVisualStyleBackColor = false;
@@ -1549,7 +1549,7 @@ namespace FoodandBeverage.Forms
             this.btnSaveCust.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSaveCust.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveCust.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnSaveCust.Location = new System.Drawing.Point(138, 3);
+            this.btnSaveCust.Location = new System.Drawing.Point(137, 3);
             this.btnSaveCust.Name = "btnSaveCust";
             this.btnSaveCust.Size = new System.Drawing.Size(76, 43);
             this.btnSaveCust.TabIndex = 4;

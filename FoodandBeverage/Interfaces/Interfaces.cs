@@ -170,7 +170,7 @@ namespace FoodandBeverage.Interfaces
         User_Account = 21,
         User_Permission = 22,
         OrderView = 23,
-        AllLocationAccess = 24
+        Addon = 24
 
     };
     public enum DashboardTableType
