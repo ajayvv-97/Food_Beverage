@@ -124,6 +124,10 @@ namespace FoodandBeverage.Forms
                     case 4:
                         objSearch.WhereNdGroupBy = "where status = 1";
                         break;
+                    case 5:
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=5";
+                        break;
+
                 };
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);

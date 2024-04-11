@@ -262,7 +262,6 @@ C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.WinForms.pdb
 C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.WinForms.xml
 C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.Wpf.pdb
 C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.Wpf.xml
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.AssemblyReference.cache
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.Form1.resources
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.Properties.Resources.resources
 C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.GenerateResource.cache
