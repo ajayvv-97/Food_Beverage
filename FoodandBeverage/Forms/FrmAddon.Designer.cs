@@ -57,6 +57,14 @@ namespace FoodandBeverage.Forms
             this.btnrefresh = new System.Windows.Forms.Button();
             this.btnclose = new System.Windows.Forms.Button();
             this.dgv_addon = new System.Windows.Forms.DataGridView();
+            this.Slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caption = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtaid = new System.Windows.Forms.TextBox();
             this.pnl_categoryadd = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -78,14 +86,6 @@ namespace FoodandBeverage.Forms
             this.label41 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
             this.txtcategotyid = new System.Windows.Forms.TextBox();
-            this.Slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caption = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.fcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_outer_design.SuspendLayout();
             this.tlp_registration.SuspendLayout();
@@ -155,7 +155,7 @@ namespace FoodandBeverage.Forms
             this.tlp_registration.ColumnCount = 3;
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.63939F));
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.36061F));
-            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
+            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 256F));
             this.tlp_registration.Controls.Add(this.label1, 0, 0);
             this.tlp_registration.Controls.Add(this.label3, 1, 0);
             this.tlp_registration.Controls.Add(this.txtcaption, 0, 1);
@@ -184,7 +184,7 @@ namespace FoodandBeverage.Forms
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 39);
+            this.label1.Size = new System.Drawing.Size(166, 39);
             this.label1.TabIndex = 5;
             this.label1.Text = "Caption";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -194,7 +194,7 @@ namespace FoodandBeverage.Forms
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(176, 0);
+            this.label3.Location = new System.Drawing.Point(175, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(162, 39);
             this.label3.TabIndex = 7;
@@ -208,7 +208,7 @@ namespace FoodandBeverage.Forms
             this.txtcaption.Location = new System.Drawing.Point(3, 42);
             this.txtcaption.Multiline = true;
             this.txtcaption.Name = "txtcaption";
-            this.txtcaption.Size = new System.Drawing.Size(167, 35);
+            this.txtcaption.Size = new System.Drawing.Size(166, 35);
             this.txtcaption.TabIndex = 0;
             // 
             // label2
@@ -218,7 +218,7 @@ namespace FoodandBeverage.Forms
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 80);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(167, 25);
+            this.label2.Size = new System.Drawing.Size(166, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "Description";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -228,9 +228,9 @@ namespace FoodandBeverage.Forms
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(344, 0);
+            this.label5.Location = new System.Drawing.Point(343, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(250, 39);
+            this.label5.Size = new System.Drawing.Size(251, 39);
             this.label5.TabIndex = 11;
             this.label5.Text = "Category";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -239,7 +239,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtprice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtprice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtprice.Location = new System.Drawing.Point(176, 42);
+            this.txtprice.Location = new System.Drawing.Point(175, 42);
             this.txtprice.MaxLength = 4;
             this.txtprice.Multiline = true;
             this.txtprice.Name = "txtprice";
@@ -253,7 +253,7 @@ namespace FoodandBeverage.Forms
             this.chb_active.Checked = true;
             this.chb_active.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chb_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chb_active.Location = new System.Drawing.Point(441, 95);
+            this.chb_active.Location = new System.Drawing.Point(440, 95);
             this.chb_active.Margin = new System.Windows.Forms.Padding(100, 15, 3, 3);
             this.chb_active.Name = "chb_active";
             this.chb_active.Size = new System.Drawing.Size(15, 7);
@@ -269,7 +269,7 @@ namespace FoodandBeverage.Forms
             this.txtdesc.Location = new System.Drawing.Point(3, 108);
             this.txtdesc.Multiline = true;
             this.txtdesc.Name = "txtdesc";
-            this.txtdesc.Size = new System.Drawing.Size(167, 56);
+            this.txtdesc.Size = new System.Drawing.Size(166, 56);
             this.txtdesc.TabIndex = 3;
             // 
             // btn_del_addon
@@ -278,7 +278,7 @@ namespace FoodandBeverage.Forms
             this.btn_del_addon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_del_addon.FlatAppearance.BorderSize = 0;
             this.btn_del_addon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_del_addon.Location = new System.Drawing.Point(193, 108);
+            this.btn_del_addon.Location = new System.Drawing.Point(192, 108);
             this.btn_del_addon.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
             this.btn_del_addon.Name = "btn_del_addon";
             this.btn_del_addon.Size = new System.Drawing.Size(48, 47);
@@ -295,11 +295,11 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Controls.Add(this.cmb_category, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_categ, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(344, 42);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(343, 42);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 35);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 35);
             this.tableLayoutPanel1.TabIndex = 258;
             // 
             // cmb_category
@@ -312,7 +312,7 @@ namespace FoodandBeverage.Forms
             this.cmb_category.FormattingEnabled = true;
             this.cmb_category.Location = new System.Drawing.Point(3, 3);
             this.cmb_category.Name = "cmb_category";
-            this.cmb_category.Size = new System.Drawing.Size(191, 28);
+            this.cmb_category.Size = new System.Drawing.Size(192, 28);
             this.cmb_category.TabIndex = 2;
             // 
             // btn_categ
@@ -322,7 +322,7 @@ namespace FoodandBeverage.Forms
             this.btn_categ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_categ.FlatAppearance.BorderSize = 0;
             this.btn_categ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_categ.Location = new System.Drawing.Point(200, 3);
+            this.btn_categ.Location = new System.Drawing.Point(201, 3);
             this.btn_categ.Name = "btn_categ";
             this.btn_categ.Padding = new System.Windows.Forms.Padding(5);
             this.btn_categ.Size = new System.Drawing.Size(47, 29);
@@ -502,6 +502,68 @@ namespace FoodandBeverage.Forms
             this.dgv_addon.TabIndex = 2;
             this.dgv_addon.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_addon_CellDoubleClick);
             // 
+            // Slno
+            // 
+            this.Slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Slno.HeaderText = "Slno";
+            this.Slno.Name = "Slno";
+            this.Slno.ReadOnly = true;
+            this.Slno.Width = 66;
+            // 
+            // Id
+            // 
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.Id.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // caption
+            // 
+            this.caption.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.caption.HeaderText = "Caption";
+            this.caption.Name = "caption";
+            this.caption.ReadOnly = true;
+            // 
+            // price
+            // 
+            this.price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.price.HeaderText = "Price";
+            this.price.Name = "price";
+            this.price.ReadOnly = true;
+            // 
+            // Category
+            // 
+            this.Category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Category.HeaderText = "Category";
+            this.Category.Name = "Category";
+            this.Category.ReadOnly = true;
+            // 
+            // description
+            // 
+            this.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.description.HeaderText = "Description";
+            this.description.Name = "description";
+            this.description.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            this.Status.Visible = false;
+            this.Status.Width = 62;
+            // 
+            // fcid
+            // 
+            this.fcid.HeaderText = "fcid";
+            this.fcid.Name = "fcid";
+            this.fcid.ReadOnly = true;
+            this.fcid.Visible = false;
+            // 
             // txtaid
             // 
             this.txtaid.Location = new System.Drawing.Point(359, 27);
@@ -577,7 +639,7 @@ namespace FoodandBeverage.Forms
             this.tlp_save_close.ColumnCount = 3;
             this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.25292F));
             this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.74708F));
-            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tlp_save_close.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
             this.tlp_save_close.Controls.Add(this.btnClosecat, 2, 0);
             this.tlp_save_close.Controls.Add(this.btnSavecate, 1, 0);
             this.tlp_save_close.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -597,9 +659,9 @@ namespace FoodandBeverage.Forms
             this.btnClosecat.FlatAppearance.BorderSize = 0;
             this.btnClosecat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClosecat.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnClosecat.Location = new System.Drawing.Point(247, 3);
+            this.btnClosecat.Location = new System.Drawing.Point(246, 3);
             this.btnClosecat.Name = "btnClosecat";
-            this.btnClosecat.Size = new System.Drawing.Size(85, 34);
+            this.btnClosecat.Size = new System.Drawing.Size(86, 34);
             this.btnClosecat.TabIndex = 1;
             this.btnClosecat.UseVisualStyleBackColor = false;
             this.btnClosecat.Click += new System.EventHandler(this.btnClosecat_Click);
@@ -613,7 +675,7 @@ namespace FoodandBeverage.Forms
             this.btnSavecate.FlatAppearance.BorderSize = 0;
             this.btnSavecate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSavecate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnSavecate.Location = new System.Drawing.Point(138, 3);
+            this.btnSavecate.Location = new System.Drawing.Point(137, 3);
             this.btnSavecate.Name = "btnSavecate";
             this.btnSavecate.Size = new System.Drawing.Size(103, 34);
             this.btnSavecate.TabIndex = 0;
@@ -769,68 +831,6 @@ namespace FoodandBeverage.Forms
             this.txtcategotyid.Name = "txtcategotyid";
             this.txtcategotyid.Size = new System.Drawing.Size(13, 20);
             this.txtcategotyid.TabIndex = 194;
-            // 
-            // Slno
-            // 
-            this.Slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Slno.HeaderText = "Slno";
-            this.Slno.Name = "Slno";
-            this.Slno.ReadOnly = true;
-            this.Slno.Width = 66;
-            // 
-            // Id
-            // 
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            // 
-            // caption
-            // 
-            this.caption.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.caption.HeaderText = "Caption";
-            this.caption.Name = "caption";
-            this.caption.ReadOnly = true;
-            // 
-            // price
-            // 
-            this.price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.price.HeaderText = "Price";
-            this.price.Name = "price";
-            this.price.ReadOnly = true;
-            // 
-            // Category
-            // 
-            this.Category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Category.HeaderText = "Category";
-            this.Category.Name = "Category";
-            this.Category.ReadOnly = true;
-            // 
-            // description
-            // 
-            this.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.description.HeaderText = "Description";
-            this.description.Name = "description";
-            this.description.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Visible = false;
-            this.Status.Width = 62;
-            // 
-            // fcid
-            // 
-            this.fcid.HeaderText = "fcid";
-            this.fcid.Name = "fcid";
-            this.fcid.ReadOnly = true;
-            this.fcid.Visible = false;
             // 
             // FrmAddon
             // 

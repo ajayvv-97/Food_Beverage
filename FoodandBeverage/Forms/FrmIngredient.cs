@@ -35,8 +35,11 @@ namespace FoodandBeverage.Forms
 
         public static int Arowno = 0;
         public static int avariationno = 1;
-        public static int aqtyno = 2;
+        public static int apriceno = 2;
         public static int Acodeno = 3;
+        public static int Avidno = 4;
+        public static int Apidno = 5;
+
 
         #endregion
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
@@ -95,9 +98,10 @@ namespace FoodandBeverage.Forms
                     else
                         dmnproduct.Status = 0;
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
-                    int statuscount = 0,gridcount=0;
+                    int statuscount = 0,gridcount=0,varia_count=0;
                     if (prostatus.ProductId > 0)
                     {
+                        #region Ingrediant Details Inseration DB
                         for (int i = 0; i < dgv_registartion.RowCount; i++)
                         {
                             if (((dgv_registartion.Rows[i].Cells[Ritemidno].Value) != null && (dgv_registartion.Rows[i].Cells[Ritemidno].Value) != "") &&
@@ -124,6 +128,37 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+                        #endregion
+
+                        #region Variation Table Inseration DB
+
+                        for (int i = 0; i < dgv_variation.RowCount; i++)
+                        {
+                            if (((dgv_variation.Rows[i].Cells[Ritemidno].Value) != null && (dgv_variation.Rows[i].Cells[Ritemidno].Value) != "") &&
+                                ((dgv_variation.Rows[i].Cells[Rqtyno].Value) != "" && (Convert.ToDecimal(dgv_variation.Rows[i].Cells[Rqtyno].Value)) > 0)
+                                )
+                            {
+                                DmnVariation dmnvariation = new DmnVariation();
+                                BllVariation blladdon = new BllVariation();
+                                dmnvariation.Vid = Convert.ToInt32(dgv_variation.Rows[i].Cells[Avidno].Value);
+                                dmnvariation.VariationType = Convert.ToInt32(dgv_variation.Rows[i].Cells[avariationno].Value);
+                                dmnvariation.VariationCode = Convert.ToString(dgv_variation.Rows[i].Cells[Acodeno].Value);
+                                dmnvariation.Price = Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value);
+                                dmnvariation.ProductId = Convert.ToInt32(txtpid.Text);
+                                dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
+                                dmnvariation.CreatedBy = FrmDashboard.UserId;
+                                dmnvariation.BranchId = FrmDashboard.BranchId;     
+                                dmnvariation.Status = 1;                       
+                                var usertype = blladdon.AddData("prdInsert_upd_Variation", dmnvariation);
+                                if (usertype.Vid > 0)
+                                {
+                                    varia_count = varia_count + 1;
+                                }
+
+                            }
+
+                        }
+                        #endregion
                     }
 
 
@@ -2129,7 +2164,7 @@ namespace FoodandBeverage.Forms
                     if (cmbsize != null)
                         dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[avariationno].Value = cmbsize.SelectedValue;
                     if (txtprice != null)
-                        dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[aqtyno].Value = txtprice.Text;
+                        dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[apriceno].Value = txtprice.Text;
                     if (cmbsize != null)
                         dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Acodeno].Value = txtcode.Text;
                     #endregion
