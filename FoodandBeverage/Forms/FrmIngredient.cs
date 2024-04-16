@@ -24,7 +24,7 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
-        #region
+        #region Grid Declaration
         public static int Rslno = 0;
         public static int Ritemno = 1;
         public static int Rqtyno = 2;
@@ -56,6 +56,15 @@ namespace FoodandBeverage.Forms
         List<DmnComboBox> product_variation = new List<DmnComboBox>();
         List<DmnComboBox> Addon_List_Data = new List<DmnComboBox>();
         FlowLayoutPanel flp_addonlist = new FlowLayoutPanel();
+        public int Prev_rowindex = 0;
+        public List<CAddonlist> Checked_Addon_List = new List<CAddonlist>();
+        private bool validatingInProgress = false;
+        public class CAddonlist
+        {
+            public int Id { get; set; }
+            public int Pavid { get; set; }
+            public string Cnames { get; set; }
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -131,32 +140,60 @@ namespace FoodandBeverage.Forms
                         #endregion
 
                         #region Variation Table Inseration DB
-
-                        for (int i = 0; i < dgv_variation.RowCount; i++)
+                        if(chk_variation.Checked &&  MandatoryCheck_variation())
                         {
-                            if (((dgv_variation.Rows[i].Cells[Ritemidno].Value) != null && (dgv_variation.Rows[i].Cells[Ritemidno].Value) != "") &&
-                                ((dgv_variation.Rows[i].Cells[Rqtyno].Value) != "" && (Convert.ToDecimal(dgv_variation.Rows[i].Cells[Rqtyno].Value)) > 0)
-                                )
+                            for (int i = 0; i < dgv_variation.RowCount; i++)
                             {
-                                DmnVariation dmnvariation = new DmnVariation();
+                                if (dgv_variation.Rows[i].Cells[Arowno].Value != null && Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value) > 0)
+                                {
+                                    DmnAddonVariation dmnvariation = new DmnAddonVariation();
+                                    BllVariation blladdon = new BllVariation();
+                                    dmnvariation.Pavid = Convert.ToInt32(dgv_variation.Rows[i].Cells[Avidno].Value);
+                                    dmnvariation.Caption = Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value);
+                                    dmnvariation.VariationCode = Convert.ToString(dgv_variation.Rows[i].Cells[Acodeno].Value);
+                                    dmnvariation.Aid = 0;
+                                    dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
+                                    dmnvariation.Price = Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value);
+                                    dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
+                                    dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
+                                    dmnvariation.CreatedBy = FrmDashboard.UserId;
+                                    dmnvariation.BranchId = FrmDashboard.BranchId;
+                                    dmnvariation.Status = 1;
+                                    var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
+                                    if (usertype.Pavid > 0)
+                                    {
+                                        varia_count = varia_count + 1;
+                                    }
+
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Product Mapping Addon Table Inseration DB
+                        if (chk_addons.Checked)
+                        {
+                            foreach (CAddonlist Listdata in Checked_Addon_List)
+                            {
+                                DmnAddonVariation dmnvariation = new DmnAddonVariation();
                                 BllVariation blladdon = new BllVariation();
-                                dmnvariation.Vid = Convert.ToInt32(dgv_variation.Rows[i].Cells[Avidno].Value);
-                                dmnvariation.VariationType = Convert.ToInt32(dgv_variation.Rows[i].Cells[avariationno].Value);
-                                dmnvariation.VariationCode = Convert.ToString(dgv_variation.Rows[i].Cells[Acodeno].Value);
-                                dmnvariation.Price = Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value);
-                                dmnvariation.ProductId = Convert.ToInt32(txtpid.Text);
+                                dmnvariation.Pavid = Listdata.Pavid;
+                                dmnvariation.Caption = Listdata.Cnames;
+                                dmnvariation.VariationCode = "";
+                                dmnvariation.Aid = Listdata.Id;
+                                dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
+                                dmnvariation.Price = 0;
+                                dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
                                 dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
                                 dmnvariation.CreatedBy = FrmDashboard.UserId;
-                                dmnvariation.BranchId = FrmDashboard.BranchId;     
-                                dmnvariation.Status = 1;                       
-                                var usertype = blladdon.AddData("prdInsert_upd_Variation", dmnvariation);
-                                if (usertype.Vid > 0)
+                                dmnvariation.BranchId = FrmDashboard.BranchId;
+                                dmnvariation.Status = 1;
+                                var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
+                                if (usertype.Pavid > 0)
                                 {
                                     varia_count = varia_count + 1;
                                 }
-
                             }
-
                         }
                         #endregion
                     }
@@ -234,6 +271,32 @@ namespace FoodandBeverage.Forms
             cell.Value = Properties.Resources.add_row;
 
             TextBoxList.Clear();
+            flp_addonlist.Controls.Clear();
+            Checked_Addon_List.Clear();
+        }
+        
+
+       public bool MandatoryCheck_variation()
+        {
+            //if (cmbTaxType.Text == "GST")
+            //{
+            //    if (Convert.ToInt32(cmbIgstPrcnt.SelectedValue) == -1)
+            //    {
+            //        CMessageBox.Show("Please Select IGST %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        cmbIgstPrcnt.Focus();
+            //        return false;
+            //    }
+            //}
+            //else if (cmbTaxType.Text == "VAT")
+            //{
+            //    if (Convert.ToInt32(cmbVatPrcnt.SelectedValue) == -1)
+            //    {
+            //        CMessageBox.Show("Please Select VAT %", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        cmbVatPrcnt.Focus();
+            //        return false;
+            //    }
+            //}
+            return true;
         }
         public bool MandatoryCheck()
         {
@@ -299,8 +362,6 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
             }
-
-
             return true;
         }
         private void FrmIncrediant_Load(object sender, EventArgs e)
@@ -358,6 +419,11 @@ namespace FoodandBeverage.Forms
             tlp_regform_grid.HorizontalScroll.Visible = false;
             tlp_regform_grid.VerticalScroll.Enabled = true;
             tlp_regform_grid.Dock = DockStyle.Fill;
+
+            SetRowBackgroundColor(tlp_regform_grid, 0, Color.Gold);
+            SetRowBackgroundColor(tlp_regform_grid, 1, Color.Green);
+            SetRowBackgroundColor(tlp_regform_grid, 2, Color.Bisque);
+            SetRowBackgroundColor(tlp_regform_grid, 3, Color.Brown);
         }
 
         private void btncolse_Click(object sender, EventArgs e)
@@ -2050,142 +2116,212 @@ namespace FoodandBeverage.Forms
                 return;
             }
         }
-
-
         private void pb_addon_Click(object sender, EventArgs e)
         {
             try
             {
-                //if (MandatoryCheck_Addon(rowindex))
+               if (MandatoryCheck_Addon(rowindex))
                 //{
-                    tlp_regform_grid.VerticalScroll.Visible = false;
-                    tlp_regform_grid.HorizontalScroll.Visible = true;
+                tlp_regform_grid.VerticalScroll.Visible = false;
+                tlp_regform_grid.HorizontalScroll.Visible = true;
 
-                    tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                    // Add TableLayoutPanel inside the panel
-                    TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
-                    tlp_row_layout.Name = "tlp_row_layout" + rowindex;
-                    tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-                    tlp_row_layout.Dock = DockStyle.Top;
-                    tlp_row_layout.Height = 65;
-                    tlp_row_layout.RowCount = 1;
-                    tlp_row_layout.ColumnCount = 2;
-                    tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 95));
-                    tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5));
+                tlp_variation.SuspendLayout();
+                tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-                    TableLayoutPanel tlp_left = new TableLayoutPanel();
-                    tlp_left.Name = "tlp_left_" + rowindex;
-                    tlp_left.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-                    tlp_left.Dock = DockStyle.Fill;
-                    tlp_left.RowCount = 2;
-                    tlp_left.ColumnCount = 3;
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                    tlp_left.BackColor = Color.Red;
-                    //tlp_left.AutoScroll = true;
-                    // Add labels and controls
-                    string[] labels = { "Size", "Price", "Code" };
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Label label = new Label();
-                        label.Name = labels[i] + rowindex;
-                        label.Text = labels[i];
-                        label.Dock = DockStyle.Fill;
-                        label.ForeColor = System.Drawing.Color.White;
-                        label.Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Regular);
-                        label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                // Add TableLayoutPanel inside the panel
+                TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
+                tlp_row_layout.Name = "tlp_row_layout" + rowindex;
+                tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                tlp_row_layout.Dock = DockStyle.Top;
+                tlp_row_layout.Height = 65;
+                tlp_row_layout.RowCount = 1;
+                tlp_row_layout.ColumnCount = 2;
+                tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 95));
+                tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5));
 
-                        Control control;
-                        if (i == 0)
-                        {
-                            ComboBox comboBox = new ComboBox();
-                            comboBox.Name = "cmb_" + labels[i].ToLower() + rowindex;
-                            comboBox.Dock = DockStyle.Top;
-                            comboBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
-                            comboBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
-                            comboBox.Height = 30;
-                            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-                            comboBox.FlatStyle = FlatStyle.Flat;
-                            comboBox.DataSource = product_variation;
-                            comboBox.ValueMember = "Id";
-                            comboBox.DisplayMember = "Value";
-                            comboBox.SelectedIndex = -1;
-                            control = comboBox;
-                        }
-                        else
-                        {
-                            TextBox textBox = new TextBox();
-                            textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
-                            textBox.Dock = DockStyle.Top;
-                            textBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
-                            textBox.BorderStyle = BorderStyle.None;
-                            textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
-                            textBox.Multiline = true;
-                            textBox.Height = 30;
-                            textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
+                TableLayoutPanel tlp_left = new TableLayoutPanel();
+                tlp_left.Name = "tlp_left_" + rowindex;
+                tlp_left.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                tlp_left.Dock = DockStyle.Fill;
+                tlp_left.RowCount = 2;
+                tlp_left.ColumnCount = 3;
+                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tlp_left.BackColor = Color.Red;
+                //tlp_left.AutoScroll = true;
+                // Add labels and controls
+                string[] labels = { "Size", "Price", "Code" };
+                for (int i = 0; i < 3; i++)
+                {
+                    Label label = new Label();
+                    label.Name = labels[i] + rowindex;
+                    label.Text = labels[i];
+                    label.Dock = DockStyle.Fill;
+                    label.ForeColor = System.Drawing.Color.White;
+                    label.Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Regular);
+                    label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-                            control = textBox;
+                    Control control;
 
-                            string tempname = control.Name;
-                            TextBoxList.Add(tempname);
-                        }
+                    TextBox textBox = new TextBox();
+                    textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
+                    textBox.Tag = rowindex;
+                    textBox.Dock = DockStyle.Top;
+                    textBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
+                    textBox.BorderStyle = BorderStyle.None;
+                    textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
+                    textBox.Multiline = true;
+                    textBox.Height = 30;
+                    if (i == 1)
+                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
 
-                        tlp_left.Controls.Add(label, i, 0);
-                        tlp_left.Controls.Add(control, i, 1);
-                    }
-                    PictureBox pb_delrow = new PictureBox()
-                    {
-                        Name = "Rowdel_" + rowindex,
-                        Image = Properties.Resources.delete,
-                        SizeMode = PictureBoxSizeMode.StretchImage,
-                        Dock = DockStyle.None,
-                        Tag = rowindex,
-                        AccessibleDescription = "",
-                    };
+                    textBox.Leave += TextBox_Leave;
+                    textBox.Enter += TextBox_Enter;
 
-                    pb_delrow.Click += pb_delrow_Click;
+                    control = textBox;
+                    string tempname = control.Name;
+                    TextBoxList.Add(tempname);
 
-                    tlp_row_layout.Controls.Add(tlp_left, 0, 0);
-                    tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
+                    tlp_left.Controls.Add(label, i, 0);
+                    tlp_left.Controls.Add(control, i, 1);
 
-                    #region Grid Inseration
-                    int prov_rowindex = rowindex - 1;
-                    string sizename = "cmb_size" + prov_rowindex;
-                    ComboBox cmbsize = this.Controls.Find(sizename, true).FirstOrDefault() as ComboBox;
-                    string pricename = "txt_price" + prov_rowindex;
-                    TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
-                    string codename = "txt_code" + prov_rowindex;
-                    TextBox txtcode = this.Controls.Find(codename, true).FirstOrDefault() as TextBox;
+                }
 
-                    dgv_variation.Rows.Add();
-                    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Arowno].Value = prov_rowindex;
+                PictureBox pb_delrow = new PictureBox()
+                {
+                    Name = "Rowdel_" + rowindex,
+                    Image = Properties.Resources.delete,
+                    SizeMode = PictureBoxSizeMode.StretchImage,
+                    Dock = DockStyle.None,
+                    Tag = rowindex,
+                    AccessibleDescription = "",
+                };
 
-                    if (cmbsize != null)
-                        dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[avariationno].Value = cmbsize.SelectedValue;
-                    if (txtprice != null)
-                        dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[apriceno].Value = txtprice.Text;
-                    if (cmbsize != null)
-                        dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Acodeno].Value = txtcode.Text;
-                    #endregion
+                pb_delrow.Click += pb_delrow_Click;
 
-                    tlp_variation.Controls.Add(tlp_row_layout, 0, rowindex);
-                    rowindex++;
-                    RoundAddonTextbox();
-                    tlp_left.Focus();
-                    if (tlp_left.Controls.Count > 0)
-                    {
-                        Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
-                        lastControl.Focus();
-                    }
-                    int c = tlp_variation.RowCount;
+                tlp_row_layout.Controls.Add(tlp_left, 0, 0);
+                tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
+
+                //#region Grid Inseration
+                //int prov_rowindex = rowindex - 1;
+                //string sizename = "txt_size" + prov_rowindex;
+                //TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
+                //string pricename = "txt_price" + prov_rowindex;
+                //TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
+                //string codename = "txt_code" + prov_rowindex;
+                //TextBox txtcode = this.Controls.Find(codename, true).FirstOrDefault() as TextBox;
+
+                //dgv_variation.Rows.Add();
+                //dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Arowno].Value = prov_rowindex;
+
+                //if (txtsize != null)
+                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[avariationno].Value = txtsize.Text;
+                //if (txtprice != null)
+                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[apriceno].Value = txtprice.Text;
+                //if (txtcode != null)
+                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Acodeno].Value = txtcode.Text;
+                //#endregion
+
+                tlp_variation.Controls.Add(tlp_row_layout, 0, rowindex);
+                rowindex++;
+                tlp_variation.ResumeLayout();
+
+                RoundAddonTextbox();
+                tlp_left.Focus();
+                if (tlp_left.Controls.Count > 0)
+                {
+                    Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
+                    lastControl.Focus();
+                }
+                int c = tlp_variation.RowCount;
                 //
                 //}
-            
-             }
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
+            }
+        }
+
+        private void TextBox_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!validatingInProgress)
+                {
+                    TextBox textBox = (TextBox)sender;
+                    int prov_rowindex = Convert.ToInt32(textBox.Tag);
+                    for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value) == prov_rowindex)
+                        {
+                            dgv_variation.CurrentCell = dgv_variation.Rows[i].Cells[Arowno];
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                 bool flagexit = true;
+                TextBox textBox = (TextBox)sender;
+                int prov_rowindex = Convert.ToInt32(textBox.Tag);
+                for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                {
+                    if (Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value) == prov_rowindex)
+                    {
+                        TextBox txtsize = this.Controls.Find("txt_size" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                        TextBox txtprice = this.Controls.Find("txt_price" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                        TextBox txtcode = this.Controls.Find("txt_code" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                        if (txtsize != null)
+                            dgv_variation.Rows[i].Cells[avariationno].Value = txtsize.Text;
+                        if (txtprice != null)
+                            dgv_variation.Rows[i].Cells[apriceno].Value = txtprice.Text;
+                        if (txtcode != null)
+                            dgv_variation.Rows[i].Cells[Acodeno].Value = txtcode.Text;
+                        Prev_rowindex = i;
+                        flagexit = false;
+                        break;
+                    }
+                }
+                if (flagexit)
+                {
+                    int rowIndex = dgv_variation.Rows.Add();
+                    dgv_variation.Rows[rowIndex].Cells[Arowno].Value = prov_rowindex;
+                    TextBox txtsize = this.Controls.Find("txt_size" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                    TextBox txtprice = this.Controls.Find("txt_price" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                    TextBox txtcode = this.Controls.Find("txt_code" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                    if (txtsize != null)
+                        dgv_variation.Rows[rowIndex].Cells[avariationno].Value = txtsize.Text;
+                    if (txtprice != null)
+                        dgv_variation.Rows[rowIndex].Cells[apriceno].Value = txtprice.Text;
+                    if (txtcode != null)
+                        dgv_variation.Rows[rowIndex].Cells[Acodeno].Value = txtcode.Text;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+    
+        }
+
+        private void SetRowBackgroundColor(TableLayoutPanel tableLayoutPanel, int rowIndex, Color color)
+        {
+            foreach (Control control in tableLayoutPanel.Controls)
+            {
+                if (tableLayoutPanel.GetRow(control) == rowIndex)
+                {
+                    control.BackColor = color;
+                }
             }
         }
         private void pb_delrow_Click(object sender, EventArgs e)
@@ -2200,12 +2336,22 @@ namespace FoodandBeverage.Forms
                 {
                     tlp_variation.Controls.Remove(tlp_row_layout);
                     tlp_row_layout.Dispose();
+
+                    for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value) == Convert.ToInt32(clickedPictureBox.Tag))
+                        {
+                            dgv_variation.Rows.RemoveAt(i);
+                            break;
+                        }
+                    }
                 }
                 if (id < tlp_variation.RowStyles.Count)
                 {
                     tlp_variation.RowStyles.RemoveAt(id);
                 }
-
+                tlp_regform_grid.RowStyles[2].SizeType = SizeType.AutoSize;
+                tlp_regform_grid.RowStyles[3].SizeType = SizeType.AutoSize;
             }
             catch (Exception ex)
             {
@@ -2233,35 +2379,35 @@ namespace FoodandBeverage.Forms
         }
         public bool MandatoryCheck_Addon(int rowindex)
         {
-            int prov_rowindex = rowindex - 1;
-            string sizename = "cmb_size" + prov_rowindex;
-            ComboBox cmbsize = this.Controls.Find(sizename, true).FirstOrDefault() as ComboBox;
-            string pricename = "txt_price" + prov_rowindex;
-            TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
-            string codename = "txt_code" + prov_rowindex;
-            TextBox txtcode = this.Controls.Find(codename, true).FirstOrDefault() as TextBox;
+            //int prov_rowindex = rowindex - 1;
+            //string sizename = "txt_size" + prov_rowindex;
+            //ComboBox cmbsize = this.Controls.Find(sizename, true).FirstOrDefault() as ComboBox;
+            //string pricename = "txt_price" + prov_rowindex;
+            //TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
+            //string codename = "txt_code" + prov_rowindex;
+            //TextBox txtcode = this.Controls.Find(codename, true).FirstOrDefault() as TextBox;
 
-            if (string.IsNullOrWhiteSpace(txtprice.Text))
-                txtprice.Text = "0";
+            //if (string.IsNullOrWhiteSpace(txtprice.Text))
+            //    txtprice.Text = "0";
 
-            if (Convert.ToInt32(cmbsize.SelectedValue) == -1)
-            {
-                CMessageBox.Show("Please Select Variation", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbsize.Focus();
-                return false;
-            }
-            else if (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) <= 0)
-            {
-                CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtprice.Focus();
-                return false;
-            }
-            else if (txtcode.Text == "" || txtcode.Text == null)
-            {
-                CMessageBox.Show("Please Enter Code", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtcode.Focus();
-                return false;
-            }           
+            //if (Convert.ToInt32(cmbsize.SelectedValue) == -1)
+            //{
+            //    CMessageBox.Show("Please Select Variation", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    cmbsize.Focus();
+            //    return false;
+            //}
+            //else if (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) <= 0)
+            //{
+            //    CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtprice.Focus();
+            //    return false;
+            //}
+            //else if (txtcode.Text == "" || txtcode.Text == null)
+            //{
+            //    CMessageBox.Show("Please Enter Code", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtcode.Focus();
+            //    return false;
+            //}           
             return true;
         }
 
@@ -2272,6 +2418,14 @@ namespace FoodandBeverage.Forms
             {
                 if (chk_variation.Checked)
                 {
+                    for (int i = 0; i < tlp_variation.RowStyles.Count; i++)
+                    {
+                        if (i != 0)
+                        {
+                            tlp_variation.RowStyles[i].SizeType = SizeType.AutoSize;
+                        }
+                    }
+
                     tlp_regform_grid.AutoScroll = true;
                     tlp_regform_grid.VerticalScroll.Visible = false;
                     tlp_regform_grid.HorizontalScroll.Visible = true;
@@ -2279,7 +2433,9 @@ namespace FoodandBeverage.Forms
                     tlp_regform_grid.AutoScrollMinSize = new Size(0, 50);
 
                     pb_addon.Visible = true;
+
                     tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
                     tlp_variation.Dock = DockStyle.Top;
                     // Add TableLayoutPanel inside the panel
                     TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
@@ -2325,39 +2481,26 @@ namespace FoodandBeverage.Forms
                         label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
                         Control control;
-                        if (i == 0)
-                        {
-                            ComboBox comboBox = new ComboBox();
-                            comboBox.Name = "cmb_" + labels[i].ToLower() + rowindex;
-                            comboBox.Dock = DockStyle.Top;
-                            comboBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
-                            comboBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
-                            comboBox.Height = 30;
-                            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-                            comboBox.FlatStyle = FlatStyle.Flat;
-                            comboBox.DataSource = product_variation;
-                            comboBox.ValueMember = "Id";
-                            comboBox.DisplayMember = "Value";
 
-                            control = comboBox;
-                        }
-                        else
-                        {
-                            TextBox textBox = new TextBox();
-                            textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
-                            textBox.Dock = DockStyle.Top;
-                            textBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
-                            textBox.BorderStyle = BorderStyle.None;
-                            textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
-                            textBox.Multiline = true;
-                            textBox.Height = 30;
+                        TextBox textBox = new TextBox();
+                        textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
+                        textBox.Tag = rowindex;
+                        textBox.Dock = DockStyle.Top;
+                        textBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);
+                        textBox.BorderStyle = BorderStyle.None;
+                        textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
+                        textBox.Multiline = true;
+                        textBox.Height = 30;
+                        if (i == 1)
                             textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
 
-                            control = textBox;
+                        textBox.Leave += TextBox_Leave;
+                        textBox.Enter += TextBox_Enter;
 
-                            string tempname = control.Name;
-                            TextBoxList.Add(tempname);
-                        }
+                        control = textBox;
+                        string tempname = control.Name;
+                        TextBoxList.Add(tempname);
+
                         tlp_left.Controls.Add(label, i, 0);
                         tlp_left.Controls.Add(control, i, 1);
 
@@ -2385,15 +2528,23 @@ namespace FoodandBeverage.Forms
                         Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
                         lastControl.Focus();
                     }
+                    tlp_regform_grid.RowStyles[0].SizeType = SizeType.AutoSize;
+
                 }
                 else
                 {
                     pb_addon.Visible = false;
-                    //for (int i = 0; i < tlp_Addon.RowCount; i++)
-                    //{
-                    //    tlp_Addon.RowStyles[i].Height = 0; 
-                    //    tlp_Addon.RowStyles[i].SizeType = SizeType.Absolute;
-                    //}
+                    for (int i = 0; i < tlp_variation.RowStyles.Count; i++)
+                    {
+                        if(i!=0)
+                        {
+                            tlp_variation.SuspendLayout();
+                            tlp_variation.RowStyles[i].Height = 0;
+                            tlp_variation.RowStyles[i].SizeType = SizeType.Absolute;
+                            tlp_variation.ResumeLayout();
+                        }
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -2425,9 +2576,9 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "Fcid Field1,CategoryName Field2";
-                    objSearch.Table = "tblCategory_FTI";
-                    objSearch.WhereNdGroupBy = "Where status=1 and  CategoryType=4";
+                    objSearch.Select = "t.Aid Field1,t.AddonName Field2";
+                    objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.Fcid = T.Fcid ";
+                    objSearch.WhereNdGroupBy = "Where c.status=1 and t.status=1 ";
                     objSearch.OrderBy = "";
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
@@ -2442,11 +2593,14 @@ namespace FoodandBeverage.Forms
                                 checkbox.Tag = item.Field1;
                                 checkbox.Font = new System.Drawing.Font("Arial", 13, System.Drawing.FontStyle.Regular);
                                 checkbox.BackColor = Color.Yellow;
+                                checkbox.Margin = new Padding(10,10,0,0);
+                                checkbox.CheckedChanged += Checkbox_CheckedChanged;
                                 flp_addonlist.Controls.Add(checkbox);
                             }
-                            flp_addonlist.Dock = DockStyle.None;
-                            flp_addonlist.Height = tlp_addons.Height;
-                            flp_addonlist.Dock = DockStyle.Fill;
+                            //flp_addonlist.Dock = DockStyle.None;
+                            //flp_addonlist.Height = tlp_addons.Height;
+                            //flp_addonlist.Dock = DockStyle.Fill;
+                            //flp_addonlist.BackColor = Color.Azure;
                         }                       
 
                     }
@@ -2473,11 +2627,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                flp_addonlist.Controls.Clear();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "t.Fcid Field1,c.CategoryName Field2";
-                objSearch.Table = "tblAddon tblAddon t LEFT JOIN tblCategory_FTI c ON C.CategoryType = T.Fcid ";
-                objSearch.WhereNdGroupBy = "Where t.status=1 and  t.fcid= " + cmb_addon_cate.SelectedValue;
+                objSearch.Select = "t.Aid Field1,t.AddonName Field2";
+                objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.Fcid = T.Fcid ";
+
+                if (Convert.ToInt32(cmb_addon_cate.SelectedValue)==-1)
+                    objSearch.WhereNdGroupBy = "Where t.status=1 and c.status=1 ";
+                else
+                    objSearch.WhereNdGroupBy = "Where t.status=1 and  t.fcid= " + cmb_addon_cate.SelectedValue;
+
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
@@ -2492,11 +2652,10 @@ namespace FoodandBeverage.Forms
                             checkbox.Tag = item.Field1;
                             checkbox.Font = new System.Drawing.Font("Arial", 13, System.Drawing.FontStyle.Regular);
                             checkbox.BackColor = Color.Yellow;
+                            checkbox.Margin = new Padding(10, 10, 0, 0);
+                            checkbox.CheckedChanged += Checkbox_CheckedChanged;
                             flp_addonlist.Controls.Add(checkbox);
                         }
-                        flp_addonlist.Dock = DockStyle.None;
-                        flp_addonlist.Height = tlp_addons.Height;
-                        flp_addonlist.Dock = DockStyle.Fill;
                     }
 
                 }
@@ -2510,6 +2669,83 @@ namespace FoodandBeverage.Forms
             catch(Exception ex)
             {
 
+            }
+        }
+        private void Checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            try 
+            {
+                CheckBox clickedCheckBox = (CheckBox)sender;
+                string name = clickedCheckBox.Name;
+                int fieldValue = Convert.ToInt32(clickedCheckBox.Tag);
+                if (clickedCheckBox.Checked)
+                {
+                    if (!Checked_Addon_List.Any(item => item.Id == Convert.ToInt32(clickedCheckBox.Tag)))
+                    {
+                        Checked_Addon_List.Add(new CAddonlist
+                        {
+                            Id = Convert.ToInt32(clickedCheckBox.Tag),
+                            Pavid = 0,
+                            Cnames =  clickedCheckBox.Text
+                        });
+                    }
+                }
+                else
+                {
+                    CAddonlist itemToRemove = Checked_Addon_List.FirstOrDefault(item => item.Id == Convert.ToInt32(clickedCheckBox.Tag));
+                    if (itemToRemove != null)
+                    {
+                        Checked_Addon_List.Remove(itemToRemove);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+      
+        }
+
+
+        private void dgv_variation_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+
+            try
+            {
+                validatingInProgress = true;
+
+                if (dgv_variation.Rows[Prev_rowindex].Cells[Arowno].Value != "" && dgv_variation.Rows[Prev_rowindex].Cells[Arowno].Value != null)
+                {
+                    int r = Convert.ToInt32(dgv_variation.Rows[Prev_rowindex].Cells[Arowno].Value);
+                    string sizename = "txt_size" + r;
+                    TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
+                    string pricename = "txt_price" + r;
+                    TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
+
+                    DataGridViewTextBoxCell cell = dgv_variation[avariationno, Prev_rowindex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty)
+                    {
+                        CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        txtsize.Focus();
+                        e.Cancel = true;
+                    }
+
+                    DataGridViewTextBoxCell pricecell = dgv_variation[apriceno, Prev_rowindex] as DataGridViewTextBoxCell;
+                    if (pricecell.EditedFormattedValue.ToString() == "" || pricecell.EditedFormattedValue.ToString() == "." || pricecell.EditedFormattedValue.ToString() == string.Empty || pricecell.EditedFormattedValue.ToString() == "0")
+                    {
+                        txtprice.Enabled = false;
+                        CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        e.Cancel = true;
+                        txtprice.Focus();
+                        txtprice.Enabled = true;
+                        return;
+
+                    }
+                }
+            }
+            finally
+            {
+                validatingInProgress = false;
             }
         }
     }

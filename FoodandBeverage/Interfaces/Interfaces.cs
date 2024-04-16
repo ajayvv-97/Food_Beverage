@@ -220,4 +220,10 @@ namespace FoodandBeverage.Interfaces
         Normalcancel = 1,
         reservation_Order = 2
     };
+    public enum Product_Addon_Variation_Type
+    {
+
+        Variation = 1 ,
+        Addon = 2
+    };
 }

@@ -122,10 +122,10 @@ namespace FoodandBeverage.Forms
                         objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=3";
                         break;
                     case 4:
-                        objSearch.WhereNdGroupBy = "where status = 1";
+                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
                         break;
                     case 5:
-                        objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=5";
+                        objSearch.WhereNdGroupBy = "where status = 1";
                         break;
 
                 };
@@ -316,7 +316,7 @@ namespace FoodandBeverage.Forms
             {
                 chk_active.Checked = false;
                 btnsave.PerformClick();
-                Fillcategory(4);
+                Fillcategory(5);
             }
         }
 

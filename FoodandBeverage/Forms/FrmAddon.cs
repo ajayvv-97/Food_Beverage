@@ -85,7 +85,7 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "CategoryType,CategoryName";
+                objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = " tblCategory_FTI";
                 objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
                 objSearch.OrderBy = "";
@@ -258,7 +258,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnAddon> bllSearch = new BllSearch<DmnAddon>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "t.*,c.CategoryName";
-                objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.CategoryType=T.Fcid and c.status=1";
+                objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.Fcid=T.Fcid and c.status=1";
                 objSearch.WhereNdGroupBy = "where t.status in (1)";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);

@@ -8,14 +8,16 @@ namespace BLL
 {
     public class BllVariation
     {
-        public DmnVariation AddData(string procedureName, DmnVariation objTestClass)
+        public DmnAddonVariation AddData(string procedureName, DmnAddonVariation objTestClass)
         {
-            DAL.DapperRepository<DmnVariation> objDapperRepository = new DAL.DapperRepository<DmnVariation>();
+            DAL.DapperRepository<DmnAddonVariation> objDapperRepository = new DAL.DapperRepository<DmnAddonVariation>();
             DynamicParameters parms = new DynamicParameters();
-            parms.Add("Vid", objTestClass.Vid);
-            parms.Add("VariationType", objTestClass.VariationType);
+            parms.Add("Pavid", objTestClass.Pavid);
+            parms.Add("Caption", objTestClass.Caption);
             parms.Add("Price", objTestClass.Price);
             parms.Add("VariationCode", objTestClass.VariationCode);
+            parms.Add("Type", objTestClass.Type);
+            parms.Add("Aid", objTestClass.Aid); 
             parms.Add("ProductId", objTestClass.ProductId); ;
             parms.Add("ItemCode_UPC", objTestClass.ItemCode_UPC); 
             parms.Add("BranchId", objTestClass.BranchId); ;
