@@ -279,13 +279,25 @@ namespace FoodandBeverage.Forms
                 Prev_rowindex = 0;
                 Mandatory_Rowindex = 0;
 
-                for (int i = 1; i <dgv_variation.Rows.Count+1; i++)
+                #region Clear Variation   
+
+                for (int i = dgv_variation.Rows.Count-1; i >=0; i--)
                 {
-                    if (i != 1)
+                    string tlpname = "tlp_row_layout" + Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value);
+                    TableLayoutPanel tlp_row_layout = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                    if (tlp_row_layout != null)
                     {
-                        tlp_variation.RowStyles.RemoveAt(i);
+                        tlp_variation.Controls.Remove(tlp_row_layout);
+                        dgv_variation.Rows.RemoveAt(i);
                     }
                 }
+                int rowcount = tlp_variation.RowStyles.Count;
+                for (int i = 0; i < rowcount; i++)
+                {
+                    if(i!=0)
+                        tlp_variation.RowStyles.RemoveAt(1);
+                }
+                #endregion
 
                 chk_variation.Checked = false;
                 chk_addons.Checked = false;
@@ -2294,13 +2306,13 @@ namespace FoodandBeverage.Forms
                 tlp_regform_grid.VerticalScroll.Visible = false;
                 tlp_regform_grid.HorizontalScroll.Visible = true;
 
-                tlp_variation.SuspendLayout();
+                //tlp_variation.SuspendLayout();
                 tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
                 // Add TableLayoutPanel inside the panel
                 TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
                 tlp_row_layout.Name = "tlp_row_layout" + rowindex;
-               // tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
                 tlp_row_layout.Dock = DockStyle.Top;
                 tlp_row_layout.Height = 65;
                 tlp_row_layout.RowCount = 1;
@@ -2344,9 +2356,9 @@ namespace FoodandBeverage.Forms
                     textBox.Height = 30;
                     if (i == 0)
                     {
-                        textBox.AccessibleDescription = "Enter Variation Type.."; 
+                        textBox.AccessibleDescription = "Enter Variation Type..";
                     }
-                    else if (i ==1 )
+                    else if (i == 1)
                     {
                         textBox.AccessibleDescription = "Enter Price..";
                         textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
@@ -2684,6 +2696,7 @@ namespace FoodandBeverage.Forms
                         tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
                         tlp_variation.Dock = DockStyle.Top;
+
                         // Add TableLayoutPanel inside the panel
                         TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
                         tlp_row_layout.Name = "tlp_row_layout" + rowindex;
@@ -2796,7 +2809,7 @@ namespace FoodandBeverage.Forms
                             Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
                             lastControl.Focus();
                         }
-                        tlp_regform_grid.RowStyles[0].SizeType = SizeType.AutoSize;
+
                     }
                     else
                     {
@@ -2840,7 +2853,7 @@ namespace FoodandBeverage.Forms
                     tlp_addons.Dock = DockStyle.Top;
 
                     flp_addonlist.Name = "flp_addonlist";
-                    flp_addonlist.Dock = DockStyle.Fill;
+                    flp_addonlist.Dock = DockStyle.Top;
                     flp_addonlist.AutoSize = true;
 
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -2866,10 +2879,8 @@ namespace FoodandBeverage.Forms
                                 checkbox.CheckedChanged += Checkbox_CheckedChanged;
                                 flp_addonlist.Controls.Add(checkbox);
                             }
-                        }                       
-
+                        }                      
                     }
-
                     if (!tlp_addons.Controls.Contains(flp_addonlist))
                     {
                         tlp_addons.Controls.Add(flp_addonlist, 0, 1);
@@ -3028,38 +3039,42 @@ namespace FoodandBeverage.Forms
 
         public bool MandatoryCheck_variation()
         {
-            Color redcolor = ColorTranslator.FromHtml("#FF474D");
-
-            for (int i = 0; i < dgv_variation.RowCount; i++)
+            if(chk_variation.Checked)
             {
-                int r = Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value);
-                Mandatory_Rowindex = r;
-                string sizename = "txt_size" + r;
-                TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
-                string pricename = "txt_price" + r;
-                TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
+                Color redcolor = ColorTranslator.FromHtml("#FF474D");
 
-                if (Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == null || Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == "")
-                {                     
-                    txtsize.ForeColor = redcolor;
-                    txtsize.Text = "Enter Variation Type..";
-                    TextBox textBoxToBlink = txtsize; 
-                    CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    StartBlinking(textBoxToBlink);
-                    return false;
-                }    
-
-                if (Convert.ToString(dgv_variation.Rows[i].Cells[apriceno].Value)== "" || Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value) <=0)
+                for (int i = 0; i < dgv_variation.RowCount; i++)
                 {
-                    txtprice.ForeColor = redcolor;
-                    TextBox textBoxToBlink = txtprice;      
-                    txtprice.Text = "Enter Price..";
-                    CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    StartBlinking(textBoxToBlink);
-                    return false;
+                    int r = Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value);
+                    Mandatory_Rowindex = r;
+                    string sizename = "txt_size" + r;
+                    TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
+                    string pricename = "txt_price" + r;
+                    TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
+
+                    if (Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == null || Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == "")
+                    {
+                        txtsize.ForeColor = redcolor;
+                        txtsize.Text = "Enter Variation Type..";
+                        TextBox textBoxToBlink = txtsize;
+                        CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        StartBlinking(textBoxToBlink);
+                        return false;
+                    }
+
+                    if (Convert.ToString(dgv_variation.Rows[i].Cells[apriceno].Value) == "" || Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value) <= 0)
+                    {
+                        txtprice.ForeColor = redcolor;
+                        TextBox textBoxToBlink = txtprice;
+                        txtprice.Text = "Enter Price..";
+                        CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        StartBlinking(textBoxToBlink);
+                        return false;
+                    }
                 }
+              
             }
-            return true;
+              return true;
         }
 
         private void StartBlinking(TextBox textBox)

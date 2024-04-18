@@ -917,9 +917,6 @@
     <None Include="Resources\refresh_Button.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Closebutton.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\SaveButton.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1242,6 +1239,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\addon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Closebutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
