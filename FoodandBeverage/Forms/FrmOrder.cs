@@ -117,6 +117,16 @@ namespace FoodandBeverage.Forms
         public static int tbookingdetailsid = 5;
         public static int tbookingmasteridno = 6;
         public static int ttidno = 7;
+
+        public static int Vari_Add_ID_no = 0;
+        public static int avProductid_no = 1;
+        public static int Pavid_no = 2;
+        public static int pavid_Price_no = 3;
+        public static int aid_no = 4;
+        public static int aid_price_no = 5;
+        public static int av_qty_no = 6;
+        public static int av_totalprice_no = 7;
+        public static int av_status_no = 8;
         #endregion
 
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
@@ -184,6 +194,7 @@ namespace FoodandBeverage.Forms
 
         private Button previousClickedButton = null;
         public List<Variation_addon_List> Checked_VariationAddon_List = new List<Variation_addon_List>();
+        public int Global_ProductId = 0;
         #endregion
 
         #region please wait loading
@@ -1972,185 +1983,13 @@ namespace FoodandBeverage.Forms
                 return false;
             }
         }
-        public void ShowVariationAddon(int pid)
-        {
-            try
-            {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-
-                pnl_variation_addon.Visible = true;
-                pnl_variation_addon.Location = new Point(this.Width / 2 - pnl_variation_addon.Size.Width / 2, this.Height / 2 - pnl_variation_addon.Size.Height / 2);
-           
-                dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6";
-                dmnSearch.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1 ";
-                dmnSearch.WhereNdGroupBy = " where pav.Status=1 and ProductId= " + pid; //type= "+Convert.ToInt32(Product_Addon_Variation_Type.Variation) +" and
-                dmnSearch.OrderBy = "order by pav.pavid desc";
-                var gridSource_va = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource_va.Count > 0)
-                {
-                    bool variflag = true, addonflag = true;
-                    flp_addons.Controls.Clear();
-                    flp_variation.Controls.Clear();
-                    #region Variation 
-                    foreach (var item in gridSource_va)
-                    {
-                        if(Convert.ToInt32(item.Field6)==1)
-                        {
-                            Button button = new Button();
-                            button.Text = item.Field2;
-                            button.AutoSize = true;
-                            button.BackColor = ColorTranslator.FromHtml("#3f88c5");
-                            button.Name = "btnVariation_" + item.Field1;
-                            button.Tag = item.Field1;
-                            button.AccessibleDescription = item.Field3;
-                            button.Font = new System.Drawing.Font("Arial", 14, System.Drawing.FontStyle.Regular);
-                            button.Margin = new Padding(10, 20, 0, 20);
-                            button.Click += ButtonVariation_Click; 
-                            flp_variation.Controls.Add(button);
-                            variflag = false;
-                        }            
-                    }
-                    #endregion
-
-                    #region Addon
-                    foreach (var item in gridSource_va)
-                    {
-                        if (Convert.ToInt32(item.Field6) == 2)
-                        {
-                            // Create a sub-panel for each button
-                            Panel buttonPanel = new Panel();
-                            buttonPanel.BackColor = Color.Azure;
-
-                            // Create the button
-                            Button button = new Button();
-                            button.Text = item.Field2;
-                            button.AutoSize = true;
-                            button.BackColor = Color.Yellow;
-                            button.Name = "btnaddon_" + item.Field1;
-                            button.Tag = item.Field1;
-                            button.AccessibleDescription = item.Field5;
-                            button.Click += ButtonAddon_Click;
-
-                            // Create the label to display the count
-                            Label countLabel = new Label();
-                            countLabel.Text = "0";
-                            countLabel.AutoSize = true;
-                            countLabel.Dock = DockStyle.Top;
-                            countLabel.BackColor = Color.Blue;
-                            countLabel.TextAlign = ContentAlignment.MiddleRight;
-                            buttonPanel.Controls.Add(countLabel);
-                            countLabel.BringToFront();
-
-                            // Create the label to display the count
-                            Label countLabelded = new Label();
-                            countLabelded.Text = "0";
-                            countLabelded.AutoSize = true;
-                            countLabelded.Dock = DockStyle.Bottom;
-                            countLabelded.BackColor = Color.Blue;
-                            countLabelded.TextAlign = ContentAlignment.MiddleRight;
-                            buttonPanel.Controls.Add(countLabelded);
-                            countLabelded.BringToFront();
-
-                            // Add the button to the sub-panel
-                            buttonPanel.Controls.Add(button);
-
-                            // Set the sub-panel's size to accommodate the button and the count label
-                            buttonPanel.Size = new Size(button.Width, button.Height + countLabel.Height);
-                            flp_addons.Controls.Add(buttonPanel);
-                            addonflag = false;
-                        }
-                    }
-                    #endregion
-
-                    if (variflag)
-                    {
-                        label35.Visible = false;
-                        flp_variation.Visible = false;
-                    }
-                    else
-                    {
-                        label35.Visible = true;
-                        flp_variation.Visible = true;
-                    }
-
-                    if (addonflag)
-                    {
-                        label38.Visible = false;
-                        flp_addons.Visible = false;
-                    }
-                    else
-                    {
-                        label38.Visible = true;
-                        flp_addons.Visible = true;
-                    }
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        private void ButtonVariation_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Button clickedButton = (Button)sender;
-                string buttonText = clickedButton.Text;
-                string buttonTag = clickedButton.Tag.ToString();
-                string buttonDescription = clickedButton.AccessibleDescription;
-                if (previousClickedButton != null)
-                {
-                    previousClickedButton.BackColor = ColorTranslator.FromHtml("#3f88c5");
-                }
-                clickedButton.BackColor = Color.Red;
-                previousClickedButton = clickedButton;
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-        private void ButtonAddon_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Button clickedButton = (Button)sender;
-
-                // Find the count label associated with the clicked button
-                foreach (Control control in clickedButton.Parent.Controls)
-                {
-                    if (control is Label countLabel)
-                    {
-                        // Increment the count and update the label's text
-                        int count = int.Parse(countLabel.Text);
-                        count++;
-                        countLabel.Text = count.ToString();
-                        break; // Exit the loop once the count label is found and updated
-                    }
-                }
-                Checked_VariationAddon_List.Add(new Variation_addon_List
-                {
-                    Pavid =Convert.ToInt32(clickedButton.Tag),
-                    pId = 0,
-                });
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
 
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
             try
             {
                 Control clickedControl = sender as Control;
+                Global_ProductId = Convert.ToInt32(clickedControl.Tag);
                 tlp_seletedItem_main.AutoScroll = true;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -6907,6 +6746,7 @@ namespace FoodandBeverage.Forms
             tlp_food_cate.Visible = true;
             textb_shape();
             RFID_Status = false;
+            Checked_VariationAddon_List.Clear();
             if (OrderRunning_Status)
             {
                 Promodetailsid = 0;
@@ -9602,21 +9442,593 @@ namespace FoodandBeverage.Forms
         private void btn_va_close_Click(object sender, EventArgs e)
         {
             pnl_variation_addon.Visible = false;
+            Checked_VariationAddon_List.Clear();
         }
 
         private void btn_va_cancel_Click(object sender, EventArgs e)
         {
             pnl_variation_addon.Visible = false;
+            Checked_VariationAddon_List.Clear();
         }
 
         private void btn_va_ok_Click(object sender, EventArgs e)
         {
+            try
+            {
+                //string uniqueName =Convert.ToString(Guid.NewGuid());
 
-        }
+                //for (int i = 0; i < Checked_VariationAddon_List.Count; i++)
+                //{
+                //    var item = Checked_VariationAddon_List[i];
+                //    int rowIndex = dgv_aadon_variation.Rows.Add();
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[Vari_Add_ID_no].Value = uniqueName;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[avProductid_no].Value = item.Pid;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[Pavid_no].Value = item.Pavid;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[pavid_Price_no].Value = item.Price;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[aid_no].Value = item.Aid;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[aid_price_no].Value = item.Price;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[av_qty_no].Value = item.Qty;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[av_totalprice_no].Value = item.Qty * item.Price;
+                //    dgv_aadon_variation.Rows[rowIndex].Cells[av_status_no].Value = item.AVType;
+                //}
+                int vid = 0;
+                string combinedId = "";
+                var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
+                if (existingItem != null)
+                {
+                    int indexToUpdate = Checked_VariationAddon_List.IndexOf(existingItem);
+                    vid = Checked_VariationAddon_List[indexToUpdate].Pavid;
+                }
+
+                for (int i = 0; i < Checked_VariationAddon_List.Count; i++)
+                {
+                    var item = Checked_VariationAddon_List[i];
+                    if(item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                    {
+                          combinedId = combinedId+ $"_{item.Aid}";
+                    }
+
+                }
+                string Av_ID = vid + combinedId;
+                    //    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    //    DmnSearch dmnSearch = new DmnSearch();
+                    //    dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12,pav.Type Field13,pav.Caption Field14,pav.Price Field15,a.AddonName Field16,a.Price Field17";
+                    //    dmnSearch.Table = "tblProduct p " +
+                    //        " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                    //        " LEFT JOIN tblProduct_Addon_Variation pav on pav.ProductId=p.ProductId and pav.status=1"+
+                    //        " LEFT JOIN tblAddon a on a.Aid = pav.Aid and a.status = 1"+
+                    //        " LEFT JOIN tblOfferDetails ofd on ofd.ProductId=p.ProductId and ofd.status=1 " +
+                    //        " LEFT JOIN tblOfferMaster ofm on ofm.Omid=ofd.Omid and ofm.status=1 AND ofm.OfferType=0  AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()";
+                    //    dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.Status=1  and p.ProductId= " + Global_ProductId;
+                    //    dmnSearch.OrderBy = "";
+                    //    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    //    if (gridSource.Count > 0)
+                    //    {
+                    //        string tlpname = "tlp_seletedItem_col"+ clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
+                    //        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                    //        if (tlp_sele != null)
+                    //        {
+                    //            string txtname = "txtqty_";// + //clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
+                    //            TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
+                    //            int cur_qty = Convert.ToInt32(qty.Text) + 1;
+                    //            qty.Text = Convert.ToString(cur_qty);
+                    //            CalcTotalAmt_Add(Convert.ToInt32(tlp_sele.Tag), 1);
+                    //            tlp_sele.Focus();
+                    //            netAmount();
+                    //        }
+                    //        else
+                    //        {
+                    //            if (Booking_Status == false)
+                    //            {
+                    //                if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                    //                    txtGrandTotal.Text = "0";
+                    //            }
+
+                //            #region Grid Inseration
+                //            int exit_orderdetailid = 0;
+                //            if (gridSourcemaster.Count > 0)
+                //            {
+                //                for (int i = 0; i < gridSourcemaster.Count; i++)
+                //                {
+                //                    if (Convert.ToInt32(gridSourcemaster[i].Status) == 3
+                //                        && Convert.ToInt32(gridSourcemaster[i].PrId) == 0
+                //                        && Convert.ToInt32(gridSourcemaster[i].ItemId) == Convert.ToInt32(gridSource[0].Field5))
+                //                    {
+                //                        exit_orderdetailid = gridSourcemaster[i].OrderDetailsId;
+                //                        break;
+                //                    }
+                //                }
+                //            }
+
+                //            r1 = Dgv_Selected_Item.RowCount - 1;
+                //            Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
+                //            Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                //            Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);
+                //            Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = Convert.ToString(gridSource[0].Field1);
+                //            Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[0].Field2);
+                //            Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = "1";
+                //            Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = Convert.ToDecimal(gridSource[0].Field3);
+                //            Dgv_Selected_Item.Rows[r1].Cells[israte].Value = Convert.ToDecimal(gridSource[0].Field3);
+                //            Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = Convert.ToDecimal(gridSource[0].Field4);
+
+                //            if (Convert.ToDecimal(gridSource[0].Field10) > 0)
+                //                Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field10);
+                //            else
+                //                Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field12);
+
+                //            Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
+                //            Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[0].Field5);
+                //            Dgv_Selected_Item.Rows[r1].Cells[itax].Value = Convert.ToString(gridSource[0].Field6);
+                //            Dgv_Selected_Item.Rows[r1].Cells[itaxtype].Value = Convert.ToString(gridSource[0].Field7);
+                //            Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[0].Field8);
+                //            Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].Field9);
+                //            Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                //            Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
+                //            Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
+                //            Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 1;
+
+                //            if (gridSource[0].Field11 == null || gridSource[0].Field11 == "")
+                //                Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
+                //            else
+                //                Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = Convert.ToInt32(gridSource[0].Field11);
+
+                //            totalcellamount(r1);
+                //            Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
+                //            Dgv_Selected_Item.Rows.Add(1);
+                //            GridSlno_Refresh();
+
+                //            decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
+                //            txtGrandTotal.Text = Convert.ToString(totalamt);
+                //            txtnetamount.Text = Convert.ToString(totalamt);
+                //            #endregion
+                //            netAmount();
+
+                //            // Configure the TableLayoutPanel
+                //            TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
+                //            float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
+                //            for (int i = 0; i < columnPercentages.Length; i++)
+                //            {
+                //                tlp_seletedItem_col.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, columnPercentages[i]));
+                //            }
+
+                //            //tlp_seletedItem_col.Name = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
+                //            //tlp_seletedItem_col.Tag = clickedControl.Tag;
+                //            tlp_seletedItem_col.AccessibleDescription = "1";
+                //            tlp_seletedItem_col.Dock = DockStyle.Top;
+                //            tlp_seletedItem_col.BackColor = Color.LightBlue;
+                //            tlp_seletedItem_col.Height = 45;
+
+                //            // Configure the Button for Item name
+                //            Button buttonitemname = new Button();
+                //            buttonitemname.Text = gridSource[0].Field2;
+                //            buttonitemname.Name = "buttonitemname_" + gridSource[0].Field2 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            buttonitemname.AccessibleDescription = "1";
+                //            buttonitemname.Tag = gridSource[0].Field5; ;
+                //            buttonitemname.BackColor = Color.Beige;
+                //            buttonitemname.Height = 40;
+                //            buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
+                //            buttonitemname.Click += new EventHandler(buttonitemnameClickEventHandler);
+
+                //            // Configure the Button for add Qty
+                //            Button buttonAdd = new Button();
+                //            buttonAdd.Text = "+";
+                //            buttonAdd.Name = "buttonAdd_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            buttonAdd.Tag = gridSource[0].Field5;
+                //            buttonAdd.AccessibleDescription = "1";
+                //            buttonAdd.BackColor = Color.Beige;
+                //            buttonAdd.Margin = new Padding(0, 14, 0, 0);
+                //            buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
+                //            buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+
+                //            // Configure the textbox enter QTY
+                //            TextBox txtqty = new TextBox();
+                //            txtqty.Text = "1";
+                //            txtqty.Name = "txtqty_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            txtqty.Tag = gridSource[0].Field5;
+                //            txtqty.AccessibleDescription = "1";
+                //            txtqty.BackColor = Color.Beige;
+                //            txtqty.TextAlign = HorizontalAlignment.Center;
+                //            txtqty.Margin = new Padding(0, 14, 0, 0);
+                //            txtqty.Font = new Font(txtqty.Font.FontFamily, 8, FontStyle.Bold);
+                //            txtqty.Enabled = false;
+
+                //            // Configure the textbox enter QTY
+                //            Button buttonRemove = new Button();
+                //            buttonRemove.Text = "-";
+                //            buttonRemove.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            buttonRemove.Tag = gridSource[0].Field5;
+                //            buttonRemove.AccessibleDescription = "1";
+                //            buttonRemove.BackColor = Color.Beige;
+                //            buttonRemove.Margin = new Padding(0, 14, 0, 0);
+                //            buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
+                //            buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
+
+                //            // Configure the textbox Price
+                //            TextBox txtprice = new TextBox();
+                //            decimal F_price = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
+                //            txtprice.Text = Convert.ToString(F_price);
+                //            txtprice.Name = "txtprice_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            txtprice.Tag = gridSource[0].Field5;
+                //            txtprice.BackColor = Color.Beige;
+                //            txtprice.TextAlign = HorizontalAlignment.Center;
+                //            txtprice.Margin = new Padding(0, 14, 0, 0);
+                //            txtprice.Font = new Font(txtprice.Font.FontFamily, 8, FontStyle.Bold);
+                //            txtprice.Enabled = false;
+
+
+                //            // Configure Item Delete Button
+                //            PictureBox pb_item_delete = new PictureBox();
+                //            pb_item_delete.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
+                //            pb_item_delete.AccessibleDescription = "1";
+                //            pb_item_delete.Tag = gridSource[0].Field5;
+                //            pb_item_delete.BackColor = Color.Transparent;
+                //            pb_item_delete.Dock = DockStyle.Top;
+                //            pb_item_delete.Height = 40;
+                //            pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
+                //            pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
+                //            pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch    
+
+                //            //Dock Setting
+                //            tlp_seletedItem_col.Dock = DockStyle.Top;
+                //            buttonitemname.Dock = DockStyle.Top;
+                //            buttonAdd.Dock = DockStyle.Top;
+                //            txtqty.Dock = DockStyle.Fill;
+                //            buttonRemove.Dock = DockStyle.Top;
+                //            txtprice.Dock = DockStyle.Fill;
+
+                //            // Get the current row count
+                //            currentRowCount = tlp_seletedItem_col.RowCount;
+
+                //            // Add controls to TableLayoutPanel at the next row
+                //            tlp_seletedItem_col.Controls.Add(buttonitemname, 0, currentRowCount);
+                //            tlp_seletedItem_col.Controls.Add(buttonAdd, 1, currentRowCount);
+                //            tlp_seletedItem_col.Controls.Add(txtqty, 2, currentRowCount);
+                //            tlp_seletedItem_col.Controls.Add(buttonRemove, 3, currentRowCount);
+                //            tlp_seletedItem_col.Controls.Add(txtprice, 4, currentRowCount);
+                //            tlp_seletedItem_col.Controls.Add(pb_item_delete, 5, currentRowCount);
+
+                //            // Increment the row count
+                //            tlp_seletedItem_col.RowCount = currentRowCount + 1;
+                //            // Add the new TableLayoutPanel to tlp_seletedItem_main
+                //            tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
+                //            tlp_seletedItem_col.Focus();
+                //            checksave_refresh();
+                //        }
+                //    }
+            }
+            catch (Exception ex)
+                {
+
+                }
+            }
         public class Variation_addon_List
         {
-            public int pId { get; set; }
             public int Pavid { get; set; }
+            public int Pid { get; set; }
+            public int Vid { get; set; }
+            public int Aid { get; set; }
+            public decimal Qty { get; set; }
+            public decimal Price { get; set; }
+            public int AVType { get; set; }
         }
+        public void ShowVariationAddon(int pid)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                pnl_variation_addon.Visible = true;
+                pnl_variation_addon.Location = new Point(this.Width / 2 - pnl_variation_addon.Size.Width / 2, this.Height / 2 - pnl_variation_addon.Size.Height / 2);
+
+                dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7";
+                dmnSearch.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1 ";
+                dmnSearch.WhereNdGroupBy = " where pav.Status=1 and ProductId= " + pid; //type= "+Convert.ToInt32(Product_Addon_Variation_Type.Variation) +" and
+                dmnSearch.OrderBy = "order by pav.pavid desc";
+                var gridSource_va = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource_va.Count > 0)
+                {
+                    bool variflag = true, addonflag = true;
+                    flp_addons.Controls.Clear();
+                    flp_variation.Controls.Clear();
+                    #region Variation 
+                    foreach (var item in gridSource_va)
+                    {
+                        if (Convert.ToInt32(item.Field6) == 1)
+                        {
+                            Button button = new Button();
+                            button.Text = item.Field2;
+                            button.AutoSize = true;
+                            button.Height = 40;
+                            button.BackColor = ColorTranslator.FromHtml("#3f88c5");
+                            button.Name = "btnVariation_" + item.Field1;
+                            button.Tag = item.Field1;
+                            button.AccessibleDescription = item.Field3;
+                            button.Font = new System.Drawing.Font("Arial", 14, System.Drawing.FontStyle.Regular);
+                            button.Margin = new Padding(10, 5, 0, 20);
+                            button.Click += ButtonVariation_Click;
+                            flp_variation.Controls.Add(button);
+                            variflag = false;
+                        }
+                    }
+                    #endregion
+
+                    #region Addon
+                    foreach (var item in gridSource_va)
+                    {
+                        if (Convert.ToInt32(item.Field6) == 2)
+                        {
+                            TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
+
+                            tlp_selected_Item_Box.Name = "tlp_addon_" + item.Field1;
+                            tlp_selected_Item_Box.AccessibleDescription = "1";
+                            tlp_selected_Item_Box.Tag = item.Field1;
+                            tlp_selected_Item_Box.AutoSize = true;
+                            //tlp_selected_Item_Box.Width = 220;
+                            tlp_selected_Item_Box.Height = 30;
+                            tlp_selected_Item_Box.ColumnCount = 4;
+                            tlp_selected_Item_Box.BorderStyle = BorderStyle.None;
+                            tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
+
+                            tlp_selected_Item_Box.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); 
+                            tlp_selected_Item_Box.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); 
+                            tlp_selected_Item_Box.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); 
+                            tlp_selected_Item_Box.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); 
+
+                            //Item Button   
+                            Button Button_Item = new Button();
+                            Button_Item.Text = item.Field2;
+                            Button_Item.Name = "btn_addon_" + item.Field1;
+                            Button_Item.Tag = item.Field1;
+                            Button_Item.AccessibleDescription = item.Field5;
+                            Button_Item.AutoSize = true;
+                            //Button_Item.Width = 150;
+                            Button_Item.Height = 20;
+                            Button_Item.FlatAppearance.BorderSize = 0;
+                            Button_Item.FlatAppearance.BorderColor = Button_Item.BackColor;
+                            Button_Item.FlatStyle = FlatStyle.Flat;
+                            Button_Item.BackColor = Color.White;
+                            Button_Item.Click += new EventHandler(Button_addonaddClickEventHandler);
+                            Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
+                            tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
+
+                            // Creating the label for the Qty
+                            Label label = new Label();
+                            label.Text = "0";  
+                            label.Name = "lbl_addon_qty_" + item.Field1;
+                            label.Tag = item.Field1;
+                            label.AutoSize = true;
+                            label.Dock = DockStyle.Fill;
+                            label.ForeColor = Color.White;
+                            label.TextAlign = ContentAlignment.MiddleCenter;
+                            label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
+                            label.Visible = false;
+                            tlp_selected_Item_Box.Controls.Add(label, 1, 0);
+
+                            //Remove Button
+                            Button Button_Remove = new Button();
+                            Button_Remove.Text = "-";
+                            Button_Remove.Name = "btn_addon_remqty_" + item.Field1;
+                            Button_Remove.AccessibleDescription = "1";
+                            Button_Remove.Tag = item.Field1;
+                            Button_Remove.AutoSize = true;
+                            //Button_Remove.Width = 20;
+                            Button_Remove.Height = 30;
+                            Button_Remove.Dock = DockStyle.Fill;
+                            Button_Remove.FlatAppearance.BorderSize = 0;
+                            Button_Remove.FlatAppearance.BorderColor = Button_Remove.BackColor;
+                            Button_Remove.FlatStyle = FlatStyle.Flat;
+                            Button_Remove.BackColor = Color.White;
+                            Button_Remove.Click += new EventHandler(Button_Remove_addonqtyClickEventHandler);
+                            Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
+                            Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, 50,50));
+                            tlp_selected_Item_Box.Controls.Add(Button_Remove, 2, 0);
+                            flp_addons.Controls.Add(tlp_selected_Item_Box);
+                            //tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
+                            addonflag = false;
+                        }
+                    }
+
+                    #endregion
+
+
+                    if (variflag)
+                    {
+                        label35.Visible = false;
+                        flp_variation.Visible = false;
+                    }
+                    else
+                    {
+                        label35.Visible = true;
+                        flp_variation.Visible = true;
+                    }
+
+                    if (addonflag)
+                    {
+                        label38.Visible = false;
+                        flp_addons.Visible = false;
+                    }
+                    else
+                    {
+                        label38.Visible = true;
+                        flp_addons.Visible = true;
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void Button_addonaddClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                string tlpname = "tlp_addon_" + clickedControl.Tag;
+                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+
+                if (tlp_sele != null)
+                {
+                    Label lblqty = tlp_sele.Controls.Find("lbl_addon_qty_" + clickedControl.Tag, true).FirstOrDefault() as Label;
+                    if (lblqty != null)
+                    {
+                        if (lblqty.Text == "0")
+                        {
+                            lblqty.Visible = true;
+                            lblqty.Text = "1";
+
+                            Checked_VariationAddon_List.Add(new Variation_addon_List
+                            {
+                                Pid = Global_ProductId,
+                                Vid = 0,
+                                Aid = Convert.ToInt32(clickedControl.Tag),
+                                Pavid = Convert.ToInt32(clickedControl.Tag),
+                                Qty = 1,
+                                Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
+                                AVType = Convert.ToInt32(Product_Addon_Variation_Type.Addon),
+                            });
+                        }
+                        else
+                        {
+                            int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                            lblqty.Text = Convert.ToString(cur_qty);
+                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                            int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
+                            Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
+                        }
+                        Button btnrem = tlp_sele.Controls.Find("btn_addon_remqty_" + clickedControl.Tag, true).FirstOrDefault() as Button;
+                        //btnrem.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnrem.Width, btnrem.Height, btnrem.Width, btnrem.Height));
+                        btnrem.Dock = DockStyle.Right;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        private void Button_Remove_addonqtyClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clickedControl = sender as Control;
+                string tlpname = "tlp_addon_" + clickedControl.Tag;
+                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+
+                if (tlp_sele != null)
+                {
+                    Label lblqty = tlp_sele.Controls.Find("lbl_addon_qty_" + clickedControl.Tag, true).FirstOrDefault() as Label;
+                    if (lblqty != null)
+                    {
+                        int cur_qty = Convert.ToInt32(lblqty.Text);
+                        if (cur_qty > 0)
+                        {
+                            cur_qty--;
+                            lblqty.Text = Convert.ToString(cur_qty);
+                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                            if(existingItem!=null)
+                            {
+                            int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
+                            Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
+                            }
+
+                        }
+                        if (cur_qty == 0)
+                        {
+                            lblqty.Visible = false;
+                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                            if (existingItem != null)                            
+                                Checked_VariationAddon_List.Remove(existingItem);
+                        }
+                            
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        private void ButtonVariation_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Button clickedControl = (Button)sender;
+                if (previousClickedButton != null)
+                {
+                    previousClickedButton.BackColor = ColorTranslator.FromHtml("#3f88c5");
+                }
+                clickedControl.BackColor = Color.Red;
+                previousClickedButton = clickedControl;
+                var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
+                if (existingItem != null)
+                {
+                    int indexToUpdate = Checked_VariationAddon_List.IndexOf(existingItem);
+                    Checked_VariationAddon_List[indexToUpdate] = new Variation_addon_List
+                    {
+                        Pid = Global_ProductId,
+                        Vid = Convert.ToInt32(previousClickedButton.Tag),
+                        Aid = Convert.ToInt32(clickedControl.Tag),
+                        Pavid = Convert.ToInt32(clickedControl.Tag),
+                        Qty = 1,
+                        Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
+                        AVType = Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                    };
+                }
+                else
+                {
+                    Checked_VariationAddon_List.Add(new Variation_addon_List
+                    {
+                        Pid = Global_ProductId,
+                        Vid = Convert.ToInt32(previousClickedButton.Tag),
+                        Aid = Convert.ToInt32(clickedControl.Tag),
+                        Pavid = Convert.ToInt32(clickedControl.Tag),
+                        Qty = 1,
+                        Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
+                        AVType = Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                    });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        private void ButtonAddon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Button clickedButton = (Button)sender;
+
+                // Find the count label associated with the clicked button
+                foreach (Control control in clickedButton.Parent.Controls)
+                {
+                    if (control is Label countLabel)
+                    {
+                        // Increment the count and update the label's text
+                        int count = int.Parse(countLabel.Text);
+                        count++;
+                        countLabel.Text = count.ToString();
+                        break; // Exit the loop once the count label is found and updated
+                    }
+                }
+                //Checked_VariationAddon_List.Add(new Variation_addon_List
+                //{
+                //    Pavid = Convert.ToInt32(clickedButton.Tag),
+                //    pId = 0,
+                //});
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
     }
 }
