@@ -302,6 +302,9 @@ namespace FoodandBeverage.Forms
                 chk_variation.Checked = false;
                 chk_addons.Checked = false;
                 SerachFlag = false;
+
+                txtmrp.Enabled = true;
+                txtprice.Enabled = true;
             }
             catch(Exception ex)
             {
@@ -326,13 +329,13 @@ namespace FoodandBeverage.Forms
                 txtproductname.Focus();
                 return false;
             }
-            else if (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) <= 0)
+            else if ( (txtprice.Text == "" || txtprice.Text == null || Convert.ToDecimal(txtprice.Text) <= 0) && chk_variation.Checked==false)
             {
                 CMessageBox.Show("Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtprice.Focus();
                 return false;
             }
-            else if (txtmrp.Text == "" || txtmrp.Text == null || Convert.ToDecimal(txtmrp.Text) <= 0)
+            else if ((txtmrp.Text == "" || txtmrp.Text == null || Convert.ToDecimal(txtmrp.Text) <= 0) && chk_variation.Checked == false)
             {
                 CMessageBox.Show("Please Enter MRP", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtmrp.Focus();
@@ -2677,6 +2680,12 @@ namespace FoodandBeverage.Forms
                 {
                     if (chk_variation.Checked)
                     {
+                        txtmrp.Enabled = false;
+                        txtprice.Enabled = false;
+
+                        txtmrp.Text = "0";
+                        txtprice.Text = "0";
+
                         for (int i = 0; i < tlp_variation.RowStyles.Count; i++)
                         {
                             if (i != 0)
@@ -2813,6 +2822,8 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
+                        txtmrp.Enabled = true;
+                        txtprice.Enabled = true;
                         pb_addon.Visible = false;
                         for (int i = 0; i < tlp_variation.RowStyles.Count; i++)
                         {

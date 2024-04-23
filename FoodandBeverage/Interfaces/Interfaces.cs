@@ -223,7 +223,7 @@ namespace FoodandBeverage.Interfaces
     };
     public enum Product_Addon_Variation_Type
     {
-        Variation = 1 ,
+        Variation = 1,
         Addon = 2
     };
 }

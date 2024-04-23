@@ -51,9 +51,9 @@ namespace Domain
         public int KOTPrintStatus { get; set; }
         public string TableCode { get; set; }
         public string OrderCancelNotes { get; set; }
-
-
-    }
-    
-
+        public int Pavid { get; set; }
+        public int AddonStatus { get; set; }
+        public string AV_id { get; set; }       
+           
+    } 
 }

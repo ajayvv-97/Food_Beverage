@@ -162,13 +162,14 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2";
                 dmnSearch.Table = " tblkitchenOrder ";
-                dmnSearch.WhereNdGroupBy = "where status in(1,2)";
+                dmnSearch.WhereNdGroupBy = "where status in(1,2)  and AddonStatus in(1,0) ";
                 dmnSearch.OrderBy = "order by koid DESC";
                 var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSourcemaster.Count > 0)
                 {
                     //pnl_empty_msg.Visible = false;
                     //flp_order_view.Visible = false;
+
                     var distinctOrders = gridSourcemaster
                        .GroupBy(order => new { order.Field1, order.Field2 })
                        .Select(group => group.First())
@@ -186,7 +187,6 @@ namespace FoodandBeverage.Forms
                             control.Dispose();
                         }
                     }
-
                     //flp_order_view.Controls.Clear();
                     foreach (var orders in distinctOrders)
                     {
@@ -197,7 +197,7 @@ namespace FoodandBeverage.Forms
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
                             "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
-                        dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
+                        dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2 + " and ko.AddonStatus in(1,0)";
                         dmnSearch.OrderBy = "order by ko.koid DESC";
                         var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
                         if(gridSourcedetails.Count>0)
