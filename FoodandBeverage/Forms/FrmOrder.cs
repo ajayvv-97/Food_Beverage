@@ -77,17 +77,16 @@ namespace FoodandBeverage.Forms
         public static int iigstamtno = 25;
         public static int ivatamtno = 26;
         public static int iorderdetailsidno = 27;
-        public static int iofferstatus = 28;
+        public static int isubofferstatus = 28;
         public static int ioriginalprice = 29;
         public static int isubofferid = 30;
         public static int itabletype = 31;
-        public static int ioffertype = 32;
-        public static int iorderdescno = 33;
-        public static int ioriginalqty = 34;
-        public static int iavid = 35;
-        public static int ivaraiationstatusno = 36;
-        public static int ipavidno = 37;
-
+        public static int iorderdescno = 32;
+        public static int ioriginalqty = 33;
+        public static int iavid = 34;
+        public static int ivaraiationstatusno = 35;
+        public static int ipavidno = 36;
+        public static int iMainProductStatusno = 37;  
 
         public static int vname = 0;
         public static int ciunit = 1;
@@ -995,8 +994,9 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[i].ProductType);
                                     //Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].tax);
                                     Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                     Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                                    Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
+                                    Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                     Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(gridSource[i].TableType);
                                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(gridSource[i].MarketPrice);
 
@@ -1663,9 +1663,10 @@ namespace FoodandBeverage.Forms
                             dgv_exitsting_product.Rows[r].Cells[itype].Value = Convert.ToInt32(gridSourcemaster[i].ProductType);
                             //dgv_exitsting_product.Rows[i].Cells[itaxsettingid].Value = Convert.ToInt32(gridSourcemaster[i].);
                             dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
+                            dgv_exitsting_product.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                             dgv_exitsting_product.Rows[r].DefaultCellStyle.BackColor = Color.White;
-                            dgv_exitsting_product.Rows[r].Cells[iofferstatus].Value = 0;
-                            dgv_exitsting_product.Rows[r].Cells[itabletype].Value = 1;
+                            dgv_exitsting_product.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                            dgv_exitsting_product.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
                             totalcellamount_exit_product(r);
                             dgv_exitsting_product.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(dgv_exitsting_product.Rows[r].Cells[itotal].Value);
                             r = r + 1;
@@ -1696,9 +1697,10 @@ namespace FoodandBeverage.Forms
                             //dgv_exitsting_product.Rows[i].Cells[itaxsettingid].Value = gridSourcemaster[i].Field14;
                             dgv_exitsting_product.Rows[r].Cells[ipridno].Value = gridSourcemaster[i].PrId;
                             dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
+                            dgv_exitsting_product.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                             dgv_exitsting_product.Rows[r].DefaultCellStyle.BackColor = Color.White;
-                            dgv_exitsting_product.Rows[r].Cells[iofferstatus].Value = 0;
-                            dgv_exitsting_product.Rows[r].Cells[itabletype].Value = 2;
+                            dgv_exitsting_product.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                            dgv_exitsting_product.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
                             totalcellamount_exit_product(r);
                             dgv_exitsting_product.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(dgv_exitsting_product.Rows[r].Cells[itotal].Value);
                             r = r + 1;
@@ -1729,10 +1731,11 @@ namespace FoodandBeverage.Forms
                                 dgv_exitsting_product.Rows[r].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field6);
                                 dgv_exitsting_product.Rows[r].Cells[iitemid].Value = Convert.ToInt32(gridSourcemaster[i].ItemId);
                                 dgv_exitsting_product.Rows[r].Cells[iproducttypeno].Style.Font = new Font("Arial", 12, FontStyle.Bold);
+                                dgv_exitsting_product.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                 dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
-                                dgv_exitsting_product.Rows[r].Cells[iofferstatus].Value = 0;
+                                dgv_exitsting_product.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                 dgv_exitsting_product.Rows[r].Cells[isubofferid].Value = 0;
-                                dgv_exitsting_product.Rows[r].Cells[itabletype].Value = 3;
+                                dgv_exitsting_product.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
                                 dgv_exitsting_product.Rows[r].DefaultCellStyle.BackColor = Color.DarkGray;
                                 totalcellamount_exit_product(r);
                                 dgv_exitsting_product.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(dgv_exitsting_product.Rows[r].Cells[itotal].Value);
@@ -1752,7 +1755,8 @@ namespace FoodandBeverage.Forms
                                     dgv_exitsting_product.Rows[r].Cells[idisamt].Value = "0";
                                     dgv_exitsting_product.Rows[r].Cells[itype].Value = 0;
                                     dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
-                                    dgv_exitsting_product.Rows[r].Cells[iofferstatus].Value = 1;
+                                    dgv_exitsting_product.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Secondary);
+                                    dgv_exitsting_product.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.Enable);
                                     dgv_exitsting_product.Rows[r].Cells[isubofferid].Value = Convert.ToInt32(gridSource[0].Id);
                                     dgv_exitsting_product.Rows[r].DefaultCellStyle.BackColor = Color.OliveDrab;
                                     #endregion
@@ -1797,7 +1801,6 @@ namespace FoodandBeverage.Forms
                             columnIndex = 0;
                             rowIndex++;
                         }
-
                         // Main Panel for each product
                         Panel panelProductBox = new Panel();
                         panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
@@ -2079,15 +2082,10 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[0].Field8);
                                 Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].Field9);
                                 Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                                Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                 Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                                Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 1;
-
-                                if (gridSource[0].Field11 == null || gridSource[0].Field11 == "")
-                                    Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
-                                else
-                                    Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = Convert.ToInt32(gridSource[0].Field11);
-
+                                Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
                                 totalcellamount(r1);
                                 Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
                                 Dgv_Selected_Item.Rows.Add(1);
@@ -2171,7 +2169,6 @@ namespace FoodandBeverage.Forms
                                 txtprice.Font = new Font(txtprice.Font.FontFamily, 8, FontStyle.Bold);
                                 txtprice.Enabled = false;
 
-
                                 // Configure Item Delete Button
                                 PictureBox pb_item_delete = new PictureBox();
                                 pb_item_delete.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
@@ -2228,7 +2225,7 @@ namespace FoodandBeverage.Forms
                 int i = 1;
                 for (int j = 0; j < Dgv_Selected_Item.RowCount; j++)
                 {
-                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[iofferstatus].Value) == 0 && Dgv_Selected_Item.Rows[j].Cells[iofferstatus].Value != null)
+                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value) == 0 && Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value != null)
                     {
                         Dgv_Selected_Item.Rows[j].Cells[islno].Value = i;
                         i = i + 1;
@@ -2289,11 +2286,10 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[0].Id);
                         Dgv_Selected_Item.Rows[r1].Cells[iproducttypeno].Style.Font = new Font("Arial", 12, FontStyle.Bold);
                         Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
-                        Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
+                        Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
+                        Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                         Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = 0;
                         Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
-                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 1;
-
                         Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.DarkGray;
                         Dgv_Selected_Item.Rows.Add(1);
                         totalcellamount(r1);
@@ -2321,10 +2317,10 @@ namespace FoodandBeverage.Forms
                             //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field9);
                             //else
                             //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field8);
-
                             Dgv_Selected_Item.Rows[r1].Cells[itype].Value = 0;
                             Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
-                            Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 1;
+                            Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Secondary);
+                            Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.Enable);
                             Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = Convert.ToInt32(gridSource[0].Id);
                             Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.OliveDrab;
                             Dgv_Selected_Item.Rows.Add(1);
@@ -2615,12 +2611,10 @@ namespace FoodandBeverage.Forms
                                 if (Checkoffer(id))
                                 {
                                     Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSource_offer[0].Field10;
-                                    Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 0;
                                 }
                                 else
                                 {
                                     Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSourceDetails[0].Field16;
-                                    Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
                                 }
                                 Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
                                 Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = gridSourceDetails[0].Field2;
@@ -2630,9 +2624,10 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = gridSourceDetails[0].Field14;
                                 Dgv_Selected_Item.Rows[r1].Cells[ipridno].Value = gridSourceDetails[0].Field15;
                                 Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                                Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                 Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                                Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                                Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
                                 Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSourceDetails[0].Field17;
 
                                 totalcellamount(r1);
@@ -2835,7 +2830,6 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-
                     #region Grid Inseration
                     r1 = Dgv_Selected_Item.RowCount - 1;
                     Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
@@ -2853,13 +2847,12 @@ namespace FoodandBeverage.Forms
                     if (Checkoffer(Convert.ToInt32(gridSource[0].Field2)))
                     {
                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSource_offer[0].Field10;
-                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 0;
                     }
                     else
                     {
-                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = "0";
                     }
+
                     Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
                     Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = gridSource[0].Field2;
                     Dgv_Selected_Item.Rows[r1].Cells[itax].Value = gridSource[0].Field7;
@@ -2868,14 +2861,14 @@ namespace FoodandBeverage.Forms
                     Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].Field14;
                     Dgv_Selected_Item.Rows[r1].Cells[ipridno].Value = gridSource[0].Field15;
                     Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                    Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                     Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                    Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                    Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSource[0].Field10;
 
                     totalcellamount(r1);
                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
-
 
                     decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
                     txtGrandTotal.Text = Convert.ToString(totalamt);
@@ -3021,7 +3014,7 @@ namespace FoodandBeverage.Forms
                     dgv_exitsting_product.Rows[cellproductid].Cells[iamount].Value = amount.ToString("N2");
 
                     //cellDiscountPercentage(cellproductid);
-                    if (Convert.ToInt32(dgv_exitsting_product.Rows[cellproductid].Cells[itabletype].Value) != 3)
+                    if (Convert.ToInt32(dgv_exitsting_product.Rows[cellproductid].Cells[itabletype].Value) != Convert.ToInt32(Tabletype.ComboProduct))
                         cellDiscountAmount(cellproductid);
 
                     decimal discount = Convert.ToDecimal(dgv_exitsting_product.Rows[cellproductid].Cells[idisamt].Value);
@@ -3056,7 +3049,7 @@ namespace FoodandBeverage.Forms
                     Dgv_Selected_Item.Rows[cellproductid].Cells[iamount].Value = amount.ToString("N2");
 
                     //cellDiscountPercentage(cellproductid);
-                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[cellproductid].Cells[itabletype].Value) != 3)
+                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[cellproductid].Cells[itabletype].Value) != Convert.ToInt32(Tabletype.ComboProduct) )
                     {
                         cellDiscountAmount(cellproductid);
 
@@ -3495,7 +3488,7 @@ namespace FoodandBeverage.Forms
                     int rowno = 0;
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-                        if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 2)
+                        if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale) )
                         {
                             decimal cqoh = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
@@ -3615,7 +3608,7 @@ namespace FoodandBeverage.Forms
                         int n = Dgv_Selected_Item.RowCount - 1;
                         for (int i = 0; i < n; i++)
                         {
-                            if (combid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                            if (combid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                             {
                                 decimal TotalPrice = Convert.ToDecimal(Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value)) * Convert.ToDecimal(totalqty.Text);
                                 decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
@@ -3679,7 +3672,7 @@ namespace FoodandBeverage.Forms
                     }
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-                        if (combid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                        if (combid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) )
                         {
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
@@ -3721,7 +3714,7 @@ namespace FoodandBeverage.Forms
                     }
                     for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                     {
-                        if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 1)
+                        if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product))
                         {
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
@@ -3769,9 +3762,7 @@ namespace FoodandBeverage.Forms
                         for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product))
-                            {
-                                //if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioffertype].Value) == 0)
-                                //{                                 
+                            {                                      
                                 decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToDecimal(totalqty.Text);
                                 decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                                 txtGrandTotal.Text = Convert.ToString(totalamt);
@@ -3780,18 +3771,6 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Update();
                                 int l = Dgv_Selected_Item.RowCount;
                                 break;
-                                //}
-                                //else
-                                //{
-                                //    decimal disAmnt = (Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisper].Value) * Convert.ToDecimal(gridSource[0].Price)) / 100;
-                                //    decimal F_price = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) - disAmnt;
-                                //    decimal TotalPrice = F_price * Convert.ToDecimal(totalqty.Text);
-                                //    decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
-                                //    txtGrandTotal.Text = Convert.ToString(totalamt);
-                                //    txtnetamount.Text = Convert.ToString(totalamt);
-                                //    Dgv_Selected_Item.Rows.RemoveAt(i);
-                                //    break;
-                                //}
                             }
                         }
 
@@ -3811,19 +3790,8 @@ namespace FoodandBeverage.Forms
                                 break;
                             }
                         }
-                        //if (Convert.ToInt32( Dgv_Selected_Item.Rows[rowno].Cells[ioffertype].Value) == 0)
-                        //{
                         totalamt = Convert.ToDecimal(txtGrandTotal.Text) - Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value);
                         txtGrandTotal.Text = Convert.ToString(totalamt);
-                        //}
-                        //else
-                        //{
-                        //    decimal disAmnt = (Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[idisper].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value)) / 100;
-                        //    decimal F_price = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) - disAmnt;
-                        //    totalamt = Convert.ToDecimal(txtGrandTotal.Text) - F_price;
-                        //    txtGrandTotal.Text = Convert.ToString(totalamt);
-                        //}
-
                     }
                     checksave_refresh();
                 }
@@ -5427,12 +5395,10 @@ namespace FoodandBeverage.Forms
                                     if (Checkoffer(Convert.ToInt32(gridSource[0].Field2)))
                                     {
                                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSource_offer[0].Field10;
-                                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 0;
                                     }
                                     else
                                     {
                                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = gridSourceDetails[0].Field16;
-                                        Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
                                     }
                                     Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
                                     Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = gridSourceDetails[0].Field2;
@@ -5442,9 +5408,10 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = gridSourceDetails[0].Field14;
                                     Dgv_Selected_Item.Rows[r1].Cells[ipridno].Value = gridSourceDetails[0].Field15;
                                     Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                                    Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                     Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                                    Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 2;
+                                    Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale); 
                                     Dgv_Selected_Item.Rows[r1].Cells[ioriginalqty].Value = gridSourceDetails[0].Field17;
 
                                     totalcellamount(r1);
@@ -6478,7 +6445,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
                                     dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -6543,7 +6510,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
                                     dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) )
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -6662,12 +6629,16 @@ namespace FoodandBeverage.Forms
         }
         public void totQty()
         {
-            int sum = 0;
+            decimal sum = 0;
             int n = Dgv_Selected_Item.RowCount;
             for (int i = 0; i < n; i++)
             {
                 if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != "")
-                    sum = sum + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                {
+                    if ((Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary)))
+                        sum = sum + Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);                    
+                }
+
             }
             txttotalQTY.Text = Convert.ToString(sum);
         }
@@ -8891,7 +8862,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
                                     dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -8951,12 +8922,12 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0)
+                                if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferstatus].Value) == Convert.ToInt32(SubofferStatus.None))
                                 {
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
                                     dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == 3)
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) )
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -9539,9 +9510,7 @@ namespace FoodandBeverage.Forms
                         if (pid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
                         {
                             if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation))
-                            {
-                                //if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioffertype].Value) == 0)
-                                //{                                 
+                            {                            
                                 decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToDecimal(totalqty.Text);
                                 decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                                 txtGrandTotal.Text = Convert.ToString(totalamt);
@@ -9707,16 +9676,12 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[0].Field8);
                         Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].Field9);
                         Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                        Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                         Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                        Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                        Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 1;
+                        Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                        Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
                         Dgv_Selected_Item.Rows[r1].Cells[iavid].Value = Av_ID;
                         Dgv_Selected_Item.Rows[r1].Cells[ivaraiationstatusno].Value =Convert.ToInt32(Product_Addon_Variation_Type.Variation);
-
-                        if (gridSource[0].Field11 == null || gridSource[0].Field11 == "")
-                            Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = 3;
-                        else
-                            Dgv_Selected_Item.Rows[r1].Cells[ioffertype].Value = Convert.ToInt32(gridSource[0].Field11);
 
                         Dgv_Selected_Item.Rows.Add(1);
                         GridSlno_Refresh();   
@@ -9747,12 +9712,9 @@ namespace FoodandBeverage.Forms
 
                                 Dgv_Selected_Item.Rows[r1].Cells[itype].Value = 0;
                                 Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
-                                Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 1;
-
-                                Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
-                                Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
-                                Dgv_Selected_Item.Rows[r1].Cells[iofferstatus].Value = 0;
-                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = 1;
+                                Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                                Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Secondary);;
+                                Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product); 
 
                                 Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = 0;
                                 Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.OliveDrab;

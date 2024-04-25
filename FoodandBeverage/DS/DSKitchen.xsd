@@ -21,6 +21,9 @@
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" minOccurs="0" />
               <xs:element name="TableCode" msprop:Generator_ColumnVarNameInTable="columnTableCode" msprop:Generator_ColumnPropNameInRow="TableCode" msprop:Generator_ColumnPropNameInTable="TableCodeColumn" msprop:Generator_UserColumnName="TableCode" type="xs:string" minOccurs="0" />
               <xs:element name="OrderMasterId" msprop:Generator_ColumnVarNameInTable="columnOrderMasterId" msprop:Generator_ColumnPropNameInRow="OrderMasterId" msprop:Generator_ColumnPropNameInTable="OrderMasterIdColumn" msprop:Generator_UserColumnName="OrderMasterId" type="xs:int" minOccurs="0" />
+              <xs:element name="AddonStatus" msprop:Generator_ColumnVarNameInTable="columnAddonStatus" msprop:Generator_ColumnPropNameInRow="AddonStatus" msprop:Generator_ColumnPropNameInTable="AddonStatusColumn" msprop:Generator_UserColumnName="AddonStatus" type="xs:int" minOccurs="0" />
+              <xs:element name="AV_id" msprop:Generator_ColumnVarNameInTable="columnAV_id" msprop:Generator_ColumnPropNameInRow="AV_id" msprop:Generator_ColumnPropNameInTable="AV_idColumn" msprop:Generator_UserColumnName="AV_id" type="xs:string" minOccurs="0" />
+              <xs:element name="MainCategory" msprop:Generator_ColumnVarNameInTable="columnMainCategory" msprop:Generator_ColumnPropNameInRow="MainCategory" msprop:Generator_ColumnPropNameInTable="MainCategoryColumn" msprop:Generator_UserColumnName="MainCategory" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

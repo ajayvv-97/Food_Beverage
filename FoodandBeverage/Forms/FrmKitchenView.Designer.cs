@@ -525,9 +525,8 @@ namespace FoodandBeverage.Forms
             this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
             this.pnl_kitchenorderBill.Location = new System.Drawing.Point(33, 0);
             this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
-            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(364, 419);
+            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(413, 477);
             this.pnl_kitchenorderBill.TabIndex = 0;
-            this.pnl_kitchenorderBill.Visible = false;
             // 
             // crvkitchenbill
             // 
@@ -546,7 +545,7 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.ShowParameterPanelButton = false;
             this.crvkitchenbill.ShowTextSearchButton = false;
             this.crvkitchenbill.ShowZoomButton = false;
-            this.crvkitchenbill.Size = new System.Drawing.Size(364, 419);
+            this.crvkitchenbill.Size = new System.Drawing.Size(413, 477);
             this.crvkitchenbill.TabIndex = 0;
             this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
@@ -564,10 +563,10 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 489);
+            this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_products_rem_descr);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pnl_kitchenorderBill);
-            this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_empty_msg);
             this.Controls.Add(this.tlp_main);
             this.DoubleBuffered = true;

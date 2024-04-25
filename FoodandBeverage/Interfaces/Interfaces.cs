@@ -212,9 +212,9 @@ namespace FoodandBeverage.Interfaces
         promotionsDiscountsItem = 6,
         loyaltyProgramItem = 7,
         Purchasereportitem = 8,
-        MenuAnalysisReports=9,
-        TableTurnoverReports=10,
-        VendorReports=11
+        MenuAnalysisReports = 9,
+        TableTurnoverReports = 10,
+        VendorReports = 11
     };
     public enum Rev_Cancel_Type
     {
@@ -226,4 +226,22 @@ namespace FoodandBeverage.Interfaces
         Variation = 1,
         Addon = 2
     };
+    public enum AddonType
+    {
+        AddonType = 1,
+        None = 0
+    };
+    public enum SubofferStatus
+    {
+        Enable = 1,
+        None = 0
+    };
+
+    public enum MainProductStatus
+    {
+        Primary = 1,
+        Secondary = 0
+    }
+  
 }
+

@@ -12,7 +12,11 @@ namespace Domain
         public string Description { get; set; }
         public string TableCode { get; set; }
         public int OrderMasterId { get; set; }
+        public int AddonStatus { get; set; }
+        public string AV_id { get; set; }
+        public string MainCategory { get; set; }
         
+
 
     }
 }
