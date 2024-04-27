@@ -527,6 +527,7 @@ namespace FoodandBeverage.Forms
             this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
             this.pnl_kitchenorderBill.Size = new System.Drawing.Size(413, 477);
             this.pnl_kitchenorderBill.TabIndex = 0;
+            this.pnl_kitchenorderBill.Visible = false;
             // 
             // crvkitchenbill
             // 

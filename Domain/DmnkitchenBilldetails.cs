@@ -15,8 +15,10 @@ namespace Domain
         public int AddonStatus { get; set; }
         public string AV_id { get; set; }
         public string MainCategory { get; set; }
-        
-
+        public int TableType { get; set; }
+        public int offerqty { get; set; }
+        public string offeritemname { get; set; }
+        public string cobmoitemname { get; set; }
 
     }
 }

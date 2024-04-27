@@ -304,9 +304,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-
-
         #region Color Setting
         private bool IsValidHtmlColor(string color)
         {
@@ -924,7 +921,7 @@ namespace FoodandBeverage.Forms
                                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                     dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
                                     dmnSearch.Table = "tblOrderDetails";
-                                    dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].Field6;
+                                    dmnSearch.WhereNdGroupBy = "WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
                                     dmnSearch.OrderBy = "";
                                     var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
@@ -1163,7 +1160,7 @@ namespace FoodandBeverage.Forms
                                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                     dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
                                     dmnSearch.Table = "tblOrderDetails";
-                                    dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].Field6;
+                                    dmnSearch.WhereNdGroupBy = "WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
                                     dmnSearch.OrderBy = "";
                                     var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 

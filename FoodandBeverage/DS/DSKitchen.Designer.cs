@@ -297,6 +297,16 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnMainCategory;
             
+            private global::System.Data.DataColumn columnMainCategoryCount;
+            
+            private global::System.Data.DataColumn columnofferitemname;
+            
+            private global::System.Data.DataColumn columnofferqty;
+            
+            private global::System.Data.DataColumn columnTableType_;
+            
+            private global::System.Data.DataColumn columncobmoitemname;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_kitchenbillDataTable() {
@@ -404,6 +414,46 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn MainCategoryCountColumn {
+                get {
+                    return this.columnMainCategoryCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn offeritemnameColumn {
+                get {
+                    return this.columnofferitemname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn offerqtyColumn {
+                get {
+                    return this.columnofferqty;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TableType_Column {
+                get {
+                    return this.columnTableType_;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn cobmoitemnameColumn {
+                get {
+                    return this.columncobmoitemname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -439,7 +489,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_kitchenbillRow AddDT_kitchenbillRow(string ItemName, int Quantity, string Notes, string Description, string TableCode, int OrderMasterId, int AddonStatus, string AV_id, string MainCategory) {
+            public DT_kitchenbillRow AddDT_kitchenbillRow(string ItemName, int Quantity, string Notes, string Description, string TableCode, int OrderMasterId, int AddonStatus, string AV_id, string MainCategory, int MainCategoryCount, string offeritemname, int offerqty, int TableType_, string cobmoitemname) {
                 DT_kitchenbillRow rowDT_kitchenbillRow = ((DT_kitchenbillRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -450,7 +500,12 @@ namespace FoodandBeverage.DS {
                         OrderMasterId,
                         AddonStatus,
                         AV_id,
-                        MainCategory};
+                        MainCategory,
+                        MainCategoryCount,
+                        offeritemname,
+                        offerqty,
+                        TableType_,
+                        cobmoitemname};
                 rowDT_kitchenbillRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_kitchenbillRow);
                 return rowDT_kitchenbillRow;
@@ -482,6 +537,11 @@ namespace FoodandBeverage.DS {
                 this.columnAddonStatus = base.Columns["AddonStatus"];
                 this.columnAV_id = base.Columns["AV_id"];
                 this.columnMainCategory = base.Columns["MainCategory"];
+                this.columnMainCategoryCount = base.Columns["MainCategoryCount"];
+                this.columnofferitemname = base.Columns["offeritemname"];
+                this.columnofferqty = base.Columns["offerqty"];
+                this.columnTableType_ = base.Columns["TableType "];
+                this.columncobmoitemname = base.Columns["cobmoitemname"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -505,6 +565,16 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnAV_id);
                 this.columnMainCategory = new global::System.Data.DataColumn("MainCategory", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMainCategory);
+                this.columnMainCategoryCount = new global::System.Data.DataColumn("MainCategoryCount", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMainCategoryCount);
+                this.columnofferitemname = new global::System.Data.DataColumn("offeritemname", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnofferitemname);
+                this.columnofferqty = new global::System.Data.DataColumn("offerqty", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnofferqty);
+                this.columnTableType_ = new global::System.Data.DataColumn("TableType ", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTableType_);
+                this.columncobmoitemname = new global::System.Data.DataColumn("cobmoitemname", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncobmoitemname);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -791,6 +861,86 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int MainCategoryCount {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_kitchenbill.MainCategoryCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MainCategoryCount\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.MainCategoryCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string offeritemname {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_kitchenbill.offeritemnameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'offeritemname\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.offeritemnameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int offerqty {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_kitchenbill.offerqtyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'offerqty\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.offerqtyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int TableType_ {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_kitchenbill.TableType_Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TableType \' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.TableType_Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string cobmoitemname {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_kitchenbill.cobmoitemnameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'cobmoitemname\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.cobmoitemnameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_kitchenbill.ItemNameColumn);
             }
@@ -895,6 +1045,66 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetMainCategoryNull() {
                 this[this.tableDT_kitchenbill.MainCategoryColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsMainCategoryCountNull() {
+                return this.IsNull(this.tableDT_kitchenbill.MainCategoryCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetMainCategoryCountNull() {
+                this[this.tableDT_kitchenbill.MainCategoryCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsofferitemnameNull() {
+                return this.IsNull(this.tableDT_kitchenbill.offeritemnameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetofferitemnameNull() {
+                this[this.tableDT_kitchenbill.offeritemnameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsofferqtyNull() {
+                return this.IsNull(this.tableDT_kitchenbill.offerqtyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetofferqtyNull() {
+                this[this.tableDT_kitchenbill.offerqtyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTableType_Null() {
+                return this.IsNull(this.tableDT_kitchenbill.TableType_Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTableType_Null() {
+                this[this.tableDT_kitchenbill.TableType_Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IscobmoitemnameNull() {
+                return this.IsNull(this.tableDT_kitchenbill.cobmoitemnameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetcobmoitemnameNull() {
+                this[this.tableDT_kitchenbill.cobmoitemnameColumn] = global::System.Convert.DBNull;
             }
         }
         

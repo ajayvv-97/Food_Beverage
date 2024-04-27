@@ -918,6 +918,7 @@ namespace FoodandBeverage.Forms
                                 rowindex++;
                                 RoundAddonTextbox();
                                 chk_variation.Checked = true;
+
                             }
                             else
                             {
@@ -939,6 +940,12 @@ namespace FoodandBeverage.Forms
                                 flp_addonlist.Visible = true;
                                 chk_addons.Checked = true;
                             }
+                        }
+
+                        if(chk_variation.Checked)
+                        {
+                            txtmrp.Enabled = false;
+                            txtprice.Enabled = false;
                         }
                         tlp_regform_grid.ResumeLayout();
                     }
