@@ -1249,5 +1249,8 @@
   <ItemGroup>
     <None Include="Resources\addonbutton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reprint.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

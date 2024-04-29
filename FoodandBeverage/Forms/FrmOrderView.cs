@@ -784,6 +784,10 @@ namespace FoodandBeverage.Forms
                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                     dmnRemove_order.Status = 0;
                     dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
+
+                    dmnRemove_order.AddonStatus =0;
+                    dmnRemove_order.AV_id = "";
+
                     var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
                     dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;
 

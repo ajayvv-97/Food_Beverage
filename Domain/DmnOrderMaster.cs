@@ -31,8 +31,7 @@ namespace Domain
         public int Gender { get; set; }
         public int Tablecount { get; set; }
         public int OrderDetailsId { get; set; }
-
-
+        public int AddonStatus { get; set; }
     }
 
 }

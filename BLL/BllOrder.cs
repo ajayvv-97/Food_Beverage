@@ -98,6 +98,7 @@ namespace BLL
             parms.Add("Pavid", objTestClass.Pavid);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("AV_id", objTestClass.AV_id);
+            parms.Add("Addoncount", objTestClass.Addoncount);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
@@ -155,22 +156,45 @@ namespace BLL
             parms.Add("Status", objTestClass.Status);
             parms.Add("koid", objTestClass.koid);
             parms.Add("Tid", objTestClass.Tid);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("AddonStatus", objTestClass.AddonStatus);
+            parms.Add("Avid", objTestClass.AV_id);
+
+        var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-        public DmnOrderMaster Remove_order(string procedureName, DmnOrderMaster objTestClass)
+        public DmnOrderMaster Remove_order_KitchenOrder_Start_Rady(string procedureName, DmnOrderMaster objTestClass)
         {
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
-            parms.Add("OrderCancelNotes", objTestClass.OrderCancelNotes);
             parms.Add("Quantity", objTestClass.Quantity);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             parms.Add("koid", objTestClass.koid);
             parms.Add("Tid", objTestClass.Tid);
+            parms.Add("OrderCancelNotes", objTestClass.OrderCancelNotes);
+            parms.Add("AddonStatus", objTestClass.AddonStatus);
+            parms.Add("Avid", objTestClass.AV_id);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public DmnOrderMaster Remove_order_KitchenOrder_ByProduct(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("Quantity", objTestClass.Quantity);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("koid", objTestClass.koid);
+            parms.Add("Tid", objTestClass.Tid);
+            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
+            parms.Add("AddonStatus", objTestClass.AddonStatus);
+            parms.Add("Avid", objTestClass.AV_id);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

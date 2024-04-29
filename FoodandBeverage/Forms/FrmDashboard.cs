@@ -84,6 +84,7 @@ namespace FoodandBeverage.Forms
         public List<Namelist> CheckedtableNames = new List<Namelist>();
         public bool menutable_click = false;
         private LoadingGIF_Timer loadingForm;
+        List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
         public void initTimer()
         {
             AutoTimer = new Timer();
@@ -297,8 +298,29 @@ namespace FoodandBeverage.Forms
                 //    _instanceLoadingGIF.Close();
                 //}
                 //this.Opacity = 100;
+
+                FillTabelData();
             }
             catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void FillTabelData()
+        {
+            try
+            {
+                TableDataList = null;
+                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblTable_info";
+                dmnSearch.WhereNdGroupBy = "where Status=1";
+                dmnSearch.OrderBy = "";
+                TableDataList = bllSearch.GetSearchData("prdSearch", dmnSearch);
+            }
+            catch(Exception ex)
             {
 
             }
@@ -798,6 +820,7 @@ namespace FoodandBeverage.Forms
                         tlp_category.Dock = DockStyle.Top;
                         tlp_category.Controls.Clear();
                         tlp_category.AutoScroll = true;
+                        tlp_category.AutoSize = true;
                         //tlp_category.BorderStyle = BorderStyle.FixedSingle;
                         ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
                         tlp_category.MouseHover += tlp_category_MouseHover;
@@ -822,12 +845,6 @@ namespace FoodandBeverage.Forms
                         {
                             if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
                             {
-                                if (columnIndex == 7)
-                                {
-                                    columnIndex = 0;
-                                    rowIndex++;
-                                }
-
                                 TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
                                 PictureBox pictureBox = new PictureBox();
                                 Label lbltablename = new Label();
@@ -837,14 +854,38 @@ namespace FoodandBeverage.Forms
                                 pnl_box.Name = "pnl_box" + gridSource[i].Field4;
                                 pnl_box.Tag = gridSource[i].Field3;
                                 pnl_box.BackColor = Color.Transparent;
-                                pnl_box.Width = 120;
-                                pnl_box.Height = 80;
-                                pnl_box.BackColor = Color.Transparent;
                                 #endregion
+
+                                int idToSearch = Convert.ToInt32(gridSource[i].Field3);
+                                int? Serach_Tid = TableDataList.FirstOrDefault(table => table.Tid == idToSearch && table.Capcity > 50)?.Tid;
+
+                                if (Serach_Tid != null)
+                                {
+                                    if (columnIndex == 7)
+                                    {
+                                        columnIndex = 0;
+                                        rowIndex++;
+                                    }
+                                    pnl_box.BackColor = Color.Transparent;
+                                    pnl_box.Width = 250;
+                                    pnl_box.Height = 150;
+
+                                }
+                                else
+                                {
+                                    if (columnIndex == 7)
+                                    {
+                                        columnIndex = 0;
+                                        rowIndex++;
+                                    }
+                                    pnl_box.Width = 120;
+                                    pnl_box.Height = 80;
+                                }
 
                                 #region  TableLayoutPanel inner 
                                 // Configure the TableLayoutPanel
                                 tlp_table_inner.RowCount = 2;
+
                                 tlp_table_inner.Name = "tlpbox" + gridSource[i].Field4;
                                 tlp_table_inner.Tag = gridSource[i].Field3;
                                 tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
@@ -853,6 +894,20 @@ namespace FoodandBeverage.Forms
                                 //tlp_table_inner.Width = 100;
                                 //tlp_table_inner.Height = 65;
                                 tlp_table_inner.Dock = DockStyle.Fill;
+
+                                if (Serach_Tid != null)
+                                {
+                                    tlp_table_inner.RowStyles.Clear();
+                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent,80));
+                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent,20));
+                                }
+                                else
+                                {
+                                    tlp_table_inner.RowStyles.Clear();
+                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                }
+
                                 #endregion
 
                                 #region  picture for table inside tablelayoutpanel inner
@@ -867,20 +922,34 @@ namespace FoodandBeverage.Forms
                                 #region  tablename  for table inside tablelayoutpanel inner
                                 // Configure the Label
                                 lbltablename.Name = "lbtablename" + gridSource[i].Field4;
-                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                if (Serach_Tid != null)
+                                {
+                                    lbltablename.TextAlign = ContentAlignment.BottomCenter;
+                                    lbltablename.Dock = DockStyle.Fill;
+                                    pictureBox.Dock = DockStyle.Fill;
+                                }
+                                else
+                                {
+                                    lbltablename.Dock = DockStyle.Top;
+                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                }
+                                
+
                                 lbltablename.Tag = gridSource[i].Field3;
                                 lbltablename.Text = gridSource[i].Field4;
                                 lbltablename.ForeColor = Color.Black;
                                 lbltablename.BackColor = Color.Transparent;
-                                lbltablename.Dock = DockStyle.Top;
+
                                 //lbltablename.Margin = new Padding(10, 10, 0, 0);
                                 lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)
                                     lbltablename.ForeColor = Color.Red;
                                 //else if (gridSource[i].RevStatus == 1)
-                                //    lbltablename.ForeColor = Color.Blue;
+                                // lbltablename.ForeColor = Color.Blue;
                                 else
                                     lbltablename.ForeColor = Color.Green;
+
+                                //lbltablename.BackColor = Color.Blue;
                                 #endregion
 
                                 // Add the PictureBox and Label to the TableLayoutPanel

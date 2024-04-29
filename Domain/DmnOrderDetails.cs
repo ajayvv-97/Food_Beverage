@@ -53,7 +53,8 @@ namespace Domain
         public string OrderCancelNotes { get; set; }
         public int Pavid { get; set; }
         public int AddonStatus { get; set; }
-        public string AV_id { get; set; }       
-           
+        public string AV_id { get; set; }
+        public int Addoncount { get; set; }
+
     } 
 }

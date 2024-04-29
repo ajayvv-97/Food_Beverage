@@ -6,8 +6,7 @@ namespace Domain
 {
     public class DmnTableinfo
     {
-        public int Tid { get; set; }
-        
+        public int Tid { get; set; }        
         public string TableCode { get; set; }
         public int Capcity { get; set; }
         public int Fcid { get; set; }
