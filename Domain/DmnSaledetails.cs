@@ -45,5 +45,9 @@ namespace Domain
         public int TableType { get; set; }
         public decimal AdvanceAmount { get; set; }
         public decimal ReservationTotal { get; set; }
+        public int Pavid { get; set; }
+        public int AddonStatus { get; set; }
+        public string AV_id { get; set; }
+        public int Addoncount { get; set; }
     }    
 }

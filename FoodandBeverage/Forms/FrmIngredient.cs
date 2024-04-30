@@ -138,7 +138,6 @@ namespace FoodandBeverage.Forms
                                 if (status.Ing_DetailsId > 0)
                                     statuscount++;
                             }
-
                         }
                         #endregion
 
@@ -1944,13 +1943,13 @@ namespace FoodandBeverage.Forms
 
         private void txtproductname_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key            
-                e.Handled = true; // Suppress the Enter key
+            if (e.KeyChar == '\r')           
+                e.Handled = true; 
         }
 
         private void txtitemcode_Leave(object sender, EventArgs e)
         {
-            if (txtitemcode.Text != "")
+            if (txtitemcode.Text != "" && Convert.ToInt32(txtpid.Text)==0)
             {
                 BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
                 DmnSearch objSearch = new DmnSearch();

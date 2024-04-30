@@ -116,6 +116,11 @@ namespace BLL
             parms.Add("TaxAmount", objTestClass.TaxAmount);
             parms.Add("MarketPrice", objTestClass.MarketPrice);
             parms.Add("TableType", objTestClass.TableType);
+
+            parms.Add("Pavid", objTestClass.Pavid);
+            parms.Add("AddonStatus", objTestClass.AddonStatus);
+            parms.Add("AV_id", objTestClass.AV_id);
+            parms.Add("Addoncount", objTestClass.Addoncount);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;      
               

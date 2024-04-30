@@ -17,6 +17,7 @@ using CustomMessageBox;
 using FoodandBeverage.Forms;
 using System.Drawing.Drawing2D;
 using System.Drawing;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -170,21 +171,42 @@ namespace FoodandBeverage.SaleBill
                 }
 
                 GenerateBarcode(invoiceBillMasters[0].EntryNo);
-
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-                    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId","PromoAmount", "AdvanceAmount", "ReservationTotal"))
-                {
-                    dtSalesMaster.Load(reader);
-                }
-
                 //header part set data to dataset
                 using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo", "Full_Address"))
                 {
                     dtSalesHeader.Load(reader);
                 }
 
+
+                DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT";
+                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
+
+                if (splittype == 2)
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";
+                else
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
+
+                var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
+                using (var reader = ObjectReader.Create(invoiceBillDetails,
+                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
+                {
+                    dtSalesDetail.Load(reader);
+                }
+
+                #region Tax Calculation
+                for (int i = 0; i < invoiceBillDetails.Count; i++)
+                {
+                    I_TaxAmount = I_TaxAmount + invoiceBillDetails[i].TotalTax;
+                    I_CGSTAmount = I_CGSTAmount + invoiceBillDetails[i].TotalCGST;
+                    I_SGSTAmount = I_SGSTAmount + invoiceBillDetails[i].TotalSGST;
+                    I_VatAmount = I_VatAmount + invoiceBillDetails[i].TotalVAT;
+                    Totaldiscount = Totaldiscount + invoiceBillDetails[i].DiscountAmount;
+                }
+                #endregion
+
                 #region PayType Check
-                if (paytypeid == 11)
+                if (paytypeid == Convert.ToInt32(PaymentType.PART))
                 {
                     DmnSearch obj = new DmnSearch();
                     BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
@@ -194,7 +216,6 @@ namespace FoodandBeverage.SaleBill
                     var invpayment = bllpayments.GetSearchData("prdSearch", obj);
                     if (invpayment.Count > 0)
                     {
-
                         for (int i = 0; i < invpayment.Count; i++)
                         {
                             switch (Convert.ToInt32(invpayment[i].Field1))
@@ -227,11 +248,11 @@ namespace FoodandBeverage.SaleBill
                     }
 
                 }
-                else if (paytypeid == 12)
+                else if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
                 {
                     DmnSearch obj = new DmnSearch();
                     BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9 ";
+                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10";
                     obj.Table = "tblpayment";
                     obj.WhereNdGroupBy = " where payid=" + paymentid;
                     var invpayment = bllpayments.GetSearchData("prdSearch", obj);
@@ -248,28 +269,32 @@ namespace FoodandBeverage.SaleBill
 
                         if (Convert.ToInt32(invpayment[0].Field5) > 0)
                         {
-                            I_OaddAmt = invoiceBillMasters[0].OaAmount / Convert.ToInt32(invpayment[0].Field5);
-                            I_OdedAmt = invoiceBillMasters[0].OdAmount / Convert.ToInt32(invpayment[0].Field5);
-                        }                       
+                            invoiceBillMasters[0].OaAmount  = invoiceBillMasters[0].OaAmount / Convert.ToInt32(invpayment[0].Field5);
+                            invoiceBillMasters[0].OdAmount  = invoiceBillMasters[0].OdAmount / Convert.ToInt32(invpayment[0].Field5);
+                        }
+                        else
+                        {
+                            invoiceBillMasters[0].OaAmount = invoiceBillMasters[0].OaAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].OdAmount = invoiceBillMasters[0].OdAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].DiscountAmount = invoiceBillMasters[0].DiscountAmount / Convert.ToInt32(invpayment[0].Field10);
 
+                            invoiceBillMasters[0].TotalTax = I_TaxAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalCGST = I_CGSTAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalSGST = I_SGSTAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalVAT = I_VatAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].BalAmnt = splitamount;
+                            invoiceBillMasters[0].NetAmount = splitamount;
+                        }
                     }
-
                 }
                 #endregion
-                DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT"; 
-                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
-                if (splittype==2)                
-                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";        
-                else
-                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
 
-                var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
-                using (var reader = ObjectReader.Create(invoiceBillDetails,
-                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal"))
                 {
-                    dtSalesDetail.Load(reader);
-                }
+                    dtSalesMaster.Load(reader);
+                }               
+
                 dsReport.Tables.Add(dtSalesDetail);
                 dsReport.Tables.Add(dtSalesHeader);
                 dsReport.Tables.Add(dtSalesMaster);
@@ -282,21 +307,10 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("cashamount",cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("splitamount", splitamount);
-                if (splittype == 2 && invoiceBillDetails.Count>0)
-                {
-                    for (int i = 0; i < invoiceBillDetails.Count; i++)
-                    {
-                        I_TaxAmount = I_TaxAmount + invoiceBillDetails[i].TotalTax;
-                        I_CGSTAmount = I_CGSTAmount + invoiceBillDetails[i].TotalCGST;
-                        I_SGSTAmount = I_SGSTAmount + invoiceBillDetails[i].TotalSGST;
-                        I_VatAmount = I_VatAmount + invoiceBillDetails[i].TotalVAT;
-                        Totaldiscount = Totaldiscount + invoiceBillDetails[i].DiscountAmount;
-                    }
-                    totalsaveamt = totalsaveamt + Totaldiscount;
-                    Totaldiscount = Totaldiscount + DiscountAmount;
-                }
+
                 reportDocument.SetParameterValue("I_totalsaveamt", totalsaveamt);
                 reportDocument.SetParameterValue("I_totaldiscoutamt", Totaldiscount);
+
                 reportDocument.SetParameterValue("I_OaddAmt", I_OaddAmt);
                 reportDocument.SetParameterValue("I_OdedAmt", I_OdedAmt);
 

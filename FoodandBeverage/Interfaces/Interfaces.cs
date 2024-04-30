@@ -137,8 +137,6 @@ namespace FoodandBeverage.Interfaces
     {
         TableBooking = 1,
         Restaurant = 2
-
-
     };
     public enum TableMenu
     {
@@ -242,6 +240,11 @@ namespace FoodandBeverage.Interfaces
         Primary = 1,
         Secondary = 0
     }
-  
+    public enum SplitType
+    {
+        Number = 1,
+        Item = 0
+    }
+
 }
 

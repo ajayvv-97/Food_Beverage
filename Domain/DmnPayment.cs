@@ -27,6 +27,7 @@ namespace Domain
         public decimal OdAmount { get; set; }
         public decimal PromoAmt { get; set; }
         public decimal DiscountAmount { get; set; }
+        public int NumberCount { get; set; }
 
 
     }

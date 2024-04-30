@@ -319,7 +319,8 @@ namespace FoodandBeverage.Forms
 
                 pnl_boxdetails_dash.Visible = true;
                 pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                tlp_offer_type_main.Visible = true;
+                tlp_offer_type_main.Visible = true;                
+
                 UpdateData();
             }
             catch (Exception ex)
@@ -508,7 +509,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Table = " tblTable_info where Status=1  AND OrderStatus>0 or OrderMasterId>0 " +
                                   " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE,'" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
-                                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
+                                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) and status=1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
                                   " union select 0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
                 dmnSearch.WhereNdGroupBy = " ";
                 dmnSearch.OrderBy = "";
@@ -679,6 +680,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 //searchData_Activeorder,searchData_CancelOrder,searchData_ActivePromotion,searchData_ActiveFood,searchData_Activereservation
+
                 currentPage = 1;
                 btnfrist.Text = "1";
                 btn_two.Text = "2";
@@ -742,34 +744,29 @@ namespace FoodandBeverage.Forms
 
                 else if (tlp_offer_type_main.Visible)
                 {
-
                     dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
                     dmnSearch.Table = "tblOfferMaster";
+
+                    searchData_ActivePromotion_offer.Clear();
+                    dgv_promotion.Columns[appriceno].Visible = false;
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dmnSearch.OrderBy = "order by  Omid desc";
+                    searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                    searchData_ActivePromotion_combo.Clear();
+                    dgv_promotion.Columns[appriceno].Visible = true;
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dmnSearch.OrderBy = "order by  Omid desc";
+                    searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                     if (rdproductoffer.Checked)
-                    {
-                        searchData_ActivePromotion_offer.Clear();
-                        dgv_promotion.Columns[appriceno].Visible = false;
-                        dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
-                        dmnSearch.OrderBy = "order by  Omid desc";
-
-                        searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_offer.Count / pageSize);
+                    
+                    if (rdcombooffer.Checked)                  
+                        totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);                   
 
-                    }
-                    else if (rdcombooffer.Checked)
-                    {
-                        searchData_ActivePromotion_combo.Clear();
-                        dgv_promotion.Columns[appriceno].Visible = true;
-                        dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
-                        dmnSearch.OrderBy = "order by  Omid desc";
-
-                        searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                        totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);
-
-
-
-               }
                 }
+
                 DisplayDataForCurrentPage();
                 lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
                 if (currentPage <= totalPages)
@@ -780,7 +777,6 @@ namespace FoodandBeverage.Forms
                     btn_three.Visible = (startPage + 2) <= totalPages;
                     btn_four.Visible = (startPage + 3) <= totalPages;
                 }
-
             }
             catch { }
         }
@@ -1020,24 +1016,23 @@ namespace FoodandBeverage.Forms
                                 dgv_promotion.Rows[j].Cells[appriceno].Value = searchData_ActivePromotion_offer[i].Field5;
                             }   
                         }
-                        else
-                        {
-                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
-                            tlp_offer_type_main.Controls.Remove(controlToRemove);
+                        //else
+                        //{
+                        //    Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                        //    tlp_offer_type_main.Controls.Remove(controlToRemove);
 
-                            tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
-                            lblnodata_offer.Dock = DockStyle.Fill;
-                            lblnodata_offer.Visible = true;
-                            dgv_promotion.Visible = false;
+                        //    tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
+                        //    lblnodata_offer.Dock = DockStyle.Fill;
+                        //    lblnodata_offer.Visible = true;
+                        //    dgv_promotion.Visible = false;
 
-                            ////dgv_activefood.Visible = false;
-                            ////dgv_activedine.Visible = false;
-                            ////dgv_cancelorders.Visible = false;
-                            ////dgv_reservation.Visible = false;
-                            ////tlp_offer_type_main.Visible = false;
-                            tlp_pagination.Visible = false;
-                        }
-
+                        //    ////dgv_activefood.Visible = false;
+                        //    ////dgv_activedine.Visible = false;
+                        //    ////dgv_cancelorders.Visible = false;
+                        //    ////dgv_reservation.Visible = false;
+                        //    ////tlp_offer_type_main.Visible = false;
+                        //    tlp_pagination.Visible = false;
+                        //}
                     }
                     else if (rdcombooffer.Checked)
                     {
@@ -1075,23 +1070,58 @@ namespace FoodandBeverage.Forms
                                 dgv_promotion.Rows[j].Cells[appriceno].Value = searchData_ActivePromotion_combo[i].Field5;
                             }
 
-                        }
-                        else
-                        {
-                            Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
-                            tlp_offer_type_main.Controls.Remove(controlToRemove);
+                        }                        
+                        //else
+                        //{
+                        //    Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                        //    tlp_offer_type_main.Controls.Remove(controlToRemove);
 
-                            tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
-                            lblnodata_offer.Dock = DockStyle.Fill;
-                            lblnodata_offer.Visible = true;
-                            dgv_promotion.Visible = false;
-                            tlp_pagination.Visible = false;
-                        }
+                        //    tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
+                        //    lblnodata_offer.Dock = DockStyle.Fill;
+                        //    lblnodata_offer.Visible = true;
+                        //    dgv_promotion.Visible = false;
+                        //    tlp_pagination.Visible = false;
+                        //}
+
+                    }
+
+                    if (searchData_ActivePromotion_combo.Count == 0 && searchData_ActivePromotion_offer.Count == 0)
+                    {
+                        Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                        tlp_offer_type_main.Controls.Remove(controlToRemove);
+
+                        tlp_offer_type_main.Controls.Add(lblnodata_offer, 1, 1);
+                        lblnodata_offer.Dock = DockStyle.Fill;
+                        lblnodata_offer.Visible = true;
+                        dgv_promotion.Visible = false;
+                        tlp_pagination.Visible = false;
+                    }
+                    else
+                    {
+                        Control controlToRemove = tlp_offer_type_main.GetControlFromPosition(1, 1);
+                        tlp_offer_type_main.Controls.Remove(controlToRemove);
+
+                        tlp_offer_type_main.Controls.Add(dgv_promotion, 1, 1);
+                        dgv_promotion.Dock = DockStyle.Fill;
+                        lblnodata_offer.Visible = false;
+                        dgv_promotion.Visible = true;
+
+                        lblnodata.Visible = false;
+                        tlp_offer_type_main.Visible = true;
+                        controlToRemove = tlp_boxdetails_sub.GetControlFromPosition(1, 1);
+                        tlp_boxdetails_sub.Controls.Remove(controlToRemove);
+
+                        tlp_boxdetails_sub.Controls.Add(tlp_offer_type_main, 1, 1);
+                        tlp_offer_type_main.Dock = DockStyle.Fill;
+
+                        if (searchData_ActivePromotion_offer.Count > 0)
+                            rdproductoffer.Checked = true;
+                        else if (searchData_ActivePromotion_combo.Count > 0)
+                            rdcombooffer.Checked = true;
 
                     }
                 }
                // UpdatePageButtonsText();
-
             }
             catch(Exception ex)
             {
