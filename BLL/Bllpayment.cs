@@ -31,6 +31,9 @@ namespace BLL
             parameters.Add("DiscountAmount", payment.DiscountAmount);
             parameters.Add("NumberCount", payment.NumberCount);
 
+            parameters.Add("BalAmnt", payment.BalAmnt);
+            parameters.Add("RcvAmnt", payment.RcvAmnt);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parameters);
             return lstData;
         }

@@ -121,10 +121,7 @@ namespace FoodandBeverage.SaleBill
                 decimal cashamount = 0, othetamount = 0, splitamount=0;
                 string payname = "";
                 decimal I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0,
-                    I_VatAmount = 0, I_OaddAmt = 0, I_OdedAmt = 0, OaAmount=0,
-            OdAmount=0,
-            PromoAmt=0,
-            DiscountAmount=0, Totaldiscount = 0, totalsaveamt = 0; ;
+                    I_VatAmount = 0;
                 int splittype = 0;
                 #region Crystal Report Dclaration
                 ReportDocument reportDocument = new ReportDocument();
@@ -177,23 +174,35 @@ namespace FoodandBeverage.SaleBill
                     dtSalesHeader.Load(reader);
                 }
 
+                #region Payment Table Fetching
+                DmnSearch obj = new DmnSearch();
+                BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10,BalAmnt Field11,RcvAmnt Field12";
+                obj.Table = "tblpayment";
+                obj.WhereNdGroupBy = " where payid=" + paymentid;
+                var invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                if (invpayment.Count > 0)
+                {
+                    orderdetailsids= Convert.ToString(invpayment[0].Field4);
+                }
+                #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
                 dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
-                if (splittype == 2)
+                if (splittype == Convert.ToInt32(SplitType.Item))
                     dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";
                 else
                     dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
 
                 var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
+
                 using (var reader = ObjectReader.Create(invoiceBillDetails,
                     "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
                 {
                     dtSalesDetail.Load(reader);
                 }
-
                 #region Tax Calculation
                 for (int i = 0; i < invoiceBillDetails.Count; i++)
                 {
@@ -201,76 +210,76 @@ namespace FoodandBeverage.SaleBill
                     I_CGSTAmount = I_CGSTAmount + invoiceBillDetails[i].TotalCGST;
                     I_SGSTAmount = I_SGSTAmount + invoiceBillDetails[i].TotalSGST;
                     I_VatAmount = I_VatAmount + invoiceBillDetails[i].TotalVAT;
-                    Totaldiscount = Totaldiscount + invoiceBillDetails[i].DiscountAmount;
                 }
                 #endregion
 
                 #region PayType Check
                 if (paytypeid == Convert.ToInt32(PaymentType.PART))
                 {
-                    DmnSearch obj = new DmnSearch();
-                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                    obj.Select = "PayType Field1, Amount Field2";
-                    obj.Table = "tblpayment";
-                    obj.WhereNdGroupBy = " where salemasterid=" + SalesMasterId;
-                    var invpayment = bllpayments.GetSearchData("prdSearch", obj);
-                    if (invpayment.Count > 0)
+                    DmnSearch objPART = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpaymentsPART = new BllSearch<DmnGridFields>();
+                    objPART.Select = "PayType Field1, Amount Field2";
+                    objPART.Table = "tblpayment";
+                    objPART.WhereNdGroupBy = " where salemasterid=" + SalesMasterId;
+                    var invpaymentPART = bllpaymentsPART.GetSearchData("prdSearch", objPART);
+                    if (invpaymentPART.Count > 0)
                     {
-                        for (int i = 0; i < invpayment.Count; i++)
+                        for (int i = 0; i < invpaymentPART.Count; i++)
                         {
-                            switch (Convert.ToInt32(invpayment[i].Field1))
+                            switch (Convert.ToInt32(invpaymentPART[i].Field1))
                             {
                                 case 1:
-                                    cashamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    cashamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     break;
                                 case 5:
-                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     payname = "DEBITCARD";
                                     break;
                                 case 4:
-                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     payname = "UPI";
                                     break;
                                 case 6:
-                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     payname = "BANKINGONLINE";
                                     break;
                                 case 8:
-                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     payname = "CREDIT";
                                     break;
                                 case 7:
-                                    othetamount = Convert.ToDecimal(invpayment[i].Field2);
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
                                     payname = "OTHERS";
                                     break;
                             }
                         }
                     }
-
                 }
                 else if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
                 {
-                    DmnSearch obj = new DmnSearch();
-                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10";
-                    obj.Table = "tblpayment";
-                    obj.WhereNdGroupBy = " where payid=" + paymentid;
-                    var invpayment = bllpayments.GetSearchData("prdSearch", obj);
                     if (invpayment.Count > 0)
                     {
-                        splitamount = Convert.ToDecimal(invpayment[0].Field2);
-                        splittype = Convert.ToInt32(invpayment[0].Field3);
-                        orderdetailsids = Convert.ToString(invpayment[0].Field4);
-                        OaAmount = Convert.ToDecimal(invpayment[0].Field6);
-                        OdAmount = Convert.ToDecimal(invpayment[0].Field7);
-                        PromoAmt = Convert.ToDecimal(invpayment[0].Field8);
-                        DiscountAmount= Convert.ToDecimal(invpayment[0].Field9);
-                        totalsaveamt = totalsaveamt + OdAmount + DiscountAmount;
+                        splitamount = Convert.ToDecimal(invpayment[0].Field2);   
 
                         if (Convert.ToInt32(invpayment[0].Field5) > 0)
                         {
-                            invoiceBillMasters[0].OaAmount  = invoiceBillMasters[0].OaAmount / Convert.ToInt32(invpayment[0].Field5);
-                            invoiceBillMasters[0].OdAmount  = invoiceBillMasters[0].OdAmount / Convert.ToInt32(invpayment[0].Field5);
+                            invoiceBillMasters[0].OaAmount =  Convert.ToDecimal(invpayment[0].Field6);
+                            invoiceBillMasters[0].OdAmount =  Convert.ToDecimal(invpayment[0].Field7);
+                            invoiceBillMasters[0].DiscountAmount =  Convert.ToDecimal(invpayment[0].Field9);
+
+                            invoiceBillMasters[0].TotalTax = I_TaxAmount;
+                            invoiceBillMasters[0].TotalCGST = I_CGSTAmount;
+                            invoiceBillMasters[0].TotalSGST = I_SGSTAmount;
+                            invoiceBillMasters[0].TotalVAT = I_VatAmount;
+
+                            invoiceBillMasters[0].BalAmnt = splitamount;
+                            invoiceBillMasters[0].NetAmount = splitamount;
+
+                            invoiceBillMasters[0].BalAmnt = Convert.ToDecimal(invpayment[0].Field11);
+                            invoiceBillMasters[0].RcvAmnt = Convert.ToDecimal(invpayment[0].Field12);
+
+                            invoiceBillMasters[0].NetAmount = splitamount;
+
                         }
                         else
                         {
@@ -282,7 +291,10 @@ namespace FoodandBeverage.SaleBill
                             invoiceBillMasters[0].TotalCGST = I_CGSTAmount / Convert.ToInt32(invpayment[0].Field10);
                             invoiceBillMasters[0].TotalSGST = I_SGSTAmount / Convert.ToInt32(invpayment[0].Field10);
                             invoiceBillMasters[0].TotalVAT = I_VatAmount / Convert.ToInt32(invpayment[0].Field10);
-                            invoiceBillMasters[0].BalAmnt = splitamount;
+
+                            invoiceBillMasters[0].BalAmnt = Convert.ToDecimal(invpayment[0].Field11);
+                            invoiceBillMasters[0].RcvAmnt = Convert.ToDecimal(invpayment[0].Field12);
+
                             invoiceBillMasters[0].NetAmount = splitamount;
                         }
                     }
@@ -306,18 +318,6 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("payname", payname);
                 reportDocument.SetParameterValue("cashamount",cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
-                reportDocument.SetParameterValue("splitamount", splitamount);
-
-                reportDocument.SetParameterValue("I_totalsaveamt", totalsaveamt);
-                reportDocument.SetParameterValue("I_totaldiscoutamt", Totaldiscount);
-
-                reportDocument.SetParameterValue("I_OaddAmt", I_OaddAmt);
-                reportDocument.SetParameterValue("I_OdedAmt", I_OdedAmt);
-
-                reportDocument.SetParameterValue("I_TaxAmount", I_TaxAmount);
-                reportDocument.SetParameterValue("I_CGSTAmount", I_CGSTAmount);
-                reportDocument.SetParameterValue("I_SGSTAmount", I_SGSTAmount);
-                reportDocument.SetParameterValue("I_VatAmount", I_VatAmount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
 
                 crvSalesBill.RefreshReport();

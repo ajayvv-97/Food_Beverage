@@ -243,7 +243,7 @@ namespace FoodandBeverage.Interfaces
     public enum SplitType
     {
         Number = 1,
-        Item = 0
+        Item = 2
     }
 
 }
