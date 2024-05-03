@@ -171,6 +171,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5D99DAEB0410472FBE60F4E101C66657"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_64536F21480115A718AEEAF748C986AB"
         "OwnerKey" = "8:_26E1D3025431815D933EF02DB0BB75F6"
         "MsmSig" = "8:_UNDEFINED"
@@ -353,12 +359,6 @@
         {
         "MsmKey" = "8:_B10678DC04EFE405725BB6ED562BF40B"
         "OwnerKey" = "8:_86668BB6516FE344076A8171A15D5368"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B2EED312140E43F6B5C5308B08E38794"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -807,11 +807,6 @@
             "AssemblyAsmDisplayName" = "8:DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0F7E9B8A70A2455E7DB0C6C26FE87E8E"
-                    {
-                    "Name" = "8:DAL.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DAL.dll"
             "TargetName" = "8:"
@@ -1215,11 +1210,6 @@
             "AssemblyAsmDisplayName" = "8:BLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5BAF31EB14B8A4A5958628C4156E89B7"
-                    {
-                    "Name" = "8:BLL.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:BLL.dll"
             "TargetName" = "8:"
@@ -1268,6 +1258,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5D99DAEB0410472FBE60F4E101C66657"
+            {
+            "SourcePath" = "8:..\\..\\MidasFun_Game\\MidasLogo.ico"
+            "TargetName" = "8:MidasLogo.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_EAA3919CCB9F404995E7D8DFC6773DA3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_64536F21480115A718AEEAF748C986AB"
@@ -1339,11 +1349,6 @@
             "AssemblyAsmDisplayName" = "8:Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6C5DF259B840408F8B31F15C6107FADA"
-                    {
-                    "Name" = "8:Domain.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Domain.dll"
             "TargetName" = "8:"
@@ -1831,26 +1836,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B2EED312140E43F6B5C5308B08E38794"
-            {
-            "SourcePath" = "8:..\\..\\..\\Downloads\\fb_icon.ico"
-            "TargetName" = "8:fb_icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_EAA3919CCB9F404995E7D8DFC6773DA3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B40B59A5CEAE052C8E1671DE6FEB1EF0"
@@ -2404,7 +2389,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Food_Beverage"
         "ProductCode" = "8:{BA6CB8B9-BEE0-42FD-92BE-31A8E9B1D769}"
-        "PackageCode" = "8:{269CB003-10D7-484A-8869-71DCD76172B3}"
+        "PackageCode" = "8:{ECEBD865-A2D8-4812-9CC9-A82CC3229A85}"
         "UpgradeCode" = "8:{5CFA99D3-D6E2-4413-A626-E1A63EBF3602}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2421,7 +2406,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Food And Beverage "
         "ARPURLINFOABOUT" = "8:ww.ayjsoft.com"
-        "ARPPRODUCTICON" = "8:_B2EED312140E43F6B5C5308B08E38794"
+        "ARPPRODUCTICON" = "8:_5D99DAEB0410472FBE60F4E101C66657"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -2524,20 +2509,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_479DA39537C64431B986FC27302DFFB4"
-            {
-            "Name" = "8:FoodandBeverage"
-            "Arguments" = "8:"
-            "Description" = "8:Food and Beverage "
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_44FFBBE1AC0949CBBBC060472C84CF48"
-            "Folder" = "8:_EAA3919CCB9F404995E7D8DFC6773DA3"
-            "WorkingFolder" = "8:_33D1F2B941A940EBB95119DA19D5F91D"
-            "Icon" = "8:_B2EED312140E43F6B5C5308B08E38794"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {

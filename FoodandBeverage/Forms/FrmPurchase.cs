@@ -1113,11 +1113,11 @@ namespace FoodandBeverage.Forms
                 int r = dgvItemPop.CurrentCell.RowIndex;
                 int r1 = dgvProduct.CurrentCell.RowIndex;
                 dmnSearch.Select = "top (1) i.ItemCode_UPC Field1,i.Itemname Field2,u.UnitName Field3," +
-    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field4," +
-    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
-    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
-    "ts.IgstPrcnt Field7,ts.VatPrcnt Field8,i.ItemId Field9,i.Tax Field10,i.TaxType Field11,i.Fcid Field12,i.TaxSettingsId Field13," +
-    "(Select Top(1)id from tblProductRate where ProductId=i.ItemId order by Id desc) as Field14,u.uid Field15";
+                    "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field4," +
+                    "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
+                    "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
+                    "ts.IgstPrcnt Field7,ts.VatPrcnt Field8,i.ItemId Field9,i.Tax Field10,i.TaxType Field11,i.Fcid Field12,i.TaxSettingsId Field13," +
+                    "(Select Top(1)id from tblProductRate where ProductId=i.ItemId order by Id desc) as Field14,u.uid Field15";
                 dmnSearch.Table = "tblItem i " +
                     "LEFT JOIN tblUnit u on u.UId=i.unit " +
                     "LEFT JOIN tblProductRate pr on pr.ProductId=i.ItemId " +

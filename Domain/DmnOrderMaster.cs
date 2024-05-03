@@ -32,6 +32,8 @@ namespace Domain
         public int Tablecount { get; set; }
         public int OrderDetailsId { get; set; }
         public int AddonStatus { get; set; }
+        public int SalesMasterId { get; set; }
+        
     }
 
 }

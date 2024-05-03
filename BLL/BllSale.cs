@@ -59,8 +59,7 @@ namespace BLL
             parms.Add("ICardNo", objTestClass.ICardNo);
             parms.Add("CBalance", objTestClass.CBalance);
             parms.Add("TapType", objTestClass.TapType);
-            parms.Add("LedgerId", objTestClass.LedgerId); 
-
+            parms.Add("LedgerId", objTestClass.LedgerId);
              var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
             return lstData;
         }

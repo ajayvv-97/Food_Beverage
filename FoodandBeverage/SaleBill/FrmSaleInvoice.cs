@@ -18,6 +18,7 @@ using FoodandBeverage.Forms;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using FoodandBeverage.Interfaces;
+using System.Linq;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -188,7 +189,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT";
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
@@ -196,10 +197,55 @@ namespace FoodandBeverage.SaleBill
                 else
                     dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
 
+                dmnSearchInvoiceDetails.OrderBy = "order by  s.AddonStatus";
                 var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
 
-                using (var reader = ObjectReader.Create(invoiceBillDetails,
-                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper"))
+                #region Sorting Result
+                var processedData = invoiceBillDetails.Select(item => new
+                {
+                    ItemName = item.ItemName,
+                    Quantity = item.Quantity,
+                    SalesRate = item.SalesRate,
+                    NetAmount = item.NetAmount,
+                    DiscountAmount = item.DiscountAmount,
+                    Amount = item.Amount,
+                    Taxper = item.Taxper,
+                    AddonStatus = item.AddonStatus,
+                    MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.SalesMasterId}" : item.AV_id,
+                    MainCategoryCount = invoiceBillDetails.Count(b => b.MainCategory == item.MainCategory)
+                }).ToList();
+
+                var mainCategoryCounts = processedData
+                    .GroupBy(item => item.MainCategory)
+                    .Select(group => new
+                    {
+                        MainCategory = group.Key,
+                        MainCategoryCount = group.Count()
+                    }).ToList();
+
+                var mergedData = processedData
+                    .Join(mainCategoryCounts,
+                          processedItem => processedItem.MainCategory,
+                          mainCategoryCount => mainCategoryCount.MainCategory,
+                          (processedItem, mainCategoryCount) => new
+                          {
+                              MainCategoryCount = mainCategoryCount.MainCategoryCount,
+                              processedItem.MainCategory,     
+                              processedItem.ItemName,
+                              processedItem.Quantity,
+                              processedItem.SalesRate,
+                              processedItem.NetAmount,
+                              processedItem.DiscountAmount,
+                              processedItem.Amount,
+                              processedItem.Taxper,
+                              processedItem.AddonStatus,
+                          })
+                    .ToList();
+                #endregion
+
+
+                using (var reader = ObjectReader.Create(mergedData,
+                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper", "MainCategory", "MainCategoryCount", "AddonStatus"))
                 {
                     dtSalesDetail.Load(reader);
                 }

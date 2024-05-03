@@ -23,6 +23,11 @@ namespace Domain
         public decimal TotalTax { get; set; }
         public decimal TotalCGST { get; set; }
         public decimal TotalSGST { get; set; }
-
+        
+        public string AV_id { get; set; }
+        public string MainCategory { get; set; }
+        public int MainCategoryCount { get; set; }
+        public int AddonStatus { get; set; }
+        
     }
 }

@@ -104,6 +104,6 @@ namespace Domain
         public decimal CBalance { get; set; }
         public int TapType { get; set; }
         public int LedgerId { get; set; }
-        
+
     }
 }

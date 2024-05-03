@@ -190,6 +190,7 @@ namespace FoodandBeverage.Forms
                             control.Dispose();
                         }
                     }
+
                     //flp_order_view.Controls.Clear();
                     foreach (var orders in distinctOrders)
                     {

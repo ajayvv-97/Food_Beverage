@@ -2315,13 +2315,13 @@ namespace FoodandBeverage.Forms
                 tlp_regform_grid.VerticalScroll.Visible = false;
                 tlp_regform_grid.HorizontalScroll.Visible = true;
 
-                //tlp_variation.SuspendLayout();
+                tlp_variation.SuspendLayout();
                 tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
                 // Add TableLayoutPanel inside the panel
                 TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
                 tlp_row_layout.Name = "tlp_row_layout" + rowindex;
-                tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                //tlp_row_layout.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
                 tlp_row_layout.Dock = DockStyle.Top;
                 tlp_row_layout.Height = 65;
                 tlp_row_layout.RowCount = 1;
@@ -2397,27 +2397,7 @@ namespace FoodandBeverage.Forms
                 pb_delrow.Click += pb_delrow_Click;
 
                 tlp_row_layout.Controls.Add(tlp_left, 0, 0);
-                tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
-
-                //#region Grid Inseration
-                //int prov_rowindex = rowindex - 1;
-                //string sizename = "txt_size" + prov_rowindex;
-                //TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
-                //string pricename = "txt_price" + prov_rowindex;
-                //TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
-                //string codename = "txt_code" + prov_rowindex;
-                //TextBox txtcode = this.Controls.Find(codename, true).FirstOrDefault() as TextBox;
-
-                //dgv_variation.Rows.Add();
-                //dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Arowno].Value = prov_rowindex;
-
-                //if (txtsize != null)
-                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[avariationno].Value = txtsize.Text;
-                //if (txtprice != null)
-                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[apriceno].Value = txtprice.Text;
-                //if (txtcode != null)
-                //    dgv_variation.Rows[dgv_variation.CurrentCell.RowIndex].Cells[Acodeno].Value = txtcode.Text;
-                //#endregion
+                tlp_row_layout.Controls.Add(pb_delrow, 1, 0);              
 
                 tlp_variation.Controls.Add(tlp_row_layout, 0, rowindex);
                 string sizename = "txt_size" + rowindex;
@@ -2583,7 +2563,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        
+
         private void pb_delrow_Click(object sender, EventArgs e)
         {
             try
@@ -2594,8 +2574,14 @@ namespace FoodandBeverage.Forms
                 TableLayoutPanel tlp_row_layout = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                 if (tlp_row_layout != null)
                 {
+
+                    int removedControlHeight = tlp_row_layout.Height;
+
                     tlp_variation.Controls.Remove(tlp_row_layout);
                     tlp_row_layout.Dispose();
+
+                    tlp_regform_grid.Height -= removedControlHeight;
+                    tlp_regform_grid.PerformLayout();
 
                     for (int i = 0; i < dgv_variation.Rows.Count; i++)
                     {
@@ -2606,25 +2592,19 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
-                //if (id < dgv_variation.Rows.Count)
-                //{
-                //    tlp_variation.RowStyles.RemoveAt(id);
-                //}
 
                 if (dgv_variation.Rows.Count == 0)
                 {
                     chk_variation.Checked = false;
                 }
-
-                tlp_regform_grid.RowStyles[2].SizeType = SizeType.AutoSize;
-                tlp_regform_grid.RowStyles[3].SizeType = SizeType.AutoSize;
             }
             catch (Exception ex)
             {
-
+                // Handle the exception here
             }
-
         }
+
+
         public void RoundAddonTextbox()
         {
             try

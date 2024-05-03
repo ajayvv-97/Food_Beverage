@@ -797,6 +797,11 @@ namespace FoodandBeverage.Forms
                     OrderDateTime = gridSourcemaster[0].CreatedDateTime;
                     ordermsid = Convert.ToInt32(gridSourcemaster[0].OrderMasterId);
 
+                    if (Convert.ToInt32(gridSourcemaster[0].SalesMasterId) > 0)
+                        txtsalemasterid.Text = Convert.ToString(gridSourcemaster[0].SalesMasterId);
+                    else
+                        txtsalemasterid.Text = "0";
+
                     #region Customer Details Filling
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
@@ -1236,6 +1241,11 @@ namespace FoodandBeverage.Forms
                     int orginalCount = gridSourcemaster.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
                     OrderDateTime = gridSourcemaster[0].CreatedDateTime;
                     txtGrandTotal.Text = "0";
+
+                    if (Convert.ToInt32(gridSourcemaster[0].SalesMasterId) > 0)
+                        txtsalemasterid.Text = Convert.ToString(gridSourcemaster[0].SalesMasterId);
+                    else
+                        txtsalemasterid.Text = "0";
 
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
@@ -7031,7 +7041,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.mDevice = clsGeneral.FetchMacId();
                         //dmnsalemaster.Remark = txtRemark.Text; 
                         dmnsalemaster.BranchId = FrmDashboard.BranchId;
-                        dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
+                        dmnsalemaster.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
                         dmnsalemaster.CreatedBy = FrmDashboard.UserId;
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 1;
@@ -7232,7 +7242,7 @@ namespace FoodandBeverage.Forms
                         }
                         //dmnsalemaster.Remark = txtRemark.Text; 
                         dmnsalemaster.BranchId = FrmDashboard.BranchId;
-                        dmnsalemaster.SalesMasterId = Convert.ToInt32("0");
+                        dmnsalemaster.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
                         dmnsalemaster.CreatedBy = FrmDashboard.UserId;
                         dmnsalemaster.Status = 1;
                         dmnsalemaster.CombinedOrderBill_TYPE = 0;
@@ -7261,9 +7271,8 @@ namespace FoodandBeverage.Forms
 
                         dmnsalemaster.ICardNo = reading_RFID;
                         dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
-                        dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
-
-                        var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
+                        dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);                        
+                       var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster); 
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
                         {
@@ -7351,19 +7360,33 @@ namespace FoodandBeverage.Forms
                             }
                             if (gridSourcemaster.Count == countflag)
                             {
-                                if (payid != 12)
+                                if(payid==0)
                                 {
                                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
-                                    ////CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    ////if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                                    ////{
-                                    ////    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                    ////    _instanceFrmdash.LoadTableStaus(0);
-                                    ////}
+                                    CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                                    {
+                                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                                        _instanceFrmdash.LoadTableStaus(0);
+                                    }
+
+                                    this.Close();
+                                }
+                                else if (payid != 12)
+                                {
+                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
+                                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                    frmSalesInvoice.ShowDialog();
+                                    //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                                    //{
+                                    //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                                    //    _instanceFrmdash.LoadTableStaus(0);
+                                    //}
                                     ////ClearAll();
-                                    ////this.Close();
+                                    //this.Close();
                                 }
                             }
                             #endregion
@@ -7372,7 +7395,6 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
