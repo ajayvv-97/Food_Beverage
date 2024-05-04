@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace FoodandBeverage.Forms
 {
@@ -2318,6 +2319,8 @@ namespace FoodandBeverage.Forms
                 tlp_variation.SuspendLayout();
                 tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
+                decimal a = tlp_variation.Height;
+
                 // Add TableLayoutPanel inside the panel
                 TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
                 tlp_row_layout.Name = "tlp_row_layout" + rowindex;
@@ -2416,6 +2419,7 @@ namespace FoodandBeverage.Forms
                 int c = tlp_variation.RowCount;
                 //
                 //}
+                 a = tlp_variation.Height;
             }
             catch (Exception ex)
             {
@@ -2559,9 +2563,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
             }
-
         }
 
         private void pb_delrow_Click(object sender, EventArgs e)
@@ -2574,14 +2576,13 @@ namespace FoodandBeverage.Forms
                 TableLayoutPanel tlp_row_layout = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                 if (tlp_row_layout != null)
                 {
-
-                    int removedControlHeight = tlp_row_layout.Height;
-
+                    tlp_variation.SuspendLayout();
                     tlp_variation.Controls.Remove(tlp_row_layout);
                     tlp_row_layout.Dispose();
+                    tlp_variation.PerformLayout();
+                    tlp_variation.ResumeLayout();
 
-                    tlp_regform_grid.Height -= removedControlHeight;
-                    tlp_regform_grid.PerformLayout();
+                    tlp_regform_grid.RowStyles[4].Height = 10;
 
                     for (int i = 0; i < dgv_variation.Rows.Count; i++)
                     {
@@ -2600,7 +2601,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                // Handle the exception here
             }
         }
 
@@ -2689,6 +2689,8 @@ namespace FoodandBeverage.Forms
                         pb_addon.Visible = true;
 
                         tlp_variation.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                        decimal a = tlp_variation.Height;
 
                         tlp_variation.Dock = DockStyle.Top;
 
@@ -2804,13 +2806,15 @@ namespace FoodandBeverage.Forms
                             Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
                             lastControl.Focus();
                         }
-
+                         a= tlp_variation.Height;
                     }
                     else
                     {
                         txtmrp.Enabled = true;
                         txtprice.Enabled = true;
                         pb_addon.Visible = false;
+
+                        tlp_regform_grid.SuspendLayout();
                         for (int i = 0; i < tlp_variation.RowStyles.Count; i++)
                         {
                             if (i != 0)
@@ -2822,6 +2826,7 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+                        tlp_regform_grid.ResumeLayout();
                     }
                 }
 

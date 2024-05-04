@@ -915,9 +915,11 @@ namespace FoodandBeverage.Forms
                                     dtp_from_time_s.Enabled = false;
 
                                     dtp_from_date_s.MinDate = gridSource[0].StartDate;
-                                    dtp_from_time_s.MinDate = gridSource[0].StartDate;
                                     dtp_from_date_s.Value = gridSource[0].StartDate;
+
+                                    dtp_from_time_s.MinDate = gridSource[0].StartDate;
                                     dtp_from_time_s.Value = gridSource[0].StartDate;
+                
                                 }
 
                                 if (gridSource[0].EndDate >= DateTime.Now)
@@ -1095,10 +1097,12 @@ namespace FoodandBeverage.Forms
                                     dtp_from_date.Enabled = false;
                                     dtp_from_time.Enabled = false;
 
-                                    dtp_from_date.MinDate = itemSource[0].StartDate;
-                                    dtp_from_time.MinDate = itemSource[0].StartDate;
+                                    dtp_from_date.MinDate = itemSource[0].StartDate;                                    
                                     dtp_from_date.Value = itemSource[0].StartDate;
+
+                                    dtp_from_time.MinDate = itemSource[0].StartDate;
                                     dtp_from_time.Value = itemSource[0].StartDate;
+
                                 }
 
                                 if (itemSource[0].EndDate >= DateTime.Now)
@@ -1413,8 +1417,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3";
                 dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1 " +
-                    " Union Select Itemname as Field1,ItemId as Field2,Saletype as Field3 from tblItem";
-                dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1";
+                    " Union Select Itemname as Field1,ItemId as Field2,Saletype as Field3 from tblItem ";//i left join tblProductRate pr on pr.ProductId = i.ItemId
+                dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1 ";//and pr.QOH>0
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -1695,7 +1699,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Top(1) pr.SRate Field3 ,i.Itemname Field8,i.DiscountPer Field2,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,i.TaxType Field6,i.Tax Field7,i.ItemId Field1,i.TaxSettingsId Field9,i.ItemCode_UPC Field10,i.mrp Field11,pr.id Field12";
                 objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=i.TaxSettingsId";
-                objSearch.WhereNdGroupBy = "where i.status = 1 and pr.QOH>0 and i.itemid=" + id;
+                objSearch.WhereNdGroupBy = "where i.status = 1 and pr.SRate>0  and i.itemid=" + id;//and pr.QOH>0
                 objSearch.OrderBy = "";
                 var gridSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                 if (gridSource.Count > 0)
@@ -2199,7 +2203,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    decimal totalamt = Convert.ToDecimal(gridSource[0].Field1) - Convert.ToDecimal(txtcombo_totalprice.Text);
+                                    decimal totalamt =   Convert.ToDecimal(txtcombo_totalprice.Text)- Convert.ToDecimal(gridSource[0].Field1);
                                     txtcombo_totalprice.Text = Convert.ToString(totalamt);
                                 }
 
@@ -3277,7 +3281,6 @@ public bool MandatoryCheck_Combo()
             }
             catch (Exception ex)
             {
-
             }
             
         }

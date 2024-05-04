@@ -523,11 +523,11 @@ namespace FoodandBeverage.Forms
             // pnl_kitchenorderBill
             // 
             this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
-            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(33, 0);
+            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(312, 0);
             this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
-            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(413, 477);
+            this.pnl_kitchenorderBill.Padding = new System.Windows.Forms.Padding(10);
+            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(417, 477);
             this.pnl_kitchenorderBill.TabIndex = 0;
-            this.pnl_kitchenorderBill.Visible = false;
             // 
             // crvkitchenbill
             // 
@@ -535,7 +535,7 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.crvkitchenbill.Cursor = System.Windows.Forms.Cursors.Default;
             this.crvkitchenbill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.crvkitchenbill.Location = new System.Drawing.Point(0, 0);
+            this.crvkitchenbill.Location = new System.Drawing.Point(10, 10);
             this.crvkitchenbill.Name = "crvkitchenbill";
             this.crvkitchenbill.ShowCloseButton = false;
             this.crvkitchenbill.ShowCopyButton = false;
@@ -546,7 +546,7 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.ShowParameterPanelButton = false;
             this.crvkitchenbill.ShowTextSearchButton = false;
             this.crvkitchenbill.ShowZoomButton = false;
-            this.crvkitchenbill.Size = new System.Drawing.Size(413, 477);
+            this.crvkitchenbill.Size = new System.Drawing.Size(397, 457);
             this.crvkitchenbill.TabIndex = 0;
             this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 

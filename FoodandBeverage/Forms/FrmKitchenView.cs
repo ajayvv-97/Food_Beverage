@@ -57,7 +57,7 @@ namespace FoodandBeverage.Forms
         private readonly IHubProxy _hubProxy;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        public string RPTPath =  @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";
+        public string RPTPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//";Application.StartupPath + @"\KitchenBill";//
         TableLayoutPanel tlp_order_col = new TableLayoutPanel();
 
         private void btncolse_Click(object sender, EventArgs e)
@@ -759,7 +759,7 @@ namespace FoodandBeverage.Forms
                                         BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
 
                                         DmnSearch dmnSearchDetails = new DmnSearch();
-                                        dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId,od.AddonStatus AddonStatus,od.AV_id AV_id,od.TableType TableType,ofd.Productname offeritemname,ofd.Quantity offerqty";
+                                        dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId,od.AddonStatus AddonStatus,od.AV_id AV_id,od.TableType TableType,ofd.Productname offeritemname,ofd.Quantity offerqty,od.PrId PrId";
                                         dmnSearchDetails.Table = "tblkitchenOrder ko " +
                                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -783,7 +783,7 @@ namespace FoodandBeverage.Forms
                                         AddonStatus = item.AddonStatus,
                                         offeritemname = item.offeritemname,
                                         offerqty = item.offerqty,
-                                        MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}" : item.AV_id,
+                                        MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
                                         MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory)
                                     }).ToList();                                  
 
@@ -870,18 +870,18 @@ namespace FoodandBeverage.Forms
                                     crvkitchenbill.Focus();
                                     reportDocument.PrintToPrinter(1, false, 0, 0);
 
-                                    //for (int k = 0; k < gridSourcedetails.Count; k++)
-                                    //{
-                                    //    #region Update Prnt Staus Set to2
-                                    //    BllKitchenorder bllkitchen = new BllKitchenorder();
-                                    //    Dmnkitchen dmnkitchen = new Dmnkitchen();
-                                    //    dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
-                                    //    dmnkitchen.CreatedBy = FrmDashboard.UserId;
-                                    //    dmnkitchen.KOTPrintStatus = 2;
-                                    //    dmnkitchen.BranchId = 1030;
-                                    //    var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-                                    //    #endregion
-                                    //}
+                                    for (int k = 0; k < gridSourcedetails.Count; k++)
+                                    {
+                                        #region Update Prnt Staus Set to2
+                                        BllKitchenorder bllkitchen = new BllKitchenorder();
+                                        Dmnkitchen dmnkitchen = new Dmnkitchen();
+                                        dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                                        dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                                        dmnkitchen.KOTPrintStatus = 2;
+                                        dmnkitchen.BranchId = 1030;
+                                        var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                                        #endregion
+                                    }
                                     #endregion
 
                                 }

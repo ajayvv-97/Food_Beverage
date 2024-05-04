@@ -32,7 +32,7 @@ namespace FoodandBeverage.SaleBill
         public string folderPath = Application.StartupPath + "\\Barcode";
         private HttpClient httpClient;
         public static int BType = 0;
-        public string RPTPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//Application.StartupPath + @"\SaleBill\";
+        public string RPTPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
         public string locationname_api;
         public decimal netamount_api = 0;
         public string cusname_api;
@@ -189,7 +189,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus";
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
@@ -211,7 +211,7 @@ namespace FoodandBeverage.SaleBill
                     Amount = item.Amount,
                     Taxper = item.Taxper,
                     AddonStatus = item.AddonStatus,
-                    MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.SalesMasterId}" : item.AV_id,
+                    MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.SalesMasterId}{item.Prid}" : item.AV_id,
                     MainCategoryCount = invoiceBillDetails.Count(b => b.MainCategory == item.MainCategory)
                 }).ToList();
 

@@ -28,6 +28,7 @@ namespace Domain
         public string MainCategory { get; set; }
         public int MainCategoryCount { get; set; }
         public int AddonStatus { get; set; }
+        public int Prid { get; set; }
         
     }
 }
