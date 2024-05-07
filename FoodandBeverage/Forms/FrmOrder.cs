@@ -5795,6 +5795,12 @@ namespace FoodandBeverage.Forms
 
                     }
                     return true;
+                case Keys.F9:
+                    btn_savekot_print.PerformClick();
+                    return true;
+                case Keys.F11:
+                    btn_print_bill.PerformClick();
+                    return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
@@ -6945,6 +6951,8 @@ namespace FoodandBeverage.Forms
                         lblorderid.Text = "0";
                     if (string.IsNullOrEmpty(txt_cardbalance.Text))
                         txt_cardbalance.Text = "0";
+                    if (string.IsNullOrEmpty(txtsalemasterid.Text))
+                        txtsalemasterid.Text = "0";
                     if (checkedtableNames.Count > 0)
                     {
                         #region Combined  Save Salemaster And Saledetails
@@ -6955,6 +6963,8 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(dgv_combined.Rows[i].Cells[cqty].Value) != null && Convert.ToInt32(dgv_combined.Rows[i].Cells[cqty].Value) > 0)
                                 sum = sum + Convert.ToInt32(dgv_combined.Rows[i].Cells[cqty].Value);
                         }
+                        if (string.IsNullOrEmpty(txttotalQTY.Text))
+                            txttotalQTY.Text = "0";
                         finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
 
                         dmnsalemaster.EntryNo = txtinvoiceno.Text;
@@ -9060,10 +9070,12 @@ namespace FoodandBeverage.Forms
                     {
                         if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                         {
+                            GC.Collect();
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                             _instanceFrmdash.Visible = true;
                             _instanceFrmdash.LoadTableStaus(0);
                         }
+
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
                         //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
@@ -9074,10 +9086,12 @@ namespace FoodandBeverage.Forms
                         //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
                         //    _instanceFrmKitchenView.Fillorders();
                         //}
+
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // Notify the kitchen view to refresh
                         ClearAll();
                         this.Close();
+                        this.Dispose();
                     }
 
                 }

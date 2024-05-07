@@ -51,11 +51,7 @@ namespace FoodandBeverage.Forms
           int nHeightEllipse
       );
         private void FrmRegistration_Load(object sender, EventArgs e)
-        {
-           
-
-
-
+        {          
         }
         private bool Isvalid()
         {
@@ -662,7 +658,7 @@ namespace FoodandBeverage.Forms
             //Refreshform();
             ActiveControl = txtname;
             txtname.Focus();
-                FillCombo();
+            FillCombo();
             filldetails();
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Company)))
@@ -686,6 +682,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.WhereNdGroupBy = " Where BranchId =" + FrmLogin.BranchId;
                 dmnSearch.OrderBy = "";
                 var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
             if (gridSource1.Count > 0)
             {
                 textBox1.Text = Convert.ToString(gridSource1[0].Id);

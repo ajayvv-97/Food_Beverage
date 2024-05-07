@@ -233,6 +233,7 @@ namespace FoodandBeverage.Forms
             this.flp_order_view.Name = "flp_order_view";
             this.flp_order_view.Size = new System.Drawing.Size(791, 404);
             this.flp_order_view.TabIndex = 21;
+            this.flp_order_view.Scroll += new System.Windows.Forms.ScrollEventHandler(this.flp_order_view_Scroll);
             // 
             // pnl_products_rem_descr
             // 
@@ -528,6 +529,7 @@ namespace FoodandBeverage.Forms
             this.pnl_kitchenorderBill.Padding = new System.Windows.Forms.Padding(10);
             this.pnl_kitchenorderBill.Size = new System.Drawing.Size(417, 477);
             this.pnl_kitchenorderBill.TabIndex = 0;
+            this.pnl_kitchenorderBill.Visible = false;
             // 
             // crvkitchenbill
             // 

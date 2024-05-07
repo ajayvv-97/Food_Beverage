@@ -974,9 +974,6 @@
     <None Include="Resources\running_table_pic.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\running_table_pic.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\orderview.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1251,6 +1248,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\reprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\circular-clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running_table_pic.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -57,9 +57,9 @@ namespace FoodandBeverage.Forms
         private readonly IHubProxy _hubProxy;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        public string RPTPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//";Application.StartupPath + @"\KitchenBill";//
+        public string RPTPath = Convert.ToString(FrmDashboard.KitchenBillPath);
         TableLayoutPanel tlp_order_col = new TableLayoutPanel();
-
+        bool addingControls = false;
         private void btncolse_Click(object sender, EventArgs e)
         {
             refreshtimer.Stop();
@@ -141,7 +141,6 @@ namespace FoodandBeverage.Forms
             tlp_order_col.Dock = DockStyle.Fill;
             InitTimer();
             //Fillorders();
-
         }
         public class datagrid
         {
@@ -2777,5 +2776,19 @@ namespace FoodandBeverage.Forms
         {
             refreshtimer.Stop();
         }
+
+        private void flp_order_view_Scroll(object sender, ScrollEventArgs e)
+        {
+            try
+            {
+                flp_order_view.SuspendLayout();
+                flp_order_view.ResumeLayout();
+            }
+            catch(Exception ex)
+            {
+
+            }           
+        }
+
     }
 }

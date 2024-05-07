@@ -23,6 +23,8 @@ namespace FoodandBeverage.Forms
             pb_loadingimg.SizeMode = PictureBoxSizeMode.StretchImage;
             await Task.Delay(1000);
             this.Close();
+            this.Dispose();
+
         }
     }
 }

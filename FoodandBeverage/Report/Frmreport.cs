@@ -37,7 +37,7 @@ namespace FoodandBeverage.Report
         string Timeformat = "HH:mm:ss";
         DateTime fTime, tTime;
         public List<DmnHRegistration> Addressdata;
-        string Path = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";//Application.StartupPath + @"\Report";
+        string Path = Convert.ToString(FrmDashboard.ReportPath);
         public Color selectedColor;
         public bool ColorChk = false;
         bool FlagExcel = false;
@@ -1107,8 +1107,8 @@ namespace FoodandBeverage.Report
                 BllAnnuvalreport<DmnRpt_1> SearchDetails = new BllAnnuvalreport<DmnRpt_1>();
                 DmnRpt_1 dmnSearchDetBill = new DmnRpt_1();
 
-                dmnSearchDetBill.dt1 = Convert.ToDateTime(financialYearStart.ToString("yyyy-MM-dd"));
-                dmnSearchDetBill.dt2 = Convert.ToDateTime(financialYearEnd.ToString("yyyy-MM-dd"));
+                dmnSearchDetBill.sFld2 = Convert.ToString(financialYearStart.ToString("yyyy-MM-dd"));
+                dmnSearchDetBill.sFld3 = Convert.ToString(financialYearEnd.ToString("yyyy-MM-dd"));
                 var invoiceBillMasters = SearchDetails.serachreport("prdISerachAnnuvalreport", dmnSearchDetBill);
 
                 #region old code

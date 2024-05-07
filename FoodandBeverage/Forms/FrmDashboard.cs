@@ -24,12 +24,21 @@ namespace FoodandBeverage.Forms
         public static int UserType = 0;
         public static int Allaccess = 0;
 
+        public static string KitchenBillPath = "";
+        public static string ReportPath = "";
+        public static string SaleBillPath = "";
+
         public FrmDashboard()
         {
             InitializeComponent();
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
+
+            KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
+            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
+            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
+            
         }
         // Function to create a rounded rectangle region
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -1113,6 +1122,7 @@ namespace FoodandBeverage.Forms
 
             }
         }
+
         public void TableStaus(int serachmode)
         {
             try

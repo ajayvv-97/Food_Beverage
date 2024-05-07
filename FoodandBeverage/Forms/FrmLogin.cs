@@ -47,6 +47,10 @@ namespace FoodandBeverage.Forms
         public byte[] encryptPassword;
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
+
+        public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";//;@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//";
+        public static string ReportPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// //Application.StartupPath + @"\Report";//
+        public static string SaleBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// Application.StartupPath + @"\SaleBill";// 
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -149,7 +153,6 @@ namespace FoodandBeverage.Forms
                     {
                         if (IsPasswordvalid())
                         {
-
                             #region frist Login Empty db
                             if(txtUserName.Text== "test" && txtPwd.Text == "test")
                             {

@@ -871,6 +871,12 @@ namespace FoodandBeverage.Forms
             {
                 if (MandatoryCheck())
                 {
+                    if (Convert.ToInt32(FrmLogin.BranchId) == 0)
+                    {
+                        CMessageBox.Show("Employee registration is not possible. Please register your company first.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     BllEmployee bllEmployee = new BllEmployee();
                     DmnEmployee dmnEmployee = new DmnEmployee();
                     dmnEmployee.EmployeeId = EmployeeId;
@@ -891,7 +897,7 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId = Convert.ToInt32(FrmLogin.BranchId);
+                    dmnEmployee.BranchId = BranchId;
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = Convert.ToInt32(FrmLogin.UserId);
@@ -1041,7 +1047,7 @@ namespace FoodandBeverage.Forms
                             dmnUserAccount.UserAccountId = UserAccountId;
                             dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                             dmnUserAccount.Username = txtuname.Text;
-                            dmnUserAccount.BranchId = FrmDashboard.BranchId ;
+                            dmnUserAccount.BranchId = BranchId;
                             dmnUserAccount.CreatedBy = FrmLogin.UserId;
                             dmnUserAccount.EmployeeId = EmployeeId;
                             dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
@@ -1267,7 +1273,7 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId =FrmDashboard.BranchId;
+                    dmnEmployee.BranchId = BranchId;
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = FrmLogin.UserId;
@@ -1418,7 +1424,7 @@ namespace FoodandBeverage.Forms
                             dmnUserAccount.UserAccountId = UserAccountId;
                             dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                             dmnUserAccount.Username = txtuname.Text;
-                            dmnUserAccount.BranchId = FrmDashboard.BranchId;
+                            dmnUserAccount.BranchId = BranchId;
                             dmnUserAccount.CreatedBy = FrmLogin.UserId;
                             dmnUserAccount.EmployeeId = EmployeeId;
                             dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
@@ -1819,9 +1825,20 @@ namespace FoodandBeverage.Forms
             richTextBoxCardno.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
 
             LocationFill();
-           
-            BranchId = FrmDashboard.BranchId;
 
+            if (Convert.ToInt32(FrmLogin.BranchId) == 0)
+            {
+                BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblHotelRegistration";
+                objSearch.WhereNdGroupBy = "WHERE Status=1";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 0)
+                    BranchId = Convert.ToInt32(gridSource[0].Id);
+                else
+                    BranchId = FrmDashboard.BranchId;
+            }
             FrmDashboard frmDash = new FrmDashboard();
             if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Employee)))
             {
@@ -1855,6 +1872,7 @@ namespace FoodandBeverage.Forms
 
             clear();
             txtEmpName.Focus();
+
 
 
             if (empid != 0)
