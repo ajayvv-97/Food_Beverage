@@ -63,7 +63,8 @@ namespace FoodandBeverage.Forms
         private void btncolse_Click(object sender, EventArgs e)
         {
             refreshtimer.Stop();
-            this.Close(); 
+            this.Close();
+            this.Dispose();
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -118,10 +119,12 @@ namespace FoodandBeverage.Forms
         private void refreshtimerTick(object sender, EventArgs e)
         {
             Fillorders();
+            PrintOrder();
         }
 
         private void FrmKitchenView_Load(object sender, EventArgs e)
         {
+            txtdisplaycount.Text = "15";
             dgv_viewmore.BorderStyle = BorderStyle.None;
             dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -155,7 +158,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                this.SuspendLayout();
+                GC.Collect();
                 #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
 
@@ -189,10 +192,10 @@ namespace FoodandBeverage.Forms
                             control.Dispose();
                         }
                     }
-
+                    int rowCountDisplay = 0;
                     //flp_order_view.Controls.Clear();
                     foreach (var orders in distinctOrders)
-                    {
+                    {        
                         bool flagstart_ready = false;
                         dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
                             ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17,ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20";
@@ -205,12 +208,15 @@ namespace FoodandBeverage.Forms
                         var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
                         if(gridSourcedetails.Count>0)
                             {
+                            if (rowCountDisplay >= Convert.ToInt32(txtdisplaycount.Text))
+                                break;
                             string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_sele != null)
                             {
+                                flp_order_view.SuspendLayout();
                                 string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17; 
+                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
 
@@ -235,38 +241,41 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
                                     {
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        cell.Value = Properties.Resources.orderview_cancelled;
+                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
                                         dgv_product_details.Rows[k].ReadOnly = true;
                                         dgv_product_details.Rows[k].Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
                                     }
                                     else
                                     {
-                                        cell.Value = Properties.Resources.close_price_change;
+                                        cell.Value = Properties.Resources.food_cancel_icon;
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
                                 }
-                                #endregion      
-             
-                               #region Edit Ready and Close Button 
-                                    if (flagstart_ready)
-                                    {
-                                        btn_start.Visible = true;
-                                        btn_cancelfood.Visible = true;
-                                        btn_ready.Visible = false;
-                                    }
-                                    else
-                                    {
-                                        btn_start.Visible = false;
-                                        btn_ready.Visible = true;
-                                        btn_cancelfood.Visible = false;
-                                    }
                                 #endregion
+
+                                #region Edit Ready and Close Button 
+                                if (flagstart_ready)
+                                {
+                                    btn_start.Visible = true;
+                                    btn_cancelfood.Visible = true;
+                                    btn_ready.Visible = false;
+                                }
+                                else
+                                {
+                                    // btn_start.Visible = false;
+                                    btn_ready.Visible = true;
+                                    btn_cancelfood.Visible = false;
+                                }
+                                #endregion
+
+                                flp_order_view.ResumeLayout();
 
                             }
                             else
                             {
                                 refreshtimer.Stop();
+                                flp_order_view.SuspendLayout();
 
                                 #region Main TableLayoutPanel 
                                 // Main TableLayoutPanel for each product
@@ -294,7 +303,7 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Margin = new Padding(20, 10, 0, 0);
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // 50% height
-                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent,25));
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
                                 tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                                 ApplyRoundedCorners(tlp_product_box);
                                 #endregion
@@ -302,7 +311,7 @@ namespace FoodandBeverage.Forms
                                 #region Heading Time and Tablecode Frist Row
                                 // Sub TableLayoutPanel for Heading
                                 TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
-                                tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + gridSourcedetails[0].Field17;;
+                                tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
                                 tlp_product_heading.Dock = DockStyle.Top;
                                 if (screenWidth > 1367 && screenHeight > 769)
                                 {
@@ -321,7 +330,7 @@ namespace FoodandBeverage.Forms
                                 {
                                     Text = gridSourcedetails[0].Field2,
                                     Name = "lbl_tablecod_k_" + orders.Field1 + gridSourcedetails[0].Field17,
-                                Dock = DockStyle.Fill,
+                                    Dock = DockStyle.Fill,
                                     ForeColor = Color.White,
 
                                 };
@@ -341,7 +350,7 @@ namespace FoodandBeverage.Forms
                                 Label lbl_time = new Label()
                                 {
                                     Text = timeDifferenceString,
-                                    Name = "lbl_time_K_"  + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Name = "lbl_time_K_" + orders.Field1 + gridSourcedetails[0].Field17,
                                     Dock = DockStyle.Fill,
                                     ForeColor = Color.White,
 
@@ -366,7 +375,7 @@ namespace FoodandBeverage.Forms
                                 // Prevent the user from adding new rows
                                 dgv_product_details.AllowUserToAddRows = false;
                                 dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                dgv_product_details.Tag= orders.Field1 + gridSourcedetails[0].Field17;
+                                dgv_product_details.Tag = orders.Field1 + gridSourcedetails[0].Field17;
                                 // Enable double buffering for the DataGridView
                                 dgv_product_details.DoubleBuffered(true);
 
@@ -492,7 +501,7 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
                                     {
                                         flagstart_ready = true;
-                                    }               
+                                    }
                                     //#region Update Prnt Staus Set to2
                                     //BllKitchenorder bllkitchen = new BllKitchenorder();
                                     //Dmnkitchen dmnkitchen = new Dmnkitchen();
@@ -545,12 +554,12 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
                                     {
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        cell.Value = Properties.Resources.orderview_cancelled;
+                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
                                         dgv_product_details.Rows[k].ReadOnly = true;
                                     }
                                     else
                                     {
-                                        cell.Value = Properties.Resources.close_price_change;
+                                        cell.Value = Properties.Resources.food_cancel_icon;
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
@@ -624,13 +633,14 @@ namespace FoodandBeverage.Forms
                                 TableLayoutPanel tlp_buttons = new TableLayoutPanel();
                                 tlp_buttons.Name = "tlp_buttons_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 tlp_buttons.Dock = DockStyle.Top;
+
                                 if (screenWidth > 1367 && screenHeight > 769)
                                 {
                                     tlp_buttons.Height = 45;
                                 }
                                 else
                                 {
-                                    tlp_buttons.Height = 30;
+                                    tlp_buttons.Height = 35;
                                 }
 
                                 tlp_buttons.ColumnCount = 4;
@@ -641,11 +651,11 @@ namespace FoodandBeverage.Forms
 
                                 PictureBox pb_start = new PictureBox()
                                 {
-                                    Name = "pb_start_k_" + orders.Field1  + gridSourcedetails[0].Field17,
+                                    Name = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17,
                                     Image = Properties.Resources.start,
                                     SizeMode = PictureBoxSizeMode.StretchImage,
                                     Dock = DockStyle.None,
-                                    Tag =  gridSourcedetails[0].Field17,
+                                    Tag = gridSourcedetails[0].Field17,
                                     AccessibleDescription = orders.Field1,
                                 };
                                 if (screenWidth > 1367 && screenHeight > 769)
@@ -656,7 +666,7 @@ namespace FoodandBeverage.Forms
                                 else
                                 {
                                     pb_start.Height = 30;
-                                    pb_start.Width = 60;
+                                    pb_start.Width = 80;
                                 }
                                 pb_start.Click += pbstart_Click;
 
@@ -678,14 +688,14 @@ namespace FoodandBeverage.Forms
                                 else
                                 {
                                     pb_ready.Height = 30;
-                                    pb_ready.Width = 60;
+                                    pb_ready.Width = 80;
                                 }
                                 pb_ready.Click += pbreadyfood_Click;
 
                                 PictureBox pb_cancelfood = new PictureBox()
                                 {
                                     Name = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17,
-                                    Image = Properties.Resources.close_price_change, 
+                                    Image = Properties.Resources.Kitchen_Ordercancel,
                                     SizeMode = PictureBoxSizeMode.StretchImage,
                                     Dock = DockStyle.None,
                                     Tag = gridSourcedetails[0].Field17,
@@ -699,9 +709,10 @@ namespace FoodandBeverage.Forms
                                 else
                                 {
                                     pb_cancelfood.Height = 30;
-                                    pb_cancelfood.Width = 60;
+                                    pb_cancelfood.Width = 80;
                                 }
                                 pb_cancelfood.Click += pbcancelfood_Click;
+
 
                                 PictureBox reprintbutton = new PictureBox()
                                 {
@@ -713,6 +724,7 @@ namespace FoodandBeverage.Forms
                                     AccessibleDescription = orders.Field1,
                                 };
 
+
                                 if (screenWidth > 1367 && screenHeight > 769)
                                 {
                                     reprintbutton.Height = 40;
@@ -721,7 +733,7 @@ namespace FoodandBeverage.Forms
                                 else
                                 {
                                     reprintbutton.Height = 30;
-                                    reprintbutton.Width = 60;
+                                    reprintbutton.Width = 80;
                                 }
                                 reprintbutton.Click += reprintbutton_Click;
 
@@ -747,151 +759,8 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
                                 #endregion
 
-                                #region Print Kitchen order base kitchen  Staus Filed 0 or 1
-                                if (Convert.ToInt32(gridSourcedetails[0].Field18) == 1)
-                                {                       
-                                        #region Crystal Report Dclaration
-                                        ReportDocument reportDocument = new ReportDocument();
-                                        DataSet dsReport = new DataSet();
-                                        DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
-
-                                        BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
-
-                                        DmnSearch dmnSearchDetails = new DmnSearch();
-                                        dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId,od.AddonStatus AddonStatus,od.AV_id AV_id,od.TableType TableType,ofd.Productname offeritemname,ofd.Quantity offerqty,od.PrId PrId";
-                                        dmnSearchDetails.Table = "tblkitchenOrder ko " +
-                                            "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-                                            "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                                            "Left Join tblTable_info  ti on ti.Tid=ko.Tid"+
-                                            " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3"+
-                                            " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid";
-                                        dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
-                                        dmnSearchDetails.OrderBy = "order by od.AddonStatus ";
-
-                                    var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
-
-                                    var processedData = BillDetails.Select(item => new
-                                    {
-                                        ItemName = item.ItemName,
-                                        Quantity = item.Quantity,
-                                        Notes = item.Notes,
-                                        Description = item.Description,
-                                        TableCode = item.TableCode,
-                                        OrderMasterId = item.OrderMasterId,
-                                        TableType = item.TableType,
-                                        AddonStatus = item.AddonStatus,
-                                        offeritemname = item.offeritemname,
-                                        offerqty = item.offerqty,
-                                        MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
-                                        MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory)
-                                    }).ToList();                                  
-
-                                    var mainCategoryCounts = processedData
-                                        .GroupBy(item => item.MainCategory)
-                                        .Select(group => new
-                                        {
-                                            MainCategory = group.Key,
-                                            MainCategoryCount = group.Count()
-                                        }).ToList();                                    
-
-                                    var mergedData = processedData
-                                        .Join(mainCategoryCounts,
-                                              processedItem => processedItem.MainCategory,
-                                              mainCategoryCount => mainCategoryCount.MainCategory,
-                                              (processedItem, mainCategoryCount) => new
-                                              {
-                                                  MainCategoryCount = mainCategoryCount.MainCategoryCount,
-                                                  processedItem.MainCategory,
-                                                  processedItem.TableType,
-                                                  processedItem.AddonStatus,
-                                                  processedItem.ItemName,
-                                                  processedItem.Quantity,
-                                                  processedItem.Notes,
-                                                  processedItem.Description,
-                                                  processedItem.TableCode,
-                                                  processedItem.OrderMasterId,
-                                                  processedItem.offeritemname,
-                                                  processedItem.offerqty
-                                              })
-                                        .ToList();
-
-                                    //var sortedData = processedData
-                                    //    .Where(item => item.AddonStatus == 1)
-                                    //    .OrderBy(item => item.MainCategory)
-                                    //    .ThenBy(item => item.ItemName)
-                                    //    .Select(item => new
-                                    //    {
-                                    //        MainCategory = item.MainCategory,
-                                    //        Item = item.ItemName
-                                    //    })
-                                    //    .ToList();
-
-                                    //var mergedAndSortedData = mergedData
-                                    //    .Select(mergedItem =>
-                                    //    {
-                                    //        var sortedItem = sortedData.FirstOrDefault(s => s.MainCategory == mergedItem.MainCategory);
-                                    //        return new
-                                    //        {
-                                    //            MainCategoryCount = mergedItem.MainCategoryCount,
-                                    //            MainCategory = mergedItem.MainCategory,
-                                    //            TableType = mergedItem.TableType,
-                                    //            AddonStatus = mergedItem.AddonStatus,
-                                    //            ItemName = mergedItem.ItemName,
-                                    //            Quantity = mergedItem.Quantity,
-                                    //            Notes = mergedItem.Notes,
-                                    //            Description = mergedItem.Description,
-                                    //            TableCode = mergedItem.TableCode,
-                                    //            OrderMasterId = mergedItem.OrderMasterId,
-                                    //            offeritemname = mergedItem.offeritemname,
-                                    //            offerqty = mergedItem.offerqty,
-                                    //            cobmoitemname = sortedItem != null ? sortedItem.Item : ""
-                                    //        };
-                                    //    })
-                                    //    .ToList();
-
-
-                                    if (mergedData != null && mergedData.Count > 0)
-                                    {
-                                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty"))//, "cobmoitemname"
-                                        {
-                                            dtSalesDetail.Load(reader);
-                                        }
-                                        dsReport.Tables.Add(dtSalesDetail);
-                                    }
-
-                                    textBox1.Text = RPTPath + @"\crkitchenbill.rpt";
-                                    reportDocument.Load(RPTPath + @"\crkitchenbill.rpt");
-
-                                    reportDocument.SetDataSource(dsReport);
-
-                                    crvkitchenbill.RefreshReport();
-                                    crvkitchenbill.ReportSource = reportDocument;
-                                    crvkitchenbill.Focus();
-                                    reportDocument.PrintToPrinter(1, false, 0, 0);
-
-                                    for (int k = 0; k < gridSourcedetails.Count; k++)
-                                    {
-                                        #region Update Prnt Staus Set to2
-                                        BllKitchenorder bllkitchen = new BllKitchenorder();
-                                        Dmnkitchen dmnkitchen = new Dmnkitchen();
-                                        dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
-                                        dmnkitchen.CreatedBy = FrmDashboard.UserId;
-                                        dmnkitchen.KOTPrintStatus = 2;
-                                        dmnkitchen.BranchId = 1030;
-                                        var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-                                        #endregion
-                                    }
-                                    #endregion
-
-                                }
-                                else
-                                {
-
-                                }
-                                #endregion
-
                                 flp_order_view.Controls.Add(tlp_product_box);
-                                tlp_product_box.Focus();
+                                flp_order_view.ResumeLayout();
 
                                 orderbox.Add(new datagrid
                                 {
@@ -899,11 +768,10 @@ namespace FoodandBeverage.Forms
                                     datagridviewname = dgv_product_details.Name,
                                     createtime = gridSourcedetails[0].Fielddatetime
                                 });
-
                             }
-         
-                        }
-                
+
+                            rowCountDisplay++;
+                        }                
                     }
                     flp_order_view.Visible = true;
                     timer1.Start();
@@ -915,16 +783,162 @@ namespace FoodandBeverage.Forms
                     flp_order_view.Controls.Clear();
                     pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
                 }
-
-                #endregion
-
-                this.ResumeLayout();
-                this.Refresh();
+                #endregion      
             }
             catch (Exception ex)
             {
                  CMessageBox.Show("An error occurred: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
+        }
+
+        public void PrintOrder()
+        {
+            try
+            {
+                refreshtimer.Stop();
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2";
+                dmnSearch.Table = " tblkitchenOrder ";
+                dmnSearch.WhereNdGroupBy = "where status in(1,2)  and AddonStatus in(1,0) and KOTPrintStatus=1";
+                dmnSearch.OrderBy = "order by koid DESC";
+                var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (gridSourcemaster.Count > 0)
+                {
+                    var distinctOrders = gridSourcemaster
+                       .GroupBy(order => new { order.Field1, order.Field2 })
+                       .Select(group => group.First())
+                       .OrderBy(order => order.Field1)
+                       .ThenBy(order => order.Field2)
+                       .ToList();
+
+                    var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
+
+                    foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
+                    {
+                        if (control is TableLayoutPanel tlp && !preserveNames.Contains(tlp.Name))
+                        {
+                            flp_order_view.Controls.Remove(control);
+                            control.Dispose();
+                        }
+                    }
+
+                    foreach (var orders in distinctOrders)
+                    {
+
+                            #region Crystal Report Dclaration
+                            ReportDocument reportDocument = new ReportDocument();
+                            DataSet dsReport = new DataSet();
+                            DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
+
+                            BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
+
+                            DmnSearch dmnSearchDetails = new DmnSearch();
+                            dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId,od.AddonStatus AddonStatus,od.AV_id AV_id,od.TableType TableType,ofd.Productname offeritemname,ofd.Quantity offerqty,od.PrId PrId";
+                            dmnSearchDetails.Table = "tblkitchenOrder ko " +
+                                "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
+                                "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
+                                "Left Join tblTable_info  ti on ti.Tid=ko.Tid" +
+                                " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3" +
+                                " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid";
+                            dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
+                            dmnSearchDetails.OrderBy = "order by od.AddonStatus ";
+
+                            var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
+
+                            var processedData = BillDetails.Select(item => new
+                            {
+                                ItemName = item.ItemName,
+                                Quantity = item.Quantity,
+                                Notes = item.Notes,
+                                Description = item.Description,
+                                TableCode = item.TableCode,
+                                OrderMasterId = item.OrderMasterId,
+                                TableType = item.TableType,
+                                AddonStatus = item.AddonStatus,
+                                offeritemname = item.offeritemname,
+                                offerqty = item.offerqty,
+                                MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
+                                MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory)
+                            }).ToList();
+
+                            var mainCategoryCounts = processedData
+                                .GroupBy(item => item.MainCategory)
+                                .Select(group => new
+                                {
+                                    MainCategory = group.Key,
+                                    MainCategoryCount = group.Count()
+                                }).ToList();
+
+                            var mergedData = processedData
+                                .Join(mainCategoryCounts,
+                                      processedItem => processedItem.MainCategory,
+                                      mainCategoryCount => mainCategoryCount.MainCategory,
+                                      (processedItem, mainCategoryCount) => new
+                                      {
+                                          MainCategoryCount = mainCategoryCount.MainCategoryCount,
+                                          processedItem.MainCategory,
+                                          processedItem.TableType,
+                                          processedItem.AddonStatus,
+                                          processedItem.ItemName,
+                                          processedItem.Quantity,
+                                          processedItem.Notes,
+                                          processedItem.Description,
+                                          processedItem.TableCode,
+                                          processedItem.OrderMasterId,
+                                          processedItem.offeritemname,
+                                          processedItem.offerqty
+                                      })
+                                .ToList();
+
+
+                            if (mergedData != null && mergedData.Count > 0)
+                            {
+                                using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty"))//, "cobmoitemname"
+                                {
+                                    dtSalesDetail.Load(reader);
+                                }
+                                dsReport.Tables.Add(dtSalesDetail);
+                            }
+
+                            textBox1.Text = RPTPath + @"\crkitchenbill.rpt";
+                            reportDocument.Load(RPTPath + @"\crkitchenbill.rpt");
+
+                            reportDocument.SetDataSource(dsReport);
+
+                            crvkitchenbill.RefreshReport();
+                            crvkitchenbill.ReportSource = reportDocument;
+
+                            reportDocument.PrintToPrinter(1, false, 0, 0);
+                        #endregion
+
+                        //for (int k = 0; k < gridSourcedetails.Count; k++)
+                        //{
+                        //    #region Update Prnt Staus Set to2
+                        //    BllKitchenorder bllkitchen = new BllKitchenorder();
+                        //    Dmnkitchen dmnkitchen = new Dmnkitchen();
+                        //    dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                        //    dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                        //    dmnkitchen.KOTPrintStatus = 2;
+                        //    dmnkitchen.BranchId = 1030;
+                        //    var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                        //    #endregion
+                        //}      
+
+                    }
+                }
+
+                refreshtimer.Start();
+            }
+            catch (Exception ex)
+            {
+                refreshtimer.Start();
+                //CMessageBox.Show("An error occurred crystal: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+
         }
 
         private void ApplyRoundedCorners(TableLayoutPanel panel)
@@ -965,6 +979,26 @@ namespace FoodandBeverage.Forms
                         pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                         lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                         //txt_product_remove_des.Focus();
+                    }
+                    else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 2)
+                    {
+                        var result = CMessageBox.Show("Food processing has started. Are you sure you want to cancel this item?", "Confirm The Action", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            txt_product_remove_des.Text = "Reason type here .....";
+                            txt_product_remove_des.ForeColor = Color.LightGray;
+                            dgv_view_name = clickedDataGridView.Name;
+                            dgv_view_rowno = e.RowIndex;
+                            pnl_products_rem_descr.Visible = true;
+                            int panelWidthPercentage = 20;
+                            int panelheightPercentage = 20;
+                            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                            int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                            pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
+                            pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                            lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
+                        }
+
                     }
            }
             else if (e.ColumnIndex == dptypeno)
@@ -1202,7 +1236,10 @@ namespace FoodandBeverage.Forms
                     btn_ready.Visible = true;
                 PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
                 if (btn_start != null)
+                {
                     btn_start.Visible = false;
+                    btn_start.Dispose();
+                }
                 PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
 
                 DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
@@ -1456,10 +1493,33 @@ namespace FoodandBeverage.Forms
 
                             string tlpname = "tlp_product_box_k_" + omid + orderno;
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+
+                            string dgvName = "dgv_product_details_k_" + omid + orderno;
+                            string startButtonName = "pb_start_k_" + omid + orderno;
+                            string readyButtonName = "pb_ready_k_" + omid + orderno;
+                            string cancelFoodButtonName = "pictureBoxRemove_k_" + omid + orderno;
+                            string lblTimeName = "lbl_time_K_" + omid + orderno;
+                            string lblTableCodeName = "lbl_tablecod_k_" + omid + orderno;
+
+                            Label lblTime = this.Controls.Find(lblTimeName, true).FirstOrDefault() as Label;
+                            Label lblTableCode = this.Controls.Find(lblTableCodeName, true).FirstOrDefault() as Label;           
+                            PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
+                            PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
+                            PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
+                            if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
+                            {
+                                btnReady.Dispose();
+                                btnStart.Dispose();
+                                btnCancelFood.Dispose(); 
+                                lblTime?.Dispose();
+                                lblTableCode?.Dispose();
+                            }
+
                             if (tlp_sele != null && flp_order_view.Controls.Contains(tlp_sele))
                             {
                                 flp_order_view.Controls.Remove(tlp_sele);
                                 tlp_sele.Dispose();
+                                dgv_product_details.Dispose();
                             }
                         }
                         refreshtimer.Start();
@@ -2724,6 +2784,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
+            txtdisplaycount.Text = "15";
             txttablecode.Text = "Table Code....";
             txttablecode.ForeColor = Color.DarkGray;
             txtorderid_search.Text = "Order Id ....";
@@ -2790,5 +2851,35 @@ namespace FoodandBeverage.Forms
             }           
         }
 
+        private void txtdisplaycount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                // If the pressed key is not a digit and not a control key (like backspace), suppress it
+                e.Handled = true;
+            }
+        }
+
+        private void txtdisplaycount_Leave(object sender, EventArgs e)
+        {
+            if (txtdisplaycount.Text == "")
+            {
+                txtdisplaycount.Text = "Show Count";
+                txtdisplaycount.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void txtdisplaycount_Enter(object sender, EventArgs e)
+        {
+            if (txtdisplaycount.Text == "Show Count")
+            {
+                txtdisplaycount.Text = "";
+                txtdisplaycount.ForeColor = Color.Black;
+            }
+        }
     }
 }

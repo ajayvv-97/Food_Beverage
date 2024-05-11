@@ -72,7 +72,7 @@ namespace FoodandBeverage.Forms
                 txttablecode.Focus();
                 return false;
             }
-            else if (txtcapcity.Text == "" && txtcapcity.Text == null && Convert.ToDecimal(txtcapcity.Text)>=0)
+            else if (txtcapcity.Text == "" || txtcapcity.Text == null || Convert.ToDecimal(txtcapcity.Text)<0)
             {
                 CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcapcity.Focus();
@@ -169,6 +169,7 @@ namespace FoodandBeverage.Forms
             cmb_category.SelectedIndex = 0;
             btn_del_table.Visible = false;
             pbactive_in.Visible = false;
+            chb_active.Checked = true;
         }
 
         private void FrmTableInfo_Load(object sender, EventArgs e)
@@ -237,8 +238,7 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
-            Filltable();
-         
+            Filltable();         
         }
         public void Filldetails(int tableid)
         {

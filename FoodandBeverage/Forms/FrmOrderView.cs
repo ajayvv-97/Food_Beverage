@@ -39,6 +39,8 @@ namespace FoodandBeverage.Forms
         public static int dstatusvalueno = 9;
         public static int dordermasteridno = 10;
         public static int dtableidno = 11;
+        public static int daddonstatusno = 12;
+        public static int davidno = 13;
 
         #endregion
         public int dgv_details_view_rowno = 0;
@@ -625,7 +627,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select = "od.itemName Field1,od.Quantity Field2,od.CreatedDateTime Field3,ko.Status Field4,od.OrderDetailsId Field5,ko.koid Field6,ko.RemoveNotes Field7,om.OrderMasterId Field8,om.Tid Field9";
+                dmnSearch.Select = "od.itemName Field1,od.Quantity Field2,od.CreatedDateTime Field3,ko.Status Field4,od.OrderDetailsId Field5,ko.koid Field6,ko.RemoveNotes Field7,om.OrderMasterId Field8,om.Tid Field9,od.AddonStatus Field10,od.AV_id Field11";
                 dmnSearch.Table = "tblOrderMaster om " +
                     "Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId  " +
                     "Left Join tblTable_info  ti on ti.Tid=om.Tid " +
@@ -657,7 +659,9 @@ namespace FoodandBeverage.Forms
                         dgv_details_view.Rows[i].Cells[dnotesno].Value = detailslist[i].Field7;
                         dgv_details_view.Rows[i].Cells[dstatusvalueno].Value = detailslist[i].Field4;
                         dgv_details_view.Rows[i].Cells[dordermasteridno].Value = detailslist[i].Field8;
-                        dgv_details_view.Rows[i].Cells[dtableidno].Value = detailslist[i].Field9; 
+                        dgv_details_view.Rows[i].Cells[dtableidno].Value = detailslist[i].Field9;
+                        dgv_details_view.Rows[i].Cells[daddonstatusno].Value = detailslist[i].Field10;
+                        dgv_details_view.Rows[i].Cells[davidno].Value = detailslist[i].Field11;
 
                         // Set the image for the "statusno" column
                         if (Convert.ToInt32(detailslist[i].Field4) == 0)
@@ -737,7 +741,7 @@ namespace FoodandBeverage.Forms
         {
             if (e.ColumnIndex == dactionno)
             {
-                if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) > 0)
+                if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) !=3)
                 {
                     pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
                     dgv_details_view_rowno = e.RowIndex;
@@ -781,12 +785,13 @@ namespace FoodandBeverage.Forms
                     dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
                     dmnRemove_order.Tid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dtableidno].Value);
                     decimal originalValue = Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dqtyno].Value);
+                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value);
                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                     dmnRemove_order.Status = 0;
                     dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
 
                     dmnRemove_order.AddonStatus =0;
-                    dmnRemove_order.AV_id = "";
+                    dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
 
                     var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
                     dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;

@@ -94,6 +94,7 @@ namespace FoodandBeverage.Forms
         public bool menutable_click = false;
         private LoadingGIF_Timer loadingForm;
         List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
+        public int panelsPerRow = 0;
         public void initTimer()
         {
             AutoTimer = new Timer();
@@ -818,6 +819,15 @@ namespace FoodandBeverage.Forms
 
                     int rowIndex_cate = 1;
 
+                    if (screenWidth > 1366)
+                    {
+                        panelsPerRow = (int)Math.Floor((double)panelDesktop.Width / 300);
+                    }
+                    else if (screenWidth >= 1024 && screenWidth <= 1366) 
+                    {
+                        panelsPerRow = (int)Math.Floor((double)panelDesktop.Width / 130);
+                    }
+
                     foreach (var category in categoryList)
                     {
                         int countcateitem = 0;
@@ -828,7 +838,7 @@ namespace FoodandBeverage.Forms
                         tlp_category.Tag = category.CategoryName;
                         tlp_category.Dock = DockStyle.Top;
                         tlp_category.Controls.Clear();
-                        tlp_category.AutoScroll = true;
+                        //tlp_category.AutoScroll = true;
                         tlp_category.AutoSize = true;
                         //tlp_category.BorderStyle = BorderStyle.FixedSingle;
                         ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
@@ -868,27 +878,35 @@ namespace FoodandBeverage.Forms
                                 int idToSearch = Convert.ToInt32(gridSource[i].Field3);
                                 int? Serach_Tid = TableDataList.FirstOrDefault(table => table.Tid == idToSearch && table.Capcity > 50)?.Tid;
 
+                                int panelWidth = 0;
+                                int panelHeight = 0;
+                                if (screenWidth > 1366)
+                                {
+                                    pnl_box.Width = 300;
+                                    pnl_box.Height = 100;
+                                }
+                                else if (screenWidth >= 1024 && screenWidth <= 1366) 
+                                {
+                                    pnl_box.Width = 120;
+                                    pnl_box.Height = 80;
+                                }
+
                                 if (Serach_Tid != null)
                                 {
-                                    if (columnIndex == 7)
+                                    if (columnIndex == panelsPerRow)
                                     {
                                         columnIndex = 0;
                                         rowIndex++;
                                     }
                                     pnl_box.BackColor = Color.Transparent;
-                                    pnl_box.Width = 250;
-                                    pnl_box.Height = 150;
-
                                 }
                                 else
                                 {
-                                    if (columnIndex == 7)
+                                    if (columnIndex == panelsPerRow)
                                     {
                                         columnIndex = 0;
                                         rowIndex++;
                                     }
-                                    pnl_box.Width = 120;
-                                    pnl_box.Height = 80;
                                 }
 
                                 #region  TableLayoutPanel inner 
@@ -1405,43 +1423,54 @@ namespace FoodandBeverage.Forms
 
             }
         }
-        private void chkBox_sele_CheckedChanged(object sender, EventArgs e)
+        private void btn_select_Clicked(object sender, EventArgs e)
         {
             try
             {
-                CheckBox checkBox = (CheckBox)sender;
-                string textvalue = checkBox.AccessibleDescription;
+                Button button = (Button)sender;
+                string textvalue = button.AccessibleDescription;
                 string[] parts = textvalue.Split(',');
                 int omasterid = 0, tid = 0;
-                if (parts.Length >= 2)
+                string tablecode = "";
+                if (button != null)
                 {
-                    omasterid = Convert.ToInt32(parts[0]);
-                    tid = Convert.ToInt32(parts[1]);
-                }
-                if (checkBox.Checked)
-                {
-                    CheckedtableNames.Add(new Namelist
+                    if (parts.Length >= 2)
                     {
-                        Id = tid,
-                        Ordermasterid = omasterid,
-                        Tablecode = Convert.ToString(checkBox.Tag)
-
-                    });
-                }
-                else
-                {
-                    Namelist itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
-                    if (itemToRemove != null)
-                    {
-                        CheckedtableNames.Remove(itemToRemove);
+                        omasterid = Convert.ToInt32(parts[0]);
+                        tid = Convert.ToInt32(parts[1]);
+                        tablecode= Convert.ToString(parts[2]);
                     }
+
+                    if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Unselect))
+                    {
+                        CheckedtableNames.Add(new Namelist
+                        {
+                            Id = tid,
+                            Ordermasterid = omasterid,
+                            Tablecode = tablecode
+                        });
+                        button.BackgroundImage = Properties.Resources.billselectedicon;
+                        button.Tag = Convert.ToInt32(BillSelect.Selected);
+                    }
+                    else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
+                    {
+                        Namelist itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
+                        if (itemToRemove != null)
+                        {
+                            CheckedtableNames.Remove(itemToRemove);
+                        }
+                        button.BackgroundImage = Properties.Resources.Billaddicon;
+                        button.Tag = Convert.ToInt32(BillSelect.Unselect);
+                    }
+
+                    button.BackgroundImageLayout = ImageLayout.Stretch;
                 }
             }
             catch (Exception ex)
             {
-
             }
         }
+
 
         private void CompleteEventHandler(object sender, EventArgs e)
         {
@@ -2177,12 +2206,12 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Controls.Clear();
                     tlp_table_dashboard.Controls.Clear();
                     tlp_table_dashboard.Dock = DockStyle.Fill;
-                    tlp_table_dashboard.AutoScroll = true;
+                    //tlp_table_dashboard.AutoScroll = true;
 
                     tlp_table_dashboard_main.RowCount = 2;
                     tlp_table_dashboard_main.Controls.Clear();
                     tlp_table_dashboard_main.Dock = DockStyle.Fill;
-                    tlp_table_dashboard_main.AutoScroll = true;
+                    //tlp_table_dashboard_main.AutoScroll = true;
                     tlp_tablestatus.Dock = DockStyle.Right;
                     tlp_table_dashboard_main.Controls.Add(tlp_tablestatus, 0, 0);
 
@@ -2196,7 +2225,8 @@ namespace FoodandBeverage.Forms
                         tlp_category.Tag = category.CategoryName;
                         tlp_category.Dock = DockStyle.Top;
                         tlp_category.Controls.Clear();
-                        tlp_category.AutoScroll = true;
+                        tlp_category.AutoSize = true;
+                        //tlp_category.AutoScroll = true;
                         //tlp_category.BorderStyle = BorderStyle.FixedSingle;
                         ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
                         tlp_category.MouseHover += tlp_category_com_MouseHover;
@@ -2236,19 +2266,24 @@ namespace FoodandBeverage.Forms
                                             columnIndex = 0;
                                             rowIndex++;
                                         }
+
                                         // Configure the TableLayoutPanel
                                         TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
+                                        tlp_table_inner.ColumnCount = 2; // Add two columns
+                                        tlp_table_inner.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70)); 
+                                        tlp_table_inner.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30)); 
                                         tlp_table_inner.RowCount = 3;
-                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 60));
+                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 30));
+                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
                                         tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
                                         tlp_table_inner.Name = "tlp_com" + gridSource[i].TableCode;
                                         tlp_table_inner.Tag = gridSource[i].Tid;
                                         tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                                        // tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+                                        //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
                                         tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
                                         tlp_table_inner.Dock = DockStyle.Fill;
-                                        // tlp_table_inner.BackColor = Color.Aqua;
+                                        //tlp_table_inner.BackColor = Color.Aqua;
+
 
                                         PictureBox pictureBox = new PictureBox();
                                         Label lbltablename = new Label();
@@ -2257,26 +2292,40 @@ namespace FoodandBeverage.Forms
                                         pnl_box.Name = "pnl_box_com" + gridSource[i].TableCode;
                                         pnl_box.Tag = gridSource[i].Tid;
                                         pnl_box.BackColor = Color.Transparent;
-                                        pnl_box.Width = 120;
-                                        pnl_box.Height = 80;
+                                        pnl_box.Width = 170;
+                                        pnl_box.Height = 120;
                                         pnl_box.BackColor = Color.Transparent;
 
-                                        CheckBox chkBox_sele = new CheckBox();
-                                        chkBox_sele.Name = "chkBox_com" + gridSource[i].TableCode;
-                                        chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId) + "," + gridSource[i].Tid;
-                                        chkBox_sele.Tag = gridSource[i].TableCode;
-                                        chkBox_sele.BackColor = Color.Transparent;
-                                        chkBox_sele.Text = "";
-                                        chkBox_sele.Margin = new Padding(95, 2, 0, 0);
-                                        chkBox_sele.CheckedChanged += new EventHandler(chkBox_sele_CheckedChanged);
+                                        //CheckBox chkBox_sele = new CheckBox();
+                                        //chkBox_sele.Name = "chkBox_com" + gridSource[i].TableCode;
+                                        //chkBox_sele.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId) + "," + gridSource[i].Tid;
+                                        //chkBox_sele.Tag = gridSource[i].TableCode;
+                                        //chkBox_sele.BackColor = Color.Transparent;
+                                        //chkBox_sele.Text = "";
+                                        ////chkBox_sele.Margin = new Padding(95, 2, 0, 0);
+                                        //chkBox_sele.BackColor = Color.Red;
+                                        //chkBox_sele.Font = new Font(chkBox_sele.Font.FontFamily, 18, FontStyle.Regular);
+                                        //chkBox_sele.CheckedChanged += new EventHandler(chkBox_sele_CheckedChanged);
 
+                                        Button btn_select = new Button();
+                                        btn_select.Name = "btn_select_com" + gridSource[i].TableCode;
+                                        btn_select.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId) + "," + gridSource[i].Tid + "," + Convert.ToString(gridSource[i].TableCode);
+                                        btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+                                        btn_select.FlatStyle = FlatStyle.Flat;
+                                        btn_select.FlatAppearance.BorderSize = 0;
+                                        btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+                                        btn_select.BackgroundImageLayout = ImageLayout.Stretch; 
+                                        //btn_select.Font = new Font(btn_select.Font.FontFamily, 12, FontStyle.Regular);
+                                        //btn_select.BackColor = Color.Red;
+                                        btn_select.Dock = DockStyle.Fill;
+                                        btn_select.Click += new EventHandler(btn_select_Clicked);
 
                                         // Configure the PictureBox
                                         pictureBox.Name = "pb_com" + gridSource[i].TableCode;
                                         pictureBox.Tag = gridSource[i].Tid;
                                         pictureBox.Image = FoodandBeverage.Properties.Resources.restaurant;
                                         pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                                        tlp_table_inner.Dock = DockStyle.Fill;
+                                        pictureBox.Dock = DockStyle.Fill;
 
                                         // Configure the Label
                                         lbltablename.Name = "lb_com" + gridSource[i].TableCode;
@@ -2289,7 +2338,7 @@ namespace FoodandBeverage.Forms
                                         lbltablename.ForeColor = Color.Red;
 
                                         if (Convert.ToInt32(gridSource[i].OrderStatus) == 1)
-                                            tlp_table_inner.Controls.Add(chkBox_sele, 0, 0);
+                                            tlp_table_inner.Controls.Add(btn_select, 1, 0);
                                         // Add the PictureBox and Label to the TableLayoutPanel 
                                         tlp_table_inner.Controls.Add(pictureBox, 0, 1); // PictureBox in the sec row
                                         tlp_table_inner.Controls.Add(lbltablename, 0, 2); // Label in the thrid row
@@ -2318,6 +2367,7 @@ namespace FoodandBeverage.Forms
                                         }
 
                                         pnl_box.Controls.Add(tlp_table_inner);
+
                                         PictureBox dynamic_pic = new PictureBox();
                                         dynamic_pic.Name = "pb_com" + gridSource[i].TableCode;
                                         dynamic_pic.Tag = gridSource[i].Tid;

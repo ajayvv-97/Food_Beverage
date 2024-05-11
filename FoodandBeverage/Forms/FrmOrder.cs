@@ -112,6 +112,10 @@ namespace FoodandBeverage.Forms
         public static int cmarketprice = 20;
         public static int Cbarcode = 21;
         public static int Ctabletype = 22;
+        public static int CPavid = 23;
+        public static int CAddonStatus = 24;
+        public static int CAV_id = 25;
+        public static int CAddoncount = 26;
 
 
         public static int tslno = 0;
@@ -6877,7 +6881,8 @@ namespace FoodandBeverage.Forms
                                 foreach (DataGridViewRow row in dgv_combined.Rows)
                                 {
                                     if (Convert.ToInt32(row.Cells[Ctabletype].Value) == gridSourcemaster_combined[i].TableType
-                                        && Convert.ToInt32(row.Cells[citemid].Value) == gridSourcemaster_combined[i].ItemId)
+                                        && Convert.ToInt32(row.Cells[citemid].Value) == gridSourcemaster_combined[i].ItemId && 
+                                        Convert.ToString(row.Cells[citemid].Value) == gridSourcemaster_combined[i].AV_id)
                                     {
                                         valueExists = true;
                                         row.Cells[cqty].Value = Convert.ToInt32(row.Cells[cqty].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].Quantity);
@@ -6920,6 +6925,11 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[cmarketprice].Value = gridSourcemaster_combined[i].MarketPrice;
                                     dgv_combined.Rows[rowIndex].Cells[Cbarcode].Value = gridSourcemaster_combined[i].ItemBarCode;
                                     dgv_combined.Rows[rowIndex].Cells[Ctabletype].Value = gridSourcemaster_combined[i].TableType;
+
+                                    dgv_combined.Rows[rowIndex].Cells[CPavid].Value = gridSourcemaster_combined[i].Pavid;
+                                    dgv_combined.Rows[rowIndex].Cells[CAddonStatus].Value = gridSourcemaster_combined[i].AddonStatus;
+                                    dgv_combined.Rows[rowIndex].Cells[CAV_id].Value = gridSourcemaster_combined[i].AV_id;
+                                    dgv_combined.Rows[rowIndex].Cells[CAddoncount].Value = gridSourcemaster_combined[i].Addoncount;
                                 }
                             }
                         }
@@ -7109,7 +7119,7 @@ namespace FoodandBeverage.Forms
 
                                 for (int i = 0; i < dgv_combined.RowCount; i++)
                                 {
-                                    if (Convert.ToInt32(dgv_combined.Rows[i].Cells[citemid].Value) > 0)
+                                    if (Convert.ToInt32(dgv_combined.Rows[i].Cells[citemid].Value) > 0)// && (Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value) == 0 || Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value) == 1)
                                     {
                                         txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
                                         dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
@@ -7139,12 +7149,12 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                         dmnsaledetails.CreatedBy = 1;
                                         dmnsaledetails.Status = 1;
-                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
-
-                                        dmnsaledetails.Pavid = Convert.ToInt32(gridSourcemaster[i].Pavid);
-                                        dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
-                                        dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
-                                        dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
+                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");  
+                                        
+                                        dmnsaledetails.Pavid = Convert.ToInt32(dgv_combined.Rows[i].Cells[CPavid].Value);
+                                        dmnsaledetails.AddonStatus = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value);
+                                        dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
+                                        dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
 
                                         var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                         if (InsertStatus == null)
@@ -9073,7 +9083,7 @@ namespace FoodandBeverage.Forms
                             GC.Collect();
                             FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                             _instanceFrmdash.Visible = true;
-                            _instanceFrmdash.LoadTableStaus(0);
+                            _instanceFrmdash.TableStaus(0);
                         }
 
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
@@ -10271,8 +10281,7 @@ namespace FoodandBeverage.Forms
                 decimal previousAmount = Convert.ToDecimal(dgv_split.Rows[Split_Rowno].Cells[1].Value);
                 decimal balanceAmount =   previousAmount-receivedAmount;
                 txt_split_balamt.Text = Convert.ToString(balanceAmount); ;
-            }
-            
+            }            
         }
 
         private void btn_PrintCopy_Click(object sender, EventArgs e)

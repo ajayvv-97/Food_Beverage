@@ -729,6 +729,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FoodBeverage_Setup.msi" />
     <None Include="Resources\Technology Network Loop Background _ Blue Animated lines Backgrounds %281%29.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -1010,12 +1011,6 @@
     <None Include="Resources\kitchen_order_view.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ready_button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\start.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\food_preparation.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1247,13 +1242,82 @@
     <None Include="Resources\addonbutton.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\reprint.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\circular-clock.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\running_table_pic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reprint icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ready_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kitchen_Ordercancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ready.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\food cancel icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Billaddicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\billselectedicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel button 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\active_dinner_table_chart.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp Image 2024-05-11 at 11.20.25 AM.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\active dine icon 2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp Image 2024-05-11 at 11.40.40 AM.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\foodpicchart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FB_LOGIN_BG.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\food cancel icon 2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clear_userdetails.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\food cancel icon 3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reprint %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reservation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

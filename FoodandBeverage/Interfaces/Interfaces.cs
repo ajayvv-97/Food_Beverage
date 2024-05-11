@@ -245,6 +245,11 @@ namespace FoodandBeverage.Interfaces
         Number = 1,
         Item = 2
     }
+    public enum BillSelect
+    {
+        Selected = 1,
+        Unselect = 0
+    }
 
 }
 
