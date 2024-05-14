@@ -1161,18 +1161,18 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    ibcash.Text = Convert.ToString(gridSource[0].Field1);
-                    ibcreditcard.Text = Convert.ToString(gridSource[0].Field2);
-                    ibupi.Text = Convert.ToString(gridSource[0].Field3);
-                    ibrupay.Text = Convert.ToString(gridSource[0].Field4);
-                    ibnetbanking.Text = Convert.ToString(gridSource[0].Field5);
-                    ibothers.Text = Convert.ToString(gridSource[0].Field6);
-                    ibpart.Text = Convert.ToString(gridSource[0].Field7);
-                    ibsplit.Text = Convert.ToString(gridSource[0].Field8);
+                    ibcash.Text = "\u20B9" + Convert.ToString(gridSource[0].Field1);
+                    ibcreditcard.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);
+                    ibupi.Text = "\u20B9" + Convert.ToString(gridSource[0].Field3);
+                    ibrupay.Text = "\u20B9" + Convert.ToString(gridSource[0].Field4);
+                    ibnetbanking.Text = "\u20B9" + Convert.ToString(gridSource[0].Field5);
+                    ibothers.Text = "\u20B9" + Convert.ToString(gridSource[0].Field6);
+                    ibpart.Text = "\u20B9" + Convert.ToString(gridSource[0].Field7);
+                    ibsplit.Text = "\u20B9" + Convert.ToString(gridSource[0].Field8);
                     decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
                                        Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
                                        Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
-                    ibtotalsumpayment.Text = Convert.ToString(sumtotal);
+                    ibtotalsumpayment.Text = "\u20B9" + Convert.ToString(sumtotal);
                 }
                 else
                 {
@@ -1206,32 +1206,32 @@ namespace FoodandBeverage.Forms
                 " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
                 " from tblSalesMaster sm where sm.Rev_Status=0 and sm.Status = 1" +
                 " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
-                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2";
+                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN sm.netamount ELSE 0 END),0) AS Field2";
                 dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
                 dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    ibsaletotal.Text = Convert.ToString(gridSource[0].Field1);//sale
+                    ibsaletotal.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);//sale
                     if (Convert.ToDecimal(gridSource[0].Field2 )== 0)
                         lbltotalsaleno.Text = "0 Orders";      
                     else
-                        lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field2) + " Orders";
+                        lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field1) + " Orders";
 
 
-                    ibdinetotal.Text = Convert.ToString(gridSource[1].Field1);//dine
+                    ibdinetotal.Text = "\u20B9" + Convert.ToString(gridSource[1].Field2);//dine
                     if (Convert.ToDecimal(gridSource[1].Field2) == 0)
                         lbldinetotalno.Text = "0 Orders";
                     else
-                        lbldinetotalno.Text = Convert.ToString(gridSource[1].Field2) + " Orders";
+                        lbldinetotalno.Text = Convert.ToString(gridSource[1].Field1) + " Orders";
 
 
-                    ibreservatiototal.Text = Convert.ToString(gridSource[2].Field1);//reservation
+                    ibreservatiototal.Text = "\u20B9" + Convert.ToString(gridSource[2].Field2);//reservation
                     if (Convert.ToDecimal(gridSource[2].Field2) == 0)
                         lblresno.Text = "0 Orders";
                     else
-                        lblresno.Text = Convert.ToString(gridSource[2].Field2) + " Orders";
+                        lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
                 }
             }
             catch (Exception ex)

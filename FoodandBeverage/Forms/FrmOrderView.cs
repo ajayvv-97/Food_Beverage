@@ -813,7 +813,7 @@ namespace FoodandBeverage.Forms
                     if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                     {
                         FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                        _instanceFrmKitchenView.Fillorders();
+                        _instanceFrmKitchenView.refreshtimer.Start();
                     }
                 }
             }

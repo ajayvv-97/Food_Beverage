@@ -306,7 +306,7 @@ namespace FoodandBeverage.Forms
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.13228F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.86773F));
             this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tlp_date_dashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlp_date_dashboard.Controls.Add(this.dtp_dashboard, 1, 0);
             this.tlp_date_dashboard.Controls.Add(this.btnrefreshreport, 2, 0);
             this.tlp_date_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -322,9 +322,9 @@ namespace FoodandBeverage.Forms
             this.dtp_dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtp_dashboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_dashboard.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_dashboard.Location = new System.Drawing.Point(496, 3);
+            this.dtp_dashboard.Location = new System.Drawing.Point(490, 3);
             this.dtp_dashboard.Name = "dtp_dashboard";
-            this.dtp_dashboard.Size = new System.Drawing.Size(157, 24);
+            this.dtp_dashboard.Size = new System.Drawing.Size(155, 24);
             this.dtp_dashboard.TabIndex = 0;
             this.dtp_dashboard.ValueChanged += new System.EventHandler(this.dtp_dashboard_ValueChanged);
             // 
@@ -335,7 +335,7 @@ namespace FoodandBeverage.Forms
             this.btnrefreshreport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnrefreshreport.FlatAppearance.BorderSize = 0;
             this.btnrefreshreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnrefreshreport.Location = new System.Drawing.Point(659, 3);
+            this.btnrefreshreport.Location = new System.Drawing.Point(651, 3);
             this.btnrefreshreport.Name = "btnrefreshreport";
             this.btnrefreshreport.Size = new System.Drawing.Size(60, 31);
             this.btnrefreshreport.TabIndex = 1;
@@ -409,8 +409,8 @@ namespace FoodandBeverage.Forms
             this.ibdinetotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibdinetotal.FlatAppearance.BorderSize = 0;
             this.ibdinetotal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibdinetotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibdinetotal.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibdinetotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibdinetotal.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibdinetotal.IconColor = System.Drawing.Color.Black;
             this.ibdinetotal.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibdinetotal.IconSize = 20;
@@ -479,8 +479,8 @@ namespace FoodandBeverage.Forms
             this.ibsaletotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibsaletotal.FlatAppearance.BorderSize = 0;
             this.ibsaletotal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibsaletotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibsaletotal.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibsaletotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibsaletotal.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibsaletotal.IconColor = System.Drawing.Color.Black;
             this.ibsaletotal.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibsaletotal.IconSize = 20;
@@ -548,8 +548,8 @@ namespace FoodandBeverage.Forms
             this.ibreservatiototal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibreservatiototal.FlatAppearance.BorderSize = 0;
             this.ibreservatiototal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibreservatiototal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibreservatiototal.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibreservatiototal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibreservatiototal.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibreservatiototal.IconColor = System.Drawing.Color.Black;
             this.ibreservatiototal.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibreservatiototal.IconSize = 20;
@@ -653,7 +653,7 @@ namespace FoodandBeverage.Forms
             // 
             // pictureBox12
             // 
-            this.pictureBox12.BackgroundImage = global::FoodandBeverage.Properties.Resources.promotion_chart;
+            this.pictureBox12.BackgroundImage = global::FoodandBeverage.Properties.Resources.active_premotion;
             this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox12.Location = new System.Drawing.Point(107, 3);
@@ -1295,8 +1295,8 @@ namespace FoodandBeverage.Forms
             this.ibcash.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibcash.FlatAppearance.BorderSize = 0;
             this.ibcash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibcash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibcash.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibcash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibcash.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibcash.IconColor = System.Drawing.Color.Black;
             this.ibcash.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibcash.IconSize = 20;
@@ -1316,8 +1316,8 @@ namespace FoodandBeverage.Forms
             this.ibrupay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibrupay.FlatAppearance.BorderSize = 0;
             this.ibrupay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibrupay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibrupay.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibrupay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibrupay.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibrupay.IconColor = System.Drawing.Color.Black;
             this.ibrupay.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibrupay.IconSize = 20;
@@ -1337,8 +1337,8 @@ namespace FoodandBeverage.Forms
             this.ibnetbanking.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibnetbanking.FlatAppearance.BorderSize = 0;
             this.ibnetbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibnetbanking.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibnetbanking.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibnetbanking.IconColor = System.Drawing.Color.Black;
             this.ibnetbanking.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibnetbanking.IconSize = 20;
@@ -1358,8 +1358,8 @@ namespace FoodandBeverage.Forms
             this.ibupi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibupi.FlatAppearance.BorderSize = 0;
             this.ibupi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibupi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibupi.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibupi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibupi.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibupi.IconColor = System.Drawing.Color.Black;
             this.ibupi.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibupi.IconSize = 20;
@@ -1379,8 +1379,8 @@ namespace FoodandBeverage.Forms
             this.ibcreditcard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibcreditcard.FlatAppearance.BorderSize = 0;
             this.ibcreditcard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibcreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibcreditcard.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibcreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibcreditcard.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibcreditcard.IconColor = System.Drawing.Color.Black;
             this.ibcreditcard.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibcreditcard.IconSize = 20;
@@ -1400,8 +1400,8 @@ namespace FoodandBeverage.Forms
             this.ibothers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibothers.FlatAppearance.BorderSize = 0;
             this.ibothers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibothers.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibothers.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibothers.IconColor = System.Drawing.Color.Black;
             this.ibothers.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibothers.IconSize = 20;
@@ -1421,8 +1421,8 @@ namespace FoodandBeverage.Forms
             this.ibpart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibpart.FlatAppearance.BorderSize = 0;
             this.ibpart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibpart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibpart.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibpart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibpart.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibpart.IconColor = System.Drawing.Color.Black;
             this.ibpart.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibpart.IconSize = 20;
@@ -1442,8 +1442,8 @@ namespace FoodandBeverage.Forms
             this.ibsplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibsplit.FlatAppearance.BorderSize = 0;
             this.ibsplit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibsplit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibsplit.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibsplit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibsplit.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibsplit.IconColor = System.Drawing.Color.Black;
             this.ibsplit.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibsplit.IconSize = 20;
@@ -1478,8 +1478,8 @@ namespace FoodandBeverage.Forms
             this.ibtotalsumpayment.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ibtotalsumpayment.FlatAppearance.BorderSize = 0;
             this.ibtotalsumpayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ibtotalsumpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ibtotalsumpayment.IconChar = FontAwesome.Sharp.IconChar.IndianRupee;
+            this.ibtotalsumpayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ibtotalsumpayment.IconChar = FontAwesome.Sharp.IconChar.None;
             this.ibtotalsumpayment.IconColor = System.Drawing.Color.Black;
             this.ibtotalsumpayment.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ibtotalsumpayment.IconSize = 20;
@@ -1606,7 +1606,7 @@ namespace FoodandBeverage.Forms
             this.tlp_fastmovingitem.ColumnCount = 3;
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92611F));
             this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07389F));
-            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
+            this.tlp_fastmovingitem.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
             this.tlp_fastmovingitem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_fastmovingitem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlp_fastmovingitem.Location = new System.Drawing.Point(3, 3);
@@ -1634,7 +1634,7 @@ namespace FoodandBeverage.Forms
             this.tlp_slowingitems.ColumnCount = 3;
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.49383F));
             this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.50617F));
-            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
+            this.tlp_slowingitems.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
             this.tlp_slowingitems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_slowingitems.Location = new System.Drawing.Point(3, 3);
             this.tlp_slowingitems.Name = "tlp_slowingitems";
@@ -1793,14 +1793,14 @@ namespace FoodandBeverage.Forms
             // tlp_pagination
             // 
             this.tlp_pagination.ColumnCount = 8;
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.48045F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.13746F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.3531F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.3531F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.3531F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.3531F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.13746F));
-            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.832232F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.57143F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.571429F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.571429F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.571429F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.571429F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.57143F));
+            this.tlp_pagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.571429F));
             this.tlp_pagination.Controls.Add(this.btn_four, 5, 0);
             this.tlp_pagination.Controls.Add(this.btn_three, 4, 0);
             this.tlp_pagination.Controls.Add(this.btn_two, 3, 0);
@@ -1818,14 +1818,16 @@ namespace FoodandBeverage.Forms
             // 
             // btn_four
             // 
-            this.btn_four.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_four.BackColor = System.Drawing.Color.Transparent;
+            this.btn_four.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_four.BackgroundImage")));
+            this.btn_four.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_four.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_four.FlatAppearance.BorderSize = 0;
             this.btn_four.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_four.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_four.Location = new System.Drawing.Point(247, 3);
+            this.btn_four.Location = new System.Drawing.Point(243, 3);
             this.btn_four.Name = "btn_four";
-            this.btn_four.Size = new System.Drawing.Size(36, 33);
+            this.btn_four.Size = new System.Drawing.Size(26, 33);
             this.btn_four.TabIndex = 6;
             this.btn_four.Text = "4";
             this.btn_four.UseVisualStyleBackColor = false;
@@ -1833,14 +1835,16 @@ namespace FoodandBeverage.Forms
             // 
             // btn_three
             // 
-            this.btn_three.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_three.BackColor = System.Drawing.Color.Transparent;
+            this.btn_three.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_three.BackgroundImage")));
+            this.btn_three.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_three.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_three.FlatAppearance.BorderSize = 0;
             this.btn_three.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_three.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_three.Location = new System.Drawing.Point(205, 3);
+            this.btn_three.Location = new System.Drawing.Point(211, 3);
             this.btn_three.Name = "btn_three";
-            this.btn_three.Size = new System.Drawing.Size(36, 33);
+            this.btn_three.Size = new System.Drawing.Size(26, 33);
             this.btn_three.TabIndex = 5;
             this.btn_three.Text = "3";
             this.btn_three.UseVisualStyleBackColor = false;
@@ -1848,14 +1852,16 @@ namespace FoodandBeverage.Forms
             // 
             // btn_two
             // 
-            this.btn_two.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_two.BackColor = System.Drawing.Color.Transparent;
+            this.btn_two.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_two.BackgroundImage")));
+            this.btn_two.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_two.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_two.FlatAppearance.BorderSize = 0;
             this.btn_two.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_two.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_two.Location = new System.Drawing.Point(163, 3);
+            this.btn_two.Location = new System.Drawing.Point(179, 3);
             this.btn_two.Name = "btn_two";
-            this.btn_two.Size = new System.Drawing.Size(36, 33);
+            this.btn_two.Size = new System.Drawing.Size(26, 33);
             this.btn_two.TabIndex = 4;
             this.btn_two.Text = "2";
             this.btn_two.UseVisualStyleBackColor = false;
@@ -1863,14 +1869,16 @@ namespace FoodandBeverage.Forms
             // 
             // btnfrist
             // 
-            this.btnfrist.BackColor = System.Drawing.Color.DarkGray;
+            this.btnfrist.BackColor = System.Drawing.Color.Transparent;
+            this.btnfrist.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnfrist.BackgroundImage")));
+            this.btnfrist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnfrist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnfrist.FlatAppearance.BorderSize = 0;
             this.btnfrist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnfrist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnfrist.Location = new System.Drawing.Point(121, 3);
+            this.btnfrist.Location = new System.Drawing.Point(147, 3);
             this.btnfrist.Name = "btnfrist";
-            this.btnfrist.Size = new System.Drawing.Size(36, 33);
+            this.btnfrist.Size = new System.Drawing.Size(26, 33);
             this.btnfrist.TabIndex = 3;
             this.btnfrist.Text = "1";
             this.btnfrist.UseVisualStyleBackColor = false;
@@ -1878,29 +1886,33 @@ namespace FoodandBeverage.Forms
             // 
             // btnprevious
             // 
-            this.btnprevious.BackColor = System.Drawing.Color.DarkGray;
+            this.btnprevious.BackColor = System.Drawing.Color.Transparent;
+            this.btnprevious.BackgroundImage = global::FoodandBeverage.Properties.Resources.chart_previous;
+            this.btnprevious.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnprevious.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnprevious.FlatAppearance.BorderSize = 0;
             this.btnprevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprevious.Location = new System.Drawing.Point(68, 3);
+            this.btnprevious.Location = new System.Drawing.Point(70, 3);
             this.btnprevious.Name = "btnprevious";
-            this.btnprevious.Size = new System.Drawing.Size(47, 33);
+            this.btnprevious.Size = new System.Drawing.Size(71, 33);
             this.btnprevious.TabIndex = 0;
-            this.btnprevious.Text = "<<";
             this.btnprevious.UseVisualStyleBackColor = false;
             this.btnprevious.Click += new System.EventHandler(this.btnprevious_Click);
             // 
             // btnnext
             // 
-            this.btnnext.BackColor = System.Drawing.Color.DarkGray;
+            this.btnnext.BackColor = System.Drawing.Color.Transparent;
+            this.btnnext.BackgroundImage = global::FoodandBeverage.Properties.Resources.chart_nextbutton;
+            this.btnnext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnnext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnnext.FlatAppearance.BorderSize = 0;
             this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnnext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnnext.Location = new System.Drawing.Point(289, 3);
+            this.btnnext.Location = new System.Drawing.Point(275, 3);
             this.btnnext.Name = "btnnext";
-            this.btnnext.Size = new System.Drawing.Size(47, 33);
+            this.btnnext.Size = new System.Drawing.Size(71, 33);
             this.btnnext.TabIndex = 1;
-            this.btnnext.Text = ">>";
             this.btnnext.UseVisualStyleBackColor = false;
             this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
             // 
@@ -1912,7 +1924,7 @@ namespace FoodandBeverage.Forms
             this.lblpageno.ForeColor = System.Drawing.Color.White;
             this.lblpageno.Location = new System.Drawing.Point(3, 0);
             this.lblpageno.Name = "lblpageno";
-            this.lblpageno.Size = new System.Drawing.Size(59, 39);
+            this.lblpageno.Size = new System.Drawing.Size(61, 39);
             this.lblpageno.TabIndex = 7;
             this.lblpageno.Text = "pageno";
             this.lblpageno.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

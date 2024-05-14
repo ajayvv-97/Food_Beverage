@@ -47,10 +47,10 @@ namespace FoodandBeverage.Forms
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtUserName.Location = new System.Drawing.Point(573, 144);
+            this.txtUserName.Location = new System.Drawing.Point(564, 143);
             this.txtUserName.Multiline = true;
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(182, 31);
+            this.txtUserName.Size = new System.Drawing.Size(179, 31);
             this.txtUserName.TabIndex = 1;
             this.txtUserName.Text = "User Name .....";
             this.toolTip1.SetToolTip(this.txtUserName, "User Name");
@@ -66,9 +66,9 @@ namespace FoodandBeverage.Forms
             this.btnlogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnlogin.FlatAppearance.BorderSize = 0;
             this.btnlogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnlogin.Location = new System.Drawing.Point(574, 265);
+            this.btnlogin.Location = new System.Drawing.Point(569, 265);
             this.btnlogin.Name = "btnlogin";
-            this.btnlogin.Size = new System.Drawing.Size(84, 36);
+            this.btnlogin.Size = new System.Drawing.Size(77, 36);
             this.btnlogin.TabIndex = 3;
             this.toolTip1.SetToolTip(this.btnlogin, "Login");
             this.btnlogin.UseVisualStyleBackColor = false;
@@ -81,9 +81,9 @@ namespace FoodandBeverage.Forms
             this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncancel.FlatAppearance.BorderSize = 0;
             this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncancel.Location = new System.Drawing.Point(672, 265);
+            this.btncancel.Location = new System.Drawing.Point(659, 265);
             this.btncancel.Name = "btncancel";
-            this.btncancel.Size = new System.Drawing.Size(84, 36);
+            this.btncancel.Size = new System.Drawing.Size(80, 36);
             this.btncancel.TabIndex = 4;
             this.toolTip1.SetToolTip(this.btncancel, "Cancel");
             this.btncancel.UseVisualStyleBackColor = false;
@@ -95,7 +95,7 @@ namespace FoodandBeverage.Forms
             this.txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPwd.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtPwd.Location = new System.Drawing.Point(573, 202);
+            this.txtPwd.Location = new System.Drawing.Point(564, 202);
             this.txtPwd.Multiline = true;
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(182, 31);
@@ -114,7 +114,7 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_login
             // 
-            this.pnl_login.BackColor = System.Drawing.Color.Black;
+            this.pnl_login.BackColor = System.Drawing.Color.White;
             this.pnl_login.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_login.BackgroundImage")));
             this.pnl_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnl_login.Controls.Add(this.txtUserName);
@@ -122,20 +122,22 @@ namespace FoodandBeverage.Forms
             this.pnl_login.Controls.Add(this.btncancel);
             this.pnl_login.Controls.Add(this.txtPwd);
             this.pnl_login.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_login.Location = new System.Drawing.Point(0, 0);
+            this.pnl_login.Location = new System.Drawing.Point(8, 8);
             this.pnl_login.Name = "pnl_login";
-            this.pnl_login.Size = new System.Drawing.Size(877, 472);
+            this.pnl_login.Size = new System.Drawing.Size(861, 456);
             this.pnl_login.TabIndex = 8;
             // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(877, 472);
             this.Controls.Add(this.pnl_login);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmLogin";
+            this.Padding = new System.Windows.Forms.Padding(8);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.pnl_login.ResumeLayout(false);

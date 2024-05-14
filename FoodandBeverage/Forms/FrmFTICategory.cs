@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms
         public static int cstatusno = 4;
         public static int cactionno = 5;
         #endregion
+
         public bool Mandatory()
         {
             if (txtfoodCate.Text == "" || txtfoodCate.Text == null)
@@ -64,6 +65,7 @@ namespace FoodandBeverage.Forms
                     dmnfood.Description = txtdescr.Text;
                     dmnfood.CreatedBy = FrmDashboard.UserId;
                     dmnfood.BranchId = FrmDashboard.BranchId;
+                    dmnfood.ColorCode = Convert.ToString(txtcolorname.Text); 
                     if (chk_active.Checked)
                         dmnfood.Status = 1;
                     else
@@ -98,11 +100,25 @@ namespace FoodandBeverage.Forms
             btn_del_cate.Visible = false;
             txtfoodCate.Focus();
             chk_active.Checked = true;
+            pbcolorpicker.BackColor = Color.SteelBlue;
+            txtcolorname.Text = "";
         }
         public void Fillcategory(int n)
         {
             try
             {
+                if (n != 0)
+                {
+                    btnresetcolor.Visible = false;
+                    pbcolorpicker.Visible = false;
+                    lblcolor.Visible = false;
+                }
+                else
+                {
+                    btnresetcolor.Visible = true;
+                    pbcolorpicker.Visible = true;
+                    lblcolor.Visible = true;
+                }
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName,Description,Status";
@@ -134,7 +150,8 @@ namespace FoodandBeverage.Forms
                 dgv_category.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
-                    dgv_category.Rows.Add(itemSource.Count);
+
+                    dgv_category.Rows.Add(itemSource.Count);  
                     for (int i = 0; i < itemSource.Count; i++)
                     {
                         dgv_category.Rows[i].Cells[cslno].Value = i + 1;
@@ -328,7 +345,7 @@ namespace FoodandBeverage.Forms
                 int catid = Convert.ToInt32(dgv_category.Rows[e.RowIndex].Cells[cidno].Value);
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType";
+                objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType,ColorCode";
                 objSearch.Table = "tblCategory_FTI";
                 objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
                 objSearch.OrderBy = "";
@@ -340,6 +357,20 @@ namespace FoodandBeverage.Forms
                     cmb_cate.SelectedIndex = Convert.ToInt32(itemSource[0].CategoryType);
                     txtdescr.Text = itemSource[0].Description;
                     btn_del_cate.Visible = true;
+
+                    if (Convert.ToInt32(itemSource[0].CategoryType) != 0)
+                    {
+                        btnresetcolor.Visible = false;
+                        pbcolorpicker.Visible = false;
+                        lblcolor.Visible = false;
+                    }
+                    else
+                    {
+                        pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
+                        btnresetcolor.Visible = true;
+                        pbcolorpicker.Visible = true;
+                        lblcolor.Visible = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -381,6 +412,24 @@ namespace FoodandBeverage.Forms
         private void FrmFTICategory_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void pbcolorpicker_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            DialogResult result = colorDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                pbcolorpicker.BackColor = colorDialog.Color;
+                if (pbcolorpicker.BackColor.Name.Contains("ff"))
+                    txtcolorname.Text = "#" + pbcolorpicker.BackColor.Name.ToString().Remove(0, 2);
+            }
+        }
+
+        private void btnresetcolor_Click(object sender, EventArgs e)
+        {
+            pbcolorpicker.BackColor = Color.SteelBlue;
+            txtcolorname.Text = "#4682B4";
         }
     }
 }

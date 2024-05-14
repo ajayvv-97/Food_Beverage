@@ -83,6 +83,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap active_premotion {
+            get {
+                object obj = ResourceManager.GetObject("active_premotion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ACTIVEBUTTON {
             get {
                 object obj = ResourceManager.GetObject("ACTIVEBUTTON", resourceCulture);
@@ -373,6 +383,36 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap chart_nextbutton {
+            get {
+                object obj = ResourceManager.GetObject("chart_nextbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap chart_number {
+            get {
+                object obj = ResourceManager.GetObject("chart_number", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap chart_previous {
+            get {
+                object obj = ResourceManager.GetObject("chart_previous", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cleaning {
             get {
                 object obj = ResourceManager.GetObject("cleaning", resourceCulture);
@@ -416,6 +456,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Closebutton {
             get {
                 object obj = ResourceManager.GetObject("Closebutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap colourpick_icon {
+            get {
+                object obj = ResourceManager.GetObject("colourpick_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -546,6 +596,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap dish_remarks_notes {
             get {
                 object obj = ResourceManager.GetObject("dish_remarks_notes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Displaymore_kitchenorder {
+            get {
+                object obj = ResourceManager.GetObject("Displaymore_kitchenorder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1366,6 +1426,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap reserved {
             get {
                 object obj = ResourceManager.GetObject("reserved", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reset_color_category {
+            get {
+                object obj = ResourceManager.GetObject("reset_color_category", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

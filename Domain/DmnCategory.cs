@@ -16,6 +16,7 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public int CategoryType { get; set; }
-        
+        public string ColorCode { get; set; }
+
     }
 }

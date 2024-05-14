@@ -33,6 +33,7 @@ namespace FoodandBeverage.Forms
         public static string EmpCode = "";
         public static string EmployeName = "";
         public static string Designation = "";
+        public static int KitchenDisplayCount = 15; 
         public static long EmployeeId;
         public static decimal BookingInterwell;
         int UserStatus;
@@ -182,9 +183,9 @@ namespace FoodandBeverage.Forms
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
 
-                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell";
+                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell,KitchenDisplayCount";
                                 objSearch.Select = " ua.UserAccountId as Id,ua.[Status] as Field1,emp.EmployeeId as Field2,ua.BranchId as Field3," +
-                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ";
+                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ,h.KitchenDisplayCount  Field11 ";
                                 objSearch.Table = " tblUserAccount ua " +
                                     "Left join  tblEmployee emp on emp.EmployeeId = ua.EmployeeId " +
                                     " Left join tblForms f on f.UserType = ua.UserAccountTypeId and f.Status = 1 " +
@@ -209,6 +210,7 @@ namespace FoodandBeverage.Forms
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
                                     EmployeName = Convert.ToString(userDetails["Field8", 0].Value);
                                     Designation = Convert.ToString(userDetails["Field9", 0].Value);
+                                    KitchenDisplayCount  = Convert.ToInt32(userDetails["Field11", 0].Value);
                                     //CompanyId = Convert.ToInt64(userDetails["Field4", 0].Value);
                                     UserAccountTypeId = Convert.ToInt64(userDetails["Field5", 0].Value);
                                     EmpCode = userDetails["Field6", 0].Value.ToString();

@@ -26,7 +26,7 @@ namespace FoodandBeverage.Forms
         public int BookingType = 0;
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsGeneral = new ClsGeneral();
-        public FrmOrder(int tid, int booktype, int bmasterid, List<FrmDashboard.Namelist> checkedtableNames)
+        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames)
         {
             tableId = tid;
             Bookingmasterid = bmasterid;
@@ -181,7 +181,7 @@ namespace FoodandBeverage.Forms
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
         public int Splitypeno = 0;
         public int Existingsalemasterid = 0;
-        private List<FrmDashboard.Namelist> checkedtableNames;
+        private List<DmnNameList> checkedtableNames;
         public decimal ReservationTotal = 0;
         public bool itemcode_serach_Status = false;
         public DateTime OrderDateTime;
@@ -414,7 +414,11 @@ namespace FoodandBeverage.Forms
                         button.Text = gridSource[i].CategoryName;
                         button.Name = "btn" + gridSource[i].CategoryName;
                         button.Tag = gridSource[i].Fcid;
-                        button.BackColor = ColorTranslator.FromHtml("#3f88c5");
+                        if (Convert.ToString(gridSource[i].ColorCode) == null || Convert.ToString(gridSource[i].ColorCode) == "")
+                            button.BackColor = Color.SteelBlue;
+                        else
+                            button.BackColor = ColorTranslator.FromHtml(gridSource[i].ColorCode);
+
                         tooltip.SetToolTip(button, gridSource[i].CategoryName);
                         button.ForeColor = Color.White;
                         button.FlatStyle = FlatStyle.Flat;
@@ -620,7 +624,7 @@ namespace FoodandBeverage.Forms
 
                                 for (int i = 0; i < gridSource.Count; i++)
                                 {
-                                    if (gridSource[i].Status == 3 && gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0)
+                                    if (gridSource[i].Status == 3 && (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0))
                                         ordercount = ordercount + 1;
 
                                     if (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0)
@@ -1328,7 +1332,7 @@ namespace FoodandBeverage.Forms
 
                             for (int i = 0; i < gridSource.Count; i++)
                             {
-                                if (gridSource[i].Status == 3 && gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0)
+                                if (gridSource[i].Status == 3 && ( gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0 ))
                                     ordercount = ordercount + 1;
 
                                 #region Grid fill data
@@ -5789,13 +5793,8 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                        _instancedash.Closeform();
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                        {
-                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.LoadTableStaus(0);
-                        }
+                        this.Close();
+                        this.Dispose();
 
                     }
                     return true;
@@ -6332,6 +6331,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
+                    dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -6477,12 +6477,13 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                        {
-                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.Visible = true;
-                            _instanceFrmdash.LoadTableStaus(0);
-                        }
+                        //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        //{
+                        //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmTableView"] as FrmDashboard;
+                        //    _instanceFrmdash.Visible = true;
+                        //    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        //    _instanceFrmTableView.TableStaus(0);
+                        //}
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
                         //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
@@ -6704,11 +6705,10 @@ namespace FoodandBeverage.Forms
 
         private void btncolse_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                _instanceFrmdash.Visible = true;
-                _instanceFrmdash.LoadTableStaus(0);
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.TableStaus(0);
             }
             this.Close();
         }
@@ -7176,10 +7176,10 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                                     {
-                                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                        _instanceFrmdash.LoadTableStaus(0);
+                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                                        _instanceFrmTableView.TableStaus(0);
                                     }
                                     //ClearAll();
                                     this.Close();
@@ -7386,10 +7386,10 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                                     {
-                                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                        _instanceFrmdash.LoadTableStaus(0);
+                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                                        _instanceFrmTableView.TableStaus(0);
                                     }
 
                                     this.Close();
@@ -7399,6 +7399,7 @@ namespace FoodandBeverage.Forms
                                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
+
                                     //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                                     //{
@@ -7407,6 +7408,7 @@ namespace FoodandBeverage.Forms
                                     //}
                                     ////ClearAll();
                                     //this.Close();
+
                                 }
                             }
                             #endregion
@@ -7648,11 +7650,10 @@ namespace FoodandBeverage.Forms
 
         private void btn_frm_close_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                _instanceFrmdash.Visible = true;
-                _instanceFrmdash.LoadTableStaus(0);
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.TableStaus(0);
             }
             this.Close();
 
@@ -8202,11 +8203,12 @@ namespace FoodandBeverage.Forms
                 if (count == dgv_split.RowCount)
                 {
                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                     {
-                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                        _instanceFrmdash.LoadTableStaus(0);
-                    }
+                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        _instanceFrmTableView.Visible = true;
+                        _instanceFrmTableView.TableStaus(0);
+                    }  
                     this.Close();
                 }
             }
@@ -8328,10 +8330,10 @@ namespace FoodandBeverage.Forms
                     if (count == dgv_split.RowCount)
                     {
                         CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                         {
-                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.LoadTableStaus(0);
+                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                            _instanceFrmTableView.TableStaus(0);
                         }
                         this.Close();
                     }
@@ -8928,6 +8930,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
+                    dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text); 
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -9078,13 +9081,14 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                        {
-                            GC.Collect();
-                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                            _instanceFrmdash.Visible = true;
-                            _instanceFrmdash.TableStaus(0);
-                        }
+
+                        //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        //{
+                        //    GC.Collect();
+                        //    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        //    _instanceFrmTableView.Visible = true;
+                        //    _instanceFrmTableView.TableStaus(0);
+                        //}
 
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
@@ -9098,7 +9102,6 @@ namespace FoodandBeverage.Forms
                         //}
 
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Notify the kitchen view to refresh
                         ClearAll();
                         this.Close();
                         this.Dispose();
@@ -9132,11 +9135,11 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
                     this.Close();
-                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                     {
-                        FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                        _instanceFrmdash.Visible = true;
-                        _instanceFrmdash.LoadTableStaus(0);
+                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        _instanceFrmTableView.Visible = true;
+                        _instanceFrmTableView.TableStaus(0);
                     }
                 }
             }
@@ -10287,6 +10290,21 @@ namespace FoodandBeverage.Forms
         private void btn_PrintCopy_Click(object sender, EventArgs e)
         {
             paybillcal(0);
+        }
+
+        private void FrmOrder_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                GC.Collect();
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.AutoTimer.Start();
+                _instanceFrmTableView.Visible = true;
+                _instanceFrmTableView.BringToFront();
+                _instanceFrmTableView.Dock = DockStyle.Fill;
+
+
+            }
         }
 
         private void ButtonVariation_Click(object sender, EventArgs e)

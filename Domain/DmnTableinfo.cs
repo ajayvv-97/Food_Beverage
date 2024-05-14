@@ -23,7 +23,8 @@ namespace Domain
         public decimal Price { get; set; }
         public int OrderMasterId { get; set; }
         public int BookmasterId { get; set; }
-        
+        public decimal NetAmount { get; set; }
 
+        
     }
 }

@@ -31,9 +31,10 @@ namespace FoodandBeverage.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmKitchenView));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_viewmore_order = new System.Windows.Forms.Button();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.btnmini = new System.Windows.Forms.Button();
             this.btncolse = new System.Windows.Forms.Button();
@@ -69,7 +70,7 @@ namespace FoodandBeverage.Forms
             this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
             this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.txtdisplaycount = new System.Windows.Forms.TextBox();
+            this.pb_loadinggif = new System.Windows.Forms.PictureBox();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -84,24 +85,41 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgv_viewmore)).BeginInit();
             this.tlp_header_viewmore.SuspendLayout();
             this.pnl_kitchenorderBill.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_loadinggif)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_main
             // 
             this.tlp_main.ColumnCount = 1;
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_main.Controls.Add(this.btn_viewmore_order, 0, 3);
             this.tlp_main.Controls.Add(this.tlp_navbar, 0, 0);
             this.tlp_main.Controls.Add(this.tlp_search, 0, 1);
             this.tlp_main.Controls.Add(this.flp_order_view, 0, 2);
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.RowCount = 3;
+            this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.Size = new System.Drawing.Size(797, 489);
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93F));
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7F));
+            this.tlp_main.Size = new System.Drawing.Size(797, 533);
             this.tlp_main.TabIndex = 0;
+            // 
+            // btn_viewmore_order
+            // 
+            this.btn_viewmore_order.BackgroundImage = global::FoodandBeverage.Properties.Resources.Displaymore_kitchenorder;
+            this.btn_viewmore_order.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_viewmore_order.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btn_viewmore_order.FlatAppearance.BorderSize = 0;
+            this.btn_viewmore_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_viewmore_order.Location = new System.Drawing.Point(660, 505);
+            this.btn_viewmore_order.Name = "btn_viewmore_order";
+            this.btn_viewmore_order.Size = new System.Drawing.Size(134, 25);
+            this.btn_viewmore_order.TabIndex = 6;
+            this.btn_viewmore_order.UseVisualStyleBackColor = true;
+            this.btn_viewmore_order.Click += new System.EventHandler(this.btn_viewmore_order_Click);
             // 
             // tlp_navbar
             // 
@@ -174,7 +192,6 @@ namespace FoodandBeverage.Forms
             this.tlp_search.Controls.Add(this.txttablecode, 0, 0);
             this.tlp_search.Controls.Add(this.txtorderid_search, 0, 0);
             this.tlp_search.Controls.Add(this.btn_refresh, 3, 0);
-            this.tlp_search.Controls.Add(this.txtdisplaycount, 4, 0);
             this.tlp_search.Location = new System.Drawing.Point(3, 40);
             this.tlp_search.Name = "tlp_search";
             this.tlp_search.RowCount = 1;
@@ -233,7 +250,7 @@ namespace FoodandBeverage.Forms
             this.flp_order_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_order_view.Location = new System.Drawing.Point(3, 98);
             this.flp_order_view.Name = "flp_order_view";
-            this.flp_order_view.Size = new System.Drawing.Size(791, 404);
+            this.flp_order_view.Size = new System.Drawing.Size(791, 401);
             this.flp_order_view.TabIndex = 21;
             this.flp_order_view.Scroll += new System.Windows.Forms.ScrollEventHandler(this.flp_order_view_Scroll);
             // 
@@ -423,14 +440,14 @@ namespace FoodandBeverage.Forms
             // dgv_viewmore
             // 
             this.dgv_viewmore.AllowUserToAddRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_viewmore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_viewmore.ColumnHeadersHeight = 40;
             this.dgv_viewmore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_viewmore.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -442,9 +459,9 @@ namespace FoodandBeverage.Forms
             this.dgv_viewmore.Name = "dgv_viewmore";
             this.dgv_viewmore.RowHeadersVisible = false;
             this.dgv_viewmore.RowHeadersWidth = 50;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_viewmore.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_viewmore.RowTemplate.Height = 30;
             this.dgv_viewmore.Size = new System.Drawing.Size(465, 249);
             this.dgv_viewmore.TabIndex = 2;
@@ -526,7 +543,7 @@ namespace FoodandBeverage.Forms
             // pnl_kitchenorderBill
             // 
             this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
-            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(312, 109);
+            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(74, 9);
             this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
             this.pnl_kitchenorderBill.Padding = new System.Windows.Forms.Padding(10);
             this.pnl_kitchenorderBill.Size = new System.Drawing.Size(417, 477);
@@ -563,22 +580,23 @@ namespace FoodandBeverage.Forms
             this.textBox1.TabIndex = 1;
             this.textBox1.Visible = false;
             // 
-            // txtdisplaycount
+            // pb_loadinggif
             // 
-            this.txtdisplaycount.Location = new System.Drawing.Point(732, 3);
-            this.txtdisplaycount.Multiline = true;
-            this.txtdisplaycount.Name = "txtdisplaycount";
-            this.txtdisplaycount.Size = new System.Drawing.Size(56, 46);
-            this.txtdisplaycount.TabIndex = 4;
-            this.txtdisplaycount.Enter += new System.EventHandler(this.txtdisplaycount_Enter);
-            this.txtdisplaycount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtdisplaycount_KeyPress);
-            this.txtdisplaycount.Leave += new System.EventHandler(this.txtdisplaycount_Leave);
+            this.pb_loadinggif.BackgroundImage = global::FoodandBeverage.Properties.Resources.loading_gif;
+            this.pb_loadinggif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_loadinggif.Location = new System.Drawing.Point(0, 90);
+            this.pb_loadinggif.Name = "pb_loadinggif";
+            this.pb_loadinggif.Size = new System.Drawing.Size(269, 194);
+            this.pb_loadinggif.TabIndex = 0;
+            this.pb_loadinggif.TabStop = false;
+            this.pb_loadinggif.Visible = false;
             // 
             // FrmKitchenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 489);
+            this.ClientSize = new System.Drawing.Size(797, 533);
+            this.Controls.Add(this.pb_loadinggif);
             this.Controls.Add(this.pnlproductviewmore);
             this.Controls.Add(this.pnl_products_rem_descr);
             this.Controls.Add(this.textBox1);
@@ -612,6 +630,7 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.ResumeLayout(false);
             this.tlp_header_viewmore.PerformLayout();
             this.pnl_kitchenorderBill.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_loadinggif)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -655,6 +674,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Panel pnl_kitchenorderBill;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crvkitchenbill;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox txtdisplaycount;
+        private System.Windows.Forms.PictureBox pb_loadinggif;
+        private System.Windows.Forms.Button btn_viewmore_order;
     }
 }
