@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         public static int cdesno = 3;
         public static int cstatusno = 4;
         public static int cactionno = 5;
+        public static int ccolorno = 6;
         #endregion
 
         public bool Mandatory()
@@ -100,8 +101,10 @@ namespace FoodandBeverage.Forms
             btn_del_cate.Visible = false;
             txtfoodCate.Focus();
             chk_active.Checked = true;
-            pbcolorpicker.BackColor = Color.SteelBlue;
-            txtcolorname.Text = "";
+
+            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+            pbcolorpicker.BackColor = Color.Transparent;
+            txtcolorname.Text = "#4682B4";
         }
         public void Fillcategory(int n)
         {
@@ -109,19 +112,21 @@ namespace FoodandBeverage.Forms
             {
                 if (n != 0)
                 {
+                    dgv_category.Columns[ccolorno].Visible = false;
                     btnresetcolor.Visible = false;
                     pbcolorpicker.Visible = false;
                     lblcolor.Visible = false;
                 }
                 else
                 {
+                    dgv_category.Columns[ccolorno].Visible = true;
                     btnresetcolor.Visible = true;
                     pbcolorpicker.Visible = true;
                     lblcolor.Visible = true;
                 }
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "Fcid,CategoryName,Description,Status";
+                objSearch.Select = "Fcid,CategoryName,Description,Status,ColorCode";
                 objSearch.Table = "tblCategory_FTI";
                 switch (n)
                 {               
@@ -159,6 +164,13 @@ namespace FoodandBeverage.Forms
                         dgv_category.Rows[i].Cells[cnameno].Value = itemSource[i].CategoryName;
                         dgv_category.Rows[i].Cells[cdesno].Value = itemSource[i].Description;
                         dgv_category.Rows[i].Cells[cstatusno].Value = Convert.ToInt32(itemSource[i].Status);
+                        if (n == 0)
+                        {
+                            if (Convert.ToString(itemSource[i].ColorCode) == "" || Convert.ToString(itemSource[i].ColorCode) == null)
+                                dgv_category.Rows[i].Cells[ccolorno].Style.BackColor = Color.SteelBlue;
+                            else
+                                dgv_category.Rows[i].Cells[ccolorno].Style.BackColor = ColorTranslator.FromHtml(itemSource[i].ColorCode);
+                        }
                     }
                 }
             }
@@ -215,6 +227,28 @@ namespace FoodandBeverage.Forms
                             cmb_cate.SelectedIndex = Convert.ToInt32(itemSource[0].CategoryType);
                             txtdescr.Text = itemSource[0].Description;
                             btn_del_cate.Visible = true;
+
+                            if (Convert.ToInt32(itemSource[0].CategoryType) != 0)
+                            {
+                                btnresetcolor.Visible = false;
+                                pbcolorpicker.Visible = false;
+                                lblcolor.Visible = false;
+                            }
+                            else
+                            {
+                                if (Convert.ToString(itemSource[0].ColorCode) == "#4682B4" || Convert.ToString(itemSource[0].ColorCode) == "" || Convert.ToString(itemSource[0].ColorCode) == null)
+                                {
+                                    pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+                                    pbcolorpicker.BackColor = Color.Transparent;
+                                    txtcolorname.Text = "#4682B4";
+                                }
+                                else
+                                    pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
+                                txtcolorname.Text = itemSource[0].ColorCode;
+                                btnresetcolor.Visible = true;
+                                pbcolorpicker.Visible = true;
+                                lblcolor.Visible = true;
+                            }
                         }
                     }
                 }
@@ -366,7 +400,15 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
+                        if (Convert.ToString(itemSource[0].ColorCode) == "#4682B4" || Convert.ToString(itemSource[0].ColorCode) == "" || Convert.ToString(itemSource[0].ColorCode) == null)
+                        {
+                            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+                            pbcolorpicker.BackColor = Color.Transparent;
+                            txtcolorname.Text = "#4682B4";
+                        }  
+                        else                        
+                            pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
+                        txtcolorname.Text = itemSource[0].ColorCode;
                         btnresetcolor.Visible = true;
                         pbcolorpicker.Visible = true;
                         lblcolor.Visible = true;
@@ -420,6 +462,7 @@ namespace FoodandBeverage.Forms
             DialogResult result = colorDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
+                pbcolorpicker.BackgroundImage = null;
                 pbcolorpicker.BackColor = colorDialog.Color;
                 if (pbcolorpicker.BackColor.Name.Contains("ff"))
                     txtcolorname.Text = "#" + pbcolorpicker.BackColor.Name.ToString().Remove(0, 2);
@@ -428,7 +471,8 @@ namespace FoodandBeverage.Forms
 
         private void btnresetcolor_Click(object sender, EventArgs e)
         {
-            pbcolorpicker.BackColor = Color.SteelBlue;
+            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+            pbcolorpicker.BackColor = Color.Transparent;
             txtcolorname.Text = "#4682B4";
         }
     }

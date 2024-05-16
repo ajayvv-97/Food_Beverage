@@ -987,9 +987,6 @@
     <None Include="Resources\orderview.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\previous.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\orderview_pending.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1338,12 +1335,6 @@
     <None Include="Resources\more %282%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\chart_previous.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chart_nextbutton.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\chart_number.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1357,6 +1348,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\colour pin icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next  button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_nextbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Cash icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Split icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_UPIicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Rupay icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Part icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Others icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_netbanking icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart_Creditcard icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit button %281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

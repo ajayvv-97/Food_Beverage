@@ -176,6 +176,8 @@ namespace FoodandBeverage.Forms
         public int R_screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int R_screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
+
+
         public List<Namelist> CheckedNames = new List<Namelist>();
         public List<Namelist> BillList = new List<Namelist>();
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
@@ -376,7 +378,7 @@ namespace FoodandBeverage.Forms
                     buttonOffer.FlatAppearance.BorderSize = 0;
 
                     buttonOffer.Font = new Font(buttonOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonOffer.Click += new EventHandler(SidebuttonOfferClickEventHandler);  // Update the click event handler if needed
+                    buttonOffer.Click += new EventHandler(SidebuttonOfferClickEventHandler);  
                     tlp_searchproduct_sidebar.Controls.Add(buttonOffer, 0, rowIndex);
                     rowIndex++;
                     #endregion
@@ -402,7 +404,7 @@ namespace FoodandBeverage.Forms
                     buttonComboOffer.FlatAppearance.BorderSize = 0;
 
                     buttonComboOffer.Font = new Font(buttonComboOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonComboOffer.Click += new EventHandler(SidebuttonComboOfferClickEventHandler);  // Update the click event handler if needed
+                    buttonComboOffer.Click += new EventHandler(SidebuttonComboOfferClickEventHandler);  
                     tlp_searchproduct_sidebar.Controls.Add(buttonComboOffer, 0, rowIndex);
                     rowIndex++;
                     #endregion
@@ -1242,7 +1244,7 @@ namespace FoodandBeverage.Forms
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
                 dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status=1";
-                dmnSearchmaster.OrderBy = "";
+                dmnSearchmaster.OrderBy = " order by OrderNo ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
@@ -1833,10 +1835,25 @@ namespace FoodandBeverage.Forms
                 tlp_searchproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
                 tlp_searchproduct_dashboard.AutoScroll = true;
+                tlp_searchproduct_dashboard.SuspendLayout();
                 if (gridSource.Count > 0)
                 {
                     int rowIndex = 1;
                     int columnIndex = 0;
+
+                    double bwidth = 0;
+                    int ButtonPerRow = 0;
+                    if (R_screenWidth > 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 3);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+                    else if (R_screenWidth >= 1024 && R_screenWidth <= 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 3);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+
                     for (int i = 0; i < gridSource.Count; i++)
                     {
                         if (columnIndex == 3)
@@ -1848,7 +1865,7 @@ namespace FoodandBeverage.Forms
                         Panel panelProductBox = new Panel();
                         panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
                         panelProductBox.Dock = DockStyle.None;
-                        panelProductBox.Width = 150;
+                        panelProductBox.Width = (int)bwidth-20;
                         panelProductBox.Height = 55;
                         panelProductBox.BackColor = product_buttoncolor;
                         panelProductBox.Margin = new Padding(10, 10, 0, 0);
@@ -1862,13 +1879,14 @@ namespace FoodandBeverage.Forms
                         button.FlatAppearance.BorderSize = 0; // Set border width to 0
                         button.FlatAppearance.BorderColor = button.BackColor;
                         button.ForeColor = Color.White;
-                        button.Width = 120;
-                        button.Height = 50;
+                        button.Dock = DockStyle.Fill;
+                        //button.Width = 120;
+                        //button.Height = 50;
                         button.Font = new Font("Arial", 9, FontStyle.Bold);
                         button.FlatStyle = FlatStyle.Flat;
                         button.BackColor = product_buttoncolor;
                         //// Create a circular Region
-                        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                        //button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
                         //button.Dock = DockStyle.Fill;
                         button.Click += new EventHandler(DashboardButtonClickEventHandler);
                         panelProductBox.Controls.Add(button);
@@ -1878,8 +1896,13 @@ namespace FoodandBeverage.Forms
                         pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
                         pictureBoxFav.Tag = gridSource[i].Field2;
                         pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
-                        pictureBoxFav.Width = 20;
-                        pictureBoxFav.Height = 15;
+
+                        int pictureBoxWidth = (int)(panelProductBox.Width * 0.2);
+                        int pictureBoxHeight = pictureBoxWidth * 3 / 4;
+
+                        pictureBoxFav.Width = pictureBoxWidth;
+                        pictureBoxFav.Height = pictureBoxHeight;
+
                         pictureBoxFav.BorderStyle = BorderStyle.None;
                         pictureBoxFav.Click += new EventHandler(buttonfavClickEventHandler);
                         pictureBoxFav.Image = null;
@@ -1897,6 +1920,7 @@ namespace FoodandBeverage.Forms
                     }
                     pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
                 }
+                tlp_searchproduct_dashboard.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -3874,6 +3898,7 @@ namespace FoodandBeverage.Forms
                 tlp_searchproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
                 tlp_searchproduct_dashboard.AutoScroll = true;
+                tlp_searchproduct_dashboard.SuspendLayout();
                 int rowIndex = 1;
                 int columnIndex = 0;
                 dmnSearch.Select = "OfferName as Field1,Omid as Field2,3 as Field3,Discountper Field4";
@@ -3883,9 +3908,22 @@ namespace FoodandBeverage.Forms
                 gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
+                    double bwidth = 0;
+                    int ButtonPerRow = 0;
+                    if (R_screenWidth > 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 2);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+                    else if (R_screenWidth >= 1024 && R_screenWidth <= 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 2);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+
                     for (int i = 0; i < gridSource.Count; i++)
                     {
-                        if (columnIndex == 2)
+                        if (columnIndex == ButtonPerRow)
                         {
                             columnIndex = 0;
                             rowIndex++;
@@ -3895,7 +3933,7 @@ namespace FoodandBeverage.Forms
                         Panel panelProductBox = new Panel();
                         panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
                         panelProductBox.Dock = DockStyle.None;
-                        panelProductBox.Width = 190;
+                        panelProductBox.Width = (int)bwidth - 20;
                         panelProductBox.Height = 73;
                         panelProductBox.BackColor = Color.Transparent;//product_buttoncolor;
                         panelProductBox.Margin = new Padding(10, 10, 0, 0);
@@ -3909,9 +3947,9 @@ namespace FoodandBeverage.Forms
                         tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
                         tlp_box_combo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
                         tlp_box_combo.Location = new Point(0, panelProductBox.Top + 20);
-                        tlp_box_combo.Width = 190;
+                        tlp_box_combo.Width = (int)bwidth - 20;
                         tlp_box_combo.Height = 50;
-
+                        //tlp_box_combo.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
                         // Configure the Button
                         Button button = new Button();
@@ -3926,6 +3964,7 @@ namespace FoodandBeverage.Forms
                         button.Font = new Font("Arial", 9, FontStyle.Bold);
                         button.Width = 158;
                         button.Height = 50;
+                        button.Dock = DockStyle.Fill;
                         button.FlatStyle = FlatStyle.Flat;
                         button.BackColor = product_buttoncolor;
                         button.ForeColor = Color.White;
@@ -3933,8 +3972,9 @@ namespace FoodandBeverage.Forms
                         button.Click += new EventHandler(DashboardButtonClickEventHandler);
                         button.MouseEnter += new EventHandler(buttoncomboMousehoverEventHandler);
                         button.MouseLeave += new EventHandler(buttoncomboMouseLeaveEventHandler);
+
                         // Create a circular Region
-                        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                        //button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
                         tlp_box_combo.Controls.Add(button, 0, 0);
 
                         // Configure the btnviewmore
@@ -3992,6 +4032,7 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show("No Products On This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+                tlp_searchproduct_dashboard.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -4140,6 +4181,7 @@ namespace FoodandBeverage.Forms
                 tlp_searchproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
                 tlp_searchproduct_dashboard.AutoScroll = true;
+                tlp_searchproduct_dashboard.SuspendLayout();
                 int rowIndex = 1;
                 int columnIndex = 0;
 
@@ -4152,9 +4194,22 @@ namespace FoodandBeverage.Forms
                 {
                     ToolTip tooltipsub = new ToolTip();
 
+                    double bwidth = 0;
+                    int ButtonPerRow = 0;
+                    if (R_screenWidth > 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 2);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+                    else if (R_screenWidth >= 1024 && R_screenWidth <= 1366)
+                    {
+                        bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 2);
+                        ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                    }
+
                     for (int i = 0; i < gridSource_submenu.Count; i++)
                     {
-                        if (columnIndex == 2)
+                        if (columnIndex == ButtonPerRow)
                         {
                             columnIndex = 0;
                             rowIndex++;
@@ -4168,7 +4223,7 @@ namespace FoodandBeverage.Forms
                         button.FlatAppearance.BorderColor = button.BackColor;
                         button.Font = new Font("Arial", 9, FontStyle.Bold);
                         //button.Margin = new Padding(10, 30, 0, 0); 
-                        button.Width = 170;
+                        button.Width = (int)bwidth-16;
                         button.Height = 50;
                         button.FlatStyle = FlatStyle.Flat;
                         button.BackColor = product_buttoncolor;
@@ -4377,6 +4432,7 @@ namespace FoodandBeverage.Forms
 
                     }
                 }
+                tlp_searchproduct_dashboard.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -4601,6 +4657,7 @@ namespace FoodandBeverage.Forms
                 tlp_searchproduct_dashboard.Controls.Clear();
                 tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
                 tlp_searchproduct_dashboard.AutoScroll = true;
+                tlp_searchproduct_dashboard.SuspendLayout();
                 int rowIndex = 1;
                 int columnIndex = 0;
 
@@ -4625,10 +4682,23 @@ namespace FoodandBeverage.Forms
 
                     if (gridSource.Count > 0)
                     {
+                        double bwidth = 0;
+                        int ButtonPerRow = 0;
+                        if (R_screenWidth > 1366)
+                        {
+                            bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 3);
+                            ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                        }
+                        else if (R_screenWidth >= 1024 && R_screenWidth <= 1366)
+                        {
+                            bwidth = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / 3);
+                            ButtonPerRow = (int)Math.Floor((double)pnl_serachproduct_dashboard.Width / bwidth);
+                        }
 
                         for (int i = 0; i < gridSource.Count; i++)
                         {
-                            if (columnIndex == 3)
+
+                            if (columnIndex == ButtonPerRow)
                             {
                                 columnIndex = 0;
                                 rowIndex++;
@@ -4638,7 +4708,7 @@ namespace FoodandBeverage.Forms
                             Panel panelProductBox = new Panel();
                             panelProductBox.Name = "panel_product_box" + gridSource[i].Field1;
                             panelProductBox.Dock = DockStyle.None;
-                            panelProductBox.Width = 150;
+                            panelProductBox.Width = (int)bwidth-20;
                             panelProductBox.Height = 55;
                             panelProductBox.BackColor = product_buttoncolor;
                             panelProductBox.Margin = new Padding(10, 10, 0, 0);
@@ -4651,19 +4721,16 @@ namespace FoodandBeverage.Forms
                             button.AccessibleDescription = gridSource[i].Field3;
                             button.FlatAppearance.BorderSize = 0; // Set border width to 0
                             button.FlatAppearance.BorderColor = button.BackColor;
-                            // Assuming 'button' is your Button control
                             button.Font = new Font("Arial", 9, FontStyle.Bold);
-
-                            button.Width = 120;
-                            button.Height = 50;
-
+                            //button.Width = 120;
+                            //button.Height = 50;
                             button.FlatStyle = FlatStyle.Flat;
                             button.BackColor = product_buttoncolor;
                             button.ForeColor = Color.White;
-
+                            button.AutoSize = false;
                             //// Create a circular Region
-                            button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                            //button.Dock = DockStyle.Fill;
+                            //button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
+                            button.Dock = DockStyle.Fill;
                             button.Click += new EventHandler(DashboardButtonClickEventHandler);
                             panelProductBox.Controls.Add(button);
 
@@ -4672,8 +4739,13 @@ namespace FoodandBeverage.Forms
                             pictureBoxFav.Name = "picBoxFav" + gridSource[i].Field1;
                             pictureBoxFav.Tag = gridSource[i].Field2;
                             pictureBoxFav.AccessibleDescription = gridSource[i].Field3;
-                            pictureBoxFav.Width = 20;
-                            pictureBoxFav.Height = 15;
+
+                            int pictureBoxWidth = (int)(panelProductBox.Width * 0.2); 
+                            int pictureBoxHeight = pictureBoxWidth * 3 / 4; 
+
+                            pictureBoxFav.Width = pictureBoxWidth;
+                            pictureBoxFav.Height = pictureBoxHeight;
+
                             pictureBoxFav.BorderStyle = BorderStyle.None;
                             pictureBoxFav.Image = null;
 
@@ -4694,7 +4766,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-
+                tlp_searchproduct_dashboard.ResumeLayout();
                 //else
                 //{
                 //    CMessageBox.Show("No Products On This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -7400,14 +7472,14 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
 
-                                    //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                                    //{
-                                    //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                    //    _instanceFrmdash.LoadTableStaus(0);
-                                    //}
-                                    ////ClearAll();
-                                    //this.Close();
+                                    CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                                    {
+                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                                        _instanceFrmTableView.TableStaus(0);
+                                    }
+                                    //ClearAll();
+                                    this.Close();
 
                                 }
                             }
@@ -8397,7 +8469,7 @@ namespace FoodandBeverage.Forms
                     dmnSearch.Select = "od.OrderDetailsId Field1,od.NetAmount Field2";
                     dmnSearch.Table = "tblOrderMaster om " +
                         "LEFT JOIN tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.status=3 ";
-                    dmnSearch.WhereNdGroupBy = "where om.OrderMasterId = " + lblorderid.Text + " and om.Status IN (1)";
+                    dmnSearch.WhereNdGroupBy = "where om.OrderMasterId = " + lblorderid.Text + " and om.Status IN (3)";
                     dmnSearch.OrderBy = "";
                     var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -9081,14 +9153,12 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-
-                        //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                        //{
-                        //    GC.Collect();
-                        //    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        //    _instanceFrmTableView.Visible = true;
-                        //    _instanceFrmTableView.TableStaus(0);
-                        //}
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            GC.Collect();
+                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                            _instanceFrmTableView.TableStaus(0);
+                        }
 
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
@@ -10298,12 +10368,8 @@ namespace FoodandBeverage.Forms
             {
                 GC.Collect();
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                _instanceFrmTableView.AutoTimer.Start();
-                _instanceFrmTableView.Visible = true;
                 _instanceFrmTableView.BringToFront();
                 _instanceFrmTableView.Dock = DockStyle.Fill;
-
-
             }
         }
 

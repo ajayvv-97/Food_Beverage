@@ -685,14 +685,7 @@ namespace FoodandBeverage.Forms
 
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.Visible = false;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        //_instanceFrmTableView.Close();
-                        //_instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
                 panelDesktop.ResumeLayout();
             }
@@ -1075,10 +1068,14 @@ namespace FoodandBeverage.Forms
             {
                 if (menutable_click)
                 {
-                    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                    _instanceFrmTableView.AutoTimer.Stop();
-                    _instanceFrmTableView.Close();
-                    _instanceFrmTableView.Dispose();
+                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                    {
+                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        //_instanceFrmTableView.AutoTimer.Stop();
+                        _instanceFrmTableView.Close();
+                        _instanceFrmTableView.Dispose();
+                        GC.Collect();
+                    }
                 }
 
                 if (Menuhome.Width > 150) //Collapse menu
@@ -1142,17 +1139,9 @@ namespace FoodandBeverage.Forms
             try
             {
                 panelDesktop.SuspendLayout();
-
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Visible = false;
-                        //_instanceFrmTableView.Close();
-                        //_instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
 
                 panelDesktop.Controls.Clear();
@@ -1216,14 +1205,7 @@ namespace FoodandBeverage.Forms
    
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Visible = false;
-                        //_instanceFrmTableView.Close();
-                        //_instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
 
                 if (sender is Button button)
@@ -1478,14 +1460,7 @@ namespace FoodandBeverage.Forms
     
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Visible = false;
-                        //_instanceFrmTableView.Close();
-                        //_instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
 
                 if (sender is Button button)
@@ -1929,6 +1904,17 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public void CloseTableViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                //_instanceFrmTableView.AutoTimer.Stop();
+                _instanceFrmTableView.Close();
+                _instanceFrmTableView.Dispose();
+                GC.Collect();
+            }
+        }
 
         private void Menusetting_Click(object sender, EventArgs e)
         {
@@ -1936,13 +1922,7 @@ namespace FoodandBeverage.Forms
             {
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Close();
-                        _instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
 
                 if (sender is Button button)

@@ -442,6 +442,11 @@ namespace FoodandBeverage.Forms
                             TableLayoutPanel tlp_table_inner = this.Controls.Find(tlpboxname, true).FirstOrDefault() as TableLayoutPanel;
                             Label lbltablename = this.Controls.Find(lbtable, true).FirstOrDefault() as Label;
                             Label netamountlabel = this.Controls.Find(lblnetamountname, true).FirstOrDefault() as Label;
+                            if(tlp_table_inner==null)
+                            {
+                                AutoTimer.Stop();
+                                return;
+                            }
 
                             if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
                             {
@@ -471,6 +476,7 @@ namespace FoodandBeverage.Forms
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                                         lbltablename.Dock = DockStyle.Fill;
                                         lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                        netamountlabel.Text = "";
                                     }
                                     else
                                     {
@@ -566,6 +572,7 @@ namespace FoodandBeverage.Forms
 
                                 else
                                 {
+                                    netamountlabel.Text = "";
                                     netamountlabel.Visible = false;
                                     tlp_table_inner.BackColor = Color.Aqua;
                                     tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);

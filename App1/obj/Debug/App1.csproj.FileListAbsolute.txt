@@ -247,26 +247,3 @@ C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.CoreComp
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.csproj.CopyComplete
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.exe
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\App1\obj\Debug\App1.pdb
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\App1.exe.config
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\App1.exe
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\App1.pdb
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\CircularProgressBar.dll
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.dll
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.WinForms.dll
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.Wpf.dll
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\WinFormAnimation.dll
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\CircularProgressBar.xml
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.pdb
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.xml
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.WinForms.pdb
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.WinForms.xml
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.Wpf.pdb
-C:\Users\ajay\Desktop\Food_Beverage\App1\bin\Debug\LiveCharts.Wpf.xml
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.AssemblyReference.cache
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.Form1.resources
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.Properties.Resources.resources
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.GenerateResource.cache
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.CoreCompileInputs.cache
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.csproj.CopyComplete
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.exe
-C:\Users\ajay\Desktop\Food_Beverage\App1\obj\Debug\App1.pdb
