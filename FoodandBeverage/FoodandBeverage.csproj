@@ -152,6 +152,12 @@
     <Compile Include="Forms\FrmAddon.Designer.cs">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmCombinedBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCombinedBill.Designer.cs">
+      <DependentUpon>FrmCombinedBill.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -505,6 +511,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCombinedBill.resx">
+      <DependentUpon>FrmCombinedBill.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
@@ -1390,6 +1399,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\exit button %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_tableview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\discount_combooffer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\discount_productoffer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\aviable_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bgdashboard_tiltlbar.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dateicon_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_time_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_username_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runningtable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reserveicon_table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_dashboard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

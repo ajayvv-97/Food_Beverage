@@ -20,7 +20,6 @@ namespace FoodandBeverage.Forms
     {
         public Timer AutoTimer;
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
-        TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
 
         public int panelsPerRow = 0;
@@ -106,19 +105,9 @@ namespace FoodandBeverage.Forms
 
                 if (gridSource.Count > 0)
                 {
-                    tlp_table_dashboard.Controls.Clear();
-                    tlp_table_dashboard.Dock = DockStyle.Fill;
+                    tlp_table_dashboard.Visible = false;
+                    tlp_table_dashboard.Controls.Clear();                   
                     tlp_table_dashboard.AutoScroll = true;
-
-                    tlp_table_dashboard_main.RowCount = 2;
-                    tlp_table_dashboard_main.Controls.Clear();
-                    tlp_table_dashboard_main.Dock = DockStyle.Fill;
-                    tlp_table_dashboard_main.AutoScroll = true;
-
-                    tlp_tablestatus.Dock = DockStyle.Right;
-                    tlp_table_dashboard_main.Controls.Add(tlp_tablestatus, 0, 0);
-                    tlp_tablestatus.Visible = true;
-
                     int rowIndex_cate = 1;
 
                     foreach (var category in categoryList)
@@ -356,10 +345,10 @@ namespace FoodandBeverage.Forms
                         tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
                         rowIndex_cate++;
                     }
-
                     //tlp_table_dashboard.BorderStyle = BorderStyle.FixedSingle;
-                    tlp_table_dashboard_main.Controls.Add(tlp_table_dashboard, 0, 1);
-                    this.Controls.Add(tlp_table_dashboard_main);
+                    this.Controls.Add(tlp_table_dashboard);
+                    tlp_table_dashboard.Visible = true;
+                    tlp_table_dashboard.Dock = DockStyle.Fill;
                 }
                 initTimer();
             }
@@ -374,7 +363,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 AutoTimer.Stop();
-                tlp_table_dashboard_main.SuspendLayout();
+                tlp_table_dashboard.SuspendLayout();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
@@ -588,7 +577,8 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
-                tlp_table_dashboard_main.ResumeLayout();
+                tlp_table_dashboard.ResumeLayout();
+                tlp_table_dashboard.Dock = DockStyle.Fill;
                 initTimer();
             }
             catch (Exception ex)
@@ -893,28 +883,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void btn_avial_Click(object sender, EventArgs e)
-        {
-            AutoTimer.Stop();
-            LoadTableStaus(3);
-        }
-
-        private void btn_rev_Click(object sender, EventArgs e)
-        {
-            AutoTimer.Stop();
-            LoadTableStaus(2);
-        }
-
-        private void btn_running_Click(object sender, EventArgs e)
-        {
-            AutoTimer.Stop();
-            LoadTableStaus(1);
-        }
-
-        private void btntrefresh_Click(object sender, EventArgs e)
-        {
-            AutoTimer.Stop();
-            LoadTableStaus(0);
-        }
+       
     }
 }

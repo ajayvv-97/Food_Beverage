@@ -2090,6 +2090,8 @@ namespace FoodandBeverage.Forms
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
                         {
+                            tlp_seletedItem_main.SuspendLayout();
+
                             string tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
                             TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_sele != null)
@@ -2166,6 +2168,8 @@ namespace FoodandBeverage.Forms
 
                                 // Configure the TableLayoutPanel
                                 TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
+                                tlp_seletedItem_col.SuspendLayout();
+                                tlp_seletedItem_col.Visible = false;
                                 float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
                                 for (int i = 0; i < columnPercentages.Length; i++)
                                 {
@@ -2178,6 +2182,7 @@ namespace FoodandBeverage.Forms
                                 tlp_seletedItem_col.Dock = DockStyle.Top;
                                 tlp_seletedItem_col.BackColor = Color.LightBlue;
                                 tlp_seletedItem_col.Height = 45;
+                                tlp_seletedItem_col.Margin = new Padding(0,2,10,0);
 
                                 // Configure the Button for Item name
                                 Button buttonitemname = new Button();
@@ -2272,8 +2277,12 @@ namespace FoodandBeverage.Forms
                                 // Add the new TableLayoutPanel to tlp_seletedItem_main
                                 tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
                                 tlp_seletedItem_col.Focus();
+                                tlp_seletedItem_col.Visible = true;
+                                tlp_seletedItem_col.ResumeLayout();
                                 checksave_refresh();
                             }
+
+                            tlp_seletedItem_main.ResumeLayout();
                         }
                     }
                 }
@@ -2410,6 +2419,7 @@ namespace FoodandBeverage.Forms
                         tlp_seletedItem_col.Dock = DockStyle.Top;
                         tlp_seletedItem_col.BackColor = Color.LightBlue;
                         tlp_seletedItem_col.Height = 45;
+                        tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
 
                         // Configure the Button for Item name
                         Button buttonitemname = new Button();
@@ -2720,6 +2730,7 @@ namespace FoodandBeverage.Forms
                                 tlp_seletedItem_col.AccessibleDescription = "2";
                                 tlp_seletedItem_col.BackColor = Color.LightBlue;
                                 tlp_seletedItem_col.Height = 45;
+                                tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
 
                                 // Configure the Button for Item name
                                 Button buttonitemname = new Button();
@@ -2957,6 +2968,7 @@ namespace FoodandBeverage.Forms
                     tlp_seletedItem_col.AccessibleDescription = "2";
                     tlp_seletedItem_col.BackColor = Color.LightBlue;
                     tlp_seletedItem_col.Height = 45;
+                    tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
 
                     // Configure the Button for Item name
                     Button buttonitemname = new Button();
@@ -3251,28 +3263,31 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                string txtname = "";
-                string tlpname = "";
+                string txtname = "", tlpname = "",commonname = "";
                 Control clickedControl = sender as Control;
                 if (clickedControl.AccessibleDescription == "1")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
+                    commonname= clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
                 }
                 else if (clickedControl.AccessibleDescription == "2")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                    commonname = clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
                 }
                 else if (clickedControl.AccessibleDescription == "3")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
+                    commonname = clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
                 }
                 else if (clickedControl.AccessibleDescription == "4")
                 {
                     txtname = "txtqty_" + clickedControl.Tag;
                     tlpname = "tlp_seletedItem_col_" + clickedControl.Tag;
+                    commonname =  Convert.ToString(clickedControl.Tag);
                 }
 
                 // Find the TableLayoutPanel control by name
@@ -3296,6 +3311,31 @@ namespace FoodandBeverage.Forms
                     {
                         if (control.Name == tlpname)
                         {
+                            #region Dispose Control on product creation list
+                            string c1 = "tlp_seletedItem_col" + commonname;
+                            string c2 = "buttonitemname_" + commonname;
+                            string c3 = "buttonAdd_" + commonname;
+                            string c4 = "txtqty_" + commonname;
+                            string c5 = "btn_remove_" + commonname;
+                            string c6 = "txtprice_" + commonname;
+                            string c7 = "btn_remove_" + commonname;
+
+                            TableLayoutPanel tlp_seletedItem_col = this.Controls.Find(c1, true).FirstOrDefault() as TableLayoutPanel;
+                            Button buttonitemname = this.Controls.Find(c2, true).FirstOrDefault() as Button;
+                            Button buttonAdd = this.Controls.Find(c3, true).FirstOrDefault() as Button;
+                            Button buttonRemove = this.Controls.Find(c5, true).FirstOrDefault() as Button;
+                            TextBox txtprice = this.Controls.Find(c6, true).FirstOrDefault() as TextBox;
+                            Button pb_item_delete = this.Controls.Find(c7, true).FirstOrDefault() as Button;
+                            tlp_seletedItem_col?.Dispose();
+                            buttonitemname?.Dispose();
+                            buttonAdd?.Dispose();
+                            txtqty?.Dispose();
+                            buttonRemove?.Dispose();
+                            txtprice?.Dispose();
+                            pb_item_delete?.Dispose();
+                            GC.Collect();
+                            #endregion
+
                             tlp_seletedItem_main.Controls.Remove(control);
                             break;
                         }
@@ -3314,28 +3354,33 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                string txtname = "";
-                string tlpname = "";
+                string txtname = "",tlpname = "",commonname="";
+
+
                 Control clickedControl = sender as Control;
                 if (clickedControl.AccessibleDescription == "1")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
+                    commonname= clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
                 }
                 else if (clickedControl.AccessibleDescription == "2")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                    commonname = clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.DirectSale);
                 }
                 else if (clickedControl.AccessibleDescription == "3")
                 {
                     txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
                     tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
+                    commonname = clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.ComboProduct);
                 }
                 else if (clickedControl.AccessibleDescription == "4")
                 {
                     txtname = "txtqty_" + clickedControl.Tag ;
-                    tlpname = "tlp_seletedItem_col" + "_" +clickedControl.Tag ;
+                    tlpname = "tlp_seletedItem_col" + "_" +clickedControl.Tag;
+                    commonname = Convert.ToString(clickedControl.Tag);
                 }
 
                 // Find the TableLayoutPanel control by name
@@ -3362,6 +3407,31 @@ namespace FoodandBeverage.Forms
                         {
                             if (control.Name == tlpname)
                             {
+
+                                #region Dispose Control on product creation list
+                                string c1 = "tlp_seletedItem_col" + commonname;
+                                string c2 = "buttonitemname_" + commonname;
+                                string c3 = "buttonAdd_" + commonname;
+                                string c4 = "txtqty_" + commonname;
+                                string c5 = "btn_remove_" + commonname;
+                                string c6 = "txtprice_" + commonname;
+                                string c7 = "btn_remove_" + commonname;
+
+                                TableLayoutPanel tlp_seletedItem_col = this.Controls.Find(c1, true).FirstOrDefault() as TableLayoutPanel;
+                                Button buttonitemname = this.Controls.Find(c2, true).FirstOrDefault() as Button;
+                                Button buttonAdd = this.Controls.Find(c3, true).FirstOrDefault() as Button;
+                                Button buttonRemove = this.Controls.Find(c5, true).FirstOrDefault() as Button;
+                                TextBox txtprice = this.Controls.Find(c6, true).FirstOrDefault() as TextBox;
+                                Button pb_item_delete = this.Controls.Find(c7, true).FirstOrDefault() as Button;
+                                tlp_seletedItem_col?.Dispose();
+                                buttonitemname?.Dispose();
+                                buttonAdd?.Dispose();
+                                txtqty?.Dispose();
+                                buttonRemove?.Dispose();
+                                txtprice?.Dispose();
+                                pb_item_delete?.Dispose();
+                                GC.Collect();
+                                #endregion
                                 tlp_seletedItem_main.Controls.Remove(control);
                                 break;
                             }
@@ -3533,7 +3603,6 @@ namespace FoodandBeverage.Forms
                             qty.Text = Convert.ToString(cur_qty);
                             CalcTotalAmt_Variation_Addon_Add(Convert.ToString(tlp_sele.Tag), cur_qty);
                         }
-
                     }
                     netAmount();
                     GridSlno_Refresh();
@@ -9626,20 +9695,15 @@ namespace FoodandBeverage.Forms
                 decimal totalamt = 0, Addon_amount = 0;
                 for (int i = 0; i <Dgv_Selected_Item.RowCount ; i++)
                 {
-                    if (pid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
+                    if (pid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)))
                     {
-                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value)== Convert.ToInt32(Product_Addon_Variation_Type.Variation))
-                        {          
-                            rowno = i;
-                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            totalcellamount(i);
-                            break;
-                        }
-     
+                        rowno = i;
+                        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                        totalcellamount(i);
+                        break;
                     }
                 }
-
-                totalamt = Addon_amount + Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value);
+                totalamt = Convert.ToDecimal(txtGrandTotal.Text ) + Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value);
                 txtGrandTotal.Text = Convert.ToString(totalamt);
                 txtnetamount.Text = Convert.ToString(totalamt);
                 netAmount();
@@ -9728,7 +9792,7 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Please Select Size", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
+                pnl_variation_addon.SuspendLayout();
                 pnl_variation_addon.Visible = false;
                 int vid = 0;
                 string combinedId = "";
@@ -9924,6 +9988,7 @@ namespace FoodandBeverage.Forms
                         tlp_seletedItem_col.Dock = DockStyle.Top;
                         tlp_seletedItem_col.BackColor = Color.LightBlue;
                         tlp_seletedItem_col.Height = 45;
+                        tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
 
                         // Configure the Button for Item name
                         Button buttonitemname = new Button();
@@ -10027,6 +10092,7 @@ namespace FoodandBeverage.Forms
                     tlp_tableorder.Enabled = true;
                 }
                 Checked_VariationAddon_List.Clear();
+                pnl_variation_addon.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -10364,7 +10430,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmOrder_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 GC.Collect();
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;

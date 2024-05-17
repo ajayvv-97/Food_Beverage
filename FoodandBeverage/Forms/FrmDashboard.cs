@@ -38,7 +38,7 @@ namespace FoodandBeverage.Forms
             KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
-            
+
         }
 
         // Function to create a rounded rectangle region
@@ -55,32 +55,13 @@ namespace FoodandBeverage.Forms
         public int desiredWidth = 0;
         public int desiredHeight = 0;
         public int HdesiredWidth = 0;
-        public int HdesiredHeight = 0;
-
-        public static int cslno = 0;
-        public static int actionno = 1;
-        public static int orderdatetimeno = 2;
-        public static int entryno = 3;
-        public static int tablecodeno = 4;
-        public static int totalqtyno = 5;
-        public static int netamountno = 6;
-        public static int recamountno = 7;
-
-        public static int balamountno = 8;
-        public static int paytypename = 9;
-        public static int statusno = 10;
-        public static int ordermasteridno = 11;
-
+        public int HdesiredHeight = 0;       
         #endregion
 
         Color menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         Color opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
-
-        TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
-        TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
         TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel();
         FlowLayoutPanel flpcolor = new FlowLayoutPanel();
-
         private Point MouseLocation;
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         public bool collapsemenu_click = false;
@@ -93,15 +74,6 @@ namespace FoodandBeverage.Forms
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
         public bool menutable_click = false;
         private LoadingGIF_Timer loadingForm;
-
-        public class Namelist
-        {
-            public int Id { get; set; }
-            public int Ordermasterid { get; set; }
-            public string Cnames { get; set; }
-            public string Tablecode { get; set; }
-        }
-
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -134,6 +106,7 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
             this.Opacity = 0;
             Task.Run(() =>
             {
@@ -247,19 +220,6 @@ namespace FoodandBeverage.Forms
                 ib_Expence.Visible = false;
                 ib_PromoCode.Visible = false;
                 FormPermissionChecking();
-
-                dgvorderview.BorderStyle = BorderStyle.None;
-                dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                dgvorderview.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                dgvorderview.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                dgvorderview.BackgroundColor = Color.White;
-
-                dgvorderview.EnableHeadersVisualStyles = false;
-                dgvorderview.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                dgvorderview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
                 #region Load Chart Form
                 panelDesktop.Controls.Clear();
 
@@ -290,6 +250,7 @@ namespace FoodandBeverage.Forms
                     _instanceDashboardReport.BringToFront();
                 }
                 #endregion
+
                 //if (System.Windows.Forms.Application.OpenForms["LoadingGIF_Timer"] != null)
                 //{
                 //    FrmRegistration _instanceLoadingGIF = Application.OpenForms["LoadingGIF_Timer"] as FrmRegistration;
@@ -304,7 +265,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-     
+
 
         #region Color Setting
         private bool IsValidHtmlColor(string color)
@@ -442,8 +403,6 @@ namespace FoodandBeverage.Forms
                         ib_userpermission.BackColor = opbuttoncolor;
                         ib_addon.BackColor = opbuttoncolor;
                         pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-
-
 
                         Menuhome.BackColor = menubuttoncolor;
                         Menuoperation.BackColor = menubuttoncolor;
@@ -694,298 +653,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
-        private void btn_select_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                Button button = (Button)sender;
-                string textvalue = button.AccessibleDescription;
-                string[] parts = textvalue.Split(',');
-                int omasterid = 0, tid = 0;
-                string tablecode = "";
-                if (button != null)
-                {
-                    if (parts.Length >= 2)
-                    {
-                        omasterid = Convert.ToInt32(parts[0]);
-                        tid = Convert.ToInt32(parts[1]);
-                        tablecode= Convert.ToString(parts[2]);
-                    }
-
-                    if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Unselect))
-                    {
-                        CheckedtableNames.Add(new DmnNameList
-                        {
-                            Id = tid,
-                            Ordermasterid = omasterid,
-                            Tablecode = tablecode
-                        });
-                        button.BackgroundImage = Properties.Resources.billselectedicon;
-                        button.Tag = Convert.ToInt32(BillSelect.Selected);
-                    }
-                    else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
-                    {
-                        DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
-                        if (itemToRemove != null)
-                        {
-                            CheckedtableNames.Remove(itemToRemove);
-                        }
-                        button.BackgroundImage = Properties.Resources.Billaddicon;
-                        button.Tag = Convert.ToInt32(BillSelect.Unselect);
-                    }
-
-                    button.BackgroundImageLayout = ImageLayout.Stretch;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-
-        private void CompleteEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                Control clickedControl = sender as Control;
-
-                if (clickedControl != null)
-                {
-                    string tableCode = clickedControl.Name;
-                    int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-                    int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                    if (CheckedtableNames.Count > 0)
-                    {
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
-                        {
-                            FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
-                            if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                            {
-                                _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                            }
-                            else
-                            {
-                                _instanceFrmOrder.Show();
-                                _instanceFrmOrder.BringToFront();
-                            }
-                        }
-                        else
-                        {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(0, Convert.ToInt32(DashboardTableType.CombinedOrderBill),0,CheckedtableNames);
-                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            _instanceFrmOrder.Opacity = 0;
-                            _instanceFrmOrder.Visible = false;
-                            _instanceFrmOrder.Show();
-                            _instanceFrmOrder.BringToFront();
-                        }
-
-                    }
-                    else
-                    {
-                        string textvalue = clickedControl.AccessibleDescription;
-                        string[] parts = textvalue.Split(',');
-                        string bmasterid = "";
-                        int Btype = 0;
-                        if (parts.Length >= 2)
-                        {
-                            Btype = Convert.ToInt32(parts[0]);
-                            bmasterid = parts[1];
-                        }
-                        else
-                            Btype = Convert.ToInt32(parts[0]);
-                        if (Btype == Convert.ToInt32(DashboardTableType.Normalorder))
-                        {
-                            if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
-                            {
-                                FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
-                                if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                                {
-                                    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                }
-                                else
-                                {
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
-                                }
-                            }
-                            else
-                            {
-                                int tagValue;
-                                if (clickedControl.Tag != null)
-                                {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames);
-                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                    _instanceFrmOrder.Opacity = 0;
-                                    _instanceFrmOrder.Visible = false;
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
-                            {
-                                FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
-                                if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                                {
-                                    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                }
-                                else
-                                {
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
-                                }
-                            }
-                            else
-                            {
-                                int tagValue;
-                                if (clickedControl.Tag != null)
-                                {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames);
-                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                    _instanceFrmOrder.Opacity = 0;
-                                    _instanceFrmOrder.Visible = false;
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
-                                }
-                            }
-                        }
-
-                    }
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private void SidebuttonfavClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                Control clickedControl = sender as Control;
-                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "*";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId ";
-                dmnSearch.WhereNdGroupBy = " where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1";
-                dmnSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                pnl_serachproduct_dashboard.Controls.Clear();
-                tlp_searchproduct_dashboard.Controls.Clear();
-                tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                tlp_searchproduct_dashboard.AutoScroll = true;
-                if (gridSource.Count > 0)
-                {
-                    int rowIndex = 1;
-                    int columnIndex = 0;
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        if (columnIndex == 2)
-                        {
-                            columnIndex = 0;
-                            rowIndex++;
-                        }
-
-                        // Configure the Button
-                        Button button = new Button();
-                        button.Text = gridSource[i].Product;
-                        button.Name = "btn" + gridSource[i].Product;
-                        button.Tag = gridSource[i].ProductId;
-                        button.Width = 140;
-                        button.Height = 40;
-
-                        // Set the FlatAppearance properties to remove the border
-                        button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                        button.FlatAppearance.BorderColor = button.BackColor;
-                        button.FlatStyle = FlatStyle.Flat;
-                        button.BackColor = product_buttoncolor;
-                        button.ForeColor = Color.White;
-
-                        //// Create a circular Region
-                        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                        //System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
-                        //path.AddEllipse(0, 0, button.Width, button.Height);
-                        //button.Region = new Region(path);
-
-                        button.Font = new Font(button.Font.FontFamily, 9, FontStyle.Bold);
-                        //button.Dock = DockStyle.Fill;
-                        button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        tlp_searchproduct_dashboard.Controls.Add(button, columnIndex, rowIndex);
-                        columnIndex++;
-                    }
-                    pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
-                }
-                //else
-                //{
-                //    CMessageBox.Show("No Products On This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //}
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        private void SidebuttonClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                Control clickedControl = sender as Control;
-                BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "*";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId ";
-                dmnSearch.WhereNdGroupBy = " where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1";
-                dmnSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                pnl_serachproduct_dashboard.Controls.Clear();
-                tlp_searchproduct_dashboard.Controls.Clear();
-                tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                tlp_searchproduct_dashboard.AutoScroll = true;
-                if (gridSource.Count > 0)
-                {
-                    int rowIndex = 1;
-                    int columnIndex = 0;
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        if (columnIndex == 2)
-                        {
-                            columnIndex = 0;
-                            rowIndex++;
-                        }
-                        // Configure the Button
-                        Button button = new Button();
-                        button.Text = gridSource[i].Product;
-                        button.Name = "btn" + gridSource[i].Product;
-                        button.Tag = gridSource[i].ProductId;
-                        button.Width = 140;
-                        button.Height = 40;
-
-                        // Set the FlatAppearance properties to remove the border
-                        button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                        button.FlatAppearance.BorderColor = button.BackColor;
-                        button.FlatStyle = FlatStyle.Flat;
-                        button.BackColor = product_buttoncolor;
-                        button.ForeColor = Color.White;
-
-                        //// Create a circular Region
-                        button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                        button.Font = new Font(button.Font.FontFamily, 9, FontStyle.Bold);
-                        //button.Dock = DockStyle.Fill;
-                        button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                        tlp_searchproduct_dashboard.Controls.Add(button, columnIndex, rowIndex);
-                        columnIndex++;
-                    }
-                    pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
             //item Chosse from serach Box 
@@ -997,50 +664,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-        private void tlp_category_com_MouseHover(object sender, EventArgs e)
-        {
-            try
-            {
-                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-                string tlpName = "tlp_category_com_" + tlpcate.Tag;
-                // Find the TableLayoutPanel control by name
-                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-                if (tlp != null)
-                {
-                    tlp.BackColor = Color.LightBlue;
-                    // Show tooltip with the item name
-                    toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-        private void tlp_category_com_MouseLeave(object sender, EventArgs e)
-        {
-            try
-            {
-                TableLayoutPanel tlpcate = sender as TableLayoutPanel;
-                string tlpName = "tlp_category_com_" + tlpcate.Tag;
-                // Find the TableLayoutPanel control by name
-                TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
-                if (tlp != null)
-                {
-                    tlp.BackColor = Color.White;
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-    
-
-
-
         private void RoundPictureBoxCorners(PictureBox pictureBox, int cornerRadius)
         {
             try
@@ -1125,13 +748,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
-        }
-
-        private void pnl_header_Click(object sender, EventArgs e)
-        {
-            collapsemenu_click = !collapsemenu_click;
-            //CollapseMenu();
         }
 
         private void Menuoperation_Click(object sender, EventArgs e)
@@ -1186,7 +802,7 @@ namespace FoodandBeverage.Forms
                     //        buttonm.Size = new Size(212, 89);
                     //    }
                     //}
-                }   
+                }
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
@@ -1201,20 +817,53 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                panelDesktop.SuspendLayout();
-   
-                if (menutable_click)
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
-                    CloseTableViewPage();
+                    FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    _instanceFrmDashboardReport.Visible = false;
                 }
+                panelDesktop.SuspendLayout();
+
+                if (tlp_op_menu.Visible)
+                    tlp_op_menu.Visible = false;
 
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
                 }
-                CheckedtableNames.Clear();
-                Billcomplete_Fill(); 
-                
+                if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+                {
+                    FrmCombinedBill _instanceCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                    if (_instanceCombinedBill.WindowState == FormWindowState.Minimized)
+                        _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceCombinedBill.Visible = true;
+                        //_instanceCombinedBill.AutoTimer.Start();
+                        _instanceCombinedBill.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceCombinedBill);
+                        panelDesktop.Controls.Add(_instanceCombinedBill);
+                        _instanceCombinedBill.Show();
+                        _instanceCombinedBill.BringToFront();
+                    }
+                }
+                else
+                {
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+
+                    FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill();
+                    ResizeForm(_instanceCombinedBill);
+                    _instanceCombinedBill.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceCombinedBill);
+                    _instanceCombinedBill.Show();
+                    _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceCombinedBill.BringToFront();
+
+                }
+                menutable_click = true;
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
@@ -1223,241 +872,14 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        public class CategoryInfo
-        {
-            public int Fcid { get; set; }
-            public string CategoryName { get; set; }
-        }
-        public void Billcomplete_Fill()
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                panelDesktop.Controls.Add(pnl_complebill_prevbill);
-                pnl_complebill_prevbill.Dock = DockStyle.Fill;
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
-                pnl_empty_msg.Visible = false;
-                pnl_complebill_prevbill.Visible = true;
-                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.BookmasterId BookmasterId,om.NetAmount";
-                dmnSearch.Table = "tblTable_info  ti LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1 and (ti.OrderStatus=1 OR ti.OrderMasterId > 0 )";
-                dmnSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                var distinctCategories = gridSource.Select(item => item.Fcid).Distinct().ToList();
-                List<CategoryInfo> categoryList = new List<CategoryInfo>();
-                foreach (var fcid in distinctCategories)
-                {
-                    string categoryName = gridSource.FirstOrDefault(item => item.Fcid == fcid)?.CategoryName;
-
-                    if (categoryName != null)
-                    {
-                        categoryList.Add(new CategoryInfo { Fcid = fcid, CategoryName = categoryName });
-                    }
-                }
-
-                if (gridSource.Count > 0)
-                {
-                    pnl_compelte_bill.Controls.Clear();
-                    tlp_table_dashboard.Controls.Clear();
-                    tlp_table_dashboard.Dock = DockStyle.Fill;
-                    //tlp_table_dashboard.AutoScroll = true;
-
-                    tlp_table_dashboard_main.RowCount = 2;
-                    tlp_table_dashboard_main.Controls.Clear();
-                    tlp_table_dashboard_main.Dock = DockStyle.Fill;
 
 
-                    #region order complete only dispaly code
-                    int rowIndex_cate = 1;
-                    foreach (var category in categoryList)
-                    {
-                        bool categoryHasTables = false;
-                        TableLayoutPanel tlp_category = new TableLayoutPanel();
-                        tlp_category.Name = "tlp_category_Com_" + category.CategoryName;
-                        tlp_category.Tag = category.CategoryName;
-                        tlp_category.Dock = DockStyle.Top;
-                        tlp_category.Controls.Clear();
-                        tlp_category.AutoSize = true;
-                        //tlp_category.AutoScroll = true;
-                        //tlp_category.BorderStyle = BorderStyle.FixedSingle;
-                        ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
-                        tlp_category.MouseHover += tlp_category_com_MouseHover;
-                        tlp_category.MouseLeave += tlp_category_com_MouseLeave;
-
-                        //Frist Row Cateory Heading
-                        // Configure the Label
-                        Label lblcategory_head = new Label();
-                        lblcategory_head.Name = "lbcate_head_Com_" + category.CategoryName;
-                        lblcategory_head.Tag = category.Fcid;
-                        lblcategory_head.Text = category.CategoryName;
-                        lblcategory_head.ForeColor = Color.Black;
-                        lblcategory_head.BackColor = Color.Transparent;
-                        lblcategory_head.Dock = DockStyle.Top;
-                        lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
-
-                        int rowIndex = 1;
-                        int columnIndex = 0;
-
-                        for (int i = 0; i < gridSource.Count; i++)
-                        {
-                            if (gridSource[i].OrderStatus == 1 || Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
-                            {
-                                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
-                                dmnSearch.Table = "tblOrderDetails";
-                                dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].OrderMasterId;
-                                dmnSearch.OrderBy = "";
-                                var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                                if (gridSource_order.Count > 0 && Convert.ToInt32(gridSource_order[0].Field1) == 0)
-                                {
-                                    categoryHasTables = true;
-                                    if (gridSource[i].Fcid == category.Fcid)
-                                    {
-                                        if (columnIndex == 7)
-                                        {
-                                            columnIndex = 0;
-                                            rowIndex++;
-                                        }
-
-                                        // Configure the TableLayoutPanel
-                                        TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
-                                        tlp_table_inner.RowCount = 3;
-                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                                        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                                        tlp_table_inner.Name = "tlp_com" + gridSource[i].TableCode;
-                                        tlp_table_inner.Tag = gridSource[i].Tid;
-                                        tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                                        //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-                                        //tlp_table_inner.Margin = new Padding(30, 10, 20, 10);
-                                        tlp_table_inner.Dock = DockStyle.Left;
-                                        //tlp_table_inner.BackColor = Color.Aqua;                                        
-
-                                        Button btn_select = new Button();
-                                        btn_select.Name = "btn_select_com" + gridSource[i].TableCode;
-                                        btn_select.AccessibleDescription = Convert.ToString(gridSource[i].OrderMasterId) + "," + gridSource[i].Tid + "," + Convert.ToString(gridSource[i].TableCode);
-                                        btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
-                                        btn_select.FlatStyle = FlatStyle.Flat;
-                                        btn_select.FlatAppearance.BorderSize = 0;
-                                        btn_select.BackgroundImage = Properties.Resources.Billaddicon;
-                                        btn_select.BackgroundImageLayout = ImageLayout.Stretch; 
-                                        btn_select.Dock = DockStyle.Fill;
-                                        btn_select.Margin = new Padding(50,0,50,0);
-                                        btn_select.Click += new EventHandler(btn_select_Clicked);
-
-                                        // Configure the Label
-                                        Label lbltablename = new Label();
-                                        lbltablename.Name = "lb_com" + gridSource[i].TableCode;
-                                        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                        lbltablename.Tag = gridSource[i].Tid;
-                                        lbltablename.Text = gridSource[i].TableCode;
-                                        lbltablename.ForeColor = Color.Black;
-                                        lbltablename.BackColor = Color.Transparent;
-                                        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                                        lbltablename.ForeColor = Color.Red;
-                                        lbltablename.Dock = DockStyle.Fill;
-
-                                        // Configure the Label
-                                        Label netamountlabel = new Label();
-                                        netamountlabel.Name = "lb_com" + gridSource[i].TableCode;
-                                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                        netamountlabel.Tag = gridSource[i].Tid;
-                                        netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource[i].NetAmount);
-                                        netamountlabel.ForeColor = Color.Black;
-                                        netamountlabel.BackColor = Color.Transparent;
-                                        netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
-                                        netamountlabel.Dock = DockStyle.Fill;
-
-
-                                        if (Convert.ToInt32(gridSource[i].OrderStatus) == 1)
-                                            tlp_table_inner.Controls.Add(btn_select, 0, 0);
-                                        tlp_table_inner.Controls.Add(lbltablename, 0, 1);
-                                        tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
-
-
-                                        lbltablename.Click += new EventHandler(CompleteEventHandler);
-                                        tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
-
-                                        if (gridSource[i].OrderStatus == 1)
-                                        {
-                                            lbltablename.AccessibleDescription = "0";
-                                            tlp_table_inner.AccessibleDescription = "0";
-         
-                                        }
-                                        else if (Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
-                                        {
-
-                                            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
-                                            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(gridSource[i].BookmasterId);
-                                        }
-
-                                        tlp_category.Controls.Add(tlp_table_inner, columnIndex, rowIndex);
-                                        columnIndex++;
-                                    }
-                                }
-
-                            }
-
-                        }
-                        int current_rowIndex_cate = rowIndex_cate;
-                        tlp_table_dashboard.Controls.Add(lblcategory_head, 0, rowIndex_cate);
-                        rowIndex_cate++;
-                        tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
-                        rowIndex_cate++;
-
-                        int count = tlp_category.Controls.OfType<Panel>().Count();
-                        if (count == 0)
-                        {
-                            tlp_table_dashboard.Controls.Remove(lblcategory_head);
-                            tlp_table_dashboard.Controls.Remove(tlp_category);
-                        }
-                    }
-
-                    //tlp_table_dashboard.BorderStyle = BorderStyle.FixedSingle;
-                    tlp_table_dashboard_main.Controls.Add(tlp_table_dashboard, 0, 1);
-                    pnl_compelte_bill.Controls.Add(tlp_table_dashboard_main);
-                    pnl_compelte_bill.Dock = DockStyle.Fill;
-                    pnl_compelte_bill.Visible = true;
-
-                    if (tlp_table_dashboard.Controls.Count == 0)
-                    {
-                        controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                        tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                        tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                        pnl_empty_msg.Dock = DockStyle.Fill;
-                        pnl_empty_msg.Visible = true;
-                        btn_prevbill.PerformClick();
-                    }
-
-
-                    #endregion
-                }
-                else
-                {
-                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    pnl_empty_msg.Dock = DockStyle.Fill;
-                    pnl_empty_msg.Visible = true;
-                    btn_prevbill.PerformClick();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
         private void Menureport_Click(object sender, EventArgs e)
         {
             try
             {
                 panelDesktop.SuspendLayout();
-    
+
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -1901,6 +1323,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
 
+
             }
 
         }
@@ -1912,6 +1335,18 @@ namespace FoodandBeverage.Forms
                 //_instanceFrmTableView.AutoTimer.Stop();
                 _instanceFrmTableView.Close();
                 _instanceFrmTableView.Dispose();
+                GC.Collect();
+                btn_rev.Visible = false;
+                btn_running.Visible = false;
+                btn_avial.Visible = false;
+                btntrefresh.Visible = false;
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+            {
+                FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                //_instanceFrmTableView.AutoTimer.Stop();
+                _instanceFrmCombinedBill.Close();
+                _instanceFrmCombinedBill.Dispose();
                 GC.Collect();
             }
         }
@@ -2034,7 +1469,7 @@ namespace FoodandBeverage.Forms
         #region TaskBar Time
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //lbldateTime.Text = DateTime.Now.ToLongTimeString()+"      "+ DateTime.Now.ToShortDateString(); 
+            lbltime.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
         }
         #endregion
 
@@ -2060,21 +1495,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void navibar_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Point mousepos = Control.MousePosition;
-                mousepos.Offset(MouseLocation.X, MouseLocation.Y);
-                Location = mousepos;
-            }
-        }
 
-        private void navibar_MouseDown(object sender, MouseEventArgs e)
-        {
-            MouseLocation = new Point(-e.X, -e.Y);
-
-        }
 
         private void chkentercolor_CheckedChanged(object sender, EventArgs e)
         {
@@ -2151,10 +1572,7 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
         }
-
-      
 
         private void ib_Category_Click(object sender, EventArgs e)
         {
@@ -2231,7 +1649,6 @@ namespace FoodandBeverage.Forms
         }
         private void ResizeForm(Form form)
         {
-
             //if (screenWidth > 1367 && screenHeight > 769)
             //{
             //    form.Height = 768;
@@ -2315,9 +1732,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
-
-
         }
 
         private void ib_unit_Click(object sender, EventArgs e)
@@ -2353,9 +1767,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
-
-
         }
 
         private void ib_table_Click(object sender, EventArgs e)
@@ -2428,9 +1839,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
-
-
         }
 
         private void ib_purchasereturn_Click(object sender, EventArgs e)
@@ -2504,25 +1912,8 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
         }
 
-        private void SetRoundedButton(Button button, int cornerRadius)
-        {
-            using (var path = new GraphicsPath())
-            {
-                Rectangle rect = new Rectangle(0, 0, button.Width, button.Height);
-
-                path.StartFigure();
-                path.AddArc(rect.Left, rect.Top, cornerRadius, cornerRadius, 180, 90);
-                path.AddArc(rect.Right - cornerRadius, rect.Top, cornerRadius, cornerRadius, 270, 90);
-                path.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-                path.AddArc(rect.Left, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
-                path.CloseFigure();
-
-                button.Region = new Region(path);
-            }
-        }
 
 
         private void ib_Category_MouseLeave(object sender, EventArgs e)
@@ -3130,7 +2521,6 @@ namespace FoodandBeverage.Forms
             {
 
             }
-
         }
 
         private void ib_kitchenview_MouseLeave(object sender, EventArgs e)
@@ -3422,14 +2812,7 @@ namespace FoodandBeverage.Forms
             {
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Visible = false;
-                        //_instanceFrmTableView.Close();
-                        //_instanceFrmTableView.Dispose();
-                    }
+                    CloseTableViewPage();
                 }
 
                 panelDesktop.Controls.Clear();
@@ -3901,329 +3284,7 @@ namespace FoodandBeverage.Forms
             {
                 return false;
             }
-
-        }
-        public class ComboBoxItem
-        {
-            public int Id { get; set; }
-            public string Value { get; set; }
-
-            public ComboBoxItem(int id, string value)
-            {
-                Id = id;
-                Value = value;
-            }
-
-            public override string ToString()
-            {
-                return Value;
-            }
-        }
-        public void FillTablecode_Comb(int rowindex, int salemasterid, int ordermasterid, int ordertype)
-        {
-            try
-            {
-                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-                DmnSearch objSearch = new DmnSearch();
-                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
-                if (ordertype == 0)
-                {
-                    objSearch.Select = "bd.MTID id,bd.Name value";
-                    objSearch.Table = "tblOrderMaster om " +
-                        "left join tblbookMaster bm on om.BookmasterId=bm.BookmasterId " +
-                        "left join tblBookDetails bd on bd.BookmasterId=bm.BookmasterId and bd.Rid=0 ";
-                    objSearch.WhereNdGroupBy = "where om.OrderMasterId=" + ordermasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
-                }
-                else
-                {
-                    objSearch.Select = "com.tid id,ti.TableCode value";
-                    objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
-                    objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private void btn_prevbill_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                panelDesktop.Controls.Add(pnl_complebill_prevbill);
-                pnl_complebill_prevbill.Dock = DockStyle.Fill;
-
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_previous_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
-                pnl_previous_bill.Dock = DockStyle.Fill;
-                pnl_previous_bill.Visible = true;
-                pnl_empty_msg.Visible = false;
-
-                btn_backCompleorder.Visible = true;
-                btn_prevbill.Visible = false;
-
-                #region Fill complete or cancelled order in Datagrid
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "Top 20 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13";
-                dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
-                dmnSearch.WhereNdGroupBy = "where sm.status=1";
-                dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
-                dgvorderview.Rows.Clear();
-                int rowIndex = 0;
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    int imageSize = 32;
-                    dgvorderview.Rows.Add(gridSource.Count);
-                    int x = dgvorderview.RowCount;
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
-                        dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field1;
-                        dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
-
-                        dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field3;
-                        #region multiple table code case reservation 
-                        if (Convert.ToInt32(gridSource[i].Field11) == 0)
-                        {
-                            FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field6), Convert.ToInt32(gridSource[i].Field13), Convert.ToInt32(gridSource[i].Field12));
-                        }
-                        else
-                        {
-                            DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
-                            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                            ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
-                            comboBoxItems.Add(comboBoxItem);
-                            dropDown.DataSource = comboBoxItems;
-                            dropDown.ValueMember = "Id";
-                            dropDown.DisplayMember = "Value";
-                            dropDown.Value = comboBoxItems[0].Id;
-                            dropDown.ReadOnly = true;
-                        }
-                        #endregion
-
-
-                        dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
-                        dgvorderview.Rows[rowIndex].Cells[ordermasteridno].Value = gridSource[i].Field6;
-                        dgvorderview.Rows[rowIndex].Cells[netamountno].Value = gridSource[i].Field7;
-                        dgvorderview.Rows[rowIndex].Cells[recamountno].Value = gridSource[i].Field8;
-                        dgvorderview.Rows[rowIndex].Cells[balamountno].Value = gridSource[i].Field9;
-                        switch (Convert.ToInt32(gridSource[i].Field10))
-                        {
-                            case 1:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "CASH";
-                                break;
-                            case 5:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "DEBITCARD";
-                                break;
-                            case 4:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "UPI";
-                                break;
-                            case 6:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "BANKINGONLINE";
-                                break;
-                            case 3:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "CREDIT";
-                                break;
-                            case 7:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "OTHERS";
-                                break;
-                            case 11:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "PART";
-                                break;
-                            case 12:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "SPLIT";
-                                break;
-                        }
-
-                        DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
-                        cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                        cell.Value = Properties.Resources.orderview_complete;
-
-                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[actionno];
-                        cell1.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                        cell1.Value = Properties.Resources.viewbill_billing;
-
-                        rowIndex++;
-                    }
-                }
-                else
-                {
-
-                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    pnl_empty_msg.Dock = DockStyle.Fill;
-                    pnl_empty_msg.Visible = true;
-                }
-
-                #endregion
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private void btn_serach_prev_bill_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                string returnValue = string.Empty;
-                DataTable dtColumnAlign = new DataTable();
-                dtColumnAlign.Columns.Add();
-                DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,TotalQuantity,NetAmount,RcvAmnt,BalAmnt,PaymentMode";
-                _objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.NetAmount Field5,sm.RcvAmnt Field6,sm.BalAmnt Field7,g.Caption Field8";
-                _objSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid LEFT JOIN tblGeneralOptions g ON g.GTypeSubId=sm.PaymentMode";
-                _objSearch.WhereNdGroupBy = "where sm.status=1 and  g.GTypeId=2";
-                _objSearch.OrderBy = "order by sm.SalesMasterId DESC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-                if (gridSource.Count == 0)
-                {
-                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-                    {
-                        var dialogResult = search.ShowDialog();
-                        if (dialogResult == DialogResult.OK)
-                        {
-                            returnValue = Convert.ToString(search._retValue);
-                        }
-                    }
-                    if (returnValue != "")
-                    {
-                        int oid = Convert.ToInt32(returnValue);
-                        printBill(oid);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private void btn_backCompleorder_Click(object sender, EventArgs e)
-        {
-            btn_backCompleorder.Visible = false;
-            btn_prevbill.Visible = true;
-            Billcomplete_Fill();
-        }
-        private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == actionno)
-                {
-                    int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordermasteridno].Value);
-                    printBill(oid);
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-        public void printBill(int oid)
-        {
-            try
-            {
-                DmnSearch obj = new DmnSearch();
-                BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                obj.Select = "PaymentMode Field1,SalesMasterId Field2";
-                obj.Table = "tblSalesMaster";
-                obj.WhereNdGroupBy = " where status=1 and SalesMasterId=" + oid;
-                var result = bllpayments.GetSearchData("prdSearch", obj);
-                if (result.Count > 0)
-                {
-                    if (Convert.ToInt32(result[0].Field1) != 12)
-                    {
-                        pnl_split.Visible = false;
-                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0);
-                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                        frmSalesInvoice.ShowDialog();
-                    }
-                    else
-                    {
-                        obj.Select = "Amount Field1,SplitType Field2,SalemasterId Field3,PayId Field4 ";
-                        obj.Table = "tblpayment";
-                        obj.WhereNdGroupBy = " where status=1 and SaleMasterId=" + oid;
-                        var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
-                        if (paymentresult.Count > 0)
-                        {
-                            dgv_split.Rows.Clear();
-                            dgv_split.Rows.Add(paymentresult.Count);
-                            int x = dgv_split.RowCount;
-                            for (int i = 0; i < paymentresult.Count; i++)
-                            {
-                                dgv_split.Rows[i].Cells[0].Value = i + 1;
-                                dgv_split.Rows[i].Cells[1].Value = paymentresult[i].Field1;
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
-                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.eye;
-                                dgv_split.Rows[i].Cells[3].Value = paymentresult[i].Field3;
-                                dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
-                            }
-                        }
-                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width + 500, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
-                        pnl_split.Visible = true;
-                    }
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        private void dgv_split_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 2)
-            {
-                FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[3].Value), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[4].Value));
-                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                frmSalesInvoice.ShowDialog();
-            }
-        }
-
-        private void btn_close_split_Click(object sender, EventArgs e)
-        {
-            pnl_split.Visible = false;
-        }
+        }   
 
         private void btn_save_msg_Click(object sender, EventArgs e)
         {
@@ -4274,11 +3335,6 @@ namespace FoodandBeverage.Forms
             panl_msgsettings.Visible = false;
         }
 
-        private void dgvorderview_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
         private void Menutable_Click(object sender, EventArgs e)
         {
             try
@@ -4290,7 +3346,7 @@ namespace FoodandBeverage.Forms
                 }
                 panelDesktop.SuspendLayout();
 
-               if (tlp_op_menu.Visible)
+                if (tlp_op_menu.Visible)
                     tlp_op_menu.Visible = false;
 
                 if (sender is Button button)
@@ -4315,6 +3371,11 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+
                     FrmTableView _instanceFrmTableView = new FrmTableView();
                     ResizeForm(_instanceFrmTableView);
                     _instanceFrmTableView.TopLevel = false;
@@ -4322,10 +3383,10 @@ namespace FoodandBeverage.Forms
                     _instanceFrmTableView.Show();
                     _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmTableView.BringToFront();
+                 
                 }
                 menutable_click = true;
-                
-               panelDesktop.ResumeLayout();
+                panelDesktop.ResumeLayout();              
             }
             catch (Exception ex)
             {
@@ -4373,9 +3434,35 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
 
+        private void btn_avial_Click(object sender, EventArgs e)
+        {
+            //AutoTimer.Stop();
+            //LoadTableStaus(3);
+        }
+
+        private void btn_rev_Click(object sender, EventArgs e)
+        {
+            //AutoTimer.Stop();
+            //LoadTableStaus(2);
+        }
+
+        private void btn_running_Click(object sender, EventArgs e)
+        {
+            //AutoTimer.Stop();
+            //LoadTableStaus(1);
+        }
+
+        private void btntrefresh_Click(object sender, EventArgs e)
+        {
+            if (menutable_click)
+            {
+                CloseTableViewPage();
+            }
 
         }
+        
     }
 
 }

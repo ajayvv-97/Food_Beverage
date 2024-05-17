@@ -208,8 +208,8 @@ namespace FoodandBeverage.Forms
                                     UserId = Convert.ToInt64(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
-                                    EmployeName = Convert.ToString(userDetails["Field8", 0].Value);
-                                    Designation = Convert.ToString(userDetails["Field9", 0].Value);
+                                    EmployeName = Convert.ToString(userDetails["Field8", 0].Value); 
+                                     Designation = Convert.ToString(userDetails["Field9", 0].Value);
                                     KitchenDisplayCount  = Convert.ToInt32(userDetails["Field11", 0].Value);
                                     //CompanyId = Convert.ToInt64(userDetails["Field4", 0].Value);
                                     UserAccountTypeId = Convert.ToInt64(userDetails["Field5", 0].Value);
