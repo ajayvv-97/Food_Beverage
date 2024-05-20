@@ -61,6 +61,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                this.Visible = false;
+                this.SuspendLayout();
                 this.Controls.Add(pnl_complebill_prevbill);
                 pnl_complebill_prevbill.Dock = DockStyle.Fill;
                 Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
@@ -72,30 +74,32 @@ namespace FoodandBeverage.Forms
                 pnl_complebill_prevbill.Visible = true;
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName";
-                dmnSearch.Table = "tblTable_info  ti LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid";
+                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus";
+                dmnSearch.Table = "tblTable_info  ti " +
+                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0";
                 dmnSearch.WhereNdGroupBy = "where ti.Status=1";
                 dmnSearch.OrderBy = "order by ti.tid";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    pnl_compelte_bill.SuspendLayout();
                     pnl_compelte_bill.Controls.Clear();
                     tlp_table_dashboard.Controls.Clear();
                     tlp_table_dashboard.Dock = DockStyle.Fill;
-                    tlp_table_dashboard.AutoScroll = true;
+                    tlp_table_dashboard.AutoScroll = true;                
+
                     #region order complete only dispaly code
-                    int rowIndex_cate = 0;                   
+                    int rowIndex_cate = 0;
                     foreach (var tabledata in gridSource)
                     {
                         string tlpname = "tlp_category_Com_" + tabledata.CategoryName;
                         TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                        if(tlp_box == null)
+                        if (tlp_box == null)
                         {
                             TableLayoutPanel tlp_category = new TableLayoutPanel();
                             tlp_category.Name = "tlp_category_Com_" + tabledata.CategoryName;
                             tlp_category.Tag = tabledata.CategoryName;
-                            tlp_category.Dock = DockStyle.Fill;
+                            tlp_category.Dock = DockStyle.Top;
                             tlp_category.AutoSize = true;
                             //tlp_category.BackColor = Color.Green;
                             tlp_category.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
@@ -144,7 +148,7 @@ namespace FoodandBeverage.Forms
                         //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
                         tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
                         tlp_table_inner.BackColor = Color.White;
-                        tlp_table_inner.Visible = false;
+
 
                         if (screenWidth > 1366)
                         {
@@ -172,6 +176,7 @@ namespace FoodandBeverage.Forms
                         // Configure the Label
                         Label lbltablename = new Label();
                         lbltablename.Name = "lb_tablename" + tabledata.TableCode;
+                        lbltablename.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode);
                         lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                         lbltablename.Tag = tabledata.Tid;
                         lbltablename.Text = tabledata.TableCode;
@@ -184,6 +189,7 @@ namespace FoodandBeverage.Forms
                         // Configure the Label
                         Label netamountlabel = new Label();
                         netamountlabel.Name = "lb_netamount" + tabledata.TableCode;
+                        netamountlabel.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode);
                         netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                         netamountlabel.Tag = tabledata.Tid;
                         netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
@@ -192,23 +198,31 @@ namespace FoodandBeverage.Forms
                         netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
                         netamountlabel.Dock = DockStyle.Fill;
 
+                        if (Convert.ToInt32(tabledata.BillStatus) == 0)                        
+                            tlp_table_inner.Visible = true; 
+                        else
+                            tlp_table_inner.Visible = false;
+
                         if (Convert.ToInt32(tabledata.OrderStatus) == 1)
                             tlp_table_inner.Controls.Add(btn_select, 0, 0);
                         tlp_table_inner.Controls.Add(lbltablename, 0, 1);
                         tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
 
                         lbltablename.Click += new EventHandler(CompleteEventHandler);
+                        netamountlabel.Click += new EventHandler(CompleteEventHandler);
                         tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
 
                         if (tabledata.OrderStatus == 1)
                         {
                             lbltablename.AccessibleDescription = "0";
+                            netamountlabel.AccessibleDescription = "0";
                             tlp_table_inner.AccessibleDescription = "0";
                         }
                         else if (Convert.ToInt32(tabledata.OrderMasterId) > 0)
                         {
                             lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(tabledata.BookmasterId);
                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(tabledata.BookmasterId);
+                            netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.CombinedOrderBill) + "," + Convert.ToInt32(tabledata.BookmasterId);
                         }
                         #endregion
 
@@ -229,7 +243,7 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
                     #endregion
-                    pnl_compelte_bill.ResumeLayout();
+
                     CombineBillAutoTimer.Start();
                 }
                 else
@@ -241,12 +255,15 @@ namespace FoodandBeverage.Forms
                     pnl_empty_msg.Visible = true;
                     btn_prevbill.PerformClick();
                 }
+                this.ResumeLayout();
+                this.Visible = true;
             }
             catch (Exception ex)
             {
 
             }
         }
+
         private void btn_select_Clicked(object sender, EventArgs e)
         {
             try
@@ -304,8 +321,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                CombineBillAutoTimer.Stop();
                 Control clickedControl = sender as Control;
-
                 if (clickedControl != null)
                 {
                     string tableCode = clickedControl.Name;
@@ -413,6 +430,7 @@ namespace FoodandBeverage.Forms
 
 
                 }
+                CombineBillAutoTimer.Start();
             }
             catch (Exception ex)
             {
@@ -464,7 +482,18 @@ namespace FoodandBeverage.Forms
         {
             btn_backCompleorder.Visible = false;
             btn_prevbill.Visible = true;
-            Billcomplete_Fill();
+
+            this.Controls.Add(pnl_complebill_prevbill);
+            pnl_complebill_prevbill.Dock = DockStyle.Fill;
+            Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+            tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+            tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
+            tlp_compl_pre_bill.Dock = DockStyle.Fill;
+
+            pnl_empty_msg.Visible = false;
+            pnl_complebill_prevbill.Visible = true;
+
+            CombineBillAutoTimer.Start();
         }
 
         private void btn_serach_prev_bill_Click(object sender, EventArgs e)
@@ -513,6 +542,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                CombineBillAutoTimer.Stop();
+
                 this.Controls.Add(pnl_complebill_prevbill);
                 pnl_complebill_prevbill.Dock = DockStyle.Fill;
                 pnl_complebill_prevbill.BringToFront();
@@ -797,102 +828,42 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                this.Controls.Add(pnl_complebill_prevbill);
-                pnl_complebill_prevbill.Dock = DockStyle.Fill;
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                CombineBillAutoTimer.Stop();
 
-                pnl_empty_msg.Visible = false;
-                pnl_complebill_prevbill.Visible = true;
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.BookmasterId BookmasterId,om.NetAmount";
-                dmnSearch.Table = "tblTable_info  ti LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1 and (ti.OrderStatus=1 OR ti.OrderMasterId > 0 )";
-                dmnSearch.OrderBy = "";
+                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus";
+                dmnSearch.Table = "tblTable_info  ti " +
+                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0";
+                dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                dmnSearch.OrderBy = "order by ti.tid";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                var distinctCategories = gridSource.Select(item => item.Fcid).Distinct().ToList();
-                List<CategoryInfo> categoryList = new List<CategoryInfo>();
-                foreach (var fcid in distinctCategories)
-                {
-                    string categoryName = gridSource.FirstOrDefault(item => item.Fcid == fcid)?.CategoryName;
-
-                    if (categoryName != null)
-                    {
-                        categoryList.Add(new CategoryInfo { Fcid = fcid, CategoryName = categoryName });
-                    }
-                }
                 if (gridSource.Count > 0)
                 {
-                    GC.Collect();
-
-                    //pnl_compelte_bill.Controls.Clear();
-                    //tlp_table_dashboard.Controls.Clear();
-                    //tlp_table_dashboard.Dock = DockStyle.Fill;
-                    //tlp_table_dashboard.AutoScroll = true;
-                    #region order complete only dispaly code
+                    #region Check order status and set visible flase and true
                     int rowIndex_cate = 0;
-                    this.SuspendLayout();
-                    foreach (var category in categoryList)
-                    {           
-                        for (int i = 0; i < gridSource.Count; i++)
+                    foreach (var tabledata in gridSource)
+                    {
+                        string tlpname = "tlp_com" + tabledata.TableCode;
+                        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_box != null)
                         {
-                            if (gridSource[i].OrderStatus == 1 || Convert.ToInt32(gridSource[i].OrderMasterId) > 0)
+                            if(tabledata.BillStatus==0)
                             {
-                                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
-                                dmnSearch.Table = "tblOrderDetails";
-                                dmnSearch.WhereNdGroupBy = "WHERE status!=0 and OrderMasterId = " + gridSource[i].OrderMasterId;
-                                dmnSearch.OrderBy = "";
-                                var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                                if (gridSource_order.Count > 0 && Convert.ToInt32(gridSource_order[0].Field1) == 0)
-                                {
-                                    if (gridSource[i].Fcid == category.Fcid)
-                                    {
-                                        string tlpname = "tlp_com" + gridSource[i].TableCode;
-                                        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                                        if (tlp_box != null)
-                                        {
-                                            string lblname = "lb_netamount" + gridSource[i].TableCode;
-                                            Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                                            lblnet.Text = "\u20B9" + Convert.ToString(gridSource[i].NetAmount); 
-                                            tlp_box.SuspendLayout();
-                                            tlp_box.Visible = true;
-                                            tlp_box.ResumeLayout();
-                                        }
-                                    }
-                                }
+                                string lblname = "lb_netamount" + tabledata.TableCode;
+                                Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                                lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+                                tlp_box.Visible = true;
                             }
+                            else                            
+                                tlp_box.Visible = false;                            
                         }
                     }
-                    pnl_compelte_bill.Controls.Add(tlp_table_dashboard);
-                    pnl_compelte_bill.Dock = DockStyle.Fill;
-                    pnl_compelte_bill.Visible = true;
-                    this.ResumeLayout();
-
-                    //if (tlp_table_dashboard.Controls.Count == 0)
-                    //{
-                    //    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    //    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    //    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    //    pnl_empty_msg.Dock = DockStyle.Fill;
-                    //    pnl_empty_msg.Visible = true;
-                    //    btn_prevbill.PerformClick();
-                    //}
-
                     #endregion
                 }
-                else
-                {
-                    //controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    //tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    //tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    //pnl_empty_msg.Dock = DockStyle.Fill;
-                    //pnl_empty_msg.Visible = true;
-                    //btn_prevbill.PerformClick();
-                }
+
+                CombineBillAutoTimer.Start();
             }
             catch (Exception ex)
             {

@@ -23,18 +23,29 @@ namespace FoodandBeverage.Forms
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
 
         public int panelsPerRow = 0;
+        public int tabletype = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
 
-        public FrmTableView()
+        public Color DefaultColor  = Color.White;
+        public Color OrderColor = Color.Yellow;
+        public Color BillingColor  = Color.Orange;
+        public Color ReservationColor  = Color.LightBlue;
+        public Color ExpiredColor = Color.LightGray;
+
+        public Color Defaultfontcolor = Color.Black;
+        public Color Ordertablefontcolor = Color.Green;
+        public Color Netamountfontcolor = Color.Green;
+        public FrmTableView(int type)
         {
             InitializeComponent();
+            tabletype = type;
         }
 
         private void FrmTableView_Load(object sender, EventArgs e)
         {
-            LoadTableStaus(0);
+            LoadTableStaus(tabletype);
         }
         public void LoadTableStaus(int serachmode)
         {
@@ -146,9 +157,6 @@ namespace FoodandBeverage.Forms
                         {
                             if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
                             {
-
-                                int idToSearch = Convert.ToInt32(gridSource[i].Field3);
-                                int? Serach_Tid = TableDataList.FirstOrDefault(table => table.Tid == idToSearch && table.Capcity > 50)?.Tid;
                                 int panelWidth = 0;
                                 int panelHeight = 0;
 
@@ -178,9 +186,9 @@ namespace FoodandBeverage.Forms
                                 lbltablename.BackColor = Color.Transparent;
                                 lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                    lbltablename.ForeColor = Color.Red;
+                                    lbltablename.ForeColor = Defaultfontcolor;
                                 else
-                                    lbltablename.ForeColor = Color.Green;
+                                    lbltablename.ForeColor = Ordertablefontcolor;
                                 #endregion
 
                                 #region Net Amount
@@ -190,7 +198,7 @@ namespace FoodandBeverage.Forms
                                 netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                                 netamountlabel.Tag = gridSource[i].Field3;
                                 netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource[i].Field8);
-                                netamountlabel.ForeColor = Color.Black;
+                                netamountlabel.ForeColor = Netamountfontcolor;
                                 netamountlabel.BackColor = Color.Transparent;
                                 netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
                                 netamountlabel.Dock = DockStyle.Fill;
@@ -222,8 +230,6 @@ namespace FoodandBeverage.Forms
                                     columnIndex = 0;
                                     rowIndex++;
                                 }
-
-
                                 tlp_table_inner.Controls.Add(lbltablename, 0, 0);
                                 tlp_table_inner.Controls.Add(netamountlabel, 0, 1);
 
@@ -248,7 +254,7 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
                                     {
                                         netamountlabel.Visible = false;
-                                        tlp_table_inner.BackColor = Color.Aqua;
+                                        tlp_table_inner.BackColor = OrderColor;
                                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                                         lbltablename.Dock = DockStyle.Fill;
@@ -257,10 +263,9 @@ namespace FoodandBeverage.Forms
                                     else
                                     {
                                         netamountlabel.Visible = true;
-                                        tlp_table_inner.BackColor = Color.Aqua;
+                                        tlp_table_inner.BackColor = BillingColor;
                                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                        tlp_table_inner.BackColor = Color.BlueViolet;
                                         netamountlabel.Dock = DockStyle.Fill;
                                         lbltablename.Dock = DockStyle.Fill;
                                         lbltablename.TextAlign = ContentAlignment.MiddleCenter;
@@ -286,11 +291,11 @@ namespace FoodandBeverage.Forms
                                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
                                             if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                                tlp_table_inner.BackColor = Color.Aqua;
+                                                tlp_table_inner.BackColor = OrderColor;
                                             else
-                                                tlp_table_inner.BackColor = Color.BlueViolet;
+                                                tlp_table_inner.BackColor = BillingColor;
 
-                                            lbltablename.ForeColor = Color.Red;
+                                            lbltablename.ForeColor = Ordertablefontcolor;
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                         }
@@ -308,12 +313,12 @@ namespace FoodandBeverage.Forms
 
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                tlp_table_inner.BackColor = Color.Yellow;
+                                                tlp_table_inner.BackColor = ReservationColor;
 
                                             }
                                             else if (ExpdateNow > Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
-                                                tlp_table_inner.BackColor = Color.Red;
+                                                tlp_table_inner.BackColor = ExpiredColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                             }
@@ -324,7 +329,7 @@ namespace FoodandBeverage.Forms
                                     else
                                     {
                                         netamountlabel.Visible = false;
-                                        tlp_table_inner.BackColor = Color.White;
+                                        tlp_table_inner.BackColor = DefaultColor;
                                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                                         lbltablename.Dock = DockStyle.Fill;
@@ -349,8 +354,13 @@ namespace FoodandBeverage.Forms
                     this.Controls.Add(tlp_table_dashboard);
                     tlp_table_dashboard.Visible = true;
                     tlp_table_dashboard.Dock = DockStyle.Fill;
+
+                    initTimer();
                 }
-                initTimer();
+                else                
+                    CMessageBox.Show("No Records", "Information", MessageBoxButtons.OK);
+                
+
             }
             catch (Exception ex)
             {
@@ -440,9 +450,9 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
                             {
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                    lbltablename.ForeColor = Color.Red;
+                                    lbltablename.ForeColor = Defaultfontcolor;
                                 else
-                                    lbltablename.ForeColor = Color.Green;
+                                    lbltablename.ForeColor = Ordertablefontcolor;
 
                                 tlp_table_inner.AccessibleDescription = "0";
                                 lbltablename.AccessibleDescription = "0";
@@ -451,7 +461,7 @@ namespace FoodandBeverage.Forms
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
                                 {
                                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                    dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1";
+                                    dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1,(select NetAmount from tblOrderMaster where Status!=0 and OrderMasterId =" + gridSource[i].Field6+ ") Field2";
                                     dmnSearch.Table = "tblOrderDetails";
                                     dmnSearch.WhereNdGroupBy = "WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
                                     dmnSearch.OrderBy = "";
@@ -460,7 +470,7 @@ namespace FoodandBeverage.Forms
                                     if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
                                     {
                                         netamountlabel.Visible = false;
-                                        tlp_table_inner.BackColor = Color.Aqua;
+                                        tlp_table_inner.BackColor = OrderColor;
                                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                                         lbltablename.Dock = DockStyle.Fill;
@@ -470,12 +480,12 @@ namespace FoodandBeverage.Forms
                                     else
                                     {
                                         netamountlabel.Visible = true;
-                                        tlp_table_inner.BackColor = Color.Aqua;
+                                        tlp_table_inner.BackColor = BillingColor;
                                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
                                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                        tlp_table_inner.BackColor = Color.BlueViolet;
                                         netamountlabel.Dock = DockStyle.Fill;
                                         lbltablename.Dock = DockStyle.Fill;
+                                        netamountlabel.Text= "\u20B9" + Convert.ToString(gridSource_order[0].Field2);
                                         lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                                         netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                                     }
@@ -499,11 +509,11 @@ namespace FoodandBeverage.Forms
                                             if (gridSource_order.Count > 0)
                                             {
                                                 if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                                    tlp_table_inner.BackColor = Color.Aqua;
+                                                    tlp_table_inner.BackColor =OrderColor;
                                                 else
-                                                    tlp_table_inner.BackColor = Color.BlueViolet;
+                                                    tlp_table_inner.BackColor = BillingColor;
 
-                                                lbltablename.ForeColor = Color.Red;
+                                                lbltablename.ForeColor = Ordertablefontcolor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             }
@@ -519,7 +529,7 @@ namespace FoodandBeverage.Forms
                                             DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
                                             if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
                                             {
-                                                tlp_table_inner.BackColor = Color.Yellow;
+                                                tlp_table_inner.BackColor = ReservationColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
 
@@ -527,7 +537,7 @@ namespace FoodandBeverage.Forms
                                             else if (ExpdateNow >= Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
 
-                                                tlp_table_inner.BackColor = Color.Red;
+                                                tlp_table_inner.BackColor = ExpiredColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
 
@@ -551,7 +561,17 @@ namespace FoodandBeverage.Forms
                                     }
                                     else
                                     {
-                                        tlp_table_inner.BackColor = Color.White;
+                                        tlp_table_inner.BackColor = DefaultColor;
+                                        tlp_table_inner.AccessibleDescription = "0";
+                                        lbltablename.AccessibleDescription = "0";
+
+                                        netamountlabel.Text = "";
+                                        netamountlabel.Visible = false;
+                                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                        lbltablename.Dock = DockStyle.Fill;
+                                        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+
                                         tlp_table_inner.AccessibleDescription = "0";
                                         lbltablename.AccessibleDescription = "0";
 
@@ -563,13 +583,13 @@ namespace FoodandBeverage.Forms
                                 {
                                     netamountlabel.Text = "";
                                     netamountlabel.Visible = false;
-                                    tlp_table_inner.BackColor = Color.Aqua;
+
                                     tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                     tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                                     lbltablename.Dock = DockStyle.Fill;
                                     lbltablename.TextAlign = ContentAlignment.MiddleCenter;
 
-                                    tlp_table_inner.BackColor = Color.White;
+                                    tlp_table_inner.BackColor = DefaultColor;
                                     tlp_table_inner.AccessibleDescription = "0";
                                     lbltablename.AccessibleDescription = "0";
                                 }

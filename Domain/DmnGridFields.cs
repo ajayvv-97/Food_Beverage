@@ -28,6 +28,7 @@ namespace Domain
         public string Field19 { get; set; }
         public string Field20 { get; set; }
         public string Field21 { get; set; }
+        public string Field22 { get; set; }
         public DateTime Fielddatetime { get; set; }
 
         public DateTime StartDate { get; set; }

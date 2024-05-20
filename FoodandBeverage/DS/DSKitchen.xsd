@@ -12,7 +12,7 @@
   <xs:element name="DSKitchen" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DSKitchen" msprop:Generator_UserDSName="DSKitchen">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="DT_kitchenbill" msprop:Generator_TableClassName="DT_kitchenbillDataTable" msprop:Generator_TableVarName="tableDT_kitchenbill" msprop:Generator_TablePropName="DT_kitchenbill" msprop:Generator_RowDeletingName="DT_kitchenbillRowDeleting" msprop:Generator_RowChangingName="DT_kitchenbillRowChanging" msprop:Generator_RowEvHandlerName="DT_kitchenbillRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_kitchenbillRowDeleted" msprop:Generator_UserTableName="DT_kitchenbill" msprop:Generator_RowChangedName="DT_kitchenbillRowChanged" msprop:Generator_RowEvArgName="DT_kitchenbillRowChangeEvent" msprop:Generator_RowClassName="DT_kitchenbillRow">
+        <xs:element name="DT_kitchenbill" msprop:Generator_TableClassName="DT_kitchenbillDataTable" msprop:Generator_TableVarName="tableDT_kitchenbill" msprop:Generator_RowChangedName="DT_kitchenbillRowChanged" msprop:Generator_TablePropName="DT_kitchenbill" msprop:Generator_RowDeletingName="DT_kitchenbillRowDeleting" msprop:Generator_RowChangingName="DT_kitchenbillRowChanging" msprop:Generator_RowEvHandlerName="DT_kitchenbillRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_kitchenbillRowDeleted" msprop:Generator_RowClassName="DT_kitchenbillRow" msprop:Generator_UserTableName="DT_kitchenbill" msprop:Generator_RowEvArgName="DT_kitchenbillRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ItemName" msprop:Generator_ColumnVarNameInTable="columnItemName" msprop:Generator_ColumnPropNameInRow="ItemName" msprop:Generator_ColumnPropNameInTable="ItemNameColumn" msprop:Generator_UserColumnName="ItemName" type="xs:string" minOccurs="0" />
@@ -29,6 +29,7 @@
               <xs:element name="offerqty" msprop:Generator_ColumnVarNameInTable="columnofferqty" msprop:Generator_ColumnPropNameInRow="offerqty" msprop:Generator_ColumnPropNameInTable="offerqtyColumn" msprop:Generator_UserColumnName="offerqty" type="xs:int" minOccurs="0" />
               <xs:element name="TableType_x0020_" msprop:Generator_ColumnVarNameInTable="columnTableType_" msprop:Generator_ColumnPropNameInRow="TableType_" msprop:Generator_ColumnPropNameInTable="TableType_Column" msprop:Generator_UserColumnName="TableType " type="xs:int" minOccurs="0" />
               <xs:element name="cobmoitemname" msprop:Generator_ColumnVarNameInTable="columncobmoitemname" msprop:Generator_ColumnPropNameInRow="cobmoitemname" msprop:Generator_ColumnPropNameInTable="cobmoitemnameColumn" msprop:Generator_UserColumnName="cobmoitemname" type="xs:string" minOccurs="0" />
+              <xs:element name="KitchenNumber" msprop:Generator_ColumnVarNameInTable="columnKitchenNumber" msprop:Generator_ColumnPropNameInRow="KitchenNumber" msprop:Generator_ColumnPropNameInTable="KitchenNumberColumn" msprop:Generator_UserColumnName="KitchenNumber" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

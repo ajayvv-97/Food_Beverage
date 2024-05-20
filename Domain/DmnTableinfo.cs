@@ -24,7 +24,8 @@ namespace Domain
         public int OrderMasterId { get; set; }
         public int BookmasterId { get; set; }
         public decimal NetAmount { get; set; }
+        public int BillStatus { get; set; }
 
-        
+
     }
 }

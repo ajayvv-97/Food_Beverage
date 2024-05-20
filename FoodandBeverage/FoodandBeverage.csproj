@@ -1433,5 +1433,50 @@
   <ItemGroup>
     <None Include="Resources\refresh_dashboard.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\usericon_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combchossebutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employe_add icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emp_cameraicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employe_male icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employe_female icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employee_file icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employe_delete icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Combinedbill_previousbill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combined_backbill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_more button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pintcount button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printpending button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kitchentotalodericon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kitchenprintcounticon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

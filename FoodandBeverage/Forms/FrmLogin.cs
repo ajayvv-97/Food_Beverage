@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         byte[] passwordSalt;
         public static long UserId;
         public static long BranchId;
+
         public static string EmpCode = "";
         public static string EmployeName = "";
         public static string Designation = "";
@@ -49,7 +50,7 @@ namespace FoodandBeverage.Forms
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
 
-        public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//;";
+        public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";// ;";
         public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// //
         public static string SaleBillPath =Application.StartupPath + @"\SaleBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
         #endregion
@@ -178,6 +179,7 @@ namespace FoodandBeverage.Forms
                             #endregion
                             else
                             {
+
                                 #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
@@ -203,8 +205,18 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    BookingInterwell= Convert.ToDecimal(userDetails["Field10", 0].Value);
                                     BranchId = Convert.ToInt16(userDetails["Field3", 0].Value);
+                                    if (BranchId > 0)
+                                    {
+                                        #region Reset Kitchen Number (opening time on hotel registartion)
+                                        DmnResetKitchenno dmnkicthenreset = new DmnResetKitchenno();
+                                        BllResetKitchenno Resetkitchen = new BllResetKitchenno();
+                                        dmnkicthenreset.BranchId = Convert.ToInt32(BranchId);
+                                        var reset_kitchenno = Resetkitchen.ResetKitchenno("Prd_check_Reset_KitchenSrlNo", dmnkicthenreset);
+                                        #endregion
+                                    }
+
+                                    BookingInterwell = Convert.ToDecimal(userDetails["Field10", 0].Value);
                                     UserId = Convert.ToInt64(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
@@ -216,6 +228,7 @@ namespace FoodandBeverage.Forms
                                     EmpCode = userDetails["Field6", 0].Value.ToString();
 
                                     #endregion
+
                                     this.Visible = false;
                                     Forms.FrmDashboard DashBoard = new FrmDashboard();
                                     DashBoard.MdiParent = this.MdiParent;

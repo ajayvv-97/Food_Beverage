@@ -19,7 +19,9 @@ namespace Domain
         public int offerqty { get; set; }
         public string offeritemname { get; set; }
         public string cobmoitemname { get; set; }
-        public int PrId { get; set; } 
+        public int PrId { get; set; }
+        public string Kitchennumber { get; set; }
+        
 
     }
 }

@@ -600,9 +600,9 @@ namespace FoodandBeverage.Forms
         private void cboGender_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (Convert.ToInt32(cboGender.SelectedIndex) == 1)
-                pbCust.Image = FoodandBeverage.Properties.Resources.Profilepicfemale;
+                pbCust.Image = FoodandBeverage.Properties.Resources.employe_female_icon;
             else if (Convert.ToInt32(cboGender.SelectedIndex) == 2)
-                pbCust.Image = FoodandBeverage.Properties.Resources. Profilepicmale;
+                pbCust.Image = FoodandBeverage.Properties.Resources. employe_male_icon;
             pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 

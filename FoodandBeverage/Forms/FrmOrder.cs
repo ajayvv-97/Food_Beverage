@@ -4048,7 +4048,6 @@ namespace FoodandBeverage.Forms
 
                         // Configure the btnviewmore
                         Button btnviewmore = new Button();
-                        btnviewmore.Text = ">";
                         btnviewmore.Name = "btnviewmore"; // Change the btnviewmore name to "viewmore"
                         btnviewmore.Tag = gridSource[i].Field2;
                         btnviewmore.AccessibleDescription = "3";
@@ -4058,13 +4057,13 @@ namespace FoodandBeverage.Forms
                         btnviewmore.Font = new Font("Arial", 9, FontStyle.Bold);
                         btnviewmore.Width = 30;
                         btnviewmore.Height = 50;
-                        //btnviewmore.Dock = DockStyle.Top;
+                        btnviewmore.BackgroundImage = Properties.Resources.orderpage_more_button;
+                        btnviewmore.BackgroundImageLayout = ImageLayout.Stretch;
                         btnviewmore.FlatStyle = FlatStyle.Flat;
-                        btnviewmore.BackColor = Color.Gold;
-                        btnviewmore.ForeColor = Color.Black;
+                        btnviewmore.BackColor = Color.Transparent;
                         //tooltip.SetToolTip(btnviewmore, gridSource[i].Field1 + " " + gridSource[i].Field4 + "%");
                         btnviewmore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
-                        btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
+                        //btnviewmore.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnviewmore.Width, btnviewmore.Height, 10, 10));
                         tlp_box_combo.Controls.Add(btnviewmore, 1, 0);
 
                         panelProductBox.Controls.Add(tlp_box_combo);
@@ -6444,13 +6443,33 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
+        public void setKitchenperfix()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "KitchenSrlNo Field1";
+                dmnSearch.Table = " tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId = " + FrmDashboard.BranchId;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource1.Count > 0)
+                {
+                    txtkitchenslrno.Text =Convert.ToString(gridSource1[0].Field1);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         private void btn_saveKOT_Click(object sender, EventArgs e)
         {
             try
             {
                 if (MandatoryCheck_KOT())
                 {
+                    setKitchenperfix();
                     bool flage = false;
                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
@@ -6533,9 +6552,9 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.BookingFlag = 1;
                                     dmnorderdetail.KOTPrintStatus = 0;
-                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-
-                                    var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text); 
+                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text); 
+                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
                                         flage = true;
@@ -6601,7 +6620,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
-
+                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -7322,6 +7341,11 @@ namespace FoodandBeverage.Forms
                                         FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                                         _instanceFrmTableView.TableStaus(0);
                                     }
+                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+                                    {
+                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                                        _instanceFrmCombinedBill.BillCombineBill_Update();
+                                    }
                                     //ClearAll();
                                     this.Close();
                                 }
@@ -7532,6 +7556,11 @@ namespace FoodandBeverage.Forms
                                         FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                                         _instanceFrmTableView.TableStaus(0);
                                     }
+                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                                    {
+                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                                        _instanceFrmCombinedBill.BillCombineBill_Update();
+                                    }
 
                                     this.Close();
                                 }
@@ -7546,6 +7575,11 @@ namespace FoodandBeverage.Forms
                                     {
                                         FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                                         _instanceFrmTableView.TableStaus(0);
+                                    }
+                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+                                    {
+                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                                        _instanceFrmCombinedBill.BillCombineBill_Update();
                                     }
                                     //ClearAll();
                                     this.Close();
@@ -9050,6 +9084,7 @@ namespace FoodandBeverage.Forms
             {
                 if (MandatoryCheck_KOT())
                 {
+                    setKitchenperfix(); 
                     bool flage = false;
                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
@@ -9133,7 +9168,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.BookingFlag = 1;
                                     dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-
+                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -9205,7 +9240,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.BookingFlag = 0;
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-
+                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {

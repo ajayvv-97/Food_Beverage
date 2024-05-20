@@ -38,7 +38,6 @@ namespace FoodandBeverage.Forms
             KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
-
         }
 
         // Function to create a rounded rectangle region
@@ -170,7 +169,6 @@ namespace FoodandBeverage.Forms
 
                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                 this.FormBorderStyle = FormBorderStyle.None;
-                timer1.Start();
                 Menuhome.BackColor = menubuttoncolor;
                 Menuoperation.BackColor = menubuttoncolor;
                 Menubilling.BackColor = menubuttoncolor;
@@ -1336,10 +1334,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmTableView.Close();
                 _instanceFrmTableView.Dispose();
                 GC.Collect();
+                tlp_tablestatus.SuspendLayout();
                 btn_rev.Visible = false;
                 btn_running.Visible = false;
                 btn_avial.Visible = false;
                 btntrefresh.Visible = false;
+                tlp_tablestatus.ResumeLayout();
             }
             if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
             {
@@ -1465,11 +1465,10 @@ namespace FoodandBeverage.Forms
             Application.Exit();
         }
 
-
         #region TaskBar Time
         private void timer1_Tick(object sender, EventArgs e)
         {
-            lbltime.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
+            //lbltime.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
         }
         #endregion
 
@@ -3360,6 +3359,13 @@ namespace FoodandBeverage.Forms
                         _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else
                     {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = true;
+                        btn_running.Visible = true;
+                        btn_avial.Visible = true;
+                        btntrefresh.Visible = true;
+                        tlp_tablestatus.ResumeLayout();
+
                         _instanceFrmTableView.Visible = true;
                         _instanceFrmTableView.AutoTimer.Start();
                         _instanceFrmTableView.Dock = DockStyle.Fill;
@@ -3371,12 +3377,14 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    tlp_tablestatus.SuspendLayout();
                     btn_rev.Visible = true;
                     btn_running.Visible = true;
                     btn_avial.Visible = true;
                     btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
 
-                    FrmTableView _instanceFrmTableView = new FrmTableView();
+                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
                     ResizeForm(_instanceFrmTableView);
                     _instanceFrmTableView.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmTableView);
@@ -3412,6 +3420,13 @@ namespace FoodandBeverage.Forms
                         _instanceFrmAddon.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else
                     {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = true;
+                        btn_running.Visible = true;
+                        btn_avial.Visible = true;
+                        btntrefresh.Visible = true;
+                        tlp_tablestatus.ResumeLayout();
+
                         _instanceFrmAddon.Dock = DockStyle.None;
                         ResizeForm(_instanceFrmAddon);
                         panelDesktop.Controls.Add(_instanceFrmAddon);
@@ -3438,20 +3453,150 @@ namespace FoodandBeverage.Forms
 
         private void btn_avial_Click(object sender, EventArgs e)
         {
-            //AutoTimer.Stop();
-            //LoadTableStaus(3);
+            if (menutable_click)
+            {
+                CloseTableViewPage();
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    _instanceFrmTableView.Visible = true;
+                    _instanceFrmTableView.AutoTimer.Start();
+                    _instanceFrmTableView.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceFrmTableView);
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.BringToFront();
+                }
+            }
+            else
+            {
+                tlp_tablestatus.SuspendLayout();
+                btn_rev.Visible = true;
+                btn_running.Visible = true;
+                btn_avial.Visible = true;
+                btntrefresh.Visible = true;
+                tlp_tablestatus.ResumeLayout();
+
+                FrmTableView _instanceFrmTableView = new FrmTableView(3);
+                ResizeForm(_instanceFrmTableView);
+                _instanceFrmTableView.TopLevel = false;
+                panelDesktop.Controls.Add(_instanceFrmTableView);
+                _instanceFrmTableView.Show();
+                _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                _instanceFrmTableView.BringToFront();
+
+            }
         }
 
         private void btn_rev_Click(object sender, EventArgs e)
         {
-            //AutoTimer.Stop();
-            //LoadTableStaus(2);
+            if (menutable_click)
+            {
+                CloseTableViewPage();
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    _instanceFrmTableView.Visible = true;
+                    _instanceFrmTableView.AutoTimer.Start();
+                    _instanceFrmTableView.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceFrmTableView);
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.BringToFront();
+                }
+            }
+            else
+            {
+                tlp_tablestatus.SuspendLayout(); 
+                btn_rev.Visible = true;
+                btn_running.Visible = true;
+                btn_avial.Visible = true;
+                btntrefresh.Visible = true;
+                tlp_tablestatus.ResumeLayout();
+
+                FrmTableView _instanceFrmTableView = new FrmTableView(2);
+                ResizeForm(_instanceFrmTableView);
+                _instanceFrmTableView.TopLevel = false;
+                panelDesktop.Controls.Add(_instanceFrmTableView);
+                _instanceFrmTableView.Show();
+                _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                _instanceFrmTableView.BringToFront();
+
+            }
         }
 
         private void btn_running_Click(object sender, EventArgs e)
         {
-            //AutoTimer.Stop();
-            //LoadTableStaus(1);
+
+            if (menutable_click)
+            {
+                CloseTableViewPage();
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    _instanceFrmTableView.Visible = true;
+                    _instanceFrmTableView.AutoTimer.Start();
+                    _instanceFrmTableView.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceFrmTableView);
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.BringToFront();
+                }
+            }
+            else
+            {
+                tlp_tablestatus.SuspendLayout();
+                btn_rev.Visible = true;
+                btn_running.Visible = true;
+                btn_avial.Visible = true;
+                btntrefresh.Visible = true;
+                tlp_tablestatus.ResumeLayout();
+
+                FrmTableView _instanceFrmTableView = new FrmTableView(1);
+                ResizeForm(_instanceFrmTableView);
+                _instanceFrmTableView.TopLevel = false;
+                panelDesktop.Controls.Add(_instanceFrmTableView);
+                _instanceFrmTableView.Show();
+                _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                _instanceFrmTableView.BringToFront();
+
+            }
         }
 
         private void btntrefresh_Click(object sender, EventArgs e)
@@ -3459,6 +3604,47 @@ namespace FoodandBeverage.Forms
             if (menutable_click)
             {
                 CloseTableViewPage();
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    _instanceFrmTableView.Visible = true;
+                    _instanceFrmTableView.AutoTimer.Start();
+                    _instanceFrmTableView.Dock = DockStyle.Fill;
+                    ResizeForm(_instanceFrmTableView);
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.BringToFront();
+                }
+            }
+            else
+            {
+                tlp_tablestatus.SuspendLayout();
+                btn_rev.Visible = true;
+                btn_running.Visible = true;
+                btn_avial.Visible = true;
+                btntrefresh.Visible = true;
+                tlp_tablestatus.ResumeLayout();
+
+                FrmTableView _instanceFrmTableView = new FrmTableView(0);
+                ResizeForm(_instanceFrmTableView);
+                _instanceFrmTableView.TopLevel = false;
+                panelDesktop.Controls.Add(_instanceFrmTableView);
+                _instanceFrmTableView.Show();
+                _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                _instanceFrmTableView.BringToFront();
+
             }
 
         }

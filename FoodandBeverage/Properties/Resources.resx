@@ -289,9 +289,6 @@
   <data name="discount" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\discount.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="offer_Add_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\offer_Add_button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="edit_row" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit_row.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -681,5 +678,47 @@
   </data>
   <data name="runningtable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\runningtable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="usericon_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\usericon_dashboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="offer_Add_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\combchossebutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employee_file_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee_file icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_add_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employe_add icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_delete_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employe_delete icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_female_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employe_female icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_male_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employe_male icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="emp_cameraicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emp_cameraicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Combinedbill_previousbill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Combinedbill_previousbill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="combined_backbill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\combined_backbill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_more_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_more button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="printpending_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\printpending button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kitchenprintcounticon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kitchenprintcounticon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kitchentotalodericon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kitchentotalodericon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
