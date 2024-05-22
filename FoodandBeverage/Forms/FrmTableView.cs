@@ -28,9 +28,9 @@ namespace FoodandBeverage.Forms
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
 
-        public Color DefaultColor  = Color.White;
-        public Color OrderColor = Color.Yellow;
-        public Color BillingColor  = Color.Orange;
+        public Color DefaultColor = Color.White;
+        public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
+        public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
         public Color ReservationColor  = Color.LightBlue;
         public Color ExpiredColor = Color.LightGray;
 

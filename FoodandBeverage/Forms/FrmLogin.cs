@@ -50,7 +50,7 @@ namespace FoodandBeverage.Forms
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
 
-        public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";// ;";
+        public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";// ;";
         public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// //
         public static string SaleBillPath =Application.StartupPath + @"\SaleBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
         #endregion

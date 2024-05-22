@@ -13,7 +13,8 @@ namespace BLL
         {
             DAL.DapperRepository<Dmnkitchen> objDapperRepository = new DAL.DapperRepository<Dmnkitchen>();
             DynamicParameters parms = new DynamicParameters();
-            parms.Add("Koid", objTestClass.Koid);
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderNo", objTestClass.OrderNo);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("KOTPrintStatus", objTestClass.KOTPrintStatus);

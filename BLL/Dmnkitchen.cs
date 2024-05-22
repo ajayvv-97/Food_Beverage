@@ -9,6 +9,10 @@ namespace Domain
         public int Koid { get; set; }
         public int BranchId { get; set; }
         public int CreatedBy { get; set; }
-        public int KOTPrintStatus { get; set; }     
+        public int KOTPrintStatus { get; set; }
+        public int OrderMasterId { get; set; }
+        public int OrderNo { get; set; }
+
     }
+    
 }
