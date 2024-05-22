@@ -87,7 +87,8 @@ namespace FoodandBeverage.Forms
         public static int ivaraiationstatusno = 35;
         public static int ipavidno = 36;
         public static int iMainProductStatusno = 37;
-        public static int iAddoncountno = 37;
+        public static int iAddoncountno = 38;
+        public static int ividno = 39;
 
         public static int vname = 0;
         public static int ciunit = 1;
@@ -6553,8 +6554,9 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.BookingFlag = 1;
                                     dmnorderdetail.KOTPrintStatus = 0;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text); 
-                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text); 
-                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
+                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                    dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
+                                    var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
                                         flage = true;
@@ -6621,6 +6623,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                    dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -9169,6 +9172,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                    dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -9241,6 +9245,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                    dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -9944,6 +9949,7 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iavid].Value = Av_ID;
                         Dgv_Selected_Item.Rows[r1].Cells[ivaraiationstatusno].Value = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
                         Dgv_Selected_Item.Rows[r1].Cells[iAddoncountno].Value = AddonCount;
+                        Dgv_Selected_Item.Rows[r1].Cells[ividno].Value = vid; 
 
                         Dgv_Selected_Item.Rows.Add(1);
                         GridSlno_Refresh();   

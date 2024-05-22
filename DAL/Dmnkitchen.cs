@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace DAL
 {
     public class Dmnkitchen
     {
@@ -11,8 +11,11 @@ namespace Domain
         public int CreatedBy { get; set; }
         public int KOTPrintStatus { get; set; }
         public int OrderMasterId { get; set; }
+        public int OrderDetailsId { get; set; }
         public int OrderNo { get; set; }
+        public int koid { get; set; }
+        public int Status { get; set; }
+        public string AVid { get; set; }
 
     }
-    
 }

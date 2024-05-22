@@ -1173,6 +1173,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap kitchengridcomboicon {
+            get {
+                object obj = ResourceManager.GetObject("kitchengridcomboicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap kitchenprintcounticon {
             get {
                 object obj = ResourceManager.GetObject("kitchenprintcounticon", resourceCulture);
@@ -1333,9 +1343,119 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap orderpage_bill_copy_button {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_bill_copy_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_custmordetails_icon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_custmordetails_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_food_discounticon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_food_discounticon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_grid_detailsicon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_grid_detailsicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap orderpage_more_button {
             get {
                 object obj = ResourceManager.GetObject("orderpage_more_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_premo_code_icon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_premo_code_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_print_bill_button {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_print_bill_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_product_Descriptionicon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_product_Descriptionicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_refresh_button {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_refresh_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_save_kot_print_button {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_save_kot_print_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpage_save_kotbutton {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_save_kotbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orderpageclose_button {
+            get {
+                object obj = ResourceManager.GetObject("orderpageclose_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

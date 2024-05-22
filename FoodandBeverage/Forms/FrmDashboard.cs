@@ -1396,6 +1396,7 @@ namespace FoodandBeverage.Forms
                 // Add the event handler for the button
                 button_type.Click += new EventHandler(BgClickEventHandler);
                 flpcolor.Controls.Add(button_type);
+                flpcolor.BringToFront();
                 #endregion
 
                 columnIndex++;
@@ -1441,6 +1442,7 @@ namespace FoodandBeverage.Forms
             {
                 panl_msgsettings.Visible = true;
                 panl_msgsettings.Location = new Point(this.ClientSize.Width / 2 - panl_msgsettings.Size.Width / 2, this.ClientSize.Height / 2 - panl_msgsettings.Size.Height / 2);
+                panl_msgsettings.BringToFront();
             }
             catch (Exception ex)
             {
@@ -1454,6 +1456,7 @@ namespace FoodandBeverage.Forms
                 AppColorSetting();
                 pnlappcolor.Visible = true;
                 pnlappcolor.Location = new Point(this.ClientSize.Width / 2 - pnlappcolor.Size.Width / 2, this.ClientSize.Height / 2 - pnlappcolor.Size.Height / 2);
+                pnlappcolor.BringToFront();
             }
             catch (Exception ex)
             {

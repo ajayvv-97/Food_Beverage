@@ -99,10 +99,11 @@ namespace BLL
             parms.Add("Pavid", objTestClass.Pavid);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("AV_id", objTestClass.AV_id);
-            parms.Add("Addoncount", objTestClass.Addoncount); 
-            parms.Add("Kitchennumber", objTestClass.Kitchennumber); 
+            parms.Add("Addoncount", objTestClass.Addoncount);
+            parms.Add("Kitchennumber", objTestClass.Kitchennumber);
+            parms.Add("vid", objTestClass.vid);
 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
         public bool AddDetail(string procedureName, DmnOrderDetails objTestClass)

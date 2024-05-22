@@ -1,4 +1,5 @@
 ﻿
+using DAL;
 using Dapper;
 using Domain;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 namespace BLL
 {
     public class BllKitchenorder 
-    {        
+    {
         public Dmnkitchen Kitchen_statusupdate(string procedureName, Dmnkitchen objTestClass)
         {
             DAL.DapperRepository<Dmnkitchen> objDapperRepository = new DAL.DapperRepository<Dmnkitchen>();
@@ -18,6 +19,19 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("KOTPrintStatus", objTestClass.KOTPrintStatus);
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public Dmnkitchen Kitchenremove_addon(string procedureName, Dmnkitchen objTestClass)
+        {
+            DAL.DapperRepository<Dmnkitchen> objDapperRepository = new DAL.DapperRepository<Dmnkitchen>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("koid", objTestClass.koid);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("AVid", objTestClass.AVid);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -577,9 +577,6 @@
   <data name="foodpicchart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\foodpicchart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FB_LOGIN_BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FB_LOGIN_BG.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="clear_userdetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clear_userdetails.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -720,5 +717,44 @@
   </data>
   <data name="kitchentotalodericon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kitchentotalodericon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_LOGIN_BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FB_LOGIN_BG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpageclose_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpageclose button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_refresh_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_refresh button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_save_kotbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_save kotbutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_save_kot_print_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_save kot print button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kitchengridcomboicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kitchengridcomboicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_bill_copy_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_bill copy button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_print_bill_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_print bill button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_custmordetails_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_custmordetails icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_grid_detailsicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_grid detailsicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_food_discounticon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_food discounticon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_premo_code_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_premo code icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderpage_product_Descriptionicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderpage_product Descriptionicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

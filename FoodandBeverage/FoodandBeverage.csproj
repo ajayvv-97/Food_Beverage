@@ -1478,5 +1478,44 @@
   <ItemGroup>
     <None Include="Resources\kitchenprintcounticon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FB_LOGIN_BG.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_save kotbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_refresh button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpageclose button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_save kot print button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_print bill button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_bill copy button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kitchengridcomboicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_grid detailsicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_custmordetails icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_premo code icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_product Descriptionicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_food discounticon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
