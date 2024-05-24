@@ -16,6 +16,7 @@ namespace DAL
         public int koid { get; set; }
         public int Status { get; set; }
         public string AVid { get; set; }
+        public string Update_AVid { get; set; }
 
     }
 }

@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        private LoadingGIF_Timer loadingForm;
         #region Declarations
         //ClsGeneral objGeneral = new ClsGeneral();// for validation
         BllEncryption bllEncryption = new BllEncryption();
@@ -52,20 +54,26 @@ namespace FoodandBeverage.Forms
 
         public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";// ;";
         public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// //
-        public static string SaleBillPath =Application.StartupPath + @"\SaleBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
+        public static string SaleBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// Application.StartupPath + @"\SaleBill";// 
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            //int panelWidthPercentage =60;
-            //int panelheightPercentage = 60;
-            //int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-            //int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-            //pnl_login.Size = new Size(panelWidth, panelHeight);
-            
-            pnl_login.Location = new Point((this.ClientSize.Width / 2 - pnl_login.Size.Width / 2), this.ClientSize.Height / 2 - pnl_login.Size.Height / 2);
-            textb_shape();
+            pnlloginbox.BackColor = Color.FromArgb(150, 250, 250, 250);
+            Task.Run(() =>
+            {
+                FrmSplash loadingForm = new FrmSplash();
+                loadingForm.StartPosition = FormStartPosition.CenterScreen;
+                Application.Run(loadingForm);
+            });
+            if (loadingForm != null && !loadingForm.IsDisposed)
+            {
+                loadingForm.Invoke(new Action(() => loadingForm.Close()));
+            }
+
+            textb_shape();            
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -113,14 +121,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txtpassword_Enter(object sender, EventArgs e)
-        {
-            if (txtPwd.Text == "Password .....")
-            {
-                txtPwd.Text = "";
-                txtPwd.ForeColor = Color.Black;
-            }
-        }
+       
 
         private void txtusername_Leave(object sender, EventArgs e)
         {
@@ -131,18 +132,10 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txtpassword_Leave(object sender, EventArgs e)
-        {
-            if (txtPwd.Text == "")
-            {
-                txtPwd.Text = "Password .....";
-                txtPwd.ForeColor = Color.DarkGray;
-            }
-        }
-
+        
         private void btncancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void btnlogin_Click(object sender, EventArgs e)
@@ -179,7 +172,6 @@ namespace FoodandBeverage.Forms
                             #endregion
                             else
                             {
-
                                 #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
@@ -388,17 +380,12 @@ namespace FoodandBeverage.Forms
 
         private void txtUserName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key            
-                e.Handled = true; // Suppress the Enter key
+            if (e.KeyChar == '\r')             
+                e.Handled = true; 
         }
 
 
 
-        private void txtPwd_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r') // Check for Enter key            
-                e.Handled = true; // Suppress the Enter key
-        }
 
 
         private void txtUserName_KeyDown(object sender, KeyEventArgs e)
@@ -416,6 +403,45 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
+
+
+
+        private void pnlloginbox_Paint(object sender, PaintEventArgs e)
+        {
+            float borderRadius = 10f;
+            GraphicsPath path = new GraphicsPath();
+            RectangleF rect = new RectangleF(pnlloginbox.ClientRectangle.X, pnlloginbox.ClientRectangle.Y, pnlloginbox.ClientRectangle.Width, pnlloginbox.ClientRectangle.Height);
+            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+            path.CloseFigure();
+            pnlloginbox.Region = new Region(path);
+        }
+
+        private void txtPwd_Enter(object sender, EventArgs e)
+        {
+            if (txtPwd.Text == "Password .....")
+            {
+                txtPwd.Text = "";
+                txtPwd.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtPwd_Leave(object sender, EventArgs e)
+        {
+            if (txtPwd.Text == "")
+            {
+                txtPwd.Text = "Password .....";
+                txtPwd.ForeColor = Color.DarkGray;
+            }
+        }
+
         private void txtPwd_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -430,10 +456,15 @@ namespace FoodandBeverage.Forms
                     btnlogin.Focus();
             }
         }
+        private void txtPwd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key            
+                e.Handled = true; // Suppress the Enter key
+        }
 
         private void txtPwd_TextChanged(object sender, EventArgs e)
-        {         
-           txtPwd.PasswordChar = '*'; // Display asterisks
+        {
+            txtPwd.PasswordChar = '*'; 
         }
     }
 }

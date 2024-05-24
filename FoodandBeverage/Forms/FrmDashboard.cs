@@ -79,6 +79,7 @@ namespace FoodandBeverage.Forms
             {
                 this.Opacity = 0;
                 this.Close();
+
                 if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
                 {
                     FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
@@ -107,12 +108,14 @@ namespace FoodandBeverage.Forms
         {
             lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
             this.Opacity = 0;
+
             Task.Run(() =>
             {
                 loadingForm = new LoadingGIF_Timer();
                 loadingForm.StartPosition = FormStartPosition.CenterScreen;
                 Application.Run(loadingForm);
             });
+
             LoadMainForm();
             //await Task.Delay(10000); 
             if (loadingForm != null && !loadingForm.IsDisposed)
@@ -120,6 +123,7 @@ namespace FoodandBeverage.Forms
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
             this.Opacity = 100;
+
         }
 
 

@@ -7464,7 +7464,7 @@ namespace FoodandBeverage.Forms
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
                         {
-                            if (payid == 11)
+                            if (payid == Convert.ToInt32(PaymentType.PART))
                             {
                                 DmnPayment dmnpayment = new DmnPayment();
                                 Bllpayment bllpay = new Bllpayment();
@@ -7513,6 +7513,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
                                         dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
                                         dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+
                                         dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
                                         dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
@@ -7525,6 +7526,18 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
 
                                         dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
+
+                                        if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 1)
+                                            dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
+                                        else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 0)
+                                            dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
+                                        else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.DirectSale))
+                                            dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.Prid);
+                                        else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.ComboProduct))
+                                            dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid); 
+                                        else
+                                            dmnsaledetails.Cmid = "0";
+
                                         var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                         if (InsertStatus == null)
                                         {
@@ -9832,16 +9845,19 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Please Select Size", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
                 pnl_variation_addon.SuspendLayout();
                 pnl_variation_addon.Visible = false;
-                int vid = 0;
+                int vid = 0,pid=0;
                 string combinedId = "";
                 bool Addonflag = false;
+                Checked_VariationAddon_List = Checked_VariationAddon_List.OrderBy(item => item.Pavid).ToList();
                 var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
                 if (existingItem != null)
                 {
                     int indexToUpdate = Checked_VariationAddon_List.IndexOf(existingItem);
                     vid = Checked_VariationAddon_List[indexToUpdate].Pavid;
+                    pid = Checked_VariationAddon_List[indexToUpdate].Pid;
                 }
                 int AddonCount = 0;
                 for (int i = 0; i < Checked_VariationAddon_List.Count; i++)
@@ -9853,7 +9869,7 @@ namespace FoodandBeverage.Forms
                         AddonCount = AddonCount + 1;
                     }
                 }
-                string Av_ID = vid + combinedId;
+                string Av_ID = pid+"_" + vid + combinedId;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12,pav.Type Field13,pav.Caption Field14,pav.Price Field15,a.AddonName Field16,a.Price Field17,pav.Pavid Field18";
@@ -10233,9 +10249,9 @@ namespace FoodandBeverage.Forms
                         {
                             TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
 
-                            tlp_selected_Item_Box.Name = "tlp_addon_" + item.Field1;
+                            tlp_selected_Item_Box.Name = "tlp_addon_" + item.Field4;
                             tlp_selected_Item_Box.AccessibleDescription = "1";
-                            tlp_selected_Item_Box.Tag = item.Field1;
+                            tlp_selected_Item_Box.Tag = item.Field4;
                             tlp_selected_Item_Box.AutoSize = true;
                             //tlp_selected_Item_Box.Width = 220;
                             tlp_selected_Item_Box.Height = 30;
@@ -10251,8 +10267,8 @@ namespace FoodandBeverage.Forms
                             //Item Button   
                             Button Button_Item = new Button();
                             Button_Item.Text = item.Field2;
-                            Button_Item.Name = "btn_addon_" + item.Field1;
-                            Button_Item.Tag = item.Field1;
+                            Button_Item.Name = "btn_addon_" + item.Field4;
+                            Button_Item.Tag = item.Field4;
                             Button_Item.AccessibleDescription = item.Field5;
                             Button_Item.AutoSize = true;
                             //Button_Item.Width = 150;
@@ -10268,8 +10284,8 @@ namespace FoodandBeverage.Forms
                             // Creating the label for the Qty
                             Label label = new Label();
                             label.Text = "0";
-                            label.Name = "lbl_addon_qty_" + item.Field1;
-                            label.Tag = item.Field1;
+                            label.Name = "lbl_addon_qty_" + item.Field4;
+                            label.Tag = item.Field4;
                             label.AutoSize = true;
                             label.Dock = DockStyle.Fill;
                             label.ForeColor = Color.White;
@@ -10281,9 +10297,9 @@ namespace FoodandBeverage.Forms
                             //Remove Button
                             Button Button_Remove = new Button();
                             Button_Remove.Text = "-";
-                            Button_Remove.Name = "btn_addon_remqty_" + item.Field1;
+                            Button_Remove.Name = "btn_addon_remqty_" + item.Field4;
                             Button_Remove.AccessibleDescription = "1";
-                            Button_Remove.Tag = item.Field1;
+                            Button_Remove.Tag = item.Field4;
                             Button_Remove.AutoSize = true;
                             //Button_Remove.Width = 20;
                             Button_Remove.Height = 30;

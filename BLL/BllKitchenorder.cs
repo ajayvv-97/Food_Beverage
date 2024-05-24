@@ -22,9 +22,9 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-        public Dmnkitchen Kitchenremove_addon(string procedureName, Dmnkitchen objTestClass)
+        public DmnKitchenaddonremove Kitchenremove_addon(string procedureName, DmnKitchenaddonremove objTestClass)
         {
-            DAL.DapperRepository<Dmnkitchen> objDapperRepository = new DAL.DapperRepository<Dmnkitchen>();
+            DAL.DapperRepository<DmnKitchenaddonremove> objDapperRepository = new DAL.DapperRepository<DmnKitchenaddonremove>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
@@ -32,6 +32,20 @@ namespace BLL
             parms.Add("koid", objTestClass.koid);
             parms.Add("Status", objTestClass.Status);
             parms.Add("AVid", objTestClass.AVid);
+            parms.Add("Update_AVid", objTestClass.Update_AVid);
+
+            parms.Add("Amount", objTestClass.Amount);
+            parms.Add("DiscountAmount", objTestClass.DiscountAmount);
+            parms.Add("IGSTAmount", objTestClass.IGSTAmount);
+            parms.Add("CGSTAmount", objTestClass.CGSTAmount);
+            parms.Add("SGSTAmount", objTestClass.SGSTAmount);
+            parms.Add("VATAmount", objTestClass.VATAmount);
+            parms.Add("TaxAmount", objTestClass.TaxAmount);
+            parms.Add("NetAmount", objTestClass.NetAmount);
+            parms.Add("Srate", objTestClass.Srate);
+            parms.Add("MarketPrice", objTestClass.MarketPrice);
+            parms.Add("OrderNo", objTestClass.OrderNo);
+
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

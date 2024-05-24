@@ -120,6 +120,7 @@ namespace BLL
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("AV_id", objTestClass.AV_id);
             parms.Add("Addoncount", objTestClass.Addoncount);
+            parms.Add("Cmid", objTestClass.Cmid);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;      
               

@@ -85,6 +85,8 @@ namespace FoodandBeverage.Forms
             this.addavid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addpavid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addaddonstatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addonprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addorderno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -203,7 +205,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tlp_search.Controls.Add(this.txttablecode, 0, 0);
             this.tlp_search.Controls.Add(this.txtorderid_search, 0, 0);
             this.tlp_search.Controls.Add(this.btn_refresh, 2, 0);
@@ -223,7 +225,7 @@ namespace FoodandBeverage.Forms
             this.txttablecode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txttablecode.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txttablecode.ForeColor = System.Drawing.Color.DarkGray;
-            this.txttablecode.Location = new System.Drawing.Point(174, 3);
+            this.txttablecode.Location = new System.Drawing.Point(173, 3);
             this.txttablecode.Multiline = true;
             this.txttablecode.Name = "txttablecode";
             this.txttablecode.Size = new System.Drawing.Size(203, 46);
@@ -242,7 +244,7 @@ namespace FoodandBeverage.Forms
             this.txtorderid_search.Location = new System.Drawing.Point(3, 3);
             this.txtorderid_search.Multiline = true;
             this.txtorderid_search.Name = "txtorderid_search";
-            this.txtorderid_search.Size = new System.Drawing.Size(165, 46);
+            this.txtorderid_search.Size = new System.Drawing.Size(164, 46);
             this.txtorderid_search.TabIndex = 1;
             this.txtorderid_search.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtorderid_search.Enter += new System.EventHandler(this.txtorderid_search_Enter);
@@ -256,7 +258,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(383, 3);
+            this.btn_refresh.Location = new System.Drawing.Point(382, 3);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(50, 46);
             this.btn_refresh.TabIndex = 3;
@@ -270,7 +272,7 @@ namespace FoodandBeverage.Forms
             this.btnprintcount.FlatAppearance.BorderSize = 0;
             this.btnprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprintcount.Location = new System.Drawing.Point(597, 3);
+            this.btnprintcount.Location = new System.Drawing.Point(596, 3);
             this.btnprintcount.Name = "btnprintcount";
             this.btnprintcount.Size = new System.Drawing.Size(53, 46);
             this.btnprintcount.TabIndex = 5;
@@ -285,7 +287,7 @@ namespace FoodandBeverage.Forms
             this.btntotalorders.FlatAppearance.BorderSize = 0;
             this.btntotalorders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntotalorders.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntotalorders.Location = new System.Drawing.Point(662, 3);
+            this.btntotalorders.Location = new System.Drawing.Point(661, 3);
             this.btntotalorders.Name = "btntotalorders";
             this.btntotalorders.Size = new System.Drawing.Size(58, 46);
             this.btntotalorders.TabIndex = 6;
@@ -298,7 +300,7 @@ namespace FoodandBeverage.Forms
             this.lblprintloading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblprintloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblprintloading.ForeColor = System.Drawing.Color.Red;
-            this.lblprintloading.Location = new System.Drawing.Point(455, 0);
+            this.lblprintloading.Location = new System.Drawing.Point(454, 0);
             this.lblprintloading.Name = "lblprintloading";
             this.lblprintloading.Size = new System.Drawing.Size(136, 52);
             this.lblprintloading.TabIndex = 7;
@@ -527,7 +529,9 @@ namespace FoodandBeverage.Forms
             this.addaction,
             this.addavid,
             this.addpavid,
-            this.addaddonstatus});
+            this.addaddonstatus,
+            this.addonprice,
+            this.addorderno});
             this.dgv_viewmore.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_viewmore.Location = new System.Drawing.Point(11, 44);
             this.dgv_viewmore.Name = "dgv_viewmore";
@@ -724,6 +728,20 @@ namespace FoodandBeverage.Forms
             // 
             this.addaddonstatus.HeaderText = "addaddonstatus";
             this.addaddonstatus.Name = "addaddonstatus";
+            this.addaddonstatus.Visible = false;
+            // 
+            // addonprice
+            // 
+            this.addonprice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.addonprice.HeaderText = "addonprice";
+            this.addonprice.Name = "addonprice";
+            this.addonprice.Width = 112;
+            // 
+            // addorderno
+            // 
+            this.addorderno.HeaderText = "addorderno";
+            this.addorderno.Name = "addorderno";
+            this.addorderno.Visible = false;
             // 
             // FrmKitchenView
             // 
@@ -820,5 +838,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn addavid;
         private System.Windows.Forms.DataGridViewTextBoxColumn addpavid;
         private System.Windows.Forms.DataGridViewTextBoxColumn addaddonstatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addonprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addorderno;
     }
 }

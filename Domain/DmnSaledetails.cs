@@ -49,5 +49,6 @@ namespace Domain
         public int AddonStatus { get; set; }
         public string AV_id { get; set; }
         public int Addoncount { get; set; }
+        public string Cmid { get; set; }
     }    
 }
