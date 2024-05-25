@@ -68,11 +68,12 @@ namespace FoodandBeverage.Forms
             public int Pavid { get; set; }
             public string Cnames { get; set; }
             public int Status { get; set; }
+            public decimal price { get; set; }
         }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
-            {
+            {        
                 if (MandatoryCheck() && MandatoryCheck_variation())
                 {
                     Dmnincrediant status = new Dmnincrediant();
@@ -185,7 +186,7 @@ namespace FoodandBeverage.Forms
                                 dmnvariation.VariationCode = "";
                                 dmnvariation.Aid = Listdata.Id;
                                 dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
-                                dmnvariation.Price = 0;
+                                dmnvariation.Price = Listdata.price;
                                 dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
                                 dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
                                 dmnvariation.CreatedBy = FrmDashboard.UserId;
@@ -780,7 +781,7 @@ namespace FoodandBeverage.Forms
                     #region Variation and Addon
                     BllSearch<DmnGridFields> bllSearchdetails_VA = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails_VA = new DmnSearch();
-                    objSearchDetails_VA.Select = "Pavid Field1,pav.Caption Field2,pav.Price Field3,pav.VariationCode Field4,a.AddonName Field5,pav.Type Field6,pav.Aid Field7";
+                    objSearchDetails_VA.Select = "Pavid Field1,pav.Caption Field2,pav.Price Field3,pav.VariationCode Field4,a.AddonName Field5,pav.Type Field6,pav.Aid Field7,a.price Field8";
                     objSearchDetails_VA.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1";
                     objSearchDetails_VA.WhereNdGroupBy = "where pav.status=1 and pav.ProductId= " + Pid;
                     objSearchDetails_VA.OrderBy = "";
@@ -928,6 +929,7 @@ namespace FoodandBeverage.Forms
                                     Id = Convert.ToInt32(gridSource_VA[j].Field7),
                                     Pavid = Convert.ToInt32(gridSource_VA[j].Field1),
                                     Cnames = gridSource_VA[j].Field2,
+                                    price= Convert.ToDecimal(gridSource_VA[j].Field8),
                                     Status = 1,
 
                                 });
@@ -2860,7 +2862,7 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "t.Aid Field1,t.AddonName Field2";
+                    objSearch.Select = "t.Aid Field1,t.AddonName Field2,t.Price Field3";
                     objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.Fcid = T.Fcid ";
                     objSearch.WhereNdGroupBy = "Where c.status=1 and t.status=1 ";
                     objSearch.OrderBy = "";
@@ -2875,6 +2877,7 @@ namespace FoodandBeverage.Forms
                                 checkbox.Text = item.Field2;
                                 checkbox.Name = "chkaddon_" + item.Field1;
                                 checkbox.Tag = item.Field1;
+                                checkbox.AccessibleDescription = item.Field3;
                                 checkbox.Font = new System.Drawing.Font("Arial", 13, System.Drawing.FontStyle.Regular);
                                 //checkbox.BackColor = Color.Yellow;
                                 checkbox.Margin = new Padding(10,20,0,20);
@@ -2908,7 +2911,7 @@ namespace FoodandBeverage.Forms
                 flp_addonlist.Controls.Clear();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "t.Aid Field1,t.AddonName Field2";
+                objSearch.Select = "t.Aid Field1,t.AddonName Field2,t.price Field3";
                 objSearch.Table = "tblAddon t LEFT JOIN tblCategory_FTI c ON C.Fcid = T.Fcid ";
 
                 if (Convert.ToInt32(cmb_addon_cate.SelectedValue)==-1)
@@ -2928,6 +2931,7 @@ namespace FoodandBeverage.Forms
                             checkbox.Text = item.Field2;
                             checkbox.Name = "chkaddon_" + item.Field1;
                             checkbox.Tag = item.Field1;
+                            checkbox.AccessibleDescription = item.Field3;
                             checkbox.Font = new System.Drawing.Font("Arial", 13, System.Drawing.FontStyle.Regular);
                            // checkbox.BackColor = Color.Yellow;
                             checkbox.Margin = new Padding(10, 20, 0, 20);
@@ -2971,6 +2975,7 @@ namespace FoodandBeverage.Forms
                             Id = Convert.ToInt32(clickedCheckBox.Tag),
                             Pavid = 0,
                             Cnames = clickedCheckBox.Text,
+                            price = Convert.ToDecimal(clickedCheckBox.AccessibleDescription),
                             Status = 1
                         });
                     }

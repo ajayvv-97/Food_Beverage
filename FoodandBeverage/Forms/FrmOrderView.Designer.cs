@@ -317,7 +317,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_Pending_order
             // 
-            this.btn_Pending_order.BackgroundImage = global::FoodandBeverage.Properties.Resources.button_pending_order;
+            this.btn_Pending_order.BackgroundImage = global::FoodandBeverage.Properties.Resources.kitchen_oder_icon;
             this.btn_Pending_order.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_Pending_order.FlatAppearance.BorderSize = 0;
             this.btn_Pending_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

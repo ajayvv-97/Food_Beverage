@@ -1035,9 +1035,6 @@
     <None Include="Resources\kitchen_order_view.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\food_preparation.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\empty_orders.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1488,18 +1485,6 @@
     <None Include="Resources\kitchenprintcounticon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\orderpage_save kotbutton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\orderpage_refresh button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\orderpageclose button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\orderpage_save kot print button.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\orderpage_print bill button.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1525,6 +1510,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FB_LOGIN_BG.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\F &amp; B SCREEN  LOADING.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_save kot print button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_refresh button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpageclose button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_save kotbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\midas icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\food_preparation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kitchen oder icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

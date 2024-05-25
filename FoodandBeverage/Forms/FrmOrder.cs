@@ -695,7 +695,7 @@ namespace FoodandBeverage.Forms
                                         pb_item_delete.Height = 40;
                                         pb_item_delete.Padding = new Padding(5, 5, 5, 5);
                                         if (gridSource[i].Status == 1)
-                                            pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_pending_order;
+                                            pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.kitchen_oder_icon;
                                         else if (gridSource[i].Status == 2)
                                             pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                         else if (gridSource[i].Status == 3)
@@ -1095,7 +1095,7 @@ namespace FoodandBeverage.Forms
                                     pb_item_delete.Enabled = true;
                                 }
                                 else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Pending))
-                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_pending_order;
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.kitchen_oder_icon;
                                 else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
                                     pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                 else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
@@ -1426,7 +1426,7 @@ namespace FoodandBeverage.Forms
                                     pb_item_delete.Height = 40;
                                     pb_item_delete.Padding = new Padding(5, 5, 5, 5);
                                     if (gridSource[i].Status == Convert.ToInt32(Food_Status.Pending))
-                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_pending_order;
+                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.kitchen_oder_icon;
                                     else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
                                         pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                     else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
@@ -9859,17 +9859,21 @@ namespace FoodandBeverage.Forms
                     vid = Checked_VariationAddon_List[indexToUpdate].Pavid;
                     pid = Checked_VariationAddon_List[indexToUpdate].Pid;
                 }
+
                 int AddonCount = 0;
                 for (int i = 0; i < Checked_VariationAddon_List.Count; i++)
                 {
                     var item = Checked_VariationAddon_List[i];
                     if (item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                     {
-                        combinedId = combinedId + $"_{item.Aid}";
+                        combinedId = combinedId + $"{item.CCode}" + $"{item.Qty}";
                         AddonCount = AddonCount + 1;
                     }
                 }
-                string Av_ID = pid+"_" + vid + combinedId;
+
+
+                string Av_ID = pid+ vid+"_" + combinedId;
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12,pav.Type Field13,pav.Caption Field14,pav.Price Field15,a.AddonName Field16,a.Price Field17,pav.Pavid Field18";
@@ -10166,6 +10170,7 @@ namespace FoodandBeverage.Forms
             public decimal Price { get; set; }
             public int AVType { get; set; }
             public string Caption { get; set; }
+            public string CCode { get; set; }
         }
         public void ShowVariationAddon(int pid)
         {
@@ -10176,7 +10181,7 @@ namespace FoodandBeverage.Forms
 
                 pnl_variation_addon.Location = new Point(this.Width / 2 - pnl_variation_addon.Size.Width / 2, this.Height / 2 - pnl_variation_addon.Size.Height / 2);
 
-                dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7";
+                dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7,pav.CCode Field8";
                 dmnSearch.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1 ";
                 dmnSearch.WhereNdGroupBy = " where pav.Status=1 and ProductId= " + pid; //type= "+Convert.ToInt32(Product_Addon_Variation_Type.Variation) +" and
                 dmnSearch.OrderBy = "order by pav.pavid desc";
@@ -10249,13 +10254,14 @@ namespace FoodandBeverage.Forms
                         {
                             TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
 
-                            tlp_selected_Item_Box.Name = "tlp_addon_" + item.Field4;
+                            tlp_selected_Item_Box.Name = "tlp_addon_" + item.Field8 + "_" + item.Field1;
                             tlp_selected_Item_Box.AccessibleDescription = "1";
-                            tlp_selected_Item_Box.Tag = item.Field4;
+                            tlp_selected_Item_Box.Tag = item.Field8+"_"+ item.Field1;
                             tlp_selected_Item_Box.AutoSize = true;
                             //tlp_selected_Item_Box.Width = 220;
                             tlp_selected_Item_Box.Height = 30;
                             tlp_selected_Item_Box.ColumnCount = 4;
+
                             tlp_selected_Item_Box.BorderStyle = BorderStyle.None;
                             tlp_selected_Item_Box.BackColor = seleproduct_buttoncolor;
 
@@ -10267,8 +10273,8 @@ namespace FoodandBeverage.Forms
                             //Item Button   
                             Button Button_Item = new Button();
                             Button_Item.Text = item.Field2;
-                            Button_Item.Name = "btn_addon_" + item.Field4;
-                            Button_Item.Tag = item.Field4;
+                            Button_Item.Name = "btn_addon_" + item.Field8 + "_" + item.Field1;
+                            Button_Item.Tag = item.Field8 + "_" + item.Field1;
                             Button_Item.AccessibleDescription = item.Field5;
                             Button_Item.AutoSize = true;
                             //Button_Item.Width = 150;
@@ -10284,8 +10290,8 @@ namespace FoodandBeverage.Forms
                             // Creating the label for the Qty
                             Label label = new Label();
                             label.Text = "0";
-                            label.Name = "lbl_addon_qty_" + item.Field4;
-                            label.Tag = item.Field4;
+                            label.Name = "lbl_addon_qty_" + item.Field8 + "_" + item.Field1;
+                            label.Tag = item.Field8 + "_" + item.Field1;
                             label.AutoSize = true;
                             label.Dock = DockStyle.Fill;
                             label.ForeColor = Color.White;
@@ -10297,9 +10303,9 @@ namespace FoodandBeverage.Forms
                             //Remove Button
                             Button Button_Remove = new Button();
                             Button_Remove.Text = "-";
-                            Button_Remove.Name = "btn_addon_remqty_" + item.Field4;
+                            Button_Remove.Name = "btn_addon_remqty_" + item.Field8 + "_" + item.Field1;
                             Button_Remove.AccessibleDescription = "1";
-                            Button_Remove.Tag = item.Field4;
+                            Button_Remove.Tag = item.Field1;
                             Button_Remove.AutoSize = true;
                             //Button_Remove.Width = 20;
                             Button_Remove.Height = 30;
@@ -10377,17 +10383,18 @@ namespace FoodandBeverage.Forms
                         {
                             lblqty.Visible = true;
                             lblqty.Text = "1";
-
+                            string  val=Convert.ToString(clickedControl.Tag);
+                            string[] parts = val.Split('_');
                             Checked_VariationAddon_List.Add(new Variation_addon_List
                             {
                                 Pid = Global_ProductId,
                                 Vid = 0,
-                                Aid = Convert.ToInt32(clickedControl.Tag),
-                                Pavid = Convert.ToInt32(clickedControl.Tag),
+                                CCode= parts[0],
+                                Pavid = Convert.ToInt32(parts[1]),
                                 Qty = 1,
                                 Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
                                 AVType = Convert.ToInt32(Product_Addon_Variation_Type.Addon),
-                                Caption = Convert.ToString(clickedControl.Text),
+                                Caption = Convert.ToString(clickedControl.Text),                              
                             });
                             decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
                             lbladdontotal.Text = Convert.ToString(t);

@@ -62,6 +62,7 @@ namespace FoodandBeverage.Forms
         public static int addaddonstatusno = 9;
         public static int addonpriceno = 10;
         public static int addonorderno = 11;
+        public static int addccodeno = 12;
         #endregion
 
         Color boxcolor = Color.FromArgb(0x42, 0x67, 0xB2);//System.Drawing.ColorTranslator.FromHtml("#3AAFA9"); //
@@ -1356,11 +1357,11 @@ namespace FoodandBeverage.Forms
                             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                             BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
                             DmnSearch dmnSearch = new DmnSearch();
-                            dmnSearch.Select = "itemName Field1,Quantity Field2,od.AddonStatus Field3,ko.OrderMasterId Field4,ko.Koid Field5,od.OrderDetailsId Field6,od.AV_id Field7,od.Pavid Field8,ad.Price Field9,od.OrderNo Field10";
+                            dmnSearch.Select = "itemName Field1,Quantity Field2,od.AddonStatus Field3,ko.OrderMasterId Field4,ko.Koid Field5,od.OrderDetailsId Field6,od.AV_id Field7,od.Pavid Field8,pav.Price Field9,od.OrderNo Field10,pav.CCode Field11";
                             dmnSearch.Table = "tblOrderDetails od left join tblkitchenOrder ko on  ko.OrderDetailsId=od.OrderDetailsId " +
-                                "left join tblAddon ad on  ad.aid=od.Pavid";
+                                "left join tblProduct_Addon_Variation pav on  pav.Pavid=od.Pavid";
                             dmnSearch.WhereNdGroupBy = "where od.Status!=0 and od.OrderMasterId= " + ordermasid+" and  od.AV_id = '" + itemid +"'" ;
-                            dmnSearch.OrderBy = "";
+                            dmnSearch.OrderBy = "order by od.Pavid";
                             var gridSource_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
                             if (gridSource_offer.Count > 0)
                             {
@@ -1381,8 +1382,9 @@ namespace FoodandBeverage.Forms
                                         dgv_viewmore.Rows[rowIndex].Cells[addavidno].Value = gridSource_offer[k].Field7;
                                         dgv_viewmore.Rows[rowIndex].Cells[addpavidno].Value = gridSource_offer[k].Field8;
                                         dgv_viewmore.Rows[rowIndex].Cells[addaddonstatusno].Value = gridSource_offer[k].Field3;
-                                        dgv_viewmore.Rows[rowIndex].Cells[addonpriceno].Value = gridSource_offer[k].Field9;
+                                        dgv_viewmore.Rows[rowIndex].Cells[addonpriceno].Value = gridSource_offer[k].Field9; 
                                         dgv_viewmore.Rows[rowIndex].Cells[addonorderno].Value = gridSource_offer[k].Field10;
+                                        dgv_viewmore.Rows[rowIndex].Cells[addccodeno].Value = gridSource_offer[k].Field11;
                                         c = c + 1;
                                     }                
                                 }
@@ -3278,90 +3280,114 @@ namespace FoodandBeverage.Forms
 
         private void dgv_viewmore_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex== addactionno)
+            try
             {
-                decimal newprice = 0, discountprice = 0, TaxAmount = 0, finalprice = 0, disAmnt=0;
-                var result = CMessageBox.Show("Are you sure you want to cancel this Addon?", "Confirm The Action", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                if (e.ColumnIndex == addactionno)
                 {
-                    #region To Reset Addon ID(remove id form avid name)
-                    string avidValue = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
-                    string[] avidParts = avidValue.Split('_');
-                    string extractedpid = $"{avidParts[0]}";
-                    List<string> remainingPartsList = avidParts.Skip(1).ToList();
-                    string remove_value= Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addpavidno].Value);
-                    remainingPartsList.Remove(remove_value);
-                    string finalResult = extractedpid + "_" + string.Join("_", remainingPartsList);
-                    #endregion
-
-                    #region Price Reset main product after remove addon
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
-                    dmnSearch.Table = "tblOrderDetails";                        
-                    dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value) + " and OrderNo = "+ Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value) + " and AddonStatus = 1 and AV_id = '" + Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value)+"'";
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource.Count > 0)
-                    {
-                        newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonpriceno].Value);
-                        disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
-
-                        discountprice = newprice - disAmnt;
-                        if (gridSource[0].Field2 == "GST")                        
-                             TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);                        
-                        else if (gridSource[0].Field2 == "VAT")                        
-                            TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
-
-                        if (Convert.ToString(gridSource[0].Field4) == "Exclusive")
-                            finalprice = (newprice - disAmnt) + TaxAmount;
-                        else if (Convert.ToString(gridSource[0].Field4) == "Inclusive")
-                            finalprice = (newprice - disAmnt);
-                    }
-                    #endregion
-
                     DmnKitchenaddonremove dmnRemove_addon = new DmnKitchenaddonremove();
                     BllKitchenorder bll_rem_addon = new BllKitchenorder();
-
-                    dmnRemove_addon.Amount = newprice;
-                    dmnRemove_addon.DiscountAmount = disAmnt;
-                    if (gridSource[0].Field2 == "GST")
+                    decimal newprice = 0, discountprice = 0, TaxAmount = 0, finalprice = 0, disAmnt = 0;
+                    string newpart = "";
+                    var result = CMessageBox.Show("Are you sure you want to cancel this Addon?", "Confirm The Action", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
                     {
-                        dmnRemove_addon.IGSTAmount = TaxAmount;
-                        dmnRemove_addon.CGSTAmount = TaxAmount/2;
-                        dmnRemove_addon.SGSTAmount = TaxAmount/2;
-                        dmnRemove_addon.VATAmount = 0;
+                        #region To Reset Addon ID(remove id form avid name)
+                        string avidValue = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
+                        string[] avidParts = avidValue.Split('_');
+                        string extractedpid = $"{avidParts[0]}";
+                        newpart = newpart + extractedpid + "_";
+                        int remove_koid = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addkoidno].Value);
+                        for (int i = 0; i < dgv_viewmore.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addaddonstatusno].Value) == 2 && Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addkoidno].Value) != remove_koid)
+                            {
+                                string ccode = Convert.ToString(dgv_viewmore.Rows[i].Cells[addccodeno].Value);
+                                decimal quantityDecimal = Convert.ToDecimal(dgv_viewmore.Rows[i].Cells[addqtyno].Value);
+                                int quantityInt = (int)Math.Floor(quantityDecimal);
+                                newpart = newpart + ccode + quantityInt.ToString();
+                            }
+                        }
+                        for (int i = 0; i < dgv_viewmore.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addaddonstatusno].Value) == 2 && Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addkoidno].Value) != remove_koid)
+                            {              
+                                dgv_viewmore.Rows[i].Cells[addavidno].Value= newpart;
+                            }
+                        }
+                        #endregion
+
+                        #region Price Reset main product after remove addon
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
+                        dmnSearch.Table = "tblOrderDetails";
+                        dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToDecimal(dgv_viewmore.Rows[e.RowIndex].Cells[addonpriceno].Value);
+                            disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
+
+                            discountprice = newprice - disAmnt;
+                            if (gridSource[0].Field2 == "GST")
+                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+                            else if (gridSource[0].Field2 == "VAT")
+                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+
+                            if (Convert.ToString(gridSource[0].Field4) == "Exclusive")
+                                finalprice = (newprice - disAmnt) + TaxAmount;
+                            else if (Convert.ToString(gridSource[0].Field4) == "Inclusive")
+                                finalprice = (newprice - disAmnt);
+                       
+                        #endregion
+
+
+                        dmnRemove_addon.Amount = newprice;
+                        dmnRemove_addon.DiscountAmount = disAmnt;
+                        if (gridSource[0].Field2 == "GST")
+                        {
+                            dmnRemove_addon.IGSTAmount = TaxAmount;
+                            dmnRemove_addon.CGSTAmount = TaxAmount / 2;
+                            dmnRemove_addon.SGSTAmount = TaxAmount / 2;
+                            dmnRemove_addon.VATAmount = 0;
+                        }
+                        else if (gridSource[0].Field2 == "VAT")
+                        {
+                            dmnRemove_addon.VATAmount = TaxAmount;
+                            dmnRemove_addon.IGSTAmount = 0;
+                            dmnRemove_addon.CGSTAmount = 0;
+                            dmnRemove_addon.SGSTAmount = 0;
+                        }
+                        }
+                        dmnRemove_addon.TaxAmount = TaxAmount;
+                        dmnRemove_addon.NetAmount = finalprice;
+                        dmnRemove_addon.Srate = newprice;
+                        dmnRemove_addon.MarketPrice = finalprice;
+                        dmnRemove_addon.OrderNo = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value);
+
+                        dmnRemove_addon.OrderDetailsId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addorderdetailidno].Value);
+                        dmnRemove_addon.koid = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addkoidno].Value);
+                        dmnRemove_addon.OrderMasterId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value);
+                        dmnRemove_addon.AVid = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
+                        dmnRemove_addon.Status = 0;
+                        dmnRemove_addon.CreatedBy = FrmDashboard.UserId;
+                        dmnRemove_addon.Update_AVid = newpart;
+                        var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);
+
+                        dgv_viewmore.Rows.RemoveAt(e.RowIndex);
+
+                        for (int i = 0; i < dgv_viewmore.RowCount; i++)
+                            dgv_viewmore.Rows[i].Cells[addslno].Value = i + 1;
+
                     }
-                    else if (gridSource[0].Field2 == "VAT")
-                    {
-                        dmnRemove_addon.VATAmount = TaxAmount;
-                        dmnRemove_addon.IGSTAmount = 0;
-                        dmnRemove_addon.CGSTAmount = 0;
-                        dmnRemove_addon.SGSTAmount = 0;
-                    }
-
-                    dmnRemove_addon.TaxAmount = TaxAmount;
-                    dmnRemove_addon.NetAmount = finalprice;
-                    dmnRemove_addon.Srate = newprice;
-                    dmnRemove_addon.MarketPrice = finalprice;
-                    dmnRemove_addon.OrderNo = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value);
-
-                    dmnRemove_addon.OrderDetailsId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addorderdetailidno].Value);
-                    dmnRemove_addon.koid = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addkoidno].Value);
-                    dmnRemove_addon.OrderMasterId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value);
-                    dmnRemove_addon.AVid = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
-                    dmnRemove_addon.Status = 0;
-                    dmnRemove_addon.CreatedBy = FrmDashboard.UserId;
-                    dmnRemove_addon.Update_AVid =finalResult;
-                    var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);
-
-                    dgv_viewmore.Rows.RemoveAt(e.RowIndex);
-
-                    for (int i = 0; i < dgv_viewmore.RowCount; i++)
-                        dgv_viewmore.Rows[i].Cells[addslno].Value = i + 1;
-
                 }
             }
+            catch(Exception ex)
+            {
+
+            }
+
         }
     }
 }

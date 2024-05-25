@@ -36,14 +36,15 @@ namespace FoodandBeverage.Forms
                         _instanceFrmLogin.Opacity = 1.0;
                     }
                 }
-
                 this.Close();
             }
         }
 
         private void FrmSplash_Load(object sender, EventArgs e)
         {
-          Timer1.Start();
+            //this.BackgroundImage = Properties.Resources.F___B_SCREEN__LOADING; 
+            //this.BackgroundImageLayout = ImageLayout.Stretch;
+            Timer1.Start();
         }
         private void CenterPanelOnScreen(Panel panel)
         {
@@ -52,6 +53,15 @@ namespace FoodandBeverage.Forms
                 this.ClientSize.Height - pnl_all.Size.Height
             );
 
+        }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var parms = base.CreateParams;
+                parms.Style &= ~0x02000000;  // Turn off WS_CLIPCHILDREN
+                return parms;
+            }
         }
     }
 }
