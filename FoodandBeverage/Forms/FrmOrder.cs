@@ -89,6 +89,7 @@ namespace FoodandBeverage.Forms
         public static int iMainProductStatusno = 37;
         public static int iAddoncountno = 38;
         public static int ividno = 39;
+        public static int iComboTaxamtno = 40;
 
         public static int vname = 0;
         public static int ciunit = 1;
@@ -2319,8 +2320,8 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ofm.omid id , ofm.OfferName Field1 ,ofm.Discountper Field2, ofm.tax Field3 ,ofm.taxtype Field4,ofm.TaxSettingsId Field5,ofm.FinalPrice Field6,ofd.Productname Field7,ofd.ProductId Field8,ofd.Prid Field9,ofd.Quantity Field10";
-                dmnSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofd.Omid=ofm.Omid";
+                dmnSearch.Select = "ofm.omid id , ofm.OfferName Field1 ,ofm.Discountper Field2, ofm.tax Field3 ,ofm.taxtype Field4,ofm.TaxSettingsId Field5,ofm.FinalPrice Field6,ofd.Productname Field7,ofd.ProductId Field8,ofd.Prid Field9,ofd.Quantity Field10,ofm.TaxPer Field11,ofm.TaxAmount Field12";
+                dmnSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofd.Omid=ofm.Omid ";
                 dmnSearch.WhereNdGroupBy = "where ofm.Status=1 and ofd.Omid = " + id;
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -2366,6 +2367,19 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = 0;
                         Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
                         Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.DarkGray;
+                        Dgv_Selected_Item.Rows[r1].Cells[iComboTaxamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
+                        Dgv_Selected_Item.Rows[r1].Cells[itaxamt].Value = Convert.ToDecimal(gridSource[0].Field12);
+                        Dgv_Selected_Item.Rows[r1].Cells[itaxper].Value = Convert.ToDecimal(gridSource[0].Field11); 
+                        if (Convert.ToString(gridSource[0].Field4) == "GST")
+                        {                
+                            Dgv_Selected_Item.Rows[r1].Cells[iigstamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
+
+                        }
+                        else if (Convert.ToString(gridSource[0].Field4) == "VAT")
+                        {
+                            Dgv_Selected_Item.Rows[r1].Cells[ivatamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
+
+                        }
                         Dgv_Selected_Item.Rows.Add(1);
                         totalcellamount(r1);
                         Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
@@ -3147,7 +3161,20 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     else
+                    {
+                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "GST")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
+                        }
+                        else if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "VAT")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
+                        }
+                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value)* Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
                         Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = amount.ToString("N2");
+
+                    }
+
 
                 }
 
@@ -7527,7 +7554,7 @@ namespace FoodandBeverage.Forms
 
                                         dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
 
-                                        if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 1)
+                                        if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 ||  dmnsaledetails.AddonStatus == 2))
                                             dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
                                         else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 0)
                                             dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
@@ -9099,7 +9126,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (MandatoryCheck_KOT())
-                {
+                {                
                     setKitchenperfix(); 
                     bool flage = false;
                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
@@ -9870,7 +9897,6 @@ namespace FoodandBeverage.Forms
                         AddonCount = AddonCount + 1;
                     }
                 }
-
 
                 string Av_ID = pid+ vid+"_" + combinedId;
 

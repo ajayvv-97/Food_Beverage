@@ -261,7 +261,7 @@ namespace FoodandBeverage.Forms
                                     }
                                     else
                                     {
-                                        cell.Value = Properties.Resources.food_cancel_icon;
+                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
@@ -826,6 +826,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    btntotalorders.Text = "0";
                     timer1.Stop();
                     flp_order_view.Controls.Clear();
                     pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
@@ -1577,95 +1578,97 @@ namespace FoodandBeverage.Forms
                 if (dgv_product_details != null)
                 {
                     int tid = 0, orderno = 0, ordermid = 0;
-                    for (int i = 0; i < dgv_product_details.RowCount; i++)
+
+                    ordermid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
+                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[ddetailsidno].Value);
+                    dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dkoidno].Value);
+                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
+                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dAddonStatusno].Value);
+                    dmnRemove_order.AV_id = Convert.ToString(dgv_product_details.Rows[0].Cells[dAVIDno].Value);
+                    dmnRemove_order.OrderNo = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dorderno].Value);
+                    //dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
+                    //decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);
+                    //dmnRemove_order.Quantity = (int)Math.Floor(originalValue);  
+                    //tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
+                    //dmnRemove_order.RemoveNotes = "";
+                    dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                    dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                    dmnRemove_order.Status = 2;
+                    var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_KitchenOrder_Updates", dmnRemove_order);
+                    if(InsertStatusP.Status==1)
                     {
-                        if (Convert.ToInt32(dgv_product_details.Rows[i].Cells[dstatusno].Value) == 1)
+                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_sele != null)
                         {
-                            tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                            orderno = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dorderno].Value);
-                            ordermid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dordermasteridno].Value);
+                            bool flagstart_ready = false;
+                            #region Grid Edit Cancel  product
+                            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                            DmnSearch dmnSearch = new DmnSearch();
+                            dmnSearch.Select = "Status Field1,Koid Field2";
+                            dmnSearch.Table = " tblkitchenOrder";
+                            dmnSearch.WhereNdGroupBy = "where  AddonStatus in(1,0)  and  OrderNo = " + id + " and OrderMasterId = " + ordermid;
+                            dmnSearch.OrderBy = "";
+                            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
-                            dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[ddetailsidno].Value);
-                            dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dkoidno].Value);
-                            dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dordermasteridno].Value);
-                            dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                            decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);
-                            dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
-                            dmnRemove_order.Status = 2;
-                            dmnRemove_order.RemoveNotes = "";
-                            var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_remove_KitchenOrder", dmnRemove_order);
-                        }
-                    }
-                    TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                    if (tlp_sele != null)
-                    {
-                        bool flagstart_ready = false;
-                        #region Grid Edit Cancel  product
-                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                        DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "Status Field1,Koid Field2";
-                        dmnSearch.Table = " tblkitchenOrder";
-                        dmnSearch.WhereNdGroupBy = "where  AddonStatus in(1,0)  and  OrderNo = " + id + " and OrderMasterId = " + ordermid ;
-                        dmnSearch.OrderBy = "";
-                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-                        for (int k = 0; k < gridSource.Count; k++)
-                        {
-                            if (Convert.ToInt32(gridSource[k].Field1) == 1)
+                            for (int k = 0; k < gridSource.Count; k++)
                             {
-                                flagstart_ready = true;
-                            }
-
-                            dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
-
-                            dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSource[k].Field1;
-
-
-                            for (int j = 0; j < dgv_product_details.RowCount; j++)
-                            {
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[j].Cells[dactionno];
-                                if (Convert.ToInt32(dgv_product_details.Rows[j].Cells[dkoidno].Value) == Convert.ToInt32(gridSource[k].Field2))
+                                if (Convert.ToInt32(gridSource[k].Field1) == 1)
                                 {
-                                    if (Convert.ToInt32(gridSource[k].Field1) == 0)
-                                    {
-                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        cell.Value = Properties.Resources.orderview_cancelled;
-                                        dgv_product_details.Rows[j].ReadOnly = true;
-                                    }
-                                    else
-                                    {
-                                        cell.Value = Properties.Resources.close_price_change;
-                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                    }
+                                    flagstart_ready = true;
                                 }
-                            
-                           }
-                        }
-                        #endregion
 
-                        #region Edit Ready and Close Button 
-                        if (flagstart_ready)
-                        {
-                            btn_start.Visible = true;
-                            btn_cancelfood.Visible = true;
-                            btn_ready.Visible = false;
-                        }
-                        else
-                        {
-                            btn_start.Visible = false;
-                            btn_ready.Visible = true;
-                            btn_cancelfood.Visible = false;
-                        }
-                        #endregion
-                        refreshtimer.Start();
+                                dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
 
+                                dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSource[k].Field1;
+
+
+                                for (int j = 0; j < dgv_product_details.RowCount; j++)
+                                {
+                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[j].Cells[dactionno];
+                                    if (Convert.ToInt32(dgv_product_details.Rows[j].Cells[dkoidno].Value) == Convert.ToInt32(gridSource[k].Field2))
+                                    {
+                                        if (Convert.ToInt32(gridSource[k].Field1) == 0)
+                                        {
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                            cell.Value = Properties.Resources.orderview_cancelled;
+                                            dgv_product_details.Rows[j].ReadOnly = true;
+                                        }
+                                        else
+                                        {
+                                            cell.Value = Properties.Resources.close_price_change;
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        }
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+                            #region Edit Ready and Close Button 
+                            if (flagstart_ready)
+                            {
+                                btn_start.Visible = true;
+                                btn_cancelfood.Visible = true;
+                                btn_ready.Visible = false;
+                            }
+                            else
+                            {
+                                btn_start.Visible = false;
+                                btn_ready.Visible = true;
+                                btn_cancelfood.Visible = false;
+                            }
+                            #endregion
+                            refreshtimer.Start();
+
+                        }
+                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        {
+                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                            _instanceFrmOrderView.Filldetails(tid);
+                            _instanceFrmOrderView.FillOrders();
+                        }
                     }
-                    if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                    {
-                        FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                        _instanceFrmOrderView.Filldetails(tid);
-                        _instanceFrmOrderView.FillOrders();
-                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -1690,64 +1693,64 @@ namespace FoodandBeverage.Forms
                 if (dgv_product_details != null)
                 {
                     int tid = 0, koid = 0;
-                    for (int i = 0; i < dgv_product_details.RowCount; i++)
+
+                    //tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
+                    //dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
+                    //decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);  
+                    //dmnRemove_order.Quantity = (int)Math.Floor(originalValue); 
+                    //dmnRemove_order.RemoveNotes = "";
+                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dAddonStatusno].Value);
+                    dmnRemove_order.AV_id = Convert.ToString(dgv_product_details.Rows[0].Cells[dAVIDno].Value);
+                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[ddetailsidno].Value);
+                    dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dkoidno].Value);
+                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
+                    dmnRemove_order.OrderNo = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dorderno].Value);
+                    dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                    dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                    dmnRemove_order.Status = 3;
+                    var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_KitchenOrder_Updates", dmnRemove_order);
+
+                    if(InsertStatusP.Status==1)
                     {
-                        if (Convert.ToInt32(dgv_product_details.Rows[i].Cells[dstatusno].Value) == 2)
+                        string dgvName = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
+                        string startButtonName = "pb_start_k_" + clickedPictureBox.AccessibleDescription + id;
+                        string readyButtonName = "pb_ready_k_" + clickedPictureBox.AccessibleDescription + id;
+                        string cancelFoodButtonName = "pictureBoxRemove_k_" + clickedPictureBox.AccessibleDescription + id;
+                        string lblTimeName = "lbl_time_K_" + clickedPictureBox.AccessibleDescription + id;
+                        string lblTableCodeName = "lbl_tablecod_k_" + clickedPictureBox.AccessibleDescription + id;
+
+                        Label lblTime = this.Controls.Find(lblTimeName, true).FirstOrDefault() as Label;
+                        Label lblTableCode = this.Controls.Find(lblTableCodeName, true).FirstOrDefault() as Label;
+                        PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
+                        PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
+                        PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
+                        if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
                         {
-                            tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                            dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[ddetailsidno].Value);
-                            dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dkoidno].Value);
-                            dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dordermasteridno].Value);
-                            dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                            decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);
+                            btnReady.Dispose();
+                            btnStart.Dispose();
+                            btnCancelFood.Dispose();
+                            lblTime?.Dispose();
+                            lblTableCode?.Dispose();
+                        }
 
-                            dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dAddonStatusno].Value);
-                            dmnRemove_order.AV_id = Convert.ToString(dgv_product_details.Rows[i].Cells[dAVIDno].Value);
 
-                            dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
-                            dmnRemove_order.Status = 3;
-                            dmnRemove_order.RemoveNotes = "";
-                            var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_remove_KitchenOrder", dmnRemove_order);
+                        string tlpname = "tlp_product_box_k_" + clickedPictureBox.AccessibleDescription + id;
+                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_sele != null && flp_order_view.Controls.Contains(tlp_sele))
+                        {
+                            flp_order_view.Controls.Remove(tlp_sele);
+                            tlp_sele.Dispose();
+                            refreshtimer.Start();
+                        }
+
+                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
+                        {
+                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
+                            _instanceFrmOrderView.Filldetails(tid);
+                            _instanceFrmOrderView.FillOrders();
                         }
                     }
-
-                    string dgvName = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
-                    string startButtonName = "pb_start_k_" + clickedPictureBox.AccessibleDescription + id;
-                    string readyButtonName = "pb_ready_k_" + clickedPictureBox.AccessibleDescription + id;
-                    string cancelFoodButtonName = "pictureBoxRemove_k_" + clickedPictureBox.AccessibleDescription + id;
-                    string lblTimeName = "lbl_time_K_" + clickedPictureBox.AccessibleDescription + id;
-                    string lblTableCodeName = "lbl_tablecod_k_" + clickedPictureBox.AccessibleDescription + id;
-
-                    Label lblTime = this.Controls.Find(lblTimeName, true).FirstOrDefault() as Label;
-                    Label lblTableCode = this.Controls.Find(lblTableCodeName, true).FirstOrDefault() as Label;
-                    PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
-                    PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
-                    PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
-                    if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
-                    {
-                        btnReady.Dispose();
-                        btnStart.Dispose();
-                        btnCancelFood.Dispose();
-                        lblTime?.Dispose();
-                        lblTableCode?.Dispose();
-                    }
-
-
-                    string tlpname = "tlp_product_box_k_" + clickedPictureBox.AccessibleDescription + id;
-                    TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                    if (tlp_sele != null && flp_order_view.Controls.Contains(tlp_sele))
-                    {
-                        flp_order_view.Controls.Remove(tlp_sele);
-                        tlp_sele.Dispose();
-                        refreshtimer.Start();
-                    }
-
-                    if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                    {
-                        FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                        _instanceFrmOrderView.Filldetails(tid);
-                        _instanceFrmOrderView.FillOrders();
-                    }
+               
                 }
             }
             catch (Exception ex)

@@ -28,8 +28,10 @@ namespace BLL
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
             parms.Add("TaxType", objTestClass.TaxType);
-            parms.Add("Description", objTestClass.Description); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("Description", objTestClass.Description);
+            parms.Add("TaxPer", objTestClass.TaxPer);
+            parms.Add("TaxAmount", objTestClass.TaxAmount);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 

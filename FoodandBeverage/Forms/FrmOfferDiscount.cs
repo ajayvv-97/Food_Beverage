@@ -725,6 +725,9 @@ namespace FoodandBeverage.Forms
                         dmnOffermaster.TotalPrice = Convert.ToDecimal(txtcombo_totalprice.Text);
                         dmnOffermaster.FinalPrice = Convert.ToDecimal(txtcombo_finalprice.Text);
 
+                        dmnOffermaster.TaxPer = Convert.ToDecimal(txttaxper_combo.Text);
+                        dmnOffermaster.TaxAmount = Convert.ToDecimal(txttaxamt.Text);
+
                         dmnOffermaster.OfferstartDatetime = dtp_from_date.Value.Date + dtp_from_time.Value.TimeOfDay;
                         dmnOffermaster.OfferEndDatetime = dtp_to_date.Value.Date + dtp_to_time.Value.TimeOfDay;
 
@@ -2830,18 +2833,22 @@ namespace FoodandBeverage.Forms
                     txtcombo_totalprice.Text = "0.00";
                 if ((string.IsNullOrEmpty(txtcombo_finalprice.Text)))
                     txtcombo_finalprice.Text = "0.00";
+                if ((string.IsNullOrEmpty(txttaxper_combo.Text)))
+                    txttaxper_combo.Text = "0";
 
                 if (cmbtaxtype.Text == "GST")
                 {
                     string val = cmbIgstPrcnt.GetItemText(cmbIgstPrcnt.SelectedItem);
                     decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
                     txttaxamt.Text = TaxAmount.ToString("N2");
+                    txttaxper_combo.Text = val;
                 }
                 else if (cmbtaxtype.Text == "VAT")
                 {
                     string val = cmbIgstPrcnt.GetItemText(cmbVatPrcnt.SelectedItem);
                     decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
                     txttaxamt.Text = TaxAmount.ToString("N2");
+                    txttaxper_combo.Text = val;
 
                 }
 

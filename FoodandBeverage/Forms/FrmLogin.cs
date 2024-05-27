@@ -383,11 +383,6 @@ namespace FoodandBeverage.Forms
             if (e.KeyChar == '\r')             
                 e.Handled = true; 
         }
-
-
-
-
-
         private void txtUserName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -399,13 +394,10 @@ namespace FoodandBeverage.Forms
                     return;
                 }
                 else
-                    txtPwd.Focus();                
+                    txtPwd.Focus();
             }
+     
         }
-
-
-
-
 
         private void pnlloginbox_Paint(object sender, PaintEventArgs e)
         {

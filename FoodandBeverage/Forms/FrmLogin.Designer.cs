@@ -56,7 +56,7 @@ namespace FoodandBeverage.Forms
             this.txtUserName.Multiline = true;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(212, 31);
-            this.txtUserName.TabIndex = 1;
+            this.txtUserName.TabIndex = 0;
             this.txtUserName.Text = "User Name .....";
             this.toolTip1.SetToolTip(this.txtUserName, "User Name");
             this.txtUserName.Enter += new System.EventHandler(this.txtusername_Enter);
@@ -74,7 +74,7 @@ namespace FoodandBeverage.Forms
             this.btnlogin.Location = new System.Drawing.Point(30, 181);
             this.btnlogin.Name = "btnlogin";
             this.btnlogin.Size = new System.Drawing.Size(99, 35);
-            this.btnlogin.TabIndex = 3;
+            this.btnlogin.TabIndex = 2;
             this.toolTip1.SetToolTip(this.btnlogin, "Login");
             this.btnlogin.UseVisualStyleBackColor = false;
             this.btnlogin.Click += new System.EventHandler(this.btnlogin_Click);
@@ -89,7 +89,7 @@ namespace FoodandBeverage.Forms
             this.btncancel.Location = new System.Drawing.Point(147, 181);
             this.btncancel.Name = "btncancel";
             this.btncancel.Size = new System.Drawing.Size(99, 35);
-            this.btncancel.TabIndex = 4;
+            this.btncancel.TabIndex = 3;
             this.toolTip1.SetToolTip(this.btncancel, "Cancel");
             this.btncancel.UseVisualStyleBackColor = false;
             this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
@@ -104,7 +104,7 @@ namespace FoodandBeverage.Forms
             this.txtPwd.Multiline = true;
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(212, 31);
-            this.txtPwd.TabIndex = 5;
+            this.txtPwd.TabIndex = 1;
             this.txtPwd.Text = "Password .....";
             this.toolTip1.SetToolTip(this.txtPwd, "Password");
             this.txtPwd.TextChanged += new System.EventHandler(this.txtPwd_TextChanged);
@@ -157,7 +157,7 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox.Location = new System.Drawing.Point(3, 53);
             this.pnlloginbox.Name = "pnlloginbox";
             this.pnlloginbox.Size = new System.Drawing.Size(283, 279);
-            this.pnlloginbox.TabIndex = 8;
+            this.pnlloginbox.TabIndex = 0;
             this.pnlloginbox.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlloginbox_Paint);
             // 
             // lblappname

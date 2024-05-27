@@ -25,7 +25,10 @@ namespace Domain
         public string Tax { get; set; }
         public string TaxType { get; set; }
         public string Description { get; set; }
-        
+        public decimal TaxPer { get; set; }
+        public decimal TaxAmount { get; set; }
+         
+
 
     }
 }
