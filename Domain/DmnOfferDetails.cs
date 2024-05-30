@@ -30,6 +30,11 @@ namespace Domain
         public decimal Price { get; set; }
         public string ItemCode_UPC { get; set; }
 
-        
+        public int AddonStatus { get; set; }
+        public string  AV_id { get; set; }
+        public int Addoncount { get; set; }
+        public int Pavid { get; set; }
+        public decimal Srate { get; set; }
+
     }
 }

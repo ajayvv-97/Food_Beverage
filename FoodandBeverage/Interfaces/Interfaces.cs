@@ -105,7 +105,6 @@ namespace FoodandBeverage.Interfaces
         FandBPayment = 8
     };
 
-
     public enum RedererDisplayTabs
     {
         Idle = 0,
