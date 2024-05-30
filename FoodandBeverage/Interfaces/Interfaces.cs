@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace FoodandBeverage.Interfaces
 {
-
     public enum DateTimeReturnType
     {
         Date,
@@ -40,14 +39,11 @@ namespace FoodandBeverage.Interfaces
         FoodPhoto,
         HotelRegistrationProofPics,
         DocumentType
-
-
     };
     public enum ItemTaxMode
     {
         Exclusive = 0,
         Inclusive = 1
-
     };
 
     public enum ButtonConfig

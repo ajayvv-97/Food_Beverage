@@ -700,7 +700,7 @@ namespace FoodandBeverage.Forms
                                         else if (gridSource[i].Status == 2)
                                             pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                         else if (gridSource[i].Status == 3)
-                                            pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_complete_order;
+                                            pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.orderpage_food_finished_icon;
 
                                         pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom;
 
@@ -1100,7 +1100,7 @@ namespace FoodandBeverage.Forms
                                 else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
                                     pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                 else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
-                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_complete_order;
+                                    pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.orderpage_food_finished_icon;
 
                                 pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
                                 decimal amount = Convert.ToDecimal(gridSource[i].NetAmount);
@@ -1431,7 +1431,7 @@ namespace FoodandBeverage.Forms
                                     else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
                                         pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
                                     else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
-                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.button_complete_order;
+                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.orderpage_food_finished_icon;
 
                                     pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
                                     decimal amount = Convert.ToDecimal(gridSource[i].NetAmount);
@@ -7528,7 +7528,12 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
                                         dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
                                         dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
-                                        dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
+
+                                        if (Convert.ToInt32(gridSourcemaster[i].AddonStatus) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                                            dmnsaledetails.NetAmount = 0;
+                                        else
+                                            dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
+
                                         dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
                                         dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
                                         dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
@@ -10186,18 +10191,7 @@ namespace FoodandBeverage.Forms
 
             }
         }
-        public class Variation_addon_List
-        {
-            public int Pavid { get; set; }
-            public int Pid { get; set; }
-            public int Vid { get; set; }
-            public int Aid { get; set; }
-            public decimal Qty { get; set; }
-            public decimal Price { get; set; }
-            public int AVType { get; set; }
-            public string Caption { get; set; }
-            public string CCode { get; set; }
-        }
+
         public void ShowVariationAddon(int pid)
         {
             try
@@ -10396,48 +10390,55 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                Control clickedControl = sender as Control;
-                string tlpname = "tlp_addon_" + clickedControl.Tag;
-                TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-
-                if (tlp_sele != null)
+                if (Checked_VariationAddon_List.Count > 10)
                 {
-                    Label lblqty = tlp_sele.Controls.Find("lbl_addon_qty_" + clickedControl.Tag, true).FirstOrDefault() as Label;
-                    if (lblqty != null)
+                    CMessageBox.Show("You can only add up to 10 Addons.", "Maximum Add-ons Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    Control clickedControl = sender as Control;
+                    string tlpname = "tlp_addon_" + clickedControl.Tag;
+                    TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+
+                    if (tlp_sele != null)
                     {
-                        if (lblqty.Text == "0")
+                        Label lblqty = tlp_sele.Controls.Find("lbl_addon_qty_" + clickedControl.Tag, true).FirstOrDefault() as Label;
+                        if (lblqty != null)
                         {
-                            lblqty.Visible = true;
-                            lblqty.Text = "1";
-                            string  val=Convert.ToString(clickedControl.Tag);
-                            string[] parts = val.Split('_');
-                            Checked_VariationAddon_List.Add(new Variation_addon_List
+                            if (lblqty.Text == "0")
                             {
-                                Pid = Global_ProductId,
-                                Vid = 0,
-                                CCode= parts[0],
-                                Pavid = Convert.ToInt32(parts[1]),
-                                Qty = 1,
-                                Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
-                                AVType = Convert.ToInt32(Product_Addon_Variation_Type.Addon),
-                                Caption = Convert.ToString(clickedControl.Text),                              
-                            });
-                            decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
-                            lbladdontotal.Text = Convert.ToString(t);
+                                lblqty.Visible = true;
+                                lblqty.Text = "1";
+                                string val = Convert.ToString(clickedControl.Tag);
+                                string[] parts = val.Split('_');
+                                Checked_VariationAddon_List.Add(new Variation_addon_List
+                                {
+                                    Pid = Global_ProductId,
+                                    Vid = 0,
+                                    CCode = parts[0],
+                                    Pavid = Convert.ToInt32(parts[1]),
+                                    Qty = 1,
+                                    Price = Convert.ToDecimal(clickedControl.AccessibleDescription),
+                                    AVType = Convert.ToInt32(Product_Addon_Variation_Type.Addon),
+                                    Caption = Convert.ToString(clickedControl.Text),
+                                });
+                                decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
+                                lbladdontotal.Text = Convert.ToString(t);
+                            }
+                            else
+                            {
+                                int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                                lblqty.Text = Convert.ToString(cur_qty);
+                                var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                                int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
+                                Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
+                                decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
+                                lbladdontotal.Text = Convert.ToString(t);
+                            }
+                            Button btnrem = tlp_sele.Controls.Find("btn_addon_remqty_" + clickedControl.Tag, true).FirstOrDefault() as Button;
+                            //btnrem.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnrem.Width, btnrem.Height, btnrem.Width, btnrem.Height));
+                            btnrem.Dock = DockStyle.Right;
                         }
-                        else
-                        {
-                            int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
-                            lblqty.Text = Convert.ToString(cur_qty);
-                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
-                            int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
-                            Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
-                            decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription)  ;
-                            lbladdontotal.Text =  Convert.ToString(t) ;
-                        }
-                        Button btnrem = tlp_sele.Controls.Find("btn_addon_remqty_" + clickedControl.Tag, true).FirstOrDefault() as Button;
-                        //btnrem.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnrem.Width, btnrem.Height, btnrem.Width, btnrem.Height));
-                        btnrem.Dock = DockStyle.Right;
                     }
                 }
             }

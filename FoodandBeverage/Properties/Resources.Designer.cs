@@ -1373,6 +1373,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap orderpage_food_finished_icon {
+            get {
+                object obj = ResourceManager.GetObject("orderpage_food_finished_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap orderpage_grid_detailsicon {
             get {
                 object obj = ResourceManager.GetObject("orderpage_grid_detailsicon", resourceCulture);

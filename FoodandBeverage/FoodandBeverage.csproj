@@ -1535,5 +1535,8 @@
   <ItemGroup>
     <None Include="Resources\food_preparation.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderpage_food finished icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -304,7 +304,7 @@ namespace FoodandBeverage.Forms
             // 
             // btn_complete_order
             // 
-            this.btn_complete_order.BackgroundImage = global::FoodandBeverage.Properties.Resources.button_complete_order;
+            this.btn_complete_order.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderpage_food_finished_icon;
             this.btn_complete_order.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_complete_order.FlatAppearance.BorderSize = 0;
             this.btn_complete_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

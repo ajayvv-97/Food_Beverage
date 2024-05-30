@@ -479,8 +479,6 @@ namespace FoodandBeverage.SaleBill
             }
             return bHandled;
         }
-
-
         private void btn_print_MouseHover(object sender, EventArgs e)
         {
             lab_prinnter.Visible = true;
