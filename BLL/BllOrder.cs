@@ -207,13 +207,13 @@ namespace BLL
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
-            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("Quantity", objTestClass.Quantity);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             parms.Add("koid", objTestClass.koid);
-            parms.Add("Tid", objTestClass.Tid);
+            parms.Add("Tid", objTestClass.Tid); 
+            parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("Avid", objTestClass.AV_id);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);

@@ -648,10 +648,33 @@ namespace FoodandBeverage.Forms
                     pnl_details_view.Dock = DockStyle.Fill;
                     dgv_details_view.Rows.Clear();
                     dgv_details_view.Rows.Add(detailslist.Count);
+                    int headcount = 0, subcount = 0;
+                    string pre_avid = "";
                     for (int i = 0; i < detailslist.Count; i++)
                     {
-                        dgv_details_view.Rows[i].Cells[dslno].Value = i + 1;
-                        dgv_details_view.Rows[i].Cells[ditemno].Value = detailslist[i].Field1;
+                        if (Convert.ToInt32(detailslist[i].Field10) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                        {
+                            dgv_details_view.Rows[i].Cells[dslno].Style.Font = new Font(dgv_details_view.Font.FontFamily, 11, FontStyle.Bold);
+                            dgv_details_view.Rows[i].Cells[ditemno].Style.Font = new Font(dgv_details_view.Font.FontFamily, 11, FontStyle.Bold);
+                            dgv_details_view.Rows[i].Cells[ditemno].Value ="(Addon)   "+ detailslist[i].Field1;
+                            dgv_details_view.Rows[i].Cells[dslno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv_details_view.Rows[i].Cells[ditemno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv_details_view.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
+                            dgv_details_view.Rows[i].Cells[dslno].Value = subcount + 1;
+                            subcount = subcount + 1;   
+                        }
+                        else
+                        {
+                            //dgv_details_view.Rows[i].DefaultCellStyle.BackColor = Color.LightBlue;
+                            dgv_details_view.Rows[i].Cells[dslno].Style.Font = new Font(dgv_details_view.Font.FontFamily, 12, FontStyle.Bold);
+                            dgv_details_view.Rows[i].Cells[ditemno].Style.Font = new Font(dgv_details_view.Font.FontFamily, 12, FontStyle.Bold);
+                            dgv_details_view.Rows[i].Cells[ditemno].Value = detailslist[i].Field1;
+                            dgv_details_view.Rows[i].Cells[dslno].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                            dgv_details_view.Rows[i].Cells[ditemno].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                            dgv_details_view.Rows[i].Cells[dslno].Value = headcount + 1;
+                            headcount = headcount + 1;
+                            subcount = 0;
+                        }
                         dgv_details_view.Rows[i].Cells[dqtyno].Value = detailslist[i].Field2;
                         dgv_details_view.Rows[i].Cells[ddatetimeno].Value = detailslist[i].Field3;
                         dgv_details_view.Rows[i].Cells[ddetailsidno].Value = detailslist[i].Field5;
@@ -661,7 +684,7 @@ namespace FoodandBeverage.Forms
                         dgv_details_view.Rows[i].Cells[dordermasteridno].Value = detailslist[i].Field8;
                         dgv_details_view.Rows[i].Cells[dtableidno].Value = detailslist[i].Field9;
                         dgv_details_view.Rows[i].Cells[daddonstatusno].Value = detailslist[i].Field10;
-                        dgv_details_view.Rows[i].Cells[davidno].Value = detailslist[i].Field11;
+                        dgv_details_view.Rows[i].Cells[davidno].Value = detailslist[i].Field11;                   
 
                         // Set the image for the "statusno" column
                         if (Convert.ToInt32(detailslist[i].Field4) == 0)
@@ -743,6 +766,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) !=3)
                 {
+                    txt_product_remove_des.Text = "";
                     pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
                     dgv_details_view_rowno = e.RowIndex;
                     pnl_products_rem_descr.Visible = true;
@@ -778,43 +802,136 @@ namespace FoodandBeverage.Forms
             {
                 if (MandatoryCheck())
                 {
-                    DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-                    BllOrder bll_order = new BllOrder();
-                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
-                    dmnRemove_order.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
-                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
-                    dmnRemove_order.Tid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dtableidno].Value);
-                    decimal originalValue = Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dqtyno].Value);
-                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value);
-                    dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
-                    dmnRemove_order.Status = 0;
-                    dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
-
-                    dmnRemove_order.AddonStatus =0;
-                    dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
-
-                    var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
-                    dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;
-
-                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno];
-                    cell.Value = Properties.Resources.orderview_cancelled;
-                    DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dactionno];
-
-                    if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dslno].Value) % 2 == 0)
-                        cell1.Value = Properties.Resources.orderview_blank_2;
-                    else
-                        cell1.Value = Properties.Resources.orderview_blank;
-
-                    dgv_details_view.Rows[dgv_details_view_rowno].Cells[dnotesno].Value = txt_product_remove_des.Text;
-                    pnl_products_rem_descr.Visible = false;
-
-                    txt_product_remove_des.Text = "";
-                    Filldetails(OrderMasterId);
-                    if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                    string newpart = "";
+                    if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                     {
-                        FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                        _instanceFrmKitchenView.refreshtimer.Start();
+                        #region To Reset Addon ID(remove id form avid name)
+
+                        string avidValue = Convert.ToString(dgv_details_view.Rows[daddonstatusno].Cells[davidno].Value);
+                        string[] avidParts = avidValue.Split('_');
+                        string extractedpid = $"{avidParts[0]}";
+                        newpart = newpart + extractedpid + "_";
+                        int remove_koid = Convert.ToInt32(dgv_details_view.Rows[daddonstatusno].Cells[davidno].Value);
+                        for (int i = 0; i < dgv_details_view.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(dgv_details_view.Rows[i].Cells[daddonstatusno].Value) == 2 && Convert.ToInt32(dgv_details_view.Rows[i].Cells[dkoidno].Value) != remove_koid)
+                            {
+                                string ccode = Convert.ToString(dgv_details_view.Rows[i].Cells[addccodeno].Value);
+                                decimal quantityDecimal = Convert.ToDecimal(dgv_details_view.Rows[i].Cells[dqtyno].Value);
+                                int quantityInt = (int)Math.Floor(quantityDecimal);
+                                newpart = newpart + ccode + quantityInt.ToString();
+                            }
+                        }
+
+                        /*for (int i = 0; i < dgv_viewmore.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addaddonstatusno].Value) == 2 && Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addkoidno].Value) != remove_koid)
+                            {              
+                                dgv_viewmore.Rows[i].Cells[addavidno].Value= newpart;
+                            }
+                        }*/
+
+                        #endregion
+
+                        #region Price Reset main product after remove addon
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
+                        dmnSearch.Table = "tblOrderDetails";
+                        dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToDecimal(dgv_viewmore.Rows[e.RowIndex].Cells[addonpriceno].Value);
+                            disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
+
+                            discountprice = newprice - disAmnt;
+                            if (gridSource[0].Field2 == "GST")
+                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+                            else if (gridSource[0].Field2 == "VAT")
+                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+
+                            if (Convert.ToString(gridSource[0].Field4) == "Exclusive")
+                                finalprice = (newprice - disAmnt) + TaxAmount;
+                            else if (Convert.ToString(gridSource[0].Field4) == "Inclusive")
+                                finalprice = (newprice - disAmnt);
+                       
+                        #endregion
+
+
+                        dmnRemove_addon.Amount = newprice;
+                        dmnRemove_addon.DiscountAmount = disAmnt;
+                        if (gridSource[0].Field2 == "GST")
+                        {
+                            dmnRemove_addon.IGSTAmount = TaxAmount;
+                            dmnRemove_addon.CGSTAmount = TaxAmount / 2;
+                            dmnRemove_addon.SGSTAmount = TaxAmount / 2;
+                            dmnRemove_addon.VATAmount = 0;
+                        }
+                        else if (gridSource[0].Field2 == "VAT")
+                        {
+                            dmnRemove_addon.VATAmount = TaxAmount;
+                            dmnRemove_addon.IGSTAmount = 0;
+                            dmnRemove_addon.CGSTAmount = 0;
+                            dmnRemove_addon.SGSTAmount = 0;
+                        }
+                        }
+                        dmnRemove_addon.TaxAmount = TaxAmount;
+                        dmnRemove_addon.NetAmount = finalprice;
+                        dmnRemove_addon.Srate = newprice;
+                        dmnRemove_addon.MarketPrice = finalprice;
+                        dmnRemove_addon.OrderNo = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addonorderno].Value);
+
+                        dmnRemove_addon.OrderDetailsId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addorderdetailidno].Value);
+                        dmnRemove_addon.koid = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addkoidno].Value);
+                        dmnRemove_addon.OrderMasterId = Convert.ToInt32(dgv_viewmore.Rows[e.RowIndex].Cells[addordermasteridno].Value);
+                        dmnRemove_addon.AVid = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
+                        dmnRemove_addon.Status = 0;
+                        dmnRemove_addon.CreatedBy = FrmDashboard.UserId;
+                        dmnRemove_addon.Update_AVid = newpart;
+                        var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);*/
                     }
+                    else
+                    {
+                        DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                        BllOrder bll_order = new BllOrder();
+                        dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
+                        dmnRemove_order.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
+                        dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
+                        dmnRemove_order.Tid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dtableidno].Value);
+                        decimal originalValue = Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dqtyno].Value);
+                        dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value);
+                        dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
+                        dmnRemove_order.Status = 0;
+                        dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
+                        dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
+                        var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
+
+                        dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;
+
+                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno];
+                        cell.Value = Properties.Resources.orderview_cancelled;
+                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dactionno];
+
+                        if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dslno].Value) % 2 == 0)
+                            cell1.Value = Properties.Resources.orderview_blank_2;
+                        else
+                            cell1.Value = Properties.Resources.orderview_blank;
+
+                        dgv_details_view.Rows[dgv_details_view_rowno].Cells[dnotesno].Value = txt_product_remove_des.Text;
+                        pnl_products_rem_descr.Visible = false;
+
+                        txt_product_remove_des.Text = "";
+                        Filldetails(OrderMasterId);
+                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        {
+                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                            _instanceFrmKitchenView.refreshtimer.Start();
+                        }
+                    }
+
+                    
                 }
             }
             catch(Exception ex)
@@ -928,8 +1045,28 @@ namespace FoodandBeverage.Forms
             switch (keyData)
             {
                 case Keys.Escape:
-                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                    _instancedash.Closeform();
+                    if (pnl_products_rem_descr.Visible)
+                        pnl_products_rem_descr.Visible = false;
+                    else
+                    {
+                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        _instancedash.Closeform();
+                    }
+                    return true;
+                case Keys.Back:
+                    if (!pnl_products_rem_descr.Visible && !txttablecode_serach.Focused && !txtorderid_search.Focused)
+                    {
+                        Control controlToRemove = tlp_sub_main.GetControlFromPosition(0, 2);
+                        tlp_sub_main.Controls.Remove(controlToRemove);
+                        tlp_sub_main.Controls.Add(pnl_ordergallery, 0, 2);
+                        pnl_ordergallery.Dock = DockStyle.Fill;
+                        pnl_ordergallery.Visible = true;
+                        pnl_empty_msg.Visible = false;
+                        tlp_next_prev.Visible = true;
+                        pnl_details_view.Visible = false;
+                        btn_backorder.Visible = false;
+                        FillOrders();
+                    }
                     return true;
 
                 default:

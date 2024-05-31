@@ -4145,16 +4145,15 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     pnlproductviewmore.Visible = true;
-                    int panelWidthPercentage = 35;
-                    int panelheightPercentage = 35;
+                    int panelWidthPercentage = 50;
+                    int panelheightPercentage = 50;
                     int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                     int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                     pnlproductviewmore.Size = new Size(panelWidth, panelHeight);
                     pnlproductviewmore.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
 
-
                     Control clickedControl = sender as Control;
-                    dmnSearch.Select = "ofd.Productname as Field1,ofd.Quantity as Field2,ofm.OfferName Field3,ofm.OfferEndDatetime EndDate";
+                    dmnSearch.Select = "ofd.Productname as Field1,ofd.Quantity as Field2,ofm.OfferName Field3,ofd.AddonStatus Field4,ofm.OfferEndDatetime EndDate";
                     dmnSearch.Table = "tblOfferMaster ofm   LEFT JOIN tblOfferDetails ofd on ofm.Omid=ofd.Omid";
                     dmnSearch.WhereNdGroupBy = " where ofm.Status=1 AND ofm.Omid=" + clickedControl.Tag;
                     dmnSearch.OrderBy = "";
@@ -4166,16 +4165,27 @@ namespace FoodandBeverage.Forms
                         dgv_viewmore.Rows.Add(gridSource.Count);
                         lblviewmore.Text = Convert.ToString(gridSource[0].Field3);
                         lblenddatecombo.Text = "[ Offer End On : " + Convert.ToString(gridSource[0].EndDate) + "]";
+                        int c = 0;
                         for (int i = 0; i < gridSource.Count; i++)
                         {
-                            dgv_viewmore.Rows[i].Cells[0].Value = i + 1;
                             dgv_viewmore.Rows[i].Cells[1].Value = gridSource[i].Field1;
                             dgv_viewmore.Rows[i].Cells[2].Value = gridSource[i].Field2;
+                            if (Convert.ToInt32(gridSource[i].Field4)== Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                            {
+                                dgv_viewmore.Rows[i].Cells[0].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                                dgv_viewmore.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                                dgv_viewmore.Rows[i].DefaultCellStyle.BackColor = Color.OliveDrab;
+                            }
+                            else
+                            {
+                                dgv_viewmore.Rows[i].Cells[0].Value = c + 1;
+                                dgv_viewmore.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                                dgv_viewmore.Rows[i].Cells[0].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                                c = c + 1;
+                            }                    
                         }
                     }
                 }
-
-
             }
             catch (Exception ex)
             {

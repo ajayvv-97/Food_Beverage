@@ -291,6 +291,7 @@ namespace FoodandBeverage.Forms
 
                                 flp_order_view.SuspendLayout();
                                 refreshtimer.Stop();
+
                                 #region Main TableLayoutPanel 
                                 // Main TableLayoutPanel for each product
                                 TableLayoutPanel tlp_product_box = new TableLayoutPanel();
@@ -606,7 +607,7 @@ namespace FoodandBeverage.Forms
                                     }
                                     else
                                     {
-                                        cell.Value = Properties.Resources.food_cancel_icon;
+                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
@@ -3295,6 +3296,7 @@ namespace FoodandBeverage.Forms
                     if (result == DialogResult.Yes)
                     {
                         #region To Reset Addon ID(remove id form avid name)
+
                         string avidValue = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
                         string[] avidParts = avidValue.Split('_');
                         string extractedpid = $"{avidParts[0]}";
@@ -3310,6 +3312,7 @@ namespace FoodandBeverage.Forms
                                 newpart = newpart + ccode + quantityInt.ToString();
                             }
                         }
+
                         for (int i = 0; i < dgv_viewmore.RowCount; i++)
                         {
                             if (Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addaddonstatusno].Value) == 2 && Convert.ToInt32(dgv_viewmore.Rows[i].Cells[addkoidno].Value) != remove_koid)
@@ -3317,6 +3320,7 @@ namespace FoodandBeverage.Forms
                                 dgv_viewmore.Rows[i].Cells[addavidno].Value= newpart;
                             }
                         }
+
                         #endregion
 
                         #region Price Reset main product after remove addon
@@ -3344,7 +3348,6 @@ namespace FoodandBeverage.Forms
                                 finalprice = (newprice - disAmnt);
                        
                         #endregion
-
 
                         dmnRemove_addon.Amount = newprice;
                         dmnRemove_addon.DiscountAmount = disAmnt;

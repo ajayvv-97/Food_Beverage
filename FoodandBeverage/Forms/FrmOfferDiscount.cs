@@ -504,6 +504,7 @@ namespace FoodandBeverage.Forms
                 tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
 
                 textb_shape();
+                chk_combo_status.Checked = true;
 
             }
             else if (tlp_single_main.Visible)
@@ -539,6 +540,7 @@ namespace FoodandBeverage.Forms
                 txtomid.Text = "";
                 txtnamepro_offer.Text = "Name Serach";
                 txtnamepro_offer.ForeColor = Color.DarkGray;
+                chk_combo_status.Checked = true;
             }
         }
         public void Discount_Check()
@@ -1071,7 +1073,8 @@ namespace FoodandBeverage.Forms
                                 "od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate," +
                                 "om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19," +
                                 "om.TaxType as Field20,od.AV_id as Field21,od.AddonStatus as Field22,od.Addoncount as Field23,od.Pavid as Field24,od.Price as Field25,od.Quantity as Field26";
-                            objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid left join tblProduct p on p.ProductId=od.ProductId";
+                            objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid and od.Status=1" +
+                                "left join tblProduct p on p.ProductId=od.ProductId";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
                             var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
@@ -1138,11 +1141,73 @@ namespace FoodandBeverage.Forms
 
                                 cmbtaxtype.Text = itemSource[0].Field20;
                                 cmbtax.Text = itemSource[0].Field19;
-                                if (itemSource[0].Field20 == "GST")
-                                    cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
-                                else
-                                    cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
+              
+                                Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
+                                tlp_comboproduct_view.Controls.Remove(controlToRemove1);
+                                Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
+                                tlp_comboproduct_view.Controls.Remove(controlToRemove2);
+                                txttaxamt.Dock = DockStyle.Fill;
+                                if (cmbtaxtype.Text == "GST")
+                                {
+                                    lbligst.Visible = true;
+                                    cmbIgstPrcnt.Visible = true;
 
+                                    lblvat.Visible = false;
+                                    cmbVatPrcnt.Visible = false;
+
+                                    controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+                                    tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+                                    tlp_taxtype_taxamt_lbl.Controls.Add(lbligst, 0, 0);
+
+                                    controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+                                    tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+                                    tlp_taxtype_taxamt_txt.Controls.Add(cmbIgstPrcnt, 0, 0);
+
+                                    tlp_taxtype_taxamt_lbl.Visible = true;
+                                    tlp_taxtype_taxamt_txt.Visible = true;
+                                    tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                                    tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
+                                    lbligst.Dock = DockStyle.Fill;
+                                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+
+                                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+                                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
+
+                                    cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
+                                }
+                                else if (cmbtaxtype.Text == "VAT")
+                                {
+                                    lbligst.Visible = false;
+                                    cmbIgstPrcnt.Visible = false;
+
+                                    controlToRemove1 = tlp_taxtype_taxamt_lbl.GetControlFromPosition(0, 1);
+                                    tlp_taxtype_taxamt_lbl.Controls.Remove(controlToRemove1);
+                                    tlp_taxtype_taxamt_lbl.Controls.Add(lblvat, 0, 0);
+
+                                    controlToRemove2 = tlp_taxtype_taxamt_txt.GetControlFromPosition(0, 1);
+                                    tlp_taxtype_taxamt_txt.Controls.Remove(controlToRemove2);
+                                    tlp_taxtype_taxamt_txt.Controls.Add(cmbVatPrcnt, 0, 0);
+
+                                    tlp_taxtype_taxamt_lbl.Visible = true;
+                                    tlp_taxtype_taxamt_txt.Visible = true;
+                                    tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                                    tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
+                                    tlp_taxtype_taxamt_lbl.Visible = true;
+                                    tlp_taxtype_taxamt_txt.Visible = true;
+                                    tlp_taxtype_taxamt_lbl.Dock = DockStyle.Fill;
+                                    tlp_taxtype_taxamt_txt.Dock = DockStyle.Fill;
+
+                                    lblvat.Visible = true;
+                                    cmbVatPrcnt.Visible = true;
+                                    lblvat.Dock = DockStyle.Fill;
+                                    cmbVatPrcnt.Dock = DockStyle.Fill;
+                                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
+                                    tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
+
+                                    cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
+                                }
                                 #region Fill combo products
                                 for (int i = 0; i < itemSource.Count; i++)
                                 {
@@ -1170,12 +1235,14 @@ namespace FoodandBeverage.Forms
                                         var gridSourceitem = bllSearch.GetSearchData("prdSearch", objSearch_item);
                                         if (gridSourceitem.Count > 0)
                                         {
+                                            int mainrowno = 0;
                                             #region Grid Fill
                                             dgv_sele_cmb_products.Rows.Add();
                                             int r = dgv_sele_cmb_products.Rows.Count - 1;
                                             dgv_sele_cmb_products.Rows[r].Cells[sslno].Value = r + 1;
                                             dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = gridSourceitem[0].Field10;
                                             dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = itemSource[i].Field25;
+                                            dgv_sele_cmb_products.Rows[r].Cells[Cmarketpriceno].Value = itemSource[i].Field25;
                                             dgv_sele_cmb_products.Rows[r].Cells[cqtynoo].Value = itemSource[i].Field14;
                                             dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSourceitem[0].Field2;
 
@@ -1184,35 +1251,26 @@ namespace FoodandBeverage.Forms
                                             else
                                                 dgv_sele_cmb_products.Rows[r].Cells[ctaxperno].Value = gridSourceitem[0].Field5;
 
-                                            dgv_sele_cmb_products.Rows[r].Cells[ctaxtypeno].Value = gridSourceitem[0].Field6;
-                                            dgv_sele_cmb_products.Rows[r].Cells[cproducttypeno].Value = Convert.ToInt32(Tabletype.Product);
+                                            dgv_sele_cmb_products.Rows[r].Cells[ctaxtypeno].Value = gridSourceitem[0].Field6;                         
                                             dgv_sele_cmb_products.Rows[r].Cells[ctaxno].Value = gridSourceitem[0].Field7;
-
                                             dgv_sele_cmb_products.Rows[r].Cells[Ctaxsettingidno].Value = gridSourceitem[0].Field9;
                                             dgv_sele_cmb_products.Rows[r].Cells[cstatusno].Value = 1;
-
                                             dgv_sele_cmb_products.Rows[r].Cells[cmrpno].Value = gridSourceitem[0].Field11;
-                                            dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = itemSource[i].Field2;
+                                            dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = itemSource[i].Field2; 
+                                            mainrowno = r;
                                             if (Convert.ToInt32(itemSource[i].Field16) > 0)
                                             {
-                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field8;
+                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = gridSourceitem[0].Field12;
                                                 dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field1;
-                                                dgv_sele_cmb_products.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.DirectSale);
-                                            }
-                                            else
-                                            {
-                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
-                                                dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = 0;
-                                                dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field12;
-                                                dgv_sele_cmb_products.Rows[r].Cells[stabletypeno].Value = Convert.ToInt32(Tabletype.Product);
-                                            }
-
-                                            if (Convert.ToInt32(itemSource[i].Field22) == Convert.ToInt32(Product_Addon_Variation_Type.Variation))
+                                                dgv_sele_cmb_products.Rows[r].Cells[cproducttypeno].Value = Convert.ToInt32(Tabletype.DirectSale);
+                                                dgv_sele_cmb_products.Rows[r].Cells[Caddonstatusno].Value = 0;
+                                            }                                     
+                                            else if (Convert.ToInt32(itemSource[i].Field22) == Convert.ToInt32(Product_Addon_Variation_Type.Variation))
                                             {
                                                 dgv_sele_cmb_products.Rows[r].Cells[sslno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
+                                                dgv_sele_cmb_products.Rows[r].Cells[Caddonstatusno].Value = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cavidno].Value = itemSource[i].Field21;
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cpavidno].Value = itemSource[i].Field24;
                                                 dgv_sele_cmb_products.Rows[r].Cells[Caddoncountno].Value = itemSource[i].Field23;
@@ -1221,7 +1279,7 @@ namespace FoodandBeverage.Forms
                                                 int k = 0;
                                                 for (int j = 0; j < Addonlist.Count; j++)
                                                 {                   
-                                                    var item = Addonlist[i];
+                                                    var item = Addonlist[j];
                                                     dgv_sele_cmb_products.Rows.Add();
                                                     r = dgv_sele_cmb_products.RowCount - 1;
                                                     dgv_sele_cmb_products.Rows[r].Cells[sslno].Value = k + 1;
@@ -1247,24 +1305,20 @@ namespace FoodandBeverage.Forms
                                                 }
 
                                             }
-
-               
-                                            totalcellamount_Combo(r);
+                                            else
+                                            {
+                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
+                                                dgv_sele_cmb_products.Rows[r].Cells[cpridno].Value = 0;
+                                                dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field8;
+                                                dgv_sele_cmb_products.Rows[r].Cells[cproducttypeno].Value = Convert.ToInt32(Tabletype.Product);
+                                                dgv_sele_cmb_products.Rows[r].Cells[Caddonstatusno].Value = 0;
+                                            }
+                                            totalcellamount_Combo(mainrowno);
                                             #endregion
                                         }
-                                        TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();
-                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
-                                        {
-                                            tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                            tlp_selected_Item_Box.AccessibleDescription = "2";
-                                        }
-                                        else
-                                        {
-                                            tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
-                                            tlp_selected_Item_Box.AccessibleDescription = "1";
-                                            tlp_selected_Item_Box.Tag = itemSource[i].Field3;
-                                        }
 
+                                        #region Box Creation
+                                        TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();                                
                                         tlp_selected_Item_Box.Width = 245;
                                         tlp_selected_Item_Box.Height = 60;
                                         tlp_selected_Item_Box.ColumnCount = 4;
@@ -1273,19 +1327,7 @@ namespace FoodandBeverage.Forms
 
                                         //Item Button   
                                         Button Button_Item = new Button();
-                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
-                                        {
-                                            Button_Item.Text = itemSource[i].Field17;
-                                            Button_Item.Name = "btn_sele_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                            Button_Item.Tag = itemSource[i].Field16;
-                                        }
-                                        else
-                                        {
-                                            Button_Item.Text = itemSource[i].Field17;
-                                            Button_Item.Name = "btn_sele_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
-                                            Button_Item.Tag = itemSource[i].Field3;
-                                        }
-
+                                        Button_Item.Text = itemSource[i].Field17;
                                         Button_Item.Width = 150;
                                         Button_Item.Height = 50;
                                         Button_Item.FlatAppearance.BorderSize = 0;
@@ -1295,49 +1337,19 @@ namespace FoodandBeverage.Forms
                                         Button_Item.Click += new EventHandler(Button_ItemClickEventHandler);
                                         Button_Item.Font = new Font(Button_Item.Font.FontFamily, 10, FontStyle.Bold);
                                         // Adding the button to the third column
-                                        tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
-
+             
                                         // Creating the label for the Qty
-                                        Label label = new Label();
-                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
-                                        {
-                                            int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
-                                            label.Text = Convert.ToString(intValue);
-                                            label.Name = "lbl_selected_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                            label.Tag = itemSource[i].Field16;
-                                            label.AccessibleDescription = "2";
-                                        }
-                                        else
-                                        {
-                                            int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
-                                            label.Text = Convert.ToString(intValue);
-                                            label.Name = "lbl_selected_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
-                                            label.Tag = itemSource[i].Field3;
-                                            label.AccessibleDescription = "1";
-                                        }
+                                        Label label = new Label();                  
+                                        int intValue = (int)Math.Floor(Convert.ToDecimal(itemSource[i].Field14));
+                                        label.Text = Convert.ToString(intValue);                    
                                         label.AutoSize = true;
                                         label.Dock = DockStyle.Fill;
                                         label.ForeColor = Color.White;
                                         label.TextAlign = ContentAlignment.MiddleCenter;
                                         label.Font = new Font(label.Font.FontFamily, 10, FontStyle.Bold);
-                                        // Adding the label to the second column
-                                        tlp_selected_Item_Box.Controls.Add(label, 1, 0);
-
+                                    
                                         //Add Button
-                                        Button Button_Add = new Button();
-                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
-                                        {
-                                            Button_Add.Name = "btn_sele_add_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                            Button_Add.Tag = itemSource[i].Field16;
-                                            Button_Add.AccessibleDescription = "2";
-                                        }
-                                        else
-                                        {
-                                            Button_Add.Name = "btn_sele_add_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
-                                            Button_Add.Tag = itemSource[i].Field3;
-                                            Button_Add.AccessibleDescription = "1";
-                                        }
-
+                                        Button Button_Add = new Button();                                  
                                         Button_Add.Text = "+";
                                         Button_Add.Width = 20;
                                         Button_Add.Height = 50;
@@ -1348,24 +1360,9 @@ namespace FoodandBeverage.Forms
                                         Button_Add.Click += new EventHandler(Button_AddClickEventHandler);
                                         Button_Add.Font = new Font(Button_Add.Font.FontFamily, 10, FontStyle.Bold);
                                         Button_Add.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Add.Width, Button_Add.Height, Button_Add.Width, Button_Add.Height));
-                                        // Adding the button to the third column
-                                        tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
 
                                         //Remove Button
-                                        Button Button_Remove = new Button();
-                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)
-                                        {
-                                            Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
-                                            Button_Remove.Tag = itemSource[i].Field16;
-                                            Button_Remove.AccessibleDescription = "2";
-                                        }
-                                        else
-                                        {
-                                            Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
-                                            Button_Remove.Tag = itemSource[i].Field3;
-                                            Button_Remove.AccessibleDescription = "1";
-                                        }
-
+                                        Button Button_Remove = new Button();                                     
                                         Button_Remove.Text = "-";
                                         Button_Remove.Width = 20;
                                         Button_Remove.Height = 50;
@@ -1377,10 +1374,85 @@ namespace FoodandBeverage.Forms
                                         Button_Remove.Click += new EventHandler(Button_RemoveClickEventHandler);
                                         Button_Remove.Font = new Font(Button_Remove.Font.FontFamily, 10, FontStyle.Bold);
                                         Button_Remove.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Button_Remove.Width, Button_Remove.Height, Button_Remove.Width, Button_Remove.Height));
-                                        // Adding the button to the third column
+
+                                        #region Name Setting
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0) //Driect Sale products
+                                        {
+                                            tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            tlp_selected_Item_Box.AccessibleDescription = "2";
+  
+                                            Button_Item.Name = "btn_sele_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            Button_Item.Tag = itemSource[i].Field16;
+
+                                            label.Name = "lbl_selected_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            label.Tag = itemSource[i].Field16;
+                                            label.AccessibleDescription = "2";
+
+                                            Button_Add.Name = "btn_sele_add_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            Button_Add.Tag = itemSource[i].Field16;
+                                            Button_Add.AccessibleDescription = "2";
+
+                                            Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field16 + "_" + Convert.ToInt32(Tabletype.DirectSale);
+                                            Button_Remove.Tag = itemSource[i].Field16;
+                                            Button_Remove.AccessibleDescription = "2";
+                                        }
+                                        else
+                                        {
+                                            if (Convert.ToInt32(itemSource[i].Field22) == Convert.ToInt32(AddonType.AddonType))//Product With addon
+                                            {
+                                                tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
+                                                tlp_selected_Item_Box.AccessibleDescription = "4";
+                                                tlp_selected_Item_Box.Tag = itemSource[i].Field21;
+
+                                                Button_Item.Text = itemSource[i].Field17;
+                                                Button_Item.Name = "btn_sele_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
+                                                Button_Item.Tag = itemSource[i].Field21;
+
+                                                label.Name = "lbl_selected_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
+                                                label.Tag = itemSource[i].Field21;
+                                                label.AccessibleDescription = "4";
+
+                                                Button_Add.Name = "btn_sele_add_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
+                                                Button_Add.Tag = itemSource[i].Field21;
+                                                Button_Add.AccessibleDescription = "4";
+
+                                                Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
+                                                Button_Remove.Tag = itemSource[i].Field21;
+                                                Button_Remove.AccessibleDescription = "4";
+                                            }
+                                            else //Normal Product
+                                            {
+                                                tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
+                                                tlp_selected_Item_Box.AccessibleDescription = "1";
+                                                tlp_selected_Item_Box.Tag = itemSource[i].Field3;
+
+                                                Button_Item.Text = itemSource[i].Field17;
+                                                Button_Item.Name = "btn_sele_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
+                                                Button_Item.Tag = itemSource[i].Field3;
+
+                                                label.Name = "lbl_selected_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
+                                                label.Tag = itemSource[i].Field3;
+                                                label.AccessibleDescription = "1";
+
+                                                Button_Add.Name = "btn_sele_add_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
+                                                Button_Add.Tag = itemSource[i].Field3;
+                                                Button_Add.AccessibleDescription = "1";
+
+                                                Button_Remove.Name = "btn_sele_rem_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
+                                                Button_Remove.Tag = itemSource[i].Field3;
+                                                Button_Remove.AccessibleDescription = "1";
+                                            }
+                                        }                                  
+                                        #endregion
+
+                                        // Adding controls
+                                        tlp_selected_Item_Box.Controls.Add(Button_Item, 0, 0);
+                                        tlp_selected_Item_Box.Controls.Add(label, 1, 0);
+                                        tlp_selected_Item_Box.Controls.Add(Button_Add, 2, 0);
                                         tlp_selected_Item_Box.Controls.Add(Button_Remove, 3, 0);
                                         flp_selected_item_combo.Controls.Add(tlp_selected_Item_Box);
                                         tlp_selected_Item_Box.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, tlp_selected_Item_Box.Width, tlp_selected_Item_Box.Height, 10, 10));
+                                        #endregion
                                     }
                                 }
                                 #endregion
@@ -3299,6 +3371,10 @@ namespace FoodandBeverage.Forms
 
                     }
                     return true;
+                case Keys.F1:
+                    if (pnl_serachproducts.Visible!=true)
+                        btn_AddcomboProduct.PerformClick();
+                    return true;
 
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -4316,7 +4392,6 @@ namespace FoodandBeverage.Forms
 
         private void cmbtaxtype_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             Control controlToRemove1 = tlp_comboproduct_view.GetControlFromPosition(2, 2);
             tlp_comboproduct_view.Controls.Remove(controlToRemove1);
             Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
@@ -4383,12 +4458,11 @@ namespace FoodandBeverage.Forms
                 tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_txt, 2, 3);
                 cmbVatPrcnt.Focus();
             }
-            textb_shape();
 
+            textb_shape();
             discountAmnt_combo();
             discountPer_combo();
             ClacTaxAmt_combo();
-            //netAmount_combo();
         }
 
         private void FrmOfferDiscount_Resize(object sender, EventArgs e)
@@ -5141,9 +5215,9 @@ namespace FoodandBeverage.Forms
 
         private void cmbtax_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            discountAmnt_combo();
-            discountPer_combo();
             ClacTaxAmt_combo();
+            discountAmnt_combo();
+            discountPer_combo();  
         }
 
         private void btn_va_ok_Click(object sender, EventArgs e)
@@ -5417,6 +5491,12 @@ namespace FoodandBeverage.Forms
             pnl_variation_addon.Visible = false;
             pnl_serachproducts.Visible = true;
             Checked_VariationAddon_List.Clear();
+        }
+
+        private void btn_AddcomboProduct_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ToolTipTitle = "Shortcut Key";
+            toolTip1.Show("Press F1 to open the food list", btn_AddcomboProduct, 3000);
         }
 
         private void txtcombo_totalprice_Leave(object sender, EventArgs e)
