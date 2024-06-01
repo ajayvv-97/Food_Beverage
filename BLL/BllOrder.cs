@@ -102,7 +102,8 @@ namespace BLL
             parms.Add("Addoncount", objTestClass.Addoncount);
             parms.Add("Kitchennumber", objTestClass.Kitchennumber);
             parms.Add("vid", objTestClass.vid);
-
+            parms.Add("CCode", objTestClass.CCode);
+            
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

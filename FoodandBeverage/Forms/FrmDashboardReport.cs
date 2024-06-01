@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -92,26 +93,19 @@ namespace FoodandBeverage.Forms
 
         private void FrmDashboardReport_Load(object sender, EventArgs e)
         {
-            Filldashboard();
-
+            RunMethodInSeparateThread(Filldashboard);
             SetupChartTwoBar();
-            FillChartTwoBarChart();
-
-            Fill_combo_finyear();
+            RunMethodInSeparateThread(FillChartTwoBarChart);
+            RunMethodInSeparateThread(Fill_combo_finyear);
             SetupChart_Revenue();
-            FillbarRrevenuChart();
-
+            RunMethodInSeparateThread(FillbarRrevenuChart);
             SetupCharttotaldiscount();
-            FillCharttotaldiscountChart();
-
+            RunMethodInSeparateThread(FillCharttotaldiscountChart);
             SetupChartExpence();
-            FillChartExpence();
-
-            Fillpaymentdetailed();
-
-            FillBoxdetailed();
-
-            FillFast_Slowing();
+            RunMethodInSeparateThread(Fillpaymentdetailed);
+            RunMethodInSeparateThread(FillBoxdetailed);
+            RunMethodInSeparateThread(Filldashboard);
+            RunMethodInSeparateThread(FillFast_Slowing);           
 
             tcslow_move.SelectedIndex = 1;
             tlp_box_frist.Focus();
@@ -189,19 +183,25 @@ namespace FoodandBeverage.Forms
 
             #endregion
         }
+
+        private static void RunMethodInSeparateThread(Action action)
+        {
+            var thread = new Thread(new ThreadStart(action));
+            thread.Start();
+        }
+
         #region SALEDETAILS 
         public void RefreshCharts()
         {
             try
             {
                 ShowLoadingdGif();
-                Filldashboard();
-                FillChartTwoBarChart();
-                FillCharttotaldiscountChart();
-                FillChartExpence();
-                Fillpaymentdetailed();
-                FillBoxdetailed();
-                FillFast_Slowing();
+                RunMethodInSeparateThread(Filldashboard);
+                RunMethodInSeparateThread(FillChartTwoBarChart);
+                RunMethodInSeparateThread(FillCharttotaldiscountChart);
+                RunMethodInSeparateThread(FillChartExpence);
+                RunMethodInSeparateThread(Fillpaymentdetailed);
+                RunMethodInSeparateThread(FillFast_Slowing);
                 tcslow_move.SelectedIndex = 0;
                 tlp_box_frist.Focus();
             }
@@ -1213,25 +1213,50 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    ibsaletotal.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);//sale
-                    if (Convert.ToDecimal(gridSource[0].Field2 )== 0)
-                        lbltotalsaleno.Text = "0 Orders";      
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            ibsaletotal.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);//sale
+                            if (Convert.ToDecimal(gridSource[0].Field2) == 0)
+                                lbltotalsaleno.Text = "0 Orders";
+                            else
+                                lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field1) + " Orders";
+
+                            ibdinetotal.Text = "\u20B9" + Convert.ToString(gridSource[1].Field2);//dine
+                            if (Convert.ToDecimal(gridSource[1].Field2) == 0)
+                                lbldinetotalno.Text = "0 Orders";
+                            else
+                                lbldinetotalno.Text = Convert.ToString(gridSource[1].Field1) + " Orders";
+
+                            ibreservatiototal.Text = "\u20B9" + Convert.ToString(gridSource[2].Field2);//reservation
+                            if (Convert.ToDecimal(gridSource[2].Field2) == 0)
+                                lblresno.Text = "0 Orders";
+                            else
+                                lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
+                        }));
+                    }
                     else
-                        lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field1) + " Orders";
+                    {
+                        ibsaletotal.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);//sale
+                        if (Convert.ToDecimal(gridSource[0].Field2) == 0)
+                            lbltotalsaleno.Text = "0 Orders";
+                        else
+                            lbltotalsaleno.Text = Convert.ToString(gridSource[0].Field1) + " Orders";
 
+                        ibdinetotal.Text = "\u20B9" + Convert.ToString(gridSource[1].Field2);//dine
+                        if (Convert.ToDecimal(gridSource[1].Field2) == 0)
+                            lbldinetotalno.Text = "0 Orders";
+                        else
+                            lbldinetotalno.Text = Convert.ToString(gridSource[1].Field1) + " Orders";
 
-                    ibdinetotal.Text = "\u20B9" + Convert.ToString(gridSource[1].Field2);//dine
-                    if (Convert.ToDecimal(gridSource[1].Field2) == 0)
-                        lbldinetotalno.Text = "0 Orders";
-                    else
-                        lbldinetotalno.Text = Convert.ToString(gridSource[1].Field1) + " Orders";
+                        ibreservatiototal.Text = "\u20B9" + Convert.ToString(gridSource[2].Field2);//reservation
+                        if (Convert.ToDecimal(gridSource[2].Field2) == 0)
+                            lblresno.Text = "0 Orders";
+                        else
+                            lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
+                    }
 
-
-                    ibreservatiototal.Text = "\u20B9" + Convert.ToString(gridSource[2].Field2);//reservation
-                    if (Convert.ToDecimal(gridSource[2].Field2) == 0)
-                        lblresno.Text = "0 Orders";
-                    else
-                        lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
                 }
             }
             catch (Exception ex)
@@ -1279,51 +1304,92 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    chart_res_dine_sales.Series["s_dine"].Points.Clear();
-                    chart_res_dine_sales.Series["s_reservation"].Points.Clear();
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            chart_res_dine_sales.Series["s_dine"].Points.Clear();
+                            chart_res_dine_sales.Series["s_reservation"].Points.Clear();
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(1, gridSource[1].Field1);  // 12am-4am Reservation
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(1, gridSource[1].Field1);  // 12am-4am Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points[0].ToolTip = "Dine 12am-4am - Total sales :" + gridSource[0].Field1 + " Orders: " + gridSource[0].Field7;
-                    chart_res_dine_sales.Series["s_reservation"].Points[0].ToolTip = "Reservation 12am-4am - Total sales :" + gridSource[1].Field1 + " Orders: " + gridSource[1].Field7;
+                            chart_res_dine_sales.Series["s_dine"].Points[0].ToolTip = "Dine 12am-4am - Total sales :" + gridSource[0].Field1 + " Orders: " + gridSource[0].Field7;
+                            chart_res_dine_sales.Series["s_reservation"].Points[0].ToolTip = "Reservation 12am-4am - Total sales :" + gridSource[1].Field1 + " Orders: " + gridSource[1].Field7;
 
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(2, gridSource[1].Field2);  // 4am-8am Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(2, gridSource[1].Field2);  // 4am-8am Reservation
+                            chart_res_dine_sales.Series["s_dine"].Points[1].ToolTip = "Dine 4am-8am  - Total sales :" + gridSource[0].Field2 + " Orders: " + gridSource[0].Field8;
+                            chart_res_dine_sales.Series["s_reservation"].Points[1].ToolTip = "Reservation 4am-8am  - Total sales :" + gridSource[1].Field2 + " Orders: " + gridSource[1].Field8;
 
-                    chart_res_dine_sales.Series["s_dine"].Points[1].ToolTip = "Dine 4am-8am  - Total sales :" + gridSource[0].Field2 + " Orders: " + gridSource[0].Field8;
-                    chart_res_dine_sales.Series["s_reservation"].Points[1].ToolTip = "Reservation 4am-8am  - Total sales :" + gridSource[1].Field2 + " Orders: " + gridSource[1].Field8;
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(3, gridSource[1].Field3);  // 8am-12pm Reservation
 
+                            chart_res_dine_sales.Series["s_dine"].Points[2].ToolTip = "Dine 8am-12pm  - Total sales :" + gridSource[0].Field3 + " Orders: " + gridSource[0].Field9;
+                            chart_res_dine_sales.Series["s_reservation"].Points[2].ToolTip = "Reservation 8am-12pm  - Total sales :" + gridSource[1].Field3 + " Orders: " + gridSource[1].Field9;
 
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(4, gridSource[1].Field4);  // 12pm-4pm Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(3, gridSource[1].Field3);  // 8am-12pm Reservation
+                            chart_res_dine_sales.Series["s_dine"].Points[3].ToolTip = "Dine 12pm-4pm  - Total sales :" + gridSource[0].Field4 + " Orders: " + gridSource[0].Field10;
+                            chart_res_dine_sales.Series["s_reservation"].Points[3].ToolTip = "Reservation 12pm-4pm  - Total sales :" + gridSource[1].Field4 + " Orders: " + gridSource[1].Field10;
 
-                    chart_res_dine_sales.Series["s_dine"].Points[2].ToolTip = "Dine 8am-12pm  - Total sales :" + gridSource[0].Field3 + " Orders: " + gridSource[0].Field9;
-                    chart_res_dine_sales.Series["s_reservation"].Points[2].ToolTip = "Reservation 8am-12pm  - Total sales :" + gridSource[1].Field3 + " Orders: " + gridSource[1].Field9;
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(5, gridSource[1].Field5);  // 4pm-8pm Reservation
 
+                            chart_res_dine_sales.Series["s_dine"].Points[4].ToolTip = "Dine 4pm-8pm  - Total sales :" + gridSource[0].Field5 + " Orders: " + gridSource[0].Field11;
+                            chart_res_dine_sales.Series["s_reservation"].Points[4].ToolTip = "Reservation 4pm-8pm  - Total sales :" + gridSource[1].Field5 + " Orders: " + gridSource[1].Field11;
 
+                            chart_res_dine_sales.Series["s_dine"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am Dine
+                            chart_res_dine_sales.Series["s_reservation"].Points.AddXY(6, gridSource[1].Field6);  // 8pm-12am Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(4, gridSource[1].Field4);  // 12pm-4pm Reservation
+                            chart_res_dine_sales.Series["s_dine"].Points[5].ToolTip = "Dine 8pm-12am  - Total sales :" + gridSource[0].Field6 + " Orders: " + gridSource[0].Field12;
+                            chart_res_dine_sales.Series["s_reservation"].Points[5].ToolTip = "Reservation 8pm-12am  - Total sales :" + gridSource[1].Field6 + " Orders: " + gridSource[1].Field12;
+                        }));
+                    }
+                    else
+                    {
+                        chart_res_dine_sales.Series["s_dine"].Points.Clear();
+                        chart_res_dine_sales.Series["s_reservation"].Points.Clear();
 
-                    chart_res_dine_sales.Series["s_dine"].Points[3].ToolTip = "Dine 12pm-4pm  - Total sales :" + gridSource[0].Field4 + " Orders: " + gridSource[0].Field10;
-                    chart_res_dine_sales.Series["s_reservation"].Points[3].ToolTip = "Reservation 12pm-4pm  - Total sales :" + gridSource[1].Field4 + " Orders: " + gridSource[1].Field10;
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(1, gridSource[1].Field1);  // 12am-4am Reservation
 
+                        chart_res_dine_sales.Series["s_dine"].Points[0].ToolTip = "Dine 12am-4am - Total sales :" + gridSource[0].Field1 + " Orders: " + gridSource[0].Field7;
+                        chart_res_dine_sales.Series["s_reservation"].Points[0].ToolTip = "Reservation 12am-4am - Total sales :" + gridSource[1].Field1 + " Orders: " + gridSource[1].Field7;
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(5, gridSource[1].Field5);  // 4pm-8pm Reservation
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(2, gridSource[1].Field2);  // 4am-8am Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points[4].ToolTip = "Dine 4pm-8pm  - Total sales :" + gridSource[0].Field5 + " Orders: " + gridSource[0].Field11;
-                    chart_res_dine_sales.Series["s_reservation"].Points[4].ToolTip = "Reservation 4pm-8pm  - Total sales :" + gridSource[1].Field5 + " Orders: " + gridSource[1].Field11;
+                        chart_res_dine_sales.Series["s_dine"].Points[1].ToolTip = "Dine 4am-8am  - Total sales :" + gridSource[0].Field2 + " Orders: " + gridSource[0].Field8;
+                        chart_res_dine_sales.Series["s_reservation"].Points[1].ToolTip = "Reservation 4am-8am  - Total sales :" + gridSource[1].Field2 + " Orders: " + gridSource[1].Field8;
 
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(3, gridSource[1].Field3);  // 8am-12pm Reservation
 
-                    chart_res_dine_sales.Series["s_dine"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am Dine
-                    chart_res_dine_sales.Series["s_reservation"].Points.AddXY(6, gridSource[1].Field6);  // 8pm-12am Reservation
+                        chart_res_dine_sales.Series["s_dine"].Points[2].ToolTip = "Dine 8am-12pm  - Total sales :" + gridSource[0].Field3 + " Orders: " + gridSource[0].Field9;
+                        chart_res_dine_sales.Series["s_reservation"].Points[2].ToolTip = "Reservation 8am-12pm  - Total sales :" + gridSource[1].Field3 + " Orders: " + gridSource[1].Field9;
 
-                    chart_res_dine_sales.Series["s_dine"].Points[5].ToolTip = "Dine 8pm-12am  - Total sales :" + gridSource[0].Field6 + " Orders: " + gridSource[0].Field12;
-                    chart_res_dine_sales.Series["s_reservation"].Points[5].ToolTip = "Reservation 8pm-12am  - Total sales :" + gridSource[1].Field6 + " Orders: " + gridSource[1].Field12;
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(4, gridSource[1].Field4);  // 12pm-4pm Reservation
+
+                        chart_res_dine_sales.Series["s_dine"].Points[3].ToolTip = "Dine 12pm-4pm  - Total sales :" + gridSource[0].Field4 + " Orders: " + gridSource[0].Field10;
+                        chart_res_dine_sales.Series["s_reservation"].Points[3].ToolTip = "Reservation 12pm-4pm  - Total sales :" + gridSource[1].Field4 + " Orders: " + gridSource[1].Field10;
+
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(5, gridSource[1].Field5);  // 4pm-8pm Reservation
+
+                        chart_res_dine_sales.Series["s_dine"].Points[4].ToolTip = "Dine 4pm-8pm  - Total sales :" + gridSource[0].Field5 + " Orders: " + gridSource[0].Field11;
+                        chart_res_dine_sales.Series["s_reservation"].Points[4].ToolTip = "Reservation 4pm-8pm  - Total sales :" + gridSource[1].Field5 + " Orders: " + gridSource[1].Field11;
+
+                        chart_res_dine_sales.Series["s_dine"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am Dine
+                        chart_res_dine_sales.Series["s_reservation"].Points.AddXY(6, gridSource[1].Field6);  // 8pm-12am Reservation
+
+                        chart_res_dine_sales.Series["s_dine"].Points[5].ToolTip = "Dine 8pm-12am  - Total sales :" + gridSource[0].Field6 + " Orders: " + gridSource[0].Field12;
+                        chart_res_dine_sales.Series["s_reservation"].Points[5].ToolTip = "Reservation 8pm-12am  - Total sales :" + gridSource[1].Field6 + " Orders: " + gridSource[1].Field12;
+                    }
+
 
                 }
             }
@@ -1497,9 +1563,21 @@ namespace FoodandBeverage.Forms
                         DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
                         finYearList.Add(finYear);
                     }
-                    cmb_fin_year.DataSource = finYearList;
-                    cmb_fin_year.DisplayMember = "Value";
-                    cmb_fin_year.ValueMember = "Id";
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            cmb_fin_year.DataSource = finYearList;
+                            cmb_fin_year.DisplayMember = "Value";
+                            cmb_fin_year.ValueMember = "Id";
+                        }));
+                    }
+                    else
+                    {
+                        cmb_fin_year.DataSource = finYearList;
+                        cmb_fin_year.DisplayMember = "Value";
+                        cmb_fin_year.ValueMember = "Id";
+                    }
                 }
             }
             catch (Exception ex)
@@ -2067,15 +2145,7 @@ namespace FoodandBeverage.Forms
 
         private void dtp_dashboard_ValueChanged(object sender, EventArgs e)
         {
-            Filldashboard();
-            FillChartTwoBarChart();
-            FillCharttotaldiscountChart();
-            FillChartExpence();
-            Fillpaymentdetailed();
-            FillBoxdetailed();
-            FillFast_Slowing();
-            tcslow_move.SelectedIndex = 0;
-            tlp_box_frist.Focus();
+            RefreshCharts();
         }
 
         private void cmb_fin_year_SelectionChangeCommitted(object sender, EventArgs e)
@@ -2083,10 +2153,7 @@ namespace FoodandBeverage.Forms
             FillbarRrevenuChart();
         }
 
-        private void FrmDashboardReport_Resize(object sender, EventArgs e)
-        {
-            // cmb_fin_year.Location = new Point(Totalrevenuechart.Right, Totalrevenuechart.Top);
-        }
+
 
         private void btnclose_exp_view_Click(object sender, EventArgs e)
         {
@@ -2104,16 +2171,7 @@ namespace FoodandBeverage.Forms
         #endregion
         private void btnrefreshreport_Click(object sender, EventArgs e)
         {
-            ShowLoadingdGif();
-            Filldashboard();
-            FillChartTwoBarChart();
-            FillCharttotaldiscountChart();
-            FillChartExpence();
-            Fillpaymentdetailed();
-            FillBoxdetailed();
-            FillFast_Slowing();
-            tcslow_move.SelectedIndex = 0;
-            tlp_box_frist.Focus();
+            RefreshCharts();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

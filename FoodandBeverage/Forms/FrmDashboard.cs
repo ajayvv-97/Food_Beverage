@@ -79,7 +79,6 @@ namespace FoodandBeverage.Forms
             {
                 this.Opacity = 0;
                 this.Close();
-
                 if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
                 {
                     FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
@@ -108,14 +107,12 @@ namespace FoodandBeverage.Forms
         {
             lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
             this.Opacity = 0;
-
             Task.Run(() =>
             {
                 loadingForm = new LoadingGIF_Timer();
                 loadingForm.StartPosition = FormStartPosition.CenterScreen;
                 Application.Run(loadingForm);
             });
-
             LoadMainForm();
             //await Task.Delay(10000); 
             if (loadingForm != null && !loadingForm.IsDisposed)
@@ -123,7 +120,6 @@ namespace FoodandBeverage.Forms
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
             this.Opacity = 100;
-
         }
 
 
@@ -2507,7 +2503,15 @@ namespace FoodandBeverage.Forms
                 {
                     FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
                     if (_instanceFrmorderview.WindowState == FormWindowState.Minimized)
+                    {
                         _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
+                        if (_instanceFrmorderview.pnl_details_view.Visible != true)
+                            _instanceFrmorderview.refreshtimer_sub.Start();
+
+                        if (_instanceFrmorderview.pnl_ordergallery.Visible != true)                        
+                            _instanceFrmorderview.refreshtimer_main.Start();                        
+                    }
                     else
                     {
                         _instanceFrmorderview.Show();

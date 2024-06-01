@@ -89,7 +89,8 @@ namespace FoodandBeverage.Forms
         public static int iMainProductStatusno = 37;
         public static int iAddoncountno = 38;
         public static int ividno = 39;
-        public static int iComboTaxamtno = 40;
+        public static int iComboTaxamtno = 40; 
+        public static int iccodeno = 41;
 
         public static int vname = 0;
         public static int ciunit = 1;
@@ -6590,7 +6591,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.BookingFlag = 1;
                                     dmnorderdetail.KOTPrintStatus = 0;
-                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text); 
+                                    dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -6605,12 +6606,12 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0)
+                                if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferstatus].Value) == Convert.ToInt32(SubofferStatus.None))
                                 {
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
                                     dmnorderdetail.ItemBarCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) )
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -6641,6 +6642,11 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.TableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
                                     dmnorderdetail.MarketPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
 
+                                    dmnorderdetail.Pavid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value);
+                                    dmnorderdetail.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                    dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
+                                    dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
+
                                     if (txtentrie_descr.Text == "Description Type here .....")
                                         dmnorderdetail.MainRemarks = "";
                                     else
@@ -6655,12 +6661,13 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                    dmnorderdetail.KOTPrintStatus = 0;
                                     dmnorderdetail.BookingFlag = 0;
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-                                    dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
+                                    dmnorderdetail.CCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iccodeno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -6677,13 +6684,13 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        //if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                        //{
-                        //    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmTableView"] as FrmDashboard;
-                        //    _instanceFrmdash.Visible = true;
-                        //    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        //    _instanceFrmTableView.TableStaus(0);
-                        //}
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            GC.Collect();
+                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                            _instanceFrmTableView.TableStaus(0);
+                        }
+
                         //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         //{
                         //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
@@ -6694,10 +6701,11 @@ namespace FoodandBeverage.Forms
                         //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
                         //    _instanceFrmKitchenView.Fillorders();
                         //}
+
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Notify the kitchen view to refresh
                         ClearAll();
                         this.Close();
+                        this.Dispose();
                     }
 
                 }
@@ -9301,6 +9309,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
+                                    dmnorderdetail.CCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iccodeno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
                                     {
@@ -10051,6 +10060,7 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Rows[r1].Cells[ivaraiationstatusno].Value = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
                                 Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(item.Price);
                                 Dgv_Selected_Item.Rows[r1].Cells[ipavidno].Value = Convert.ToInt32(item.Pavid);
+                                Dgv_Selected_Item.Rows[r1].Cells[iccodeno].Value = Convert.ToString(item.CCode);
                                 Dgv_Selected_Item.Rows.Add(1);
                                 Total_Addon_Amt = Total_Addon_Amt + Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[iamount].Value);
                             }

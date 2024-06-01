@@ -27,7 +27,6 @@ namespace FoodandBeverage.Forms
         public FrmKitchenView()
         {
             InitializeComponent();
-
         }
 
         #region Declaration Grid
@@ -1665,8 +1664,8 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         {
                             FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.Filldetails(tid);
                             _instanceFrmOrderView.FillOrders();
+
                         }
                     }
                     
@@ -1747,7 +1746,6 @@ namespace FoodandBeverage.Forms
                         if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                         {
                             FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.Filldetails(tid);
                             _instanceFrmOrderView.FillOrders();
                         }
                     }
@@ -1912,7 +1910,6 @@ namespace FoodandBeverage.Forms
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                     {
                         FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                        _instanceFrmOrderView.Filldetails(tid);
                         _instanceFrmOrderView.FillOrders();
                     }
 

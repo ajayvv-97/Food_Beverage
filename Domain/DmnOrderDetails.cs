@@ -56,7 +56,7 @@ namespace Domain
         public string AV_id { get; set; }
         public int Addoncount { get; set; }
         public string Kitchennumber { get; set; }
-        public int vid { get; set; }
-
+        public int vid { get; set; }        
+        public string CCode { get; set; }
     } 
 }

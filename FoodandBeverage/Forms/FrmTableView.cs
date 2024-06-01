@@ -119,6 +119,7 @@ namespace FoodandBeverage.Forms
                     tlp_table_dashboard.Visible = false;
                     tlp_table_dashboard.Controls.Clear();                   
                     tlp_table_dashboard.AutoScroll = true;
+                    tlp_table_dashboard.BackColor = Color.Transparent;
                     int rowIndex_cate = 1;
 
                     foreach (var category in categoryList)
@@ -133,10 +134,11 @@ namespace FoodandBeverage.Forms
                         tlp_category.Controls.Clear();
                         //tlp_category.AutoScroll = true;
                         tlp_category.AutoSize = true;
+                        tlp_category.BackColor = Color.Transparent;
                         //tlp_category.BorderStyle = BorderStyle.FixedSingle;
                         ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
-                        tlp_category.MouseHover += tlp_category_MouseHover;
-                        tlp_category.MouseLeave += tlp_category_MouseLeave;
+                        //tlp_category.MouseHover += tlp_category_MouseHover;
+                        //tlp_category.MouseLeave += tlp_category_MouseLeave;
 
                         //Frist Row Cateory Heading
                         // Configure the Label
@@ -171,6 +173,8 @@ namespace FoodandBeverage.Forms
                                 tlp_table_inner.BorderStyle = BorderStyle.Fixed3D;
                                 tlp_table_inner.Dock = DockStyle.Left;
                                 tlp_table_inner.Margin = new Padding(15, 10, 15, 10);
+                                //tlp_table_inner.BackgroundImage = FoodandBeverage.Properties.Resources.bgdashboard_tiltlbar; ;
+                                //tlp_table_inner.BackgroundImageLayout = ImageLayout.Stretch;
                                 //tlp_table_inner.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
                                 //tlp_table_inner.Width = 100;
                                 //tlp_table_inner.Height = 65;
