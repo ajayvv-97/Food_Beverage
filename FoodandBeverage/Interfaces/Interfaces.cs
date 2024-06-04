@@ -245,6 +245,12 @@ namespace FoodandBeverage.Interfaces
         Selected = 1,
         Unselect = 0
     }
-
+    public enum DMY
+    {
+        DAY = 0,
+        MONTH = 1,
+        YEAR = 2,
+    }
+    
 }
 

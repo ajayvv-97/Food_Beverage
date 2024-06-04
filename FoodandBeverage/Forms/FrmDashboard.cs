@@ -13,6 +13,7 @@ using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FoodandBeverage.Forms
 {
@@ -114,7 +115,7 @@ namespace FoodandBeverage.Forms
                 Application.Run(loadingForm);
             });
             LoadMainForm();
-            //await Task.Delay(10000); 
+            //await Task.Delay(10000);
             if (loadingForm != null && !loadingForm.IsDisposed)
             {
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
@@ -127,9 +128,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                panelDesktop.Controls.Add(tlp_op_menu);
-                tlp_op_menu.Dock = DockStyle.Fill;
-                tlp_op_menu.Visible = true;
+                //panelDesktop.Controls.Add(tlp_op_menu);
+                //tlp_op_menu.Dock = DockStyle.Fill;
+                //tlp_op_menu.Visible = true;
 
                 int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                 int screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -156,8 +157,7 @@ namespace FoodandBeverage.Forms
                 tlp_main.BackColor = menubuttoncolor;
                 flp_navbar.BackColor = menubuttoncolor;
                 btn_minimium.BackColor = menubuttoncolor;
-                Menuhome.Focus();
-                this.DoubleBuffered = true;
+
                 RoundPictureBoxCorners(pb_appicon, 10);
                 //pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
                 Roundform(30);
@@ -206,8 +206,9 @@ namespace FoodandBeverage.Forms
                 ib_reservation.BackColor = opbuttoncolor;
                 ib_userpermission.BackColor = opbuttoncolor;
                 ib_addon.BackColor = opbuttoncolor;
+
                 textb_shape();
-                AppColorSetting();
+                RunMethodInSeparateThread(AppColorSetting);
                 //flpEmployee.Visible = false;
                 //ib_employee.Visible = false;
                 ib_designation.Visible = false;
@@ -217,15 +218,29 @@ namespace FoodandBeverage.Forms
                 ib_Discount_offer.Visible = false;
                 ib_Expence.Visible = false;
                 ib_PromoCode.Visible = false;
-                FormPermissionChecking();
-                #region Load Chart Form
-                panelDesktop.Controls.Clear();
 
+                RunMethodInSeparateThread(FormPermissionChecking);
+                panelDesktop.Visible = false;
+                Loadchart();
+                panelDesktop.Visible = true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void Loadchart()
+        {
+            try
+            {
+                #region Load Chart Form with thread
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
                     if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                    {
                         _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
                     else
                     {
                         _instanceDashboardReport.Dock = DockStyle.Fill;
@@ -242,28 +257,31 @@ namespace FoodandBeverage.Forms
                     _instanceDashboardReport.Dock = DockStyle.Fill;
                     ResizeForm(_instanceDashboardReport);
                     _instanceDashboardReport.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceDashboardReport);
-                    _instanceDashboardReport.Show();
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            panelDesktop.Controls.Add(_instanceDashboardReport);
+                            _instanceDashboardReport.Show();
+                        }));
+                    }
                     // _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceDashboardReport.BringToFront();
+
                 }
                 #endregion
-
-                //if (System.Windows.Forms.Application.OpenForms["LoadingGIF_Timer"] != null)
-                //{
-                //    FrmRegistration _instanceLoadingGIF = Application.OpenForms["LoadingGIF_Timer"] as FrmRegistration;
-                //    _instanceLoadingGIF.Close();
-                //}
-                //this.Opacity = 100;
-
             }
             catch (Exception ex)
             {
 
             }
         }
-
-
+       
+        private static void RunMethodInSeparateThread(Action action)
+        {
+            var thread = new Thread(new ThreadStart(action));
+            thread.Start();
+        }
 
         #region Color Setting
         private bool IsValidHtmlColor(string color)
@@ -292,147 +310,158 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    if (gridSource[0].APPColor == null && gridSource[0].OperationButtonColor == null && gridSource[0].MenuButtonColor == null)
+                    if (this.IsHandleCreated)
                     {
-                        opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-                        pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-                        ib_Category.BackColor = opbuttoncolor;
-                        ib_Item.BackColor = opbuttoncolor;
-                        ib_ingrediant.BackColor = opbuttoncolor;
-                        ib_menu.BackColor = opbuttoncolor;
-                        ib_unit.BackColor = opbuttoncolor;
-                        ib_table.BackColor = opbuttoncolor;
-                        ib_purchase.BackColor = opbuttoncolor;
-                        ib_purchasereturn.BackColor = opbuttoncolor;
-                        ib_tax.BackColor = opbuttoncolor;
-                        ib_vendor.BackColor = opbuttoncolor;
-                        ib_Discount_offer.BackColor = opbuttoncolor;
-                        ib_Expence.BackColor = opbuttoncolor;
-                        ib_orderview.BackColor = opbuttoncolor;
-                        ib_kitchenview.BackColor = opbuttoncolor;
-                        ib_PromoCode.BackColor = opbuttoncolor;
-                        ib_Company.BackColor = opbuttoncolor;
-                        ib_useraccount.BackColor = opbuttoncolor;
-                        ib_designation.BackColor = opbuttoncolor;
-                        ib_department.BackColor = opbuttoncolor;
-                        ib_employee.BackColor = opbuttoncolor;
-                        ib_reservation.BackColor = opbuttoncolor;
-                        ib_userpermission.BackColor = opbuttoncolor;
-                        ib_addon.BackColor = opbuttoncolor;
+                        this.Invoke(new Action(() =>
+                        {
+                            if (gridSource[0].APPColor == null && gridSource[0].OperationButtonColor == null && gridSource[0].MenuButtonColor == null)
+                            {
+                                opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                                pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Item.BackColor = opbuttoncolor;
+                                ib_ingrediant.BackColor = opbuttoncolor;
+                                ib_menu.BackColor = opbuttoncolor;
+                                ib_unit.BackColor = opbuttoncolor;
+                                ib_table.BackColor = opbuttoncolor;
+                                ib_purchase.BackColor = opbuttoncolor;
+                                ib_purchasereturn.BackColor = opbuttoncolor;
+                                ib_tax.BackColor = opbuttoncolor;
+                                ib_vendor.BackColor = opbuttoncolor;
+                                ib_Discount_offer.BackColor = opbuttoncolor;
+                                ib_Expence.BackColor = opbuttoncolor;
+                                ib_orderview.BackColor = opbuttoncolor;
+                                ib_kitchenview.BackColor = opbuttoncolor;
+                                ib_PromoCode.BackColor = opbuttoncolor;
+                                ib_Company.BackColor = opbuttoncolor;
+                                ib_useraccount.BackColor = opbuttoncolor;
+                                ib_designation.BackColor = opbuttoncolor;
+                                ib_department.BackColor = opbuttoncolor;
+                                ib_employee.BackColor = opbuttoncolor;
+                                ib_reservation.BackColor = opbuttoncolor;
+                                ib_userpermission.BackColor = opbuttoncolor;
+                                ib_addon.BackColor = opbuttoncolor;
 
-                        menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
-                        pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-                        Menuhome.BackColor = menubuttoncolor;
-                        Menuoperation.BackColor = menubuttoncolor;
-                        Menubilling.BackColor = menubuttoncolor;
-                        Menureport.BackColor = menubuttoncolor;
-                        Menulogout.BackColor = menubuttoncolor;
-                        Menusetting.BackColor = menubuttoncolor;
-                        menuEmployee.BackColor = menubuttoncolor;
-                        Menutable.BackColor = menubuttoncolor;
+                                menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                                pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+                                Menuhome.BackColor = menubuttoncolor;
+                                Menuoperation.BackColor = menubuttoncolor;
+                                Menubilling.BackColor = menubuttoncolor;
+                                Menureport.BackColor = menubuttoncolor;
+                                Menulogout.BackColor = menubuttoncolor;
+                                Menusetting.BackColor = menubuttoncolor;
+                                menuEmployee.BackColor = menubuttoncolor;
+                                Menutable.BackColor = menubuttoncolor;
 
-                        tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-                        pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
+                                tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                                pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
 
-                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                            txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                            txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                        if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                            txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
+                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                                    txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                                    txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
+                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                                    txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
 
-                        Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-                        if (btnsetting != null)
-                            btnsetting.BackColor = opbuttoncolor;
-                    }
-                    else
-                    {
-                        Color colorapp, coloropera, colormenu;
-                        if (IsValidHtmlColor(gridSource[0].APPColor))
-                            colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
-                        else
-                            colorapp = Color.FromArgb(34, 46, 80);
-                        // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
+                                Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                                if (btnsetting != null)
+                                    btnsetting.BackColor = opbuttoncolor;
+                            }
+                            else
+                            {
+                                Color colorapp, coloropera, colormenu;
+                                if (IsValidHtmlColor(gridSource[0].APPColor))
+                                    colorapp = System.Drawing.ColorTranslator.FromHtml(gridSource[0].APPColor);
+                                else
+                                    colorapp = Color.FromArgb(34, 46, 80);
+                                // opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;  menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
 
-                        if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
-                            coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
-                        else
-                            coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
+                                if (IsValidHtmlColor(gridSource[0].OperationButtonColor))
+                                    coloropera = System.Drawing.ColorTranslator.FromHtml(gridSource[0].OperationButtonColor);
+                                else
+                                    coloropera = Color.FromArgb(0x42, 0x67, 0xB2);
 
-                        if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
-                            colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
-                        else
-                            colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
+                                if (IsValidHtmlColor(gridSource[0].MenuButtonColor))
+                                    colormenu = System.Drawing.ColorTranslator.FromHtml(gridSource[0].MenuButtonColor);
+                                else
+                                    colormenu = Color.FromArgb(0x42, 0x67, 0xB2);
 
-                        if (gridSource[0].Gmail)
-                            chk_gmail.Checked = true;
-                        if (gridSource[0].Whatsapp)
-                            chk_whatsapp.Checked = true;
+                                if (gridSource[0].Gmail)
+                                    chk_gmail.Checked = true;
+                                if (gridSource[0].Whatsapp)
+                                    chk_whatsapp.Checked = true;
 
-                        opbuttoncolor = coloropera;
-                        menubuttoncolor = colormenu;
-                        txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
-                        txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
-                        txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
-                        txtsid.Text = Convert.ToString(gridSource[0].SId);
+                                opbuttoncolor = coloropera;
+                                menubuttoncolor = colormenu;
+                                txtappcolorname.Text = Convert.ToString(gridSource[0].APPColor);
+                                txtmenubuttoncolorname.Text = Convert.ToString(gridSource[0].MenuButtonColor);
+                                txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
+                                txtsid.Text = Convert.ToString(gridSource[0].SId);
 
 
-                        ib_Category.BackColor = opbuttoncolor;
-                        ib_Item.BackColor = opbuttoncolor;
-                        ib_ingrediant.BackColor = opbuttoncolor;
-                        ib_menu.BackColor = opbuttoncolor;
-                        ib_unit.BackColor = opbuttoncolor;
-                        ib_table.BackColor = opbuttoncolor;
-                        ib_purchase.BackColor = opbuttoncolor;
-                        ib_purchasereturn.BackColor = opbuttoncolor;
-                        ib_tax.BackColor = opbuttoncolor;
-                        ib_vendor.BackColor = opbuttoncolor;
-                        ib_Discount_offer.BackColor = opbuttoncolor;
-                        ib_Expence.BackColor = opbuttoncolor;
-                        ib_orderview.BackColor = opbuttoncolor;
-                        ib_kitchenview.BackColor = opbuttoncolor;
-                        ib_PromoCode.BackColor = opbuttoncolor;
-                        ib_Company.BackColor = opbuttoncolor;
-                        ib_useraccount.BackColor = opbuttoncolor;
-                        ib_designation.BackColor = opbuttoncolor;
-                        ib_department.BackColor = opbuttoncolor;
-                        ib_employee.BackColor = opbuttoncolor;
-                        ib_reservation.BackColor = opbuttoncolor;
-                        ib_userpermission.BackColor = opbuttoncolor;
-                        ib_addon.BackColor = opbuttoncolor;
-                        pbopbuttoncoloepicker.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Item.BackColor = opbuttoncolor;
+                                ib_ingrediant.BackColor = opbuttoncolor;
+                                ib_menu.BackColor = opbuttoncolor;
+                                ib_unit.BackColor = opbuttoncolor;
+                                ib_table.BackColor = opbuttoncolor;
+                                ib_purchase.BackColor = opbuttoncolor;
+                                ib_purchasereturn.BackColor = opbuttoncolor;
+                                ib_tax.BackColor = opbuttoncolor;
+                                ib_vendor.BackColor = opbuttoncolor;
+                                ib_Discount_offer.BackColor = opbuttoncolor;
+                                ib_Expence.BackColor = opbuttoncolor;
+                                ib_orderview.BackColor = opbuttoncolor;
+                                ib_kitchenview.BackColor = opbuttoncolor;
+                                ib_PromoCode.BackColor = opbuttoncolor;
+                                ib_Company.BackColor = opbuttoncolor;
+                                ib_useraccount.BackColor = opbuttoncolor;
+                                ib_designation.BackColor = opbuttoncolor;
+                                ib_department.BackColor = opbuttoncolor;
+                                ib_employee.BackColor = opbuttoncolor;
+                                ib_reservation.BackColor = opbuttoncolor;
+                                ib_userpermission.BackColor = opbuttoncolor;
+                                ib_addon.BackColor = opbuttoncolor;
+                                pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
-                        Menuhome.BackColor = menubuttoncolor;
-                        Menuoperation.BackColor = menubuttoncolor;
-                        Menubilling.BackColor = menubuttoncolor;
-                        Menureport.BackColor = menubuttoncolor;
-                        Menulogout.BackColor = menubuttoncolor;
-                        Menusetting.BackColor = menubuttoncolor;
-                        menuEmployee.BackColor = menubuttoncolor;
-                        Menutable.BackColor = menubuttoncolor;
-                        pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
+                                Menuhome.BackColor = menubuttoncolor;
+                                Menuoperation.BackColor = menubuttoncolor;
+                                Menubilling.BackColor = menubuttoncolor;
+                                Menureport.BackColor = menubuttoncolor;
+                                Menulogout.BackColor = menubuttoncolor;
+                                Menusetting.BackColor = menubuttoncolor;
+                                menuEmployee.BackColor = menubuttoncolor;
+                                Menutable.BackColor = menubuttoncolor;
+                                pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
-                        pbappcoloepicker.BackColor = colorapp;
-                        tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+                                pbappcoloepicker.BackColor = colorapp;
+                                tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+                            }
+                        }));
                     }
 
                 }
                 else
                 {
-                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                         txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                         txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
                         txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
                     txtsid.Text = "0";
+                }));
+            }
                 }
             }
             catch (Exception ex)
             {
 
             }
-
 
         }
         #endregion
@@ -584,7 +613,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 //if (screenWidth > 1367 && screenHeight > 769)
                 //{
                 //    foreach (Control control in flp_operations.Controls)
@@ -605,13 +633,14 @@ namespace FoodandBeverage.Forms
                 //        }
                 //    }
                 //}
-                panelDesktop.SuspendLayout();
+                //panelDesktop.SuspendLayout();
 
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
                 }
                 panelDesktop.Controls.Clear();
+
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
@@ -644,7 +673,7 @@ namespace FoodandBeverage.Forms
                 {
                     CloseTableViewPage();
                 }
-                panelDesktop.ResumeLayout();
+                //panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -3160,104 +3189,110 @@ namespace FoodandBeverage.Forms
                 {
                     for (int i = gridesource.Count() - 1; i >= 0; i--)
                     {
-                        if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
+                        if (this.IsHandleCreated)
                         {
-                            ib_orderview.Visible = true;
+                            this.Invoke(new Action(() =>
+                            {
+                                if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
+                                {
+                                    ib_orderview.Visible = true;
 
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
-                        {
-                            ib_kitchenview.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
+                                {
+                                    ib_kitchenview.Visible = true;
 
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
-                        {
-                            ib_Category.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
-                        {
-                            ib_Item.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
-                        {
-                            ib_ingrediant.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
-                        {
-                            ib_menu.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
-                        {
-                            ib_unit.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
-                        {
-                            ib_table.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
-                        {
-                            ib_purchase.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
-                        {
-                            ib_purchasereturn.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
-                        {
-                            ib_tax.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
-                        {
-                            ib_vendor.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
-                        {
-                            ib_Discount_offer.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
+                                {
+                                    ib_Category.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
+                                {
+                                    ib_Item.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
+                                {
+                                    ib_ingrediant.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
+                                {
+                                    ib_menu.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
+                                {
+                                    ib_unit.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
+                                {
+                                    ib_table.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
+                                {
+                                    ib_purchase.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
+                                {
+                                    ib_purchasereturn.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
+                                {
+                                    ib_tax.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
+                                {
+                                    ib_vendor.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
+                                {
+                                    ib_Discount_offer.Visible = true;
 
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
-                        {
-                            ib_Expence.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
-                        {
-                            ib_PromoCode.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
-                        {
-                            ib_Company.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
-                        {
-                            ib_reservation.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
-                        {
-                            ib_employee.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
-                        {
-                            ib_department.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
-                        {
-                            ib_designation.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
-                        {
-                            ib_useraccount.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
-                        {
-                            ib_userpermission.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
-                        {
-                            ib_orderview.Visible = true;
-                        }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Status == 1)
-                        {
-                            ib_addon.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
+                                {
+                                    ib_Expence.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
+                                {
+                                    ib_PromoCode.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
+                                {
+                                    ib_Company.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
+                                {
+                                    ib_reservation.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
+                                {
+                                    ib_employee.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
+                                {
+                                    ib_department.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
+                                {
+                                    ib_designation.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
+                                {
+                                    ib_useraccount.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
+                                {
+                                    ib_userpermission.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
+                                {
+                                    ib_orderview.Visible = true;
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Status == 1)
+                                {
+                                    ib_addon.Visible = true;
+                                }
+                            }));
                         }
                     }
                 }
@@ -3658,8 +3693,7 @@ namespace FoodandBeverage.Forms
 
             }
 
-        }
-        
+        }      
     }
 
 }

@@ -1,10 +1,12 @@
 ﻿using BLL;
 using Domain;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -31,7 +33,11 @@ namespace FoodandBeverage.Forms
         #region Declaration
         private List<DmnGridFields> Expencedata;
         public bool flagexit = false;
-        private List<DmnGridFields> Result_table_menu;
+        private List<DmnGridFields> Result_table_menu; 
+        public int companystartYear = 0;
+
+        public DateTime startDate;
+        public DateTime endDate;
 
         private int currentPage = 1;
         private int totalPages = 0;
@@ -47,8 +53,9 @@ namespace FoodandBeverage.Forms
         Color baseColor = Color.DarkGray; 
         Color pressedColor = Color.LightGray;
         Color unpressedColor = Color.FromArgb(225, 242, 255); 
-        Color activeColor = Color.FromArgb(255, 255, 255); 
+        Color activeColor = Color.FromArgb(255, 255, 255);
 
+        List<DmnGridFields> resultslowfastdata = new List<DmnGridFields>();
         #endregion
 
         #region Grid Declaration
@@ -93,21 +100,20 @@ namespace FoodandBeverage.Forms
 
         private void FrmDashboardReport_Load(object sender, EventArgs e)
         {
-            RunMethodInSeparateThread(Filldashboard);
+            Fill_combo_finyear();
             SetupChartTwoBar();
-            RunMethodInSeparateThread(FillChartTwoBarChart);
-            RunMethodInSeparateThread(Fill_combo_finyear);
             SetupChart_Revenue();
-            RunMethodInSeparateThread(FillbarRrevenuChart);
             SetupCharttotaldiscount();
-            RunMethodInSeparateThread(FillCharttotaldiscountChart);
             SetupChartExpence();
+
+            RunMethodInSeparateThread(Filldashboard);
+            RunMethodInSeparateThread(FillChartTwoBarChart);
+            RunMethodInSeparateThread(FillbarRrevenuChart);
+            RunMethodInSeparateThread(FillChartExpence);
+            RunMethodInSeparateThread(FillCharttotaldiscountChart);
             RunMethodInSeparateThread(Fillpaymentdetailed);
             RunMethodInSeparateThread(FillBoxdetailed);
-            RunMethodInSeparateThread(Filldashboard);
-            RunMethodInSeparateThread(FillFast_Slowing);           
-
-            tcslow_move.SelectedIndex = 1;
+            RunMethodInSeparateThread(LoadSlowfastData);
             tlp_box_frist.Focus();
 
             #region Box Details Grid 
@@ -123,7 +129,6 @@ namespace FoodandBeverage.Forms
             dgv_activedine.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv_activedine.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgv_activedine.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
             //dgv_cancelorders
 
             dgv_cancelorders.BorderStyle = BorderStyle.None;
@@ -179,7 +184,7 @@ namespace FoodandBeverage.Forms
 
             rdproductoffer.Checked = true;
 
-            SetColumnPadding(tlp_pagination, 2,5, new Padding(20, 10, 20, 10));
+            SetColumnPadding(tlp_pagination, 2, 5, new Padding(20, 10, 20, 10));
 
             #endregion
         }
@@ -196,12 +201,14 @@ namespace FoodandBeverage.Forms
             try
             {
                 ShowLoadingdGif();
+                RunMethodInSeparateThread(LoadSlowfastData);
                 RunMethodInSeparateThread(Filldashboard);
+
                 RunMethodInSeparateThread(FillChartTwoBarChart);
                 RunMethodInSeparateThread(FillCharttotaldiscountChart);
                 RunMethodInSeparateThread(FillChartExpence);
                 RunMethodInSeparateThread(Fillpaymentdetailed);
-                RunMethodInSeparateThread(FillFast_Slowing);
+
                 tcslow_move.SelectedIndex = 0;
                 tlp_box_frist.Focus();
             }
@@ -213,45 +220,7 @@ namespace FoodandBeverage.Forms
         #endregion
 
 
-        #region  FAST AND SOLW MOVING ITEMS
-        public void FillFast_Slowing()
-        {
-            try
-            {
-                //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                //DmnSearch dmnSearch = new DmnSearch();
-                //dmnSearch.Select = " count(*) Field1,0 Field2,0 Field3,0 Field4,0 Field5 ";
-                //dmnSearch.Table = " tblOrderMaster where Status=1  AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
-                //                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
-                //                  " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5 from tblMenu where Status = 1" +
-                //                  " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5 from tblOfferMaster where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
-                //                  " union select  0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5 from tblbookMaster where  Status = 1 AND BookingDateTime <= SYSDATETIME() AND BookingDateTime >= SYSDATETIME()";
-                //dmnSearch.WhereNdGroupBy = " ";
-                //dmnSearch.OrderBy = "";
-                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                //if (gridSource.Count > 0)
-                //{
-                //    lblactive.Text = Convert.ToString(gridSource[0].Field1);
-                //    lblcancelled.Text = Convert.ToString(gridSource[0].Field2);
-                //    lblfoodmenu.Text = Convert.ToString(gridSource[0].Field3);
-                //    lblactivepromo.Text = Convert.ToString(gridSource[0].Field4);
-                //    lblupreserva.Text = Convert.ToString(gridSource[0].Field5);
-                //}
-                //else
-                //{
-                //    lblactive.Text = "0.00";
-                //    lblcancelled.Text = "0.00";
-                //    lblfoodmenu.Text = "0.00";
-                //    lblactivepromo.Text = "0.00";
-                //    lblupreserva.Text = "0.00";
-                //}
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        #endregion
+       
 
         #region  BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
         private void dgv_reservation_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -496,7 +465,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
             }
         }
         public void FillBoxdetailed()
@@ -525,19 +493,31 @@ namespace FoodandBeverage.Forms
 
                 if (gridSource.Count > 0)
                 {
-                    lblactive.Text = Convert.ToString(columnSums.Field1);
-                    lblcancelled.Text = Convert.ToString(columnSums.Field2);
-                    lblfoodmenu.Text = Convert.ToString(columnSums.Field3);
-                    lblactivepromo.Text = Convert.ToString(columnSums.Field4);
-                    lblupreserva.Text = Convert.ToString(columnSums.Field5);
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            lblactive.Text = Convert.ToString(columnSums.Field1);
+                            lblcancelled.Text = Convert.ToString(columnSums.Field2);
+                            lblfoodmenu.Text = Convert.ToString(columnSums.Field3);
+                            lblactivepromo.Text = Convert.ToString(columnSums.Field4);
+                            lblupreserva.Text = Convert.ToString(columnSums.Field5);
+                        }));
+                    }
                 }
                 else
                 {
-                    lblactive.Text = "0.00";
-                    lblcancelled.Text = "0.00";
-                    lblfoodmenu.Text = "0.00";
-                    lblactivepromo.Text = "0.00";
-                    lblupreserva.Text = "0.00";
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            lblactive.Text = "0.00";
+                            lblcancelled.Text = "0.00";
+                            lblfoodmenu.Text = "0.00";
+                            lblactivepromo.Text = "0.00";
+                            lblupreserva.Text = "0.00";
+                        }));
+                    }
                 }
             }
             catch (Exception ex)
@@ -1161,30 +1141,42 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    ibcash.Text = "\u20B9" + Convert.ToString(gridSource[0].Field1);
-                    ibcreditcard.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);
-                    ibupi.Text = "\u20B9" + Convert.ToString(gridSource[0].Field3);
-                    ibrupay.Text = "\u20B9" + Convert.ToString(gridSource[0].Field4);
-                    ibnetbanking.Text = "\u20B9" + Convert.ToString(gridSource[0].Field5);
-                    ibothers.Text = "\u20B9" + Convert.ToString(gridSource[0].Field6);
-                    ibpart.Text = "\u20B9" + Convert.ToString(gridSource[0].Field7);
-                    ibsplit.Text = "\u20B9" + Convert.ToString(gridSource[0].Field8);
-                    decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
-                                       Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
-                                       Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
-                    ibtotalsumpayment.Text = "\u20B9" + Convert.ToString(sumtotal);
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            ibcash.Text = "\u20B9" + Convert.ToString(gridSource[0].Field1);
+                            ibcreditcard.Text = "\u20B9" + Convert.ToString(gridSource[0].Field2);
+                            ibupi.Text = "\u20B9" + Convert.ToString(gridSource[0].Field3);
+                            ibrupay.Text = "\u20B9" + Convert.ToString(gridSource[0].Field4);
+                            ibnetbanking.Text = "\u20B9" + Convert.ToString(gridSource[0].Field5);
+                            ibothers.Text = "\u20B9" + Convert.ToString(gridSource[0].Field6);
+                            ibpart.Text = "\u20B9" + Convert.ToString(gridSource[0].Field7);
+                            ibsplit.Text = "\u20B9" + Convert.ToString(gridSource[0].Field8);
+                            decimal sumtotal = Convert.ToDecimal(gridSource[0].Field1) + Convert.ToDecimal(gridSource[0].Field2) + Convert.ToDecimal(gridSource[0].Field3) +
+                                               Convert.ToDecimal(gridSource[0].Field4) + Convert.ToDecimal(gridSource[0].Field5) + Convert.ToDecimal(gridSource[0].Field6) +
+                                               Convert.ToDecimal(gridSource[0].Field7) + Convert.ToDecimal(gridSource[0].Field8);
+                            ibtotalsumpayment.Text = "\u20B9" + Convert.ToString(sumtotal);
+                        }));
+                    }
                 }
                 else
                 {
-                    ibcash.Text = "0.00";
-                    ibcreditcard.Text = "0.00";
-                    ibupi.Text = "0.00";
-                    ibrupay.Text = "0.00";
-                    ibnetbanking.Text = "0.00";
-                    ibothers.Text = "0.00";
-                    ibpart.Text = "0.00";
-                    ibsplit.Text = "0.00";
-                    ibtotalsumpayment.Text = "0.00";
+                        if (this.IsHandleCreated)
+                        {
+                            this.Invoke(new Action(() =>
+                            {
+                                ibcash.Text = "0.00";
+                                ibcreditcard.Text = "0.00";
+                                ibupi.Text = "0.00";
+                                ibrupay.Text = "0.00";
+                                ibnetbanking.Text = "0.00";
+                                ibothers.Text = "0.00";
+                                ibpart.Text = "0.00";
+                                ibsplit.Text = "0.00";
+                                ibtotalsumpayment.Text = "0.00";
+                            }));
+                        }
                 }
             }
             catch (Exception ex)
@@ -1201,16 +1193,28 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 " +
-                " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END) AS Field1," +
-                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
+                //dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 " +
+                //" union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END) AS Field1," +
+                //" isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
+                //" from tblSalesMaster sm where sm.Rev_Status=0 and sm.Status = 1" +
+                //" union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
+                //" isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN sm.netamount ELSE 0 END),0) AS Field2";
+                //dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
+                //dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
+                //dmnSearch.OrderBy = "";
+
+
+                dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 and CONVERT(DATE,EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "'" +
+                " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN 1 ELSE 0 END) AS Field1," +
+                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN netamount ELSE 0 END),0) AS Field2" +
                 " from tblSalesMaster sm where sm.Rev_Status=0 and sm.Status = 1" +
-                " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
-                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN sm.netamount ELSE 0 END),0) AS Field2";
+                " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN 1 ELSE 0 END),0) AS Field1 ," +
+                " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN sm.netamount ELSE 0 END),0) AS Field2";
                 dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
                 dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                 if (gridSource.Count > 0)
                 {
                     if (this.IsHandleCreated)
@@ -1271,6 +1275,25 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                DateTime C_startDate = DateTime.Now;
+                DateTime C_endDate = DateTime.Now;
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.MONTH) || Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.YEAR))
+                        {
+                            C_startDate = DateTime.Now;
+                            C_endDate = DateTime.Now;
+                        }
+                        else
+                        {
+                            C_startDate = startDate;
+                            C_endDate = endDate;
+                        }
+                    }));
+                }
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "0 as Field13, SUM(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 00 AND 4 THEN netamount ELSE 0 END) AS Field1, " +
@@ -1285,8 +1308,8 @@ namespace FoodandBeverage.Forms
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 12 AND 16 THEN 1 END) AS Field10," +
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 16 AND 20 THEN 1 END) AS Field11," +
                                     " COUNT(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 20 AND 24 THEN 1 END) AS Field12" +
-                    " FROM tblSalesMaster WHERE Status = 1 and Rev_Status=0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') union " +
-                    "select  1 as Field13,SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 00 AND 4 THEN netamount ELSE 0 END) AS Field1," +
+                                    " FROM tblSalesMaster WHERE Status = 1 and Rev_Status=0 AND   CONVERT(DATE, CreatedDateTime) BETWEEN '" + C_startDate.ToString("yyyy-MM-dd") + "' AND '" + C_endDate.ToString("yyyy-MM-dd") + "'"+
+                                    "union select  1 as Field13,SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 00 AND 4 THEN netamount ELSE 0 END) AS Field1," +
                                     "SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 4 AND 8 THEN netamount ELSE 0 END) AS Field2," +
                                     "SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 8 AND 12 THEN netamount ELSE 0 END) AS Field3," +
                                     "SUM(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 12 AND 16 THEN netamount ELSE 0 END) AS Field4," +
@@ -1299,7 +1322,7 @@ namespace FoodandBeverage.Forms
                                     "COUNT(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 16 AND 20 THEN 1 END) AS Field11," +
                                     "COUNT(CASE WHEN DATEPART(HOUR, sm.CreatedDateTime) BETWEEN 20 AND 24 THEN 1 END) AS Field12";
                 dmnSearch.Table = "tblSalesMaster sm  ";
-                dmnSearch.WhereNdGroupBy = " where sm.Rev_Status=1 AND sm.Status=1 AND CONVERT(DATE, sm.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') ";
+                dmnSearch.WhereNdGroupBy = " where sm.Rev_Status=1 AND sm.Status=1 AND CONVERT(DATE, sm.CreatedDateTime) BETWEEN '" + C_startDate.ToString("yyyy-MM-dd") + "' AND '" + C_endDate.ToString("yyyy-MM-dd") + "'";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
@@ -1459,14 +1482,22 @@ namespace FoodandBeverage.Forms
                 {
                     DateTime financialYearStart;
                     DateTime financialYearEnd;
-                    int fin_year;
-                    if (cmb_fin_year.SelectedIndex == -1)
+                    int fin_year=0;
+                    if (this.IsHandleCreated)
                     {
-                        DateTime currentDate = DateTime.Now;
-                        fin_year = (currentDate.Month < 4) ? currentDate.Year - 1 : currentDate.Year;
+                        this.Invoke(new Action(() =>
+                        {
+                            if (cmb_fin_year.SelectedIndex == -1)
+                            {
+                                DateTime currentDate = DateTime.Now;
+                                fin_year = (currentDate.Month < 4) ? currentDate.Year - 1 : currentDate.Year;
+                            }
+                            else
+                            {
+                                fin_year = Convert.ToInt32(cmb_fin_year.SelectedValue);
+                            }
+                        }));
                     }
-                    else
-                        fin_year = Convert.ToInt32(cmb_fin_year.SelectedValue);
 
                     financialYearStart = new DateTime(fin_year, 4, 1);
                     financialYearEnd = new DateTime(fin_year + 1, 3, 31);
@@ -1480,6 +1511,7 @@ namespace FoodandBeverage.Forms
                     var sortedResult = invoiceBillMasters
                         .OrderBy(item => CustomOrder(item.nFld1))
                         .ToList();
+
                     int CustomOrder(int nFld1)
                     {
                         if (nFld1 >= 4 && nFld1 <= 12)
@@ -1490,53 +1522,52 @@ namespace FoodandBeverage.Forms
 
                     if (sortedResult.Count > 0)
                     {
-                        Totalrevenuechart.Series["Sales"].Points.Clear();
-                        Totalrevenuechart.Series["Purchase"].Points.Clear();
-                        Totalrevenuechart.Series["PurchaseReturn"].Points.Clear();
-
-                        for (int i = 0; i < sortedResult.Count; i++)
+                        if (this.IsHandleCreated)
                         {
-                            Totalrevenuechart.Series["Sales"].Points.AddXY(i + 1, sortedResult[i].dFld1);
-                            Totalrevenuechart.Series["Purchase"].Points.AddXY(i + 1, sortedResult[i].dFld2);
-                            Totalrevenuechart.Series["PurchaseReturn"].Points.AddXY(i + 1, sortedResult[i].dFld3);
+                            this.Invoke(new Action(() =>
+                            {
+                                Totalrevenuechart.Series["Sales"].Points.Clear();
+                                Totalrevenuechart.Series["Purchase"].Points.Clear();
+                                Totalrevenuechart.Series["PurchaseReturn"].Points.Clear();
 
-                            Totalrevenuechart.Series["Sales"].Points[i].ToolTip = $"Sales: " + sortedResult[i].dFld1;
-                            Totalrevenuechart.Series["Purchase"].Points[i].ToolTip = $"Purchase: " + sortedResult[i].dFld2;
-                            Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: " + sortedResult[i].dFld3;
+                                for (int i = 0; i < sortedResult.Count; i++)
+                                {
+                                    Totalrevenuechart.Series["Sales"].Points.AddXY(i + 1, sortedResult[i].dFld1);
+                                    Totalrevenuechart.Series["Purchase"].Points.AddXY(i + 1, sortedResult[i].dFld2);
+                                    Totalrevenuechart.Series["PurchaseReturn"].Points.AddXY(i + 1, sortedResult[i].dFld3);
+
+                                    Totalrevenuechart.Series["Sales"].Points[i].ToolTip = $"Sales: {sortedResult[i].dFld1}";
+                                    Totalrevenuechart.Series["Purchase"].Points[i].ToolTip = $"Purchase: {sortedResult[i].dFld2}";
+                                    Totalrevenuechart.Series["PurchaseReturn"].Points[i].ToolTip = $"Purchase Return: {sortedResult[i].dFld3}";
+                                }
+
+                                Totalrevenuechart.ChartAreas[0].AxisX.Interval = 1;
+                                Totalrevenuechart.ChartAreas[0].AxisX.Minimum = 0;
+                                Totalrevenuechart.ChartAreas[0].AxisX.Maximum = 13;
+
+                                Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Clear();
+                                for (int i = 0; i < 12; i++)
+                                {
+                                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(i + 0.5, i + 1.5, financialYearStart.AddMonths(i).ToString("MMM-yyyy"));
+                                }
+                                Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+                                Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Angle = 0;
+
+                                Title existingTitle = Totalrevenuechart.Titles.FirstOrDefault(t => t.Text.StartsWith("Annual Report"));
+                                if (existingTitle != null)
+                                {
+                                    existingTitle.Text = $"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}";
+                                }
+                            }));
                         }
                     }
-
-                    Totalrevenuechart.ChartAreas[0].AxisX.Interval = 1;
-                    Totalrevenuechart.ChartAreas[0].AxisX.Minimum = 0;
-                    Totalrevenuechart.ChartAreas[0].AxisX.Maximum = 13;
-
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Clear();
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(0.5, 1.5, $"{financialYearStart:MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(1.5, 2.5, $"{financialYearStart.AddMonths(1):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(2.5, 3.5, $"{financialYearStart.AddMonths(2):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(3.5, 4.5, $"{financialYearStart.AddMonths(3):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(4.5, 5.5, $"{financialYearStart.AddMonths(4):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(5.5, 6.5, $"{financialYearStart.AddMonths(5):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(6.5, 7.5, $"{financialYearStart.AddMonths(6):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(7.5, 8.5, $"{financialYearStart.AddMonths(7):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(8.5, 9.5, $"{financialYearStart.AddMonths(8):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(9.5, 10.5, $"{financialYearStart.AddMonths(9):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(10.5, 11.5, $"{financialYearStart.AddMonths(10):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.CustomLabels.Add(11.5, 12.5, $"{financialYearStart.AddMonths(11):MMM-yyyy}");
-                    Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-                    Totalrevenuechart.ChartAreas[0].AxisX.LabelStyle.Angle = 0;
-
-
-                    Title existingTitle = Totalrevenuechart.Titles.FirstOrDefault(t => t.Text.StartsWith("Annual Report"));
-                    if (existingTitle != null)
-                        existingTitle.Text = $"Annual Report {financialYearStart:MMM-yyyy} - {financialYearEnd:MMM-yyyy}";
                 }
             }
             catch (Exception ex)
-            {
-
+            {                
             }
         }
+
         public void Fill_combo_finyear()
         {
             try
@@ -1551,6 +1582,7 @@ namespace FoodandBeverage.Forms
                 if (itemSource.Count > 0)
                 {
                     flagexit = true;
+                     companystartYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
                     int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
                     DateTime currentDate = DateTime.Now;
                     List<DmnComboBox> finYearList = new List<DmnComboBox>();
@@ -1656,6 +1688,7 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+
         #region ONE BAR CHART TOTAL DISCOUNT TIME PEROD 24HRS
         public void FillCharttotaldiscountChart()
         {
@@ -1675,20 +1708,44 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
-                    totaldisc_chart.Series["s_totaldiscount"].Points.Clear();
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am 
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am 
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm 
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm 
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm
-                    totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am 
 
-                    totaldisc_chart.Series["s_totaldiscount"].Points[0].ToolTip = $"Discount : " + gridSource[0].Field1;
-                    totaldisc_chart.Series["s_totaldiscount"].Points[1].ToolTip = $"Discount : " + gridSource[0].Field2;
-                    totaldisc_chart.Series["s_totaldiscount"].Points[2].ToolTip = $"Discount : " + gridSource[0].Field3;
-                    totaldisc_chart.Series["s_totaldiscount"].Points[3].ToolTip = $"Discount : " + gridSource[0].Field4;
-                    totaldisc_chart.Series["s_totaldiscount"].Points[4].ToolTip = $"Discount : " + gridSource[0].Field5;
-                    totaldisc_chart.Series["s_totaldiscount"].Points[5].ToolTip = $"Discount : " + gridSource[0].Field6;
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            totaldisc_chart.Series["s_totaldiscount"].Points.Clear();
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am 
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am 
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm 
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm 
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm
+                            totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am 
+
+                            totaldisc_chart.Series["s_totaldiscount"].Points[0].ToolTip = $"Discount : " + gridSource[0].Field1;
+                            totaldisc_chart.Series["s_totaldiscount"].Points[1].ToolTip = $"Discount : " + gridSource[0].Field2;
+                            totaldisc_chart.Series["s_totaldiscount"].Points[2].ToolTip = $"Discount : " + gridSource[0].Field3;
+                            totaldisc_chart.Series["s_totaldiscount"].Points[3].ToolTip = $"Discount : " + gridSource[0].Field4;
+                            totaldisc_chart.Series["s_totaldiscount"].Points[4].ToolTip = $"Discount : " + gridSource[0].Field5;
+                            totaldisc_chart.Series["s_totaldiscount"].Points[5].ToolTip = $"Discount : " + gridSource[0].Field6;
+                        }));
+                    }
+                    else
+                    {
+                        totaldisc_chart.Series["s_totaldiscount"].Points.Clear();
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(1, gridSource[0].Field1);  // 12am-4am 
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(2, gridSource[0].Field2);  // 4am-8am 
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(3, gridSource[0].Field3);  // 8am-12pm 
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(4, gridSource[0].Field4);  // 12pm-4pm 
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(5, gridSource[0].Field5);  // 4pm-8pm
+                        totaldisc_chart.Series["s_totaldiscount"].Points.AddXY(6, gridSource[0].Field6);  // 8pm-12am 
+
+                        totaldisc_chart.Series["s_totaldiscount"].Points[0].ToolTip = $"Discount : " + gridSource[0].Field1;
+                        totaldisc_chart.Series["s_totaldiscount"].Points[1].ToolTip = $"Discount : " + gridSource[0].Field2;
+                        totaldisc_chart.Series["s_totaldiscount"].Points[2].ToolTip = $"Discount : " + gridSource[0].Field3;
+                        totaldisc_chart.Series["s_totaldiscount"].Points[3].ToolTip = $"Discount : " + gridSource[0].Field4;
+                        totaldisc_chart.Series["s_totaldiscount"].Points[4].ToolTip = $"Discount : " + gridSource[0].Field5;
+                        totaldisc_chart.Series["s_totaldiscount"].Points[5].ToolTip = $"Discount : " + gridSource[0].Field6;
+                    }
 
                 }
             }
@@ -1771,67 +1828,79 @@ namespace FoodandBeverage.Forms
 
                 if (Expencedata.Count > 0)
                 {
-                    expencepiechart.Series["s_expence"].Points.Clear();
-
-                    int counter = 0;
-                    foreach (var row in Expencedata)
+                    if (this.IsHandleCreated)
                     {
-                        var category = row.Field1;
-                        var amount = row.Field2;
+                        this.Invoke(new Action(() =>
+                        {
+                            expencepiechart.Series["s_expence"].Points.Clear();
 
-                        var dataPoint = new DataPoint();
-                        dataPoint.SetValueXY(category, amount);
-                        expencepiechart.Series["s_expence"].Points.Add(dataPoint);
+                            int counter = 0;
+                            foreach (var row in Expencedata)
+                            {
+                                var category = row.Field1;
+                                var amount = row.Field2;
 
-                        dataPoint.LegendText = $"{category}: {amount}";
-                        dataPoint.ToolTip = $"{category}: {amount}";
-                        totalexpence = totalexpence + Convert.ToDecimal(amount);
-                        counter++;
-                        if (counter >= 4)
-                            break;
+                                var dataPoint = new DataPoint();
+                                dataPoint.SetValueXY(category, amount);
+                                expencepiechart.Series["s_expence"].Points.Add(dataPoint);
+
+                                dataPoint.LegendText = $"{category}: {amount}";
+                                dataPoint.ToolTip = $"{category}: {amount}";
+                                totalexpence = totalexpence + Convert.ToDecimal(amount);
+                                counter++;
+                                if (counter >= 4)
+                                    break;
+                            }
+
+                            if (counter < Expencedata.Count)
+                            {
+                                decimal remainingAmount = Expencedata.Skip(4).Sum(row => Convert.ToDecimal(row.Field2));
+
+                                var dataPointOthers = new DataPoint();
+                                dataPointOthers.SetValueXY("Remaining", remainingAmount);
+
+                                expencepiechart.Series["s_expence"].Points.Add(dataPointOthers);
+
+                                dataPointOthers.LegendText = $"Remaining [Click to viwe more] : {remainingAmount}";
+                                dataPointOthers.ToolTip = "Remaining: " + remainingAmount + "  [Click to viwe more....]";
+                                //dataPointOthers.Font = new Font("Arial", 10, FontStyle.Bold);
+
+                                totalexpence = totalexpence + remainingAmount;
+                            }
+
+                            expencepiechart.Titles.Clear();
+                            Title chartTitleExpence = new Title("Total Expense : " + totalexpence);
+                            chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
+                            expencepiechart.Titles.Add(chartTitleExpence);
+                        }));
                     }
-
-                    if (counter < Expencedata.Count)
-                    {
-                        decimal remainingAmount = Expencedata.Skip(4).Sum(row => Convert.ToDecimal(row.Field2));
-
-                        var dataPointOthers = new DataPoint();
-                        dataPointOthers.SetValueXY("Remaining", remainingAmount);
-
-                        expencepiechart.Series["s_expence"].Points.Add(dataPointOthers);
-
-                        dataPointOthers.LegendText = $"Remaining [Click to viwe more] : {remainingAmount}";
-                        dataPointOthers.ToolTip = "Remaining: " + remainingAmount + "  [Click to viwe more....]";
-                        //dataPointOthers.Font = new Font("Arial", 10, FontStyle.Bold);
-
-                        totalexpence = totalexpence + remainingAmount;
-                    }
-
-                    expencepiechart.Titles.Clear();
-                    Title chartTitleExpence = new Title("Total Expense : " + totalexpence);
-                    chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
-                    expencepiechart.Titles.Add(chartTitleExpence);
 
                 }
                 else
                 {
-                    expencepiechart.Series.Clear();
-                    expencepiechart.Legends.Clear();
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            expencepiechart.Series.Clear();
+                            expencepiechart.Legends.Clear();
 
-                    Series seriesExpence = new Series("s_expence");
-                    seriesExpence.ChartType = SeriesChartType.Doughnut;
-                    expencepiechart.Series.Add(seriesExpence);
+                            Series seriesExpence = new Series("s_expence");
+                            seriesExpence.ChartType = SeriesChartType.Doughnut;
+                            expencepiechart.Series.Add(seriesExpence);
 
-                    // Add legend
-                    expencepiechart.Legends.Add(new Legend("Legend"));
-                    expencepiechart.Legends["Legend"].Docking = Docking.Right;
-                    seriesExpence.LegendText = "Expence";
-                    expencepiechart.Legends["Legend"].Font = new Font("Arial", 8, FontStyle.Regular);
+                            // Add legend
+                            expencepiechart.Legends.Add(new Legend("Legend"));
+                            expencepiechart.Legends["Legend"].Docking = Docking.Right;
+                            seriesExpence.LegendText = "Expence";
+                            expencepiechart.Legends["Legend"].Font = new Font("Arial", 8, FontStyle.Regular);
 
-                    expencepiechart.Titles.Clear();
-                    Title chartTitleExpence = new Title("No Data");
-                    chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
-                    expencepiechart.Titles.Add(chartTitleExpence);
+                            expencepiechart.Titles.Clear();
+                            Title chartTitleExpence = new Title("No Data");
+                            chartTitleExpence.Font = new Font(chartTitleExpence.Font.FontFamily, 12, FontStyle.Bold);
+                            expencepiechart.Titles.Add(chartTitleExpence);
+                        }));
+                    }
                 }
             }
             catch (Exception ex)
@@ -1935,16 +2004,36 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region  SLOW FAST MOVING ITEMS
+
+        public void LoadSlowfastData()
+        {
+            try
+            {
+                BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
+                DmnGridFields dmnSearch = new DmnGridFields();
+                dmnSearch.Field1 = dtp_dashboard.Value.ToString("yyyy-MM-dd");
+                resultslowfastdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        tcslow_move.SelectedIndex = 1;
+                    }));
+                }
+        
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
         private void tcslow_move_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 int rowIndex = 0;
                 int columnIndex = 0;
-                BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
-                DmnGridFields dmnSearch = new DmnGridFields();
-                dmnSearch.Field1 = dtp_dashboard.Value.ToString("yyyy-MM-dd");
-                var resultdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
+                var resultdata = resultslowfastdata;
                 if (tcslow_move.SelectedIndex == 0)
                 {
                     rowIndex = 0;
@@ -2127,8 +2216,6 @@ namespace FoodandBeverage.Forms
                             tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
                             columnIndex++;
                             tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
-
-
                             rowIndex++;
                         }
                       
@@ -2209,5 +2296,77 @@ namespace FoodandBeverage.Forms
                     return base.ProcessCmdKey(ref msg, keyData);
             }
         }
+
+
+        private void Cmbserachtype_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                cmbserachvalue.Items.Clear(); 
+                if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.DAY))
+                {
+                    for (int i = 1; i <= 31; i++)
+                    {
+                        cmbserachvalue.Items.Add(i);
+                    }
+                }
+                else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.MONTH))
+                {
+                    string[] monthNames = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+                    foreach (string monthName in monthNames)
+                    {
+                        cmbserachvalue.Items.Add(monthName);
+                    }
+                }
+                else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.YEAR))
+                {
+                    int currentYear = DateTime.Today.Year;
+                    for (int year = companystartYear; year <= currentYear; year++)
+                    {
+                        cmbserachvalue.Items.Add(year);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void cmbserachvalue_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime currentDate = DateTime.Now; 
+
+                if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.DAY))
+                {
+                    int selectedDay = Convert.ToInt32(cmbserachvalue.SelectedItem); 
+                    startDate = new DateTime(currentDate.Year, currentDate.Month, selectedDay);
+                    endDate = startDate.AddDays(1).AddSeconds(-1); 
+                }
+                else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.MONTH))
+                {
+                    string selectedMonthName = cmbserachvalue.SelectedItem.ToString(); 
+                    int selectedMonthIndex = Array.IndexOf(CultureInfo.CurrentCulture.DateTimeFormat.MonthNames, selectedMonthName);
+                    startDate = new DateTime(currentDate.Year, selectedMonthIndex + 1, 1); 
+                    endDate = startDate.AddMonths(1).AddSeconds(-1); 
+                }
+                else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.YEAR))
+                {
+                    int selectedYear = Convert.ToInt32(cmbserachvalue.SelectedItem); 
+                    startDate = new DateTime(selectedYear, 1, 1); 
+                    endDate = startDate.AddYears(1).AddSeconds(-1); 
+                }
+
+                RefreshCharts();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }

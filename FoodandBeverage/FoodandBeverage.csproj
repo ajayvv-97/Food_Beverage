@@ -1580,5 +1580,11 @@
   <ItemGroup>
     <None Include="Resources\orderview_addon_removeicon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_description.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\okay_description.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

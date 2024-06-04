@@ -94,7 +94,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtorderid_search, txttablecode, txt_product_remove_des })
+                foreach (TextBox textBox in new TextBox[] { txtorderid_search, txttablecode, txt_product_remove_des, txt_product_remove_des })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);

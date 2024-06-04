@@ -29,7 +29,14 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.AutoTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // AutoTimer
+            // 
+            this.AutoTimer.Interval = 2000;
+            this.AutoTimer.Tick += new System.EventHandler(this.AutoTimer_Tick);
             // 
             // FrmTableView
             // 
@@ -47,5 +54,7 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+
+        public System.Windows.Forms.Timer AutoTimer;
     }
 }

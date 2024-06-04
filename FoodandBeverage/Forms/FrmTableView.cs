@@ -13,12 +13,13 @@ using FoodandBeverage.Interfaces;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FoodandBeverage.Forms
 {
     public partial class FrmTableView : Form
     {
-        public Timer AutoTimer;
+        //public Timer AutoTimer;
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
 
@@ -362,8 +363,7 @@ namespace FoodandBeverage.Forms
                     initTimer();
                 }
                 else                
-                    CMessageBox.Show("No Records", "Information", MessageBoxButtons.OK);
-                
+                    CMessageBox.Show("No Records", "Information", MessageBoxButtons.OK);               
 
             }
             catch (Exception ex)
@@ -607,7 +607,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
             }
 
         }
@@ -631,9 +630,7 @@ namespace FoodandBeverage.Forms
                 var InsertStatus = bllReservation.Reservation_expire_Delete("prd_CheckexpireTableReservation", dmnReservation);
                 if (InsertStatus.BookmasterId > 0)
                 {
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -642,14 +639,7 @@ namespace FoodandBeverage.Forms
         }
         public void initTimer()
         {
-            AutoTimer = new Timer();
-            AutoTimer.Tick += AutoTimer_tick;
-            AutoTimer.Interval = 2000; //timer interval in mili seconds;
             AutoTimer.Start();
-        }
-        public void AutoTimer_tick(object sender, EventArgs e)
-        {
-            TableStaus(0);
         }
         private void tableClickEventHandler(object sender, EventArgs e)
         {
@@ -907,6 +897,18 @@ namespace FoodandBeverage.Forms
             }
         }
 
-       
+        private static void RunMethodInSeparateThread(Action action)
+        {
+            var thread = new Thread(new ThreadStart(action));
+            thread.Start();
+        }
+
+        private void AutoTimer_Tick(object sender, EventArgs e)
+        {
+            //RunMethodInSeparateThread(() => TableStaus(0));
+            TableStaus(0);
+        }
+
+
     }
 }

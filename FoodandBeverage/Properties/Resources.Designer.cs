@@ -353,6 +353,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cancel_description {
+            get {
+                object obj = ResourceManager.GetObject("cancel_description", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel_icon_wifi {
             get {
                 object obj = ResourceManager.GetObject("cancel_icon_wifi", resourceCulture);
@@ -1326,6 +1336,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap ok_button {
             get {
                 object obj = ResourceManager.GetObject("ok_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap okay_description {
+            get {
+                object obj = ResourceManager.GetObject("okay_description", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
