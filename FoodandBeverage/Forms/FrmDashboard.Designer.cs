@@ -70,6 +70,7 @@ namespace FoodandBeverage.Forms
             this.btn_running = new System.Windows.Forms.Button();
             this.pbusericon = new System.Windows.Forms.PictureBox();
             this.lbluser_designation = new System.Windows.Forms.Label();
+            this.lblsync = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_minimium = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
@@ -133,6 +134,8 @@ namespace FoodandBeverage.Forms
             this.lblmsg = new System.Windows.Forms.Label();
             this.tlp_op_menu = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_empl_menu = new System.Windows.Forms.TableLayoutPanel();
+            this.time_syn_lal = new System.Windows.Forms.Timer(this.components);
+            this.reset_sync = new System.Windows.Forms.Timer(this.components);
             this.panelMenu.SuspendLayout();
             this.flp_menu.SuspendLayout();
             this.pnl_header.SuspendLayout();
@@ -697,7 +700,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.46811F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 5, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -705,6 +708,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.Controls.Add(this.btn_running, 2, 0);
             this.tlp_tablestatus.Controls.Add(this.pbusericon, 7, 0);
             this.tlp_tablestatus.Controls.Add(this.lbluser_designation, 6, 0);
+            this.tlp_tablestatus.Controls.Add(this.lblsync, 4, 0);
             this.tlp_tablestatus.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlp_tablestatus.Location = new System.Drawing.Point(3, 3);
             this.tlp_tablestatus.Name = "tlp_tablestatus";
@@ -718,7 +722,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(624, 0);
+            this.lbltime.Location = new System.Drawing.Point(617, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -747,7 +751,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(93, 3);
+            this.btn_avial.Location = new System.Drawing.Point(92, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(54, 36);
             this.btn_avial.TabIndex = 0;
@@ -762,7 +766,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(273, 3);
+            this.btn_rev.Location = new System.Drawing.Point(270, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(54, 36);
             this.btn_rev.TabIndex = 1;
@@ -777,7 +781,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(183, 3);
+            this.btn_running.Location = new System.Drawing.Point(181, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(54, 36);
             this.btn_running.TabIndex = 2;
@@ -790,7 +794,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(636, 3);
+            this.pbusericon.Location = new System.Drawing.Point(629, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -801,11 +805,26 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(630, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(623, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
             this.lbluser_designation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblsync
+            // 
+            this.lblsync.AutoSize = true;
+            this.lblsync.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblsync.Location = new System.Drawing.Point(359, 0);
+            this.lblsync.Name = "lblsync";
+            this.lblsync.Size = new System.Drawing.Size(252, 42);
+            this.lblsync.TabIndex = 7;
+            this.lblsync.Tag = "Synchronizing...";
+            this.lblsync.Text = "Synchronizing...";
+            this.lblsync.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblsync.Visible = false;
             // 
             // tableLayoutPanel1
             // 
@@ -1947,7 +1966,7 @@ namespace FoodandBeverage.Forms
             this.tlp_op_menu.Controls.Add(this.ib_orderview, 2, 0);
             this.tlp_op_menu.Controls.Add(this.ib_kitchenview, 1, 0);
             this.tlp_op_menu.Controls.Add(this.ib_addon, 2, 5);
-            this.tlp_op_menu.Location = new System.Drawing.Point(230, 214);
+            this.tlp_op_menu.Location = new System.Drawing.Point(230, 109);
             this.tlp_op_menu.Name = "tlp_op_menu";
             this.tlp_op_menu.Padding = new System.Windows.Forms.Padding(10);
             this.tlp_op_menu.RowCount = 6;
@@ -1985,6 +2004,16 @@ namespace FoodandBeverage.Forms
             this.tlp_empl_menu.TabIndex = 23;
             this.tlp_empl_menu.Visible = false;
             // 
+            // time_syn_lal
+            // 
+            this.time_syn_lal.Interval = 500;
+            this.time_syn_lal.Tick += new System.EventHandler(this.time_syn_lal_Tick);
+            // 
+            // reset_sync
+            // 
+            this.reset_sync.Interval = 4000;
+            this.reset_sync.Tick += new System.EventHandler(this.reset_sync_Tick);
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2001,6 +2030,7 @@ namespace FoodandBeverage.Forms
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmDashboard";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmDashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -2152,5 +2182,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.PictureBox pbusericon;
         private System.Windows.Forms.Label lbluser_designation;
         private System.Windows.Forms.Label lbltime;
+        public System.Windows.Forms.Timer time_syn_lal;
+        public System.Windows.Forms.Label lblsync;
+        private System.Windows.Forms.Timer reset_sync;
     }
 }

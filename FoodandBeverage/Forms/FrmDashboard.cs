@@ -38,7 +38,7 @@ namespace FoodandBeverage.Forms
 
             KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
-            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
+            ReportPath = Convert.ToString(FrmLogin.ReportPath);
         }
 
         // Function to create a rounded rectangle region
@@ -74,6 +74,7 @@ namespace FoodandBeverage.Forms
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
         public bool menutable_click = false;
         private LoadingGIF_Timer loadingForm;
+        public DateTime startTime = DateTime.Now;
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -107,7 +108,7 @@ namespace FoodandBeverage.Forms
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
             lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
-            this.Opacity = 0;
+
             Task.Run(() =>
             {
                 loadingForm = new LoadingGIF_Timer();
@@ -115,19 +116,17 @@ namespace FoodandBeverage.Forms
                 Application.Run(loadingForm);
             });
             LoadMainForm();
-            //await Task.Delay(10000);
+            await Task.Delay(1000);
             if (loadingForm != null && !loadingForm.IsDisposed)
             {
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
-            this.Opacity = 100;
         }
-
-
         private void LoadMainForm()
         {
             try
             {
+
                 //panelDesktop.Controls.Add(tlp_op_menu);
                 //tlp_op_menu.Dock = DockStyle.Fill;
                 //tlp_op_menu.Visible = true;
@@ -177,7 +176,8 @@ namespace FoodandBeverage.Forms
                 Menusetting.BackColor = menubuttoncolor;
                 menuEmployee.BackColor = menubuttoncolor;
                 Menutable.BackColor = menubuttoncolor;
-                button_imageset();
+
+                RunMethodInSeparateThread(button_imageset);
                 //flp_menu.BackColor = Color.White;
                 tlp_main_sidebar_pnldesktop.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
 
@@ -207,7 +207,7 @@ namespace FoodandBeverage.Forms
                 ib_userpermission.BackColor = opbuttoncolor;
                 ib_addon.BackColor = opbuttoncolor;
 
-                textb_shape();
+                RunMethodInSeparateThread(textb_shape);
                 RunMethodInSeparateThread(AppColorSetting);
                 //flpEmployee.Visible = false;
                 //ib_employee.Visible = false;
@@ -218,7 +218,6 @@ namespace FoodandBeverage.Forms
                 ib_Discount_offer.Visible = false;
                 ib_Expence.Visible = false;
                 ib_PromoCode.Visible = false;
-
                 RunMethodInSeparateThread(FormPermissionChecking);
                 panelDesktop.Visible = false;
                 Loadchart();
@@ -269,6 +268,8 @@ namespace FoodandBeverage.Forms
                     _instanceDashboardReport.BringToFront();
 
                 }
+
+                this.Opacity = 100;
                 #endregion
             }
             catch (Exception ex)
@@ -470,14 +471,19 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search })
+                if (this.IsHandleCreated)
                 {
-                    ApplyRoundedTextBox(textBox, 10);
-                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
-                    textBox.BorderStyle = BorderStyle.None;
+                    this.Invoke(new Action(() =>
+                    {
+                        // Apply rounded corners to text boxes based on the list
+                        foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search })
+                        {
+                            ApplyRoundedTextBox(textBox, 10);
+                            textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                            textBox.BorderStyle = BorderStyle.None;
+                        }
+                    }));
                 }
-
             }
             catch (Exception)
             {
@@ -512,41 +518,46 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                SetButtonImage(Menuhome, FoodandBeverage.Properties.Resources.icons8_home_50, desiredWidth, desiredHeight);
-                SetButtonImage(Menuoperation, FoodandBeverage.Properties.Resources.operation, desiredWidth, desiredHeight);
-                SetButtonImage(Menubilling, FoodandBeverage.Properties.Resources.bill, desiredWidth, desiredHeight);
-                SetButtonImage(Menureport, FoodandBeverage.Properties.Resources.report, desiredWidth, desiredHeight);
-                SetButtonImage(Menusetting, FoodandBeverage.Properties.Resources.setting, desiredWidth, desiredHeight);
-                SetButtonImage(Menulogout, FoodandBeverage.Properties.Resources.logout, desiredWidth, desiredHeight);
-                SetButtonImage(menuEmployee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-                SetButtonImage(Menutable, FoodandBeverage.Properties.Resources.menutable, desiredWidth, desiredHeight);
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        SetButtonImage(Menuhome, FoodandBeverage.Properties.Resources.icons8_home_50, desiredWidth, desiredHeight);
+                        SetButtonImage(Menuoperation, FoodandBeverage.Properties.Resources.operation, desiredWidth, desiredHeight);
+                        SetButtonImage(Menubilling, FoodandBeverage.Properties.Resources.bill, desiredWidth, desiredHeight);
+                        SetButtonImage(Menureport, FoodandBeverage.Properties.Resources.report, desiredWidth, desiredHeight);
+                        SetButtonImage(Menusetting, FoodandBeverage.Properties.Resources.setting, desiredWidth, desiredHeight);
+                        SetButtonImage(Menulogout, FoodandBeverage.Properties.Resources.logout, desiredWidth, desiredHeight);
+                        SetButtonImage(menuEmployee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                        SetButtonImage(Menutable, FoodandBeverage.Properties.Resources.menutable, desiredWidth, desiredHeight);
 
-                // Set images for the 'ib_' buttons
-                SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
-                SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
-                SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
-                SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
-                SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
-                SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
-                SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
-                SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
-                SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
-                SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
-                SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
-                SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
-                SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
-                SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
-                SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
-                SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
+                        // Set images for the 'ib_' buttons
+                        SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
 
-                SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-                SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-                SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
-                SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
-
+                        SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
+                    }));
+                }
                 // SetRoundedButton(ib_Category, 70);
                 //SetRoundedButton(ib_Item, 70);
                 //SetRoundedButton(ib_ingrediant, 70);
@@ -781,6 +792,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
                 panelDesktop.SuspendLayout();
                 if (menutable_click)
                 {
@@ -844,6 +858,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
@@ -858,6 +875,23 @@ namespace FoodandBeverage.Forms
                 {
                     ChangeButtonBorder(button);
                 }
+
+                if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                {
+                    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                    //_instanceFrmTableView.AutoTimer.Stop();
+                    _instanceFrmTableView.Close();
+                    _instanceFrmTableView.Dispose();
+                    GC.Collect();
+
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+                    tlp_tablestatus.ResumeLayout();
+                }
+
                 if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
                 {
                     FrmCombinedBill _instanceCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
@@ -905,6 +939,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
                 panelDesktop.SuspendLayout();
 
                 if (menutable_click)
@@ -1363,6 +1400,7 @@ namespace FoodandBeverage.Forms
                 _instanceFrmTableView.Close();
                 _instanceFrmTableView.Dispose();
                 GC.Collect();
+
                 tlp_tablestatus.SuspendLayout();
                 btn_rev.Visible = false;
                 btn_running.Visible = false;
@@ -1384,6 +1422,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                reset_sync.Stop();
+                lblsync.Visible = false;
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -2849,6 +2889,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                time_syn_lal.Stop();
+                time_syn_lal.Stop();
+                lblsync.Visible = false;
+                reset_sync.Stop();
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -3389,6 +3433,10 @@ namespace FoodandBeverage.Forms
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
                     _instanceFrmDashboardReport.Visible = false;
                 }
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
+
                 panelDesktop.SuspendLayout();
 
                 if (tlp_op_menu.Visible)
@@ -3647,15 +3695,35 @@ namespace FoodandBeverage.Forms
 
         private void btntrefresh_Click(object sender, EventArgs e)
         {
-            if (menutable_click)
+            try
             {
-                CloseTableViewPage();
-            }
-            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-            {
-                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
-                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                if (menutable_click)
+                {
+                    CloseTableViewPage();
+                }
+                if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                {
+                    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                    if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                        _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = true;
+                        btn_running.Visible = true;
+                        btn_avial.Visible = true;
+                        btntrefresh.Visible = true;
+                        tlp_tablestatus.ResumeLayout();
+
+                        _instanceFrmTableView.Visible = true;
+                        _instanceFrmTableView.AutoTimer.Start();
+                        _instanceFrmTableView.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceFrmTableView);
+                        panelDesktop.Controls.Add(_instanceFrmTableView);
+                        _instanceFrmTableView.Show();
+                        _instanceFrmTableView.BringToFront();
+                    }
+                }
                 else
                 {
                     tlp_tablestatus.SuspendLayout();
@@ -3665,35 +3733,90 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
-                    _instanceFrmTableView.Visible = true;
-                    _instanceFrmTableView.AutoTimer.Start();
-                    _instanceFrmTableView.Dock = DockStyle.Fill;
+                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
                     ResizeForm(_instanceFrmTableView);
+                    _instanceFrmTableView.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmTableView);
                     _instanceFrmTableView.Show();
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmTableView.BringToFront();
+
                 }
             }
-            else
+            catch(Exception ex)
             {
-                tlp_tablestatus.SuspendLayout();
-                btn_rev.Visible = true;
-                btn_running.Visible = true;
-                btn_avial.Visible = true;
-                btntrefresh.Visible = true;
-                tlp_tablestatus.ResumeLayout();
-
-                FrmTableView _instanceFrmTableView = new FrmTableView(0);
-                ResizeForm(_instanceFrmTableView);
-                _instanceFrmTableView.TopLevel = false;
-                panelDesktop.Controls.Add(_instanceFrmTableView);
-                _instanceFrmTableView.Show();
-                _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                _instanceFrmTableView.BringToFront();
 
             }
 
-        }      
+
+        }
+
+        private void time_syn_lal_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblsync.Visible = !lblsync.Visible;
+            }             
+            catch(Exception ex)
+            {
+
+            }
+        }
+        public void StopTimerAndRefreshLabel()
+        {
+            try
+            {
+                time_syn_lal.Stop();
+                tlp_tablestatus.SuspendLayout();
+                TimeSpan elapsedTime = DateTime.Now.Subtract(startTime);
+                string formattedTime = string.Format("{0:D2}:{1:D2}:{2}",
+                                                     elapsedTime.Hours,
+                                                     elapsedTime.Minutes,
+                                                     elapsedTime.Seconds );
+                lblsync.Text = $"Synchronized {formattedTime} ago";
+                tlp_tablestatus.ResumeLayout();
+                reset_sync.Start();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public void StartTimerAndRefreshLabel()
+        {
+            try
+            {
+                tlp_tablestatus.SuspendLayout();
+                startTime = DateTime.Now;
+                reset_sync.Stop();
+                time_syn_lal.Start();
+                lblsync.Text = "Synchronizing... ";
+                tlp_tablestatus.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void reset_sync_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                tlp_tablestatus.SuspendLayout();
+                TimeSpan elapsedTime = DateTime.Now.Subtract(startTime);
+                string formattedTime = string.Format("{0:D2}:{1:D2}:{2}",
+                                                     elapsedTime.Hours,
+                                                     elapsedTime.Minutes,
+                                                     elapsedTime.Seconds );
+                lblsync.Text = $"Synchronized {formattedTime} ago";
+                tlp_tablestatus.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
     }
 
 }

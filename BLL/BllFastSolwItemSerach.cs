@@ -13,6 +13,7 @@ namespace BLL
             DAL.DapperRepository<T> dapper = new DAL.DapperRepository<T>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("StartDate", objSearch.Field1);
+            parms.Add("EndDate", objSearch.Field2);
             var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }

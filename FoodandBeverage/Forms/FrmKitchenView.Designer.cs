@@ -88,6 +88,7 @@ namespace FoodandBeverage.Forms
             this.blinkTimer = new System.Windows.Forms.Timer(this.components);
             this.refreshtimer = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.tlp_des_header = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -102,6 +103,7 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgv_viewmore)).BeginInit();
             this.tlp_header_viewmore.SuspendLayout();
             this.pnl_kitchenorderBill.SuspendLayout();
+            this.tlp_des_header.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -206,7 +208,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 69F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlp_search.Controls.Add(this.txttablecode, 0, 0);
             this.tlp_search.Controls.Add(this.txtorderid_search, 0, 0);
             this.tlp_search.Controls.Add(this.btn_refresh, 2, 0);
@@ -229,7 +231,7 @@ namespace FoodandBeverage.Forms
             this.txttablecode.Location = new System.Drawing.Point(172, 3);
             this.txttablecode.Multiline = true;
             this.txttablecode.Name = "txttablecode";
-            this.txttablecode.Size = new System.Drawing.Size(201, 46);
+            this.txttablecode.Size = new System.Drawing.Size(200, 46);
             this.txttablecode.TabIndex = 2;
             this.txttablecode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txttablecode.Enter += new System.EventHandler(this.txttablecode_Enter);
@@ -259,7 +261,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(379, 3);
+            this.btn_refresh.Location = new System.Drawing.Point(378, 3);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(50, 46);
             this.btn_refresh.TabIndex = 3;
@@ -273,7 +275,7 @@ namespace FoodandBeverage.Forms
             this.btnprintcount.FlatAppearance.BorderSize = 0;
             this.btnprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprintcount.Location = new System.Drawing.Point(593, 3);
+            this.btnprintcount.Location = new System.Drawing.Point(592, 3);
             this.btnprintcount.Name = "btnprintcount";
             this.btnprintcount.Size = new System.Drawing.Size(53, 46);
             this.btnprintcount.TabIndex = 5;
@@ -288,7 +290,7 @@ namespace FoodandBeverage.Forms
             this.btntotalorders.FlatAppearance.BorderSize = 0;
             this.btntotalorders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntotalorders.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntotalorders.Location = new System.Drawing.Point(658, 3);
+            this.btntotalorders.Location = new System.Drawing.Point(657, 3);
             this.btntotalorders.Name = "btntotalorders";
             this.btntotalorders.Size = new System.Drawing.Size(58, 46);
             this.btntotalorders.TabIndex = 6;
@@ -301,7 +303,7 @@ namespace FoodandBeverage.Forms
             this.lblprintloading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblprintloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblprintloading.ForeColor = System.Drawing.Color.Red;
-            this.lblprintloading.Location = new System.Drawing.Point(451, 0);
+            this.lblprintloading.Location = new System.Drawing.Point(450, 0);
             this.lblprintloading.Name = "lblprintloading";
             this.lblprintloading.Size = new System.Drawing.Size(136, 52);
             this.lblprintloading.TabIndex = 7;
@@ -326,7 +328,7 @@ namespace FoodandBeverage.Forms
             this.pnl_products_rem_descr.Location = new System.Drawing.Point(99, 46);
             this.pnl_products_rem_descr.Name = "pnl_products_rem_descr";
             this.pnl_products_rem_descr.Padding = new System.Windows.Forms.Padding(3);
-            this.pnl_products_rem_descr.Size = new System.Drawing.Size(305, 154);
+            this.pnl_products_rem_descr.Size = new System.Drawing.Size(401, 185);
             this.pnl_products_rem_descr.TabIndex = 4;
             this.pnl_products_rem_descr.Visible = false;
             this.pnl_products_rem_descr.Paint += new System.Windows.Forms.PaintEventHandler(this.pnl_products_rem_descr_Paint);
@@ -334,21 +336,20 @@ namespace FoodandBeverage.Forms
             // tlp_products_descr_main
             // 
             this.tlp_products_descr_main.BackColor = System.Drawing.Color.Silver;
-            this.tlp_products_descr_main.ColumnCount = 3;
-            this.tlp_products_descr_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_products_descr_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_products_descr_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_products_descr_main.Controls.Add(this.tlp_product_des_reg, 1, 1);
-            this.tlp_products_descr_main.Controls.Add(this.btn_close_prod_des, 2, 0);
-            this.tlp_products_descr_main.Controls.Add(this.lblheader_product_des, 1, 0);
+            this.tlp_products_descr_main.ColumnCount = 1;
+            this.tlp_products_descr_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_products_descr_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_products_descr_main.Controls.Add(this.tlp_product_des_reg, 0, 1);
+            this.tlp_products_descr_main.Controls.Add(this.tableLayoutPanel5, 0, 2);
+            this.tlp_products_descr_main.Controls.Add(this.tlp_des_header, 0, 0);
             this.tlp_products_descr_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_products_descr_main.Location = new System.Drawing.Point(3, 3);
             this.tlp_products_descr_main.Name = "tlp_products_descr_main";
             this.tlp_products_descr_main.RowCount = 3;
-            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_products_descr_main.Size = new System.Drawing.Size(299, 148);
+            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.17647F));
+            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 57.05882F));
+            this.tlp_products_descr_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.35294F));
+            this.tlp_products_descr_main.Size = new System.Drawing.Size(395, 179);
             this.tlp_products_descr_main.TabIndex = 0;
             // 
             // tlp_product_des_reg
@@ -357,14 +358,12 @@ namespace FoodandBeverage.Forms
             this.tlp_product_des_reg.ColumnCount = 1;
             this.tlp_product_des_reg.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_product_des_reg.Controls.Add(this.txt_product_remove_des, 0, 0);
-            this.tlp_product_des_reg.Controls.Add(this.tableLayoutPanel5, 0, 1);
             this.tlp_product_des_reg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_product_des_reg.Location = new System.Drawing.Point(3, 37);
+            this.tlp_product_des_reg.Location = new System.Drawing.Point(3, 40);
             this.tlp_product_des_reg.Name = "tlp_product_des_reg";
-            this.tlp_product_des_reg.RowCount = 2;
+            this.tlp_product_des_reg.RowCount = 1;
             this.tlp_product_des_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.88889F));
-            this.tlp_product_des_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.11111F));
-            this.tlp_product_des_reg.Size = new System.Drawing.Size(254, 107);
+            this.tlp_product_des_reg.Size = new System.Drawing.Size(389, 95);
             this.tlp_product_des_reg.TabIndex = 0;
             // 
             // txt_product_remove_des
@@ -375,7 +374,7 @@ namespace FoodandBeverage.Forms
             this.txt_product_remove_des.Location = new System.Drawing.Point(3, 3);
             this.txt_product_remove_des.Multiline = true;
             this.txt_product_remove_des.Name = "txt_product_remove_des";
-            this.txt_product_remove_des.Size = new System.Drawing.Size(248, 62);
+            this.txt_product_remove_des.Size = new System.Drawing.Size(383, 89);
             this.txt_product_remove_des.TabIndex = 0;
             this.txt_product_remove_des.Enter += new System.EventHandler(this.txt_product_remove_des_Enter);
             this.txt_product_remove_des.Leave += new System.EventHandler(this.txt_product_remove_des_Leave);
@@ -388,11 +387,11 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel5.Controls.Add(this.btn_cancel_product_des, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.btn_rem_product_des, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 71);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 141);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(248, 33);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(389, 35);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // btn_cancel_product_des
@@ -402,9 +401,9 @@ namespace FoodandBeverage.Forms
             this.btn_cancel_product_des.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cancel_product_des.FlatAppearance.BorderSize = 0;
             this.btn_cancel_product_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cancel_product_des.Location = new System.Drawing.Point(127, 3);
+            this.btn_cancel_product_des.Location = new System.Drawing.Point(197, 3);
             this.btn_cancel_product_des.Name = "btn_cancel_product_des";
-            this.btn_cancel_product_des.Size = new System.Drawing.Size(118, 27);
+            this.btn_cancel_product_des.Size = new System.Drawing.Size(189, 29);
             this.btn_cancel_product_des.TabIndex = 2;
             this.btn_cancel_product_des.UseVisualStyleBackColor = true;
             this.btn_cancel_product_des.Click += new System.EventHandler(this.btn_cancel_product_des_Click);
@@ -418,7 +417,7 @@ namespace FoodandBeverage.Forms
             this.btn_rem_product_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_rem_product_des.Location = new System.Drawing.Point(3, 3);
             this.btn_rem_product_des.Name = "btn_rem_product_des";
-            this.btn_rem_product_des.Size = new System.Drawing.Size(118, 27);
+            this.btn_rem_product_des.Size = new System.Drawing.Size(188, 29);
             this.btn_rem_product_des.TabIndex = 1;
             this.btn_rem_product_des.UseVisualStyleBackColor = true;
             this.btn_rem_product_des.Click += new System.EventHandler(this.btn_rem_product_des_Click);
@@ -430,9 +429,9 @@ namespace FoodandBeverage.Forms
             this.btn_close_prod_des.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_close_prod_des.FlatAppearance.BorderSize = 0;
             this.btn_close_prod_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close_prod_des.Location = new System.Drawing.Point(263, 3);
+            this.btn_close_prod_des.Location = new System.Drawing.Point(333, 3);
             this.btn_close_prod_des.Name = "btn_close_prod_des";
-            this.btn_close_prod_des.Size = new System.Drawing.Size(38, 28);
+            this.btn_close_prod_des.Size = new System.Drawing.Size(53, 25);
             this.btn_close_prod_des.TabIndex = 1;
             this.btn_close_prod_des.UseVisualStyleBackColor = true;
             this.btn_close_prod_des.Click += new System.EventHandler(this.btn_close_prod_des_Click);
@@ -444,7 +443,7 @@ namespace FoodandBeverage.Forms
             this.lblheader_product_des.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblheader_product_des.Location = new System.Drawing.Point(3, 0);
             this.lblheader_product_des.Name = "lblheader_product_des";
-            this.lblheader_product_des.Size = new System.Drawing.Size(254, 34);
+            this.lblheader_product_des.Size = new System.Drawing.Size(324, 31);
             this.lblheader_product_des.TabIndex = 2;
             this.lblheader_product_des.Text = "Product Name";
             this.lblheader_product_des.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -759,6 +758,21 @@ namespace FoodandBeverage.Forms
             this.dataGridViewImageColumn1.Image = global::FoodandBeverage.Properties.Resources.Delete_Grid;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             // 
+            // tlp_des_header
+            // 
+            this.tlp_des_header.ColumnCount = 2;
+            this.tlp_des_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tlp_des_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tlp_des_header.Controls.Add(this.lblheader_product_des, 0, 0);
+            this.tlp_des_header.Controls.Add(this.btn_close_prod_des, 1, 0);
+            this.tlp_des_header.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_des_header.Location = new System.Drawing.Point(3, 3);
+            this.tlp_des_header.Name = "tlp_des_header";
+            this.tlp_des_header.RowCount = 1;
+            this.tlp_des_header.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_des_header.Size = new System.Drawing.Size(389, 31);
+            this.tlp_des_header.TabIndex = 2;
+            // 
             // FrmKitchenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -783,7 +797,6 @@ namespace FoodandBeverage.Forms
             this.tlp_search.PerformLayout();
             this.pnl_products_rem_descr.ResumeLayout(false);
             this.tlp_products_descr_main.ResumeLayout(false);
-            this.tlp_products_descr_main.PerformLayout();
             this.tlp_product_des_reg.ResumeLayout(false);
             this.tlp_product_des_reg.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -797,6 +810,8 @@ namespace FoodandBeverage.Forms
             this.tlp_header_viewmore.ResumeLayout(false);
             this.tlp_header_viewmore.PerformLayout();
             this.pnl_kitchenorderBill.ResumeLayout(false);
+            this.tlp_des_header.ResumeLayout(false);
+            this.tlp_des_header.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -857,5 +872,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn addonprice;
         private System.Windows.Forms.DataGridViewTextBoxColumn addorderno;
         private System.Windows.Forms.DataGridViewTextBoxColumn CCode;
+        private System.Windows.Forms.TableLayoutPanel tlp_des_header;
     }
 }

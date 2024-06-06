@@ -41,6 +41,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pnlloginbox = new System.Windows.Forms.Panel();
             this.lblappname = new System.Windows.Forms.Label();
+            this.btnrfid = new System.Windows.Forms.Button();
             this.tlp_mainouterdesign.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.pnlloginbox.SuspendLayout();
@@ -150,6 +151,7 @@ namespace FoodandBeverage.Forms
             // 
             // pnlloginbox
             // 
+            this.pnlloginbox.Controls.Add(this.btnrfid);
             this.pnlloginbox.Controls.Add(this.txtPwd);
             this.pnlloginbox.Controls.Add(this.btncancel);
             this.pnlloginbox.Controls.Add(this.txtUserName);
@@ -173,6 +175,20 @@ namespace FoodandBeverage.Forms
             this.lblappname.TabIndex = 9;
             this.lblappname.Text = "Food && Beverage";
             this.lblappname.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // btnrfid
+            // 
+            this.btnrfid.BackColor = System.Drawing.Color.Transparent;
+            this.btnrfid.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnrfid.BackgroundImage")));
+            this.btnrfid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnrfid.FlatAppearance.BorderSize = 0;
+            this.btnrfid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnrfid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnrfid.Location = new System.Drawing.Point(252, 59);
+            this.btnrfid.Name = "btnrfid";
+            this.btnrfid.Size = new System.Drawing.Size(28, 30);
+            this.btnrfid.TabIndex = 257;
+            this.btnrfid.UseVisualStyleBackColor = false;
             // 
             // FrmLogin
             // 
@@ -210,5 +226,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtPwd;
         private System.Windows.Forms.Label lblappname;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button btnrfid;
     }
 }

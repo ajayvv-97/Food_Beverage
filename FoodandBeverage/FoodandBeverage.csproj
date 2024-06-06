@@ -1586,5 +1586,8 @@
   <ItemGroup>
     <None Include="Resources\okay_description.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kitchen_order_sound.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

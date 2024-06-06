@@ -53,8 +53,8 @@ namespace FoodandBeverage.Forms
         private bool passwordVisible = false;
 
         public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";// ;";
-        public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// //
-        public static string SaleBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// Application.StartupPath + @"\SaleBill";// 
+        public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
+        public static string SaleBillPath =Application.StartupPath + @"\SaleBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//  
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -119,19 +119,17 @@ namespace FoodandBeverage.Forms
                 txtUserName.Text = "";
                 txtUserName.ForeColor = Color.Black;
             }
-        }
-
-       
+        }       
 
         private void txtusername_Leave(object sender, EventArgs e)
         {
+            timer1.Stop();
             if (txtUserName.Text == "")
             {
                 txtUserName.Text = "User Name .....";
                 txtUserName.ForeColor = Color.DarkGray;
             }
         }
-
         
         private void btncancel_Click(object sender, EventArgs e)
         {
@@ -172,7 +170,7 @@ namespace FoodandBeverage.Forms
                             #endregion
                             else
                             {
-                                #region retrieve data after login
+                                    #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
@@ -220,7 +218,6 @@ namespace FoodandBeverage.Forms
                                     EmpCode = userDetails["Field6", 0].Value.ToString();
 
                                     #endregion
-
                                     this.Visible = false;
                                     Forms.FrmDashboard DashBoard = new FrmDashboard();
                                     DashBoard.MdiParent = this.MdiParent;

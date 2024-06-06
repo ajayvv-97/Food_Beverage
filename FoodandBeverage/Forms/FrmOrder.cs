@@ -2081,6 +2081,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     #endregion
+
                     if (Convert.ToInt32(gridSource_va[0].Field1) == 0)
                     {
                         dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12";
@@ -3508,8 +3509,8 @@ namespace FoodandBeverage.Forms
 
                 txt_product_des.Text = "Description Type Here .....";
                 txt_product_des.ForeColor = Color.Gray;
-                int panelWidthPercentage = 20;
-                int panelheightPercentage = 20;
+                int panelWidthPercentage = 25;
+                int panelheightPercentage = 25;
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 pnl_products_descr.Size = new Size(panelWidth, panelHeight);

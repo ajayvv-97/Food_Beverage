@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -49,6 +47,7 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> searchData_ActivePromotion_combo = new List<DmnGridFields>();
         int pageSize = 5;
 
+        public bool RefreshFlag=false;
 
         Color baseColor = Color.DarkGray; 
         Color pressedColor = Color.LightGray;
@@ -100,127 +99,153 @@ namespace FoodandBeverage.Forms
 
         private void FrmDashboardReport_Load(object sender, EventArgs e)
         {
-            Fill_combo_finyear();
-            SetupChartTwoBar();
-            SetupChart_Revenue();
-            SetupCharttotaldiscount();
-            SetupChartExpence();
+            try
+            {
+                startDate = DateTime.Today;
+                endDate = DateTime.Today.AddHours(23);
 
-            RunMethodInSeparateThread(Filldashboard);
-            RunMethodInSeparateThread(FillChartTwoBarChart);
-            RunMethodInSeparateThread(FillbarRrevenuChart);
-            RunMethodInSeparateThread(FillChartExpence);
-            RunMethodInSeparateThread(FillCharttotaldiscountChart);
-            RunMethodInSeparateThread(Fillpaymentdetailed);
-            RunMethodInSeparateThread(FillBoxdetailed);
-            RunMethodInSeparateThread(LoadSlowfastData);
-            tlp_box_frist.Focus();
+                lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
+                lbl_discount.Text = "DATE : " + Convert.ToString(startDate.Date);
+                lbl_paymentdetails.Text = "DATE : " + Convert.ToString(startDate.Date);
+                lblexpence.Text = "DATE : " + Convert.ToString(startDate.Date);
+                lbl_res_dine_sales.Text = "DATE : " + Convert.ToString(startDate.Date);
 
-            #region Box Details Grid 
-            //dine active
-            dgv_activedine.BorderStyle = BorderStyle.None;
-            dgv_activedine.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_activedine.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_activedine.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_activedine.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_activedine.BackgroundColor = Color.White;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    instanceFrmDashboard.StartTimerAndRefreshLabel();
+                }
+                RefreshFlag = true;
+                pnl_dashboard.SuspendLayout();
+                Fill_combo_finyear();
+                SetupChartTwoBar();
+                SetupChart_Revenue();
+                SetupCharttotaldiscount();
+                SetupChartExpence();
 
-            dgv_activedine.EnableHeadersVisualStyles = false;
-            dgv_activedine.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_activedine.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_activedine.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            //dgv_cancelorders
+                RunMethodInSeparateThread(Filldashboard);
+                RunMethodInSeparateThread(FillChartTwoBarChart);
+                RunMethodInSeparateThread(FillbarRrevenuChart);
+                RunMethodInSeparateThread(FillChartExpence);
+                RunMethodInSeparateThread(FillCharttotaldiscountChart);
+                RunMethodInSeparateThread(FillBoxdetailed);
+                RunMethodInSeparateThread(LoadSlowfastData);
+                RunMethodInSeparateThread(Fillpaymentdetailed);
+                this.Focus();
+                pnl_dashboard.ResumeLayout();
 
-            dgv_cancelorders.BorderStyle = BorderStyle.None;
-            dgv_cancelorders.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_cancelorders.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_cancelorders.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_cancelorders.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_cancelorders.BackgroundColor = Color.White;
+                #region Box Details Grid 
+                //dine active
+                dgv_activedine.BorderStyle = BorderStyle.None;
+                dgv_activedine.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_activedine.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_activedine.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_activedine.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_activedine.BackgroundColor = Color.White;
 
-            dgv_cancelorders.EnableHeadersVisualStyles = false;
-            dgv_cancelorders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_cancelorders.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_cancelorders.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_activedine.EnableHeadersVisualStyles = false;
+                dgv_activedine.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_activedine.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_activedine.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                //dgv_cancelorders
 
-            // Styling for dgv_activefood
-            dgv_activefood.BorderStyle = BorderStyle.None;
-            dgv_activefood.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_activefood.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_activefood.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_activefood.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_activefood.BackgroundColor = Color.White;
+                dgv_cancelorders.BorderStyle = BorderStyle.None;
+                dgv_cancelorders.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_cancelorders.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_cancelorders.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_cancelorders.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_cancelorders.BackgroundColor = Color.White;
 
-            dgv_activefood.EnableHeadersVisualStyles = false;
-            dgv_activefood.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_activefood.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_activefood.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_cancelorders.EnableHeadersVisualStyles = false;
+                dgv_cancelorders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_cancelorders.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_cancelorders.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            // Styling for dgv_reservation
-            dgv_reservation.BorderStyle = BorderStyle.None;
-            dgv_reservation.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_reservation.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_reservation.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_reservation.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_reservation.BackgroundColor = Color.White;
+                // Styling for dgv_activefood
+                dgv_activefood.BorderStyle = BorderStyle.None;
+                dgv_activefood.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_activefood.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_activefood.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_activefood.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_activefood.BackgroundColor = Color.White;
 
-            dgv_reservation.EnableHeadersVisualStyles = false;
-            dgv_reservation.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_reservation.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_reservation.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_activefood.EnableHeadersVisualStyles = false;
+                dgv_activefood.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_activefood.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_activefood.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            // Styling for dgv_promotion
-            dgv_promotion.BorderStyle = BorderStyle.None;
-            dgv_promotion.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_promotion.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_promotion.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_promotion.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_promotion.BackgroundColor = Color.White;
+                // Styling for dgv_reservation
+                dgv_reservation.BorderStyle = BorderStyle.None;
+                dgv_reservation.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_reservation.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_reservation.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_reservation.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_reservation.BackgroundColor = Color.White;
 
-            dgv_promotion.EnableHeadersVisualStyles = false;
-            dgv_promotion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_promotion.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_promotion.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_reservation.EnableHeadersVisualStyles = false;
+                dgv_reservation.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_reservation.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_reservation.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            rdproductoffer.Checked = true;
+                // Styling for dgv_promotion
+                dgv_promotion.BorderStyle = BorderStyle.None;
+                dgv_promotion.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_promotion.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_promotion.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_promotion.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_promotion.BackgroundColor = Color.White;
 
-            SetColumnPadding(tlp_pagination, 2, 5, new Padding(20, 10, 20, 10));
+                dgv_promotion.EnableHeadersVisualStyles = false;
+                dgv_promotion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_promotion.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_promotion.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            #endregion
+                rdproductoffer.Checked = true;
+
+                SetColumnPadding(tlp_pagination, 2, 5, new Padding(20, 10, 20, 10));
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+            }            
         }
 
-        private static void RunMethodInSeparateThread(Action action)
-        {
-            var thread = new Thread(new ThreadStart(action));
-            thread.Start();
-        }
-
-        #region SALEDETAILS 
+        #region Refresh Chart 
         public void RefreshCharts()
         {
             try
             {
+                pnl_dashboard.SuspendLayout();
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    instanceFrmDashboard.StartTimerAndRefreshLabel();
+                }
+                RefreshFlag = true;
                 ShowLoadingdGif();
                 RunMethodInSeparateThread(LoadSlowfastData);
                 RunMethodInSeparateThread(Filldashboard);
-
                 RunMethodInSeparateThread(FillChartTwoBarChart);
                 RunMethodInSeparateThread(FillCharttotaldiscountChart);
                 RunMethodInSeparateThread(FillChartExpence);
                 RunMethodInSeparateThread(Fillpaymentdetailed);
-
                 tcslow_move.SelectedIndex = 0;
-                tlp_box_frist.Focus();
+                this.Focus();
+                pnl_dashboard.ResumeLayout();
             }
             catch (Exception ex)
             {
 
             }
         }
-        #endregion
+        #endregion 
 
-
-       
+        private static void RunMethodInSeparateThread(Action action)
+        {
+            var thread = new Thread(new ThreadStart(action));
+            thread.Start();
+        }          
 
         #region  BOX DETAILS ACTIVE,CANCELLED,PROMOTION,FOOD ITEM
         private void dgv_reservation_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -471,11 +496,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                DateTime currentdate = DateTime.Now;
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " count(*) Field1,0 Field2,0 Field3,0 Field4,0 Field5,1 Field6 ";
                 dmnSearch.Table = " tblTable_info where Status=1  AND OrderStatus>0 or OrderMasterId>0 " +
-                                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE,'" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')" +
+                                  " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE,'" + currentdate.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
                                   " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) and status=1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
                                   " union select 0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
@@ -1130,10 +1156,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+      
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS (Loyalty)],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
-                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode and GTypeId=2  where  sm.Status=1 AND CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')) AS SourceTable" +
+                dmnSearch.Table = " tblSalesMaster sm LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode and GTypeId=2  " +
+                    "where  sm.Status=1 AND  CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "'  ) AS SourceTable" +
                                     " PIVOT( SUM(netamount) FOR Caption IN([CASH], [CREDIT CARD],[UPI], [DEBIT CARD], [BANKING ONLINE], [OTHERS (Loyalty)], [PART], [SPLIT]) " +
                                     ") AS PivotTable";
                 dmnSearch.WhereNdGroupBy = " ";
@@ -1178,6 +1206,20 @@ namespace FoodandBeverage.Forms
                             }));
                         }
                 }
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        {
+                            FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                            instanceFrmDashboard.time_syn_lal.Stop();
+                            instanceFrmDashboard.StopTimerAndRefreshLabel();
+                            instanceFrmDashboard.lblsync.Visible = true;
+                        }
+                    }));
+                }
+
             }
             catch (Exception ex)
             {
@@ -1193,17 +1235,6 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                //dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 " +
-                //" union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '"+ dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END) AS Field1," +
-                //" isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN netamount ELSE 0 END),0) AS Field2" +
-                //" from tblSalesMaster sm where sm.Rev_Status=0 and sm.Status = 1" +
-                //" union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN 1 ELSE 0 END),0) AS Field1 ," +
-                //" isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') THEN sm.netamount ELSE 0 END),0) AS Field2";
-                //dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
-                //dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
-                //dmnSearch.OrderBy = "";
-
-
                 dmnSearch.Select = "1 Field3,COUNT(*) AS Field1,isnull(SUM(netamount),0) AS Field2 from tblSalesMaster  where Status=1 and CONVERT(DATE,EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "'" +
                 " union select 2 Field3,SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN 1 ELSE 0 END) AS Field1," +
                 " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN netamount ELSE 0 END),0) AS Field2" +
@@ -1285,6 +1316,7 @@ namespace FoodandBeverage.Forms
                         {
                             C_startDate = DateTime.Now;
                             C_endDate = DateTime.Now;
+                            lbl_res_dine_sales.Text = "DATE : " + Convert.ToString(C_startDate.Date);
                         }
                         else
                         {
@@ -1561,6 +1593,7 @@ namespace FoodandBeverage.Forms
                             }));
                         }
                     }
+
                 }
             }
             catch (Exception ex)
@@ -1688,12 +1721,30 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
-
         #region ONE BAR CHART TOTAL DISCOUNT TIME PEROD 24HRS
         public void FillCharttotaldiscountChart()
         {
             try
             {
+                DateTime C_startDate = DateTime.Now;
+                DateTime C_endDate = DateTime.Now;
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.MONTH) || Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.YEAR))
+                        {
+                            C_startDate = DateTime.Now;
+                            C_endDate = DateTime.Now;
+                            lbl_discount.Text = "DATE : " + Convert.ToString(C_startDate.Date);
+                        }
+                        else
+                        {
+                            C_startDate = startDate;
+                            C_endDate = endDate;
+                        }
+                    }));
+                }
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " SUM(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 00 AND 4 THEN DiscountAmount ELSE 0 END) AS Field1, " +
@@ -1703,7 +1754,7 @@ namespace FoodandBeverage.Forms
                                    " SUM(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 16 AND 20 THEN DiscountAmount ELSE 0 END) AS Field5, " +
                                    " SUM(CASE WHEN DATEPART(HOUR, CreatedDateTime) BETWEEN 20 AND 24 THEN DiscountAmount ELSE 0 END) AS Field6";
                 dmnSearch.Table = " tblSalesMaster ";
-                dmnSearch.WhereNdGroupBy = " where  Status=1 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') ";
+                dmnSearch.WhereNdGroupBy = " where  Status=1 AND CONVERT(DATE, CreatedDateTime) BETWEEN '" + C_startDate.ToString("yyyy-MM-dd") + "' AND '" + C_endDate.ToString("yyyy-MM-dd") + "'" ;
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
@@ -1823,7 +1874,8 @@ namespace FoodandBeverage.Forms
                 decimal totalexpence = 0;
                 BllExpenceChart<DmnGridFields> bllSearch = new BllExpenceChart<DmnGridFields>();
                 DmnGridFields dmnSearch = new DmnGridFields();
-                dmnSearch.StartDate = dtp_dashboard.Value;
+                dmnSearch.StartDate = startDate;
+                dmnSearch.EndDate = endDate;
                 Expencedata = bllSearch.serachexpencedata("prdexpencechartdata", dmnSearch);
 
                 if (Expencedata.Count > 0)
@@ -2011,7 +2063,8 @@ namespace FoodandBeverage.Forms
             {
                 BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
                 DmnGridFields dmnSearch = new DmnGridFields();
-                dmnSearch.Field1 = dtp_dashboard.Value.ToString("yyyy-MM-dd");
+                dmnSearch.Field1 = startDate.ToString("yyyy-MM-dd");
+                dmnSearch.Field2 = endDate.ToString("yyyy-MM-dd");
                 resultslowfastdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
                 if (this.IsHandleCreated)
                 {
@@ -2221,6 +2274,13 @@ namespace FoodandBeverage.Forms
                       
                     }
                 }
+
+                if(RefreshFlag)                
+                    tlp_date_dashboard.Focus();                
+                else                 
+                    tcslow_move.Focus();
+                
+                RefreshFlag = false;
             }
             catch (Exception ex)
             {
@@ -2258,7 +2318,13 @@ namespace FoodandBeverage.Forms
         #endregion
         private void btnrefreshreport_Click(object sender, EventArgs e)
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            {
+                FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                instanceFrmDashboard.time_syn_lal.Start(); 
+            }
             RefreshCharts();
+          
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -2343,20 +2409,38 @@ namespace FoodandBeverage.Forms
                 {
                     int selectedDay = Convert.ToInt32(cmbserachvalue.SelectedItem); 
                     startDate = new DateTime(currentDate.Year, currentDate.Month, selectedDay);
-                    endDate = startDate.AddDays(1).AddSeconds(-1); 
+                    endDate = startDate.AddDays(1).AddSeconds(-1);
+
+                    lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
+                    lbl_discount.Text = "DATE : " + Convert.ToString(startDate.Date);
+                    lbl_paymentdetails.Text = "DATE : " +  Convert.ToString(startDate.Date);
+                    lblexpence.Text = "DATE : " +  Convert.ToString(startDate.Date);
+                    lbl_res_dine_sales.Text = "DATE : " +  Convert.ToString(startDate.Date);
                 }
                 else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.MONTH))
                 {
                     string selectedMonthName = cmbserachvalue.SelectedItem.ToString(); 
                     int selectedMonthIndex = Array.IndexOf(CultureInfo.CurrentCulture.DateTimeFormat.MonthNames, selectedMonthName);
                     startDate = new DateTime(currentDate.Year, selectedMonthIndex + 1, 1); 
-                    endDate = startDate.AddMonths(1).AddSeconds(-1); 
+                    endDate = startDate.AddMonths(1).AddSeconds(-1);
+
+                    lbl_fastslow.Text = "MONTH : " + selectedMonthName;
+                    lbl_discount.Text = "MONTH : " + selectedMonthName;
+                    lbl_paymentdetails.Text = "MONTH : " + selectedMonthName;
+                    lblexpence.Text = "MONTH : " + selectedMonthName;
+                    lbl_res_dine_sales.Text = "MONTH : " + selectedMonthName;
                 }
                 else if (Cmbserachtype.SelectedIndex == Convert.ToInt32(DMY.YEAR))
                 {
                     int selectedYear = Convert.ToInt32(cmbserachvalue.SelectedItem); 
                     startDate = new DateTime(selectedYear, 1, 1); 
-                    endDate = startDate.AddYears(1).AddSeconds(-1); 
+                    endDate = startDate.AddYears(1).AddSeconds(-1);
+
+                    lbl_fastslow.Text = "YEAR : " + Convert.ToString(selectedYear);
+                    lbl_discount.Text = "YEAR : " + Convert.ToString(selectedYear);
+                    lbl_paymentdetails.Text = "YEAR : " + Convert.ToString(selectedYear);
+                    lblexpence.Text = "YEAR : " +  Convert.ToString(selectedYear);
+                    lbl_res_dine_sales.Text = "YEAR : " +  Convert.ToString(selectedYear);
                 }
 
                 RefreshCharts();

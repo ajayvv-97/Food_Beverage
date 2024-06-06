@@ -1015,7 +1015,6 @@ namespace FoodandBeverage.Forms
                     {
                         if (pb1.BackgroundImage != null)
                         {
-
                             Bitmap bm = new Bitmap(pb1.BackgroundImage);
                             clsDocument.UploadImage(bm, InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
                         }
@@ -1049,7 +1048,6 @@ namespace FoodandBeverage.Forms
                         CMessageBox.Show("Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                        
                     }
-                    //Refreshform();
                 }
                 else
                 {

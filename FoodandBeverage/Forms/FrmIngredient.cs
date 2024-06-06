@@ -136,6 +136,7 @@ namespace FoodandBeverage.Forms
                                     dmnincr.Status = 1;
                                 else
                                     dmnincr.Status = 0;
+
                                 status = bllincr.AddData("prdInsert_upd_Incrediant", dmnincr);
                                 if (status.Ing_DetailsId > 0)
                                     statuscount++;
