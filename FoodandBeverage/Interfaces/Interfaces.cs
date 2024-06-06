@@ -251,6 +251,11 @@ namespace FoodandBeverage.Interfaces
         MONTH = 1,
         YEAR = 2,
     }
-    
+    public enum SerachType_orderview
+    {
+        OrderID = 0,
+        Tablecode = 1,
+    }
+
 }
 

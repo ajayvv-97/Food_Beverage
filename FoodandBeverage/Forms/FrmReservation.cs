@@ -1894,7 +1894,8 @@ namespace FoodandBeverage.Forms
 
                     string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
-
+                    if (String.IsNullOrEmpty(txtBookmasterId.Text))
+                        txtBookmasterId.Text = "0";
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
                     dmnReservation.Mobile = txtMob.Text;
