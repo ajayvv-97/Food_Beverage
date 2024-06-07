@@ -1281,7 +1281,7 @@ namespace FoodandBeverage.Forms
             this.tlp_grid.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tlp_grid.Controls.Add(this.pnl_toggle_grid, 1, 1);
             this.tlp_grid.Controls.Add(this.dgv_item, 0, 1);
-            this.tlp_grid.Location = new System.Drawing.Point(72, 151);
+            this.tlp_grid.Location = new System.Drawing.Point(72, 281);
             this.tlp_grid.Name = "tlp_grid";
             this.tlp_grid.RowCount = 2;
             this.tlp_grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));

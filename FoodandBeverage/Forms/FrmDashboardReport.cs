@@ -784,7 +784,9 @@ namespace FoodandBeverage.Forms
                     btn_four.Visible = (startPage + 3) <= totalPages;
                 }
             }
-            catch { }
+            catch 
+            {
+            }
         }
         private void DisplayDataForCurrentPage()
         {

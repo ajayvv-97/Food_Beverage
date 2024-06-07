@@ -288,7 +288,8 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    btn_start.Visible = false;
+                                    if(btn_start!=null)
+                                        btn_start.Visible = false;
                                     btn_ready.Visible = true;
                                     btn_cancelfood.Visible = false;
                                 }

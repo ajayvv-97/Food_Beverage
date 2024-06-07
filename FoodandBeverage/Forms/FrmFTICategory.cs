@@ -305,6 +305,7 @@ namespace FoodandBeverage.Forms
                 else
                     btnsave.Enabled = false;
             }
+
             txtfoodCate.Focus();
             dgv_category.BorderStyle = BorderStyle.None;
             dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);

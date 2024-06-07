@@ -256,6 +256,17 @@ namespace FoodandBeverage.Interfaces
         OrderID = 0,
         Tablecode = 1,
     }
+    public enum SerachType_Purchase
+    {
+        SaleProduct = 1,
+        NonSaleProduct = 2,
+        Category = 3
+    }
+    public enum Saletype
+    {
+        Sale = 1,
+        NonSaleProduct = 0,
+    }
 
 }
 

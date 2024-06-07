@@ -358,22 +358,21 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
             }
-            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) &&
-         (Convert.ToDecimal(txtsrate.Text) > 0) && (Convert.ToDecimal(txtmrp.Text) > 0))
+            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) &&  (Convert.ToDecimal(txtsrate.Text) > 0) && (Convert.ToDecimal(txtmrp.Text) > 0))
             {
                 CMessageBox.Show("Please Enter Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtprate.Focus();
                 return false;
             }
 
-            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) && (Convert.ToDecimal(txtmrp.Text) > 0))
+            if ((txtprate.Text == null || txtprate.Text == "" || (Convert.ToDecimal(txtprate.Text) == 0)) && (Convert.ToDecimal(txtmrp.Text) > 0) && ( rdb_dsale.Checked))
             {
                 CMessageBox.Show("Please Enter Purchase Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtprate.Focus();
                 return false;
             }
 
-            if (Convert.ToDecimal(txtprate.Text) > 0)
+            if (Convert.ToDecimal(txtprate.Text) > 0 && (rdb_dsale.Checked))
             {
                 if (Convert.ToDecimal(txtsrate.Text) < Convert.ToDecimal(txtprate.Text))
                 {
@@ -382,7 +381,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
             }
-            if (Convert.ToDecimal(txtsrate.Text) > 0)
+            if (Convert.ToDecimal(txtsrate.Text) > 0 && (rdb_dsale.Checked))
             {
                 if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
                 {
@@ -392,7 +391,7 @@ namespace FoodandBeverage.Forms
                 }
             }
 
-            if (Convert.ToDecimal(txtsrate.Text) > 0)
+            if (Convert.ToDecimal(txtsrate.Text) > 0 && (rdb_dsale.Checked))
             {
                 if (Convert.ToDecimal(txtmrp.Text) < Convert.ToDecimal(txtsrate.Text))
                 {
