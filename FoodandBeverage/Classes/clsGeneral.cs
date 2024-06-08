@@ -38,7 +38,42 @@ namespace FoodandBeverage.Classes
                     SendKeys.Send("{TAB}");
                 }
         }
+        public void GrideAutoSize(DataGridView dataGridView)
+        {
+            try
+            {
+                DataGridView gridView = new DataGridView();
+                foreach (DataGridViewColumn col in dataGridView.Columns)
+                {
+                    if (col.GetType() != typeof(DataGridViewCheckBoxColumn))
+                    {
+                        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    }
+                }
+                int columnCount = dataGridView.Columns.Count;
+                int availableWidth = dataGridView.ClientSize.Width - dataGridView.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+                if (availableWidth > 0)
+                {
+                    foreach (DataGridViewColumn col in dataGridView.Columns)
+                    {
+                        if (col.Index != 0 && col.Frozen != true)
+                            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
+                }
+                else
+                {
+                    foreach (DataGridViewColumn col in dataGridView.Columns)
+                    {
+                        if (col.Index != 0)
+                            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
+        }
         public bool IsControlNullOrDefault(Form form, Control[] controllList)
         {
             foreach (var item in controllList)

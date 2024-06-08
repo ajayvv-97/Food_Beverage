@@ -21,7 +21,8 @@ namespace Domain
         public string cobmoitemname { get; set; }
         public int PrId { get; set; }
         public string Kitchennumber { get; set; }
-        
+        public string VariatiionName { get; set; }
 
+        
     }
 }

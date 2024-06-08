@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Classes;
@@ -89,8 +88,9 @@ namespace FoodandBeverage.Forms
         public static int iMainProductStatusno = 37;
         public static int iAddoncountno = 38;
         public static int ividno = 39;
-        public static int iComboTaxamtno = 40; 
+        public static int iComboTaxamtno = 40;
         public static int iccodeno = 41;
+        public static int iVariatiionNameno = 42; 
 
         public static int Cbarcode = 0;
         public static int vname = 1;
@@ -120,6 +120,7 @@ namespace FoodandBeverage.Forms
         public static int CAV_id = 25;
         public static int CAddoncount = 26;
         public static int Cstatusno = 27;
+        public static int CVariatiionNameno = 28;
 
 
         public static int tslno = 0;
@@ -137,7 +138,6 @@ namespace FoodandBeverage.Forms
         TableLayoutPanel tlp_searchproduct_sidebar = new TableLayoutPanel();
         TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel();
         TableLayoutPanel tlp_price_list = new TableLayoutPanel();
-
 
         Color product_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
         Color seleproduct_buttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -180,8 +180,6 @@ namespace FoodandBeverage.Forms
         public int R_screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int R_screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
-
-
         public List<Namelist> CheckedNames = new List<Namelist>();
         public List<Namelist> BillList = new List<Namelist>();
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
@@ -203,6 +201,7 @@ namespace FoodandBeverage.Forms
         public string addon_Vari_Id = "";
         public  bool variflag = true,addonflag = true;
         public int Split_Rowno = 0;
+        public int maxLength_variation = 3;
         #endregion
 
         #region please wait loading
@@ -714,8 +713,17 @@ namespace FoodandBeverage.Forms
                                         tlp_seletedItem_col.Tag = gridSource[i].PrId;
                                         tlp_seletedItem_col.AccessibleDescription = "1";
 
-                                        if (Convert.ToInt32(gridSource[i].AddonStatus) == 1)
-                                            buttonitemname.Text = gridSource[i].ItemName + " + Addons[" + Convert.ToInt32(gridSource[i].Addoncount) + "]";
+                                        string shortVrianame = TruncateString(gridSource[i].VariatiionName, maxLength_variation);
+                                        bool vastatus = Convert.ToInt32(gridSource[i].AddonStatus) == 1;
+                                        int addonCount = Convert.ToInt32(gridSource[i].Addoncount);
+                                        bool hasVariation = !string.IsNullOrEmpty(shortVrianame);
+
+                                        if (vastatus && addonCount > 0 && hasVariation)
+                                            buttonitemname.Text = gridSource[i].ItemName + " (" + shortVrianame + ") Add[" + addonCount + "]";
+                                        else if (vastatus && addonCount > 0)
+                                            buttonitemname.Text = gridSource[i].ItemName + " Add[" + addonCount + "]";
+                                        else if (vastatus && hasVariation)
+                                            buttonitemname.Text = gridSource[i].ItemName + " (" + gridSource[i].VariatiionName + ")";
                                         else
                                             buttonitemname.Text = gridSource[i].ItemName;
 
@@ -1446,8 +1454,17 @@ namespace FoodandBeverage.Forms
                                     tlp_seletedItem_col.Tag = gridSource[i].PrId;
                                     tlp_seletedItem_col.AccessibleDescription = "1";
 
-                                    if (Convert.ToInt32(gridSource[i].AddonStatus)==1)
-                                        buttonitemname.Text = gridSource[i].ItemName + " + Addons[" + Convert.ToInt32(gridSource[i].Addoncount) + "]";
+                                    string shortVrianame = TruncateString(gridSource[i].VariatiionName, maxLength_variation);
+                                    bool vastatus = Convert.ToInt32(gridSource[i].AddonStatus) == 1;
+                                    int addonCount = Convert.ToInt32(gridSource[i].Addoncount);
+                                    bool hasVariation = !string.IsNullOrEmpty(shortVrianame);
+
+                                    if (vastatus && addonCount > 0 && hasVariation)
+                                        buttonitemname.Text = gridSource[i].ItemName + " (" + shortVrianame + ") Add[" + addonCount + "]";
+                                    else if (vastatus && addonCount > 0)
+                                        buttonitemname.Text = gridSource[i].ItemName + " Add[" + addonCount + "]";
+                                    else if (vastatus && hasVariation)
+                                        buttonitemname.Text = gridSource[i].ItemName + " (" + gridSource[i].VariatiionName + ")";
                                     else
                                         buttonitemname.Text = gridSource[i].ItemName;
 
@@ -6648,6 +6665,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
+                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
 
                                     if (txtentrie_descr.Text == "Description Type here .....")
                                         dmnorderdetail.MainRemarks = "";
@@ -7196,7 +7214,8 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[CAddonStatus].Value = gridSourcemaster_combined[i].AddonStatus;
                                     dgv_combined.Rows[rowIndex].Cells[CAV_id].Value = gridSourcemaster_combined[i].AV_id;
                                     dgv_combined.Rows[rowIndex].Cells[CAddoncount].Value = gridSourcemaster_combined[i].Addoncount;
-                                    dgv_combined.Rows[rowIndex].Cells[Cstatusno].Value = gridSourcemaster_combined[i].Status; 
+                                    dgv_combined.Rows[rowIndex].Cells[Cstatusno].Value = gridSourcemaster_combined[i].Status;
+                                    dgv_combined.Rows[rowIndex].Cells[CVariatiionNameno].Value= gridSourcemaster_combined[i].VariatiionName;
                                 }
                                 #endregion
 
@@ -7204,9 +7223,9 @@ namespace FoodandBeverage.Forms
                                 if (valueExists && updateRow != null)
                                 {
                                     updateRow.Cells[cqty].Value = Convert.ToInt32(updateRow.Cells[cqty].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].Quantity);
-                                    updateRow.Cells[cdisper].Value = Convert.ToInt32(updateRow.Cells[cdisper].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].DiscountPer);
+                                    //updateRow.Cells[cdisper].Value = Convert.ToInt32(updateRow.Cells[cdisper].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].DiscountPer);
                                     updateRow.Cells[cdisamt].Value = Convert.ToDecimal(updateRow.Cells[cdisamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].DiscountAmount);
-                                    updateRow.Cells[ctaxper].Value = Convert.ToDecimal(updateRow.Cells[ctaxper].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].TaxPer);
+                                    //updateRow.Cells[ctaxper].Value = Convert.ToDecimal(updateRow.Cells[ctaxper].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].TaxPer);
                                     updateRow.Cells[ctaxamt].Value = Convert.ToDecimal(updateRow.Cells[ctaxamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].TaxAmount);
                                     updateRow.Cells[camount].Value = Convert.ToDecimal(updateRow.Cells[camount].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].Amount);
                                     updateRow.Cells[ctotal].Value = Convert.ToDecimal(updateRow.Cells[ctotal].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].NetAmount);
@@ -7441,6 +7460,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.AddonStatus = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value);
                                         dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                         dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
+                                        dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
 
                                         var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                         if (InsertStatus == null)
@@ -7654,6 +7674,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
                                         dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
                                         dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
+                                        dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
 
                                         dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
 
@@ -9391,7 +9412,8 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
-                                    
+                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
+
                                     if (txtentrie_descr.Text == "Description Type here .....")
                                         dmnorderdetail.MainRemarks = "";
                                     else
@@ -10004,7 +10026,6 @@ namespace FoodandBeverage.Forms
                 pnl_variation_addon.Visible = false;
                 int vid = 0,pid=0;
                 string combinedId = "";
-                bool Addonflag = false;
                 Checked_VariationAddon_List = Checked_VariationAddon_List.OrderBy(item => item.Pavid).ToList();
                 var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
                 if (existingItem != null)
@@ -10041,6 +10062,11 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (gridSource.Count > 0)
                 {
+                    string vrianame = gridSource
+                     .Where(item => Convert.ToInt32(item.Field18) == vid)
+                     .Select(item => item.Field14.ToString())
+                     .FirstOrDefault();
+
                     tlp_tableorder.Enabled = true;
                     string tlpname = "tlp_seletedItem_col" + "_" + Av_ID;
                     TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
@@ -10122,7 +10148,8 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iavid].Value = Av_ID;
                         Dgv_Selected_Item.Rows[r1].Cells[ivaraiationstatusno].Value = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
                         Dgv_Selected_Item.Rows[r1].Cells[iAddoncountno].Value = AddonCount;
-                        Dgv_Selected_Item.Rows[r1].Cells[ividno].Value = vid; 
+                        Dgv_Selected_Item.Rows[r1].Cells[ividno].Value = vid;
+                        Dgv_Selected_Item.Rows[r1].Cells[iVariatiionNameno].Value = vrianame;
 
                         Dgv_Selected_Item.Rows.Add(1);
                         GridSlno_Refresh();   
@@ -10135,7 +10162,6 @@ namespace FoodandBeverage.Forms
                             var item = Checked_VariationAddon_List[i];
                             if (item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                             {
-                                Addonflag = true;
                                 r1 = Dgv_Selected_Item.RowCount - 1;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Value = i + 1;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -10206,11 +10232,16 @@ namespace FoodandBeverage.Forms
                         tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
 
                         // Configure the Button for Item name
+                        string shortVrianame = TruncateString(vrianame, maxLength_variation);
                         Button buttonitemname = new Button();
-                        if(Addonflag)
-                            buttonitemname.Text = gridSource[0].Field2+" + Addons["+ AddonCount + "]";
-                        else
-                            buttonitemname.Text = gridSource[0].Field2;
+                        if (AddonCount > 0 && vrianame != null && vrianame != "")                        
+                            buttonitemname.Text = gridSource[0].Field2 + "(" + shortVrianame + ") Add[" + AddonCount + "]";                        
+                        else if (AddonCount > 0)                        
+                            buttonitemname.Text = gridSource[0].Field2 + " Add[" + AddonCount + "]";                        
+                        else if (vrianame != null && vrianame != "")                        
+                            buttonitemname.Text = gridSource[0].Field2 + "(" + vrianame + ")";                        
+                        else                        
+                            buttonitemname.Text = gridSource[0].Field2;                        
 
                         buttonitemname.Name = "buttonitemname_" + Av_ID;
                         buttonitemname.AccessibleDescription = "4";
@@ -10313,6 +10344,11 @@ namespace FoodandBeverage.Forms
             {
 
             }
+        }
+        string TruncateString(string input, int maxLength)
+        {
+            if (string.IsNullOrEmpty(input)) return input;
+            return input.Length <= maxLength ? input : input.Substring(0, maxLength) + "..";
         }
 
         public void ShowVariationAddon(int pid)

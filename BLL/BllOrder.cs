@@ -103,7 +103,8 @@ namespace BLL
             parms.Add("Kitchennumber", objTestClass.Kitchennumber);
             parms.Add("vid", objTestClass.vid);
             parms.Add("CCode", objTestClass.CCode);
-            
+            parms.Add("VariatiionName", objTestClass.VariatiionName);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -50,5 +50,7 @@ namespace Domain
         public string AV_id { get; set; }
         public int Addoncount { get; set; }
         public string Cmid { get; set; }
+        public string VariatiionName { get; set; }
+        
     }    
 }

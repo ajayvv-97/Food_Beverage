@@ -121,6 +121,7 @@ namespace BLL
             parms.Add("AV_id", objTestClass.AV_id);
             parms.Add("Addoncount", objTestClass.Addoncount);
             parms.Add("Cmid", objTestClass.Cmid);
+            parms.Add("VariatiionName", objTestClass.VariatiionName);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;      
               
