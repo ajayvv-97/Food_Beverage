@@ -48,10 +48,6 @@ namespace FoodandBeverage.Report
             this.lblsublist = new System.Windows.Forms.Label();
             this.cmbSublist = new System.Windows.Forms.ComboBox();
             this.tblReportCategory = new System.Windows.Forms.TableLayoutPanel();
-            this.btnYealy = new System.Windows.Forms.Button();
-            this.btnWeekEnd = new System.Windows.Forms.Button();
-            this.btnMonthly = new System.Windows.Forms.Button();
-            this.btnWeekly = new System.Windows.Forms.Button();
             this.btnpickcolor = new System.Windows.Forms.Button();
             this.labheaderboxcolor = new System.Windows.Forms.Label();
             this.crv_report = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
@@ -61,6 +57,10 @@ namespace FoodandBeverage.Report
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
             this.dtpfrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnYealy = new System.Windows.Forms.Button();
+            this.btnWeekEnd = new System.Windows.Forms.Button();
+            this.btnMonthly = new System.Windows.Forms.Button();
+            this.btnWeekly = new System.Windows.Forms.Button();
             this.btnserach = new System.Windows.Forms.Button();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
@@ -342,79 +342,13 @@ namespace FoodandBeverage.Report
             this.tblReportCategory.Size = new System.Drawing.Size(377, 40);
             this.tblReportCategory.TabIndex = 45;
             // 
-            // btnYealy
-            // 
-            this.btnYealy.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnYealy.BackgroundImage")));
-            this.btnYealy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnYealy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnYealy.FlatAppearance.BorderSize = 0;
-            this.btnYealy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnYealy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnYealy.ForeColor = System.Drawing.Color.White;
-            this.btnYealy.Location = new System.Drawing.Point(285, 3);
-            this.btnYealy.Name = "btnYealy";
-            this.btnYealy.Size = new System.Drawing.Size(89, 34);
-            this.btnYealy.TabIndex = 47;
-            this.btnYealy.Text = "Yearly";
-            this.btnYealy.UseVisualStyleBackColor = true;
-            this.btnYealy.Click += new System.EventHandler(this.btnYealy_Click);
-            // 
-            // btnWeekEnd
-            // 
-            this.btnWeekEnd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekEnd.BackgroundImage")));
-            this.btnWeekEnd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnWeekEnd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWeekEnd.FlatAppearance.BorderSize = 0;
-            this.btnWeekEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeekEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWeekEnd.ForeColor = System.Drawing.Color.White;
-            this.btnWeekEnd.Location = new System.Drawing.Point(3, 3);
-            this.btnWeekEnd.Name = "btnWeekEnd";
-            this.btnWeekEnd.Size = new System.Drawing.Size(88, 34);
-            this.btnWeekEnd.TabIndex = 43;
-            this.btnWeekEnd.Text = "WeekEnd";
-            this.btnWeekEnd.UseVisualStyleBackColor = true;
-            this.btnWeekEnd.Click += new System.EventHandler(this.btnWeekEnd_Click);
-            // 
-            // btnMonthly
-            // 
-            this.btnMonthly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMonthly.BackgroundImage")));
-            this.btnMonthly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMonthly.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnMonthly.FlatAppearance.BorderSize = 0;
-            this.btnMonthly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMonthly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMonthly.ForeColor = System.Drawing.Color.White;
-            this.btnMonthly.Location = new System.Drawing.Point(191, 3);
-            this.btnMonthly.Name = "btnMonthly";
-            this.btnMonthly.Size = new System.Drawing.Size(88, 34);
-            this.btnMonthly.TabIndex = 46;
-            this.btnMonthly.Text = "Monthly";
-            this.btnMonthly.UseVisualStyleBackColor = true;
-            this.btnMonthly.Click += new System.EventHandler(this.btnMonthly_Click);
-            // 
-            // btnWeekly
-            // 
-            this.btnWeekly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekly.BackgroundImage")));
-            this.btnWeekly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnWeekly.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWeekly.FlatAppearance.BorderSize = 0;
-            this.btnWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWeekly.ForeColor = System.Drawing.Color.White;
-            this.btnWeekly.Location = new System.Drawing.Point(97, 3);
-            this.btnWeekly.Name = "btnWeekly";
-            this.btnWeekly.Size = new System.Drawing.Size(88, 34);
-            this.btnWeekly.TabIndex = 44;
-            this.btnWeekly.Text = "Weekly";
-            this.btnWeekly.UseVisualStyleBackColor = true;
-            this.btnWeekly.Click += new System.EventHandler(this.btnWeekly_Click);
-            // 
             // btnpickcolor
             // 
+            this.btnpickcolor.BackgroundImage = global::FoodandBeverage.Properties.Resources.colorpicker_report;
+            this.btnpickcolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnpickcolor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnpickcolor.FlatAppearance.BorderSize = 0;
-            this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
             this.btnpickcolor.Name = "btnpickcolor";
             this.btnpickcolor.Size = new System.Drawing.Size(47, 40);
@@ -513,6 +447,74 @@ namespace FoodandBeverage.Report
             this.label6.Size = new System.Drawing.Size(52, 18);
             this.label6.TabIndex = 27;
             this.label6.Text = "From :";
+            // 
+            // btnYealy
+            // 
+            this.btnYealy.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnYealy.BackgroundImage")));
+            this.btnYealy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnYealy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnYealy.FlatAppearance.BorderSize = 0;
+            this.btnYealy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnYealy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnYealy.ForeColor = System.Drawing.Color.White;
+            this.btnYealy.Location = new System.Drawing.Point(285, 3);
+            this.btnYealy.Name = "btnYealy";
+            this.btnYealy.Size = new System.Drawing.Size(89, 34);
+            this.btnYealy.TabIndex = 47;
+            this.btnYealy.Text = "Yearly";
+            this.btnYealy.UseVisualStyleBackColor = true;
+            this.btnYealy.Click += new System.EventHandler(this.btnYealy_Click);
+            // 
+            // btnWeekEnd
+            // 
+            this.btnWeekEnd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekEnd.BackgroundImage")));
+            this.btnWeekEnd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnWeekEnd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnWeekEnd.FlatAppearance.BorderSize = 0;
+            this.btnWeekEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeekEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWeekEnd.ForeColor = System.Drawing.Color.White;
+            this.btnWeekEnd.Location = new System.Drawing.Point(3, 3);
+            this.btnWeekEnd.Name = "btnWeekEnd";
+            this.btnWeekEnd.Size = new System.Drawing.Size(88, 34);
+            this.btnWeekEnd.TabIndex = 43;
+            this.btnWeekEnd.Text = "WeekEnd";
+            this.btnWeekEnd.UseVisualStyleBackColor = true;
+            this.btnWeekEnd.Click += new System.EventHandler(this.btnWeekEnd_Click);
+            // 
+            // btnMonthly
+            // 
+            this.btnMonthly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMonthly.BackgroundImage")));
+            this.btnMonthly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMonthly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMonthly.FlatAppearance.BorderSize = 0;
+            this.btnMonthly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMonthly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMonthly.ForeColor = System.Drawing.Color.White;
+            this.btnMonthly.Location = new System.Drawing.Point(191, 3);
+            this.btnMonthly.Name = "btnMonthly";
+            this.btnMonthly.Size = new System.Drawing.Size(88, 34);
+            this.btnMonthly.TabIndex = 46;
+            this.btnMonthly.Text = "Monthly";
+            this.btnMonthly.UseVisualStyleBackColor = true;
+            this.btnMonthly.Click += new System.EventHandler(this.btnMonthly_Click);
+            // 
+            // btnWeekly
+            // 
+            this.btnWeekly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekly.BackgroundImage")));
+            this.btnWeekly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnWeekly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnWeekly.FlatAppearance.BorderSize = 0;
+            this.btnWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWeekly.ForeColor = System.Drawing.Color.White;
+            this.btnWeekly.Location = new System.Drawing.Point(97, 3);
+            this.btnWeekly.Name = "btnWeekly";
+            this.btnWeekly.Size = new System.Drawing.Size(88, 34);
+            this.btnWeekly.TabIndex = 44;
+            this.btnWeekly.Text = "Weekly";
+            this.btnWeekly.UseVisualStyleBackColor = true;
+            this.btnWeekly.Click += new System.EventHandler(this.btnWeekly_Click);
             // 
             // btnserach
             // 

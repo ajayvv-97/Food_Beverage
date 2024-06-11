@@ -1934,8 +1934,6 @@ namespace FoodandBeverage.Forms
                             dmnReservation.FinalAmount = dmnReservation.BalnceNeed;
                             dmnReservation.BalnceNeed = 0;
                         }
-
-
                     }
                     else
                     {
@@ -1981,7 +1979,6 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                                 dmnReservation1.Rid = Convert.ToInt32(TableMenu.Rid);
 
-
                                 if (chb_active.Checked)
                                     dmnReservation1.Status = 1;
                                 else
@@ -2023,6 +2020,7 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+
                         int sum = 0;
                         int n = dgvmenu.RowCount;
                         for (int i = 0; i < n; i++)
@@ -2030,9 +2028,6 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) != null && Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) > 0)
                                 sum = sum + Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
                         }
-
-
-
                         dmnordermaster.OrderMasterId = 0;
                         dmnordermaster.EntryNo = "";
                         dmnordermaster.BookmasterId = InsertStatusP.BookmasterId;
@@ -2050,11 +2045,8 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.NetAmount = 0;
                         var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
 
-
-
                         if (InsertStatusO.OrderMasterId != 0)
                         {
-
                             for (int i = 0; i < dgvmenu.Rows.Count - 1; i++)
                             {
 

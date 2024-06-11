@@ -209,9 +209,6 @@ namespace FoodandBeverage.Forms
                 comboBox3.Text = "select";
                 cmdstate.Text = "select";
                 cmdcity.Text = "select";
-                certipic1.Text = "select";
-                certipic2.Text = "select";
-                certipic3.Text = "select";
                 
                 pb1.BackgroundImage = null;
                 pb1.Image = null;
@@ -911,65 +908,7 @@ namespace FoodandBeverage.Forms
                 Insert_Combo3(cmdcity.Text.Trim().ToUpper(), 43);
         }
 
-        private void certipic1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb1.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
 
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-            }
-        }
-
-        private void certipic2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-            }
-        }
-
-        private void certipic3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb3.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-            }
-        }
 
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -1045,8 +984,7 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         FrmDashboard.BranchId = FrmDashboard.BranchId;
-                        CMessageBox.Show("Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       
+                        CMessageBox.Show("Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                       
                     }
                 }
                 else
@@ -1057,9 +995,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-              
-                //Refreshform();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);             
             }
         }
 
@@ -1169,19 +1105,79 @@ namespace FoodandBeverage.Forms
             pb2.BackgroundImage = null;
         }
 
-        private void linkLabel12_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void linkLabel6_Click(object sender, EventArgs e)
-        {
-           
-        }
-
         private void linkLabel12_Click_1(object sender, EventArgs e)
         {
             pb3.BackgroundImage = null;
+        }      
+
+        private void btn_certipic1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb1.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
+
+        private void btn_certipic2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
+
+        private void btn_certipic3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb3.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
     }
 }

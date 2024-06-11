@@ -13,11 +13,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Domain;
 using CustomMessageBox;
+using System.IO;
+using OfficeOpenXml;
+using ClosedXML.Excel;
 
 namespace FoodandBeverage.Classes
 {
     public class ClsGeneral
     {
+        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReportExcel.xlsx";
+        public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";//  Application.StartupPath + @"\BugReport\BugReport.txt";//
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {
             Control ctrl;
@@ -37,6 +42,108 @@ namespace FoodandBeverage.Classes
                 {
                     SendKeys.Send("{TAB}");
                 }
+        }
+
+
+        //public void LogExceptionExcel(string page, Exception ex, string userName, string designation,int formtypeid)
+        //{
+        //    try
+        //    {
+        //        // Ensure the file path ends with .xlsx
+        //        if (Path.GetExtension(BugReportFileExcel) != ".xlsx")
+        //        {
+        //            MessageBox.Show("The file path must end with .xlsx extension.");
+        //            return;
+        //        }
+
+        //        XLWorkbook workbook;
+        //        IXLWorksheet worksheet;
+
+        //        // Check if the file exists
+        //        if (!File.Exists(BugReportFileExcel))
+        //        {
+        //            // Create a new workbook and add a worksheet
+        //            workbook = new XLWorkbook();
+        //            worksheet = workbook.Worksheets.Add("BugReport");
+
+        //            // Add headers
+        //            worksheet.Cell(1, 1).Value = "Date and Time";
+        //            worksheet.Cell(1, 2).Value = "Page";
+        //            worksheet.Cell(1, 3).Value = "Exception";
+        //            worksheet.Cell(1, 4).Value = "User Name";
+        //            worksheet.Cell(1, 5).Value = "Designation";
+        //        }
+        //        else
+        //        {
+        //            // Load existing workbook
+        //            workbook = new XLWorkbook(BugReportFileExcel);
+
+        //            // Check if the worksheet exists, create it if it doesn't
+        //            if (!workbook.Worksheets.TryGetWorksheet("BugReport", out worksheet))
+        //            {
+        //                worksheet = workbook.Worksheets.Add("BugReport");
+
+        //                // Add headers
+        //                worksheet.Cell(1, 1).Value = "Date and Time";
+        //                worksheet.Cell(1, 2).Value = "Page";
+        //                worksheet.Cell(1, 3).Value = "Exception";
+        //                worksheet.Cell(1, 4).Value = "User Name";
+        //                worksheet.Cell(1, 5).Value = "Designation";
+        //            }
+        //        }
+
+        //        // Determine the next empty row
+        //        var newRow = worksheet.LastRowUsed()?.RowNumber() + 1 ?? 1;
+        //        if (newRow == 1)
+        //        {
+        //            newRow = 2; // Skip the header row
+        //        }
+
+        //        // Insert new data
+        //        worksheet.Cell(newRow, 1).Value = DateTime.Now.ToString();
+        //        worksheet.Cell(newRow, 2).Value = page;
+        //        worksheet.Cell(newRow, 3).Value = ex.ToString();
+        //        worksheet.Cell(newRow, 4).Value = userName;
+        //        worksheet.Cell(newRow, 5).Value = designation;
+
+        //        // Save the workbook
+        //        workbook.SaveAs(BugReportFileExcel);
+        //    }
+        //    catch (IOException ioEx)
+        //    {
+        //        MessageBox.Show("File is currently in use or locked by another process: " + ioEx.Message);
+        //    }
+        //    catch (UnauthorizedAccessException uaEx)
+        //    {
+        //        MessageBox.Show("You do not have permission to write to this file: " + uaEx.Message);
+        //    }
+        //    catch (Exception logEx)
+        //    {
+        //        MessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+        //    }
+        //}
+
+        public  void LogException(string page, Exception ex,string userName, string designation,int Formtypeid)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(BugReportFile, true))
+                {
+                    sw.WriteLine("Date and Time: " + DateTime.Now.ToString());
+                    sw.WriteLine("Page : "+ page);
+                    sw.WriteLine("Exception: " +Convert.ToString((ex.Message)));
+                    sw.WriteLine("User Name: " + userName);
+                    sw.WriteLine("Designation: " + designation);
+                    sw.WriteLine("FormTypeId: " + Formtypeid);
+                    sw.WriteLine("-------------------------------------------------------------------------");
+                }
+
+
+            }
+            catch (Exception logEx)
+            {
+                MessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+            }
         }
         public void GrideAutoSize(DataGridView dataGridView)
         {

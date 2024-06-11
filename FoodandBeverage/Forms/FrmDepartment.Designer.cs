@@ -137,7 +137,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.375F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.333333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
             this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.mlblName, 1, 0);
@@ -162,10 +162,10 @@
             // 
             this.mtxtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mtxtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtCode.Location = new System.Drawing.Point(340, 33);
+            this.mtxtCode.Location = new System.Drawing.Point(339, 33);
             this.mtxtCode.Multiline = true;
             this.mtxtCode.Name = "mtxtCode";
-            this.mtxtCode.Size = new System.Drawing.Size(180, 28);
+            this.mtxtCode.Size = new System.Drawing.Size(179, 28);
             this.mtxtCode.TabIndex = 34;
             this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
             // 
@@ -175,9 +175,9 @@
             this.metroLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(340, 0);
+            this.metroLabel1.Location = new System.Drawing.Point(339, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(180, 30);
+            this.metroLabel1.Size = new System.Drawing.Size(179, 30);
             this.metroLabel1.TabIndex = 26;
             this.metroLabel1.Text = "Department Code : ";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -188,7 +188,7 @@
             this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(171, 0);
+            this.mlblName.Location = new System.Drawing.Point(170, 0);
             this.mlblName.Name = "mlblName";
             this.mlblName.Size = new System.Drawing.Size(163, 30);
             this.mlblName.TabIndex = 25;
@@ -202,7 +202,7 @@
             this.mtxtEmpSrlNo.Location = new System.Drawing.Point(3, 33);
             this.mtxtEmpSrlNo.Multiline = true;
             this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
-            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(162, 28);
+            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(161, 28);
             this.mtxtEmpSrlNo.TabIndex = 32;
             this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown_1);
             this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtEmpSrlNo_KeyPress_1);
@@ -215,7 +215,7 @@
             this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
             this.mlblEmpSrlNo.Location = new System.Drawing.Point(3, 0);
             this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
-            this.mlblEmpSrlNo.Size = new System.Drawing.Size(162, 30);
+            this.mlblEmpSrlNo.Size = new System.Drawing.Size(161, 30);
             this.mlblEmpSrlNo.TabIndex = 27;
             this.mlblEmpSrlNo.Text = "Employee Code :";
             this.mlblEmpSrlNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -224,7 +224,7 @@
             // 
             this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtName.Location = new System.Drawing.Point(171, 33);
+            this.mtxtName.Location = new System.Drawing.Point(170, 33);
             this.mtxtName.Multiline = true;
             this.mtxtName.Name = "mtxtName";
             this.mtxtName.Size = new System.Drawing.Size(163, 28);
@@ -242,7 +242,7 @@
             this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(544, 3);
+            this.mbtnSave.Location = new System.Drawing.Point(542, 3);
             this.mbtnSave.Name = "mbtnSave";
             this.mbtnSave.Size = new System.Drawing.Size(78, 24);
             this.mbtnSave.TabIndex = 22;
@@ -260,7 +260,7 @@
             this.mbtnRefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(544, 33);
+            this.mbtnRefresh.Location = new System.Drawing.Point(542, 33);
             this.mbtnRefresh.Name = "mbtnRefresh";
             this.mbtnRefresh.Size = new System.Drawing.Size(78, 28);
             this.mbtnRefresh.TabIndex = 23;
@@ -277,7 +277,7 @@
             this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(544, 67);
+            this.mbtnClose.Location = new System.Drawing.Point(542, 67);
             this.mbtnClose.Name = "mbtnClose";
             this.mbtnClose.Size = new System.Drawing.Size(78, 26);
             this.mbtnClose.TabIndex = 24;
@@ -291,7 +291,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.137931F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.86207F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Controls.Add(this.btncolse, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.label23, 1, 0);
@@ -312,7 +312,7 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(755, 3);
+            this.btncolse.Location = new System.Drawing.Point(754, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -323,11 +323,11 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Elephant", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label23.Location = new System.Drawing.Point(32, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(139, 25);
+            this.label23.Size = new System.Drawing.Size(117, 24);
             this.label23.TabIndex = 277;
             this.label23.Text = "Department";
             // 
@@ -339,7 +339,7 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(726, 3);
+            this.btnmini.Location = new System.Drawing.Point(725, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(23, 25);
             this.btnmini.TabIndex = 10;

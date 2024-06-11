@@ -583,6 +583,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap colorpicker_report {
+            get {
+                object obj = ResourceManager.GetObject("colorpicker_report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap colourpick_icon {
             get {
                 object obj = ResourceManager.GetObject("colourpick_icon", resourceCulture);
@@ -1952,6 +1962,56 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap reg_certificate_icon {
+            get {
+                object obj = ResourceManager.GetObject("reg_certificate_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reg_clear__icon {
+            get {
+                object obj = ResourceManager.GetObject("reg_clear__icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reg_download_icon {
+            get {
+                object obj = ResourceManager.GetObject("reg_download_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reg_view_icon {
+            get {
+                object obj = ResourceManager.GetObject("reg_view_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap registartion_search_icon {
+            get {
+                object obj = ResourceManager.GetObject("registartion_search_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap remove_image {
             get {
                 object obj = ResourceManager.GetObject("remove_image", resourceCulture);
@@ -2185,6 +2245,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap show_hide_side_panel {
             get {
                 object obj = ResourceManager.GetObject("show_hide_side_panel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sidemenu_button {
+            get {
+                object obj = ResourceManager.GetObject("sidemenu_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

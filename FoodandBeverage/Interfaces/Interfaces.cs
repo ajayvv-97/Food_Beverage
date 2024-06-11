@@ -285,6 +285,36 @@ namespace FoodandBeverage.Interfaces
         TreeView = 14,
         Tablelayoutpanel=15
     }
+    public enum FormType
+    {
+        Order = 1,
+        Kitchen_View = 2,
+        Category = 3,
+        Item = 4,
+        Product = 5,
+        Menu = 6,
+        Unit = 7,
+        Table = 8,
+        Purchase = 9,
+        Purchase_Return = 10,
+        Tax = 11,
+        Vendor = 12,
+        Discount_And_Offer = 13,
+        Expence = 14,
+        PromoCode = 15,
+        Company = 16,
+        Reservation = 17,
+        Employee = 18,
+        Department = 19,
+        Designation = 20,
+        User_Account = 21,
+        User_Permission = 22,
+        OrderView = 23,
+        Addon = 24,
+        Login=25,
+        homepage=26
+
+    };
 
 }
 

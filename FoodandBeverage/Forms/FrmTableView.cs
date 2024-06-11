@@ -32,8 +32,8 @@ namespace FoodandBeverage.Forms
         public Color DefaultColor = Color.White;
         public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
         public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
-        public Color ReservationColor  = Color.LightBlue;
-        public Color ExpiredColor = Color.LightGray;
+        public Color ReservationColor  = Color.LightYellow;
+        public Color ExpiredColor = Color.Red;
 
         public Color Defaultfontcolor = Color.Black;
         public Color Ordertablefontcolor = Color.Green;
@@ -191,9 +191,9 @@ namespace FoodandBeverage.Forms
                                 lbltablename.BackColor = Color.Transparent;
                                 lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                    lbltablename.ForeColor = Defaultfontcolor;
+                                    lbltablename.ForeColor =  Ordertablefontcolor;
                                 else
-                                    lbltablename.ForeColor = Ordertablefontcolor;
+                                    lbltablename.ForeColor = Defaultfontcolor;
                                 #endregion
 
                                 #region Net Amount
@@ -284,7 +284,6 @@ namespace FoodandBeverage.Forms
                                 {
                                     if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                     {
-
                                         #region order sent to kitchen ( running or complete )
                                         if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
                                         {
@@ -296,9 +295,25 @@ namespace FoodandBeverage.Forms
                                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
                                             if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                            {
+                                                netamountlabel.Visible = false;
                                                 tlp_table_inner.BackColor = OrderColor;
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                            }
                                             else
+                                            {
+                                                netamountlabel.Visible = true;
                                                 tlp_table_inner.BackColor = BillingColor;
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                                                netamountlabel.Dock = DockStyle.Fill;
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                                netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                                            }
 
                                             lbltablename.ForeColor = Ordertablefontcolor;
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -320,12 +335,23 @@ namespace FoodandBeverage.Forms
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 tlp_table_inner.BackColor = ReservationColor;
 
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+
                                             }
                                             else if (ExpdateNow > Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
                                                 tlp_table_inner.BackColor = ExpiredColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                                
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+
                                             }
                                         }
                                         #endregion
@@ -454,9 +480,9 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
                             {
                                 if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                    lbltablename.ForeColor = Defaultfontcolor;
-                                else
                                     lbltablename.ForeColor = Ordertablefontcolor;
+                                else
+                                    lbltablename.ForeColor = Defaultfontcolor;
 
                                 tlp_table_inner.AccessibleDescription = "0";
                                 lbltablename.AccessibleDescription = "0";
@@ -513,9 +539,25 @@ namespace FoodandBeverage.Forms
                                             if (gridSource_order.Count > 0)
                                             {
                                                 if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                                    tlp_table_inner.BackColor =OrderColor;
+                                                {
+                                                    netamountlabel.Visible = false;
+                                                    tlp_table_inner.BackColor = OrderColor;
+                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                    lbltablename.Dock = DockStyle.Fill;
+                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                                }
                                                 else
+                                                {
+                                                    netamountlabel.Visible = true;
                                                     tlp_table_inner.BackColor = BillingColor;
+                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
+                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                                                    netamountlabel.Dock = DockStyle.Fill;
+                                                    lbltablename.Dock = DockStyle.Fill;
+                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                                    netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                                                }
 
                                                 lbltablename.ForeColor = Ordertablefontcolor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -537,6 +579,11 @@ namespace FoodandBeverage.Forms
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
 
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+
                                             }
                                             else if (ExpdateNow >= Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                             {
@@ -544,22 +591,11 @@ namespace FoodandBeverage.Forms
                                                 tlp_table_inner.BackColor = ExpiredColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-
-                                            }
-                                            //else //reservation order time not 
-                                            //{
-                                            //    existingPictureBox.Width = 60;
-                                            //    existingPictureBox.Height = 35;
-
-                                            //    existingPictureBox.Visible = false;
-                                            //    existingPictureBox.Width = 60;
-                                            //    existingPictureBox.Height = 35;
-
-                                            //    tlp_table_inner.AccessibleDescription = "0";
-                                            //    pictureBox.AccessibleDescription = "0";
-                                            //    lbltablename.AccessibleDescription = "0";
-                                            //    pnl_box.AccessibleDescription = "0";
-                                            //}
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                            }                                 
                                         }
                                         #endregion
                                     }

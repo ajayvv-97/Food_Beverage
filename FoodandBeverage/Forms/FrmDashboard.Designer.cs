@@ -75,11 +75,6 @@ namespace FoodandBeverage.Forms
             this.btn_minimium = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
-            this.ib_designation = new FontAwesome.Sharp.IconButton();
-            this.ib_department = new FontAwesome.Sharp.IconButton();
-            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
-            this.ib_employee = new FontAwesome.Sharp.IconButton();
             this.ib_reservation = new FontAwesome.Sharp.IconButton();
             this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
             this.ib_Expence = new FontAwesome.Sharp.IconButton();
@@ -98,6 +93,11 @@ namespace FoodandBeverage.Forms
             this.ib_orderview = new FontAwesome.Sharp.IconButton();
             this.ib_kitchenview = new FontAwesome.Sharp.IconButton();
             this.ib_addon = new FontAwesome.Sharp.IconButton();
+            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
+            this.ib_designation = new FontAwesome.Sharp.IconButton();
+            this.ib_department = new FontAwesome.Sharp.IconButton();
+            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
+            this.ib_employee = new FontAwesome.Sharp.IconButton();
             this.pnl_tableorder = new System.Windows.Forms.Panel();
             this.tlp_tableorder = new System.Windows.Forms.TableLayoutPanel();
             this.btn_tableorder = new System.Windows.Forms.Button();
@@ -219,7 +219,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menuhome
             // 
-            this.Menuhome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menuhome.BackColor = System.Drawing.Color.Transparent;
+            this.Menuhome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menuhome.BackgroundImage")));
+            this.Menuhome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menuhome.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menuhome.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menuhome.FlatAppearance.BorderSize = 0;
@@ -229,11 +231,10 @@ namespace FoodandBeverage.Forms
             this.Menuhome.IconColor = System.Drawing.Color.White;
             this.Menuhome.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuhome.IconSize = 30;
-            this.Menuhome.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menuhome.Location = new System.Drawing.Point(10, 72);
-            this.Menuhome.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menuhome.Location = new System.Drawing.Point(0, 72);
+            this.Menuhome.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menuhome.Name = "Menuhome";
-            this.Menuhome.Size = new System.Drawing.Size(166, 66);
+            this.Menuhome.Size = new System.Drawing.Size(186, 66);
             this.Menuhome.TabIndex = 3;
             this.Menuhome.Tag = "Home";
             this.Menuhome.Text = "Home";
@@ -273,7 +274,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menubilling
             // 
-            this.Menubilling.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menubilling.BackColor = System.Drawing.Color.Transparent;
+            this.Menubilling.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menubilling.BackgroundImage")));
+            this.Menubilling.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menubilling.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menubilling.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menubilling.FlatAppearance.BorderSize = 0;
@@ -283,11 +286,10 @@ namespace FoodandBeverage.Forms
             this.Menubilling.IconColor = System.Drawing.Color.White;
             this.Menubilling.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menubilling.IconSize = 30;
-            this.Menubilling.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menubilling.Location = new System.Drawing.Point(10, 384);
-            this.Menubilling.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menubilling.Location = new System.Drawing.Point(0, 384);
+            this.Menubilling.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menubilling.Name = "Menubilling";
-            this.Menubilling.Size = new System.Drawing.Size(166, 66);
+            this.Menubilling.Size = new System.Drawing.Size(186, 66);
             this.Menubilling.TabIndex = 6;
             this.Menubilling.Tag = "Billing";
             this.Menubilling.Text = "Billing";
@@ -299,7 +301,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menuoperation
             // 
-            this.Menuoperation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menuoperation.BackColor = System.Drawing.Color.Transparent;
+            this.Menuoperation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menuoperation.BackgroundImage")));
+            this.Menuoperation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menuoperation.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menuoperation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menuoperation.FlatAppearance.BorderSize = 0;
@@ -309,11 +313,10 @@ namespace FoodandBeverage.Forms
             this.Menuoperation.IconColor = System.Drawing.Color.White;
             this.Menuoperation.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuoperation.IconSize = 30;
-            this.Menuoperation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menuoperation.Location = new System.Drawing.Point(10, 228);
-            this.Menuoperation.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menuoperation.Location = new System.Drawing.Point(0, 228);
+            this.Menuoperation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menuoperation.Name = "Menuoperation";
-            this.Menuoperation.Size = new System.Drawing.Size(166, 66);
+            this.Menuoperation.Size = new System.Drawing.Size(186, 66);
             this.Menuoperation.TabIndex = 4;
             this.Menuoperation.Tag = "operation";
             this.Menuoperation.Text = "Operations";
@@ -325,7 +328,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menutable
             // 
-            this.Menutable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menutable.BackColor = System.Drawing.Color.Transparent;
+            this.Menutable.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menutable.BackgroundImage")));
+            this.Menutable.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menutable.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menutable.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menutable.FlatAppearance.BorderSize = 0;
@@ -335,11 +340,10 @@ namespace FoodandBeverage.Forms
             this.Menutable.IconColor = System.Drawing.Color.White;
             this.Menutable.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menutable.IconSize = 30;
-            this.Menutable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menutable.Location = new System.Drawing.Point(10, 150);
-            this.Menutable.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menutable.Location = new System.Drawing.Point(0, 150);
+            this.Menutable.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menutable.Name = "Menutable";
-            this.Menutable.Size = new System.Drawing.Size(166, 66);
+            this.Menutable.Size = new System.Drawing.Size(186, 66);
             this.Menutable.TabIndex = 11;
             this.Menutable.Tag = "Table";
             this.Menutable.Text = "Table";
@@ -351,7 +355,9 @@ namespace FoodandBeverage.Forms
             // 
             // menuEmployee
             // 
-            this.menuEmployee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.menuEmployee.BackColor = System.Drawing.Color.Transparent;
+            this.menuEmployee.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuEmployee.BackgroundImage")));
+            this.menuEmployee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.menuEmployee.Dock = System.Windows.Forms.DockStyle.Top;
             this.menuEmployee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.menuEmployee.FlatAppearance.BorderSize = 0;
@@ -361,11 +367,10 @@ namespace FoodandBeverage.Forms
             this.menuEmployee.IconColor = System.Drawing.Color.White;
             this.menuEmployee.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.menuEmployee.IconSize = 30;
-            this.menuEmployee.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.menuEmployee.Location = new System.Drawing.Point(10, 306);
-            this.menuEmployee.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.menuEmployee.Location = new System.Drawing.Point(0, 306);
+            this.menuEmployee.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.menuEmployee.Name = "menuEmployee";
-            this.menuEmployee.Size = new System.Drawing.Size(166, 66);
+            this.menuEmployee.Size = new System.Drawing.Size(186, 66);
             this.menuEmployee.TabIndex = 9;
             this.menuEmployee.Tag = "Employee";
             this.menuEmployee.Text = "Employee";
@@ -377,7 +382,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menureport
             // 
-            this.Menureport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menureport.BackColor = System.Drawing.Color.Transparent;
+            this.Menureport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menureport.BackgroundImage")));
+            this.Menureport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menureport.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menureport.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menureport.FlatAppearance.BorderSize = 0;
@@ -387,11 +394,10 @@ namespace FoodandBeverage.Forms
             this.Menureport.IconColor = System.Drawing.Color.White;
             this.Menureport.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menureport.IconSize = 30;
-            this.Menureport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menureport.Location = new System.Drawing.Point(10, 462);
-            this.Menureport.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menureport.Location = new System.Drawing.Point(0, 462);
+            this.Menureport.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menureport.Name = "Menureport";
-            this.Menureport.Size = new System.Drawing.Size(166, 66);
+            this.Menureport.Size = new System.Drawing.Size(186, 66);
             this.Menureport.TabIndex = 5;
             this.Menureport.Tag = "Report";
             this.Menureport.Text = "Report";
@@ -403,7 +409,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menulogout
             // 
-            this.Menulogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menulogout.BackColor = System.Drawing.Color.Transparent;
+            this.Menulogout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menulogout.BackgroundImage")));
+            this.Menulogout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menulogout.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menulogout.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menulogout.FlatAppearance.BorderSize = 0;
@@ -413,11 +421,10 @@ namespace FoodandBeverage.Forms
             this.Menulogout.IconColor = System.Drawing.Color.White;
             this.Menulogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menulogout.IconSize = 30;
-            this.Menulogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menulogout.Location = new System.Drawing.Point(10, 618);
-            this.Menulogout.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menulogout.Location = new System.Drawing.Point(0, 618);
+            this.Menulogout.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menulogout.Name = "Menulogout";
-            this.Menulogout.Size = new System.Drawing.Size(166, 66);
+            this.Menulogout.Size = new System.Drawing.Size(186, 66);
             this.Menulogout.TabIndex = 8;
             this.Menulogout.Tag = "Logout";
             this.Menulogout.Text = "Logout";
@@ -429,7 +436,9 @@ namespace FoodandBeverage.Forms
             // 
             // Menusetting
             // 
-            this.Menusetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Menusetting.BackColor = System.Drawing.Color.Transparent;
+            this.Menusetting.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menusetting.BackgroundImage")));
+            this.Menusetting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menusetting.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menusetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Menusetting.FlatAppearance.BorderSize = 0;
@@ -439,11 +448,10 @@ namespace FoodandBeverage.Forms
             this.Menusetting.IconColor = System.Drawing.Color.White;
             this.Menusetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menusetting.IconSize = 30;
-            this.Menusetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Menusetting.Location = new System.Drawing.Point(10, 540);
-            this.Menusetting.Margin = new System.Windows.Forms.Padding(10, 10, 10, 2);
+            this.Menusetting.Location = new System.Drawing.Point(0, 540);
+            this.Menusetting.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
             this.Menusetting.Name = "Menusetting";
-            this.Menusetting.Size = new System.Drawing.Size(166, 66);
+            this.Menusetting.Size = new System.Drawing.Size(186, 66);
             this.Menusetting.TabIndex = 7;
             this.Menusetting.Tag = "Settings";
             this.Menusetting.Text = "Settings";
@@ -700,7 +708,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.46811F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 5, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -722,7 +730,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(617, 0);
+            this.lbltime.Location = new System.Drawing.Point(606, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -751,7 +759,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(92, 3);
+            this.btn_avial.Location = new System.Drawing.Point(90, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(54, 36);
             this.btn_avial.TabIndex = 0;
@@ -766,7 +774,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(270, 3);
+            this.btn_rev.Location = new System.Drawing.Point(264, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(54, 36);
             this.btn_rev.TabIndex = 1;
@@ -781,7 +789,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(181, 3);
+            this.btn_running.Location = new System.Drawing.Point(177, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(54, 36);
             this.btn_running.TabIndex = 2;
@@ -794,7 +802,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(629, 3);
+            this.pbusericon.Location = new System.Drawing.Point(618, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -805,7 +813,7 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(623, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(612, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
@@ -817,9 +825,9 @@ namespace FoodandBeverage.Forms
             this.lblsync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblsync.Location = new System.Drawing.Point(359, 0);
+            this.lblsync.Location = new System.Drawing.Point(351, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(252, 42);
+            this.lblsync.Size = new System.Drawing.Size(249, 42);
             this.lblsync.TabIndex = 7;
             this.lblsync.Tag = "Synchronizing...";
             this.lblsync.Text = "Synchronizing...";
@@ -856,146 +864,6 @@ namespace FoodandBeverage.Forms
             this.btn_minimium.TabIndex = 0;
             this.btn_minimium.UseVisualStyleBackColor = false;
             this.btn_minimium.Click += new System.EventHandler(this.btn_minimium_Click);
-            // 
-            // ib_userpermission
-            // 
-            this.ib_userpermission.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_userpermission.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_userpermission.FlatAppearance.BorderSize = 0;
-            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_userpermission.IconColor = System.Drawing.Color.White;
-            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_userpermission.IconSize = 30;
-            this.ib_userpermission.Location = new System.Drawing.Point(113, 69);
-            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_userpermission.Name = "ib_userpermission";
-            this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_userpermission.Size = new System.Drawing.Size(23, 39);
-            this.ib_userpermission.TabIndex = 22;
-            this.ib_userpermission.Tag = "User Permission";
-            this.ib_userpermission.Text = "User Permission";
-            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
-            this.ib_userpermission.UseVisualStyleBackColor = false;
-            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
-            this.ib_userpermission.MouseLeave += new System.EventHandler(this.ib_userpermission_MouseLeave);
-            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_designation
-            // 
-            this.ib_designation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_designation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_designation.FlatAppearance.BorderSize = 0;
-            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_designation.IconColor = System.Drawing.Color.White;
-            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_designation.IconSize = 30;
-            this.ib_designation.Location = new System.Drawing.Point(30, 69);
-            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_designation.Name = "ib_designation";
-            this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_designation.Size = new System.Drawing.Size(23, 39);
-            this.ib_designation.TabIndex = 20;
-            this.ib_designation.Tag = "Designation ";
-            this.ib_designation.Text = "Designation ";
-            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
-            this.ib_designation.UseVisualStyleBackColor = false;
-            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
-            this.ib_designation.MouseLeave += new System.EventHandler(this.ib_designation_MouseLeave);
-            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_department
-            // 
-            this.ib_department.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_department.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_department.FlatAppearance.BorderSize = 0;
-            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_department.IconColor = System.Drawing.Color.White;
-            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_department.IconSize = 30;
-            this.ib_department.Location = new System.Drawing.Point(113, 10);
-            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_department.Name = "ib_department";
-            this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_department.Size = new System.Drawing.Size(23, 39);
-            this.ib_department.TabIndex = 19;
-            this.ib_department.Tag = "Department";
-            this.ib_department.Text = "Department";
-            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
-            this.ib_department.UseVisualStyleBackColor = false;
-            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
-            this.ib_department.MouseLeave += new System.EventHandler(this.ib_department_MouseLeave);
-            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_useraccount
-            // 
-            this.ib_useraccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_useraccount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ib_useraccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_useraccount.FlatAppearance.BorderSize = 0;
-            this.ib_useraccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_useraccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_useraccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_useraccount.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_useraccount.IconColor = System.Drawing.Color.White;
-            this.ib_useraccount.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_useraccount.IconSize = 30;
-            this.ib_useraccount.Location = new System.Drawing.Point(196, 10);
-            this.ib_useraccount.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_useraccount.Name = "ib_useraccount";
-            this.ib_useraccount.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_useraccount.Size = new System.Drawing.Size(25, 39);
-            this.ib_useraccount.TabIndex = 21;
-            this.ib_useraccount.Tag = "User Account";
-            this.ib_useraccount.Text = "User Account";
-            this.ib_useraccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_useraccount, "User Account Registartion");
-            this.ib_useraccount.UseVisualStyleBackColor = false;
-            this.ib_useraccount.Click += new System.EventHandler(this.ib_useraccount_Click);
-            this.ib_useraccount.MouseLeave += new System.EventHandler(this.ib_useraccount_MouseLeave);
-            this.ib_useraccount.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_employee
-            // 
-            this.ib_employee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_employee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_employee.FlatAppearance.BorderSize = 0;
-            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_employee.IconColor = System.Drawing.Color.White;
-            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_employee.IconSize = 30;
-            this.ib_employee.Location = new System.Drawing.Point(30, 10);
-            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_employee.Name = "ib_employee";
-            this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_employee.Size = new System.Drawing.Size(23, 39);
-            this.ib_employee.TabIndex = 18;
-            this.ib_employee.Tag = "Employee";
-            this.ib_employee.Text = "Employee";
-            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
-            this.ib_employee.UseVisualStyleBackColor = false;
-            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
-            this.ib_employee.MouseLeave += new System.EventHandler(this.ib_employee_MouseLeave);
-            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // ib_reservation
             // 
@@ -1496,6 +1364,146 @@ namespace FoodandBeverage.Forms
             this.ib_addon.Visible = false;
             this.ib_addon.Click += new System.EventHandler(this.ib_addon_Click);
             this.ib_addon.MouseLeave += new System.EventHandler(this.ib_addon_MouseLeave);
+            // 
+            // ib_userpermission
+            // 
+            this.ib_userpermission.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_userpermission.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_userpermission.FlatAppearance.BorderSize = 0;
+            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_userpermission.IconColor = System.Drawing.Color.White;
+            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_userpermission.IconSize = 30;
+            this.ib_userpermission.Location = new System.Drawing.Point(113, 69);
+            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_userpermission.Name = "ib_userpermission";
+            this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_userpermission.Size = new System.Drawing.Size(23, 39);
+            this.ib_userpermission.TabIndex = 22;
+            this.ib_userpermission.Tag = "User Permission";
+            this.ib_userpermission.Text = "User Permission";
+            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
+            this.ib_userpermission.UseVisualStyleBackColor = false;
+            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
+            this.ib_userpermission.MouseLeave += new System.EventHandler(this.ib_userpermission_MouseLeave);
+            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_designation
+            // 
+            this.ib_designation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_designation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_designation.FlatAppearance.BorderSize = 0;
+            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_designation.IconColor = System.Drawing.Color.White;
+            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_designation.IconSize = 30;
+            this.ib_designation.Location = new System.Drawing.Point(30, 69);
+            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_designation.Name = "ib_designation";
+            this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_designation.Size = new System.Drawing.Size(23, 39);
+            this.ib_designation.TabIndex = 20;
+            this.ib_designation.Tag = "Designation ";
+            this.ib_designation.Text = "Designation ";
+            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
+            this.ib_designation.UseVisualStyleBackColor = false;
+            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
+            this.ib_designation.MouseLeave += new System.EventHandler(this.ib_designation_MouseLeave);
+            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_department
+            // 
+            this.ib_department.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_department.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_department.FlatAppearance.BorderSize = 0;
+            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_department.IconColor = System.Drawing.Color.White;
+            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_department.IconSize = 30;
+            this.ib_department.Location = new System.Drawing.Point(113, 10);
+            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_department.Name = "ib_department";
+            this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_department.Size = new System.Drawing.Size(23, 39);
+            this.ib_department.TabIndex = 19;
+            this.ib_department.Tag = "Department";
+            this.ib_department.Text = "Department";
+            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
+            this.ib_department.UseVisualStyleBackColor = false;
+            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
+            this.ib_department.MouseLeave += new System.EventHandler(this.ib_department_MouseLeave);
+            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_useraccount
+            // 
+            this.ib_useraccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_useraccount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ib_useraccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_useraccount.FlatAppearance.BorderSize = 0;
+            this.ib_useraccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_useraccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_useraccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_useraccount.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_useraccount.IconColor = System.Drawing.Color.White;
+            this.ib_useraccount.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_useraccount.IconSize = 30;
+            this.ib_useraccount.Location = new System.Drawing.Point(196, 10);
+            this.ib_useraccount.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_useraccount.Name = "ib_useraccount";
+            this.ib_useraccount.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_useraccount.Size = new System.Drawing.Size(25, 39);
+            this.ib_useraccount.TabIndex = 21;
+            this.ib_useraccount.Tag = "User Account";
+            this.ib_useraccount.Text = "User Account";
+            this.ib_useraccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_useraccount, "User Account Registartion");
+            this.ib_useraccount.UseVisualStyleBackColor = false;
+            this.ib_useraccount.Click += new System.EventHandler(this.ib_useraccount_Click);
+            this.ib_useraccount.MouseLeave += new System.EventHandler(this.ib_useraccount_MouseLeave);
+            this.ib_useraccount.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_employee
+            // 
+            this.ib_employee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_employee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_employee.FlatAppearance.BorderSize = 0;
+            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_employee.IconColor = System.Drawing.Color.White;
+            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_employee.IconSize = 30;
+            this.ib_employee.Location = new System.Drawing.Point(30, 10);
+            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_employee.Name = "ib_employee";
+            this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_employee.Size = new System.Drawing.Size(23, 39);
+            this.ib_employee.TabIndex = 18;
+            this.ib_employee.Tag = "Employee";
+            this.ib_employee.Text = "Employee";
+            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
+            this.ib_employee.UseVisualStyleBackColor = false;
+            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
+            this.ib_employee.MouseLeave += new System.EventHandler(this.ib_employee_MouseLeave);
+            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // pnl_tableorder
             // 

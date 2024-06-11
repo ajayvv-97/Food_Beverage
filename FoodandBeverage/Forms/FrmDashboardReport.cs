@@ -131,6 +131,7 @@ namespace FoodandBeverage.Forms
                 RunMethodInSeparateThread(FillBoxdetailed);
                 RunMethodInSeparateThread(LoadSlowfastData);
                 RunMethodInSeparateThread(Fillpaymentdetailed);
+                tcslow_move.SelectedIndex = 1;
                 this.Focus();
                 pnl_dashboard.ResumeLayout();
 
@@ -230,7 +231,8 @@ namespace FoodandBeverage.Forms
                 RunMethodInSeparateThread(FillCharttotaldiscountChart);
                 RunMethodInSeparateThread(FillChartExpence);
                 RunMethodInSeparateThread(Fillpaymentdetailed);
-                tcslow_move.SelectedIndex = 0;
+
+                tcslow_move.SelectedIndex = 1;
                 this.Focus();
                 pnl_dashboard.ResumeLayout();
             }
@@ -2068,13 +2070,13 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Field1 = startDate.ToString("yyyy-MM-dd");
                 dmnSearch.Field2 = endDate.ToString("yyyy-MM-dd");
                 resultslowfastdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        tcslow_move.SelectedIndex = 1;
-                    }));
-                }
+                //if (this.IsHandleCreated)
+                //{
+                //    this.Invoke(new Action(() =>
+                //    {
+                //        tcslow_move.SelectedIndex = 1;
+                //    }));
+                //}
         
             }
             catch(Exception ex)

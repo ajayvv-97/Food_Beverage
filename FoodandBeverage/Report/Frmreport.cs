@@ -380,6 +380,7 @@ namespace FoodandBeverage.Report
                         //    s_FillReport_Inventory(Convert.ToInt32(cmbreport.SelectedValue));
                         //    break;
                 }
+
             }
             catch (Exception ex)
             {
@@ -866,7 +867,7 @@ namespace FoodandBeverage.Report
                 {
                     ColorChk = true;
                     selectedColor = cd_headingcolor.Color;
-                    btnpickcolor.BackColor = selectedColor;
+                    labheaderboxcolor.BackColor = selectedColor;
                     //FindAndSetColor
                 }
                 else

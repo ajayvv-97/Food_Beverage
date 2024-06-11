@@ -805,7 +805,6 @@ namespace FoodandBeverage.Forms
                  var detailslist = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (detailslist.Count > 0)
                 {
-
                     int count = 0;
                     if (tlp_next_prev.Visible !=false)
                         pnl_empty_msg.Visible = false;
@@ -1401,10 +1400,7 @@ namespace FoodandBeverage.Forms
                 if (dgvorderview.CurrentCell.OwningColumn is DataGridViewComboBoxColumn)
                 {
                     refreshtimer_main.Stop();
-                }
-                else
-                    refreshtimer_main.Start();
-
+                }              
             }
             catch( Exception ex)
             {

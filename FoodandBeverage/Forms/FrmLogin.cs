@@ -3,6 +3,7 @@ using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,14 +48,16 @@ namespace FoodandBeverage.Forms
         string photo;
         bool imageExist;
         ClsDocument clsDocument = new ClsDocument();
+        ClsGeneral clsgen = new ClsGeneral();
         public static int flag = 0;
         public byte[] encryptPassword;
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
 
         public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";// ;";
-        public static string ReportPath =Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
-        public static string SaleBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//  Application.StartupPath + @"\SaleBill";//
+        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// Application.StartupPath + @"\Report";//
+        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//  Application.StartupPath + @"\SaleBill";//
+
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -86,11 +89,10 @@ namespace FoodandBeverage.Forms
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
                     textBox.BorderStyle = BorderStyle.None;
                 }
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                clsgen.LogException( "Login Page textb_shape()",ex,EmployeName, Designation,Convert.ToInt32(FormType.Login));
             }
         }
 
@@ -146,6 +148,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (IsPasswordvalid())
                         {
+
                             #region frist Login Empty db
                             if(txtUserName.Text== "test" && txtPwd.Text == "test")
                             {
@@ -168,9 +171,10 @@ namespace FoodandBeverage.Forms
                                 DashBoard.WindowState = FormWindowState.Normal;
                             }
                             #endregion
+
                             else
                             {
-                                    #region retrieve data after login
+                                #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
@@ -232,8 +236,9 @@ namespace FoodandBeverage.Forms
 
             }
             catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {               
+                clsgen.LogException("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+               // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool IsValidHtmlColor(string color)
@@ -243,8 +248,9 @@ namespace FoodandBeverage.Forms
                 ColorTranslator.FromHtml(color);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                clsgen.LogException("Login Page IsValidHtmlColor()", ex, EmployeName, Designation,Convert.ToInt32(FormType.Login));
                 return false;
             }
         }
@@ -319,45 +325,53 @@ namespace FoodandBeverage.Forms
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
-            if (str1 != "Card not in contact")
+            try
             {
-                timer1.Stop();
-                if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
-                    str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
-                str1 = RemoveSpecialCharacters(str1.Trim());
-                if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact")
+                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
+                if (str1 != "Card not in contact")
                 {
-                    CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                else
-                {
-                    BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "tblEmployee.ICardNo,tblEmployee.BranchId, tblUserAccount.UserAccountId, tblUserAccount.Username, tblUserAccount.PasswordHash, tblUserAccount.PasswordSalt,tblEmployee.RFID_Login_Status";
-                    objSearch.Table = " tblEmployee INNER JOIN tblUserAccount ON tblEmployee.EmployeeId = tblUserAccount.EmployeeId";
-                    objSearch.WhereNdGroupBy = "where tblEmployee.ICardNo ='" + str1 + "' And tblEmployee.Status=1";
-                    objSearch.OrderBy = "Order By UserAccountId ";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                    //mcmbUserAccountType.SelectedValue = gridSource[0].UserAccountTypeId;
-                    if (gridSource.Count > 0)
+                    timer1.Stop();
+                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
+                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
+                    str1 = RemoveSpecialCharacters(str1.Trim());
+                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact")
                     {
-                        if (gridSource[0].RFID_Login_Status == 1)
-                        {
-                            timer1.Stop();
-                            txtUserName.Text = Convert.ToString(gridSource[0].Username);
-                            txtPwd.Text = Convert.ToString(gridSource[0].PasswordHash);
-                            encryptPassword = gridSource[0].PasswordHash;
-                            var data = new List<byte>();
-                            rfid = 1;
-                        }
-                        btnlogin_Click(sender, e);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
 
+                    else
+                    {
+                        BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch.Select = "tblEmployee.ICardNo,tblEmployee.BranchId, tblUserAccount.UserAccountId, tblUserAccount.Username, tblUserAccount.PasswordHash, tblUserAccount.PasswordSalt,tblEmployee.RFID_Login_Status";
+                        objSearch.Table = " tblEmployee INNER JOIN tblUserAccount ON tblEmployee.EmployeeId = tblUserAccount.EmployeeId";
+                        objSearch.WhereNdGroupBy = "where tblEmployee.ICardNo ='" + str1 + "' And tblEmployee.Status=1";
+                        objSearch.OrderBy = "Order By UserAccountId ";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                        //mcmbUserAccountType.SelectedValue = gridSource[0].UserAccountTypeId;
+                        if (gridSource.Count > 0)
+                        {
+                            if (gridSource[0].RFID_Login_Status == 1)
+                            {
+                                timer1.Stop();
+                                txtUserName.Text = Convert.ToString(gridSource[0].Username);
+                                txtPwd.Text = Convert.ToString(gridSource[0].PasswordHash);
+                                encryptPassword = gridSource[0].PasswordHash;
+                                var data = new List<byte>();
+                                rfid = 1;
+                            }
+                            btnlogin_Click(sender, e);
+                        }
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                clsgen.LogException("Login Page timer1_Tick()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
+
         public bool IsValid()
         {
             if (txtUserName.Text == "User Name .....")

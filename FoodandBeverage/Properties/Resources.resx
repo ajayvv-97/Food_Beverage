@@ -817,4 +817,25 @@
   <data name="search_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search_report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="colorpicker_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\colorpicker_report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sidemenu_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sidemenu_button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="registartion_search_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\registartion_search icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_certificate_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_certificate icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_clear__icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_clear' icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_download_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_download icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_view_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_view icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

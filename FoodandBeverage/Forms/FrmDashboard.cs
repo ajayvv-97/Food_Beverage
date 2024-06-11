@@ -14,6 +14,7 @@ using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Forms.UserControls;
 using System.Threading.Tasks;
 using System.Threading;
+using FoodandBeverage.Classes;
 
 namespace FoodandBeverage.Forms
 {
@@ -75,6 +76,7 @@ namespace FoodandBeverage.Forms
         public bool menutable_click = false;
         private LoadingGIF_Timer loadingForm;
         public DateTime startTime = DateTime.Now;
+        ClsGeneral clsgen = new ClsGeneral();
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -91,8 +93,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Login Page Menulogout_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation,Convert.ToInt32(FormType.Login));
             }
+
         }
 
         #region please wait loading
@@ -126,7 +129,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 //panelDesktop.Controls.Add(tlp_op_menu);
                 //tlp_op_menu.Dock = DockStyle.Fill;
                 //tlp_op_menu.Visible = true;
@@ -153,6 +155,7 @@ namespace FoodandBeverage.Forms
 
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
+
                 tlp_main.BackColor = menubuttoncolor;
                 flp_navbar.BackColor = menubuttoncolor;
                 btn_minimium.BackColor = menubuttoncolor;
@@ -168,14 +171,15 @@ namespace FoodandBeverage.Forms
 
                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                 this.FormBorderStyle = FormBorderStyle.None;
-                Menuhome.BackColor = menubuttoncolor;
-                Menuoperation.BackColor = menubuttoncolor;
-                Menubilling.BackColor = menubuttoncolor;
-                Menureport.BackColor = menubuttoncolor;
-                Menulogout.BackColor = menubuttoncolor;
-                Menusetting.BackColor = menubuttoncolor;
-                menuEmployee.BackColor = menubuttoncolor;
-                Menutable.BackColor = menubuttoncolor;
+
+                //Menuhome.BackColor = menubuttoncolor;
+                //Menuoperation.BackColor = menubuttoncolor;
+                //Menubilling.BackColor = menubuttoncolor;
+                //Menureport.BackColor = menubuttoncolor;
+                //Menulogout.BackColor = menubuttoncolor;
+                //Menusetting.BackColor = menubuttoncolor;
+                //menuEmployee.BackColor = menubuttoncolor;
+                //Menutable.BackColor = menubuttoncolor;
 
                 RunMethodInSeparateThread(button_imageset);
                 //flp_menu.BackColor = Color.White;
@@ -225,7 +229,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Login Page FrmdashboardLoad()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
         }
         public void Loadchart()
@@ -274,7 +278,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Login Page Loadchart()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
         }
        
@@ -292,9 +296,10 @@ namespace FoodandBeverage.Forms
                 ColorTranslator.FromHtml(color);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
+                clsgen.LogException("Login Page IsValidHtmlColor()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
@@ -345,14 +350,14 @@ namespace FoodandBeverage.Forms
 
                                 menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2); ;
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-                                Menuhome.BackColor = menubuttoncolor;
-                                Menuoperation.BackColor = menubuttoncolor;
-                                Menubilling.BackColor = menubuttoncolor;
-                                Menureport.BackColor = menubuttoncolor;
-                                Menulogout.BackColor = menubuttoncolor;
-                                Menusetting.BackColor = menubuttoncolor;
-                                menuEmployee.BackColor = menubuttoncolor;
-                                Menutable.BackColor = menubuttoncolor;
+                                //Menuhome.BackColor = menubuttoncolor;
+                                //Menuoperation.BackColor = menubuttoncolor;
+                                //Menubilling.BackColor = menubuttoncolor;
+                                //Menureport.BackColor = menubuttoncolor;
+                                //Menulogout.BackColor = menubuttoncolor;
+                                //Menusetting.BackColor = menubuttoncolor;
+                                //menuEmployee.BackColor = menubuttoncolor;
+                                //Menutable.BackColor = menubuttoncolor;
 
                                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                                 pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
@@ -425,14 +430,14 @@ namespace FoodandBeverage.Forms
                                 ib_addon.BackColor = opbuttoncolor;
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
-                                Menuhome.BackColor = menubuttoncolor;
-                                Menuoperation.BackColor = menubuttoncolor;
-                                Menubilling.BackColor = menubuttoncolor;
-                                Menureport.BackColor = menubuttoncolor;
-                                Menulogout.BackColor = menubuttoncolor;
-                                Menusetting.BackColor = menubuttoncolor;
-                                menuEmployee.BackColor = menubuttoncolor;
-                                Menutable.BackColor = menubuttoncolor;
+                                //Menuhome.BackColor = menubuttoncolor;
+                                //Menuoperation.BackColor = menubuttoncolor;
+                                //Menubilling.BackColor = menubuttoncolor;
+                                //Menureport.BackColor = menubuttoncolor;
+                                //Menulogout.BackColor = menubuttoncolor;
+                                //Menusetting.BackColor = menubuttoncolor;
+                                //menuEmployee.BackColor = menubuttoncolor;
+                                //Menutable.BackColor = menubuttoncolor;
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
                                 pbappcoloepicker.BackColor = colorapp;
@@ -461,7 +466,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page AppColorSetting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -577,7 +582,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page button_imageset()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
 
@@ -615,7 +620,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page ChangeButtonBorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -623,29 +628,7 @@ namespace FoodandBeverage.Forms
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
-            {
-                //if (screenWidth > 1367 && screenHeight > 769)
-                //{
-                //    foreach (Control control in flp_operations.Controls)
-                //    {
-                //        if (control is Button buttonm)
-                //        {
-                //            buttonm.Size = new Size(300, 120);
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    foreach (Control control in flp_operations.Controls)
-                //    {
-                //        if (control is Button buttonm)
-                //        {
-                //            buttonm.Size = new Size(212, 89);
-                //        }
-                //    }
-                //}
-                //panelDesktop.SuspendLayout();
-
+            {               
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -688,7 +671,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  Menuhome_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
@@ -700,6 +683,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Home Page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void RoundPictureBoxCorners(PictureBox pictureBox, int cornerRadius)
@@ -718,7 +702,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  RoundPictureBoxCorners()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -738,6 +722,7 @@ namespace FoodandBeverage.Forms
                         GC.Collect();
                     }
                 }
+                tlp_main_sidebar_pnldesktop.SuspendLayout();
 
                 if (Menuhome.Width > 150) //Collapse menu
                 {
@@ -759,7 +744,6 @@ namespace FoodandBeverage.Forms
                     }
                     tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
                     tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
-                    RoundPictureBoxCorners(pb_appicon, 10);
                 }
                 else
                 { //Expand menu
@@ -777,14 +761,15 @@ namespace FoodandBeverage.Forms
                     }
                     tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
                     tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 81.27f);
-                    RoundPictureBoxCorners(pb_appicon, 10);
-
                 }
+
+                tlp_main_sidebar_pnldesktop.ResumeLayout();
+                RoundPictureBoxCorners(pb_appicon, 10);
 
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  CollapseMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -848,7 +833,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  Menuoperation_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -929,7 +914,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  Menubilling_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1003,6 +988,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Home Page  Menureport_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1041,7 +1027,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  VendorReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1079,7 +1065,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1115,9 +1101,9 @@ namespace FoodandBeverage.Forms
                     _instanceFrmreport.Show();
                 }
             }
-            catch (Exception ex)
+               catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1156,7 +1142,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1195,7 +1181,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1233,7 +1219,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1271,7 +1257,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1309,7 +1295,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1347,7 +1333,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1386,7 +1372,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
 
             }
 
@@ -1515,7 +1501,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void BgClickEventHandler(object sender, EventArgs e)
@@ -1529,7 +1515,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void btnclose_Click(object sender, EventArgs e)
@@ -1621,7 +1607,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
         }
@@ -1641,7 +1627,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -1676,7 +1662,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
 
@@ -2253,7 +2239,7 @@ namespace FoodandBeverage.Forms
                                     "FrmMenu", "FrmOfferDiscount", "FrmOrder", "FrmOrderView", "FrmPromo",
                                     "FrmPurchase", "FrmPurchaseReturn", "FrmRegistration", "FrmReservation",
                                     "FrmTableInfo", "FrmTaxSetting", "FrmUnit", "FrmUserAccount",
-                                    "FrmUserPermission", "FrmVendor","FrmExpence"
+                                    "FrmUserPermission", "FrmVendor","FrmExpence","FrmAddon"
                                 };
 
                         if (formsToCheck.Contains(formName))
