@@ -29,6 +29,7 @@ namespace FoodandBeverage.Report
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frmreport));
             this.pnl_report = new System.Windows.Forms.Panel();
             this.tlp_report_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_top_row = new System.Windows.Forms.TableLayoutPanel();
@@ -53,7 +54,6 @@ namespace FoodandBeverage.Report
             this.btnWeekly = new System.Windows.Forms.Button();
             this.btnpickcolor = new System.Windows.Forms.Button();
             this.labheaderboxcolor = new System.Windows.Forms.Label();
-            this.btnserach = new System.Windows.Forms.Button();
             this.crv_report = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.dtp_to_time = new System.Windows.Forms.DateTimePicker();
             this.dtpto = new System.Windows.Forms.DateTimePicker();
@@ -61,6 +61,7 @@ namespace FoodandBeverage.Report
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
             this.dtpfrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnserach = new System.Windows.Forms.Button();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
             this.tlp_top_row.SuspendLayout();
@@ -84,6 +85,7 @@ namespace FoodandBeverage.Report
             // 
             // tlp_report_main
             // 
+            this.tlp_report_main.BackColor = System.Drawing.Color.White;
             this.tlp_report_main.ColumnCount = 1;
             this.tlp_report_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_report_main.Controls.Add(this.tlp_top_row, 0, 0);
@@ -101,7 +103,7 @@ namespace FoodandBeverage.Report
             // 
             // tlp_top_row
             // 
-            this.tlp_top_row.BackColor = System.Drawing.SystemColors.Control;
+            this.tlp_top_row.BackColor = System.Drawing.Color.AliceBlue;
             this.tlp_top_row.ColumnCount = 5;
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -132,7 +134,9 @@ namespace FoodandBeverage.Report
             // 
             // cmbreport
             // 
-            this.cmbreport.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbreport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmbreport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbreport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbreport.FormattingEnabled = true;
             this.cmbreport.Location = new System.Drawing.Point(66, 3);
@@ -159,6 +163,9 @@ namespace FoodandBeverage.Report
             // 
             // cmb_fin_year
             // 
+            this.cmb_fin_year.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmb_fin_year.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_fin_year.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmb_fin_year.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_fin_year.FormattingEnabled = true;
             this.cmb_fin_year.Location = new System.Drawing.Point(109, 3);
@@ -214,6 +221,7 @@ namespace FoodandBeverage.Report
             // 
             // tlp_second_row
             // 
+            this.tlp_second_row.BackColor = System.Drawing.Color.AliceBlue;
             this.tlp_second_row.ColumnCount = 7;
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -304,8 +312,10 @@ namespace FoodandBeverage.Report
             // 
             // cmbSublist
             // 
+            this.cmbSublist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.cmbSublist.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbSublist.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbSublist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSublist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbSublist.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbSublist.FormattingEnabled = true;
             this.cmbSublist.Location = new System.Drawing.Point(63, 3);
@@ -334,9 +344,13 @@ namespace FoodandBeverage.Report
             // 
             // btnYealy
             // 
+            this.btnYealy.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnYealy.BackgroundImage")));
+            this.btnYealy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnYealy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnYealy.FlatAppearance.BorderSize = 0;
             this.btnYealy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnYealy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.btnYealy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnYealy.ForeColor = System.Drawing.Color.White;
             this.btnYealy.Location = new System.Drawing.Point(285, 3);
             this.btnYealy.Name = "btnYealy";
             this.btnYealy.Size = new System.Drawing.Size(89, 34);
@@ -347,9 +361,13 @@ namespace FoodandBeverage.Report
             // 
             // btnWeekEnd
             // 
+            this.btnWeekEnd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekEnd.BackgroundImage")));
+            this.btnWeekEnd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnWeekEnd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnWeekEnd.FlatAppearance.BorderSize = 0;
             this.btnWeekEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeekEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWeekEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWeekEnd.ForeColor = System.Drawing.Color.White;
             this.btnWeekEnd.Location = new System.Drawing.Point(3, 3);
             this.btnWeekEnd.Name = "btnWeekEnd";
             this.btnWeekEnd.Size = new System.Drawing.Size(88, 34);
@@ -360,9 +378,13 @@ namespace FoodandBeverage.Report
             // 
             // btnMonthly
             // 
+            this.btnMonthly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMonthly.BackgroundImage")));
+            this.btnMonthly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnMonthly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMonthly.FlatAppearance.BorderSize = 0;
             this.btnMonthly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMonthly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.btnMonthly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMonthly.ForeColor = System.Drawing.Color.White;
             this.btnMonthly.Location = new System.Drawing.Point(191, 3);
             this.btnMonthly.Name = "btnMonthly";
             this.btnMonthly.Size = new System.Drawing.Size(88, 34);
@@ -373,9 +395,13 @@ namespace FoodandBeverage.Report
             // 
             // btnWeekly
             // 
+            this.btnWeekly.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnWeekly.BackgroundImage")));
+            this.btnWeekly.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnWeekly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnWeekly.FlatAppearance.BorderSize = 0;
             this.btnWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.btnWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWeekly.ForeColor = System.Drawing.Color.White;
             this.btnWeekly.Location = new System.Drawing.Point(97, 3);
             this.btnWeekly.Name = "btnWeekly";
             this.btnWeekly.Size = new System.Drawing.Size(88, 34);
@@ -408,20 +434,6 @@ namespace FoodandBeverage.Report
             this.labheaderboxcolor.Text = "Header color";
             this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnserach
-            // 
-            this.btnserach.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
-            this.btnserach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnserach.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnserach.FlatAppearance.BorderSize = 0;
-            this.btnserach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnserach.Location = new System.Drawing.Point(955, 3);
-            this.btnserach.Name = "btnserach";
-            this.btnserach.Size = new System.Drawing.Size(96, 40);
-            this.btnserach.TabIndex = 48;
-            this.btnserach.UseVisualStyleBackColor = true;
-            this.btnserach.Click += new System.EventHandler(this.btnserach_Click);
-            // 
             // crv_report
             // 
             this.crv_report.ActiveViewIndex = -1;
@@ -448,7 +460,7 @@ namespace FoodandBeverage.Report
             // 
             this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_to_time.Location = new System.Drawing.Point(0, 0);
+            this.dtp_to_time.Location = new System.Drawing.Point(37, 19);
             this.dtp_to_time.Name = "dtp_to_time";
             this.dtp_to_time.Size = new System.Drawing.Size(111, 26);
             this.dtp_to_time.TabIndex = 32;
@@ -458,7 +470,7 @@ namespace FoodandBeverage.Report
             // 
             this.dtpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpto.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpto.Location = new System.Drawing.Point(0, 0);
+            this.dtpto.Location = new System.Drawing.Point(35, 21);
             this.dtpto.Name = "dtpto";
             this.dtpto.Size = new System.Drawing.Size(103, 26);
             this.dtpto.TabIndex = 29;
@@ -477,7 +489,7 @@ namespace FoodandBeverage.Report
             // 
             this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_from_time.Location = new System.Drawing.Point(0, 0);
+            this.dtp_from_time.Location = new System.Drawing.Point(30, 19);
             this.dtp_from_time.Name = "dtp_from_time";
             this.dtp_from_time.Size = new System.Drawing.Size(111, 26);
             this.dtp_from_time.TabIndex = 31;
@@ -487,7 +499,7 @@ namespace FoodandBeverage.Report
             // 
             this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpfrom.Location = new System.Drawing.Point(0, 0);
+            this.dtpfrom.Location = new System.Drawing.Point(36, 21);
             this.dtpfrom.Name = "dtpfrom";
             this.dtpfrom.Size = new System.Drawing.Size(103, 26);
             this.dtpfrom.TabIndex = 28;
@@ -496,16 +508,31 @@ namespace FoodandBeverage.Report
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Location = new System.Drawing.Point(0, 24);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 18);
             this.label6.TabIndex = 27;
             this.label6.Text = "From :";
             // 
+            // btnserach
+            // 
+            this.btnserach.BackgroundImage = global::FoodandBeverage.Properties.Resources.search_report;
+            this.btnserach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnserach.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnserach.FlatAppearance.BorderSize = 0;
+            this.btnserach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnserach.Location = new System.Drawing.Point(955, 3);
+            this.btnserach.Name = "btnserach";
+            this.btnserach.Size = new System.Drawing.Size(96, 40);
+            this.btnserach.TabIndex = 48;
+            this.btnserach.UseVisualStyleBackColor = true;
+            this.btnserach.Click += new System.EventHandler(this.btnserach_Click);
+            // 
             // Frmreport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(903, 537);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dtpfrom);

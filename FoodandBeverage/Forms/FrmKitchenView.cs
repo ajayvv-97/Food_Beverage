@@ -82,6 +82,10 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsGeneral = new ClsGeneral();
         public int ReprintOrderNo = 0; 
         public int ReprintId = 0;
+
+        private bool isDragging = false;
+        private Point startPoint = new Point(0, 0);
+
         private void btncolse_Click(object sender, EventArgs e)
         {
             refreshtimer.Stop();
@@ -1109,15 +1113,21 @@ namespace FoodandBeverage.Forms
                     BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
 
                     DmnSearch dmnSearchDetails = new DmnSearch();
-                    dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName";
-                    dmnSearchDetails.Table = "tblkitchenOrder ko " +
-                        "Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
-                        "Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
-                        "Left Join tblTable_info ti on ti.Tid=ko.Tid " +
-                        "Left Join tblOfferMaster ofm on od.ItemId = ofm.Omid and od.TableType = 3 " +
-                        "Left Join tblOfferDetails ofd on ofd.Omid = ofm.Omid";
-                    dmnSearchDetails.WhereNdGroupBy = $"where om.status=1 and ko.OrderMasterId={orders.Field1} and ko.OrderNo={orders.Field2}";
-                    dmnSearchDetails.OrderBy = "order by od.AddonStatus";
+                    dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName" +
+                    " from tblkitchenOrder ko " +
+                        " Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
+                        " Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
+                        " Left Join tblTable_info ti on ti.Tid=ko.Tid " +
+                        $" where om.status=1 and ko.OrderMasterId={orders.Field1} and ko.OrderNo={orders.Field2}" + " and od.TableType!=" + Convert.ToInt32(Tabletype.ComboProduct)+
+                    " union select od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName ";
+                    dmnSearchDetails.Table = " tblkitchenOrder ko" +
+                                            " Left Join tblOrderDetails od on od.OrderDetailsId = ko.OrderDetailsId" +
+                                            " Left Join tblOrderMaster om on om.OrderMasterId = ko.OrderMasterId" +
+                                            " Left Join tblTable_info ti on ti.Tid = ko.Tid" +
+                                            " Left Join tblOfferMaster ofm on ofm.Omid = od.ItemId" +
+                                            " Left Join tblOfferDetails ofd on ofd.Omid = ofm.Omid";
+                    dmnSearchDetails.WhereNdGroupBy = $" where om.status=1 and ko.OrderMasterId={orders.Field1} and ko.OrderNo={orders.Field2}" + " and od.TableType=" + Convert.ToInt32(Tabletype.ComboProduct);
+                    dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
 
@@ -1197,7 +1207,7 @@ namespace FoodandBeverage.Forms
                     reportDocument.Load(reportPath);
 
                     reportDocument.SetDataSource(dsReport);
-
+                    reportDocument.SetParameterValue("TotalQtyMain", mainCategoryCounts.Count); 
 
                     if (this.IsHandleCreated)
                     {
@@ -1487,16 +1497,22 @@ namespace FoodandBeverage.Forms
                     DataSet dsReport = new DataSet();
                     DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
                     BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
-                    DmnSearch dmnSearchDetails = new DmnSearch();
-                    dmnSearchDetails.Select = "od.itemName ItemName,od.Quantity Quantity,od.Notes Notes,od.MainRemarks Description,ti.TableCode TableCode,om.OrderMasterId OrderMasterId,od.AddonStatus AddonStatus,od.AV_id AV_id,od.TableType TableType,ofd.Productname offeritemname,ofd.Quantity offerqty,ko.Kitchennumber,od.VariatiionName VariatiionName";
-                    dmnSearchDetails.Table = "tblkitchenOrder ko " +
-                        "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-                        "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                        "Left Join tblTable_info  ti on ti.Tid=ko.Tid" +
-                        " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid " +
-                        " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid";
-                    dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo =" + orderno+ " and ko.status in(1,2)";
-                    dmnSearchDetails.OrderBy = "order by od.AddonStatus ";
+                    DmnSearch dmnSearchDetails = new DmnSearch();     
+                    dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName" +
+                    " from tblkitchenOrder ko " +
+                        " Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
+                        " Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
+                        " Left Join tblTable_info ti on ti.Tid=ko.Tid " +
+                        " where om.status=1 and ko.OrderMasterId="+ ordermid + " and ko.OrderNo="+ orderno+ " and od.TableType!=" + Convert.ToInt32(Tabletype.ComboProduct)+ " and ko.status in(1,2)" +
+                    " union select od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName ";
+                    dmnSearchDetails.Table = " tblkitchenOrder ko" +
+                                            " Left Join tblOrderDetails od on od.OrderDetailsId = ko.OrderDetailsId" +
+                                            " Left Join tblOrderMaster om on om.OrderMasterId = ko.OrderMasterId" +
+                                            " Left Join tblTable_info ti on ti.Tid = ko.Tid" +
+                                            " Left Join tblOfferMaster ofm on ofm.Omid = od.ItemId" +
+                                            " Left Join tblOfferDetails ofd on ofd.Omid = ofm.Omid";
+                    dmnSearchDetails.WhereNdGroupBy = $" where om.status=1 and ko.OrderMasterId="+ ordermid+" and ko.OrderNo="+ orderno + " and od.TableType=" + Convert.ToInt32(Tabletype.ComboProduct)+ " and ko.status in(1,2)";
+                    dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
                     if (BillDetails.Count > 0)
@@ -1567,7 +1583,7 @@ namespace FoodandBeverage.Forms
                                 crvkitchenbill.ReportSource = reportDocument;
                             }));
                         }
-
+                        reportDocument.SetParameterValue("TotalQtyMain", mainCategoryCounts.Count);
                         reportDocument.PrintToPrinter(1, false, 0, 0);
                     }
                     if (this.IsHandleCreated)
@@ -3488,5 +3504,26 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+        private void pnl_kitchenorderBill_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDragging = true;
+            startPoint = new Point(e.X, e.Y);
+        }
+
+        private void pnl_kitchenorderBill_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point p = PointToScreen(e.Location);
+                pnl_kitchenorderBill.Location = new Point(p.X - startPoint.X, p.Y - startPoint.Y);
+            }
+        }
+
+        private void pnl_kitchenorderBill_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+        }
+
     }
 }

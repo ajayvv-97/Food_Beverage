@@ -1589,5 +1589,29 @@
   <ItemGroup>
     <None Include="Resources\kitchen_order_sound.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\confirmbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monthly_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\weekly_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yearly_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\weekend button_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\okay_report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report_button.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

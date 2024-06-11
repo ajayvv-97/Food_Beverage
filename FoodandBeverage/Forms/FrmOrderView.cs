@@ -1393,5 +1393,41 @@ namespace FoodandBeverage.Forms
         {
             Filldetails();
         }
+
+        private void dgvorderview_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            try
+            {
+                if (dgvorderview.CurrentCell.OwningColumn is DataGridViewComboBoxColumn)
+                {
+                    refreshtimer_main.Stop();
+                }
+                else
+                    refreshtimer_main.Start();
+
+            }
+            catch( Exception ex)
+            {
+
+            }
+         
+        }
+
+        private void dgvorderview_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!refreshtimer_main.Enabled)
+            {
+                refreshtimer_main.Start();
+            }
+        }
+
+        private void dgvorderview_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!refreshtimer_main.Enabled)
+            {
+                refreshtimer_main.Start();
+            }
+        }
+
     }
 }

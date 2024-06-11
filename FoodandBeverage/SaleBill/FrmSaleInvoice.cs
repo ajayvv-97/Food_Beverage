@@ -189,7 +189,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid";
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
@@ -203,7 +203,9 @@ namespace FoodandBeverage.SaleBill
                 #region Sorting Result
                 var processedData = invoiceBillDetails.Select(item => new
                 {
-                    ItemName = item.ItemName,
+                    ItemName = !string.IsNullOrEmpty(item.ItemName)
+                                   ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
+                                   : item.ItemName,
                     Quantity = item.Quantity,
                     SalesRate = item.SalesRate,
                     NetAmount = item.NetAmount,

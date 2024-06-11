@@ -6612,6 +6612,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.KOTPrintStatus = 0;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
@@ -9089,8 +9090,18 @@ namespace FoodandBeverage.Forms
             {
                 CheckedNames.Clear();
                 Control clickedControl = sender as Control;
+                string tagValue = Convert.ToString(clickedControl.Tag);
+
                 string pnlname = "BILL_pnl" + clickedControl.Tag;
                 string dgvname = "BILLdgv" + clickedControl.Tag;
+
+                string closeProductCartName = "BILLclose" + tagValue;
+                string downArrowIconName = "BILL_downarrow" + tagValue;
+                string labelText = "BILL" + tagValue;
+                string downArrowTableLayoutPanelName = "BILL_tlp_navbar" + tagValue;
+                string mainTableLayoutPanelName = "BILL_tlp_box" + tagValue;
+
+
                 DataGridView dgvcontrol = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
                 Panel pnlcontrol = this.Controls.Find(pnlname, true).FirstOrDefault() as Panel;
                 if (pnlcontrol != null)
@@ -9114,7 +9125,28 @@ namespace FoodandBeverage.Forms
                         }
 
                     }
-                    flp_itemwise_por_sort.Controls.Remove(pnlcontrol);
+
+                    flp_itemwise_por_sort.Controls.Remove(pnlcontrol); 
+                    int billno = 0;
+                    var existingItem = BillList.FirstOrDefault(item => item.Id == Convert.ToInt32(clickedControl.Tag));
+                    if (existingItem != null)
+                    {
+                        int indexToRemove = BillList.IndexOf(existingItem);
+                        billno = BillList[indexToRemove].Id;
+                        if (indexToRemove >= 0)
+                        {
+                            BillList.RemoveAt(indexToRemove);
+                        }
+                    }
+                    var existingItem1 = orderDetailsInfoList.FirstOrDefault(item => item.BillNumber == Convert.ToInt32(clickedControl.Tag));
+                    if (existingItem1 != null)
+                    {
+                        int indexToRemove = orderDetailsInfoList.IndexOf(existingItem1);
+                        if (indexToRemove >= 0)
+                        {
+                            orderDetailsInfoList.RemoveAt(indexToRemove);
+                        }
+                    }
                 }
 
             }
@@ -9124,6 +9156,8 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+
 
         private void txtnumber_split_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -10483,8 +10517,8 @@ namespace FoodandBeverage.Forms
                             Button Button_Remove = new Button();
                             Button_Remove.Text = "-";
                             Button_Remove.Name = "btn_addon_remqty_" + item.Field8 + "_" + item.Field1;
-                            Button_Remove.AccessibleDescription = "1";
-                            Button_Remove.Tag = item.Field1;
+                            Button_Remove.AccessibleDescription = item.Field5;
+                            Button_Remove.Tag = item.Field8 + "_" + item.Field1;
                             Button_Remove.AutoSize = true;
                             //Button_Remove.Width = 20;
                             Button_Remove.Height = 30;
@@ -10586,13 +10620,19 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
-                                lblqty.Text = Convert.ToString(cur_qty);
-                                var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
-                                int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
-                                Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
-                                decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
-                                lbladdontotal.Text = Convert.ToString(t);
+                                string val = Convert.ToString(clickedControl.Tag);
+                                string[] parts = val.Split('_');    
+                                var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Pavid == Convert.ToInt32(parts[1]));
+                                if(existingItem!=null)
+                                {
+                                    int cur_qty = Convert.ToInt32(lblqty.Text) + 1;
+                                    lblqty.Text = Convert.ToString(cur_qty);
+                                    int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
+                                    Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
+                                    decimal t = Convert.ToDecimal(lbladdontotal.Text) + Convert.ToDecimal(clickedControl.AccessibleDescription);
+                                    lbladdontotal.Text = Convert.ToString(t);
+                                }
+ 
                             }
                             Button btnrem = tlp_sele.Controls.Find("btn_addon_remqty_" + clickedControl.Tag, true).FirstOrDefault() as Button;
                             //btnrem.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, btnrem.Width, btnrem.Height, btnrem.Width, btnrem.Height));
@@ -10621,27 +10661,34 @@ namespace FoodandBeverage.Forms
                         int cur_qty = Convert.ToInt32(lblqty.Text);
                         if (cur_qty > 0)
                         {
-                            cur_qty--;
-                            lblqty.Text = Convert.ToString(cur_qty);
-                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                            string val = Convert.ToString(clickedControl.Tag);
+                            string[] parts = val.Split('_');
+                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Pavid == Convert.ToInt32(parts[1]));
                             if (existingItem != null)
                             {
+                                cur_qty--;
+                                lblqty.Text = Convert.ToString(cur_qty);
                                 int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
                                 Checked_VariationAddon_List[indexToRemove].Qty = cur_qty;
-                                decimal t = Convert.ToDecimal(lbladdontotal.Text) -  Convert.ToDecimal(Checked_VariationAddon_List[indexToRemove].Price);
+                                decimal t = Convert.ToDecimal(lbladdontotal.Text) - Convert.ToDecimal(Checked_VariationAddon_List[indexToRemove].Price);
                                 lbladdontotal.Text = Convert.ToString(t);
                             }
-
                         }
                         if (cur_qty == 0)
                         {
-                            lblqty.Visible = false;
-                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Aid == Convert.ToInt32(clickedControl.Tag));
+                            string val = Convert.ToString(clickedControl.Tag);
+                            string[] parts = val.Split('_');
+                            var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.Pavid == Convert.ToInt32(parts[1]));
                             if (existingItem != null)
                             {
+                                lblqty.Visible = false;
                                 int indexToRemove = Checked_VariationAddon_List.IndexOf(existingItem);
+                                if (indexToRemove >= 0)
+                                {
+                                    Checked_VariationAddon_List.RemoveAt(indexToRemove);
+                                }
                             }
-                                
+
                         }
                     }
                 }

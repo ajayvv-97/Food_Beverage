@@ -51,6 +51,7 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             parms.Add("Tid", objTestClass.Tid);
+            parms.Add("NetAmount", objTestClass.NetAmount); 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

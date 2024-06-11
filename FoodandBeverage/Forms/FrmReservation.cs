@@ -2047,6 +2047,7 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                         dmnordermaster.Status = 1;
                         dmnordermaster.Tid = 0;
+                        dmnordermaster.NetAmount = 0;
                         var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
 
 

@@ -267,6 +267,24 @@ namespace FoodandBeverage.Interfaces
         Sale = 1,
         NonSaleProduct = 0,
     }
+    public enum ControlType
+    {
+        Label = 1,
+        TextBox = 2,
+        DataGridView = 3,
+        Panel = 4,
+        Button = 5,
+        CheckBox = 6,
+        ComboBox = 7,
+        DateTimePicker = 8,
+        ListBox = 9,
+        PictureBox = 10,
+        ProgressBar = 11,
+        RadioButton = 12,
+        RichTextBox = 13,
+        TreeView = 14,
+        Tablelayoutpanel=15
+    }
 
 }
 
