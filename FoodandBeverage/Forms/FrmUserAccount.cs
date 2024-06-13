@@ -56,57 +56,27 @@ namespace FoodandBeverage.Forms.UserAccount
 
         private void FrmUserAccount_Load(object sender, EventArgs e)
         {
-
-            richTextBox1.Rtf = "{\\rtf1\\ansi " +
-          "User Type \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBox1.Select(richTextBox1.Text.IndexOf("*"), 1);
-            richTextBox1.SelectionColor = Color.Red;
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-
-            richTextBox2.Rtf = "{\\rtf1\\ansi " +
-          "Employee \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBox2.Select(richTextBox2.Text.IndexOf("*"), 1);
-            richTextBox2.SelectionColor = Color.Red;
-            richTextBox2.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-
-            richTextBox3.Rtf = "{\\rtf1\\ansi " +
-          "User Name \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBox3.Select(richTextBox3.Text.IndexOf("*"), 1);
-            richTextBox3.SelectionColor = Color.Red;
-            richTextBox3.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-
-            richTextBox4.Rtf = "{\\rtf1\\ansi " +
-          "Password \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBox4.Select(richTextBox4.Text.IndexOf("*"), 1);
-            richTextBox4.SelectionColor = Color.Red;
-            richTextBox4.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-
-            richTextBox5.Rtf = "{\\rtf1\\ansi " +
-          "Confirm \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBox5.Select(richTextBox5.Text.IndexOf("*"), 1);
-            richTextBox5.SelectionColor = Color.Red;
-            richTextBox5.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-            clear();
-            FrmDashboard frmDash = new FrmDashboard();
-            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Account)))
+            try
             {
-                mbtnSave.Enabled = true;
+                clear();
+                FrmDashboard frmDash = new FrmDashboard();
+                if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Account)))
+                {
+                    mbtnSave.Enabled = true;
 
+                }
+                else
+                {
+                    mbtnSave.Enabled = false;
+
+                }
             }
-            else
+            catch (Exception ex)
             {
-                mbtnSave.Enabled = false;
-
+                objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
+
+
         }
         #region TexBox Round function
         public void textb_shape()
@@ -120,27 +90,36 @@ namespace FoodandBeverage.Forms.UserAccount
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
                     textBox.BorderStyle = BorderStyle.None;
                 }
-
             }
-            catch (Exception)
+
+            catch (Exception ex)
             {
-
+                objGeneral.LogException("User Account Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
+
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+            }
+
         }
 
         #endregion
@@ -148,37 +127,48 @@ namespace FoodandBeverage.Forms.UserAccount
 
         public bool MandatoryCheck()
         {
-            if (mcmbaccounttype.SelectedIndex == 0)
+
+            try
             {
-                CMessageBox.Show(" UserType is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (mcmbaccounttype.SelectedIndex == 0)
+                {
+                    CMessageBox.Show(" UserType is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if (txtemp.Text == "" || txtemp.Text == string.Empty)
+                {
+                    //MessageBox.Show(" Employee is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //return false;
+                }
+                else if (txtuname.Text == "" || txtuname.Text == string.Empty)
+                {
+                    CMessageBox.Show(" UserName is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if (txtpassword.Text == "" || txtpassword.Text == string.Empty)
+                {
+                    CMessageBox.Show(" Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if (txtcconpassword.Text == "" || txtcconpassword.Text == string.Empty)
+                {
+                    CMessageBox.Show("Confirm Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if (txtpassword.Text.Trim() != txtcconpassword.Text.Trim())
+                {
+                    CMessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 return false;
             }
-            else if (txtemp.Text == "" || txtemp.Text == string.Empty)
-            {
-                //MessageBox.Show(" Employee is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //return false;
-            }
-            else if (txtuname.Text == "" || txtuname.Text == string.Empty)
-            {
-                CMessageBox.Show(" UserName is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            else if (txtpassword.Text == "" || txtpassword.Text == string.Empty)
-            {
-                CMessageBox.Show(" Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            else if (txtcconpassword.Text == "" || txtcconpassword.Text == string.Empty)
-            {
-                CMessageBox.Show("Confirm Password is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            else if (txtpassword.Text.Trim() != txtcconpassword.Text.Trim())
-            {
-                CMessageBox.Show(" Password and Confirm password are not same", "Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
+
+
         }
 
         private void mcmbaccounttype_KeyDown(object sender, KeyEventArgs e)
@@ -205,37 +195,54 @@ namespace FoodandBeverage.Forms.UserAccount
         }
         public void FillCombo()
         {
-            BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
-            DmnSearch dmnacctype = new DmnSearch();
-            dmnacctype.Select = "UserAccountTypeId,UserAccountType";
-            dmnacctype.Table = " tblUserAccountType ";
-            dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
-            dmnacctype.OrderBy = "order by Value";
-            var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
-            mcmbaccounttype.DataSource = acctype;
-            mcmbaccounttype.DisplayMember = "Value";
-            mcmbaccounttype.ValueMember = "Id";
+
+            try
+            {
+                BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
+                DmnSearch dmnacctype = new DmnSearch();
+                dmnacctype.Select = "UserAccountTypeId,UserAccountType";
+                dmnacctype.Table = " tblUserAccountType ";
+                dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
+                dmnacctype.OrderBy = "order by Value";
+                var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
+                mcmbaccounttype.DataSource = acctype;
+                mcmbaccounttype.DisplayMember = "Value";
+                mcmbaccounttype.ValueMember = "Id";
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+            }
         }
         public void filldetails(int empid)
         {
-            BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = " u.*,e.EmployeeId,e.EmployeeName,t.UserAccountType ";
-            objSearch.Table = " tblEmployee e left join tblUserAccount u on u.EmployeeId=e.EmployeeId " +
-                "left join tblUserAccountType t on t.UserAccountTypeId = u.UserAccountTypeId";
-            objSearch.WhereNdGroupBy = "Where e.EmployeeId= " + empid;
-            objSearch.OrderBy = "Order By UserAccountId ";
-            var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-            UserAccountId = gridSource[0].UserAccountId;
-            mcmbaccounttype.SelectedValue = gridSource[0].UserAccountTypeId;
-            txtuname.Text = Convert.ToString(gridSource[0].Username);
-            txtemp.Text = Convert.ToString(gridSource[0].EmployeeName);
-            EmployeeId = gridSource[0].EmployeeId;
-            BranchId = gridSource[0].BranchId;
-            PasswordSalt = gridSource[0].PasswordSalt;
-            PasswordHash = gridSource[0].PasswordHash;
-            txtpassword.Text = "";
-            txtcconpassword.Text = "";
+            try
+            {
+                BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = " u.*,e.EmployeeId,e.EmployeeName,t.UserAccountType ";
+                objSearch.Table = " tblEmployee e left join tblUserAccount u on u.EmployeeId=e.EmployeeId " +
+                    "left join tblUserAccountType t on t.UserAccountTypeId = u.UserAccountTypeId";
+                objSearch.WhereNdGroupBy = "Where e.EmployeeId= " + empid;
+                objSearch.OrderBy = "Order By UserAccountId ";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                UserAccountId = gridSource[0].UserAccountId;
+                mcmbaccounttype.SelectedValue = gridSource[0].UserAccountTypeId;
+                txtuname.Text = Convert.ToString(gridSource[0].Username);
+                txtemp.Text = Convert.ToString(gridSource[0].EmployeeName);
+                EmployeeId = gridSource[0].EmployeeId;
+                BranchId = gridSource[0].BranchId;
+                PasswordSalt = gridSource[0].PasswordSalt;
+                PasswordHash = gridSource[0].PasswordHash;
+                txtpassword.Text = "";
+                txtcconpassword.Text = "";
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+
+            }
+
         }
         private void txtemp_KeyDown(object sender, KeyEventArgs e)
         {
@@ -274,18 +281,28 @@ namespace FoodandBeverage.Forms.UserAccount
                 }
                 catch (Exception ex)
                 {
-
+                    objGeneral.LogException("User Account Page  txtemp_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 }
             }
         }
 
         private void txtuname_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    SendKeys.Send("{TAB}");
+                }
             }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  txtuname_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+
+            }
+
+
         }
 
         private void txtpassword_KeyDown(object sender, KeyEventArgs e)
@@ -320,7 +337,7 @@ namespace FoodandBeverage.Forms.UserAccount
             txtcconpassword.PasswordChar = chkshowpassword.Checked ? '\0' : '*';
         }
 
-       
+
 
         private void mbtnRefresh_Click(object sender, EventArgs e)
         {
@@ -384,12 +401,13 @@ namespace FoodandBeverage.Forms.UserAccount
                 else
                 {
                     CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                 }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("User Account Page  mbtnList_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -425,71 +443,78 @@ namespace FoodandBeverage.Forms.UserAccount
 
         private void mbtnSave_Click(object sender, EventArgs e)
         {
-            if (MandatoryCheck())
+            try
             {
-                BllUserAccount bllUserAccount = new BllUserAccount();
-                DmnUserAccount dmnUserAccount = new DmnUserAccount();
-                BllEncryption bllEncryption = new BllEncryption();
-                dmnUserAccount.UserAccountId = UserAccountId;
-                dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
-                dmnUserAccount.Username = txtuname.Text;
-                dmnUserAccount.BranchId = FrmLogin.BranchId;
-                dmnUserAccount.EmployeeId = EmployeeId;
-                dmnUserAccount.UserAccountId = UserAccountId;
-                dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
-                DmnUserAccount userAccount;
-                if (txtpassword.Text.Trim() != "" && txtcconpassword.Text.Trim() != "")
+                if (MandatoryCheck())
                 {
-                    bllEncryption.encrptPassword(txtpassword.Text, out PasswordSalt, out PasswordHash);
-                    dmnUserAccount.PasswordSalt = PasswordSalt;
-                    dmnUserAccount.PasswordHash = PasswordHash;
-                }
-                else
-                {
-                    dmnUserAccount.PasswordSalt = PasswordSalt;
-                    dmnUserAccount.PasswordHash = PasswordHash;
-                }
-                if (dmnUserAccount.UserAccountId == 0)
-                {
-
-                    userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
-                    if (userAccount.UserAccountId != 0)
+                    BllUserAccount bllUserAccount = new BllUserAccount();
+                    DmnUserAccount dmnUserAccount = new DmnUserAccount();
+                    BllEncryption bllEncryption = new BllEncryption();
+                    dmnUserAccount.UserAccountId = UserAccountId;
+                    dmnUserAccount.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
+                    dmnUserAccount.Username = txtuname.Text;
+                    dmnUserAccount.BranchId = FrmLogin.BranchId;
+                    dmnUserAccount.EmployeeId = EmployeeId;
+                    dmnUserAccount.UserAccountId = UserAccountId;
+                    dmnUserAccount.Status = Convert.ToInt32(chkstatus.CheckState);
+                    DmnUserAccount userAccount;
+                    if (txtpassword.Text.Trim() != "" && txtcconpassword.Text.Trim() != "")
                     {
-                        CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        clear();
+                        bllEncryption.encrptPassword(txtpassword.Text, out PasswordSalt, out PasswordHash);
+                        dmnUserAccount.PasswordSalt = PasswordSalt;
+                        dmnUserAccount.PasswordHash = PasswordHash;
                     }
                     else
                     {
-                        CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                        dmnUserAccount.PasswordSalt = PasswordSalt;
+                        dmnUserAccount.PasswordHash = PasswordHash;
                     }
-
-                }
-                else
-                {
-
-                    bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
-                    if (saveStatus)
+                    if (dmnUserAccount.UserAccountId == 0)
                     {
-                        CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        clear();
+
+                        userAccount = bllUserAccount.AddData("prdInsertUserAccount", dmnUserAccount);
+                        if (userAccount.UserAccountId != 0)
+                        {
+                            CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            clear();
+                        }
+                        else
+                        {
+                            CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        }
+
                     }
                     else
                     {
-                        CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        bool saveStatus = bllUserAccount.UpdateData("prdUpdateUserAccount", dmnUserAccount);
+                        if (saveStatus)
+                        {
+                            CMessageBox.Show("User Account Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            clear();
+                        }
+                        else
+                        {
+                            CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("User Account Page  mbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+            }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
-
         private void FrmUserAccount_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void btncolse_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void txtemp_Leave(object sender, EventArgs e)

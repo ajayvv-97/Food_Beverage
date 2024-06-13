@@ -1759,11 +1759,11 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\reg_clear%27 icon.png" />
+    <None Include="Resources\registartion_search icon.png" />
+    <None Include="Resources\reg_certificate icon.png" />
     <None Include="Resources\reg_view icon.png" />
     <None Include="Resources\reg_download icon.png" />
-    <None Include="Resources\reg_clear%27 icon.png" />
-    <None Include="Resources\reg_certificate icon.png" />
-    <None Include="Resources\registartion_search icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

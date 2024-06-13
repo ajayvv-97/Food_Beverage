@@ -365,7 +365,6 @@ namespace FoodandBeverage.Forms
 
         private void FrmUserPermission_Load(object sender, EventArgs e)
         {
-
             dgvforms.BorderStyle = BorderStyle.None;
             dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
             dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -377,8 +376,6 @@ namespace FoodandBeverage.Forms
             dgvforms.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvforms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
             dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-
 
             FillCombo();
             FillComboUserType();

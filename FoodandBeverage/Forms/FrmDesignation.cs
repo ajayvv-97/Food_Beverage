@@ -30,23 +30,47 @@ namespace FoodandBeverage.Forms
         long DesignationId = 0;
         #endregion
 
+        #region grid Declaration 
+        public static int DesignationIdno = 0;
+        public static int Departmentno = 1;
+        public static int Designationno = 2;
+        public static int WorkingHoursno = 3;
+        #endregion
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+            );
+
         #region Functions
         public FrmDesignation()
         {
             InitializeComponent();
         }
-        public void FillDepartmentComboBox()// with dummy table
+        public void FillDepartmentComboBox()
         {
-            BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch = new DmnSearch();
-            objSearch.Select = "DepartmentId,DepartmentName";
-            objSearch.Table = " tblDepartment ";
-            //objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + BranchId;
-            var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-            mcmbDepartment.DataSource = gridSource;
-            mcmbDepartment.ValueMember = "Id";
-            mcmbDepartment.DisplayMember = "Value";
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch = new DmnSearch();
+                objSearch.Select = "DepartmentId,DepartmentName";
+                objSearch.Table = " tblDepartment ";
+                //objSearch.WhereNdGroupBy = "Where Status = 1 AND BranchId = " + BranchId;
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                mcmbDepartment.DataSource = gridSource;
+                mcmbDepartment.ValueMember = "Id";
+                mcmbDepartment.DisplayMember = "Value";
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  FillDepartmentComboBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+            }
         }
         public bool IsSavable()
         {
@@ -62,115 +86,145 @@ namespace FoodandBeverage.Forms
         }
         public void fillGridView()
         {
-            dgvDesignation.Columns.Clear();
-            dgvDesignation.DataSource = null;
-            FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
-            DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.ColumnHeaders = "DesignationId,Department,Designation,Working Hours";
-            dmnSearch.Select = "ds.DesignationId as Id,dp.DepartmentName as Field1,ds.DesignationName as Field2,ds.WorkingHours as Field3";
-            dmnSearch.Table = " tblDesignation as ds" +
-                                " LEFT JOIN tblDepartment dp ON ds.DepartmentId = dp.DepartmentId";
-            dmnSearch.WhereNdGroupBy = " Where ds.Status = 1 AND ds.BranchId = " + FrmLogin.BranchId;
-            dmnSearch.OrderBy = "Order By DesignationName ASC ";
-            var gridSource = frmGridSearch.GetSearchGrid(dmnSearch);
-            foreach (DataGridViewColumn col in gridSource.Columns)
+            try
             {
-                dgvDesignation.Columns.Add(col.Clone() as DataGridViewColumn);
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "ds.DesignationId as Id,dp.DepartmentName as Field1,ds.DesignationName as Field2,ds.WorkingHours as Field3";
+                dmnSearch.Table = " tblDesignation as ds" +
+                                    " LEFT JOIN tblDepartment dp ON ds.DepartmentId = dp.DepartmentId";
+                dmnSearch.WhereNdGroupBy = " Where ds.Status = 1 AND ds.BranchId = " + FrmLogin.BranchId;
+                dmnSearch.OrderBy = "Order By DesignationName ASC ";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                dgvDesignation.Rows.Clear();
+                if (gridSource.Count > 0)
+                {
+                    dgvDesignation.Rows.Add(gridSource.Count);
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        dgvDesignation.Rows[i].Cells[DesignationIdno].Value = gridSource[i].Id;
+                        dgvDesignation.Rows[i].Cells[Departmentno].Value = gridSource[i].Field1;
+                        dgvDesignation.Rows[i].Cells[Designationno].Value = gridSource[i].Field2;
+                        dgvDesignation.Rows[i].Cells[WorkingHoursno].Value = gridSource[i].Field3;
+                    }
+                }
             }
-            dgvDesignation.DataSource = gridSource.DataSource;
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  fillGridView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         public void RefreshForm()
         {
-            dtpWorkingHrs.Text = "08:00";
-            DesignationId = 0;
-            mtxtName.Text = "";
-            mcmbDepartment.SelectedIndex = 0;
-            //   listTbx = { mtxtName };
-            //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
-            fillGridView();
-           
-            mcmbDepartment.Focus();
-            if(!string.IsNullOrWhiteSpace(mtxtName.Text))
+
+            try
             {
-                mbtnSave.Enabled = false;
+                dtpWorkingHrs.Text = "08:00";
+                DesignationId = 0;
+                mtxtName.Text = "";
+                mcmbDepartment.SelectedIndex = 0;
+                fillGridView();
+                mcmbDepartment.Focus();
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+                {
+                    mbtnSave.Enabled = false;
+                }
             }
-            //FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
-            //frmEmployeeShort.FillCombo();
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  RefreshForm()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+;
 
         }
         public Boolean NameExist()
         {
-            if (Convert.ToString(mtxtName.Text) != "")
-            {
-                BllAccountGroup bllAccountGroup = new BllAccountGroup();
-                BllSearch<DmnAccountGroup> bllSearch = new BllSearch<DmnAccountGroup>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.ColumnHeaders = "Id,DesignationName";
-                objSearch.Select = " COUNT(DesignationId) As Count";
-                objSearch.Table = " tblDesignation ";
 
-                if (DesignationId == 0)
+            try
+            {
+                if (Convert.ToString(mtxtName.Text) != "")
                 {
-                    objSearch.WhereNdGroupBy = " Where DepartmentId= '" + Convert.ToInt32(mcmbDepartment.SelectedValue) + "' AND DesignationName = '" + Convert.ToString(mtxtName.Text) + "' AND Status=1 AND BranchId = " + FrmLogin.BranchId;
+                    BllAccountGroup bllAccountGroup = new BllAccountGroup();
+                    BllSearch<DmnAccountGroup> bllSearch = new BllSearch<DmnAccountGroup>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.ColumnHeaders = "Id,DesignationName";
+                    objSearch.Select = " COUNT(DesignationId) As Count";
+                    objSearch.Table = " tblDesignation ";
+
+                    if (DesignationId == 0)
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentId= '" + Convert.ToInt32(mcmbDepartment.SelectedValue) + "' AND DesignationName = '" + Convert.ToString(mtxtName.Text) + "' AND Status=1 AND BranchId = " + FrmLogin.BranchId;
+                    }
+                    else
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentId= '" + Convert.ToInt32(mcmbDepartment.SelectedValue) + "' AND DesignationId!= " + DesignationId + " AND Status=1 AND DesignationName = '" + Convert.ToString(mtxtName.Text) + "' AND BranchId = " + FrmLogin.BranchId;
+                    }
+                    //objSearch.OrderBy = "Order By DesignationName ASC";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (gridSource[0].Count >= 1)
+                    {
+                        MessageBox.Show("Designation Name " + Convert.ToString(mtxtName.Text) + " Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        mtxtName.Text = "";
+                        mtxtName.Focus();
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    objSearch.WhereNdGroupBy = " Where DepartmentId= '" + Convert.ToInt32(mcmbDepartment.SelectedValue) + "' AND DesignationId!= " + DesignationId + " AND Status=1 AND DesignationName = '" + Convert.ToString(mtxtName.Text) + "' AND BranchId = " + FrmLogin.BranchId;
-                }
-                //objSearch.OrderBy = "Order By DesignationName ASC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (gridSource[0].Count >= 1)
-                {
-                    MessageBox.Show("Designation Name " + Convert.ToString(mtxtName.Text) + " Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    mtxtName.Text = "";
-                    mtxtName.Focus();
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  NameExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                return false;
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
         }
         public void dgvFrmDesignation()
         {
-            if (dgvDesignation.Rows.Count >= 0)
+
+            try
             {
-                DesignationId = Convert.ToInt32(dgvDesignation.CurrentRow.Cells[0].Value);
-                BllDesignation bllDesignation = new BllDesignation();
-                BllSearch<DmnDesignation> bllSearch = new BllSearch<DmnDesignation>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.ColumnHeaders = "DesignationId,DepartmentId,DesignationName,Working Hours";
-                objSearch.Select = " DesignationId,DepartmentId,DesignationName,WorkingHours";
-                objSearch.Table = " tblDesignation";
-                objSearch.WhereNdGroupBy = "Where DesignationId = " + DesignationId;
-                objSearch.OrderBy = "Order By DesignationName ASC ";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                mtxtName.Text = Convert.ToString(gridSource[0].DesignationName);
-                dtpWorkingHrs.Text = Convert.ToString(gridSource[0].WorkingHours);
-                mcmbDepartment.SelectedValue = gridSource[0].DepartmentId;
-                DesignationId = Convert.ToInt32(gridSource[0].DesignationId);
-               
-                mcmbDepartment.Focus();
-                mbtnSave.Enabled = true;
-           
+                if (dgvDesignation.Rows.Count >= 0)
+                {
+                    DesignationId = Convert.ToInt32(dgvDesignation.CurrentRow.Cells[0].Value);
+                    BllDesignation bllDesignation = new BllDesignation();
+                    BllSearch<DmnDesignation> bllSearch = new BllSearch<DmnDesignation>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.ColumnHeaders = "DesignationId,DepartmentId,DesignationName,Working Hours";
+                    objSearch.Select = " DesignationId,DepartmentId,DesignationName,WorkingHours";
+                    objSearch.Table = " tblDesignation";
+                    objSearch.WhereNdGroupBy = "Where DesignationId = " + DesignationId;
+                    objSearch.OrderBy = "Order By DesignationName ASC ";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    mtxtName.Text = Convert.ToString(gridSource[0].DesignationName);
+                    dtpWorkingHrs.Text = Convert.ToString(gridSource[0].WorkingHours);
+                    mcmbDepartment.SelectedValue = gridSource[0].DepartmentId;
+                    DesignationId = Convert.ToInt32(gridSource[0].DesignationId);
+
+                    mcmbDepartment.Focus();
+                    mbtnSave.Enabled = true;
+
+                }
             }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  dgvFrmDesignation()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         #endregion
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-       int nLeftRect,
-       int nTopRect,
-       int nRightRect,
-       int nBottomRect,
-       int nWidthEllipse,
-       int nHeightEllipse
-   );
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -185,25 +239,36 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                objGeneral.LogException("Designation Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+
+            try
+            {
+
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         #endregion
@@ -215,7 +280,7 @@ namespace FoodandBeverage.Forms
             {
                 if (IsSavable())
                 {
-                    if(NameExist())
+                    if (NameExist())
                     {
                         bool savestatus;
                         DmnDesignation dmnDesignation = new DmnDesignation();
@@ -231,9 +296,9 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDesignation.AddData("prdInsertDesignation", dmnDesignation);
                             savestatus = lstData;
                             if (savestatus)
-                                CMessageBox.Show("\n" + mtxtName.Text+ " Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show("\n" + mtxtName.Text + " Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                CMessageBox.Show("\n" + mtxtName.Text+ " Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("\n" + mtxtName.Text + " Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -243,12 +308,10 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDesignation.UpdateData("prdUpdateDesignation", dmnDesignation);
                             savestatus = lstData;
                             if (savestatus)
-                                CMessageBox.Show("\n" + mtxtName.Text+" Updated successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show("\n" + mtxtName.Text + " Updated successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                CMessageBox.Show("\n" + mtxtName.Text+" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show("\n" + mtxtName.Text + " Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        
-                        fillGridView();
                         dtpWorkingHrs.Text = "08:00";
                         FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
                         frmEmployeeShort.FillCombo();
@@ -263,7 +326,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  MbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void MbtnRefresh_Click(object sender, EventArgs e)
@@ -281,9 +345,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  MbtnRefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
         private void FrmDesignation_Load(object sender, EventArgs e)
         {
@@ -301,46 +366,47 @@ namespace FoodandBeverage.Forms
                 dgvDesignation.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgvDesignation.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-
-
                 fillGridView();
-               
                 FillDepartmentComboBox();
                 dtpWorkingHrs.Text = "08:00";
+
+                FrmDashboard frmDash = new FrmDashboard();
+                if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Designation)))
+                {
+                    mbtnSave.Enabled = true;
+
+                }
+                else
+                {
+                    mbtnSave.Enabled = false;
+
+                }
+                if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
+                {
+                    mbtnSave.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  FrmDesignation_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
-            FrmDashboard frmDash = new FrmDashboard();
-            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Designation)))
-            {
-                mbtnSave.Enabled = true;
 
-            }
-            else
-            {
-                mbtnSave.Enabled = false;
-
-            }
-            if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
-            {
-                mbtnSave.Enabled = true;
-            }
 
 
         }
-       
+
         private void DgvDesignation_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-               
+
                 dgvFrmDesignation();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  DgvDesignation_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void DgvDesignation_KeyDown(object sender, KeyEventArgs e)
@@ -349,12 +415,12 @@ namespace FoodandBeverage.Forms
             {
                 if (dgvDesignation.Rows.Count > 0)
                 {
-                    
+
                     bool deletestatus;
                     DesignationId = Convert.ToInt32(dgvDesignation.CurrentRow.Cells[0].Value);
                     if (e.KeyCode == Keys.Delete)
                     {
-                        DialogResult result = MessageBox.Show("Confirm to delete" + dgvDesignation.CurrentRow.Cells[1].Value.ToString() +"?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show("Confirm to delete" + dgvDesignation.CurrentRow.Cells[1].Value.ToString() + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
                             DmnDesignation dmnDesignation = new DmnDesignation();
@@ -370,7 +436,7 @@ namespace FoodandBeverage.Forms
                             }
                             else
                                 CMessageBox.Show("Delete failed " + mtxtName.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                           
+
                         }
                     }
                     dgvDesignation.Focus();
@@ -383,15 +449,16 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  DgvDesignation_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private void FrmDesignation_KeyUp(object sender, KeyEventArgs e)
         {
             try
             {
-                if(!string.IsNullOrWhiteSpace(mtxtName.Text))
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
                 {
                     if (e.KeyCode != Keys.F2 && e.KeyCode != Keys.F5)
                     {
@@ -408,21 +475,19 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  FrmDesignation_KeyUp()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
         }
 
-        private void mcmbDepartment_KeyDown(object sender, KeyEventArgs e)
-        {
-           
-        }
+
         private void dtpWorkingHrs_ValueChanged(object sender, EventArgs e)
         {
 
             try
             {
 
-          
+
                 if (dtpWorkingHrs.Text != "08:00")
                 {
                     string min = "08:00";
@@ -435,33 +500,16 @@ namespace FoodandBeverage.Forms
                     }
 
                 }
-                
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  dtpWorkingHrs_ValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
-        private void mcmbDepartment_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-            try
-            {
-
-                if(!string.IsNullOrWhiteSpace(mtxtName.Text))
-                {
-                    mbtnSave.Enabled = true;
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-        }
         private void mtxtName_Leave(object sender, EventArgs e)
         {
             try
@@ -473,7 +521,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  mtxtName_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -491,13 +540,14 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyData == Keys.Escape)
                     this.Close();
-                
+
 
                 //    btnSave_Click(sender, e);
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                objGeneral.LogException("Designation Page  FrmDesignation_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -560,21 +610,6 @@ namespace FoodandBeverage.Forms
             this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.Closebutton));
         }
 
-        private void mbtnClose_MouseUp(object sender, MouseEventArgs e)
-        {
-            this.mbtnClose.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.Closebutton));
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void guna2GradientTileButton2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btnmini_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -584,14 +619,6 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
-        }
-
-      
-      
 
         private void mtxtName_KeyDown(object sender, KeyEventArgs e)
         {
@@ -607,7 +634,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  mtxtName_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -622,13 +650,38 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                objGeneral.LogException("Designation Page  mtxtName_Leave_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void mtxtName_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void FrmDesignation_Resize(object sender, EventArgs e)
+        {
+            objGeneral.GrideAutoSize(dgvDesignation);
+            textb_shape();
+        }
+
+        private void mcmbDepartment_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+                {
+                    mbtnSave.Enabled = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  mcmbDepartment_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }

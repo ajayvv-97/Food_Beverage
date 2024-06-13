@@ -40,6 +40,8 @@ namespace FoodandBeverage.Forms
         public static int KitchenDisplayCount = 15; 
         public static long EmployeeId;
         public static decimal BookingInterwell;
+        public static bool TestUser = false;
+
         int UserStatus;
         public string txtbox = ""; 
         long CompanyId;
@@ -148,7 +150,6 @@ namespace FoodandBeverage.Forms
                     {
                         if (IsPasswordvalid())
                         {
-
                             #region frist Login Empty db
                             if(txtUserName.Text== "test" && txtPwd.Text == "test")
                             {
@@ -165,6 +166,8 @@ namespace FoodandBeverage.Forms
                                     BranchId =0;
                                 UserId =1;
                                 EmployeName = "test";
+                                TestUser = true;
+
                                 Forms.FrmDashboard DashBoard = new FrmDashboard();
                                 DashBoard.MdiParent = this.MdiParent;
                                 DashBoard.ShowDialog();

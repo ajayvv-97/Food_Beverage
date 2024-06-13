@@ -3,34 +3,32 @@ using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using MetroFramework;
-using MetroFramework.Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
 using FoodandBeverage.Interfaces;
 using System.Threading;
 using System.Drawing.Drawing2D;
-
 using System.Runtime.InteropServices;
-
 using CustomMessageBox;
 
 namespace FoodandBeverage.Forms
 {
-    public partial  class FrmDepartment : Form
+    public partial class FrmDepartment : Form
     {
         #region Declaration
         ClsGeneral objGeneral = new ClsGeneral();
         long BranchId = FrmDashboard.BranchId;
         long UserId = FrmDashboard.UserId;
         long DepartmentId = 0;
+        ClsGeneral clsgen = new ClsGeneral();
+        #endregion
+        #region grid Declaration 
+        public static int dIdno = 0;
+        public static int dDepartmentno = 1;
+        public static int dDepartmentCodeno = 2;
+        public static int dEmployeeSrNo = 3;
         #endregion
         #region Functions
         public FrmDepartment()
@@ -73,218 +71,268 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                clsgen.LogException("Department Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+            }
         }
 
         public void fillGridView()
         {
-            dgvDepartment.Columns.Clear();
-            dgvDepartment.DataSource = null;
-            FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
-            DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.ColumnHeaders = "Id,Department,Department Code,Employee Sr.No";
-            dmnSearch.Select = "DepartmentId as Id,DepartmentName as Field1,DepartmentCode as Field2,EmployeeSrlNoStart as Field3";
-            dmnSearch.Table = "tblDepartment";
-            dmnSearch.WhereNdGroupBy = "Where Status = 1 and BranchId=" +BranchId;
-            dmnSearch.OrderBy = "Order By DepartmentName ASC";
-            var gridSource = frmGridSearch.GetSearchGrid(dmnSearch);
-            foreach (DataGridViewColumn col in gridSource.Columns)
+            try
             {
-                dgvDepartment.Columns.Add(col.Clone() as DataGridViewColumn);
-            }            
-            dgvDepartment.DataSource = gridSource.DataSource;
-            //dgvDepartment.Refresh();
-           
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "DepartmentId as Id,DepartmentName as Field1,DepartmentCode as Field2,EmployeeSrlNoStart as Field3";
+                dmnSearch.Table = "tblDepartment";
+                dmnSearch.WhereNdGroupBy = "Where Status = 1 and BranchId=" + BranchId;
+                dmnSearch.OrderBy = "Order By DepartmentName ASC";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                dgvDepartment.Rows.Clear();
+                if (gridSource.Count > 0)
+                {
+                    dgvDepartment.Rows.Add(gridSource.Count);
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        dgvDepartment.Rows[i].Cells[dIdno].Value = gridSource[i].Id;
+                        dgvDepartment.Rows[i].Cells[dDepartmentno].Value = gridSource[i].Field1;
+                        dgvDepartment.Rows[i].Cells[dDepartmentCodeno].Value = gridSource[i].Field2;
+                        dgvDepartment.Rows[i].Cells[dEmployeeSrNo].Value = gridSource[i].Field3;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  fillGridView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+            }
+
         }
         public void RefreshForm()
         {
-            DepartmentId = 0;
-            mtxtEmpSrlNo.Text = "";
-            mtxtName.Text = "";
-            mtxtCode.Text = "";
-
-            //MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
-            //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
-            fillGridView();
-            mtxtName.Focus();
-            mtxtEmpSrlNo.ReadOnly = false;
-            if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+            try
             {
-                mbtnSave.Enabled = false;
 
+                DepartmentId = 0;
+                mtxtEmpSrlNo.Text = "";
+                mtxtName.Text = "";
+                mtxtCode.Text = "";
+
+                //MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
+                //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
+                fillGridView();
+                mtxtName.Focus();
+                mtxtEmpSrlNo.ReadOnly = false;
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+                {
+                    mbtnSave.Enabled = false;
+                }
             }
-           
-
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  RefreshForm()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+            }
         }
+
         public Boolean NameExist()
         {
-            if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+            try
             {
-                BllDepartment bllAccountGroup = new BllDepartment();
-                BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.ColumnHeaders = "DepartmentName";
-                objSearch.Select = " COUNT(DepartmentName) As Count";
-                objSearch.Table = " tblDepartment ";
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
+                {
+                    BllDepartment bllAccountGroup = new BllDepartment();
+                    BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.ColumnHeaders = "DepartmentName";
+                    objSearch.Select = " COUNT(DepartmentName) As Count";
+                    objSearch.Table = " tblDepartment ";
 
-                if (DepartmentId == 0)
-                {
-                    objSearch.WhereNdGroupBy = " Where DepartmentName = '" + Convert.ToString(mtxtName.Text) + "' AND Status=1 AND BranchId = " + FrmLogin.BranchId;
+                    if (DepartmentId == 0)
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentName = '" + Convert.ToString(mtxtName.Text) + "' AND Status=1 AND BranchId = " + FrmLogin.BranchId;
+                    }
+                    else
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentId!= " + DepartmentId + " AND Status=1 AND DepartmentName = '" + Convert.ToString(mtxtName.Text) + "' AND BranchId = " + FrmLogin.BranchId;
+                    }
+                    //objSearch.OrderBy = "Order By AccountGroupName ASC";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (gridSource[0].Count > 0)
+                    {
+                        MetroMessageBox.Show(this, "Department Name '" + Convert.ToString(mtxtName.Text) + "' Already exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                        mtxtName.Text = "";
+                        mtxtName.Focus();
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    objSearch.WhereNdGroupBy = " Where DepartmentId!= " + DepartmentId + " AND Status=1 AND DepartmentName = '" + Convert.ToString(mtxtName.Text) + "' AND BranchId = " + FrmLogin.BranchId;
-                }
-                //objSearch.OrderBy = "Order By AccountGroupName ASC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (gridSource[0].Count > 0)
-                {
-                    MetroMessageBox.Show(this, "Department Name '" + Convert.ToString(mtxtName.Text) + "' Already exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
-                    mtxtName.Text = "";
-                    mtxtName.Focus();
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  NameExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                return true;
+            }
         }
         public Boolean CodeExist()
         {
-            if (!string.IsNullOrWhiteSpace(mtxtCode.Text))
+            try
             {
-                BllDepartment bllAccountGroup = new BllDepartment();
-                BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.ColumnHeaders = "DepartmentCode";
-                objSearch.Select = " COUNT(DepartmentCode) As Count";
-                objSearch.Table = " tblDepartment ";
 
-                if (DepartmentId == 0)
+                if (!string.IsNullOrWhiteSpace(mtxtCode.Text))
                 {
-                    objSearch.WhereNdGroupBy = " Where DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND Status=1 AND BranchId = " + BranchId;
+                    BllDepartment bllAccountGroup = new BllDepartment();
+                    BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.ColumnHeaders = "DepartmentCode";
+                    objSearch.Select = " COUNT(DepartmentCode) As Count";
+                    objSearch.Table = " tblDepartment ";
+
+                    if (DepartmentId == 0)
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND Status=1 AND BranchId = " + BranchId;
+                    }
+                    else
+                    {
+                        objSearch.WhereNdGroupBy = " Where DepartmentId!= " + DepartmentId + " AND Status=1 AND DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND BranchId = " + FrmLogin.BranchId;
+                    }
+                    //objSearch.OrderBy = "Order By AccountGroupName ASC";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (gridSource[0].Count > 0)
+                    {
+                        MetroMessageBox.Show(this, "Department code '" + Convert.ToString(mtxtCode.Text) + "' Already exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                        mtxtCode.Text = "";
+                        mtxtCode.Focus();
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    objSearch.WhereNdGroupBy = " Where DepartmentId!= " + DepartmentId + " AND Status=1 AND DepartmentCode LIKE '" + Convert.ToString(mtxtCode.Text) + "%' COLLATE SQL_Latin1_General_CP1_CS_AS AND BranchId = " + FrmLogin.BranchId;
-                }
-                //objSearch.OrderBy = "Order By AccountGroupName ASC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (gridSource[0].Count > 0)
-                {
-                    MetroMessageBox.Show(this, "Department code '" + Convert.ToString(mtxtCode.Text) + "' Already exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
-                    mtxtCode.Text = "";
-                    mtxtCode.Focus();
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  CodeExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                return false;
+            }
         }
         public void GenerateSrNo()
         {
-            BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "MAX(EmployeeSrlNoStart) as EmployeeSrlNoStart";
-            objSearch.Table = " tblDepartment ";
-            objSearch.WhereNdGroupBy = "";
-            var gridSourceSrlno = bllSearch.GetSearchData("prdSearch", objSearch);
+            try
+            {
+                BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "MAX(EmployeeSrlNoStart) as EmployeeSrlNoStart";
+                objSearch.Table = " tblDepartment ";
+                objSearch.WhereNdGroupBy = "";
+                var gridSourceSrlno = bllSearch.GetSearchData("prdSearch", objSearch);
 
-            BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
-            DmnSearch objSearchGn = new DmnSearch();
-            objSearchGn.Select = "GeneralId,GTypeSubValue1";
-            objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
-            objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
-            var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
-            decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
-            decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
+                BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
+                DmnSearch objSearchGn = new DmnSearch();
+                objSearchGn.Select = "GeneralId,GTypeSubValue1";
+                objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
+                objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
+                var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
+                decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
+                decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
 
-            mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
+                mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  GenerateSrNo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+            }
+
         }
         public void dgvFrmDepartment()
         {
-            if (dgvDepartment.Rows.Count >= 0)
+            try
             {
-                DepartmentId = Convert.ToInt32(dgvDepartment.CurrentRow.Cells[0].Value);
-                DmnDepartment dmnDepartment = new DmnDepartment();
-                BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch = new DmnSearch();
-                objSearch.ColumnHeaders = "Id,Department,Department Code,EmpSrlNoStart";
-                objSearch.Select = " DepartmentId,DepartmentName,DepartmentCode,EmployeeSrlNoStart";
-                objSearch.Table = " tblDepartment ";
-                objSearch.WhereNdGroupBy = " Where DepartmentId = " + DepartmentId;
-                objSearch.OrderBy = " Order By DepartmentName ASC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                mtxtName.Text = Convert.ToString(gridSource[0].DepartmentName);
-                mtxtCode.Text = Convert.ToString(gridSource[0].DepartmentCode);
-                mtxtEmpSrlNo.Text = Convert.ToString(gridSource[0].EmployeeSrlNoStart);
-                DepartmentId = Convert.ToInt32(gridSource[0].DepartmentId);
+                if (dgvDepartment.Rows.Count >= 0)
+                {
+                    DepartmentId = Convert.ToInt32(dgvDepartment.CurrentRow.Cells[0].Value);
+                    DmnDepartment dmnDepartment = new DmnDepartment();
+                    BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch = new DmnSearch();
+                    objSearch.ColumnHeaders = "Id,Department,Department Code,EmpSrlNoStart";
+                    objSearch.Select = " DepartmentId,DepartmentName,DepartmentCode,EmployeeSrlNoStart";
+                    objSearch.Table = " tblDepartment ";
+                    objSearch.WhereNdGroupBy = " Where DepartmentId = " + DepartmentId;
+                    objSearch.OrderBy = " Order By DepartmentName ASC";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    mtxtName.Text = Convert.ToString(gridSource[0].DepartmentName);
+                    mtxtCode.Text = Convert.ToString(gridSource[0].DepartmentCode);
+                    mtxtEmpSrlNo.Text = Convert.ToString(gridSource[0].EmployeeSrlNoStart);
+                    DepartmentId = Convert.ToInt32(gridSource[0].DepartmentId);
 
-                mtxtEmpSrlNo.ReadOnly = true;
-                mtxtName.Focus();
-                mbtnSave.Enabled = true;
+                    mtxtEmpSrlNo.ReadOnly = true;
+                    mtxtName.Focus();
+                    mbtnSave.Enabled = true;
+                }
             }
-
+            catch (Exception ex)
+            {
+                clsgen.LogException("Department Page  dgvFrmDepartment()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+            }
         }
         #endregion
         #region Events
         private void FrmDepartment_Load(object sender, EventArgs e)
         {
-
-
-            dgvDepartment.BorderStyle = BorderStyle.None;
-            dgvDepartment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgvDepartment.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvDepartment.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgvDepartment.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgvDepartment.BackgroundColor = Color.White;
-
-            dgvDepartment.EnableHeadersVisualStyles = false;
-            dgvDepartment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvDepartment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgvDepartment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-
-
-            FrmDashboard frmDash = new FrmDashboard();
-            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Department)))
-            {
-                mbtnSave.Enabled = true;
-
-            }
-            else
-            {
-                mbtnSave.Enabled = false;
-
-            }
             try
             {
+                dgvDepartment.BorderStyle = BorderStyle.None;
+                dgvDepartment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvDepartment.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvDepartment.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvDepartment.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvDepartment.BackgroundColor = Color.White;
+
+                dgvDepartment.EnableHeadersVisualStyles = false;
+                dgvDepartment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvDepartment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvDepartment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                FrmDashboard frmDash = new FrmDashboard();
+                if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Department)))
+                {
+                    mbtnSave.Enabled = true;
+
+                }
+                else
+                {
+                    mbtnSave.Enabled = false;
+
+                }
                 if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
                 {
                     mbtnSave.Enabled = true;
@@ -292,11 +340,12 @@ namespace FoodandBeverage.Forms
                 mtxtName.Focus();
                 RefreshForm();
                 //fillGridView();
-               
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  FrmDepartment_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void DgvDepartment_KeyDown(object sender, KeyEventArgs e)
@@ -305,7 +354,7 @@ namespace FoodandBeverage.Forms
             {
                 if (dgvDepartment.Rows.Count > 0)
                 {
-                    
+
                     bool deletestatus;
                     int DepartmentId = Convert.ToInt32(dgvDepartment.CurrentRow.Cells[0].Value);
                     if (e.KeyCode == Keys.Delete)
@@ -320,18 +369,15 @@ namespace FoodandBeverage.Forms
                             deletestatus = lstData;
                             if (deletestatus)
                             {
-                                // mtxtName.Focus();
-
-
                                 CMessageBox.Show(this, "Successfully deleted", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             }
                             else
-                                CMessageBox.Show(this, "Delete failed " , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show(this, "Delete failed ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             fillGridView();
 
                             RefreshForm();
                         }
-                    } 
+                    }
                     dgvDepartment.Focus();
                     if (e.KeyCode == Keys.Enter)
                     {
@@ -342,10 +388,11 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  DgvDepartment_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-      
+
         private void MbtnSave_Click(object sender, EventArgs e)
         {
             try
@@ -368,9 +415,9 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDepartment.AddData("prdInsertDepartment", dmnDepartment);
                             savestatus = lstData;
                             if (savestatus)
-                                CMessageBox.Show(this,mtxtName.Text+ " Successfully Saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show(this, mtxtName.Text + " Successfully Saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                CMessageBox.Show(this,mtxtName.Text+ " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show(this, mtxtName.Text + " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -380,33 +427,30 @@ namespace FoodandBeverage.Forms
                             var lstData = bllDepartment.UpdateData("prdUpdateDepartment", dmnDepartment);
                             savestatus = lstData;
                             if (savestatus)
-                                CMessageBox.Show(this,mtxtName.Text+ " Updated Successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                CMessageBox.Show(this, mtxtName.Text + " Updated Successfully ", "Updated  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             else
-                                CMessageBox.Show(this,mtxtName.Text+ " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                           
+                                CMessageBox.Show(this, mtxtName.Text + " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        
+
                         fillGridView();
-                        
                     }
                     RefreshForm();
                     mtxtName.Focus();
                     FrmEmployeeShort frmEmployeeShort = new FrmEmployeeShort();
                     frmEmployeeShort.FillCombo();
                 }
-
-              
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  MbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void MbtnRefresh_Click(object sender, EventArgs e)
         {
             try
-            { 
-                if(!string.IsNullOrWhiteSpace(mtxtName.Text))
+            {
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
                 {
                     mbtnSave.Enabled = false;
                 }
@@ -414,20 +458,20 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  MbtnRefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void DgvDepartment_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-               
                 dgvFrmDepartment();
-                
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  DgvDepartment_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void MtxtEmpSrlNo_KeyPress(object sender, KeyPressEventArgs e)
@@ -438,6 +482,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Department Page  MtxtEmpSrlNo_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -446,7 +491,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if(!string.IsNullOrWhiteSpace(mtxtName.Text))
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
                 {
                     if (e.KeyCode != Keys.F2 && e.KeyCode != Keys.F5)
                     {
@@ -463,7 +508,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  FrmDepartment_KeyUp()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void mtxtName_KeyDown(object sender, KeyEventArgs e)
@@ -471,12 +517,10 @@ namespace FoodandBeverage.Forms
             try
             {
                 objGeneral.NextConrolOnEnterPress(sender, e);
-              
-
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtName_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
@@ -485,11 +529,11 @@ namespace FoodandBeverage.Forms
             try
             {
                 objGeneral.NextConrolOnEnterPress(sender, e);
-               
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtCode_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
@@ -503,14 +547,14 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtEmpSrlNo_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
         private void mtxtName_Leave(object sender, EventArgs e)
         {
             try
             {
-                if(!string.IsNullOrWhiteSpace(mtxtName.Text))
+                if (!string.IsNullOrWhiteSpace(mtxtName.Text))
                 {
                     CultureInfo cI = Thread.CurrentThread.CurrentCulture;
                     TextInfo textInfo = cI.TextInfo;
@@ -534,53 +578,26 @@ namespace FoodandBeverage.Forms
                         GenerateSrNo();
                     }
                 }
-               
-                
-
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtName_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
-        private void mtxtName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
-
         #endregion
 
-        private void mbtnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-      
         private void FrmDepartment_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
                 if (e.KeyData == Keys.Escape)
                     this.Close();
-               
-
-                //    btnSave_Click(sender, e);
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Department Page  FrmDepartment_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
-        private void dgvDepartment_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void FrmDepartment_Leave(object sender, EventArgs e)
-        {
-
-        }
-
-      
 
         private void mbtnClose_Click_1(object sender, EventArgs e)
         {
@@ -612,7 +629,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtEmpSrlNo_KeyDown_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
@@ -624,7 +641,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Department Page  mtxtEmpSrlNo_KeyPress_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
@@ -633,12 +650,10 @@ namespace FoodandBeverage.Forms
             try
             {
                 objGeneral.NextConrolOnEnterPress(sender, e);
-
-
             }
             catch (Exception ex)
             {
-                MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                clsgen.LogException("Department Page  mtxtName_KeyDown_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
@@ -670,19 +685,17 @@ namespace FoodandBeverage.Forms
                         GenerateSrNo();
                     }
                 }
-
-
-
             }
             catch (Exception ex)
             {
-                MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                clsgen.LogException("Department Page  mtxtName_Leave_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
 
         private void FrmDepartment_Resize(object sender, EventArgs e)
         {
             textb_shape();
+            objGeneral.GrideAutoSize(dgvDepartment);
         }
     }
 }

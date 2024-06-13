@@ -312,8 +312,8 @@ namespace FoodandBeverage.Interfaces
         OrderView = 23,
         Addon = 24,
         Login=25,
-        homepage=26
-
+        homepage=26,
+        company=27
     };
 
 }

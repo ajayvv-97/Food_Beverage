@@ -121,3 +121,143 @@ User Name:
 Designation: 
 FormTypeId: 25
 -------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:01
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:03
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:03
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:04
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:04
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:05
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:26:05
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:27:15
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:43:03
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:43:04
+Page : company Page btsave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:59:52
+Page : company Page btnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:59:52
+Page : company Page btnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 12:59:53
+Page : company Page btnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 13:00:02
+Page : company Page btnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 13:08:37
+Page : company Page btnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 27
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 14:45:49
+Page : Department Page  fillGridView()
+Exception: No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 14:46:09
+Page : Department Page  fillGridView()
+Exception: No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 14:46:52
+Page : Department Page  fillGridView()
+Exception: No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 14:55:41
+Page : Department Page  fillGridView()
+Exception: No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 13-06-2024 14:55:45
+Page : Department Page  fillGridView()
+Exception: No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 19
+-------------------------------------------------------------------------
