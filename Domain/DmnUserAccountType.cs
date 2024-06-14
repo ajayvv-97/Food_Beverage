@@ -6,7 +6,7 @@ namespace Domain
 {
     public class DmnUserAccountType
     {
-        public long UserAccountTypeId { get; set; }
+        public int UserAccountTypeId { get; set; }
         public string UserAccountType { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }

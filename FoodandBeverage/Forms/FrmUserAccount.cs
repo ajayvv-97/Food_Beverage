@@ -135,11 +135,11 @@ namespace FoodandBeverage.Forms.UserAccount
                     CMessageBox.Show(" UserType is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
-                else if (txtemp.Text == "" || txtemp.Text == string.Empty)
-                {
-                    //MessageBox.Show(" Employee is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //return false;
-                }
+                //else if (txtemp.Text == "" || txtemp.Text == string.Empty)
+                //{
+                //    //MessageBox.Show(" Employee is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    //return false;
+                //}
                 else if (txtuname.Text == "" || txtuname.Text == string.Empty)
                 {
                     CMessageBox.Show(" UserName is A Mandatory Field And All Red Colored Field Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);

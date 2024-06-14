@@ -71,10 +71,7 @@ namespace FoodandBeverage.Forms
        );
         private void lblsubcatclose_Click(object sender, EventArgs e)
         {
-            foreach (Control control in this.Controls)
-            {
-                control.Enabled = true;
-            }
+            tlp_main.Enabled = true;
             pnlusertype.Hide();
         }
 
@@ -92,25 +89,35 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
+
         }
 
         #endregion
@@ -121,37 +128,55 @@ namespace FoodandBeverage.Forms
         }
         private void HeaderCheckBoxread_Clicked(object sender, EventArgs e)
         {
-            dgvforms.EndEdit();
-            foreach (DataGridViewRow row in dgvforms.Rows)
+            try
             {
-                if (headerCheckBoxread.Checked == true)
+                dgvforms.EndEdit();
+                foreach (DataGridViewRow row in dgvforms.Rows)
                 {
-                    //dgvforms.Rows[row.Index].Cells[iwrite].Value = true;
-                    dgvforms.Rows[row.Index].Cells[iread].Value = true;
+                    if (headerCheckBoxread.Checked == true)
+                    {
+                        //dgvforms.Rows[row.Index].Cells[iwrite].Value = true;
+                        dgvforms.Rows[row.Index].Cells[iread].Value = true;
+                    }
+                    else
+                    {
+                        //dgvforms.Rows[row.Index].Cells[iwrite].Value = false;
+                        dgvforms.Rows[row.Index].Cells[iread].Value = false;
+                    }
                 }
-                else
-                {
-                    //dgvforms.Rows[row.Index].Cells[iwrite].Value = false;
-                    dgvforms.Rows[row.Index].Cells[iread].Value = false;
-                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  HeaderCheckBoxread_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
         private void HeaderCheckBoxwrite_Clicked(object sender, EventArgs e)
         {
-            dgvforms.EndEdit();
-            foreach (DataGridViewRow row in dgvforms.Rows)
+            try
             {
-                if (headerCheckBoxwrite.Checked == true)
+                dgvforms.EndEdit();
+                foreach (DataGridViewRow row in dgvforms.Rows)
                 {
-                    dgvforms.Rows[row.Index].Cells[iwrite].Value = true;
-                    dgvforms.Rows[row.Index].Cells[iread].Value = true;
-                }
-                else
-                {
-                    dgvforms.Rows[row.Index].Cells[iwrite].Value = false;
-                    dgvforms.Rows[row.Index].Cells[iread].Value = false;
+                    if (headerCheckBoxwrite.Checked == true)
+                    {
+                        dgvforms.Rows[row.Index].Cells[iwrite].Value = true;
+                        dgvforms.Rows[row.Index].Cells[iread].Value = true;
+                    }
+                    else
+                    {
+                        dgvforms.Rows[row.Index].Cells[iwrite].Value = false;
+                        dgvforms.Rows[row.Index].Cells[iread].Value = false;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  HeaderCheckBoxwrite_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
+
+
         }
 
         private void cmbUsreAccount_KeyDown(object sender, KeyEventArgs e)
@@ -176,169 +201,273 @@ namespace FoodandBeverage.Forms
         {
             FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
         }
-       
+
         public bool MandatoryCheckuser()
         {
-            if (txtusertype.Text == "" || txtusertype.Text == null)
+            try
             {
-                CMessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (string.IsNullOrEmpty(txtutypeid.Text))
+                {
+                    txtutypeid.Text = "0";
+                }
+                if (txtusertype.Text == "" || txtusertype.Text == null)
+                {
+                    CMessageBox.Show("Please Enter UserType", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  MandatoryCheckuser()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
                 return false;
             }
-            return true;
+
+
         }
+
         public void FillCombo()
         {
-            BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
-            DmnSearch dmnacctype = new DmnSearch();
-            dmnacctype.Select = "UserAccountTypeId,UserAccountType";
-            dmnacctype.Table = " tblUserAccountType ";
-            dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
-            dmnacctype.OrderBy = "order by Value";
-            var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
-            cmbUsreAccount.DataSource = acctype;
-            cmbUsreAccount.DisplayMember = "Value";
-            cmbUsreAccount.ValueMember = "Id";
+            try
+            {
+                BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
+                DmnSearch dmnacctype = new DmnSearch();
+                dmnacctype.Select = "UserAccountTypeId,UserAccountType";
+                dmnacctype.Table = " tblUserAccountType ";
+                dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
+                dmnacctype.OrderBy = "order by Value";
+                var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
+                cmbUsreAccount.DataSource = acctype;
+                cmbUsreAccount.DisplayMember = "Value";
+                cmbUsreAccount.ValueMember = "Id";
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
+
         }
         private void btnusertype_Click(object sender, EventArgs e)
         {
-            if (MandatoryCheckuser())
+            try
             {
-                if (clsGeneral.NameExist_UserType(txtusertype.Text))
+                if (MandatoryCheckuser())
                 {
-                    if (txtusertype.Text != "")
+                    if(Convert.ToInt32(txtutypeid.Text)>0)
                     {
-                        DmnUserAccountType dmnUser = new DmnUserAccountType();
-                        BllUserAccount bllUser = new BllUserAccount();
-                        dmnUser.UserAccountType = txtusertype.Text;
-                        dmnUser.Note = txtdescr.Text;
-                        dmnUser.Status = 1;
-                        bool usertype = bllUser.AddUserType("prdInsertUserType", dmnUser);
-                        FillCombo();
-                        pnlusertype.Hide();
-                        txtusertype.Text = "";
-                        txtdescr.Text = "";
-                        FillComboUserType();
+                        if (txtusertype.Text != "")
+                        {
+                            DmnUserAccountType dmnUser = new DmnUserAccountType();
+                            BllUserAccount bllUser = new BllUserAccount();
+                            dmnUser.UserAccountTypeId = Convert.ToInt32(txtutypeid.Text);
+                            dmnUser.UserAccountType = txtusertype.Text;
+                            dmnUser.Note = txtdescr.Text;
+                            dmnUser.Status = 1;
+                            var usertype = bllUser.AddUserType("prdInsertUserType", dmnUser);
+                            if (usertype.UserAccountTypeId > 0)
+                            {
+                                if (Convert.ToInt32(txtutypeid.Text) > 0)
+                                    CMessageBox.Show("Update Successful", "Update Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                else
+                                    CMessageBox.Show("Save Successful", "Save Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                FillCombo();
+                                pnlusertype.Hide();
+                                txtusertype.Text = "";
+                                txtdescr.Text = "";
+                                txtutypeid.Text = "";
+                                tlp_main.Enabled = true;
+                            }
+                        }
                     }
+                    else
+                    {
+
+                        if (clsGeneral.NameExist_UserType(txtusertype.Text))
+                        {
+                            if (txtusertype.Text != "")
+                            {
+                                DmnUserAccountType dmnUser = new DmnUserAccountType();
+                                BllUserAccount bllUser = new BllUserAccount();
+                                dmnUser.UserAccountTypeId = Convert.ToInt32(txtutypeid.Text);
+                                dmnUser.UserAccountType = txtusertype.Text;
+                                dmnUser.Note = txtdescr.Text;
+                                dmnUser.Status = 1;
+                                var usertype = bllUser.AddUserType("prdInsertUserType", dmnUser);
+                                if (usertype.UserAccountTypeId > 0)
+                                {
+                                    if (Convert.ToInt32(txtutypeid.Text) > 0)
+                                        CMessageBox.Show("Update Successful", "Update Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    else
+                                        CMessageBox.Show("Save Successful", "Save Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    FillCombo();
+                                    pnlusertype.Hide();
+                                    txtusertype.Text = "";
+                                    txtdescr.Text = "";
+                                    txtutypeid.Text = "";
+                                    tlp_main.Enabled = true;
+                                }
+                            }
+                        }
+                        else
+                            txtusertype.Focus();
+                    }
+
                 }
-                else
-                    txtusertype.Focus();
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  btnusertype_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
+
         }
 
         private void dgvforms_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-           
-           if (e.ColumnIndex == iwrite && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[iwrite].Value) == 1)
-        {
-           dgvforms.Rows[e.RowIndex].Cells[iread].Value = 1;
-        }
-            if (e.ColumnIndex == iread && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[iwrite].Value) == 1)
-        {
-            dgvforms.Rows[e.RowIndex].Cells[iread].Value = 1;
-        }
-            
+            try
+            {
+                if (e.ColumnIndex == iwrite && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[iwrite].Value) == 1)
+                {
+                    dgvforms.Rows[e.RowIndex].Cells[iread].Value = 1;
+                }
+                if (e.ColumnIndex == iread && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[iwrite].Value) == 1)
+                {
+                    dgvforms.Rows[e.RowIndex].Cells[iread].Value = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  dgvforms_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
         }
         public bool MandatoryCheck()
         {
-            if (cmbUsreAccount.SelectedIndex < 0)
+            try
             {
-                CMessageBox.Show("UserType Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (cmbUsreAccount.SelectedIndex < 0)
+                {
+                    CMessageBox.Show("UserType Need To Be Specifay", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  HeaderCheckBoxread_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
                 return false;
             }
-            return true;
+
         }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
-            DmnForms dmnForms = new DmnForms();
-            BllUserAccount bllUserAccount = new BllUserAccount();
-            if (cmbUsreAccount.SelectedIndex >= 0)
+            try
             {
-                bool flag = false;
-                foreach (DataGridViewRow row in dgvforms.Rows)
+                DmnForms dmnForms = new DmnForms();
+                BllUserAccount bllUserAccount = new BllUserAccount();
+                if (cmbUsreAccount.SelectedIndex >= 0)
                 {
-                    if (Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1 || Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1)
+                    bool flag = false;
+                    foreach (DataGridViewRow row in dgvforms.Rows)
                     {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag == true && MandatoryCheck())
-                {
-                    dmnForms.CreatedBy = 1;//FrmDashboard.UserType;
-                    dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
-                    //if (cmbapptype.Text == "BackOffice")
-                    //    dmnForms.FormType = 1;
-                    //else
-                    //    dmnForms.FormType = 2;
-                    for (int i = 0; i < dgvforms.Rows.Count; i++)
-                    {
-
-                        dmnForms.id = Convert.ToInt32(dgvforms.Rows[i].Cells[iid].Value);
-                        dmnForms.Form = Convert.ToInt32(dgvforms.Rows[i].Cells[iformid].Value);
-                        dmnForms.Read = Convert.ToInt32(dgvforms.Rows[i].Cells[iread].Value);
-                        dmnForms.Write = Convert.ToInt32(dgvforms.Rows[i].Cells[iwrite].Value);
-                        dmnForms.Note = txtUserTypeNote.Text.ToString();
-                        if (dmnForms.Read == 0 && dmnForms.Write == 0)
+                        if (Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1 || Convert.ToInt32(dgvforms.Rows[row.Index].Cells[iread].Value) == 1)
                         {
-                            dmnForms.Status = 0;
+                            flag = true;
+                            break;
                         }
-                        else
-                            dmnForms.Status = 1;
+                    }
+                    if (flag == true && MandatoryCheck())
+                    {
+                        bool status = false;
+                        dmnForms.CreatedBy = FrmDashboard.UserId;
+                        dmnForms.UserType = Convert.ToInt32(cmbUsreAccount.SelectedValue);
+                        //if (cmbapptype.Text == "BackOffice")
+                        //    dmnForms.FormType = 1;
+                        //else
+                        //    dmnForms.FormType = 2;
+                        for (int i = 0; i < dgvforms.Rows.Count; i++)
+                        {
 
-                        bool status = bllUserAccount.AddUserPermission("prdInsertUpdUserPermission", dmnForms);
-
+                            dmnForms.id = Convert.ToInt32(dgvforms.Rows[i].Cells[iid].Value);
+                            dmnForms.Form = Convert.ToInt32(dgvforms.Rows[i].Cells[iformid].Value);
+                            dmnForms.Read = Convert.ToInt32(dgvforms.Rows[i].Cells[iread].Value);
+                            dmnForms.Write = Convert.ToInt32(dgvforms.Rows[i].Cells[iwrite].Value);
+                            dmnForms.Note = txtUserTypeNote.Text.ToString();
+                            if (dmnForms.Read == 0 && dmnForms.Write == 0)
+                            {
+                                dmnForms.Status = 0;
+                            }
+                            else
+                                dmnForms.Status = 1;
+                             status = bllUserAccount.AddUserPermission("prdInsertUpdUserPermission", dmnForms);
+                        }
+                        if (status)
+                            CMessageBox.Show("Save Sucessfull", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
                 {
-                    CMessageBox.Show(" Need To Assign One Permission Atleast", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 }
+                clear();
             }
-            else
+            catch (Exception ex)
             {
-                CMessageBox.Show(" Please Select The Account Group", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
-            clear();
+
         }
         public void clear()
         {
-
-
-            //pbCust.Image = Game.Properties.Resources.webcam;
-            dgvforms.Visible = false;
-            FillCombo();
-           
-            if (!Directory.Exists(Compressedimg))
+            try
             {
-                Directory.CreateDirectory(Compressedimg);
-                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
-                DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                dInfo.SetAccessControl(dSecurity);
-            }
-            else
-            {
-                foreach (string file in Directory.GetFiles(Compressedimg))
+                dgvforms.Visible = false;
+                FillCombo();
+
+                if (!Directory.Exists(Compressedimg))
                 {
-                    System.GC.Collect();
-                    System.GC.WaitForPendingFinalizers();
-                    File.Delete(file);
+                    Directory.CreateDirectory(Compressedimg);
+                    DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                    DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    dInfo.SetAccessControl(dSecurity);
                 }
+                else
+                {
+                    foreach (string file in Directory.GetFiles(Compressedimg))
+                    {
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(file);
+                    }
+                }
+
+                cmbUsreAccount.SelectedItem = 0;
+                txtUserTypeNote.Text = "";
+                dgvforms.Rows.Clear();
+                EmployeeId = 0;
+                UserAccountId = 0;
+                PasswordHash = null;
+                PasswordSalt = null;
+                txtutypeid.Text = "0";
             }
-            
-            cmbUsreAccount.SelectedItem = 0;
-            txtUserTypeNote.Text = "";
-            
-            dgvforms.Rows.Clear();
-            EmployeeId = 0;
-            UserAccountId = 0;
-            FillComboUserType();
-            PasswordHash = null;
-            PasswordSalt = null;
-          
-            //mcmblocation.SelectedValue = Convert.ToInt64(FrmDashBoard.BranchId);
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  clear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -355,6 +484,7 @@ namespace FoodandBeverage.Forms
         {
             pnlusertype.Location = new Point(this.Location.X + 150, this.Location.Y + 75);
             pnlusertype.Show();
+            tlp_main.Enabled = false;
             btnusertype.Enabled = true;
         }
 
@@ -365,114 +495,214 @@ namespace FoodandBeverage.Forms
 
         private void FrmUserPermission_Load(object sender, EventArgs e)
         {
-            dgvforms.BorderStyle = BorderStyle.None;
-            dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvforms.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgvforms.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgvforms.BackgroundColor = Color.White;
-
-            dgvforms.EnableHeadersVisualStyles = false;
-            dgvforms.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvforms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-            FillCombo();
-            FillComboUserType();
-            FrmDashboard frmDash = new FrmDashboard();
-            if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Permission)))
+            try
             {
-                btnSave.Enabled = true;
+                dgvforms.BorderStyle = BorderStyle.None;
+                dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvforms.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvforms.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvforms.BackgroundColor = Color.White;
+
+                dgvforms.EnableHeadersVisualStyles = false;
+                dgvforms.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvforms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvforms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                FillCombo();
+                FrmDashboard frmDash = new FrmDashboard();
+                if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Permission)))
+                {
+                    btnSave.Enabled = true;
+                }
+                else
+                {
+                    btnSave.Enabled = false;
+                }
 
             }
-            else
+            catch (Exception ex)
             {
-                btnSave.Enabled = false;
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  FrmUserPermission_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
-        public void FillComboUserType()
-        {
-            BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
-            DmnSearch dmnacctype = new DmnSearch();
-            dmnacctype.Select = "UserAccountTypeId,UserAccountType";
-            dmnacctype.Table = " tblUserAccountType ";
-            dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
-            dmnacctype.OrderBy = "order by Value";
-            var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
-            cmbUsreAccount.DataSource = acctype;
-            cmbUsreAccount.DisplayMember = "Value";
-            cmbUsreAccount.ValueMember = "Id";
-            cmbUsreAccount.SelectedIndex = 0;
-
-            
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        //public void FillComboUserType()
+        //{
+        //    try
+        //    {
+        //        BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
+        //        DmnSearch dmnacctype = new DmnSearch();
+        //        dmnacctype.Select = "UserAccountTypeId,UserAccountType";
+        //        dmnacctype.Table = " tblUserAccountType ";
+        //        dmnacctype.WhereNdGroupBy = "Where Status = 1 ";//AND DepartmentId = " + mcmbDepartmentId.SelectedValue;
+        //        dmnacctype.OrderBy = "order by Value";
+        //        var acctype = bllacctype.GetSearchData("prdComboFill", dmnacctype);
+        //        cmbUsreAccount.DataSource = acctype;
+        //        cmbUsreAccount.DisplayMember = "Value";
+        //        cmbUsreAccount.ValueMember = "Id";
+        //        cmbUsreAccount.SelectedIndex = 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+        //        clsGeneral.LogException("User Permission Page  FillComboUserType()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+        //    }
+        //}
 
         private void FrmUserPermission_Resize(object sender, EventArgs e)
         {
             textb_shape();
         }
 
+        private void txtusertype_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+        }
+
+        private void btn_usertype_close_Click(object sender, EventArgs e)
+        {
+            tlp_main.Enabled = true;
+            pnlusertype.Hide();
+        }
+
+        private void txtusertype_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F8)
+            {
+                Usertypepopup();
+            }
+        }
+        public void Usertypepopup()
+        {
+            try
+            {
+                string returnValue = string.Empty;
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "Id,User Type,Description";
+                _objSearch.Select = "UserAccountTypeId as Id,UserAccountType as Field1,Note as Field2";
+                _objSearch.Table = "tblUserAccountType ";
+                _objSearch.WhereNdGroupBy = "Where Status=1";
+                _objSearch.OrderBy = " Order By UserAccountType ASC ";
+
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToString(search._retValue);
+
+                    }
+                }
+                if (returnValue.ToString() != null && returnValue.ToString() != "")
+                {
+                    int utid = Convert.ToInt32(returnValue.ToString());
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "UserAccountTypeId as Id,UserAccountType as Field1,Note as Field2";
+                    objSearch.Table = "tblUserAccountType ";
+                    objSearch.WhereNdGroupBy = "Where UserAccountTypeId = " + utid;
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (gridSource.Count > 0)
+                    {
+                        txtusertype.Text = gridSource[0].Field1;
+                        txtdescr.Text = Convert.ToString(gridSource[0].Field2);
+                        txtutypeid.Text = Convert.ToString(gridSource[0].Id);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  Usertypepopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
+        }
+
+        private void txtusertype_Enter(object sender, EventArgs e)
+        {
+            lblusertypeinfo.Visible = true;
+        }
+
+        private void txtusertype_Leave(object sender, EventArgs e)
+        {
+            lblusertypeinfo.Visible = false;
+        }
+
         public void FillForms(int id)
         {
+            try
+            {
+                dgvforms.Rows.Clear();
+                headerCheckBoxwrite.Checked = false;
+                headerCheckBoxread.Checked = false;
+                int x = dgvforms.Width;
+                headerCheckBoxwrite.Location = new Point(x - 480, 10);
+                headerCheckBoxwrite.BackColor = Color.FromArgb(20, 25, 72);
+                headerCheckBoxwrite.Size = new Size(18, 18);
+                headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
+                dgvforms.Controls.Add(headerCheckBoxwrite);
+                headerCheckBoxread.Location = new Point(x - 120, 10);
+                headerCheckBoxread.BackColor = Color.FromArgb(20, 25, 72);
+                headerCheckBoxread.Size = new Size(18, 18);
+                headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
+                dgvforms.Controls.Add(headerCheckBoxread);
+                //dgvforms.Rows[].
+                BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+                DmnSearch dmnforms = new DmnSearch();
+                dmnforms.Select = "f.Id,g.Caption,g.GTypeSubId,[Read],Write,f.UserType,f.Status,Note";
 
-            dgvforms.Rows.Clear();
-            headerCheckBoxwrite.Checked = false;
-            headerCheckBoxread.Checked = false;
-            int x = dgvforms.Width;
-            headerCheckBoxwrite.Location = new Point(x - 480, 10);
-            headerCheckBoxwrite.BackColor = Color.White;
-            headerCheckBoxwrite.Size = new Size(18, 18);
-            headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
-            dgvforms.Controls.Add(headerCheckBoxwrite);
-            headerCheckBoxread.Location = new Point(x - 120, 10);
-            headerCheckBoxread.BackColor = Color.White;
-            headerCheckBoxread.Size = new Size(18, 18);
-            headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
-            dgvforms.Controls.Add(headerCheckBoxread);
-            //dgvforms.Rows[].
-            BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
-            DmnSearch dmnforms = new DmnSearch();
-            dmnforms.Select = "f.Id,g.Caption,g.GTypeSubId,[Read],Write,f.UserType,f.Status,Note";
-           
                 dmnforms.Table = " tblGeneralOptions g" +
                 " left join tblForms f on f.Form=g.GTypeSubId and f.Status=1 and f.UserType=" + id;
                 dmnforms.WhereNdGroupBy = " where g.GTypeId=55 and g.Status=0  ";
-            
-            dmnforms.OrderBy = "order by GTypeSubId";
-            var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
-            if (gridesource.Count > 0)
-            {
-                dgvforms.Rows.Add(gridesource.Count());
-                txtUserTypeNote.Text = gridesource[0].Note;
-                for (int i = 0; i < gridesource.Count; i++)
+
+                dmnforms.OrderBy = "order by GTypeSubId";
+                var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
+                if (gridesource.Count > 0)
                 {
-                    dgvforms.Rows[i].Cells[iid].Value = gridesource[i].id;
-                    dgvforms.Rows[i].Cells[iformid].Value = gridesource[i].GTypeSubId;
-                    dgvforms.Rows[i].Cells[iforms].Value = gridesource[i].Caption;
-                    dgvforms.Rows[i].Cells[iread].Value = gridesource[i].Read;
-                    dgvforms.Rows[i].Cells[iwrite].Value = gridesource[i].Write;
+                    dgvforms.Rows.Add(gridesource.Count());
+                    txtUserTypeNote.Text = gridesource[0].Note;
+                    for (int i = 0; i < gridesource.Count; i++)
+                    {
+                        dgvforms.Rows[i].Cells[iid].Value = gridesource[i].id;
+                        dgvforms.Rows[i].Cells[iformid].Value = gridesource[i].GTypeSubId;
+                        dgvforms.Rows[i].Cells[iforms].Value = gridesource[i].Caption;
+                        dgvforms.Rows[i].Cells[iread].Value = gridesource[i].Read;
+                        dgvforms.Rows[i].Cells[iwrite].Value = gridesource[i].Write;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
 
         private void cmbUsreAccount_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (cmbUsreAccount.SelectedIndex <= 0)
+            try
             {
-                dgvforms.Rows.Clear();
-            }
-            else
-            {
-                dgvforms.Visible = true;
-                FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
-            }
+                if (cmbUsreAccount.SelectedIndex <= 0)
+                {
+                    dgvforms.Rows.Clear();
+                    dgvforms.Visible = false;
 
+                }
+                else
+                {
+                    dgvforms.Visible = true;
+                    dgvforms.Visible = true;
+                    FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("User Permission Page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
+            }
         }
     }
 }

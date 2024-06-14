@@ -313,7 +313,8 @@ namespace FoodandBeverage.Interfaces
         Addon = 24,
         Login=25,
         homepage=26,
-        company=27
+        company = 27,
+        Keypad = 28,
     };
 
 }

@@ -261,3 +261,24 @@ User Name: Ajay v v
 Designation: Manager
 FormTypeId: 19
 -------------------------------------------------------------------------
+Date and Time: 14-06-2024 13:41:51
+Page : User Permission Page  btnusertype_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 22
+-------------------------------------------------------------------------
+Date and Time: 14-06-2024 13:41:55
+Page : User Permission Page  btnusertype_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 22
+-------------------------------------------------------------------------
+Date and Time: 14-06-2024 15:13:45
+Page : Login Page btnlogin_Click()
+Exception: Could not find any resources appropriate for the specified culture or the neutral culture.  Make sure "FoodandBeverage.Forms.UserAccount.Frmkeypad.resources" was correctly embedded or linked into assembly "FoodandBeverage" at compile time, or that all the satellite assemblies required are loadable and fully signed.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 25
+-------------------------------------------------------------------------

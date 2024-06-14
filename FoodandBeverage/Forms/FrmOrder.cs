@@ -9793,9 +9793,9 @@ namespace FoodandBeverage.Forms
                             else
                             {
                                 if (Convert.ToInt32(gridSource[0].Gender) == 1)
-                                    pb_cardprofile.BackgroundImage=Properties.Resources.Profilepicmale;
+                                    pb_cardprofile.BackgroundImage=Properties.Resources.employe_male_icon;
                                 else if (Convert.ToInt32(gridSource[0].Gender) == 2)
-                                    pb_cardprofile.BackgroundImage = Properties.Resources.Profilepicfemale;
+                                    pb_cardprofile.BackgroundImage = Properties.Resources.employe_female_icon;
                                 else
                                     pb_cardprofile.BackgroundImage = Properties.Resources.user_add_edit;
 

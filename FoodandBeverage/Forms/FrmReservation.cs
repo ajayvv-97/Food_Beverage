@@ -87,40 +87,7 @@ namespace FoodandBeverage.Forms
         private void FrmReservation_Load(object sender, EventArgs e)
         {
             string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
-            richTextBoxPhone.Rtf = "{\\rtf1\\ansi " +
-            "Phone No \\i0 *\\ulnone\\i\\b " +
-               "}";
-            richTextBoxPhone.Select(richTextBoxPhone.Text.IndexOf("*"), 1);
-            richTextBoxPhone.SelectionColor = Color.Red;
-            richTextBoxPhone.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
 
-            richTextBoxName.Rtf = "{\\rtf1\\ansi " +
-            "Name \\i0 *\\ulnone\\i\\b " +
-               "}";
-            richTextBoxName.Select(richTextBoxName.Text.IndexOf("*"), 1);
-            richTextBoxName.SelectionColor = Color.Red;
-            richTextBoxName.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-            richTextBoxAddress.Rtf = "{\\rtf1\\ansi " +
-           "Address \\i0 *\\ulnone\\i\\b " +
-              "}";
-            richTextBoxAddress.Select(richTextBoxAddress.Text.IndexOf("*"), 1);
-            richTextBoxAddress.SelectionColor = Color.Red;
-            richTextBoxAddress.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-            richTextBoxEmail.Rtf = "{\\rtf1\\ansi " +
-           "Email \\i0 *\\ulnone\\i\\b " +
-              "}";
-            richTextBoxEmail.Select(richTextBoxEmail.Text.IndexOf("*"), 1);
-            richTextBoxEmail.SelectionColor = Color.Red;
-            richTextBoxEmail.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
-
-            richTextBoxGender.Rtf = "{\\rtf1\\ansi " +
-          "Gender \\i0 *\\ulnone\\i\\b " +
-             "}";
-            richTextBoxGender.Select(richTextBoxGender.Text.IndexOf("*"), 1);
-            richTextBoxGender.SelectionColor = Color.Red;
-            richTextBoxGender.SelectionAlignment = HorizontalAlignment.Center; // Set the alignment to center
 
             dgvforms.BorderStyle = BorderStyle.None;
             dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);

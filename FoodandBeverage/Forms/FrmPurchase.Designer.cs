@@ -2029,7 +2029,7 @@ namespace FoodandBeverage.Forms
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.72131F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.27869F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 231F));
-            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 284F));
+            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
             this.tlp_productpop_header.Controls.Add(this.cmb_pcategory, 2, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_item, 0, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_ingrediant, 1, 0);
@@ -2055,7 +2055,7 @@ namespace FoodandBeverage.Forms
             "Item Category",
             "Expence Reasons",
             "Addon Category"});
-            this.cmb_pcategory.Location = new System.Drawing.Point(224, 3);
+            this.cmb_pcategory.Location = new System.Drawing.Point(223, 3);
             this.cmb_pcategory.Name = "cmb_pcategory";
             this.cmb_pcategory.Size = new System.Drawing.Size(225, 28);
             this.cmb_pcategory.TabIndex = 2;
@@ -2082,7 +2082,7 @@ namespace FoodandBeverage.Forms
             this.rd_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rd_ingrediant.Location = new System.Drawing.Point(106, 3);
             this.rd_ingrediant.Name = "rd_ingrediant";
-            this.rd_ingrediant.Size = new System.Drawing.Size(112, 24);
+            this.rd_ingrediant.Size = new System.Drawing.Size(111, 24);
             this.rd_ingrediant.TabIndex = 1;
             this.rd_ingrediant.TabStop = true;
             this.rd_ingrediant.Text = "Non Sale Product";

@@ -124,9 +124,6 @@
   <data name="report" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Profilepicfemale" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Profilepicfemale.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\setting.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -216,9 +213,6 @@
   </data>
   <data name="searchbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Untitled-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Profilepicmale" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Profilepicmale.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="loading_gif" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loading_gif.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -676,12 +670,6 @@
   <data name="employe_delete_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\employe_delete icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="employe_female_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\employe_female icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="employe_male_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\employe_male icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="emp_cameraicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\emp_cameraicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -837,5 +825,29 @@
   </data>
   <data name="reg_view_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reg_view icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employee_common_pic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee_common_pic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_female_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee_women.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="employe_male_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee_men.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypadbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypadbutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_save_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad_save button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_cancel_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad_cancel button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

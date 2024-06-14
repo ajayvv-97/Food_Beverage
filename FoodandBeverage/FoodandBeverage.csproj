@@ -683,6 +683,9 @@
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Frmkeypad.resx">
+      <DependentUpon>Frmkeypad.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmKitchenView.resx">
       <DependentUpon>FrmKitchenView.cs</DependentUpon>
     </EmbeddedResource>
@@ -1759,6 +1762,14 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\keypad_cancel button.png" />
+    <None Include="Resources\keypadbutton.png" />
+    <None Include="Resources\keypad_save button.png" />
+    <None Include="Resources\keypad_clear.png" />
+    <None Include="Resources\keypad_delete.png" />
+    <None Include="Resources\employee_common_pic.png" />
+    <None Include="Resources\employee_women.png" />
+    <None Include="Resources\employee_men.png" />
     <None Include="Resources\reg_clear%27 icon.png" />
     <None Include="Resources\registartion_search icon.png" />
     <None Include="Resources\reg_certificate icon.png" />

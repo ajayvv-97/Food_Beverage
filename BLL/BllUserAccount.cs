@@ -34,24 +34,7 @@ namespace BLL
             var lstData = objDapperRepository.FindByID(procedureName, parms);
             return lstData;
         }
-        public bool UpdateData(string procedureName, DmnUserAccount objTestClass)
-        {
-            DAL.DapperRepository<DmnUserAccount> objDapperRepository = new DAL.DapperRepository<DmnUserAccount>();
-            DynamicParameters parms = new DynamicParameters();
-            parms.Add("UserAccountId", objTestClass.UserAccountId);
-            parms.Add("UserAccountTypeId", objTestClass.UserAccountTypeId);
-            parms.Add("Username", objTestClass.Username);
-            parms.Add("PasswordHash", objTestClass.PasswordHash);
-            parms.Add("PasswordSalt", objTestClass.PasswordSalt);
-            parms.Add("EmailId", objTestClass.EmailId);
-            parms.Add("BranchId", objTestClass.BranchId);
-            parms.Add("Mobile", objTestClass.Mobile);
-            parms.Add("EmployeeId", objTestClass.EmployeeId);
-            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
-
-            var lstData = objDapperRepository.Update(procedureName, parms);
-            return lstData;
-        }
+    
         public bool DeleteById(string procedureName, DmnUserAccount objTestClass)
         {
             DAL.DapperRepository<DmnUserAccount> objDapperRepository = new DAL.DapperRepository<DmnUserAccount>();
@@ -75,17 +58,38 @@ namespace BLL
             
             return objdapperRepository.Add(procedure, parms);
         }
-        public bool AddUserType(string procedure, DmnUserAccountType objTestClass)
+
+        public bool UpdateData(string procedureName, DmnUserAccount objTestClass)
         {
-            DAL.DapperRepository<DmnForms> objdapperRepository = new DAL.DapperRepository<DmnForms>();
+            DAL.DapperRepository<DmnUserAccount> objDapperRepository = new DAL.DapperRepository<DmnUserAccount>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("UserAccountId", objTestClass.UserAccountId);
+            parms.Add("UserAccountTypeId", objTestClass.UserAccountTypeId);
+            parms.Add("Username", objTestClass.Username);
+            parms.Add("PasswordHash", objTestClass.PasswordHash);
+            parms.Add("PasswordSalt", objTestClass.PasswordSalt);
+            parms.Add("EmailId", objTestClass.EmailId);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Mobile", objTestClass.Mobile);
+            parms.Add("EmployeeId", objTestClass.EmployeeId);
+            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
+            var lstData = objDapperRepository.Update(procedureName, parms);
+            return lstData;
+        }
+
+        public DmnUserAccountType AddUserType(string procedure, DmnUserAccountType objTestClass)
+        {
+            DAL.DapperRepository<DmnUserAccountType> objdapperRepository = new DAL.DapperRepository<DmnUserAccountType>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("@UserAccountTypeId", objTestClass.UserAccountTypeId);
             parms.Add("@UserAccountType", objTestClass.UserAccountType);
             parms.Add("@CreatedBy", objTestClass.CreatedBy);
             parms.Add("@Note", objTestClass.Note);
             parms.Add("@Status", objTestClass.Status);
-            return objdapperRepository.Add(procedure, parms);
+            var lstData = objdapperRepository.AddandReturnID(procedure, parms);
+            return lstData;
         }
+       
 
     }
 }

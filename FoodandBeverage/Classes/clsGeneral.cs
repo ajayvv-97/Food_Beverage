@@ -142,7 +142,7 @@ namespace FoodandBeverage.Classes
             }
             catch (Exception logEx)
             {
-                MessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+                CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
             }
         }
         public void GrideAutoSize(DataGridView dataGridView)
@@ -190,7 +190,7 @@ namespace FoodandBeverage.Classes
                     MetroTextBox curTxt = (MetroTextBox)item;
                     if (string.IsNullOrWhiteSpace(curTxt.Text))
                     {
-                        MessageBox.Show("\n" + curTxt.Tag.ToString() + " is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("\n" + curTxt.Tag.ToString() + " is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         curTxt.Focus();
                         return true;
                     }
@@ -200,7 +200,7 @@ namespace FoodandBeverage.Classes
                     MetroComboBox curCmbBox = (MetroComboBox)item;
                     if (curCmbBox.SelectedIndex == 0)
                     {
-                        MessageBox.Show("\n" + "Please select " + curCmbBox.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("\n" + "Please select " + curCmbBox.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         curCmbBox.Focus();
                         return true;
                     }
@@ -239,7 +239,7 @@ namespace FoodandBeverage.Classes
             mRegxExpression = new Regex(@"[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[0-9]{1}[a-zA-Z]{1}[a-zA-Z1-9]{1}");
             if (!mRegxExpression.IsMatch(GSTNo.Trim()))
             {
-                MessageBox.Show("Invalid GST No format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Invalid GST No format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -250,7 +250,7 @@ namespace FoodandBeverage.Classes
             mRegxExpression = new Regex(@"^([A-Z]){5}([0-9]){4}([A-Z]){1}?$");
             if (!mRegxExpression.IsMatch(PANNo.Trim()))
             {
-                MessageBox.Show("Invalid PAN No format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Invalid PAN No format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -511,7 +511,7 @@ namespace FoodandBeverage.Classes
                 var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (gridSource.Count >= 1)
                 {
-                    MessageBox.Show("User Type Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("User Type Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
                 else

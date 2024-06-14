@@ -172,6 +172,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.label21.Size = new System.Drawing.Size(436, 30);
             this.label21.TabIndex = 7;
             this.label21.Text = "User Account";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_reg
             // 

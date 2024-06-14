@@ -863,6 +863,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap employee_common_pic {
+            get {
+                object obj = ResourceManager.GetObject("employee_common_pic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap employee_file_icon {
             get {
                 object obj = ResourceManager.GetObject("employee_file_icon", resourceCulture);
@@ -1156,6 +1166,56 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Item_reg {
             get {
                 object obj = ResourceManager.GetObject("Item_reg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keypad_cancel_button {
+            get {
+                object obj = ResourceManager.GetObject("keypad_cancel_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keypad_clear {
+            get {
+                object obj = ResourceManager.GetObject("keypad_clear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keypad_delete {
+            get {
+                object obj = ResourceManager.GetObject("keypad_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keypad_save_button {
+            get {
+                object obj = ResourceManager.GetObject("keypad_save_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keypadbutton {
+            get {
+                object obj = ResourceManager.GetObject("keypadbutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1835,26 +1895,6 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap productoffer_Button {
             get {
                 object obj = ResourceManager.GetObject("productoffer_Button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Profilepicfemale {
-            get {
-                object obj = ResourceManager.GetObject("Profilepicfemale", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Profilepicmale {
-            get {
-                object obj = ResourceManager.GetObject("Profilepicmale", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
