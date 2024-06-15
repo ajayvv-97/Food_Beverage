@@ -1762,6 +1762,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\offer button.png" />
+    <None Include="Resources\res_rev cancel.png" />
     <None Include="Resources\keypad_cancel button.png" />
     <None Include="Resources\keypadbutton.png" />
     <None Include="Resources\keypad_save button.png" />

@@ -1412,6 +1412,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap offer_button {
+            get {
+                object obj = ResourceManager.GetObject("offer_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap offer_button_percentage {
             get {
                 object obj = ResourceManager.GetObject("offer_button_percentage", resourceCulture);
@@ -2085,6 +2095,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap reprint {
             get {
                 object obj = ResourceManager.GetObject("reprint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap res_rev_cancel {
+            get {
+                object obj = ResourceManager.GetObject("res_rev_cancel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -282,3 +282,374 @@ User Name: Ajay v v
 Designation: Manager
 FormTypeId: 25
 -------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:16:48
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:16:59
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:17:15
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:17:16
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:20:14
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:20:14
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:24:44
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:24:45
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:24:50
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:24:52
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:33:59
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:34:01
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:36:00
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 11:36:02
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:21:25
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:21:32
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:13
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:15
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:55
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:57
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:58
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:32:59
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:33:01
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:34:42
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:34:45
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:34:46
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:35:01
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:35:15
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:35:16
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:35:39
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:36:44
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:36:44
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:36:53
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:37:02
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:37:04
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:39:55
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:39:57
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:39:59
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:42:29
+Page : CalNetAmt
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:46:04
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Provided cell does not belong to this DataGridView control.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 12:46:11
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Provided cell does not belong to this DataGridView control.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 13:40:37
+Page : purchasepop()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 13:40:45
+Page : purchasepop()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:21
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:27
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:31
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:36
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:49
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:49
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:53:52
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 15:54:05
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 17:27:34
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 15-06-2024 17:34:06
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
