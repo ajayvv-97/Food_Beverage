@@ -653,3 +653,132 @@ User Name: Ajay v v
 Designation: Manager
 FormTypeId: 17
 -------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:28:43
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:28:44
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:28:48
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:29:08
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:29:44
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 09:30:31
+Page : Login Page timer1_Tick()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 10:16:39
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 10:16:41
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 10:16:46
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 10:23:13
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 15:31:09
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 15:31:12
+Page : dgvmenu_CellValidating
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 15:40:59
+Page : Reservation Page clear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 15:53:33
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Current cell cannot be set to an invisible cell.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 16:00:25
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 16:02:52
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 16:03:31
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 18-06-2024 16:05:19
+Page : Reservation tc_rese_menu_SelectedIndexChanged()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------

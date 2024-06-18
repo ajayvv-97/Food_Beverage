@@ -371,6 +371,7 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
+                CMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 clsgen.LogException("Login Page timer1_Tick()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
