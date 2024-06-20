@@ -56,9 +56,9 @@ namespace FoodandBeverage.Forms
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
 
-        public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//Application.StartupPath + @"\KitchenBill";// ;";
-        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// Application.StartupPath + @"\Report";//
-        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//  Application.StartupPath + @"\SaleBill";//
+        public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//
+        public static string ReportPath = Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
+        public static string SaleBillPath =  Application.StartupPath + @"\SaleBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
 
         #endregion
 
@@ -189,7 +189,7 @@ namespace FoodandBeverage.Forms
                                     "Left join  tblEmployee emp on emp.EmployeeId = ua.EmployeeId " +
                                     " Left join tblForms f on f.UserType = ua.UserAccountTypeId and f.Status = 1 " +
                                     "Left join tblDesignation d on d.DesignationId = emp.DesignationId "+
-                                    "Left join tblHotelRegistration h on h.BranchId=ua.BranchId";//f.Form = " + Convert.ToInt32(PosForm.AllLocationAccess) + "and
+                                    "Left join tblHotelRegistration h on h.BranchId=ua.BranchID";//f.Form = " + Convert.ToInt32(PosForm.AllLocationAccess) + "and
 
                                 objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'";
                                 var userDetails = frmGridSearch.GetSearchGrid(objSearch);
@@ -239,7 +239,9 @@ namespace FoodandBeverage.Forms
 
             }
             catch (Exception ex)
-            {               
+            {
+                
+                //clsgen.LogExceptionExcel("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 clsgen.LogException("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

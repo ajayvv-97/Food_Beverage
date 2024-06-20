@@ -21,7 +21,7 @@ namespace FoodandBeverage.Classes
 {
     public class ClsGeneral
     {
-        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReportExcel.xlsx";
+        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
         public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";//  Application.StartupPath + @"\BugReport\BugReport.txt";//
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {
@@ -45,17 +45,10 @@ namespace FoodandBeverage.Classes
         }
 
 
-        //public void LogExceptionExcel(string page, Exception ex, string userName, string designation,int formtypeid)
+        //public void LogExceptionExcel(string page, Exception ex, string userName, string designation, int formtypeid)
         //{
         //    try
         //    {
-        //        // Ensure the file path ends with .xlsx
-        //        if (Path.GetExtension(BugReportFileExcel) != ".xlsx")
-        //        {
-        //            MessageBox.Show("The file path must end with .xlsx extension.");
-        //            return;
-        //        }
-
         //        XLWorkbook workbook;
         //        IXLWorksheet worksheet;
 
@@ -72,6 +65,7 @@ namespace FoodandBeverage.Classes
         //            worksheet.Cell(1, 3).Value = "Exception";
         //            worksheet.Cell(1, 4).Value = "User Name";
         //            worksheet.Cell(1, 5).Value = "Designation";
+        //            worksheet.Cell(1, 6).Value = "Form Type";
         //        }
         //        else
         //        {
@@ -89,25 +83,24 @@ namespace FoodandBeverage.Classes
         //                worksheet.Cell(1, 3).Value = "Exception";
         //                worksheet.Cell(1, 4).Value = "User Name";
         //                worksheet.Cell(1, 5).Value = "Designation";
+        //                worksheet.Cell(1, 6).Value = "Form Type";
         //            }
         //        }
 
         //        // Determine the next empty row
-        //        var newRow = worksheet.LastRowUsed()?.RowNumber() + 1 ?? 1;
-        //        if (newRow == 1)
-        //        {
-        //            newRow = 2; // Skip the header row
-        //        }
+        //        var newRow = worksheet.LastRowUsed()?.RowNumber() + 1 ?? 2;
 
         //        // Insert new data
         //        worksheet.Cell(newRow, 1).Value = DateTime.Now.ToString();
         //        worksheet.Cell(newRow, 2).Value = page;
-        //        worksheet.Cell(newRow, 3).Value = ex.ToString();
+        //        worksheet.Cell(newRow, 3).Value = ex.ToString(); // Adjust if you need less verbose information
         //        worksheet.Cell(newRow, 4).Value = userName;
         //        worksheet.Cell(newRow, 5).Value = designation;
+        //        worksheet.Cell(newRow, 6).Value = formtypeid;
 
         //        // Save the workbook
         //        workbook.SaveAs(BugReportFileExcel);
+        //        MessageBox.Show("Exception logged successfully");
         //    }
         //    catch (IOException ioEx)
         //    {
@@ -122,6 +115,47 @@ namespace FoodandBeverage.Classes
         //        MessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
         //    }
         //}
+        public void LogExceptionExcel(string page, Exception ex, string userName, string designation, int formTypeId)
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(BugReportFileExcel);
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                using (ExcelPackage package = new ExcelPackage(fileInfo))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0
+                        ? package.Workbook.Worksheets[0]
+                        : package.Workbook.Worksheets.Add("BugReports");
+
+                    int row = worksheet.Dimension?.Rows + 1 ?? 1;
+
+                    if (row == 1) 
+                    {
+                        worksheet.Cells[row, 1].Value = "Date and Time";
+                        worksheet.Cells[row, 2].Value = "Page";
+                        worksheet.Cells[row, 3].Value = "Exception";
+                        worksheet.Cells[row, 4].Value = "User Name";
+                        worksheet.Cells[row, 5].Value = "Designation";
+                        worksheet.Cells[row, 6].Value = "FormTypeId";
+                        row++;
+                    }
+
+                    worksheet.Cells[row, 1].Value = DateTime.Now.ToString();
+                    worksheet.Cells[row, 2].Value = page;
+                    worksheet.Cells[row, 3].Value = ex.Message;
+                    worksheet.Cells[row, 4].Value = userName;
+                    worksheet.Cells[row, 5].Value = designation;
+                    worksheet.Cells[row, 6].Value = formTypeId;
+
+                    package.Save();
+                }
+            }
+            catch (Exception logEx)
+            {
+                CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+            }
+        }
 
         public  void LogException(string page, Exception ex,string userName, string designation,int Formtypeid)
         {
@@ -137,8 +171,6 @@ namespace FoodandBeverage.Classes
                     sw.WriteLine("FormTypeId: " + Formtypeid);
                     sw.WriteLine("-------------------------------------------------------------------------");
                 }
-
-
             }
             catch (Exception logEx)
             {

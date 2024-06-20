@@ -76,7 +76,19 @@ namespace BLL
             parms.Add("CgstPrcnt", objTestClass.CGSTAmount);
             parms.Add("SgstPrcnt", objTestClass.SGSTAmount);
             parms.Add("VatPrcnt", objTestClass.VATAmount);
-            //parms.Add("RevStatus", objTestClass.RevStatus);
+
+            parms.Add("TableType", objTestClass.TableType);
+            parms.Add("MarketPrice", objTestClass.MarketPrice);
+            parms.Add("MainRemarks", objTestClass.MainRemarks);
+            parms.Add("Tid", objTestClass.Tid);
+            parms.Add("Pavid", objTestClass.Pavid);
+            parms.Add("AddonStatus", objTestClass.AddonStatus);
+            parms.Add("AV_id", objTestClass.AV_id);
+            parms.Add("Addoncount", objTestClass.Addoncount);
+            parms.Add("vid", objTestClass.vid);
+            parms.Add("CCode", objTestClass.CCode);
+            parms.Add("VariatiionName", objTestClass.VariatiionName);
+
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
         }
