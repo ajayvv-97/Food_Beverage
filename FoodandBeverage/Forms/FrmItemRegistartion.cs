@@ -194,7 +194,7 @@ namespace FoodandBeverage.Forms
                     dmnitemreg.unit = Convert.ToInt32(cmbunit.SelectedValue);
                     dmnitemreg.Fcid = Convert.ToInt32(cmb_inc_categ.SelectedValue);
                     dmnitemreg.ItemCode_UPC = Convert.ToString(txtbarcode.Text);
-                    dmnitemreg.prid = Convert.ToInt32(txtprid.Text);
+                    dmnitemreg.PrId = Convert.ToInt32(txtprid.Text);
                     dmnitemreg.MRP = Convert.ToDecimal(txtmrp.Text);
 
                     dmnitemreg.DiscountPer = Convert.ToDecimal(txtdisper.Text);
@@ -821,7 +821,7 @@ namespace FoodandBeverage.Forms
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtqty.Text = Convert.ToString(itemSource[0].QOH);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
-                    txtprid.Text = Convert.ToString(itemSource[0].prid);
+                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
                     txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
                     txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
@@ -1032,7 +1032,7 @@ namespace FoodandBeverage.Forms
                         txtqty.Text = Convert.ToString(itemSource[0].quantity);
                         cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                         txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                        txtprid.Text = Convert.ToString(itemSource[0].prid);
+                        txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
                         txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
                         txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
@@ -1070,7 +1070,7 @@ namespace FoodandBeverage.Forms
                         for (int i = 0; i < itemSource.Count; i++)
                         {
                             dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                            dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].prid;
+                            dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
                             dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
                             dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
                             dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;

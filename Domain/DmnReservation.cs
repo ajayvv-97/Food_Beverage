@@ -5,9 +5,11 @@ using System.Text;
 namespace Domain
 {
 
-    public class DmnReservation:DmnOrderMaster
+    public class DmnReservation:DmnReservationDetails
     {
         public int BookmasterId { get; set; }
+        public int OrderMasterId { get; set; }
+        
         public string cusName { get; set; }
         public string Mobile { get; set; }
         public string Address { get; set; }

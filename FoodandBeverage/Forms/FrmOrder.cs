@@ -1030,7 +1030,7 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToDecimal(gridSource[i].ItemId);
                                     Dgv_Selected_Item.Rows[r1].Cells[itax].Value = Convert.ToString(gridSource[i].Tax);
                                     Dgv_Selected_Item.Rows[r1].Cells[itaxtype].Value = Convert.ToString(gridSource[i].TaxType);
-                                    Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[i].ProductType);
+                                    Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[i].TableType);
                                     //Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].tax);
                                     Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
                                     Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
@@ -1726,7 +1726,7 @@ namespace FoodandBeverage.Forms
                             dgv_exitsting_product.Rows[r].Cells[iitemid].Value = Convert.ToInt32(gridSourcemaster[i].ItemId);
                             dgv_exitsting_product.Rows[r].Cells[itax].Value = Convert.ToString(gridSourcemaster[i].Tax);
                             dgv_exitsting_product.Rows[r].Cells[itaxtype].Value = Convert.ToString(gridSourcemaster[i].TaxType);
-                            dgv_exitsting_product.Rows[r].Cells[itype].Value = Convert.ToInt32(gridSourcemaster[i].ProductType);
+                            dgv_exitsting_product.Rows[r].Cells[itype].Value = Convert.ToInt32(gridSourcemaster[i].TableType);
                             //dgv_exitsting_product.Rows[i].Cells[itaxsettingid].Value = Convert.ToInt32(gridSourcemaster[i].);
                             dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
                             dgv_exitsting_product.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
@@ -1759,7 +1759,7 @@ namespace FoodandBeverage.Forms
                             dgv_exitsting_product.Rows[r].Cells[iitemid].Value = gridSourcemaster[i].ItemId;
                             dgv_exitsting_product.Rows[r].Cells[itax].Value = gridSourcemaster[i].Tax;
                             dgv_exitsting_product.Rows[r].Cells[itaxtype].Value = gridSourcemaster[i].TaxType;
-                            dgv_exitsting_product.Rows[r].Cells[itype].Value = gridSourcemaster[i].ProductType;
+                            dgv_exitsting_product.Rows[r].Cells[itype].Value = gridSourcemaster[i].TableType;
                             //dgv_exitsting_product.Rows[i].Cells[itaxsettingid].Value = gridSourcemaster[i].Field14;
                             dgv_exitsting_product.Rows[r].Cells[ipridno].Value = gridSourcemaster[i].PrId;
                             dgv_exitsting_product.Rows[r].Cells[istatusno].Value = 1;
@@ -7202,7 +7202,7 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[ctaxtype].Value = gridSourcemaster_combined[i].TaxType;
                                     dgv_combined.Rows[rowIndex].Cells[Csrate].Value = gridSourcemaster_combined[i].Srate;
                                     dgv_combined.Rows[rowIndex].Cells[Cmrp].Value = gridSourcemaster_combined[i].MRP;
-                                    dgv_combined.Rows[rowIndex].Cells[Comproducttypeno].Value = gridSourcemaster_combined[i].ProductType;
+                                    dgv_combined.Rows[rowIndex].Cells[Comproducttypeno].Value = gridSourcemaster_combined[i].TableType;
                                     dgv_combined.Rows[rowIndex].Cells[cigstamt].Value = gridSourcemaster_combined[i].IGSTAmount;
                                     dgv_combined.Rows[rowIndex].Cells[CCgstamt].Value = gridSourcemaster_combined[i].CGSTAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cSgstamt].Value = gridSourcemaster_combined[i].SGSTAmount;
@@ -7658,7 +7658,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
                                         dmnsaledetails.TaxType = Convert.ToString(gridSourcemaster[i].TaxType);
                                         dmnsaledetails.MRP = Convert.ToDecimal(gridSourcemaster[i].MRP);
-                                        dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].ProductType);
+                                        dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].TableType);
 
                                         dmnsaledetails.IGSTAmount = Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
                                         dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);

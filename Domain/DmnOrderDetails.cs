@@ -42,7 +42,6 @@ namespace Domain
         public int OrderNo { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string RemoveNotes { get; set; }
-        public int ProductType { get; set; }
         public int TableType { get; set; }
         public decimal MarketPrice { get; set; }
         public int BookingFlag { get; set; }

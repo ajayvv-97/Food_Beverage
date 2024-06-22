@@ -63,7 +63,6 @@ namespace BLL
             parms.Add("Price", objTestClass.Price);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
-            parms.Add("ModifiedBy", objTestClass.modifiedby);
             parms.Add("Rid", objTestClass.Rid);
             parms.Add("MTID", objTestClass.MTID);
             parms.Add("Status", objTestClass.Status);
@@ -72,10 +71,10 @@ namespace BLL
             parms.Add("TaxType", objTestClass.TaxType);
             parms.Add("TaxAmt", objTestClass.TaxAmt);
             parms.Add("TaxPer", objTestClass.TaxPer);
-            parms.Add("IgstPrcnt", objTestClass.IGSTAmount);
-            parms.Add("CgstPrcnt", objTestClass.CGSTAmount);
-            parms.Add("SgstPrcnt", objTestClass.SGSTAmount);
-            parms.Add("VatPrcnt", objTestClass.VATAmount);
+            parms.Add("IgstPrcnt", objTestClass.IgstPrcnt);
+            parms.Add("CgstPrcnt", objTestClass.CgstPrcnt);
+            parms.Add("SgstPrcnt", objTestClass.SgstPrcnt);
+            parms.Add("VatPrcnt", objTestClass.VatPrcnt);
 
             parms.Add("TableType", objTestClass.TableType);
             parms.Add("MarketPrice", objTestClass.MarketPrice);
@@ -88,6 +87,11 @@ namespace BLL
             parms.Add("vid", objTestClass.vid);
             parms.Add("CCode", objTestClass.CCode);
             parms.Add("VariatiionName", objTestClass.VariatiionName);
+            parms.Add("ItemBarCode", objTestClass.ItemBarCode);
+            parms.Add("Unit", objTestClass.unit);
+            parms.Add("Fcid", objTestClass.Fcid);
+            parms.Add("PrId", objTestClass.PrId);
+            parms.Add("TaxSettingsId", objTestClass.TaxSettingsId);
 
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;

@@ -32,7 +32,7 @@ namespace FoodandBeverage.Forms
         public Color DefaultColor = Color.White;
         public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
         public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
-        public Color ReservationColor  = Color.LightYellow;
+        public Color ReservationColor  = Color.YellowGreen;
         public Color ExpiredColor = Color.Red;
 
         public Color Defaultfontcolor = Color.Black;
@@ -394,7 +394,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
             }
         }
 

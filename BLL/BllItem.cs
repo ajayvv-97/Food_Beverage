@@ -30,7 +30,7 @@ namespace BLL
             parms.Add("TaxType", objTestClass.TaxType);
             parms.Add("ItemCode_UPC", objTestClass.ItemCode_UPC);
             parms.Add("Saletype", objTestClass.Saletype);
-            parms.Add("PrId", objTestClass.prid);
+            parms.Add("PrId", objTestClass.PrId);
             parms.Add("DiscountAmt", objTestClass.DiscountAmt);
             parms.Add("DiscountPer", objTestClass.DiscountPer); 
 

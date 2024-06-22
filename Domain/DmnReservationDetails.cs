@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnReservationDetails : DmnOrderDetails
+    public class DmnReservationDetails 
     {
         public int MTID { get; set; }
         public int BookdetailId { get; set; }
@@ -22,14 +22,34 @@ namespace Domain
         public decimal Net { get; set; }
         public string Tax { get; set; }
         public string TaxType { get; set; }
-        public string TaxAmt { get; set; }
+        public decimal TaxAmt { get; set; }
         public decimal IgstPrcnt { get; set; }
         public decimal CgstPrcnt { get; set; }
         public decimal SgstPrcnt { get; set; }
         public decimal VatPrcnt { get; set; }
+
         public decimal TaxPer { get; set; }
         public string RemoveNotes { get; set; }
-        
 
+        public int Pavid { get; set; }
+        public int AddonStatus { get; set; }
+        public string AV_id { get; set; }
+        public int Addoncount { get; set; }
+        public int vid { get; set; }
+        public string CCode { get; set; }
+        public string VariatiionName { get; set; }
+
+        public int unit { get; set; }
+        public string ItemBarCode { get; set; }        
+        public int PrId { get; set; }
+        public int TaxSettingsId { get; set; }
+        public int Tid { get; set; }
+        public int TableType { get; set; }
+        public decimal MarketPrice { get; set; }
+        public string MainRemarks { get; set; }
+        public decimal MRP { get; set; }
+        public int Fcid { get; set; }
+        
     }
 }
+
