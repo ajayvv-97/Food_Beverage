@@ -245,7 +245,6 @@ namespace FoodandBeverage.Forms
             this.txtAccName.TextChanged += new System.EventHandler(this.txtAccName_TextChanged);
             this.txtAccName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAccName_KeyDown_1);
             this.txtAccName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAccName_KeyPress);
-            this.txtAccName.Leave += new System.EventHandler(this.txtAccName_Leave);
             // 
             // btnClose
             // 
@@ -696,7 +695,6 @@ namespace FoodandBeverage.Forms
             this.cmbcountry.Name = "cmbcountry";
             this.cmbcountry.Size = new System.Drawing.Size(244, 28);
             this.cmbcountry.TabIndex = 3;
-            this.cmbcountry.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.cmbcountry.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
             this.cmbcountry.Leave += new System.EventHandler(this.comboBox3_Leave);
             // 

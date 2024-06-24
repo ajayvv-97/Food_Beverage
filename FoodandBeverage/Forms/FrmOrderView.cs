@@ -2,6 +2,7 @@
 using CustomMessageBox;
 using DAL;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace FoodandBeverage.Forms
         public bool Total_Order_Flag = false;
         public bool PermissionFlag = false;
         List<DmnComboBox> comboBoxItems = new List<DmnComboBox>();
-
+        ClsGeneral clsgen = new ClsGeneral();
         private List<DmnGridFields> pagedata;
         private List<DmnGridFields> Resultdata;
         int currentPage = 1;
@@ -161,7 +162,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page FrmOrderView_Load", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
+        
         }
         private List<DmnGridFields> GetDataorders()
         {
@@ -221,6 +225,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page GetDataorders", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
                 return Resultdata;
             }
       
@@ -398,7 +404,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page GetDataorders_ByOrderid", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
 
         }
@@ -416,14 +423,19 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page textb_shape", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
+            try
+            {
+
+            
             GraphicsPath path = new GraphicsPath();
             Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
             path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
@@ -433,6 +445,12 @@ namespace FoodandBeverage.Forms
             path.CloseAllFigures();
             textBox.Region = new Region(path);
         }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("OrderView page textb_shape", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
+            }
+}
         #endregion
 
         public void FillOrders()
@@ -656,7 +674,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page FillOrders", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
 
         }
@@ -684,6 +703,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page FillTablecode_Comb", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
         public class ComboBoxItem
@@ -731,7 +752,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page txtorderid_search_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
 
@@ -752,7 +774,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page txttablecode_serach_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
 
@@ -923,12 +946,17 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView page Filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
 
         private void btn_backorder_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+            
             refreshtimer_sub.Stop();
             if (pnl_ordergallery.Visible==false)
             {
@@ -943,163 +971,188 @@ namespace FoodandBeverage.Forms
                 btn_backorder.Visible = false;
                 refreshtimer_main.Start();
             }
- 
         }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("OrderView page btn_backorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
+            }
+
+}
         private void dgv_details_view_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dactionno)
+            try
             {
-                if ( (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 1 || Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 2 ) && Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[daddonstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                if (e.ColumnIndex == dactionno)
                 {
-                    refreshtimer_sub.Stop();
-                    var result = CMessageBox.Show("Do You want Delete This Addon", "Confirm The Action", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
+                    if ((Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 1 || Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 2) && Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[daddonstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                     {
-                        dgv_details_view_rowno = e.RowIndex;
-                        decimal newprice = 0, discountprice = 0, TaxAmount = 0, finalprice = 0, disAmnt = 0;
-                        string newpart = "";
-                        DmnKitchenaddonremove dmnRemove_addon = new DmnKitchenaddonremove();
-                        BllKitchenorder bll_rem_addon = new BllKitchenorder();
-
-                        #region To Reset Addon ID(remove id form avid name)
-
-                        string avidValue = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
-                        string[] avidParts = avidValue.Split('_');
-                        string extractedpid = $"{avidParts[0]}";
-                        newpart = newpart + extractedpid + "_";
-                        int remove_koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
-                        for (int i = 0; i < dgv_details_view.RowCount; i++)
+                        refreshtimer_sub.Stop();
+                        var result = CMessageBox.Show("Do You want Delete This Addon", "Confirm The Action", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
                         {
-                            if (Convert.ToInt32(dgv_details_view.Rows[i].Cells[daddonstatusno].Value) == 2 && Convert.ToInt32(dgv_details_view.Rows[i].Cells[dkoidno].Value) != remove_koid && Convert.ToString(dgv_details_view.Rows[i].Cells[davidno].Value) == avidValue)
+                            dgv_details_view_rowno = e.RowIndex;
+                            decimal newprice = 0, discountprice = 0, TaxAmount = 0, finalprice = 0, disAmnt = 0;
+                            string newpart = "";
+                            DmnKitchenaddonremove dmnRemove_addon = new DmnKitchenaddonremove();
+                            BllKitchenorder bll_rem_addon = new BllKitchenorder();
+
+                            #region To Reset Addon ID(remove id form avid name)
+
+                            string avidValue = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
+                            string[] avidParts = avidValue.Split('_');
+                            string extractedpid = $"{avidParts[0]}";
+                            newpart = newpart + extractedpid + "_";
+                            int remove_koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
+                            for (int i = 0; i < dgv_details_view.RowCount; i++)
                             {
-                                string ccode = Convert.ToString(dgv_details_view.Rows[i].Cells[daddccodenono].Value);
-                                decimal quantityDecimal = Convert.ToDecimal(dgv_details_view.Rows[i].Cells[dqtyno].Value);
-                                int quantityInt = (int)Math.Floor(quantityDecimal);
-                                newpart = newpart + ccode + quantityInt.ToString();
+                                if (Convert.ToInt32(dgv_details_view.Rows[i].Cells[daddonstatusno].Value) == 2 && Convert.ToInt32(dgv_details_view.Rows[i].Cells[dkoidno].Value) != remove_koid && Convert.ToString(dgv_details_view.Rows[i].Cells[davidno].Value) == avidValue)
+                                {
+                                    string ccode = Convert.ToString(dgv_details_view.Rows[i].Cells[daddccodenono].Value);
+                                    decimal quantityDecimal = Convert.ToDecimal(dgv_details_view.Rows[i].Cells[dqtyno].Value);
+                                    int quantityInt = (int)Math.Floor(quantityDecimal);
+                                    newpart = newpart + ccode + quantityInt.ToString();
+                                }
                             }
-                        }
 
-                        for (int i = 0; i < dgv_details_view.RowCount; i++)
-                        {
-                            if (Convert.ToInt32(dgv_details_view.Rows[i].Cells[daddonstatusno].Value) == 2 && Convert.ToInt32(dgv_details_view.Rows[i].Cells[dkoidno].Value) != remove_koid && Convert.ToString(dgv_details_view.Rows[i].Cells[davidno].Value) == avidValue)
+                            for (int i = 0; i < dgv_details_view.RowCount; i++)
                             {
-                                dgv_details_view.Rows[i].Cells[davidno].Value = newpart;
+                                if (Convert.ToInt32(dgv_details_view.Rows[i].Cells[daddonstatusno].Value) == 2 && Convert.ToInt32(dgv_details_view.Rows[i].Cells[dkoidno].Value) != remove_koid && Convert.ToString(dgv_details_view.Rows[i].Cells[davidno].Value) == avidValue)
+                                {
+                                    dgv_details_view.Rows[i].Cells[davidno].Value = newpart;
+                                }
                             }
-                        }
-
-                        #endregion
-
-                        #region Price Reset main product after remove addon
-                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                        DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
-                        dmnSearch.Table = "tblOrderDetails";
-                        dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
-                        dmnSearch.OrderBy = "";
-                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                        if (gridSource.Count > 0)
-                        {
-                            newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddoonpriceno].Value);
-                            disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
-
-                            discountprice = newprice - disAmnt;
-                            if (gridSource[0].Field2 == "GST")
-                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
-                            else if (gridSource[0].Field2 == "VAT")
-                                TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
-
-                            if (Convert.ToString(gridSource[0].Field4) == "Exclusive")
-                                finalprice = (newprice - disAmnt) + TaxAmount;
-                            else if (Convert.ToString(gridSource[0].Field4) == "Inclusive")
-                                finalprice = (newprice - disAmnt);
 
                             #endregion
 
-                        #region Db Updation
-                            dmnRemove_addon.Amount = newprice;
-                            dmnRemove_addon.DiscountAmount = disAmnt;
-                            if (gridSource[0].Field2 == "GST")
+                            #region Price Reset main product after remove addon
+                            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                            DmnSearch dmnSearch = new DmnSearch();
+                            dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
+                            dmnSearch.Table = "tblOrderDetails";
+                            dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
+                            dmnSearch.OrderBy = "";
+                            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                            if (gridSource.Count > 0)
                             {
-                                dmnRemove_addon.IGSTAmount = TaxAmount;
-                                dmnRemove_addon.CGSTAmount = TaxAmount / 2;
-                                dmnRemove_addon.SGSTAmount = TaxAmount / 2;
-                                dmnRemove_addon.VATAmount = 0;
+                                newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddoonpriceno].Value);
+                                disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
+
+                                discountprice = newprice - disAmnt;
+                                if (gridSource[0].Field2 == "GST")
+                                    TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+                                else if (gridSource[0].Field2 == "VAT")
+                                    TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].Field3) * discountprice / 100);
+
+                                if (Convert.ToString(gridSource[0].Field4) == "Exclusive")
+                                    finalprice = (newprice - disAmnt) + TaxAmount;
+                                else if (Convert.ToString(gridSource[0].Field4) == "Inclusive")
+                                    finalprice = (newprice - disAmnt);
+
+                                #endregion
+
+                                #region Db Updation
+                                dmnRemove_addon.Amount = newprice;
+                                dmnRemove_addon.DiscountAmount = disAmnt;
+                                if (gridSource[0].Field2 == "GST")
+                                {
+                                    dmnRemove_addon.IGSTAmount = TaxAmount;
+                                    dmnRemove_addon.CGSTAmount = TaxAmount / 2;
+                                    dmnRemove_addon.SGSTAmount = TaxAmount / 2;
+                                    dmnRemove_addon.VATAmount = 0;
+                                }
+                                else if (gridSource[0].Field2 == "VAT")
+                                {
+                                    dmnRemove_addon.VATAmount = TaxAmount;
+                                    dmnRemove_addon.IGSTAmount = 0;
+                                    dmnRemove_addon.CGSTAmount = 0;
+                                    dmnRemove_addon.SGSTAmount = 0;
+                                }
                             }
-                            else if (gridSource[0].Field2 == "VAT")
+                            dmnRemove_addon.TaxAmount = TaxAmount;
+                            dmnRemove_addon.NetAmount = finalprice;
+                            dmnRemove_addon.Srate = newprice;
+                            dmnRemove_addon.MarketPrice = finalprice;
+
+                            dmnRemove_addon.OrderNo = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dorderno].Value);
+                            dmnRemove_addon.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
+                            dmnRemove_addon.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
+                            dmnRemove_addon.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
+                            dmnRemove_addon.AVid = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
+
+                            dmnRemove_addon.Status = 0;
+                            dmnRemove_addon.CreatedBy = FrmDashboard.UserId;
+                            dmnRemove_addon.Update_AVid = newpart;
+                            var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);
+                            pnl_products_rem_descr.Visible = false;
+                            txt_product_remove_des.Text = "";
+                            Filldetails();
+                            if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                             {
-                                dmnRemove_addon.VATAmount = TaxAmount;
-                                dmnRemove_addon.IGSTAmount = 0;
-                                dmnRemove_addon.CGSTAmount = 0;
-                                dmnRemove_addon.SGSTAmount = 0;
+                                FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
+                                _instanceFrmKitchenView.refreshtimer.Start();
                             }
+                            #endregion
                         }
-                        dmnRemove_addon.TaxAmount = TaxAmount;
-                        dmnRemove_addon.NetAmount = finalprice;
-                        dmnRemove_addon.Srate = newprice;
-                        dmnRemove_addon.MarketPrice = finalprice;
-
-                        dmnRemove_addon.OrderNo = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dorderno].Value);
-                        dmnRemove_addon.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
-                        dmnRemove_addon.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
-                        dmnRemove_addon.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
-                        dmnRemove_addon.AVid = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
-
-                        dmnRemove_addon.Status = 0;
-                        dmnRemove_addon.CreatedBy = FrmDashboard.UserId;
-                        dmnRemove_addon.Update_AVid = newpart;
-                        var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);
-                        pnl_products_rem_descr.Visible = false;
-                        txt_product_remove_des.Text = "";
-                        Filldetails();
-                        if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
+                        else
                         {
-                            FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                            _instanceFrmKitchenView.refreshtimer.Start();
+                            refreshtimer_sub.Start();
                         }
-                        #endregion
                     }
-                    else
+                    else if ((Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 1 || Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 2) && Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[daddonstatusno].Value) == 0)
                     {
-                        refreshtimer_sub.Start();
+                        refreshtimer_sub.Stop();
+                        txt_product_remove_des.Text = "";
+                        pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
+                        dgv_details_view_rowno = e.RowIndex;
+                        pnl_products_rem_descr.Visible = true;
+                        lblheader_product_des.Text = "Remove " + Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ditemno].Value);
+
+                    }
+                    else if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
+                    {
+                        CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
                     }
                 }
-                else if((Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 1 || Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 2) && Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[daddonstatusno].Value) == 0)
+                else
                 {
-                    refreshtimer_sub.Stop();
-                    txt_product_remove_des.Text = "";
-                    pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
-                    dgv_details_view_rowno = e.RowIndex;
-                    pnl_products_rem_descr.Visible = true;
-                    lblheader_product_des.Text = "Remove " + Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ditemno].Value);
-
-                }
-                else if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
-                {
-                    CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
+                    if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
+                    {
+                        CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
+                    }
                 }
             }
-            else
+                    
+            catch (Exception ex)
             {
-                if (Convert.ToInt32(dgv_details_view.Rows[e.RowIndex].Cells[dstatusvalueno].Value) == 0)
-                {
-                    CMessageBox.Show("Product Cancelled", "Information", MessageBoxButtons.OK);
-                }
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("OrderView page dgv_details_view_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
+
+            
         }
         public bool MandatoryCheck()
         {
-            //if (string.IsNullOrEmpty(txtordermasterid.Text))
-            //    txtordermasterid.Text = "0";
-
-            if (txt_product_remove_des.Text=="Reason type here ....." || txt_product_remove_des.Text == "")
+            try
             {
-                CMessageBox.Show("Please Enter Reason", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txt_product_remove_des.Focus();
+                // Validate if txt_product_remove_des has the default text or is empty
+                if (txt_product_remove_des.Text == "Reason type here ....." || string.IsNullOrEmpty(txt_product_remove_des.Text.Trim()))
+                {
+                    CMessageBox.Show(this, "Please Enter Reason", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txt_product_remove_des.Focus();
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
                 return false;
             }
-
-            return true;
         }
+
 
         private void btn_rem_product_des_Click(object sender, EventArgs e)
         {
@@ -1154,7 +1207,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btn_rem_product_des_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }       
         }
 
@@ -1190,57 +1244,90 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_detaislview_Click(object sender, EventArgs e)
         {
-            lblorderheading.Text = "Active Orders";
-            refreshtimer_main.Stop();
-            refreshtimer_sub.Stop();
-            //SearchType = Convert.ToInt32(Food_Status.Complete);
-            if (dgv_details_view.Visible)
+            try
             {
-                refreshtimer_sub.Start();
-            }
-            else
-            {
-                btn_backorder.Visible = false;
+                lblorderheading.Text = "Active Orders";
+                refreshtimer_main.Stop();
                 refreshtimer_sub.Stop();
-                refreshtimer_main.Start();
+
+                if (dgv_details_view.Visible)
+                {
+                    refreshtimer_sub.Start();
+                }
+                else
+                {
+                    btn_backorder.Visible = false;
+                    refreshtimer_sub.Stop();
+                    refreshtimer_main.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btn_refresh_detaislview_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
 
         private void btn_complete_order_Click(object sender, EventArgs e)
         {
-            refreshtimer_sub.Stop();
-            refreshtimer_main.Stop();
-            btn_backorder.Visible = false;
-            lblorderheading.Text = "Sucessfull Orders";
-            SearchType = Convert.ToInt32(Food_Status.Complete);
-            GetDataorders();
-            FillOrders();
-            refreshtimer_main.Start();
+            try
+            {
+                refreshtimer_sub.Stop();
+                refreshtimer_main.Stop();
+                btn_backorder.Visible = false;
+                lblorderheading.Text = "Successful Orders";
+                SearchType = Convert.ToInt32(Food_Status.Complete);
+                GetDataorders();
+                FillOrders();
+                refreshtimer_main.Start();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btn_complete_order_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
+            }
         }
 
         private void btn_Pending_order_Click(object sender, EventArgs e)
         {
-            refreshtimer_sub.Stop();
-            refreshtimer_main.Stop();
-            btn_backorder.Visible = false;
-            lblorderheading.Text = "Active Orders";
-            SearchType = Convert.ToInt32(Food_Status.Pending);
-            GetDataorders();
-            FillOrders();
-            refreshtimer_main.Start();
+            try
+            {
+                refreshtimer_sub.Stop();
+                refreshtimer_main.Stop();
+                btn_backorder.Visible = false;
+                lblorderheading.Text = "Active Orders";
+                SearchType = Convert.ToInt32(Food_Status.Pending);
+                GetDataorders();
+                FillOrders();
+                refreshtimer_main.Start();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btn_Pending_order_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
+            }
         }
 
         private void btn_cancel_order_Click(object sender, EventArgs e)
         {
-            refreshtimer_sub.Stop();
-            refreshtimer_main.Stop();
-            btn_backorder.Visible = false;
-            lblorderheading.Text = "Cancelled Orders";
-            SearchType = Convert.ToInt32(Food_Status.Cancel);
-            GetDataorders();
-            FillOrders();
-            refreshtimer_main.Start();
+            try
+            {
+                refreshtimer_sub.Stop();
+                refreshtimer_main.Stop();
+                btn_backorder.Visible = false;
+                lblorderheading.Text = "Cancelled Orders";
+                SearchType = Convert.ToInt32(Food_Status.Cancel);
+                GetDataorders();
+                FillOrders();
+                refreshtimer_main.Start();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btn_cancel_order_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
+            }
         }
+
         public void FillOrders_button(int serachtype)
         {      
             try
@@ -1328,71 +1415,75 @@ namespace FoodandBeverage.Forms
 
         private void btnprevious_Click(object sender, EventArgs e)
         {
-            if (currentPage == 1)
-                btnprevious.Enabled = false;
-            else
-                btnprevious.Enabled = true;
-
-            if (currentPage == totalPages)
-                btnnext.Enabled = false;
-            else
-                btnnext.Enabled = true;
-            if (currentPage > 1)
+            try
             {
-                // Decrement the current page number
-                currentPage--;
-                // Recalculate the page data
-                pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-                FillOrders();
+                btnprevious.Enabled = currentPage != 1;
+                btnnext.Enabled = currentPage != totalPages;
+
+                if (currentPage > 1)
+                {
+                    currentPage--;
+                    pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                    FillOrders();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btnprevious_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
-
         private void btnnext_Click(object sender, EventArgs e)
         {
-            if (currentPage == 1)
-                btnprevious.Enabled = false;
-            else
-                btnprevious.Enabled = true;
-
-            if (currentPage == totalPages)
-                btnnext.Enabled = false;
-            else
-                btnnext.Enabled = true;
-
-            if (currentPage < totalPages)
+            try
             {
-                // Increment the current page number
-                currentPage++;
-                // Recalculate the page data
-                pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-                FillOrders();
+                btnprevious.Enabled = currentPage != 1;
+                btnnext.Enabled = currentPage != totalPages;
 
+                if (currentPage < totalPages)
+                {
+                    currentPage++;
+                    pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                    FillOrders();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView btnnext_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
         }
-
         private void refreshtimer_main_Tick(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(Food_Status.Complete) == SearchType)
+            try
             {
-                lblorderheading.Text = "Sucessfull Orders";
+                if (Convert.ToInt32(Food_Status.Complete) == SearchType)
+                {
+                    lblorderheading.Text = "Sucessfull Orders";
+                }
+                else if (Convert.ToInt32(Food_Status.Pending) == SearchType)
+                {
+                    lblorderheading.Text = "Active Orders";
+                }
+                else if (Convert.ToInt32(Food_Status.Cancel) == SearchType)
+                {
+                    lblorderheading.Text = "Cancelled Orders";
+                }
+
+                GetDataorders();
+                FillOrders();
             }
-            else if (Convert.ToInt32(Food_Status.Pending) == SearchType)
+            catch (Exception ex)
             {
-                lblorderheading.Text = "Active Orders";
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView refreshtimer_main_Tick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
-            else if (Convert.ToInt32(Food_Status.Cancel) == SearchType)
-            {
-                lblorderheading.Text = "Cancelled Orders";
-            }
-            GetDataorders();
-            FillOrders();
         }
 
         private void refreshtimer_sub_Tick(object sender, EventArgs e)
         {
             Filldetails();
         }
-
         private void dgvorderview_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             try
@@ -1404,11 +1495,11 @@ namespace FoodandBeverage.Forms
             }
             catch( Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("OrderView dgvorderview_EditingControlShowing()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderView));
             }
          
         }
-
         private void dgvorderview_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (!refreshtimer_main.Enabled)
@@ -1416,7 +1507,6 @@ namespace FoodandBeverage.Forms
                 refreshtimer_main.Start();
             }
         }
-
         private void dgvorderview_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (!refreshtimer_main.Enabled)

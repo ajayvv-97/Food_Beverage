@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
@@ -18,6 +19,8 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        ClsGeneral clsgen = new ClsGeneral();
+
         #region Declaration Grid
         public static int cslno = 0;
         public static int tidno = 1;
@@ -39,60 +42,80 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-        
-       public bool MandatoryCheck_Activeorder()
+
+        public bool MandatoryCheck_Activeorder()
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "count(*) Field1";
-            objSearch.Table = "tblTable_info";
-            objSearch.WhereNdGroupBy = "where status=1 and OrderStatus=1 and Tid=" + txttid.Text;
-            objSearch.OrderBy = "";
-            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-            if (itemSource.Count > 0)
+            try
             {
-                if(Convert.ToInt32(itemSource[0].Field1)>0)
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "count(*) Field1";
+                objSearch.Table = "tblTable_info";
+                objSearch.WhereNdGroupBy = "where status=1 and OrderStatus=1 and Tid=" + txttid.Text;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
                 {
-                    CMessageBox.Show("There is Already An Active Order For This Table.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
+                    if (Convert.ToInt32(itemSource[0].Field1) > 0)
+                    {
+                        CMessageBox.Show("There is Already An Active Order For This Table.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    else if (Convert.ToInt32(itemSource[0].Field1) == 0)
+                    {
+                        return true;
+                    }
                 }
-                else if(Convert.ToInt32(itemSource[0].Field1) == 0)
-                {
-                    return true;
-                } 
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page MandatoryCheck_Activeorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+                return false;
+            }
+
         }
 
         public bool MandatoryCheck()
         {
-            if (txttablecode.Text == "" || txttablecode.Text == null)
+            try
             {
-                CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txttablecode.Focus();
-                return false;
-            }
-            else if (txtcapcity.Text == "" || txtcapcity.Text == null || Convert.ToDecimal(txtcapcity.Text)<0)
-            {
-                CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtcapcity.Focus();
-                return false;
-            }
-            else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
-            {
-                CMessageBox.Show("Please Select Table category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmb_category.Focus();
-                return false;
-            }
-            //else if (txtrate.Text == "" || txtrate.Text == null || Convert.ToDecimal(txtrate.Text) >= 0)
-            //{
-            //    CMessageBox.Show("Please Enter Table Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    txtrate.Focus();
-            //    return false;
-            //}
+                if (string.IsNullOrEmpty(txttablecode.Text))
+                {
+                    CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txttablecode.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(txtcapcity.Text) || Convert.ToDecimal(txtcapcity.Text) < 0)
+                {
+                    CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtcapcity.Focus();
+                    return false;
+                }
+                else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
+                {
+                    CMessageBox.Show("Please Select Table category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmb_category.Focus();
+                    return false;
+                }
+                //else if (txtrate.Text == "" || txtrate.Text == null || Convert.ToDecimal(txtrate.Text) >= 0)
+                //{
+                //    CMessageBox.Show("Please Enter Table Rate", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtrate.Focus();
+                //    return false;
+                //}
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+                return false;
+            }
         }
+
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -136,7 +159,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
         public void Fillcombo()
@@ -156,46 +180,67 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page Fillcombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
         public void clearall()
         {
-            txttid.Text = "";
-            txtcapcity.Text = "";
-            txttablecode.Text = "";
-            txtrate.Text = "";
-            txtdesc.Text = "";
-            cmb_category.SelectedIndex = 0;
-            btn_del_table.Visible = false;
-            pbactive_in.Visible = false;
-            chb_active.Checked = true;
+            try
+            {
+
+
+                txttid.Text = "";
+                txtcapcity.Text = "";
+                txttablecode.Text = "";
+                txtrate.Text = "";
+                txtdesc.Text = "";
+                cmb_category.SelectedIndex = 0;
+                btn_del_table.Visible = false;
+                pbactive_in.Visible = false;
+                chb_active.Checked = true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page clearall()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+            }
         }
 
         private void FrmTableInfo_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Table)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
-            }
-            txttablecode.Focus();
-            Fillcombo();
-            Filltable();
-            dgv_table.BorderStyle = BorderStyle.None;
-            dgv_table.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_table.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_table.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_table.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_table.BackgroundColor = Color.White;
 
-            dgv_table.EnableHeadersVisualStyles = false;
-            dgv_table.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_table.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_table.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Table)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+                txttablecode.Focus();
+                Fillcombo();
+                Filltable();
+                dgv_table.BorderStyle = BorderStyle.None;
+                dgv_table.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_table.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_table.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_table.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_table.BackgroundColor = Color.White;
+
+                dgv_table.EnableHeadersVisualStyles = false;
+                dgv_table.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_table.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_table.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page FrmTableInfo_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+            }
         }
 
         #region TexBox Round function
@@ -204,7 +249,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txttablecode,txtcapcity,txtdesc,txtrate })
+                foreach (TextBox textBox in new TextBox[] { txttablecode, txtcapcity, txtdesc, txtrate })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -212,25 +257,34 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+            }
         }
 
         #endregion
@@ -238,12 +292,12 @@ namespace FoodandBeverage.Forms
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
-            Filltable();         
+            Filltable();
         }
         public void Filldetails(int tableid)
         {
             try
-            {              
+            {
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
@@ -280,7 +334,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page Filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
         private void dgv_table_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -291,16 +346,24 @@ namespace FoodandBeverage.Forms
 
         private void btn_del_table_Click(object sender, EventArgs e)
         {
-            var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            try
             {
-                chb_active.Checked = false;
-                btnsave.PerformClick();
-                Filltable();
+                var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    chb_active.Checked = false;
+                    btnsave.PerformClick();
+                    Filltable();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page btn_del_table_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
-            public void Filltable()
-            {
+        public void Filltable()
+        {
             try
             {
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
@@ -329,7 +392,7 @@ namespace FoodandBeverage.Forms
                         {
                             dgv_table.Rows[i].Cells[tactiveno].Value = Properties.Resources.INACTIVEBUTTON;
                         }
-                        else if(itemSource[i].Status == 1)
+                        else if (itemSource[i].Status == 1)
                         {
                             dgv_table.Rows[i].Cells[tactiveno].Value = Properties.Resources.ACTIVEBUTTON;
                         }
@@ -338,7 +401,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page Filltable()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
 
         }
@@ -353,93 +417,117 @@ namespace FoodandBeverage.Forms
             {
                 e.Handled = true;
             }
-           
+
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            int returnValue = 0;
-            DataTable dtColumnAlign = new DataTable();
-            dtColumnAlign.Columns.Add();
-            DmnSearch _objSearch = new DmnSearch();
-            _objSearch.ColumnHeaders = "ID,TableCode,Capcity,Price,Description";
-            _objSearch.Select = "tid as Id,TableCode as Field1,Capcity as Field2,Price as Field3,Description as Field4";
-            _objSearch.Table = "tblTable_info";
-            _objSearch.WhereNdGroupBy = "where Status = 1";
-            _objSearch.OrderBy = " ORDER BY tid";
-            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-            if (gridSource.Count == 0)
+            try
             {
-                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,TableCode,Capcity,Price,Description";
+                _objSearch.Select = "tid as Id,TableCode as Field1,Capcity as Field2,Price as Field3,Description as Field4";
+                _objSearch.Table = "tblTable_info";
+                _objSearch.WhereNdGroupBy = "where Status = 1";
+                _objSearch.OrderBy = " ORDER BY tid";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
                 {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
                     {
-                        returnValue = Convert.ToInt32(search._retValue);
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToInt32(search._retValue);
+                        }
+                    }
+                    if (returnValue > 0)
+                    {
+                        int tableid = Convert.ToInt32(returnValue);
+                        BllSearch<DmnTableinfo> bllSearch1 = new BllSearch<DmnTableinfo>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch.Select = "*";
+                        objSearch.Table = "tblTable_info";
+                        objSearch.WhereNdGroupBy = "where status = 1 and Tid=" + tableid;
+                        objSearch.OrderBy = "";
+                        var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (itemSource.Count > 0)
+                        {
+                            txttid.Text = Convert.ToString(tableid);
+                            txtdesc.Text = Convert.ToString(itemSource[0].Description);
+                            cmb_category.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
+                            txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
+                            txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
+                            txtrate.Text = Convert.ToString(itemSource[0].Price);
+                            btn_del_table.Visible = true;
+                            pbactive_in.Image = null;
+                            if (itemSource[0].Status == 2)
+                            {
+                                pbactive_in.Image = Properties.Resources.ACTIVIATE;
+                                pbactive_in.Tag = 2;
+                            }
+                            else if (itemSource[0].Status == 1)
+                            {
+                                pbactive_in.Image = Properties.Resources.DEACTIVIATE;
+                                pbactive_in.Tag = 1;
+                            }
+                            pbactive_in.SizeMode = PictureBoxSizeMode.StretchImage;
+                            pbactive_in.Visible = true;
+                        }
                     }
                 }
-                if (returnValue > 0)
-                {
-                    int tableid = Convert.ToInt32(returnValue);
-                    BllSearch<DmnTableinfo> bllSearch1 = new BllSearch<DmnTableinfo>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "*";
-                    objSearch.Table = "tblTable_info";
-                    objSearch.WhereNdGroupBy = "where status = 1 and Tid=" + tableid;
-                    objSearch.OrderBy = "";
-                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
-                    if (itemSource.Count > 0)
-                    {
-                        txttid.Text = Convert.ToString(tableid);
-                        txtdesc.Text = Convert.ToString(itemSource[0].Description);
-                        cmb_category.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
-                        txtcapcity.Text = Convert.ToString(itemSource[0].Capcity);
-                        txttablecode.Text = Convert.ToString(itemSource[0].TableCode);
-                        txtrate.Text = Convert.ToString(itemSource[0].Price);
-                        btn_del_table.Visible = true;
-                        pbactive_in.Image = null;
-                        if (itemSource[0].Status == 2)
-                        {
-                            pbactive_in.Image = Properties.Resources.ACTIVIATE;
-                            pbactive_in.Tag = 2;
-                        }
-                        else if (itemSource[0].Status == 1)
-                        {
-                            pbactive_in.Image = Properties.Resources.DEACTIVIATE;
-                            pbactive_in.Tag = 1;
-                        }
-                        pbactive_in.SizeMode = PictureBoxSizeMode.StretchImage;
-                        pbactive_in.Visible = true;
-                    }
-                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
+            }
+
         }
 
         private void txtrate_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key
+            try
             {
-                e.Handled = true; // Suppress the Enter key
-            }
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-            // only allow one decimal point
-            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }
-            string input = (sender as TextBox).Text;
-            if (e.KeyChar == '.')
-            {
-                if ((sender as TextBox).MaxLength == 4)
-                    (sender as TextBox).MaxLength = 7;
+                if (e.KeyChar == '\r') // Check for Enter key
+                {
+                    e.Handled = true; // Suppress the Enter key
+                }
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                {
+                    e.Handled = true;
+                }
+                // only allow one decimal point
+                if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+                {
+                    e.Handled = true;
+                }
+                string input = (sender as TextBox).Text;
+                if (e.KeyChar == '.')
+                {
+                    if ((sender as TextBox).MaxLength == 4)
+                        (sender as TextBox).MaxLength = 7;
+                    else
+                    {
+                        if (input.Contains('.'))
+                        {
+                            (sender as TextBox).MaxLength = 7;
+                        }
+                        else
+                        {
+                            (sender as TextBox).MaxLength = 4;
+                        }
+                    }
+
+                }
                 else
                 {
                     if (input.Contains('.'))
@@ -451,19 +539,13 @@ namespace FoodandBeverage.Forms
                         (sender as TextBox).MaxLength = 4;
                     }
                 }
-
             }
-            else
+            catch (Exception ex)
             {
-                if (input.Contains('.'))
-                {
-                    (sender as TextBox).MaxLength = 7;
-                }
-                else
-                {
-                    (sender as TextBox).MaxLength = 4;
-                }
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page txtrate_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
+
         }
 
         private void txttablecode_KeyPress(object sender, KeyPressEventArgs e)
@@ -488,16 +570,16 @@ namespace FoodandBeverage.Forms
                     Movefocus(1);
                     return true; // Mark the key as handled
                 case Keys.Enter:
-                    if(dgv_table.Focused)
+                    if (dgv_table.Focused)
                     {
                         int tableid = Convert.ToInt32(dgv_table.Rows[dgv_table.CurrentCell.RowIndex].Cells[tidno].Value);
                         Filldetails(tableid);
-                    }                   
+                    }
                     Movefocus(0);
                     return true; // Mark the key as handled
-                case Keys.Escape:  
-                        FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                        _instancedash.Closeform();                    
+                case Keys.Escape:
+                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    _instancedash.Closeform();
                     return true;
                 case Keys.End:
                     int lastColumnIndex = tdesno;
@@ -510,81 +592,98 @@ namespace FoodandBeverage.Forms
         }
         public void Movefocus(int keytype)
         {
-            if (txttablecode.Focused)
+            try
             {
-                txtcapcity.Focus();
-            }
-            else if (txtcapcity.Focused)
-            {
-                cmb_category.Focus();
-            }
-            else if (cmb_category.Focused)
-            {
-                txtdesc.Focus();
-            }
-            else if (txtdesc.Focused)
-            {
-                txtrate.Focus();
-            }
-            else if (txtrate.Focused)
-            {
-                if(btn_del_table.Visible)
-                    btn_del_table.Focus();
-                else
-                    btnsave.Focus();
-            }
-            else if (btn_del_table.Focused)
-            {
-                if (keytype == 1)
-                    btnsave.Focus();
-                else if (keytype == 0)
-                    btn_del_table.PerformClick();
-            }
-            else if (keytype == 1)
-            {
-                if (btnsave.Focused)
-                    btnSearch.Focus();
-                else if (btnSearch.Focused)
-                    btnrefresh.Focus();
-                else if (btnrefresh.Focused)
-                    btnclose.Focus();
-                else if (btnclose.Focused)
+                if (txttablecode.Focused)
                 {
-                    dgv_table.Focus();
-                    dgv_table.CurrentCell = dgv_table[0, 0];
+                    txtcapcity.Focus();
                 }
+                else if (txtcapcity.Focused)
+                {
+                    cmb_category.Focus();
+                }
+                else if (cmb_category.Focused)
+                {
+                    txtdesc.Focus();
+                }
+                else if (txtdesc.Focused)
+                {
+                    txtrate.Focus();
+                }
+                else if (txtrate.Focused)
+                {
+                    if (btn_del_table.Visible)
+                        btn_del_table.Focus();
+                    else
+                        btnsave.Focus();
+                }
+                else if (btn_del_table.Focused)
+                {
+                    if (keytype == 1)
+                        btnsave.Focus();
+                    else if (keytype == 0)
+                        btn_del_table.PerformClick();
+                }
+                else if (keytype == 1)
+                {
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
+                    else if (btnclose.Focused)
+                    {
+                        dgv_table.Focus();
+                        dgv_table.CurrentCell = dgv_table[0, 0];
+                    }
+                }
+                else if (keytype == 0)
+                {
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
+                }
+
             }
-            else if (keytype == 0)
+            catch (Exception ex)
             {
-                if (btnsave.Focused)
-                    btnsave.PerformClick();
-                else if (btnrefresh.Focused)
-                    btnrefresh.PerformClick();
-                else if (btnSearch.Focused)
-                    btnSearch.PerformClick();
-                else if (btnclose.Focused)
-                    btnclose.PerformClick();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
-         
-            }
+
+        }
 
         private void txttablecode_Leave(object sender, EventArgs e)
         {
-            if (txttablecode.Text != "" && ( txttid.Text=="" || Convert.ToInt32(txttid.Text) == 0))
+            try
             {
-                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblTable_info";
-                objSearch.WhereNdGroupBy = "Where status=1 and TableCode = '" + txttablecode.Text + "' ";// and BranchId = " + branch; ; ;
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count > 0)
+                if (txttablecode.Text != "" && (txttid.Text == "" || Convert.ToInt32(txttid.Text) == 0))
                 {
-                    CMessageBox.Show(itemSource[0].TableCode + " Already Exist","Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txttablecode.Text = "";
-                    txttablecode.Focus();
+                    BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblTable_info";
+                    objSearch.WhereNdGroupBy = "Where status=1 and TableCode = '" + txttablecode.Text + "' ";// and BranchId = " + branch; ; ;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        CMessageBox.Show(itemSource[0].TableCode + " Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txttablecode.Text = "";
+                        txttablecode.Focus();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page txttablecode_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
 
@@ -631,14 +730,15 @@ namespace FoodandBeverage.Forms
                             CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         clearall();
                         Filltable();
-                    }                
-                else
-                    CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                        CMessageBox.Show(" Save failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Table page pbactive_in_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Table));
             }
         }
     }

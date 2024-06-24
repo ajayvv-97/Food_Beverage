@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
@@ -23,6 +24,8 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        ClsGeneral clsgen = new ClsGeneral();
+
         #region Declaration Grid
         public static int cslno = 0;
         public static int cidno = 1;
@@ -35,19 +38,29 @@ namespace FoodandBeverage.Forms
 
         public bool Mandatory()
         {
-            if (txtfoodCate.Text == "" || txtfoodCate.Text == null)
+            try
             {
-                CMessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtfoodCate.Focus();
+                if (txtfoodCate.Text == "" || txtfoodCate.Text == null)
+                {
+                    CMessageBox.Show("Please Enter Food Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtfoodCate.Focus();
+                    return false;
+                }
+                if (cmb_cate.Text == "" || cmb_cate.SelectedIndex == -1)
+                {
+                    CMessageBox.Show("Please select Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmb_cate.Focus();
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page btnprevious_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
                 return false;
             }
-            if (cmb_cate.Text == "" || cmb_cate.SelectedIndex == -1)
-            {
-                CMessageBox.Show("Please select Category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmb_cate.Focus();
-                return false;
-            }
-            return true;
+
         }
         private void btnsave_Click(object sender, EventArgs e)
         {
@@ -89,25 +102,36 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
         }
         public void clearall()
         {
-            txtFcid.Text = "";
-            txtdescr.Text = "";
-            txtfoodCate.Text = "";
-            chk_active.Visible = false;
-            btn_del_cate.Visible = false;
-            txtfoodCate.Focus();
-            chk_active.Checked = true;
+            try
+            {
+                txtFcid.Text = "";
+                txtdescr.Text = "";
+                txtfoodCate.Text = "";
+                chk_active.Visible = false;
+                btn_del_cate.Visible = false;
+                txtfoodCate.Focus();
+                chk_active.Checked = true;
 
-            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-            pbcolorpicker.BackColor = Color.Transparent;
-            txtcolorname.Text = "#4682B4";
+                pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+                pbcolorpicker.BackColor = Color.Transparent;
+                txtcolorname.Text = "#4682B4";
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page clearall()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+            }
         }
+
         public void Fillcategory(int n)
         {
+
             try
             {
                 if (n != 0)
@@ -176,7 +200,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page Fillcategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
 
         }
@@ -255,7 +280,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
         }
 
@@ -274,53 +300,68 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-
-
-
         private void tlp_registartion_Paint(object sender, PaintEventArgs e)
         {
-            float borderRadius = 10f; // adjust this value to change the roundness of the corners
-            GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(tlp_registartion.ClientRectangle.X, tlp_registartion.ClientRectangle.Y, tlp_registartion.ClientRectangle.Width, tlp_registartion.ClientRectangle.Height);
-            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
-            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
-            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
-            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
-            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
-            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
-            path.CloseFigure();
-            tlp_registartion.Region = new Region(path);
+            try
+            {
+                float borderRadius = 10f; // adjust this value to change the roundness of the corners
+                GraphicsPath path = new GraphicsPath();
+                RectangleF rect = new RectangleF(tlp_registartion.ClientRectangle.X, tlp_registartion.ClientRectangle.Y, tlp_registartion.ClientRectangle.Width, tlp_registartion.ClientRectangle.Height);
+                path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+                path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+                path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+                path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+                path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+                path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+                path.CloseFigure();
+                tlp_registartion.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page tlp_registartion_Paint()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+            }
         }
+
 
 
         private void FrmFTICategory_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmexpence = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmexpence.ChkWritePermission(Convert.ToInt32(formsenum.Category)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmexpence = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmexpence.ChkWritePermission(Convert.ToInt32(formsenum.Category)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+
+                txtfoodCate.Focus();
+                dgv_category.BorderStyle = BorderStyle.None;
+                dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_category.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_category.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_category.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_category.BackgroundColor = Color.White;
+
+                dgv_category.EnableHeadersVisualStyles = false;
+                dgv_category.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_category.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_category.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                Fillcategory(4);
             }
-
-            txtfoodCate.Focus();
-            dgv_category.BorderStyle = BorderStyle.None;
-            dgv_category.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_category.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_category.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_category.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_category.BackgroundColor = Color.White;
-
-            dgv_category.EnableHeadersVisualStyles = false;
-            dgv_category.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_category.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_category.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-            Fillcategory(4);
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page FrmFTICategory_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+            }
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -335,41 +376,62 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
+        
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+            }
+
         }
 
         #endregion
+
+
         private void cmb_cate_SelectedValueChanged(object sender, EventArgs e)
         {
             Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
         }
 
         private void btn_del_cate_Click(object sender, EventArgs e)
-        {         
-            var result = CMessageBox.Show("Do You want Delete This Category", "Confirm The Action", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+        {
+            try
             {
-                chk_active.Checked = false;
-                btnsave.PerformClick();
-                Fillcategory(5);
+                var result = CMessageBox.Show("Do You want Delete This Category", "Confirm The Action", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    chk_active.Checked = false;
+                    btnsave.PerformClick();
+                    Fillcategory(5);
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page btn_del_cate_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
         }
 
@@ -419,6 +481,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page dgv_category_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
         }
 
@@ -460,22 +524,39 @@ namespace FoodandBeverage.Forms
 
         private void pbcolorpicker_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
-            DialogResult result = colorDialog.ShowDialog();
-            if (result == DialogResult.OK)
+            try
             {
-                pbcolorpicker.BackgroundImage = null;
-                pbcolorpicker.BackColor = colorDialog.Color;
-                if (pbcolorpicker.BackColor.Name.Contains("ff"))
-                    txtcolorname.Text = "#" + pbcolorpicker.BackColor.Name.ToString().Remove(0, 2);
+                ColorDialog colorDialog = new ColorDialog();
+                DialogResult result = colorDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    pbcolorpicker.BackgroundImage = null;
+                    pbcolorpicker.BackColor = colorDialog.Color;
+                    if (pbcolorpicker.BackColor.Name.Contains("ff"))
+                        txtcolorname.Text = "#" + pbcolorpicker.BackColor.Name.Substring(2);
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page pbcolorpicker_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
             }
         }
 
         private void btnresetcolor_Click(object sender, EventArgs e)
         {
-            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-            pbcolorpicker.BackColor = Color.Transparent;
-            txtcolorname.Text = "#4682B4";
+            try
+            {
+                pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
+                pbcolorpicker.BackColor = Color.Transparent;
+                txtcolorname.Text = "#4682B4";
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page btnresetcolor_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+            }
         }
+
     }
 }

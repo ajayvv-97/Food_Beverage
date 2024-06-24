@@ -19,7 +19,7 @@ namespace FoodandBeverage.Forms
     public partial class FrmRegistration : Form
     {
         ClsDocument clsDocument = new ClsDocument();
-        ClsGeneral clsGeneral = new ClsGeneral();
+        ClsGeneral clsgen = new ClsGeneral();
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         long BranchId;// Forms.frmLogin.BranchId;//16
         long UserId;// Forms.frmLogin.UserId;//1
@@ -74,16 +74,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page FrmRegistration_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                clsGeneral.LogException("company Page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page FrmRegistration_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
         private bool Isvalid()
@@ -161,7 +153,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page Isvalid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page Isvalid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
                 return false;
             }
         }
@@ -184,7 +177,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
 
@@ -207,7 +201,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
            
         }
@@ -283,7 +278,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
         private void Refreshform()
@@ -324,7 +320,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page Refreshform()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
             
         }
@@ -378,7 +375,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -432,7 +430,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page LedgerPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page LedgerPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -497,7 +496,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page Insert_Combo1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page Insert_Combo1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
 
@@ -518,7 +518,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page Insert_Combo2()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page Insert_Combo2()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
 
@@ -540,7 +541,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page Insert_Combo3()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page Insert_Combo3()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
                         
             }
         }
@@ -628,21 +630,12 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-
-
-
         private void txtAccName_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtAccName.Text) == false)
             {
                 getNewAccNo();
             }
-        }
-
-        private void txtAccName_Leave(object sender, EventArgs e)
-        {
-
         }
 
         private void txtAccName_KeyDown_1(object sender, KeyEventArgs e)
@@ -677,37 +670,11 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page txtAccName_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page txtAccName_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
-        }
-
-        private void cboProof_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
-            }
-        }
-
-        private void cboProof1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
-            }
-        }
-
-        private void cboProof2_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
-            }
-        }
+        }  
 
 
         private void pbAdd_Click(object sender, EventArgs e)
@@ -726,7 +693,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page guna2GradientPanel2_Paint()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page pbAdd_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -748,7 +716,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page cboProof1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page cboProof1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -769,7 +738,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page cboProof2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page cboProof2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
 
@@ -828,7 +798,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
         private void txtZipcode_KeyPress(object sender, KeyPressEventArgs e)
@@ -860,7 +831,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page txtname_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page txtname_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
 
@@ -883,7 +855,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page txtname_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page txtname_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
 
@@ -1103,7 +1076,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -1118,10 +1092,7 @@ namespace FoodandBeverage.Forms
             this.Close();
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void FrmRegistration_Resize(object sender, EventArgs e)
         {
@@ -1169,7 +1140,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_certipic1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_certipic1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
 
         }
@@ -1190,7 +1162,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_certipic2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_certipic2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
            
         }
@@ -1211,7 +1184,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_certipic3_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_certipic3_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
 
@@ -1241,7 +1215,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
         private bool ImagesAreEqual(Image img1, Image img2)
@@ -1273,7 +1248,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page ImagesAreEqual()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page ImagesAreEqual()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
                 return false;
             }
         
@@ -1304,7 +1280,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
 
@@ -1334,7 +1311,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsGeneral.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
 

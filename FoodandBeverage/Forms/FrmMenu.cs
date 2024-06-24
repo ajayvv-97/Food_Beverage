@@ -36,6 +36,7 @@ namespace FoodandBeverage.Forms
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         ClsDocument clsDocument = new ClsDocument();
+        ClsGeneral clsgen = new ClsGeneral(); 
         public static string empImgExt = "";
         TableLayoutPanel tlp_Gallery_Main = new TableLayoutPanel();
         TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
@@ -69,7 +70,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page  Fillcombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
         private void btnsave_Click(object sender, EventArgs e)
@@ -152,7 +154,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page  btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -249,63 +252,89 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("No Products For This Category", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch (Exception ex)
-            {
 
-            }
+                   catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page  Fillmenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            
+        }
         }
         private void chk_selectall_Clicked(object sender, EventArgs e)
         {
-            if (chk_selectall != null)
+            try
             {
-                dgv_menu.EndEdit();
-                foreach (DataGridViewRow row in dgv_menu.Rows)
+                if (chk_selectall != null)
                 {
-                    DataGridViewCheckBoxCell checkBox = (row.Cells[pstatusno] as DataGridViewCheckBoxCell);
-                    checkBox.Value = chk_selectall.Checked;
+                    dgv_menu.EndEdit();
+                    foreach (DataGridViewRow row in dgv_menu.Rows)
+                    {
+                        DataGridViewCheckBoxCell checkBox = (row.Cells[pstatusno] as DataGridViewCheckBoxCell);
+                        checkBox.Value = chk_selectall.Checked;
+                    }
                 }
+                if (dgv_menu.RowCount > 0)
+                    dgv_menu.CurrentCell = dgv_menu.Rows[0].Cells[0];
             }
-            if (dgv_menu.RowCount > 0)
-                dgv_menu.CurrentCell = dgv_menu.Rows[0].Cells[0];
-
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page  chk_selectall_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
         public bool MandatoryCheck()
         {
-            //if (txtitemname.Text == "" || txtitemname.Text == null)
-            //{
-            //    CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    txtitemname.Focus();
-            //    return false;
-            //}
-            //else 
-            //if (Convert.ToInt32(cmbMenu_category.SelectedValue) == 0)
-            //{
-            //    CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    cmbMenu_category.Focus();
-            //    return false;
-            //}
-            bool flagcount = true;
-            for(int i=0;i<dgv_menu.RowCount;i++)
+            try
             {
-                if(Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value)>0)
-                {
-                    flagcount = false;
-                    break;
-                }
-            }
-            if(flagcount)
-            {
-                CMessageBox.Show("Please Select Food To The List", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+                // Uncommented code for handling specific fields
+                // if (txtitemname.Text == "" || txtitemname.Text == null)
+                // {
+                //     CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //     txtitemname.Focus();
+                //     return false;
+                // }
+                // else if (Convert.ToInt32(cmbMenu_category.SelectedValue) == 0)
+                // {
+                //     CMessageBox.Show("Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //     cmbMenu_category.Focus();
+                //     return false;
+                // }
 
-            return true;
+                // Check if any item in dgv_menu has a positive value in the piidno column
+                bool flagcount = true;
+                for (int i = 0; i < dgv_menu.RowCount; i++)
+                {
+                    if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) > 0)
+                    {
+                        flagcount = false;
+                        break;
+                    }
+                }
+
+                // If no item is selected, show a message and return false
+                if (flagcount)
+                {
+                    CMessageBox.Show("Please Select Food To The List", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+                return false; 
+            }
         }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
             try
             {
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 int returnValue = 0;
                 DataTable dtColumnAlign = new DataTable();
@@ -441,97 +470,125 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
             
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
-            clearall();
-            if (rb_product.Checked && dgv_menu.RowCount == 0)
+            try
             {
-                dgv_menu.Rows.Clear();
-                dgv_menu.Rows.Add();
-                int r = dgv_menu.RowCount - 1;
-                dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
-                dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+                clearall();
 
+                if (rb_product.Checked && dgv_menu.RowCount == 0)
+                {
+                    dgv_menu.Rows.Clear();
+                    dgv_menu.Rows.Add();
+                    int r = dgv_menu.RowCount - 1;
+                    dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                    dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+                }
+
+                chk_seleall_pro.Checked = false;
             }
-            chk_seleall_pro.Checked = false;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page btnrefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
         public void clearall()
         {
-            cmbSearchlist.SelectedIndex = -1;
-            cmbMenu_category.SelectedIndex = -1;
-            txtsearchlist.Text = "";
-            txtsearch.Text = "";
+            try
+            {
+                cmbSearchlist.SelectedIndex = -1;
+                cmbMenu_category.SelectedIndex = -1;
+                txtsearchlist.Text = "";
+                txtsearch.Text = "";
 
-            //if (rb_product.Checked==false)
-            //{
-            //    rb_product.Checked = true;
-            //    chk_seleall_pro.Checked = false;
-            //}
-            //rb_item.Checked = false;
-            if (rb_product.Checked)
-                Product_Fill();
-            else if (rb_item.Checked)
-                Item_Fill();
+                //if (rb_product.Checked==false)
+                //{
+                //    rb_product.Checked = true;
+                //    chk_seleall_pro.Checked = false;
+                //}
+                //rb_item.Checked = false;
+                if (rb_product.Checked)
+                    Product_Fill();
+                else if (rb_item.Checked)
+                    Item_Fill();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page ClearAll()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
-
         private void FrmMenu_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
-                    dgv_menu.Enabled = true;
-                else
-                    dgv_menu.Enabled = false;
-            }
-
-            cmbMenu_category.Focus();
-            //Fillmenu(0);
-            dgv_menu.BorderStyle = BorderStyle.None;
-            dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_menu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_menu.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_menu.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_menu.BackgroundColor = Color.White;
-
-            dgv_menu.EnableHeadersVisualStyles = false;
-            dgv_menu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_menu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            clearall();
-
-            if (rb_item.Checked)
-                Item_Fill();
-            else if (rb_product.Checked)
-                Product_Fill();
-
-            Fillcombo();
-            textb_shape();
-            #region menu Picture Folder 
-            if (!Directory.Exists(Compressedimg))
-            {
-                Directory.CreateDirectory(Compressedimg);
-                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
-                DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                dInfo.SetAccessControl(dSecurity);
-            }
-            else
-            {
-                foreach (string file in Directory.GetFiles(Compressedimg))
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
-                    System.GC.Collect();
-                    System.GC.WaitForPendingFinalizers();
-                    File.Delete(file);
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
+                        dgv_menu.Enabled = true;
+                    else
+                        dgv_menu.Enabled = false;
                 }
+
+                cmbMenu_category.Focus();
+                //Fillmenu(0);
+                dgv_menu.BorderStyle = BorderStyle.None;
+                dgv_menu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_menu.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_menu.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_menu.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_menu.BackgroundColor = Color.White;
+
+                dgv_menu.EnableHeadersVisualStyles = false;
+                dgv_menu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_menu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                clearall();
+
+                if (rb_item.Checked)
+                    Item_Fill();
+                else if (rb_product.Checked)
+                    Product_Fill();
+
+                Fillcombo();
+                textb_shape();
+
+                #region menu Picture Folder 
+                if (!Directory.Exists(Compressedimg))
+                {
+                    Directory.CreateDirectory(Compressedimg);
+                    DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                    DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    dInfo.SetAccessControl(dSecurity);
+                }
+                else
+                {
+                    foreach (string file in Directory.GetFiles(Compressedimg))
+                    {
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(file);
+                    }
+                }
+                #endregion
             }
-            #endregion
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("FrmMenu_Load", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -680,7 +737,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page GalleryView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
 
 
@@ -727,7 +785,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                // Handle exceptions if necessary
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page ProductMousehoverEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -740,76 +799,115 @@ namespace FoodandBeverage.Forms
                 if (clickedControl != null)
                 {
                     string pid = clickedControl.Name;
-                    ///FillData(Convert.ToInt32(pid));
+                    // FillData(Convert.ToInt32(pid));
                     CMessageBox.Show("Clicked Table ID: " + pid);
                 }
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page ProductClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
+
         private void TlpTableInner_MouseEnter(object sender, EventArgs e)
         {
-            TableLayoutPanel tlp = sender as TableLayoutPanel;
-            if (tlp != null)
+            try
             {
-                foreach (Control control in tlp.Controls)
+                TableLayoutPanel tlp = sender as TableLayoutPanel;
+                if (tlp != null)
                 {
-                    if (control is Label)
+                    foreach (Control control in tlp.Controls)
                     {
-                        Label lbl = control as Label;
-                        originalBackColor = lbl.BackColor;
-                        lbl.BackColor = Color.LightGray;
+                        if (control is Label)
+                        {
+                            Label lbl = control as Label;
+                            originalBackColor = lbl.BackColor;
+                            lbl.BackColor = Color.LightGray;
+                        }
                     }
                 }
-
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page TlpTableInner_MouseEnter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
         private void TlpTableInner_MouseLeave(object sender, EventArgs e)
         {
-            TableLayoutPanel tlp = sender as TableLayoutPanel;
-            if (tlp != null)
+            try
             {
-                foreach (Control control in tlp.Controls)
+                TableLayoutPanel tlp = sender as TableLayoutPanel;
+                if (tlp != null)
                 {
-                    if (control is Label)
+                    foreach (Control control in tlp.Controls)
                     {
-                        Label lbl = control as Label;
-                        lbl.BackColor = originalBackColor;
+                        if (control is Label)
+                        {
+                            Label lbl = control as Label;
+                            lbl.BackColor = originalBackColor;
+                        }
                     }
                 }
-
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page TlpTableInner_MouseLeave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
         #endregion
         private void Btn_view_menu_Click(object sender, EventArgs e)
         {
-            tlp_registartion_main.Visible = false;
-            tlp_menu_Gallery_main.Visible = true;
-            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
-            tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
-            tlp_menu_Gallery_main.Dock = DockStyle.Fill;
-            GalleryView(0);
-            cmbSearchlist.Focus();
+            try
+            {
+                tlp_registartion_main.Visible = false;
+                tlp_menu_Gallery_main.Visible = true;
+                Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                tlp_main.Controls.Remove(controlToRemove);
+                tlp_main.Controls.Add(tlp_menu_Gallery_main, 1, 0);
+                tlp_menu_Gallery_main.Dock = DockStyle.Fill;
+                GalleryView(0);
+                cmbSearchlist.Focus();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page Btn_view_menu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
-
         private void cmbMenu_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            Fillmenu(Convert.ToInt32(cmbMenu_category.SelectedValue));
+            try
+            {
+                Fillmenu(Convert.ToInt32(cmbMenu_category.SelectedValue));
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page cmbMenu_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
-
         private void btn_bck_reg_Click(object sender, EventArgs e)
         {
-            tlp_menu_Gallery_main.Visible = false;
-            tlp_registartion_main.Visible = true;
-            Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
-            tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
-            tlp_registartion_main.Dock = DockStyle.Fill;
+            try
+            {
+                tlp_menu_Gallery_main.Visible = false;
+                tlp_registartion_main.Visible = true;
+                Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
+                tlp_main.Controls.Remove(controlToRemove);
+                tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                tlp_registartion_main.Dock = DockStyle.Fill;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page btn_bck_reg_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
 
         private void txtsearch_Leave(object sender, EventArgs e)
         {
@@ -849,110 +947,132 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_list_Click(object sender, EventArgs e)
         {
-            txtsearchlist.Text = "";
-            cmbMenu_category.SelectedIndex = -1;
-            if (rb_item.Checked)
+            try
             {
-                Item_Fill();
+                txtsearchlist.Text = "";
+                cmbMenu_category.SelectedIndex = -1;
+                if (rb_item.Checked)
+                {
+                    Item_Fill();
+                }
+                else if (rb_product.Checked)
+                {
+                    if (chk_seleall_pro.Checked)
+                        chk_seleall_pro.Checked = false;
+                    Product_Fill();
+                }
             }
-            else if (rb_product.Checked)
+            catch (Exception ex)
             {
-                if (chk_seleall_pro.Checked)
-                    chk_seleall_pro.Checked = false;
-                Product_Fill();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page btn_refresh_list_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
-
         }
+
         private void btnseach_menu_Click(object sender, EventArgs e)
         {
-            if (txtsearchlist.Text == "" || txtsearchlist.Text == null)
+            try
             {
-                CMessageBox.Show("Please Enter Food Name ");
-                txtsearchlist.Focus();
-                return;
-            }
-
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            DmnSearch dmnSearch = new DmnSearch();
-            if (rb_product.Checked)
-            {
-                dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
-                dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.status=1 and  p.Product LIKE '%" + txtsearchlist.Text + "%'";
-                dmnSearch.OrderBy = "order by Product";
-            }
-            else if (rb_item.Checked)
-            {
-                dmnSearch.Select = "i.ItemId AS Field1, i.Itemname AS Field2,C.CategoryName AS Field3," +
-          "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field4, i.Fcid AS Field5," +
-          "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field6 ";
-                dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c ON C.Fcid = i.Fcid ";
-                dmnSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1 and  i.itemname LIKE '%" + txtsearchlist.Text + "%'";
-                dmnSearch.OrderBy = "order by i.Itemname";
-            }
-                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-            dgv_menu.Rows.Clear();
-            if (itemSource.Count > 0)
-            {
-                dgv_menu.Rows.Add(itemSource.Count);
-                for (int i = 0; i < itemSource.Count; i++)
+                if (string.IsNullOrEmpty(txtsearchlist.Text))
                 {
-                    dgv_menu.Rows[i].Cells[slno].Value = i + 1;
-                    dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
-                    dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
-                    dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
-                    dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
-
-                    if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                        dgv_menu.Rows[i].Cells[pstatusno].Value = true;
-                    else
-                        dgv_menu.Rows[i].Cells[pstatusno].Value = false;
-
-                    if (rb_product.Checked)
-                    {
-                        dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
-                        dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
-                        dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
-
-                        dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
-
-                        Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
-                        int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
-                        Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
-                        chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
-                        chk_selectall.BackColor = Color.White;
-                        chk_selectall.Size = new Size(18, 18);
-                        chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
-                        dgv_menu.Controls.Add(chk_selectall);
-                    }
-                    else if (rb_item.Checked)
-                        dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
-
+                    CMessageBox.Show("Please Enter Food Name ");
+                    txtsearchlist.Focus();
+                    return;
                 }
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
                 if (rb_product.Checked)
                 {
-                    chk_selectall.Visible = true;
-                    chk_seleall_pro.Visible = true;
-
+                    dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                    dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+                    dmnSearch.WhereNdGroupBy = $"where p.Status=1 and m.status=1 and p.Product LIKE '%{txtsearchlist.Text}%'";
+                    dmnSearch.OrderBy = "order by Product";
                 }
                 else if (rb_item.Checked)
                 {
-                    dgv_menu.Columns[pstatusno].Visible = false;
-                    chk_selectall.Visible = false;
-                    chk_seleall_pro.Visible = false;
+                    dmnSearch.Select = "i.ItemId AS Field1, i.Itemname AS Field2,C.CategoryName AS Field3," +
+                        "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field4, i.Fcid AS Field5," +
+                        "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field6 ";
+                    dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c ON C.Fcid = i.Fcid ";
+                    dmnSearch.WhereNdGroupBy = $"Where i.Saletype=1 and i.Status=1 and i.itemname LIKE '%{txtsearchlist.Text}%'";
+                    dmnSearch.OrderBy = "order by i.Itemname";
                 }
-                if (chk_seleall_pro.Checked)
-                    chk_seleall_pro.Checked = false;
-            }
-            else
-            {
-                if (chk_seleall_pro.Checked)
-                    chk_seleall_pro.Checked = false;
-                chk_selectall.Visible = false;
-                CMessageBox.Show("No Products For This Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
 
+                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                dgv_menu.Rows.Clear();
+                if (itemSource.Count > 0)
+                {
+                    dgv_menu.Rows.Add(itemSource.Count);
+                    for (int i = 0; i < itemSource.Count; i++)
+                    {
+                        dgv_menu.Rows[i].Cells[slno].Value = i + 1;
+                        dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
+                        dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
+                        dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
+                        dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
+
+                        if (Convert.ToInt32(itemSource[i].Field6) == 1)
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                        else
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+
+                        if (rb_product.Checked)
+                        {
+                            dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+                            dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
+                            dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
+
+                            dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
+
+                            Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                            int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                            Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                            chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                            chk_selectall.BackColor = Color.White;
+                            chk_selectall.Size = new Size(18, 18);
+                            chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                            dgv_menu.Controls.Add(chk_selectall);
+                        }
+                        else if (rb_item.Checked)
+                        {
+                            dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
+                        }
+                    }
+
+                    if (rb_product.Checked)
+                    {
+                        chk_selectall.Visible = true;
+                        chk_seleall_pro.Visible = true;
+                    }
+                    else if (rb_item.Checked)
+                    {
+                        dgv_menu.Columns[pstatusno].Visible = false;
+                        chk_selectall.Visible = false;
+                        chk_seleall_pro.Visible = false;
+                    }
+
+                    if (chk_seleall_pro.Checked)
+                        chk_seleall_pro.Checked = false;
+                }
+                else
+                {
+                    if (chk_seleall_pro.Checked)
+                        chk_seleall_pro.Checked = false;
+                    chk_selectall.Visible = false;
+                    CMessageBox.Show("No Products For This Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page btnseach_menu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
+
+
+
         private void Search_Click(object sender, EventArgs e)
         {
             try
@@ -1065,7 +1185,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page Search_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -1073,6 +1194,7 @@ namespace FoodandBeverage.Forms
         {
             GalleryView(0);
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -1087,14 +1209,19 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
+            try
+            {
+
+            
             // Create a new GraphicsPath object
             GraphicsPath path = new GraphicsPath();
             // Define the shape of the path using a rounded rectangle
@@ -1107,6 +1234,12 @@ namespace FoodandBeverage.Forms
             // Set the Region property of the textbox to the new path
             textBox.Region = new Region(path);
         }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("Menu page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
+}
 
         #endregion
 
@@ -1157,6 +1290,7 @@ namespace FoodandBeverage.Forms
 
         public void Movefocus(int keytype)
         {
+
             try
             {
                 if (tlp_menu_Gallery_main.Visible)
@@ -1262,7 +1396,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -1328,7 +1463,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page Item_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
         public void Product_Fill()
@@ -1400,23 +1536,32 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page Product_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
         private void rb_item_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb_item.Checked)
+            try
             {
-                cmbMenu_category.SelectedIndex = -1;
-                Item_Fill();
-                txtsearchlist.Text = "";
+                if (rb_item.Checked)
+                {
+                    cmbMenu_category.SelectedIndex = -1;
+                    Item_Fill();
+                    txtsearchlist.Text = "";
 
-                if (chk_seleall_pro.Checked)
-                    chk_seleall_pro.Checked = false;
+                    if (chk_seleall_pro.Checked)
+                        chk_seleall_pro.Checked = false;
+                }
             }
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page rb_item_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
         }
+
 
         private void dgv_menu_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -1513,7 +1658,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page productPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -1586,6 +1732,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page dgv_menu_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
 
@@ -1671,7 +1819,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page chk_seleall_pro_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
     }

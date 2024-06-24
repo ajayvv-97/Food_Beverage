@@ -25,6 +25,7 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         private LoadingGIF_Timer loadingForm;
+
         #region Declarations
         //ClsGeneral objGeneral = new ClsGeneral();// for validation
         BllEncryption bllEncryption = new BllEncryption();
@@ -57,7 +58,7 @@ namespace FoodandBeverage.Forms
         private bool passwordVisible = false;
 
         public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//
-        public static string ReportPath = Application.StartupPath + @"\Report";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
+        public static string ReportPath = Application.StartupPath + @"\Report"; //@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
         public static string SaleBillPath =  Application.StartupPath + @"\SaleBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
 
         #endregion
@@ -75,7 +76,6 @@ namespace FoodandBeverage.Forms
             {
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
-
             textb_shape();            
         }
 
@@ -94,45 +94,71 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException( "Login Page textb_shape()",ex,EmployeName, Designation,Convert.ToInt32(FormType.Login));
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page textb_shape()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page ApplyRoundedTextBox()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
         }
 
         #endregion
 
         private void txtusername_Enter(object sender, EventArgs e)
         {
-            timer1.Start();
-            if (txtUserName.Text == "User Name .....")
+            try
             {
-                txtUserName.Text = "";
-                txtUserName.ForeColor = Color.Black;
+                timer1.Start();
+                if (txtUserName.Text == "User Name .....")
+                {
+                    txtUserName.Text = "";
+                    txtUserName.ForeColor = Color.Black;
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page txtusername_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }      
+      
         }       
 
         private void txtusername_Leave(object sender, EventArgs e)
         {
-            timer1.Stop();
-            if (txtUserName.Text == "")
+            try
             {
-                txtUserName.Text = "User Name .....";
-                txtUserName.ForeColor = Color.DarkGray;
+                timer1.Stop();
+                if (txtUserName.Text == "")
+                {
+                    txtUserName.Text = "User Name .....";
+                    txtUserName.ForeColor = Color.DarkGray;
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page txtusername_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            } 
         }
         
         private void btncancel_Click(object sender, EventArgs e)
@@ -177,7 +203,7 @@ namespace FoodandBeverage.Forms
 
                             else
                             {
-                                #region retrieve data after login
+                                    #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
@@ -240,11 +266,13 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                
+
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 //clsgen.LogExceptionExcel("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 clsgen.LogException("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+       
         }
         private bool IsValidHtmlColor(string color)
         {
@@ -255,6 +283,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page IsValidHtmlColor()", ex, EmployeName, Designation,Convert.ToInt32(FormType.Login));
                 return false;
             }
@@ -262,71 +291,99 @@ namespace FoodandBeverage.Forms
 
         public bool IsUsernameValid()
         {
-            if (txtUserName.Text == "test")
-                return true;
+            try
+            {
+                if (txtUserName.Text == "test")
+                    return true;
 
-            BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "PasswordHash,PasswordSalt ";
-            objSearch.Table = " tblUserAccount ";
-            objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'AND Status=1 ";
-            var pwdDetails = bllSearch.GetSearchData("prdSearch", objSearch);
-            if (pwdDetails.Count > 0)
-            {
-                //lblUser.Text = txtUserName.Text.Trim().ToUpper();
-                passwordSalt = pwdDetails[0].PasswordSalt;
-                passwordHash = pwdDetails[0].PasswordHash;
-                encryptPassword = pwdDetails[0].PasswordHash;
-                return true;
+                BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "PasswordHash,PasswordSalt ";
+                objSearch.Table = " tblUserAccount ";
+                objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'AND Status=1 ";
+                var pwdDetails = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (pwdDetails.Count > 0)
+                {
+                    //lblUser.Text = txtUserName.Text.Trim().ToUpper();
+                    passwordSalt = pwdDetails[0].PasswordSalt;
+                    passwordHash = pwdDetails[0].PasswordHash;
+                    encryptPassword = pwdDetails[0].PasswordHash;
+                    return true;
+                }
+                else
+                {
+
+                    txtUserName.Focus();
+                    CMessageBox.Show("Invalid User Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                txtUserName.Focus();
-                CMessageBox.Show("Invalid User Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page IsUsernameValid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return false;
             }
-
         }
         public bool IsPasswordvalid()
         {
-            bool result = true;
-            if (txtPwd.Text == "test")
-                return true;
-
-            if (passwordSalt == null || passwordHash == null)
+            try
             {
+                bool result = true;
+                if (txtPwd.Text == "test")
+                    return true;
+
+                if (passwordSalt == null || passwordHash == null)
+                {
+                    return false;
+                }
+                if (rfid == 0)
+                    result = bllEncryption.verifyPassword(txtPwd.Text.Trim(), passwordSalt, passwordHash);
+                else
+                {
+                    for (int i = 0; i < encryptPassword.Length; i++)
+                    {
+                        if (encryptPassword[i] != passwordHash[i])
+                            result = false;
+                    }
+                    result = true;
+                }
+                if (result == true)
+                {
+                    return true;
+                }
+                CMessageBox.Show("Invalid Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPwd.Focus();
                 return false;
             }
-            if (rfid == 0)
-                result = bllEncryption.verifyPassword(txtPwd.Text.Trim(), passwordSalt, passwordHash);
-            else
+            catch (Exception ex)
             {
-                for (int i = 0; i < encryptPassword.Length; i++)
-                {
-                    if (encryptPassword[i] != passwordHash[i])
-                        result = false;
-                }
-                result = true;
-            }
-            if (result == true)
-            {
-                return true;
-            }
-            CMessageBox.Show("Invalid Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            txtPwd.Focus();
-            return false;
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page IsPasswordvalid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+                return false;
+            }    
         }
         public string RemoveSpecialCharacters(string str)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (char c in str)
+            try
             {
-                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                StringBuilder sb = new StringBuilder();
+                foreach (char c in str)
                 {
-                    sb.Append(c);
+                    if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                    {
+                        sb.Append(c);
+                    }
                 }
+                return sb.ToString();
             }
-            return sb.ToString();
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page textb_shape()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+                return "";
+            }
+ 
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -380,19 +437,29 @@ namespace FoodandBeverage.Forms
 
         public bool IsValid()
         {
-            if (txtUserName.Text == "User Name .....")
+            try
             {
-                CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUserName.Focus();
+                if (txtUserName.Text == "User Name .....")
+                {
+                    CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtUserName.Focus();
+                    return false;
+                }
+                if (txtPwd.Text == "Password .....")
+                {
+                    CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPwd.Focus();
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page IsValid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return false;
             }
-            if (txtPwd.Text == "Password .....")
-            {
-                CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPwd.Focus();
-                return false;
-            }
-            return true;
+
         }
 
         private void txtUserName_KeyPress(object sender, KeyPressEventArgs e)
@@ -402,78 +469,137 @@ namespace FoodandBeverage.Forms
         }
         private void txtUserName_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                if (string.IsNullOrEmpty(txtUserName.Text))
+                if (e.KeyCode == Keys.Enter)
                 {
-                    CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtUserName.Focus();
-                    return;
+                    if (string.IsNullOrEmpty(txtUserName.Text))
+                    {
+                        CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtUserName.Focus();
+                        return;
+                    }
+                    else
+                        txtPwd.Focus();
                 }
-                else
-                    txtPwd.Focus();
             }
-     
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtUserName_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
         }
+
 
         private void pnlloginbox_Paint(object sender, PaintEventArgs e)
         {
-            float borderRadius = 10f;
-            GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(pnlloginbox.ClientRectangle.X, pnlloginbox.ClientRectangle.Y, pnlloginbox.ClientRectangle.Width, pnlloginbox.ClientRectangle.Height);
-            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
-            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
-            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
-            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
-            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
-            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
-            path.CloseFigure();
-            pnlloginbox.Region = new Region(path);
+            try
+            {
+                float borderRadius = 10f;
+                GraphicsPath path = new GraphicsPath();
+                RectangleF rect = new RectangleF(pnlloginbox.ClientRectangle.X, pnlloginbox.ClientRectangle.Y, pnlloginbox.ClientRectangle.Width, pnlloginbox.ClientRectangle.Height);
+                path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+                path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+                path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+                path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+                path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+                path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+                path.CloseFigure();
+                pnlloginbox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login Page pnlloginbox_Paint()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
+
         }
 
         private void txtPwd_Enter(object sender, EventArgs e)
         {
-            if (txtPwd.Text == "Password .....")
+            try
             {
-                txtPwd.Text = "";
-                txtPwd.ForeColor = Color.Black;
+                if (txtPwd.Text == "Password .....")
+                {
+                    txtPwd.Text = "";
+                    txtPwd.ForeColor = Color.Black;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtPwd_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
         private void txtPwd_Leave(object sender, EventArgs e)
         {
-            if (txtPwd.Text == "")
+            try
             {
-                txtPwd.Text = "Password .....";
-                txtPwd.ForeColor = Color.DarkGray;
+                if (txtPwd.Text == "")
+                {
+                    txtPwd.Text = "Password .....";
+                    txtPwd.ForeColor = Color.DarkGray;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtPwd_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
         private void txtPwd_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                if (string.IsNullOrEmpty(txtPwd.Text))
+                if (e.KeyCode == Keys.Enter)
                 {
-                    CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtPwd.Focus();
-                    return;
+                    if (string.IsNullOrEmpty(txtPwd.Text))
+                    {
+                        CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtPwd.Focus();
+                        return;
+                    }
+                    else
+                        btnlogin.Focus();
                 }
-                else
-                    btnlogin.Focus();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtPwd_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
+
         private void txtPwd_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key            
-                e.Handled = true; // Suppress the Enter key
+            try
+            {
+                if (e.KeyChar == '\r') // Check for Enter key            
+                    e.Handled = true; // Suppress the Enter key
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtPwd_KeyPress()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
         }
 
         private void txtPwd_TextChanged(object sender, EventArgs e)
         {
-            txtPwd.PasswordChar = '*'; 
+            try
+            {
+                txtPwd.PasswordChar = '*';
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Login page txtPwd_TextChanged()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
         }
+
     }
 }

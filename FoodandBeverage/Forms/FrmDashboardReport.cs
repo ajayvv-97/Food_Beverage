@@ -1,5 +1,7 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration
+        ClsGeneral clsgen = new ClsGeneral();
         private List<DmnGridFields> Expencedata;
         public bool flagexit = false;
         private List<DmnGridFields> Result_table_menu; 
@@ -209,7 +212,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-            }            
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashboardChart FrmDashboardReport_Load", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
         #region Refresh Chart 
@@ -238,7 +243,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashboardChart RefreshCharts", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         #endregion 
@@ -254,7 +260,8 @@ namespace FoodandBeverage.Forms
         {
             e.Cancel = true;
         }
-        private void lblcancelled_Click(object sender, EventArgs e)//Cancel orders selected day
+
+        private void lblcancelled_Click(object sender, EventArgs e)
         {
             try
             {
@@ -272,13 +279,13 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lblcancelled_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+           
             }
-
-
         }
 
-        private void label18_Click(object sender, EventArgs e)//Active Fodd items
+        private void label18_Click(object sender, EventArgs e)
         {
             try
             {
@@ -296,13 +303,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart label18_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
-
-
         }
 
-        private void lblactivepromo_Click(object sender, EventArgs e)//Active Promotions
+        private void lblactivepromo_Click(object sender, EventArgs e)
         {
             try
             {
@@ -315,19 +321,17 @@ namespace FoodandBeverage.Forms
 
                 pnl_boxdetails_dash.Visible = true;
                 pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                tlp_offer_type_main.Visible = true;                
-
+                tlp_offer_type_main.Visible = true;
                 UpdateData();
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lblactivepromo_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
-
-
         }
 
-        private void lbl_up_res_Click(object sender, EventArgs e)//UP coming reservations
+        private void lbl_up_res_Click(object sender, EventArgs e)
         {
             try
             {
@@ -342,14 +346,16 @@ namespace FoodandBeverage.Forms
                 pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
                 dgv_reservation.Visible = true;
                 UpdateData();
-
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lbl_up_res_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
-
         }
+
+
+
         public void FillTablecode_Reservation(int bmid, int rowno)
         {
             try
@@ -404,73 +410,98 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillTablecode_Reservation", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
         private void btn_close_boxdetails_Click(object sender, EventArgs e)
         {
-            pnl_boxdetails_dash.Visible = false;
+            try
+            {
+                pnl_boxdetails_dash.Visible = false;
 
-            dgv_activefood.Visible = false;
-            dgv_activedine.Visible = false;
-            dgv_cancelorders.Visible = false;
-            dgv_reservation.Visible = false;
-            tlp_offer_type_main.Visible = false;
+                dgv_activefood.Visible = false;
+                dgv_activedine.Visible = false;
+                dgv_cancelorders.Visible = false;
+                dgv_reservation.Visible = false;
+                tlp_offer_type_main.Visible = false;
 
-            dgv_activefood.Rows.Clear();
-            dgv_activedine.Rows.Clear();
-            dgv_cancelorders.Rows.Clear();
-            dgv_reservation.Rows.Clear();
-            dgv_promotion.Rows.Clear();
+                dgv_activefood.Rows.Clear();
+                dgv_activedine.Rows.Clear();
+                dgv_cancelorders.Rows.Clear();
+                dgv_reservation.Rows.Clear();
+                dgv_promotion.Rows.Clear();
 
-            tlp_pagination.Visible = false;
-
+                tlp_pagination.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btn_close_boxdetails_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
+
+
         private void rdproductoffer_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdproductoffer.Checked)
+            try
             {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
-                dmnSearch.Table = "tblOfferMaster";
-                dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
-                dgv_promotion.Columns[appriceno].Visible = false;
-                dmnSearch.OrderBy = "order by  Omid desc";
-                searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_offer.Count / pageSize);
+                if (rdproductoffer.Checked)
+                {
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
+                    dmnSearch.Table = "tblOfferMaster";
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dgv_promotion.Columns[appriceno].Visible = false;
+                    dmnSearch.OrderBy = "order by  Omid desc";
+                    searchData_ActivePromotion_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_offer.Count / pageSize);
 
-                currentPage = 1;
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
+                    currentPage = 1;
+                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
 
-                DisplayDataForCurrentPage();
-
+                    DisplayDataForCurrentPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart rdproductoffer_CheckedChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
         private void rdcombooffer_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdcombooffer.Checked)
+            try
             {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
+                if (rdcombooffer.Checked)
+                {
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
-                dmnSearch.Table = "tblOfferMaster";
-                dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
-                dgv_promotion.Columns[appriceno].Visible = true;
+                    dmnSearch.Select = "OfferName Field1,OfferstartDatetime Field2,OfferEndDatetime Field3,Discountper Field4,FinalPrice Field5";
+                    dmnSearch.Table = "tblOfferMaster";
+                    dmnSearch.WhereNdGroupBy = "where  OfferType = 1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and status = 1";
+                    dgv_promotion.Columns[appriceno].Visible = true;
 
-                dmnSearch.OrderBy = "order by  Omid desc";
-                searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);
+                    dmnSearch.OrderBy = "order by  Omid desc";
+                    searchData_ActivePromotion_combo = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    totalPages = (int)Math.Ceiling((double)searchData_ActivePromotion_combo.Count / pageSize);
 
-                currentPage = 1;
-                lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
-                DisplayDataForCurrentPage();
-
+                    currentPage = 1;
+                    lblpageno.Text = "Page No : " + Convert.ToString(currentPage) + " / " + totalPages;
+                    DisplayDataForCurrentPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart rdcombooffer_CheckedChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+
         private void pictureBox2_Click(object sender, EventArgs e)//Active Order in Dine selected day
         {
             try
@@ -492,6 +523,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart pictureBox2_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         public void FillBoxdetailed()
@@ -550,7 +583,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillBoxdetailed", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
@@ -582,7 +616,11 @@ namespace FoodandBeverage.Forms
                 }
                 UpdatePageButtonsText();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btnprevious_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
         private void btnnext_Click(object sender, EventArgs e)
@@ -602,7 +640,11 @@ namespace FoodandBeverage.Forms
 
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btnnext_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
         private void btnfrist_Click(object sender, EventArgs e)
         {
@@ -614,7 +656,11 @@ namespace FoodandBeverage.Forms
                 btnfrist.BackColor = pressedColor;
                 ResetOtherButtonsBackColor(btnfrist);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btnfrist_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
         private void btn_two_Click(object sender, EventArgs e)
@@ -627,7 +673,11 @@ namespace FoodandBeverage.Forms
                 btn_two.BackColor = pressedColor;
                 ResetOtherButtonsBackColor(btn_two);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btn_two_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
         private void btn_three_Click(object sender, EventArgs e)
@@ -640,7 +690,11 @@ namespace FoodandBeverage.Forms
                 btn_three.BackColor = pressedColor;
                 ResetOtherButtonsBackColor(btn_three);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btn_three_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
         private void btn_four_Click(object sender, EventArgs e)
@@ -653,7 +707,11 @@ namespace FoodandBeverage.Forms
                 btn_four.BackColor = pressedColor;
                 ResetOtherButtonsBackColor(btn_four);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart btn_four_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
         }
 
 
@@ -676,13 +734,12 @@ namespace FoodandBeverage.Forms
                     btn_four.Visible = (startPage + 3) <= totalPages;
                 }
             }
-            catch { }
-        }
-
-       
-
-
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart UpdatePageButtonsText", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }   
         private void UpdateData()
         {
             try
@@ -786,8 +843,10 @@ namespace FoodandBeverage.Forms
                     btn_four.Visible = (startPage + 3) <= totalPages;
                 }
             }
-            catch 
+            catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart UpdateData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void DisplayDataForCurrentPage()
@@ -1135,7 +1194,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart DisplayDataForCurrentPage()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
@@ -1160,7 +1220,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-      
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "  ISNULL([CASH],0.00) Field1, ISNULL([CREDIT CARD],0.00) Field2, ISNULL([UPI],0.00) Field3,ISNULL([DEBIT CARD],0.00) Field4,ISNULL([BANKING ONLINE],0.00) Field5, ISNULL([OTHERS (Loyalty)],0.00) Field6,ISNULL([PART],0.00) Field7, ISNULL([SPLIT],0.00) Field8    FROM ( SELECT sm.netamount,g.Caption ";
@@ -1227,7 +1287,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart Fillpaymentdetailed()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         #endregion
@@ -1300,7 +1361,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart Filldashboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         #endregion
@@ -1454,7 +1516,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillChartTwoBarChart()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void SetupChartTwoBar()
@@ -1503,7 +1566,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart SetupChartTwoBar()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
 
         }
@@ -1601,7 +1665,9 @@ namespace FoodandBeverage.Forms
                 }
             }
             catch (Exception ex)
-            {                
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillbarRrevenuChart()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
@@ -1651,7 +1717,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart Fill_combo_finyear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void SetupChart_Revenue()
@@ -1720,7 +1787,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart SetupChart_Revenue()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         #endregion
@@ -1806,6 +1874,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillCharttotaldiscountChart()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void SetupCharttotaldiscount()
@@ -1841,7 +1911,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart SetupCharttotaldiscount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
 
         }
@@ -1867,7 +1938,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart SetupChartExpence()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
@@ -1961,96 +2033,103 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillChartExpence()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void expencepiechart_MouseClick(object sender, MouseEventArgs e)
         {
-            var r = expencepiechart.HitTest(e.X, e.Y);
-            int index = r.PointIndex;
-
-            if (index == expencepiechart.Series["s_expence"].Points.Count - 1 && expencepiechart.Series["s_expence"].Points.Any())
+            try
             {
-                int panelWidthPercentage = 30;
-                int panelheightPercentage = 50;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                var r = expencepiechart.HitTest(e.X, e.Y);
+                int index = r.PointIndex;
 
-                pnlexpence_viewmore.Size = new Size(panelWidth, panelHeight);
-                pnlexpence_viewmore.Location = new Point(this.ClientSize.Width / 2 - pnlexpence_viewmore.Size.Width / 2, this.ClientSize.Height / 2 - pnlexpence_viewmore.Size.Height / 2);
-                pnlexpence_viewmore.Visible = true;
-
-                int rowIndex = 0;
-                int columnIndex = 0;
-                decimal remexptotal = 0;
-                tlp_expence_viewmore.Controls.Clear();
-
-                #region Column heading Expence View more
-                Label categoryname_h = new Label()
+                if (index == expencepiechart.Series["s_expence"].Points.Count - 1 && expencepiechart.Series["s_expence"].Points.Any())
                 {
-                    Text = "Product Name",
-                    Name = "lbl_categoryname_heading",
-                    Dock = DockStyle.Top,
-                    ForeColor = Color.Black,
-                    Font = new Font("Arial", 12, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleLeft,
-                    BackColor = Color.FromArgb(159, 166, 178),
-                };
+                    int panelWidthPercentage = 30;
+                    int panelheightPercentage = 50;
+                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
 
-                Label amount_h = new Label()
-                {
-                    Text = "Amount",
-                    Name = "lbl_amount_heading",
-                    Dock = DockStyle.Top,
-                    ForeColor = Color.Black,
-                    Font = new Font("Arial", 10, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(159, 166, 178),
-                };
+                    pnlexpence_viewmore.Size = new Size(panelWidth, panelHeight);
+                    pnlexpence_viewmore.Location = new Point(this.ClientSize.Width / 2 - pnlexpence_viewmore.Size.Width / 2, this.ClientSize.Height / 2 - pnlexpence_viewmore.Size.Height / 2);
+                    pnlexpence_viewmore.Visible = true;
 
-                tlp_expence_viewmore.Controls.Add(categoryname_h, columnIndex, rowIndex);
-                columnIndex++;
-                tlp_expence_viewmore.Controls.Add(amount_h, columnIndex, rowIndex);
-                rowIndex++;
-                #endregion
+                    int rowIndex = 0;
+                    int columnIndex = 0;
+                    decimal remexptotal = 0;
+                    tlp_expence_viewmore.Controls.Clear();
 
-
-                for (int i = 2; i < Expencedata.Count; i++)
-                {
-                    columnIndex = 0;
-                    //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
-                    Label categoryname = new Label()
+                    #region Column heading Expence View more
+                    Label categoryname_h = new Label()
                     {
-                        Text = Expencedata[i].Field1,
-                        Name = "lbl_categoryname_" + Expencedata[i].Field1,
+                        Text = "Product Name",
+                        Name = "lbl_categoryname_heading",
                         Dock = DockStyle.Top,
                         ForeColor = Color.Black,
                         Font = new Font("Arial", 12, FontStyle.Bold),
                         TextAlign = ContentAlignment.MiddleLeft,
-                        BackColor = Color.AliceBlue,
+                        BackColor = Color.FromArgb(159, 166, 178),
                     };
 
-                    Label amount = new Label()
+                    Label amount_h = new Label()
                     {
-                        Text = Expencedata[i].Field2,
-                        Name = "lbl_amount_" + Expencedata[i].Field1,
+                        Text = "Amount",
+                        Name = "lbl_amount_heading",
                         Dock = DockStyle.Top,
                         ForeColor = Color.Black,
+                        Font = new Font("Arial", 10, FontStyle.Bold),
                         TextAlign = ContentAlignment.MiddleCenter,
-                        BackColor = Color.AliceBlue,
+                        BackColor = Color.FromArgb(159, 166, 178),
                     };
-                    remexptotal = remexptotal + Convert.ToDecimal(Expencedata[i].Field2);
-                    tlp_expence_viewmore.Controls.Add(categoryname, columnIndex, rowIndex);
+
+                    tlp_expence_viewmore.Controls.Add(categoryname_h, columnIndex, rowIndex);
                     columnIndex++;
-                    tlp_expence_viewmore.Controls.Add(amount, columnIndex, rowIndex);
-
+                    tlp_expence_viewmore.Controls.Add(amount_h, columnIndex, rowIndex);
                     rowIndex++;
-                }
-                ibrem_exp_total.Text = Convert.ToString(remexptotal);
-                //pnlexpence_viewmore.Controls.Add(tlp_expence_viewmore);
+                    #endregion
 
+                    // Loop through Expencedata to populate labels in the TableLayoutPanel
+                    for (int i = 2; i < Expencedata.Count; i++)
+                    {
+                        columnIndex = 0;
+                        Label categoryname = new Label()
+                        {
+                            Text = Expencedata[i].Field1,
+                            Name = "lbl_categoryname_" + Expencedata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 12, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            BackColor = Color.AliceBlue,
+                        };
+
+                        Label amount = new Label()
+                        {
+                            Text = Expencedata[i].Field2,
+                            Name = "lbl_amount_" + Expencedata[i].Field1,
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.AliceBlue,
+                        };
+                        remexptotal = remexptotal + Convert.ToDecimal(Expencedata[i].Field2);
+                        tlp_expence_viewmore.Controls.Add(categoryname, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_expence_viewmore.Controls.Add(amount, columnIndex, rowIndex);
+
+                        rowIndex++;
+                    }
+                    ibrem_exp_total.Text = Convert.ToString(remexptotal);
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart expencepiechart_MouseClick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+
         private Image ResizeImage(Image image, Size size)
         {
             return new Bitmap(image, size);
@@ -2081,7 +2160,8 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart LoadSlowfastData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
         private void tcslow_move_SelectedIndexChanged(object sender, EventArgs e)
@@ -2288,7 +2368,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart tcslow_move_SelectedIndexChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
 
         }
@@ -2399,7 +2480,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart Cmbserachtype_SelectionChangeCommitted", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 
@@ -2452,7 +2534,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart cmbserachvalue_SelectionChangeCommitted", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
 

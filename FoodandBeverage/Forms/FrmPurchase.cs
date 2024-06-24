@@ -59,6 +59,9 @@ namespace FoodandBeverage.Forms
 
         private DateTimePicker dtp { get; set; }
         #endregion
+
+        ClsGeneral clsgen = new ClsGeneral();
+
         public static bool CellRow = true;
         BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
         DmnSearch dmnSearch = new DmnSearch();
@@ -109,45 +112,59 @@ namespace FoodandBeverage.Forms
                     invoiceno.Text = gridSource1[0].PurchasePrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].PurchaseSrlNo;//PERRET20221001
                 }
             }
+
             catch (Exception ex)
-            { }
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page setperficpurchase()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+
+            }
 
         }
         private void ClearAll()
         {
-            dgvProduct.Rows.Clear();
-            dgvProduct.Rows.Add();
-            invoiceno.Text = "";
-            txtdocno.Text = "";
-            custname.SelectedIndex = -1;
-            address.Text = "";
-            contactno.Text = "";
-            txtEmail.Text = "";
-            discountper.Text = "0.00";
-            totaldiscountamt.Text = "0.00";
-            remarks.Text = "";
-            oaamount.Text = "0.00";
-            oadesc.Text = "";
-            odamt.Text = "0.00";
-            oddesc.Text = "";
-            netamount.Text = "0.00";
-            sterms.Text = "";
-            rcvamt.Text = "0.00";
-            lblNetAmt.Text = "0.00";
-            lblBalAmt.Text = "0.00";
-            lblTotqty.Text = "0.00";
-            lblTotDisc.Text = "0.00";
-            lblTotal.Text = "0.00";
-            netamount.Text = "0.00";
-            lblGrandTot.Text = "0.00";
-            lblBalAmt.Text = "0.00";
-            txtdocno.Focus();
-            setperficpurchase();
-            btnsave.Visible = true;
-            txt_exist_vendorid.Text = "";
-            combofill();
-            tlp_textboxes.Enabled = true;
-            Searchflag = false;
+            try
+            {
+                dgvProduct.Rows.Clear();
+                dgvProduct.Rows.Add();
+                invoiceno.Text = "";
+                txtdocno.Text = "";
+                custname.SelectedIndex = -1;
+                address.Text = "";
+                contactno.Text = "";
+                txtEmail.Text = "";
+                discountper.Text = "0.00";
+                totaldiscountamt.Text = "0.00";
+                remarks.Text = "";
+                oaamount.Text = "0.00";
+                oadesc.Text = "";
+                odamt.Text = "0.00";
+                oddesc.Text = "";
+                netamount.Text = "0.00";
+                sterms.Text = "";
+                rcvamt.Text = "0.00";
+                lblNetAmt.Text = "0.00";
+                lblBalAmt.Text = "0.00";
+                lblTotqty.Text = "0.00";
+                lblTotDisc.Text = "0.00";
+                lblTotal.Text = "0.00";
+                netamount.Text = "0.00";
+                lblGrandTot.Text = "0.00";
+                lblBalAmt.Text = "0.00";
+                txtdocno.Focus();
+                setperficpurchase();
+                btnsave.Visible = true;
+                txt_exist_vendorid.Text = "";
+                combofill();
+                tlp_textboxes.Enabled = true;
+                Searchflag = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page ClearAll()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
+
         }
 
         #region Grid Calulation Function  totalcellamount cellTaxAmount cellDiscountAmount cellDiscountPercentage  grandTotal totQty totDisc discountAmnt discountPer netAmount
@@ -185,7 +202,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page totalcellamount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
         public void cellTaxAmount(int cellproductid, decimal amount)
@@ -217,7 +235,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page cellTaxAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -233,7 +252,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page cellDiscountAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -250,7 +270,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page cellDiscountPercentage()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -278,64 +299,104 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page grandTotal()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
         public void totQty()
         {
-            decimal sum = 0;
-            int n = dgvProduct.RowCount;
-            for (int i = 0; i < n; i++)
+            try
             {
-                if (dgvProduct.Rows[i].Cells[iqty].Value != "")
-                    sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[iqty].Value);
+                decimal sum = 0;
+                int n = dgvProduct.RowCount;
+                for (int i = 0; i < n; i++)
+                {
+                    if (dgvProduct.Rows[i].Cells[iqty].Value != "")
+                        sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[iqty].Value);
+                }
+                lblTotqty.Text = sum.ToString("N2");
+
             }
-            lblTotqty.Text = sum.ToString("N2");
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page totQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
+
         }
 
         public void totDisc()
         {
-            decimal sum = 0;
-            int n = dgvProduct.RowCount;
-            for (int i = 0; i < n; i++)
+            try
             {
-                sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisamt].Value);
+
+
+                decimal sum = 0;
+                int n = dgvProduct.RowCount;
+                for (int i = 0; i < n; i++)
+                {
+                    sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisamt].Value);
+                }
+                lblTotDisc.Text = sum.ToString("N2");
             }
-            lblTotDisc.Text = sum.ToString("N2");
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page totDisc()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
         public void discountAmnt()
         {
-            if (discountper.Text != "")
+            try
             {
-                if (Convert.ToDecimal(discountper.Text) > 100)
+                if (discountper.Text != "")
                 {
-                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    discountper.Focus();
-                }
-                else
-                {
-                    if ((string.IsNullOrEmpty(lblGrandTot.Text)))
-                        lblGrandTot.Text = "0.00";
-                    decimal discountAmnt = Convert.ToDecimal(discountper.Text.Trim()) * Convert.ToDecimal(lblGrandTot.Text) / 100;
-                    totaldiscountamt.Text = discountAmnt.ToString("N2");
+                    if (Convert.ToDecimal(discountper.Text) > 100)
+                    {
+                        CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        discountper.Focus();
+                    }
+                    else
+                    {
+                        if ((string.IsNullOrEmpty(lblGrandTot.Text)))
+                            lblGrandTot.Text = "0.00";
+                        decimal discountAmnt = Convert.ToDecimal(discountper.Text.Trim()) * Convert.ToDecimal(lblGrandTot.Text) / 100;
+                        totaldiscountamt.Text = discountAmnt.ToString("N2");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page discountAmnt()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
+
         }
         public void discountPer()
         {
-            if (totaldiscountamt.Text != "" && lblGrandTot.Text != "" && Convert.ToDecimal(lblGrandTot.Text) != 0)
+            try
             {
-                if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
+
+
+                if (totaldiscountamt.Text != "" && lblGrandTot.Text != "" && Convert.ToDecimal(lblGrandTot.Text) != 0)
                 {
-                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    totaldiscountamt.Focus();
+                    if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
+                    {
+                        CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        totaldiscountamt.Focus();
+                    }
+                    else
+                    {
+                        decimal discountPer = (Convert.ToDecimal(totaldiscountamt.Text) / Convert.ToDecimal(lblGrandTot.Text) * 100);
+                        discountper.Text = discountPer.ToString("N2");
+                    }
                 }
-                else
-                {
-                    decimal discountPer = (Convert.ToDecimal(totaldiscountamt.Text) / Convert.ToDecimal(lblGrandTot.Text) * 100);
-                    discountper.Text = discountPer.ToString("N2");
-                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page discountPer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
@@ -354,10 +415,12 @@ namespace FoodandBeverage.Forms
                     decimal balAmnt = netAmount - Convert.ToDecimal(rcvamt.Text);
                     lblBalAmt.Text = balAmnt.ToString("N2");
                 }
+
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page netAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -365,26 +428,37 @@ namespace FoodandBeverage.Forms
         #region Vendor 
         public bool VendorMandatoryCheck()
         {
-            if (string.IsNullOrEmpty(txtVendorName.Text))
+            try
             {
-                CMessageBox.Show("Vendor Name Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtEmail.Focus();
+                if (string.IsNullOrEmpty(txtVendorName.Text))
+                {
+                    CMessageBox.Show("Vendor Name Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorName.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(txtVendorAddress.Text))
+                {
+                    CMessageBox.Show("Vendor Address Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorAddress.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(txtVendorTel.Text))
+                {
+                    CMessageBox.Show("Vendor Phone Number Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorTel.Focus();
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page VendorMandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
                 return false;
             }
-            else if (string.IsNullOrEmpty(txtVendorAddress.Text))
-            {
-                CMessageBox.Show("Vendor Address Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtEmail.Focus();
-                return false;
-            }
-            else if (string.IsNullOrEmpty(txtVendorTel.Text))
-            {
-                CMessageBox.Show("Vendor PhNo Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtEmail.Focus();
-                return false;
-            }
-            return true;
         }
+
 
         #endregion
         private void btnsave_Click(object sender, EventArgs e)
@@ -475,82 +549,87 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
         public bool MandatoryCheck()
         {
-            if (string.IsNullOrEmpty(txtdocno.Text))
+            try
             {
-                CMessageBox.Show("Document Number Is Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtdocno.Focus();
-                return false;
-            }
-            //else if (string.IsNullOrEmpty(invoiceno.Text))
-            //{
-            //    CMessageBox.Show("Entry Number Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    invoiceno.Focus();
-            //    return false;
-            //}
-            else if (Convert.ToInt32(custname.SelectedValue) < 0)
-            {
-                CMessageBox.Show("Vendor Name Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                custname.Focus();
-                return false;
-            }
-            else if (string.IsNullOrEmpty(address.Text))
-            {
-                CMessageBox.Show("Address Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                address.Focus();
-                return false;
-            }
-            else if (string.IsNullOrEmpty(contactno.Text))
-            {
-                CMessageBox.Show("Contact Number Is Mandatory ", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                contactno.Focus();
-                return false;
-            }
-            //else if (string.IsNullOrEmpty(txtEmail.Text))
-            //{
-            //    CMessageBox.Show("Email Is Mandatory And All Red Color Fileds Are Mandatory", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    txtEmail.Focus();
-            //    return false;
-            //}
-            else if (string.IsNullOrEmpty(netamount.Text) || netamount.Text.ToString() == "0")
-            {
-                CMessageBox.Show("Netamount Is Not Zero", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtEmail.Focus();
-                return false;
-            }
-            //else if (dgvProduct.Rows[0].Cells[iitemid].Value == null)
-            //{
-            //    CMessageBox.Show("No product Found !", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    dgvProduct.Focus();
-            //    return false;
-            //}
-            int c = 0;
-            if (dgvProduct.Rows.Count > 1)
-            {
+                if (string.IsNullOrEmpty(txtdocno.Text))
+                {
+                    CMessageBox.Show("Document Number Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtdocno.Focus();
+                    return false;
+                }
+                // Uncomment and modify other checks as needed
+                // else if (string.IsNullOrEmpty(invoiceno.Text))
+                // {
+                //     CMessageBox.Show("Entry Number Is Mandatory & * Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //     invoiceno.Focus();
+                //     return false;
+                // }
+                else if (Convert.ToInt32(custname.SelectedValue) < 0)
+                {
+                    CMessageBox.Show("Vendor Name Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    custname.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(address.Text))
+                {
+                    CMessageBox.Show("Address Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    address.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(contactno.Text))
+                {
+                    CMessageBox.Show("Contact Number Is Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    contactno.Focus();
+                    return false;
+                }
+                // else if (string.IsNullOrEmpty(txtEmail.Text))
+                // {
+                //     CMessageBox.Show("Email Is Mandatory And All Red Color Fields Are Mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //     txtEmail.Focus();
+                //     return false;
+                // }
+                else if (string.IsNullOrEmpty(netamount.Text) || netamount.Text == "0")
+                {
+                    CMessageBox.Show("Net Amount Is Not Zero", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    netamount.Focus();
+                    return false;
+                }
+                // Uncomment and modify other checks as needed
+                // else if (dgvProduct.Rows[0].Cells[iitemid].Value == null)
+                // {
+                //     CMessageBox.Show("No Product Found!", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //     dgvProduct.Focus();
+                //     return false;
+                // }
 
-                c = dgvProduct.Rows.Count - 1;
-            }
-            else
-            {
-                c = dgvProduct.Rows.Count;
-            }
-            //for (int i = 0; i < c; i++)
-            //{
-            //    if (dgvProduct.Rows[i].Cells[iitemid].Value == "" || dgvProduct.Rows[i].Cells[iitemid].Value == null)
-            //    {
-            //        CMessageBox.Show("Product Is Not Selected", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //        return false;
-            //        break;
-            //    }
+                // Optional: Additional validation logic for DataGridView rows
+                // int c = dgvProduct.Rows.Count;
+                // for (int i = 0; i < c; i++)
+                // {
+                //     if (dgvProduct.Rows[i].Cells[iitemid].Value == null)
+                //     {
+                //         CMessageBox.Show("Product Is Not Selected", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //         return false;
+                //     }
+                // }
 
-            //}
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+                return false;
+            }
         }
+
 
         private void btn_grid_regitartion_Click(object sender, EventArgs e)
         {
@@ -574,7 +653,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btn_grid_regitartion_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -605,6 +685,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btn_back_registration_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
@@ -629,23 +711,32 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page custname_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
         public void FillCombobox()
         {
-            BllSearch<DmnComboBox> bllSearch_CountryCategory = new BllSearch<DmnComboBox>();
-            DmnSearch objSearch = new DmnSearch();
-            objSearch.Select = "VendorId as Id,VendorName as Value";
-            objSearch.Table = " tblVendor";
-            objSearch.WhereNdGroupBy = "where isnull(status,1)=1 ";// and BranchId=" + BranchId;
-            objSearch.OrderBy = "order by value";
-            var gridSource = bllSearch_CountryCategory.GetSearchData("prdComboFill", objSearch);
-            custname.DataSource = gridSource;
-            custname.ValueMember = "Id";
-            custname.DisplayMember = "Value";
-            custname.SelectedIndex = 0;
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch_CountryCategory = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "VendorId as Id,VendorName as Value";
+                objSearch.Table = " tblVendor";
+                objSearch.WhereNdGroupBy = "where isnull(status,1)=1 ";// and BranchId=" + BranchId;
+                objSearch.OrderBy = "order by value";
+                var gridSource = bllSearch_CountryCategory.GetSearchData("prdComboFill", objSearch);
+                custname.DataSource = gridSource;
+                custname.ValueMember = "Id";
+                custname.DisplayMember = "Value";
+                custname.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page FillCombobox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void FrmPurchase_Load(object sender, EventArgs e)
@@ -681,9 +772,6 @@ namespace FoodandBeverage.Forms
                 dgvProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgvProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-
-
-
                 dgvItemPop.BorderStyle = BorderStyle.None;
                 dgvItemPop.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvItemPop.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -700,10 +788,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page FrmPurchase_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-
-
         }
 
         private void dtp_OnTextChange(object sender, EventArgs e)
@@ -714,7 +801,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dtp_OnTextChange()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
@@ -728,7 +816,7 @@ namespace FoodandBeverage.Forms
                     dtp.Visible = false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }
@@ -748,25 +836,35 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
+
         }
 
         #endregion
@@ -851,7 +949,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dgvProduct_CellValidating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
@@ -864,7 +963,7 @@ namespace FoodandBeverage.Forms
                 {
                     totalcellamount(e.RowIndex);
                 }
-                if ( (e.ColumnIndex == 5 || e.ColumnIndex == 15) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value)== Convert.ToInt32(Saletype.NonSaleProduct))
+                if ((e.ColumnIndex == 5 || e.ColumnIndex == 15) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value))
                     {
@@ -875,7 +974,7 @@ namespace FoodandBeverage.Forms
                         return;
                     }
                 }
-                else if ( (e.ColumnIndex == 15 || e.ColumnIndex == 16 ) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
+                else if ((e.ColumnIndex == 15 || e.ColumnIndex == 16) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[imrp].Value))
                     {
@@ -898,6 +997,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dgvProduct_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
 
             }
         }
@@ -926,7 +1027,7 @@ namespace FoodandBeverage.Forms
                         if (dgvProduct.Rows.Count == 0)
                             dgvProduct.Rows.Add();
                     }
-                    if(dgvProduct.RowCount >0)
+                    if (dgvProduct.RowCount > 0)
                     {
                         for (int i = 0; i < dgvProduct.RowCount; i++)
                         {
@@ -937,11 +1038,13 @@ namespace FoodandBeverage.Forms
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dgvProduct_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
 
             }
-    
+
         }
         public void combofill()
         {
@@ -951,7 +1054,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "c.Fcid Id,c.CategoryName Value";
-                objSearch.Table = " tblItem i "+
+                objSearch.Table = " tblItem i " +
                                   " LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid and c.Status = 1 ";
                 objSearch.WhereNdGroupBy = "where i.Saletype=1 and i.Status=1 ";
                 objSearch.OrderBy = "";
@@ -967,7 +1070,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page combofill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
         public void purchasepop_SearchType(int SearchType)
@@ -986,7 +1090,7 @@ namespace FoodandBeverage.Forms
                 if (SearchType == Convert.ToInt32(SerachType_Purchase.Category))
                     dmnSearch.WhereNdGroupBy = "where i.Status=1 and c.Fcid =" + cmb_pcategory.SelectedValue;
                 else if (SearchType == Convert.ToInt32(SerachType_Purchase.NonSaleProduct))
-                    dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype =" + Convert.ToInt32(Saletype.NonSaleProduct) ;
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype =" + Convert.ToInt32(Saletype.NonSaleProduct);
                 else if (SearchType == Convert.ToInt32(SerachType_Purchase.SaleProduct))
                     dmnSearch.WhereNdGroupBy = "where i.Status=1 and i.saletype =" + Convert.ToInt32(Saletype.Sale);
 
@@ -1013,9 +1117,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page purchasepop_SearchType()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-    
+
         }
 
         public void purchasepop()
@@ -1055,16 +1160,16 @@ namespace FoodandBeverage.Forms
                 pnlCustomer.Hide();
                 dgvItemPop.Focus();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page purchasepop()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
 
         }
         private void dgvProduct_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             int r = dgvProduct.CurrentCell.ColumnIndex;
-
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
             TextBox tb = e.Control as TextBox;
             if (tb != null)
@@ -1090,70 +1195,78 @@ namespace FoodandBeverage.Forms
             if (Searchflag == false)
                 grandTotal();
         }
-
         private void dgvProduct_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != null && CellRow == true && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
+            try
             {
-                DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
+                if (dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != null && CellRow == true && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
                 {
-                    CMessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    e.Cancel = true;
-                    return;
-                }
-                cell = dgvProduct[iprate, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue) <= 0)
-                {
-                    CMessageBox.Show("Purchase Rate Is A Mandatory Field.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    e.Cancel = true;
-                    return;
-                }
+                    DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
+                    {
+                        CMessageBox.Show("Sale Rate Mustbe Greater Than Purchase Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        e.Cancel = true;
+                        return;
+                    }
+                    cell = dgvProduct[iprate, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue) <= 0)
+                    {
+                        CMessageBox.Show("Purchase Rate Is A Mandatory Field.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        e.Cancel = true;
+                        return;
+                    }
 
-                cell = dgvProduct[imrp, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
-                {
-                    CMessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    e.Cancel = true;
-                    return;
-                }
-                cell = dgvProduct[idisper, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() != "" && cell.EditedFormattedValue.ToString() != string.Empty && cell.EditedFormattedValue.ToString() != ".")
-                {
-                    if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
+                    cell = dgvProduct[imrp, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(cell.EditedFormattedValue.ToString()))
                     {
-                        CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        CMessageBox.Show("MRP Mustbe Greater Than Sale Rate", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        e.Cancel = true;
+                        return;
+                    }
+                    cell = dgvProduct[idisper, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() != "" && cell.EditedFormattedValue.ToString() != string.Empty && cell.EditedFormattedValue.ToString() != ".")
+                    {
+                        if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
+                        {
+                            CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        cell.Value = "0";
+                    }
+                    cell = dgvProduct[idisamt, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() != "" || cell.EditedFormattedValue.ToString() != string.Empty)
+                    {
+                        if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
+                        {
+                            CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        cell.Value = "0";
+                    }
+                    cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) <= 0)
+                    {
+                        CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         e.Cancel = true;
                         return;
                     }
                 }
-                else
-                {
-                    cell.Value = "0";
-                }
-                cell = dgvProduct[idisamt, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() != "" || cell.EditedFormattedValue.ToString() != string.Empty)
-                {
-                    if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
-                    {
-                        CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        e.Cancel = true;
-                        return;
-                    }
-                }
-                else
-                {
-                    cell.Value = "0";
-                }
-                cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
-                if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) <= 0)
-                {
-                    CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    e.Cancel = true;
-                    return;
-                }
+                CellRow = true;
             }
-            CellRow = true;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dgvProduct_RowValidating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
+
         }
 
         private void oaamount_KeyPress(object sender, KeyPressEventArgs e)
@@ -1251,7 +1364,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[iqty].Value = "1";
                         dgvProduct.Rows[r1].Cells[iprate].Value = gridSourceitem[0].Field4;
 
-                        if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[psaletypeno].Value)== Convert.ToInt32(Saletype.NonSaleProduct))
+                        if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[psaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
                         {
                             dgvProduct.Rows[r1].Cells[israte].Value = gridSourceitem[0].Field5;
                             dgvProduct.Rows[r1].Cells[imrp].Value = gridSourceitem[0].Field6;
@@ -1282,7 +1395,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[itype].Value = gridSourceitem[0].Field12;
                         dgvProduct.Rows[r1].Cells[itaxsettingid].Value = gridSourceitem[0].Field13;
                         dgvProduct.Rows[r1].Cells[ipridno].Value = gridSourceitem[0].Field14;
-                        dgvProduct.Rows[r1].Cells[isaletypeno].Value = Convert.ToInt32(dgvItemPop.Rows[r].Cells[psaletypeno].Value); 
+                        dgvProduct.Rows[r1].Cells[isaletypeno].Value = Convert.ToInt32(dgvItemPop.Rows[r].Cells[psaletypeno].Value);
                         panelProductPopup.Visible = false;
                         totalcellamount(r1);
                     }
@@ -1295,36 +1408,52 @@ namespace FoodandBeverage.Forms
 
 
                 }
-                
+
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page FillDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-
         }
 
         private void discountper_Leave(object sender, EventArgs e)
         {
-            decimal value;
-            if (!decimal.TryParse(discountper.Text, out value))
+            try
             {
-                discountper.Text = "0";
+                decimal value;
+                if (!decimal.TryParse(discountper.Text, out value))
+                {
+                    discountper.Text = "0";
+                }
+                discountAmnt();
+                netAmount();
             }
-            discountAmnt();
-            netAmount();
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page discountper_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void totaldiscountamt_Leave(object sender, EventArgs e)
         {
-            decimal value;
-            if (!decimal.TryParse(totaldiscountamt.Text, out value))
+            try
             {
-                totaldiscountamt.Text = "0";
+                decimal value;
+                if (!decimal.TryParse(totaldiscountamt.Text, out value))
+                {
+                    totaldiscountamt.Text = "0";
 
+                }
+                discountPer();
+                netAmount();
             }
-            discountPer();
-            netAmount();
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page totaldiscountamt_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void oaamount_TextChanged(object sender, EventArgs e)
@@ -1365,7 +1494,6 @@ namespace FoodandBeverage.Forms
             {
                 e.Handled = true;
             }
-
             // only allow one decimal point
             if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
             {
@@ -1426,11 +1554,12 @@ namespace FoodandBeverage.Forms
                     pnl_dtpexp.Visible = false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page dgvProduct_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-  
+
         }
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
@@ -1446,7 +1575,6 @@ namespace FoodandBeverage.Forms
         }
         public void UpcScanner(int rowno)
         {
-
             try
             {
                 panelProductPopup.Hide();
@@ -1484,7 +1612,6 @@ namespace FoodandBeverage.Forms
                     pnlCustomer.Hide();
                     dgvItemPop.Focus();
                 }
-
                 else if (gridSourceitem.Count == 1)
                 {
                     int r1 = rowno;
@@ -1521,7 +1648,7 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[r1].Cells[iqty].Value = "1";
                         dgvProduct.Rows[r1].Cells[iprate].Value = gridSourceitem[0].Field4;
 
-                        if(Convert.ToInt32(gridSourceitem[0].Field16) == Convert.ToInt32(Saletype.NonSaleProduct))
+                        if (Convert.ToInt32(gridSourceitem[0].Field16) == Convert.ToInt32(Saletype.NonSaleProduct))
                         {
                             dgvProduct.Rows[r1].Cells[israte].Value = gridSourceitem[0].Field5;
                             dgvProduct.Rows[r1].Cells[imrp].Value = gridSourceitem[0].Field6;
@@ -1586,17 +1713,13 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page UpcScanner()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-
-
         }
-
-
 
         private void btnSaveCust_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (VendorMandatoryCheck())
@@ -1636,19 +1759,29 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btnSaveCust_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
-
         }
 
         private void btnCloseCst_Click(object sender, EventArgs e)
         {
-            pnlCustomer.Visible = false;
-            txtVendorName.Text = "";
-            txtVendorAddress.Text = "";
-            txtVendorEmail.Text = "";
-            txtVendorTel.Text = "";
-            btn_vendor_add.Focus();
+            try
+            {
+
+
+                pnlCustomer.Visible = false;
+                txtVendorName.Text = "";
+                txtVendorAddress.Text = "";
+                txtVendorEmail.Text = "";
+                txtVendorTel.Text = "";
+                btn_vendor_add.Focus();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btnCloseCst_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -1757,6 +1890,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
             }
         }
 
@@ -1836,38 +1971,40 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-          for (int i = currentColumnIndex + 1; i < dgvProduct.ColumnCount; i++)
-            {
-                if (dgvProduct.Columns[i].Visible)
+                for (int i = currentColumnIndex + 1; i < dgvProduct.ColumnCount; i++)
                 {
-                    return i;
+                    if (dgvProduct.Columns[i].Visible)
+                    {
+                        return i;
+                    }
                 }
-            }
-            return -1;
+                return -1;
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page GetNextVisibleColumn()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
                 return -1;
-            }  
+            }
         }
         private int GetNextVisibleRow(int currentRowIndex)
         {
             try
             {
-             for (int i = currentRowIndex + 1; i < dgvProduct.RowCount; i++)
-            {
-                if (dgvProduct.Rows[i].Visible)
+                for (int i = currentRowIndex + 1; i < dgvProduct.RowCount; i++)
                 {
-                    return i;
+                    if (dgvProduct.Rows[i].Visible)
+                    {
+                        return i;
+                    }
                 }
-            }
-            return -1; 
+                return -1;
             }
             catch (Exception ex)
             {
                 return -1;
             }
-   
+
         }
         private int GetFirstVisibleColumn()
         {
@@ -1882,11 +2019,11 @@ namespace FoodandBeverage.Forms
                 }
                 return -1;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return -1;
             }
- 
+
         }
         #endregion
 
@@ -1928,15 +2065,17 @@ namespace FoodandBeverage.Forms
 
                         catch (Exception ex)
                         {
+                            CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase page  ProcessCmdKey if (dgvProduct.Focused)()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
 
                         }
                     }
                     else
                         Movefocus(1);
-                    return true; 
-                case Keys.Enter:                   
-                    
-                   if (dgvProduct.Focused)
+                    return true;
+                case Keys.Enter:
+
+                    if (dgvProduct.Focused)
                     {
                         try
                         {
@@ -1966,11 +2105,12 @@ namespace FoodandBeverage.Forms
 
                             }
                         }
-                        
-                        catch(Exception ex)
+
+                        catch (Exception ex)
                         {
-            
-                        }                
+                            CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase page  ProcessCmdKey if (dgvProduct.Focused)()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+                        }
                     }
                     else if (pnl_barcode.Visible)
                     {
@@ -2021,92 +2161,99 @@ namespace FoodandBeverage.Forms
         }
         public void Movefocus(int keytype)
         {
-            if (pnlCustomer.Visible)
+            try
             {
-                if (txtVendorName.Focused)
-                    txtVendorTel.Focus();
-                else if (txtVendorTel.Focused)
-                    txtVendorAddress.Focus();
-                else if (txtVendorAddress.Focused)
-                    txtVendorEmail.Focus();
-                else if (txtVendorEmail.Focused)
-                    txtdes.Focus();
-                else if (txtdes.Focused)
-                    btnSaveCust.Focus();
-                else if (keytype == 1)
+                if (pnlCustomer.Visible)
                 {
-                    if (btnSaveCust.Focused)
-                        btnCloseCst.Focus();
-                }
-                else if (keytype == 0)
-                {
-                    if (btnSaveCust.Focused)
-                        btnSaveCust.PerformClick();
-                    else if (btnCloseCst.Focused)
-                        btnCloseCst.PerformClick();
-                }
-            }
-            else
-            {
-                if (txtdocno.Focused)
-                    custname.Focus();
-                else if (custname.Focused)
-                    btn_vendor_add.Focus();
-                else if (btn_vendor_add.Focused)
-                {
-                    if (keytype == 1)
-                        address.Focus();
+                    if (txtVendorName.Focused)
+                        txtVendorTel.Focus();
+                    else if (txtVendorTel.Focused)
+                        txtVendorAddress.Focus();
+                    else if (txtVendorAddress.Focused)
+                        txtVendorEmail.Focus();
+                    else if (txtVendorEmail.Focused)
+                        txtdes.Focus();
+                    else if (txtdes.Focused)
+                        btnSaveCust.Focus();
+                    else if (keytype == 1)
+                    {
+                        if (btnSaveCust.Focused)
+                            btnCloseCst.Focus();
+                    }
                     else if (keytype == 0)
-                        btn_vendor_add.PerformClick();
+                    {
+                        if (btnSaveCust.Focused)
+                            btnSaveCust.PerformClick();
+                        else if (btnCloseCst.Focused)
+                            btnCloseCst.PerformClick();
+                    }
                 }
-                else if (address.Focused)
-                    contactno.Focus();
-                else if (contactno.Focused)
-                    txtEmail.Focus();
-                else if (txtEmail.Focused)
-                    discountper.Focus();
-                else if (discountper.Focused)
-                    totaldiscountamt.Focus();
-                else if (totaldiscountamt.Focused)
-                    remarks.Focus();
-                else if (remarks.Focused)
-                    oaamount.Focus();
-                else if (oaamount.Focused)
-                    oadesc.Focus();
-                else if (oadesc.Focused)
-                    odamt.Focus();
-                else if (odamt.Focused)
-                    oddesc.Focus();
-                else if (oadesc.Focused)
-                    oddesc.Focus();
-                else if (oddesc.Focused)
-                    sterms.Focus();
-                else if (sterms.Focused)
-                    rcvamt.Focus();
-                else if (rcvamt.Focused)
-                    btnsave.Focus();
-                else if (keytype == 1)
+                else
                 {
-                    if (btnsave.Focused)
-                        btnSearch.Focus();
-                    else if (btnSearch.Focused)
-                        btnrefresh.Focus();
-                    else if (btnrefresh.Focused)
-                        btnclose.Focus();
-                }
-                else if (keytype == 0)
-                {
-                    if (btnsave.Focused)
-                        btnsave.PerformClick();
-                    else if (btnrefresh.Focused)
-                        btnrefresh.PerformClick();
-                    else if (btnSearch.Focused)
-                        btnSearch.PerformClick();
-                    else if (btnclose.Focused)
-                        btnclose.PerformClick();
+                    if (txtdocno.Focused)
+                        custname.Focus();
+                    else if (custname.Focused)
+                        btn_vendor_add.Focus();
+                    else if (btn_vendor_add.Focused)
+                    {
+                        if (keytype == 1)
+                            address.Focus();
+                        else if (keytype == 0)
+                            btn_vendor_add.PerformClick();
+                    }
+                    else if (address.Focused)
+                        contactno.Focus();
+                    else if (contactno.Focused)
+                        txtEmail.Focus();
+                    else if (txtEmail.Focused)
+                        discountper.Focus();
+                    else if (discountper.Focused)
+                        totaldiscountamt.Focus();
+                    else if (totaldiscountamt.Focused)
+                        remarks.Focus();
+                    else if (remarks.Focused)
+                        oaamount.Focus();
+                    else if (oaamount.Focused)
+                        oadesc.Focus();
+                    else if (oadesc.Focused)
+                        odamt.Focus();
+                    else if (odamt.Focused)
+                        oddesc.Focus();
+                    else if (oadesc.Focused)
+                        oddesc.Focus();
+                    else if (oddesc.Focused)
+                        sterms.Focus();
+                    else if (sterms.Focused)
+                        rcvamt.Focus();
+                    else if (rcvamt.Focused)
+                        btnsave.Focus();
+                    else if (keytype == 1)
+                    {
+                        if (btnsave.Focused)
+                            btnSearch.Focus();
+                        else if (btnSearch.Focused)
+                            btnrefresh.Focus();
+                        else if (btnrefresh.Focused)
+                            btnclose.Focus();
+                    }
+                    else if (keytype == 0)
+                    {
+                        if (btnsave.Focused)
+                            btnsave.PerformClick();
+                        else if (btnrefresh.Focused)
+                            btnrefresh.PerformClick();
+                        else if (btnSearch.Focused)
+                            btnSearch.PerformClick();
+                        else if (btnclose.Focused)
+                            btnclose.PerformClick();
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page  Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void FrmPurchase_Resize(object sender, EventArgs e)
@@ -2127,12 +2274,22 @@ namespace FoodandBeverage.Forms
         }
         private void btn_vendor_close_Click_1(object sender, EventArgs e)
         {
-            pnlCustomer.Visible = false;
-            txtVendorName.Text = "";
-            txtVendorAddress.Text = "";
-            txtVendorEmail.Text = "";
-            txtVendorTel.Text = "";
-            btn_vendor_add.Focus();
+            try
+            {
+
+
+                pnlCustomer.Visible = false;
+                txtVendorName.Text = "";
+                txtVendorAddress.Text = "";
+                txtVendorEmail.Text = "";
+                txtVendorTel.Text = "";
+                btn_vendor_add.Focus();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase page  btn_vendor_close_Click_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void btn_productpopup_close_Click(object sender, EventArgs e)
@@ -2151,7 +2308,7 @@ namespace FoodandBeverage.Forms
 
         private void dtp_exp_ValueChanged(object sender, EventArgs e)
         {
-           string formattedDate = dtp_exp.Value.ToString("dd/MM/yyyy");
+            string formattedDate = dtp_exp.Value.ToString("dd/MM/yyyy");
             dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iexpiredate].Value = formattedDate;
             pnl_dtpexp.Visible = false;
         }
@@ -2163,28 +2320,43 @@ namespace FoodandBeverage.Forms
 
         private void rd_item_CheckedChanged(object sender, EventArgs e)
         {
-            if(rd_item.Checked)
+            try
             {
-                cmb_pcategory.DataSource = null;
-                cmb_pcategory.DataSource = gridSource_sale;
-                cmb_pcategory.ValueMember = "Id";
-                cmb_pcategory.DisplayMember = "Value";
-                purchasepop_SearchType(Convert.ToInt32(SerachType_Purchase.SaleProduct));
+                if (rd_item.Checked)
+                {
+                    cmb_pcategory.DataSource = null;
+                    cmb_pcategory.DataSource = gridSource_sale;
+                    cmb_pcategory.ValueMember = "Id";
+                    cmb_pcategory.DisplayMember = "Value";
+                    purchasepop_SearchType(Convert.ToInt32(SerachType_Purchase.SaleProduct));
+                }
             }
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Error in rd_item_CheckedChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
 
         private void rd_ingrediant_CheckedChanged(object sender, EventArgs e)
         {
-            if (rd_ingrediant.Checked)
+            try
             {
-                cmb_pcategory.DataSource = null;
-                cmb_pcategory.DataSource = gridSource_Nonsale;
-                cmb_pcategory.ValueMember = "Id";
-                cmb_pcategory.DisplayMember = "Value";
-                purchasepop_SearchType(Convert.ToInt32(SerachType_Purchase.NonSaleProduct));
+                if (rd_ingrediant.Checked)
+                {
+                    cmb_pcategory.DataSource = null;
+                    cmb_pcategory.DataSource = gridSource_Nonsale;
+                    cmb_pcategory.ValueMember = "Id";
+                    cmb_pcategory.DisplayMember = "Value";
+                    purchasepop_SearchType(Convert.ToInt32(SerachType_Purchase.NonSaleProduct));
+                }
             }
-
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Error in rd_ingrediant_CheckedChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase));
+            }
         }
+
     }
 }

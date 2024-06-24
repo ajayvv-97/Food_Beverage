@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
@@ -78,23 +79,32 @@ namespace FoodandBeverage.Forms
         BllSearch<DmnGridFields> _bllSearchvendor = new BllSearch<DmnGridFields>();
         DmnSearch dmnSearch = new DmnSearch();
         public static bool CellRow = true;
-
+        ClsGeneral clsgen = new ClsGeneral();
         private void btn_back_registration_Click(object sender, EventArgs e)
         {
-            tlp_grid_registartion.Visible = false;
-            tlp_registartion_main.Visible = true;
-            Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-            tlp_main.Controls.Remove(controlToRemove);
-            tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
-            tlp_registartion_main.Dock = DockStyle.Fill;
+            try
+            {
+                tlp_grid_registartion.Visible = false;
+                tlp_registartion_main.Visible = true;
+                Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                tlp_main.Controls.Remove(controlToRemove);
+                tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                tlp_registartion_main.Dock = DockStyle.Fill;
 
-            tlp_textboxes.Visible = true;
-            controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
-            tlp_grid_registartion.Controls.Remove(controlToRemove);
-            tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
-            tlp_textboxes.Dock = DockStyle.Fill;
-            txtbarcode.Text = "";
-            pnl_barcode.Visible = false;
+                tlp_textboxes.Visible = true;
+                controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                tlp_grid_registartion.Controls.Remove(controlToRemove);
+                tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                tlp_textboxes.Dock = DockStyle.Fill;
+                txtbarcode.Text = "";
+                pnl_barcode.Visible = false;
+            }
+            catch(Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page btn_back_registration_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }       
+
         }
 
         private void btn_grid_regitartion_Click(object sender, EventArgs e)
@@ -117,30 +127,42 @@ namespace FoodandBeverage.Forms
                 dgvProduct.Focus();
                 dgvProduct.CurrentCell = dgvProduct[0, 0];
             }
+             
             catch(Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("Purchase_Return page btn_grid_regitartion_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-          
-        }
+
+}
         public bool MandatoryCheck()
         {
-            if (oddesc.Text == "Description...")
-                oddesc.Text = "";
-            if (oadesc.Text == "Description...")
-                oadesc.Text = "";
-
-            //if (string.IsNullOrEmpty(txtpurchaseentry.Text))
-            //{
-            //    CMessageBox.Show("Please Select Purchase Entry No", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return false;
-            //}
-            else if (dgvProduct.Rows[0].Cells[iitemId].Value == null)
+            try
             {
-                CMessageBox.Show("No Product Found", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (oddesc.Text == "Description...")
+                    oddesc.Text = "";
+                if (oadesc.Text == "Description...")
+                    oadesc.Text = "";
+
+                //if (string.IsNullOrEmpty(txtpurchaseentry.Text))
+                //{
+                //    CMessageBox.Show("Please Select Purchase Entry No", "Mandaatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return false;
+                //}
+                else if (dgvProduct.Rows[0].Cells[iitemId].Value == null)
+                {
+                    CMessageBox.Show("No Product Found", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page MandatoryCheck", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                 return false;
             }
-            return true;
+         
         }
         public void setperficpurchaseret()
         {
@@ -158,10 +180,15 @@ namespace FoodandBeverage.Forms
                     invoiceno.Text = gridSource1[0].PurchaseReturnPrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].PurchaseReturnSrlNo;//PERRET20221001
                 }
             }
+           
             catch (Exception ex)
-            { }
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("Purchase_Return page setperficpurchaseret", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+          
+            }
 
-        }
+}
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -264,7 +291,10 @@ namespace FoodandBeverage.Forms
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page btnsave_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
@@ -278,40 +308,50 @@ namespace FoodandBeverage.Forms
         }
         private void ClearAll()
         {
-            txtpurchaseentry.Enabled = true;
-            dgvProduct.Rows.Clear();
-            dgvProduct.Rows.Add();
-            invoiceno.Text = "";
-            txtdocno.Text = "";
-            address.Text = "";
-            contactno.Text = "";
-            txtEmail.Text = "";
-            discountper.Text = "0.00";
-            totaldiscountamt.Text = "0.00";
-            remarks.Text = "";
-            oaamount.Text = "0.00";
-            oadesc.Text = "";
-            odamt.Text = "0.00";
-            oddesc.Text = "";
-            netamount.Text = "0.00";
-            sterms.Text = "";
-            rcvamt.Text = "0.00";
-            lblNetAmt.Text = "0.00";
-            lblBalAmt.Text = "0.00";
-            lblTotqty.Text = "0.00";
-            lblTotDisc.Text = "0.00";
-            lblTotal.Text = "0.00";
-            netamount.Text = "0.00";
-            lblGrandTot.Text = "0.00";
-            lblBalAmt.Text = "0.00";
-            txtdocno.Focus();
-            txtpurchaseentry.Text = "";
-            txtvedorname.Text = "";
-            setperficpurchaseret();
-            tlp_textboxes.Enabled = true;
-            btnsave.Visible = true;
-            txtpurchaseentry.BackColor = Color.FromArgb(196, 223, 223);
-            txtdocno.ReadOnly = false;
+            try
+            {
+                txtpurchaseentry.Enabled = true;
+                dgvProduct.Rows.Clear();
+                dgvProduct.Rows.Add();
+                invoiceno.Text = "";
+                txtdocno.Text = "";
+                address.Text = "";
+                contactno.Text = "";
+                txtEmail.Text = "";
+                discountper.Text = "0.00";
+                totaldiscountamt.Text = "0.00";
+                remarks.Text = "";
+                oaamount.Text = "0.00";
+                oadesc.Text = "";
+                odamt.Text = "0.00";
+                oddesc.Text = "";
+                netamount.Text = "0.00";
+                sterms.Text = "";
+                rcvamt.Text = "0.00";
+                lblNetAmt.Text = "0.00";
+                lblBalAmt.Text = "0.00";
+                lblTotqty.Text = "0.00";
+                lblTotDisc.Text = "0.00";
+                lblTotal.Text = "0.00";
+                netamount.Text = "0.00";
+                lblGrandTot.Text = "0.00";
+                lblBalAmt.Text = "0.00";
+                txtdocno.Focus();
+                txtpurchaseentry.Text = "";
+                txtvedorname.Text = "";
+                setperficpurchaseret();
+                tlp_textboxes.Enabled = true;
+                btnsave.Visible = true;
+                txtpurchaseentry.BackColor = Color.FromArgb(196, 223, 223);
+                txtdocno.ReadOnly = false;
+            }
+            
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("Purchase_Return page ClearAll", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
+    
         }
 
         private void btnmini_Click(object sender, EventArgs e)
