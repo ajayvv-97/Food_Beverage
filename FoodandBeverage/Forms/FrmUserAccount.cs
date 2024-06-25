@@ -1,30 +1,15 @@
 ﻿using BLL;
 using Domain;
-using FoodandBeverage.Classes;
-using FoodandBeverage.Forms;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
-using MetroFramework.Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
 //using AForge.Video;
 //using AForge.Video.DirectShow;
-using MetroFramework;
 using System.IO;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using ClsGeneral = FoodandBeverage.Classes.ClsGeneral;
-
 using System.Drawing.Drawing2D;
-
 using System.Runtime.InteropServices;
 using CustomMessageBox;
 
@@ -68,11 +53,11 @@ namespace FoodandBeverage.Forms.UserAccount
                 else
                 {
                     mbtnSave.Enabled = false;
-
                 }
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -94,6 +79,7 @@ namespace FoodandBeverage.Forms.UserAccount
 
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -117,6 +103,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -164,6 +151,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 return false;
             }
@@ -186,16 +174,25 @@ namespace FoodandBeverage.Forms.UserAccount
         }
         public void clear()
         {
-            txtemp.Text = "";
-            txtuname.Text = "";
-            txtpassword.Text = "";
-            txtcconpassword.Text = "";
-            FillCombo();
+            try
+            {
+
+
+                txtemp.Text = "";
+                txtuname.Text = "";
+                txtpassword.Text = "";
+                txtcconpassword.Text = "";
+                FillCombo();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                objGeneral.LogException("User Account Page  clear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
+            }
 
         }
         public void FillCombo()
         {
-
             try
             {
                 BllSearch<DmnComboBox> bllacctype = new BllSearch<DmnComboBox>();
@@ -211,6 +208,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
         }
@@ -239,6 +237,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
 
             }
@@ -281,6 +280,7 @@ namespace FoodandBeverage.Forms.UserAccount
                 }
                 catch (Exception ex)
                 {
+                    CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                     objGeneral.LogException("User Account Page  txtemp_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 }
             }
@@ -298,11 +298,10 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  txtuname_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
 
             }
-
-
         }
 
         private void txtpassword_KeyDown(object sender, KeyEventArgs e)
@@ -336,8 +335,6 @@ namespace FoodandBeverage.Forms.UserAccount
             txtpassword.PasswordChar = chkshowpassword.Checked ? '\0' : '*';
             txtcconpassword.PasswordChar = chkshowpassword.Checked ? '\0' : '*';
         }
-
-
 
         private void mbtnRefresh_Click(object sender, EventArgs e)
         {
@@ -395,19 +392,16 @@ namespace FoodandBeverage.Forms.UserAccount
                     PasswordHash = gridSource[0].PasswordHash;
                     txtpassword.Text = "";
                     txtcconpassword.Text = "";
-
-
                 }
                 else
                 {
                     CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
             }
             catch (Exception ex)
             {
                 objGeneral.LogException("User Account Page  mbtnList_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
-                // CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -435,7 +429,6 @@ namespace FoodandBeverage.Forms.UserAccount
         {
             this.WindowState = FormWindowState.Maximized;
         }
-
         private void guna2Button3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -503,6 +496,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  mbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 

@@ -80,6 +80,7 @@ namespace FoodandBeverage.Forms
         DmnSearch dmnSearch = new DmnSearch();
         public static bool CellRow = true;
         ClsGeneral clsgen = new ClsGeneral();
+
         private void btn_back_registration_Click(object sender, EventArgs e)
         {
             try
@@ -99,11 +100,11 @@ namespace FoodandBeverage.Forms
                 txtbarcode.Text = "";
                 pnl_barcode.Visible = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Purchase_Return page btn_back_registration_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
-            }       
+            }
 
         }
 
@@ -127,14 +128,13 @@ namespace FoodandBeverage.Forms
                 dgvProduct.Focus();
                 dgvProduct.CurrentCell = dgvProduct[0, 0];
             }
-             
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        clsgen.LogException("Purchase_Return page btn_grid_regitartion_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+                clsgen.LogException("Purchase_Return page btn_grid_regitartion_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
-}
+        }
         public bool MandatoryCheck()
         {
             try
@@ -162,7 +162,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Purchase_Return page MandatoryCheck", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                 return false;
             }
-         
+
         }
         public void setperficpurchaseret()
         {
@@ -180,15 +180,13 @@ namespace FoodandBeverage.Forms
                     invoiceno.Text = gridSource1[0].PurchaseReturnPrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].PurchaseReturnSrlNo;//PERRET20221001
                 }
             }
-           
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        clsgen.LogException("Purchase_Return page setperficpurchaseret", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
-          
+                clsgen.LogException("Purchase_Return page setperficpurchaseret", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
-}
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -253,7 +251,7 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.PurchaseDetailId = Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value.ToString());
 
                             dmnPurchase.TaxType = Convert.ToString(dgvProduct.Rows[i].Cells[itaxtype].Value);
-                            dmnPurchase.Tax = Convert.ToString(dgvProduct.Rows[i].Cells[itax].Value); 
+                            dmnPurchase.Tax = Convert.ToString(dgvProduct.Rows[i].Cells[itax].Value);
 
                             dmnPurchase.TaxAmount = Convert.ToDecimal(dgvProduct.Rows[i].Cells[itaxamt].Value);
                             dmnPurchase.TaxPer = Convert.ToDecimal(dgvProduct.Rows[i].Cells[itaxper].Value);
@@ -345,13 +343,12 @@ namespace FoodandBeverage.Forms
                 txtpurchaseentry.BackColor = Color.FromArgb(196, 223, 223);
                 txtdocno.ReadOnly = false;
             }
-            
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        clsgen.LogException("Purchase_Return page ClearAll", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+                clsgen.LogException("Purchase_Return page ClearAll", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-    
+
         }
 
         private void btnmini_Click(object sender, EventArgs e)
@@ -398,7 +395,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page totalcellamount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
         public void cellTaxAmount(int cellproductid, decimal amount)
@@ -430,9 +428,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page cellTaxAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-
         }
         public void cellDiscountAmount(int cellproductid)
         {
@@ -446,7 +444,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page cellDiscountAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
         }
@@ -463,7 +462,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page cellDiscountPercentage()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
         }
@@ -491,64 +491,98 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page grandTotal()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
         public void totQty()
         {
-            decimal sum = 0;
-            int n = dgvProduct.RowCount;
-            for (int i = 0; i < n; i++)
+            try
             {
-                if (dgvProduct.Rows[i].Cells[iqty].Value != "")
-                    sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[iqty].Value);
+                decimal sum = 0;
+                int n = dgvProduct.RowCount;
+                for (int i = 0; i < n; i++)
+                {
+                    if (dgvProduct.Rows[i].Cells[iqty].Value != "")
+                        sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[iqty].Value);
+                }
+                lblTotqty.Text = sum.ToString("N2");
             }
-            lblTotqty.Text = sum.ToString("N2");
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page totQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
         }
 
         public void totDisc()
         {
-            decimal sum = 0;
-            int n = dgvProduct.RowCount;
-            for (int i = 0; i < n; i++)
+            try
             {
-                sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisamt].Value);
+                decimal sum = 0;
+                int n = dgvProduct.RowCount;
+                for (int i = 0; i < n; i++)
+                {
+                    sum = sum + Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisamt].Value);
+                }
+                lblTotDisc.Text = sum.ToString("N2");
             }
-            lblTotDisc.Text = sum.ToString("N2");
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page totDisc()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
         }
         public void discountAmnt()
         {
-            if (discountper.Text != "")
+            try
             {
-                if (Convert.ToDecimal(discountper.Text) > 100)
+                if (discountper.Text != "")
                 {
-                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    discountper.Focus();
-                }
-                else
-                {
-                    if ((string.IsNullOrEmpty(lblGrandTot.Text)))
-                        lblGrandTot.Text = "0.00";
-                    decimal discountAmnt = Convert.ToDecimal(discountper.Text.Trim()) * Convert.ToDecimal(lblGrandTot.Text) / 100;
-                    totaldiscountamt.Text = discountAmnt.ToString("N2");
+                    if (Convert.ToDecimal(discountper.Text) > 100)
+                    {
+                        CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        discountper.Focus();
+                    }
+                    else
+                    {
+                        if ((string.IsNullOrEmpty(lblGrandTot.Text)))
+                            lblGrandTot.Text = "0.00";
+                        decimal discountAmnt = Convert.ToDecimal(discountper.Text.Trim()) * Convert.ToDecimal(lblGrandTot.Text) / 100;
+                        totaldiscountamt.Text = discountAmnt.ToString("N2");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page discountAmnt()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
+
         }
         public void discountPer()
         {
-            if (totaldiscountamt.Text != "" && lblGrandTot.Text != "" && Convert.ToDecimal(lblGrandTot.Text) != 0)
+            try
             {
-                if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
+                if (totaldiscountamt.Text != "" && lblGrandTot.Text != "" && Convert.ToDecimal(lblGrandTot.Text) != 0)
                 {
-                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    totaldiscountamt.Focus();
+                    if (Convert.ToDecimal(totaldiscountamt.Text) > Convert.ToDecimal(lblGrandTot.Text))
+                    {
+                        CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        totaldiscountamt.Focus();
+                    }
+                    else
+                    {
+                        decimal discountPer = (Convert.ToDecimal(totaldiscountamt.Text) / Convert.ToDecimal(lblGrandTot.Text) * 100);
+                        discountper.Text = discountPer.ToString("N2");
+                    }
                 }
-                else
-                {
-                    decimal discountPer = (Convert.ToDecimal(totaldiscountamt.Text) / Convert.ToDecimal(lblGrandTot.Text) * 100);
-                    discountper.Text = discountPer.ToString("N2");
-                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page discountPer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
@@ -571,9 +605,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page netAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-
         }
         #endregion
 
@@ -589,13 +623,22 @@ namespace FoodandBeverage.Forms
 
         private void txtpurchaseentry_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F8)
-                LedgerPopup();
-
-            if (e.KeyData == Keys.Enter)
+            try
             {
-                dgvProduct.Focus();
+                if (e.KeyCode == Keys.F8)
+                    LedgerPopup();
+
+                if (e.KeyData == Keys.Enter)
+                {
+                    dgvProduct.Focus();
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page txtpurchaseentry_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
+
         }
 
         public void LedgerPopup()
@@ -633,7 +676,7 @@ namespace FoodandBeverage.Forms
                 {
                     ClearAll();
                     dgvProduct.Focus();
-                    purchaseID = Convert.ToString(returnValue); 
+                    purchaseID = Convert.ToString(returnValue);
                     BllSearch<DmnPurchaseMaster> bllSearch = new BllSearch<DmnPurchaseMaster>();
                     DmnSearch objSearch = new DmnSearch();
                     BllSearch<DmnGridFields> bllSearchcount = new BllSearch<DmnGridFields>();
@@ -676,10 +719,11 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error");
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page LedgerPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
-        
+
         public void CheckQty_popclclick(int rowid)
         {
             try
@@ -703,8 +747,6 @@ namespace FoodandBeverage.Forms
                     dmnSearch.WhereNdGroupBy = " Where  a.PurchaseMasterId='" + purchaseID + "'";
                     dmnSearch.OrderBy = " Order By a.EntryNo ASC ";
                     var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);//purchase orignal qty
-
-
 
                     dmnSearch1.Select = " SUM(prd.Quantity) as Field1,prd.ItemId as Field2";
                     dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId";
@@ -770,7 +812,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page CheckQty_popclclick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
         }
@@ -833,8 +876,6 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[cellproductid].Cells[iname].Style.ForeColor = Color.Black;
                         dgvProduct.Focus();
                     }
-
-
                 }
                 if (temp == 0)
                 {
@@ -866,7 +907,7 @@ namespace FoodandBeverage.Forms
                     dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = gridSource[0].TaxAmount;
                     dgvProduct.Rows[cellproductid].Cells[inetamount].Value = gridSource[0].NetAmount;
                     dgvProduct.Rows[cellproductid].Cells[itax].Value = gridSource[0].taxname;
-                    dgvProduct.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType; 
+                    dgvProduct.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType;
                     dgvProduct.Rows[cellproductid].Cells[israte].Value = gridSource[0].srate;
                     dgvProduct.Rows[cellproductid].Cells[imrp].Value = gridSource[0].MRP;
 
@@ -910,53 +951,64 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvItemPop__CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
+
         }
 
         private void FrmPurchaseReturn_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Purchase_Return)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Purchase_Return)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+                txtdocno.Focus();
+                ClearAll();
+                tlp_textboxes.Visible = true;
+                Control controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                tlp_grid_registartion.Controls.Remove(controlToRemove);
+                tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                tlp_textboxes.Dock = DockStyle.Fill;
+                dgvProduct.BorderStyle = BorderStyle.None;
+                dgvProduct.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvProduct.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvProduct.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvProduct.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvProduct.BackgroundColor = Color.White;
+
+                dgvProduct.EnableHeadersVisualStyles = false;
+                dgvProduct.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                //second grid
+                dgvItemPop.BorderStyle = BorderStyle.None;
+                dgvItemPop.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvItemPop.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvItemPop.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvItemPop.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvItemPop.BackgroundColor = Color.White;
+
+                dgvItemPop.EnableHeadersVisualStyles = false;
+                dgvItemPop.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                setperficpurchaseret();
             }
-            txtdocno.Focus();
-            ClearAll();
-            tlp_textboxes.Visible = true;
-            Control controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
-            tlp_grid_registartion.Controls.Remove(controlToRemove);
-            tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
-            tlp_textboxes.Dock = DockStyle.Fill;
-            dgvProduct.BorderStyle = BorderStyle.None;
-            dgvProduct.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgvProduct.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvProduct.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgvProduct.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgvProduct.BackgroundColor = Color.White;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page FrmPurchaseReturn_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
 
-            dgvProduct.EnableHeadersVisualStyles = false;
-            dgvProduct.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvProduct.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgvProduct.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-            //second grid
-            dgvItemPop.BorderStyle = BorderStyle.None;
-            dgvItemPop.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgvItemPop.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvItemPop.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgvItemPop.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgvItemPop.BackgroundColor = Color.White;
-
-            dgvItemPop.EnableHeadersVisualStyles = false;
-            dgvItemPop.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvItemPop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgvItemPop.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-            setperficpurchaseret();
         }
 
         #region TexBox Round function
@@ -965,7 +1017,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] {invoiceno,txtdocno,address,contactno,txtEmail,odamt,oddesc,oaamount,oadesc,discountper,totaldiscountamt,sterms,remarks,netamount,rcvamt,txtpurchaseentry,txtvedorname})
+                foreach (TextBox textBox in new TextBox[] { invoiceno, txtdocno, address, contactno, txtEmail, odamt, oddesc, oaamount, oadesc, discountper, totaldiscountamt, sterms, remarks, netamount, rcvamt, txtpurchaseentry, txtvedorname })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -974,25 +1026,34 @@ namespace FoodandBeverage.Forms
                 }
                 rcvamt.Font = new Font(rcvamt.Font.FontFamily, 14);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
         }
 
         #endregion
@@ -1072,7 +1133,11 @@ namespace FoodandBeverage.Forms
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvItemPop_CellFormatting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+            }
+
         }
         private void dgvProduct_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1128,7 +1193,7 @@ namespace FoodandBeverage.Forms
 
                             dmnSearch1.Select = " SUM(prd.Quantity) as field1,prd.itemid as field2";
                             dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId "
-                                + "LEFT JOIN tblitem d ON d.itemid = prd.ItemId";                               
+                                + "LEFT JOIN tblitem d ON d.itemid = prd.ItemId";
                             dmnSearch1.WhereNdGroupBy = "where prm.PurchaseMasterId='" + purchaseID + "'";
                             dmnSearch1.OrderBy = "GROUP BY prd.itemid";
                             var gridSource1 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
@@ -1229,11 +1294,13 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows.Add(1);
                     }
 
-                } 
+                }
 
             }
             catch (Exception ex)
-            { 
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
@@ -1346,7 +1413,6 @@ namespace FoodandBeverage.Forms
                     }
 
                 }
-
                 if (e.ColumnIndex == idisper || e.ColumnIndex == idisamt)
                 {
                     if (dgvProduct.Rows[e.RowIndex].Cells[idisper].Value != null && dgvProduct.Rows[e.RowIndex].Cells[iitemId].Value == null)
@@ -1359,14 +1425,15 @@ namespace FoodandBeverage.Forms
                     }
                     totalcellamount(e.RowIndex);
                 }
-
                 string tablename = null;
-                t = false;            
+                t = false;
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
+
         }
 
         private void dgvProduct_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -1399,7 +1466,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-               if (dgvProduct.Rows[e.RowIndex].Cells[iitemId].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemId].Value != null)
+                if (dgvProduct.Rows[e.RowIndex].Cells[iitemId].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemId].Value != null)
                 {
                     if (e.ColumnIndex == iqty)
                     {
@@ -1446,7 +1513,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_CellValidating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
@@ -1465,20 +1533,31 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_CurrentCellChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
+
         }
 
         private void dgvProduct_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dgvProduct.CurrentCell.ColumnIndex == 4 || dgvProduct.CurrentCell.ColumnIndex == 7 ||
-               dgvProduct.CurrentCell.ColumnIndex == 8)
+            try
             {
-                e.Control.KeyPress -= new KeyPressEventHandler(dgvProduct_KeyPress);
-                System.Windows.Forms.TextBox tb = e.Control as System.Windows.Forms.TextBox;
-                if (tb != null)
+                if (dgvProduct.CurrentCell.ColumnIndex == 4 || dgvProduct.CurrentCell.ColumnIndex == 7 ||
+             dgvProduct.CurrentCell.ColumnIndex == 8)
                 {
-                    tb.KeyPress += new KeyPressEventHandler(dgvProduct_KeyPress);
+                    e.Control.KeyPress -= new KeyPressEventHandler(dgvProduct_KeyPress);
+                    System.Windows.Forms.TextBox tb = e.Control as System.Windows.Forms.TextBox;
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(dgvProduct_KeyPress);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_EditingControlShowing()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
         private void dgvProduct_KeyPress(object sender, KeyPressEventArgs e)
@@ -1548,41 +1627,58 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_RowValidating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
 
         private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            try
             {
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = true;
-                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                txtbarcode.Focus();
+                if (e.ColumnIndex == 1)
+                {
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = true;
+                    pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                    txtbarcode.Focus();
 
+                }
+                else
+                {
+                    txtbarcode.Text = "";
+                    pnl_barcode.Visible = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = false;
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page dgvProduct_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
+
         }
 
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                pnl_barcode.Visible = false;
-                dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
-                txtbarcode.Text = "";
-                int rowno = dgvProduct.CurrentCell.RowIndex;
-                UpcScanner(rowno);
+                if (e.KeyCode == Keys.Enter)
+                {
+                    pnl_barcode.Visible = false;
+                    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
+                    txtbarcode.Text = "";
+                    int rowno = dgvProduct.CurrentCell.RowIndex;
+                    UpcScanner(rowno);
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page txtbarcode_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
         }
         public void UpcScanner(int gridrowno)
         {
-
             try
             {
                 //string purchaseID;
@@ -1614,7 +1710,6 @@ namespace FoodandBeverage.Forms
                 dmnSearch.WhereNdGroupBy = "where a.PurchaseMasterId='" + purchaseID + "'" + " and b.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'"; ;
                 dmnSearch.OrderBy = " Order By a.EntryNo ASC ";
                 var gridSource1 = bllSearch1.GetSearchData("prdSearch", dmnSearch);
-
 
                 //total count  qty ( multiple purchasereturn entries done)
                 dmnSearch1.Select = " SUM(prd.Quantity) as field1,itemid as field2";
@@ -1847,11 +1942,11 @@ namespace FoodandBeverage.Forms
                 pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
                 txtbarcode.Focus();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page UpcScanner()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-           
         }
         public void CheckQty(int rowid)
         {
@@ -1935,7 +2030,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page CheckQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
 
         }
@@ -2079,13 +2175,17 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
+
+
         }
 
         private void txtdocno_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') 
-                e.Handled = true; 
+            if (e.KeyChar == '\r')
+                e.Handled = true;
         }
         #region Grid Flow Fuction
         private int GetNextVisibleColumn(int currentColumnIndex)
@@ -2103,9 +2203,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page GetNextVisibleColumn()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                 return -1;
             }
         }
+
         private int GetNextVisibleRow(int currentRowIndex)
         {
             try
@@ -2121,10 +2224,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page GetNextVisibleRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                 return -1;
             }
-
         }
+
         private int GetFirstVisibleColumn()
         {
             try
@@ -2140,10 +2245,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page GetFirstVisibleColumn()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                 return -1;
             }
-
         }
+
         #endregion
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -2183,15 +2290,16 @@ namespace FoodandBeverage.Forms
 
                         catch (Exception ex)
                         {
-
+                            MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase_Return page if (dgvProduct.Focused)()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
                         }
                     }
                     else
                         Movefocus(1);
-                    return true; 
+                    return true;
                 case Keys.Enter:
                     if (dgvProduct.Focused)
-                    {        
+                    {
                         try
                         {
                             if (dgvProduct.Focused)
@@ -2223,6 +2331,8 @@ namespace FoodandBeverage.Forms
 
                         catch (Exception ex)
                         {
+                            MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase_Return page if (dgvProduct.Focused)()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
 
                         }
                     }
@@ -2236,7 +2346,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                         Movefocus(0);
-                    return true; 
+                    return true;
                 case Keys.Escape:
                     if (tlp_grid_registartion.Visible)
                     {
@@ -2267,62 +2377,69 @@ namespace FoodandBeverage.Forms
         }
         public void Movefocus(int keytype)
         {
-            //int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
-            //int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
-            if (txtdocno.Focused)
-                txtpurchaseentry.Focus();
-            else if (txtpurchaseentry.Focused)
-                discountper.Focus();
-            else if (discountper.Focused)
-                totaldiscountamt.Focus();
-            else if (totaldiscountamt.Focused)
-                remarks.Focus();
-            else if (remarks.Focused)
-                oaamount.Focus();
-            else if (oaamount.Focused)
-                oadesc.Focus();
-            else if (oadesc.Focused)
-                odamt.Focus();
-            else if (odamt.Focused)
-                oddesc.Focus();
-            else if (oadesc.Focused)
-                oddesc.Focus();
-            else if (oddesc.Focused)
-                sterms.Focus();
-            else if (sterms.Focused)
-                rcvamt.Focus();
-            else if (rcvamt.Focused)
-                btnsave.Focus();
-            else if (keytype == 1)
+            try
             {
-                if (btnsave.Focused)
-                    btnSearch.Focus();
-                else if (btnSearch.Focused)
-                    btnrefresh.Focus();
-                else if (btnrefresh.Focused)
-                    btnclose.Focus();
-                else if (btnclose.Focused)
-                    btn_grid_regitartion.Focus();
+                //int currentRowIndex = dgvProduct.CurrentCell.RowIndex;
+                //int currentColumnIndex = dgvProduct.CurrentCell.ColumnIndex;
+                if (txtdocno.Focused)
+                    txtpurchaseentry.Focus();
+                else if (txtpurchaseentry.Focused)
+                    discountper.Focus();
+                else if (discountper.Focused)
+                    totaldiscountamt.Focus();
+                else if (totaldiscountamt.Focused)
+                    remarks.Focus();
+                else if (remarks.Focused)
+                    oaamount.Focus();
+                else if (oaamount.Focused)
+                    oadesc.Focus();
+                else if (oadesc.Focused)
+                    odamt.Focus();
+                else if (odamt.Focused)
+                    oddesc.Focus();
+                else if (oadesc.Focused)
+                    oddesc.Focus();
+                else if (oddesc.Focused)
+                    sterms.Focus();
+                else if (sterms.Focused)
+                    rcvamt.Focus();
+                else if (rcvamt.Focused)
+                    btnsave.Focus();
+                else if (keytype == 1)
+                {
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
+                    else if (btnclose.Focused)
+                        btn_grid_regitartion.Focus();
+                }
+                else if (keytype == 0)
+                {
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
+                    else if (btn_grid_regitartion.Focused)
+                        btn_grid_regitartion.PerformClick();
+                }
+                // if (keytype == )
+                //{
+                //    if (currentColumnIndex == imrp && currentRowIndex == dgvProduct.RowCount - 1)
+                //        discountper.Focus();
+                //}
             }
-            else if (keytype == 0)
+            catch (Exception ex)
             {
-                if (btnsave.Focused)
-                    btnsave.PerformClick();
-                else if (btnrefresh.Focused)
-                    btnrefresh.PerformClick();
-                else if (btnSearch.Focused)
-                    btnSearch.PerformClick();
-                else if (btnclose.Focused)
-                    btnclose.PerformClick();
-                else if (btn_grid_regitartion.Focused)
-                    btn_grid_regitartion.PerformClick();
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Purchase_Return page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
             }
-            // if (keytype == )
-            //{
-            //    if (currentColumnIndex == imrp && currentRowIndex == dgvProduct.RowCount - 1)
-            //        discountper.Focus();
-            //}
-
         }
 
         private void FrmPurchaseReturn_Resize(object sender, EventArgs e)

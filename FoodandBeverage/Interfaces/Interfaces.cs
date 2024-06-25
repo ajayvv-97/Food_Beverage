@@ -316,6 +316,8 @@ namespace FoodandBeverage.Interfaces
         company = 27,
         Keypad = 28,
         DashboardChart = 29,
+        TableView = 30,
+        Report = 31,
     };
 
 }

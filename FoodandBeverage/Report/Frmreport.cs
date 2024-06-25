@@ -1,8 +1,10 @@
 ﻿using BLL;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using CustomMessageBox;
 using Domain;
 using FastMember;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
 using FoodandBeverage.Interfaces;
 using System;
@@ -32,6 +34,7 @@ namespace FoodandBeverage.Report
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
         }
+
         #region report declaration 
         string Dtformat = "dd-MM-yyyy";
         string Timeformat = "HH:mm:ss";
@@ -42,27 +45,37 @@ namespace FoodandBeverage.Report
         public bool ColorChk = false;
         bool FlagExcel = false;
         bool FlagColor = false;
+
+        ClsGeneral clsgen = new ClsGeneral();
         #endregion
+
         private void Frmreport_Load(object sender, EventArgs e)
         {
-            combofill_report();
-            Fill_combo_finyear();
+            try
+            {
+                combofill_report();
+                Fill_combo_finyear();
 
-            dtpfrom.Dock = DockStyle.Fill;
-            dtpto.Dock = DockStyle.Fill;
-            label6.Dock = DockStyle.Fill;
-            label5.Dock = DockStyle.Fill;
-            dtp_from_time.Dock = DockStyle.Fill;
-            dtp_to_time.Dock = DockStyle.Fill;
+                dtpfrom.Dock = DockStyle.Fill;
+                dtpto.Dock = DockStyle.Fill;
+                label6.Dock = DockStyle.Fill;
+                label5.Dock = DockStyle.Fill;
+                dtp_from_time.Dock = DockStyle.Fill;
+                dtp_to_time.Dock = DockStyle.Fill;
 
-            tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
-            tabDateTimePanel.Controls.Add(dtpto, 4, 0);
+                tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
+                tabDateTimePanel.Controls.Add(dtpto, 4, 0);
 
-            tabDateTimePanel.Controls.Add(chk_time, 0, 0);
-            tabDateTimePanel.Controls.Add(label6, 1, 0);
-            tabDateTimePanel.Controls.Add(label5, 3, 0);
-
-
+                tabDateTimePanel.Controls.Add(chk_time, 0, 0);
+                tabDateTimePanel.Controls.Add(label6, 1, 0);
+                tabDateTimePanel.Controls.Add(label5, 3, 0);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  Frmreport_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+            }
+              
         }
         public void Fill_combo_finyear()
         {
@@ -93,8 +106,10 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  Fill_combo_finyear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
+        
 
         }
         private void chk_time_CheckedChanged(object sender, EventArgs e)
@@ -198,10 +213,10 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  Checktime_Date()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
-
-
+    
         }
         public void clear_DateTimeDesign()
         {
@@ -223,7 +238,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  clear_DateTimeDesign()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
         }
         private void btnserach_Click(object sender, EventArgs e)
@@ -242,7 +258,6 @@ namespace FoodandBeverage.Report
                     fTime = Convert.ToDateTime(dtpfrom.Value.ToString(Dtformat) + " 00:00:00");
                     tTime = Convert.ToDateTime(t + " 23:59:59");
                 }
-
                 switch (Convert.ToInt32(cmbreport.SelectedValue))
                 {
                     //case 2:
@@ -380,11 +395,11 @@ namespace FoodandBeverage.Report
                         //    s_FillReport_Inventory(Convert.ToInt32(cmbreport.SelectedValue));
                         //    break;
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnserach_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
         }
         public void s_FillReport_Reservation_Details()
@@ -513,7 +528,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Reservation_Details()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -612,7 +628,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_TableOccupancyReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -676,13 +693,15 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Reservation()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
 
         public void s_FillReport_MidasCard_PaymetReport()
         {
+
             try
             {
                 ReportDocument reportDocument = new ReportDocument();
@@ -736,7 +755,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_MidasCard_PaymetReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -744,6 +764,7 @@ namespace FoodandBeverage.Report
         {
             try
             {
+
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
@@ -792,7 +813,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_saleReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -852,7 +874,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_saleDetailsReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -875,7 +898,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnpickcolor_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -894,7 +918,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnWeekEnd_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -911,7 +936,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnWeekly_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -927,7 +953,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnMonthly_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -943,7 +970,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  btnYealy_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -1013,7 +1041,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_supplierPurchase_return()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -1075,7 +1104,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Purchase_Return()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -1237,7 +1267,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_AnuvalGameRevenue()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
 
@@ -1247,6 +1278,7 @@ namespace FoodandBeverage.Report
         {
             try
             {
+
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
@@ -1293,7 +1325,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Stockusage()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -1353,7 +1386,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Expence()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
 
@@ -1434,7 +1468,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Reorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -1502,7 +1537,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_supplierPurchase()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
@@ -1561,21 +1597,31 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Purchase()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }
         private List<DmnHRegistration> Get_CompantDetails()
         {
-
-            BllSearch<DmnHRegistration> bllSearchcompany = new BllSearch<DmnHRegistration>();
-            DmnSearch dmnSearchcompany = new DmnSearch();
-            dmnSearchcompany.Select = "Name,Email,Phone,Address,city,GSTNO";
-            dmnSearchcompany.Table = "tblHotelRegistration";
-            dmnSearchcompany.WhereNdGroupBy = " where  BranchId = " + BranchId;
-            var Addressdata = bllSearchcompany.GetSearchData("prdSearch", dmnSearchcompany);
-            return Addressdata;
+            try
+            {
+                BllSearch<DmnHRegistration> bllSearchcompany = new BllSearch<DmnHRegistration>();
+                DmnSearch dmnSearchcompany = new DmnSearch();
+                dmnSearchcompany.Select = "Name,Email,Phone,Address,city,GSTNO";
+                dmnSearchcompany.Table = "tblHotelRegistration";
+                dmnSearchcompany.WhereNdGroupBy = " where BranchId = " + BranchId;
+                var Addressdata = bllSearchcompany.GetSearchData("prdSearch", dmnSearchcompany);
+                return Addressdata;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page Get_CompantDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+                return new List<DmnHRegistration>(); 
+            }
         }
+
         private void FindAndSetColor(ReportDocument report, string objectName, Color color)
         {
             try
@@ -1595,7 +1641,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page FindAndSetColor()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -1723,7 +1770,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page cmbreport_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
 
@@ -1804,7 +1852,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Inventory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
         }
@@ -1887,7 +1936,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Offerlist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
 
@@ -1951,7 +2001,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_SlowmovingItems()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
 
@@ -2015,7 +2066,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_PopularItems()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
 
@@ -2077,7 +2129,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_EmployeeList()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
 
@@ -2135,7 +2188,8 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  combofill_report()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
 
 

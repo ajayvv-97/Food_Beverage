@@ -771,6 +771,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+
                 return false;
             }
         }
@@ -2173,27 +2174,43 @@ namespace FoodandBeverage.Forms
 
         private void txtemail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (txtemail.Text != "")
+            try
             {
-                ClsGeneral cls = new ClsGeneral();
-                if (!cls.CheckEmailId(this, txtemail.Text))
+                if (txtemail.Text != "")
                 {
-                    e.Cancel = true;
+                    ClsGeneral cls = new ClsGeneral();
+                    if (!cls.CheckEmailId(this, txtemail.Text))
+                    {
+                        e.Cancel = true;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("Employee Page txtemail_Validating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
             }
         }
 
         private void txtphone_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtphone.Text))
+            try
             {
-                bool isValidPhoneNumber = ValidatePhoneNumber(txtphone.Text);
-                if (!isValidPhoneNumber)
+                if (!string.IsNullOrEmpty(txtphone.Text))
                 {
-                    //CMessageBox.Show("The phone number entered is not valid. Please enter a valid phone number.", "Invalid Phone Number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtphone.Focus();
-                    e.Cancel = true;
+                    bool isValidPhoneNumber = ValidatePhoneNumber(txtphone.Text);
+                    if (!isValidPhoneNumber)
+                    {
+                        //CMessageBox.Show("The phone number entered is not valid. Please enter a valid phone number.", "Invalid Phone Number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtphone.Focus();
+                        e.Cancel = true;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("Employee Page txtphone_Validating()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
             }
         }
         private void txtICardNo1_DoubleClick(object sender, EventArgs e)

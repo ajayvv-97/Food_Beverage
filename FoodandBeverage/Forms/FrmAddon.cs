@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
@@ -14,6 +15,9 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmAddon : Form
     {
+
+        ClsGeneral clsgen = new ClsGeneral();
+
         #region Declaration Grid
         public static int aslno = 0;
         public static int aidno = 1;
@@ -29,34 +33,42 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
-         private void FrmAddon_Load(object sender, EventArgs e)
+        private void FrmAddon_Load(object sender, EventArgs e)
         {
-
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Addon)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Addon)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+                txtcaption.Focus();
+
+                combofill();
+                FillAddon();
+                textb_shape();
+
+                dgv_addon.BorderStyle = BorderStyle.None;
+                dgv_addon.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_addon.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_addon.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_addon.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_addon.BackgroundColor = Color.White;
+
+                dgv_addon.EnableHeadersVisualStyles = false;
+                dgv_addon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_addon.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_addon.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             }
-            txtcaption.Focus();
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page FrmAddon_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
 
-            combofill();
-            FillAddon();
-            textb_shape();
-
-            dgv_addon.BorderStyle = BorderStyle.None;
-            dgv_addon.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_addon.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_addon.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_addon.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_addon.BackgroundColor = Color.White;
-
-            dgv_addon.EnableHeadersVisualStyles = false;
-            dgv_addon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_addon.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_addon.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            }
         }
 
         private void btn_categ_Click(object sender, EventArgs e)
@@ -71,16 +83,26 @@ namespace FoodandBeverage.Forms
         }
         public bool Mandatory()
         {
-            if (txtcategoryname.Text == "" || txtcategoryname.Text == null)
+            try
             {
-                CMessageBox.Show("Please Enter Addon Category ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtcategoryname.Focus();
+                if (txtcategoryname.Text == "" || txtcategoryname.Text == null)
+                {
+                    CMessageBox.Show("Please Enter Addon Category ", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtcategoryname.Focus();
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page Mandatory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
                 return false;
             }
-            return true;
         }
         public void combofill()
         {
+
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
@@ -92,17 +114,19 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 cmb_category.DataSource = gridSource;
                 cmb_category.ValueMember = "Id";
-                cmb_category.DisplayMember = "Value";         
+                cmb_category.DisplayMember = "Value";
 
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page combofill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
 
         private void btnSavecate_Click(object sender, EventArgs e)
         {
+
             try
             {
                 if (Mandatory())
@@ -139,12 +163,15 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page btnSavecate_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
 
             }
         }
         #region TexBox Round function
         public void textb_shape()
         {
+
             try
             {
                 // Apply rounded corners to text boxes based on the list
@@ -156,25 +183,36 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
+
+            }
+
         }
 
         #endregion
@@ -185,28 +223,39 @@ namespace FoodandBeverage.Forms
         }
         public bool MandatoryCheck()
         {
-            if (string.IsNullOrWhiteSpace(txtprice.Text))
-                txtprice.Text = "0";
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtprice.Text))
+                    txtprice.Text = "0";
 
-            if (txtcaption.Text == "" || txtcaption.Text == null)
-            {
-                CMessageBox.Show("Please Enter Caption", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtcaption.Focus();
-                return false;
+                if (txtcaption.Text == "" || txtcaption.Text == null)
+                {
+                    CMessageBox.Show("Please Enter Caption", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtcaption.Focus();
+                    return false;
+                }
+                else if (Convert.ToDecimal(txtprice.Text) == 0)
+                {
+                    CMessageBox.Show("Please Enter Table Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtprice.Focus();
+                    return false;
+                }
+                else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
+                {
+                    CMessageBox.Show("Please Select Addon category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmb_category.Focus();
+                    return false;
+                }
+                return true;
             }
-            else if (Convert.ToDecimal(txtprice.Text) == 0)
+            catch (Exception ex)
             {
-                CMessageBox.Show("Please Enter Table Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtprice.Focus();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
                 return false;
+
             }
-            else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
-            {
-                CMessageBox.Show("Please Select Addon category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmb_category.Focus();
-                return false;
-            }
-            return true;
+
         }
         private void btnsave_Click(object sender, EventArgs e)
         {
@@ -248,7 +297,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
         public void FillAddon()
@@ -281,19 +331,29 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page FillAddon()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
 
         }
         public void clearall()
         {
-            txtaid.Text = "";
-            txtcaption.Text = "";
-            txtprice.Text = "";
-            txtdesc.Text = "";
-            cmb_category.SelectedIndex = 0;
-            btn_del_addon.Visible = false;
-            combofill();
+            try
+            {
+                txtaid.Text = "";
+                txtcaption.Text = "";
+                txtprice.Text = "";
+                txtdesc.Text = "";
+                cmb_category.SelectedIndex = 0;
+                btn_del_addon.Visible = false;
+                combofill();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page clearall()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
+            }
+
 
         }
 
@@ -304,25 +364,40 @@ namespace FoodandBeverage.Forms
 
         private void txtprice_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key
+            try
             {
-                e.Handled = true; // Suppress the Enter key
-            }
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-            // only allow one decimal point
-            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }
+                if (e.KeyChar == '\r') // Check for Enter key
+                {
+                    e.Handled = true; // Suppress the Enter key
+                }
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                {
+                    e.Handled = true;
+                }
+                // only allow one decimal point
+                if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+                {
+                    e.Handled = true;
+                }
 
-            string input = (sender as TextBox).Text;
-            if (e.KeyChar == '.')
-            {
-                if ((sender as TextBox).MaxLength == 4)
-                    (sender as TextBox).MaxLength = 7;
+                string input = (sender as TextBox).Text;
+                if (e.KeyChar == '.')
+                {
+                    if ((sender as TextBox).MaxLength == 4)
+                        (sender as TextBox).MaxLength = 7;
+                    else
+                    {
+                        if (input.Contains('.'))
+                        {
+                            (sender as TextBox).MaxLength = 7;
+                        }
+                        else
+                        {
+                            (sender as TextBox).MaxLength = 4;
+                        }
+                    }
+
+                }
                 else
                 {
                     if (input.Contains('.'))
@@ -334,18 +409,11 @@ namespace FoodandBeverage.Forms
                         (sender as TextBox).MaxLength = 4;
                     }
                 }
-
             }
-            else
+            catch (Exception ex)
             {
-                if (input.Contains('.'))
-                {
-                    (sender as TextBox).MaxLength = 7;
-                }
-                else
-                {
-                    (sender as TextBox).MaxLength = 4;
-                }
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page txtprice_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
 
@@ -355,10 +423,10 @@ namespace FoodandBeverage.Forms
             {
                 case Keys.Tab:
                     Movefocus(1);
-                    return true; 
+                    return true;
                 case Keys.Enter:
                     Movefocus(0);
-                    return true; 
+                    return true;
                 case Keys.Escape:
                     FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                     _instancedash.Closeform();
@@ -370,60 +438,77 @@ namespace FoodandBeverage.Forms
         }
         public void Movefocus(int keytype)
         {
-            //txtcaption,txtprice,cmb_category,txtdesc
-            if (txtcaption.Focused)
+            try
             {
-                txtprice.Focus();
-            }
-            else if (txtprice.Focused)
-            {
-                cmb_category.Focus();
-            }
-            else if (cmb_category.Focused)
-            {
-                txtdesc.Focus();
-            }
-            else if (txtdesc.Focused)
-            {
-                if (btn_del_addon.Visible)
-                    btn_del_addon.Focus();
-                else
-                    btnsave.Focus();
-            }
-            else if (btn_del_addon.Focused)
-            {
-                if (keytype == 1)
-                    btnsave.Focus();
+                //txtcaption,txtprice,cmb_category,txtdesc
+                if (txtcaption.Focused)
+                {
+                    txtprice.Focus();
+                }
+                else if (txtprice.Focused)
+                {
+                    cmb_category.Focus();
+                }
+                else if (cmb_category.Focused)
+                {
+                    txtdesc.Focus();
+                }
+                else if (txtdesc.Focused)
+                {
+                    if (btn_del_addon.Visible)
+                        btn_del_addon.Focus();
+                    else
+                        btnsave.Focus();
+                }
+                else if (btn_del_addon.Focused)
+                {
+                    if (keytype == 1)
+                        btnsave.Focus();
+                    else if (keytype == 0)
+                        btn_del_addon.PerformClick();
+                }
+                else if (keytype == 1)
+                {
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
+                }
                 else if (keytype == 0)
-                    btn_del_addon.PerformClick();
+                {
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
+                }
+
             }
-            else if (keytype == 1)
+            catch (Exception ex)
             {
-                if (btnsave.Focused)
-                    btnSearch.Focus();
-                else if (btnSearch.Focused)
-                    btnrefresh.Focus();
-                else if (btnrefresh.Focused)
-                    btnclose.Focus();
-            }
-            else if (keytype == 0)
-            {
-                if (btnsave.Focused)
-                    btnsave.PerformClick();
-                else if (btnrefresh.Focused)
-                    btnrefresh.PerformClick();
-                else if (btnSearch.Focused)
-                    btnSearch.PerformClick();
-                else if (btnclose.Focused)
-                    btnclose.PerformClick();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
 
         }
 
         private void dgv_addon_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int aid = Convert.ToInt32(dgv_addon.Rows[e.RowIndex].Cells[aidno].Value);
-            Filldetails(aid);
+            try
+            {
+                int aid = Convert.ToInt32(dgv_addon.Rows[e.RowIndex].Cells[aidno].Value);
+                Filldetails(aid);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page dgv_addon_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
+            }
         }
         public void Filldetails(int aid)
         {
@@ -448,7 +533,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page Filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
 
@@ -507,9 +593,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
+            }
 
-            }          
-            
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
@@ -520,12 +607,20 @@ namespace FoodandBeverage.Forms
 
         private void btn_del_addon_Click(object sender, EventArgs e)
         {
-            var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            try
             {
-                chb_active.Checked = false;
-                btnsave.PerformClick();
-                FillAddon();
+                var result = CMessageBox.Show("Do You want Delete Record", "Confirm The Action", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    chb_active.Checked = false;
+                    btnsave.PerformClick();
+                    FillAddon();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page btn_del_addon_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Addon));
             }
         }
 

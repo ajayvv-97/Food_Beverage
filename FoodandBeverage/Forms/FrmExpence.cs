@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        ClsGeneral clsgen = new ClsGeneral();
+
         #region declaration
         public static int Eslno = 0;
         public static int Ereasonno = 1;
@@ -35,32 +38,41 @@ namespace FoodandBeverage.Forms
 
         private void FrmExpence_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instancedash.ChkWritePermission(Convert.ToInt32(formsenum.Expence)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instancedash.ChkWritePermission(Convert.ToInt32(formsenum.Expence)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+                dgv_expense.Rows.Add(1);
+                rearrange_slno();
+                dgv_expense.BorderStyle = BorderStyle.None;
+                dgv_expense.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_expense.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_expense.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_expense.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_expense.BackgroundColor = Color.White;
+
+                dgv_expense.EnableHeadersVisualStyles = false;
+                dgv_expense.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_expense.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_expense.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                combofill();
+                FillExpence();
             }
-            dgv_expense.Rows.Add(1);
-            rearrange_slno();
-            dgv_expense.BorderStyle = BorderStyle.None;
-            dgv_expense.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_expense.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_expense.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_expense.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_expense.BackgroundColor = Color.White;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page cmbIgstPrcnt_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
-            dgv_expense.EnableHeadersVisualStyles = false;
-            dgv_expense.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_expense.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_expense.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            combofill();
-            FillExpence();
-
+            }       
         }
         public void FillExpence()
+          
         {
             try
             {              
@@ -96,8 +108,11 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                  CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        clsgen.LogException("Expence page FillExpence()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
             }
+            
         }
 
         private void btnclose_Click(object sender, EventArgs e)
@@ -117,50 +132,72 @@ namespace FoodandBeverage.Forms
         }
         private void AdjustSearchBoxPanelSize()
         {
-            int panelWidthPercentage = 80; 
-            int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-            int panelHeight = pnl_serachBox.PreferredSize.Height;
-            pnl_serachBox.Size = new Size(panelWidth, 178);
+
+            try
+            {
+                int panelWidthPercentage = 80;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = pnl_serachBox.PreferredSize.Height;
+                pnl_serachBox.Size = new Size(panelWidth, 178);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page AdjustSearchBoxPanelSize()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+
+            }
+            
         }
         private void btnsave_Click(object sender, EventArgs e)
         {
-            if (VendorMandatoryCheck())
+            try
             {
-                Dmnexpence dmnexpencer = new Dmnexpence();
-                Dmnexpence InsertStatus = new Dmnexpence();
-                BllExpence bllExpence = new BllExpence();
-                //if (string.IsNullOrWhiteSpace(txtvid.Text))
-                //    txtvid.Text = "0";
-                for (int i = 0; i < dgv_expense.Rows.Count; i++)
+                if (VendorMandatoryCheck())
                 {
-                    if (dgv_expense.Rows[i].Cells[Ereasonno].Value != null && Convert.ToInt32(dgv_expense.Rows[i].Cells[Ereasonno].Value) > 0)
+                    Dmnexpence dmnexpencer = new Dmnexpence();
+                    Dmnexpence InsertStatus = new Dmnexpence();
+                    BllExpence bllExpence = new BllExpence();
+                    //if (string.IsNullOrWhiteSpace(txtvid.Text))
+                    //    txtvid.Text = "0";
+                    for (int i = 0; i < dgv_expense.Rows.Count; i++)
                     {
-                        dmnexpencer.Eid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Eepidno].Value);
-                        dmnexpencer.reason = Convert.ToInt32(dgv_expense.Rows[i].Cells[Ereasonno].Value);
-                        dmnexpencer.Amount = Convert.ToDecimal(dgv_expense.Rows[i].Cells[Eamountno].Value);
-                        dmnexpencer.description = Convert.ToString(dgv_expense.Rows[i].Cells[Edecriptionno].Value);
-                        dmnexpencer.Empolyeeid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Eemployenameno].Value);
-                        dmnexpencer.paymentid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Epaymentypeno].Value);
-                        dmnexpencer.BranchId = FrmDashboard.BranchId;
-                        dmnexpencer.CreatedBy = FrmDashboard.UserId;
-                        //if (chk_active.Checked)
-                        dmnexpencer.Status = 1;
-                        //else
-                        //    dmnvendor.Status = 0;
-                         InsertStatus = bllExpence.AddEditDataExpence("prdInsert_Upd_Expence", dmnexpencer);
+                        if (dgv_expense.Rows[i].Cells[Ereasonno].Value != null && Convert.ToInt32(dgv_expense.Rows[i].Cells[Ereasonno].Value) > 0)
+                        {
+                            dmnexpencer.Eid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Eepidno].Value);
+                            dmnexpencer.reason = Convert.ToInt32(dgv_expense.Rows[i].Cells[Ereasonno].Value);
+                            dmnexpencer.Amount = Convert.ToDecimal(dgv_expense.Rows[i].Cells[Eamountno].Value);
+                            dmnexpencer.description = Convert.ToString(dgv_expense.Rows[i].Cells[Edecriptionno].Value);
+                            dmnexpencer.Empolyeeid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Eemployenameno].Value);
+                            dmnexpencer.paymentid = Convert.ToInt32(dgv_expense.Rows[i].Cells[Epaymentypeno].Value);
+                            dmnexpencer.BranchId = FrmDashboard.BranchId;
+                            dmnexpencer.CreatedBy = FrmDashboard.UserId;
+                            //if (chk_active.Checked)
+                            dmnexpencer.Status = 1;
+                            //else
+                            //    dmnvendor.Status = 0;
+                            InsertStatus = bllExpence.AddEditDataExpence("prdInsert_Upd_Expence", dmnexpencer);
+                        }
+                    }
+                    if (InsertStatus == null)
+                    {
+                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    if (InsertStatus != null)
+                    {
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        FillExpence();
+                        //clearall();
                     }
                 }
-                if (InsertStatus == null)
-                {
-                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (InsertStatus != null)
-                {
-                    CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    FillExpence();
-                    //clearall();
-                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+
+            }
+    
+
         }
         public bool VendorMandatoryCheck()
         {
@@ -190,7 +227,7 @@ namespace FoodandBeverage.Forms
         }
         public void combofill()
         {
-
+        
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
@@ -239,6 +276,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page combofill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
             }
         }
@@ -261,6 +300,7 @@ namespace FoodandBeverage.Forms
 
         private void dgv_expense_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+        
             try
             {
                 if (e.ColumnIndex == Eactiono)
@@ -283,62 +323,82 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page dgv_expense_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
             }
         }
         public void rearrange_slno()
         {
-            for (int i = 0; i < dgv_expense.RowCount; i++)
+            try
             {
-                dgv_expense.Rows[i].Cells[Eslno].Value = i + 1;
+                for (int i = 0; i < dgv_expense.RowCount; i++)
+                {
+                    dgv_expense.Rows[i].Cells[Eslno].Value = i + 1;
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page rearrange_slno()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+
+            }   
         }
 
         private bool IsValidData(int rowno)
         {
-            DataGridViewComboBoxCell cell = dgv_expense[Ereasonno, rowno] as DataGridViewComboBoxCell;
-            string selectedValue = cell.EditedFormattedValue?.ToString();
-
-            DataGridViewTextBoxCell cell1 = dgv_expense[Eamountno, rowno] as DataGridViewTextBoxCell;
-
-            DataGridViewComboBoxCell cell2 = dgv_expense.Rows[rowno].Cells[Eemployenameno] as DataGridViewComboBoxCell;
-            string selectedValue2 = cell2.EditedFormattedValue?.ToString();
-
-            DataGridViewComboBoxCell cell3 = dgv_expense.Rows[rowno].Cells[Epaymentypeno] as DataGridViewComboBoxCell;
-            string selectedValue3 = cell3.EditedFormattedValue?.ToString();
-
-            if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == ".")
+            try
             {
-                CMessageBox.Show("Please Select the Reason Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Ereasonno];
-                dgv_expense.BeginEdit(false);
+                DataGridViewComboBoxCell cell = dgv_expense[Ereasonno, rowno] as DataGridViewComboBoxCell;
+                string selectedValue = cell.EditedFormattedValue?.ToString();
 
-                return true;
-            }
-            else if (cell1.EditedFormattedValue.ToString() == "" || cell1.EditedFormattedValue.ToString() == "." || cell1.EditedFormattedValue.ToString() == string.Empty)
-            {
-                CMessageBox.Show("Please Enter the Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Eamountno];
-                dgv_expense.BeginEdit(false);
-                return true;
-            }
-            else if (string.IsNullOrWhiteSpace(selectedValue2) || selectedValue2 == ".")
-            {
-                CMessageBox.Show("Please Select the Employee", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Eemployenameno];
-                dgv_expense.BeginEdit(false);
+                DataGridViewTextBoxCell cell1 = dgv_expense[Eamountno, rowno] as DataGridViewTextBoxCell;
 
-                return true;
-            }
-           else  if (string.IsNullOrWhiteSpace(selectedValue3) || selectedValue3 == ".")
-            {
-                CMessageBox.Show("Please Select the payment Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Epaymentypeno];
-                dgv_expense.BeginEdit(false);
+                DataGridViewComboBoxCell cell2 = dgv_expense.Rows[rowno].Cells[Eemployenameno] as DataGridViewComboBoxCell;
+                string selectedValue2 = cell2.EditedFormattedValue?.ToString();
 
-                return true;
+                DataGridViewComboBoxCell cell3 = dgv_expense.Rows[rowno].Cells[Epaymentypeno] as DataGridViewComboBoxCell;
+                string selectedValue3 = cell3.EditedFormattedValue?.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == ".")
+                {
+                    CMessageBox.Show("Please Select the Reason Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Ereasonno];
+                    dgv_expense.BeginEdit(false);
+
+                    return true;
+                }
+                else if (cell1.EditedFormattedValue.ToString() == "" || cell1.EditedFormattedValue.ToString() == "." || cell1.EditedFormattedValue.ToString() == string.Empty)
+                {
+                    CMessageBox.Show("Please Enter the Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Eamountno];
+                    dgv_expense.BeginEdit(false);
+                    return true;
+                }
+                else if (string.IsNullOrWhiteSpace(selectedValue2) || selectedValue2 == ".")
+                {
+                    CMessageBox.Show("Please Select the Employee", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Eemployenameno];
+                    dgv_expense.BeginEdit(false);
+
+                    return true;
+                }
+                else if (string.IsNullOrWhiteSpace(selectedValue3) || selectedValue3 == ".")
+                {
+                    CMessageBox.Show("Please Select the payment Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgv_expense.CurrentCell = dgv_expense.Rows[rowno].Cells[Epaymentypeno];
+                    dgv_expense.BeginEdit(false);
+
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page IsValidData()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+                return false;
+
+            }        
         }
 
         private void dgv_expense_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -354,46 +414,57 @@ namespace FoodandBeverage.Forms
 
         private void dgv_expense_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Delete)
+            try
             {
-                dgv_expense.Rows.RemoveAt(dgv_expense.CurrentRow.Index);
-                int n = dgv_expense.RowCount;
-                int count = 0;
-                if (n > 0)
+                if (e.KeyData == Keys.Delete)
                 {
-                    for (int i = 0; i < n; i++)
-                        dgv_expense.Rows[i].Cells[Eslno].Value = i + 1;
-                    dgv_expense.Rows.Add(1);
+                    dgv_expense.Rows.RemoveAt(dgv_expense.CurrentRow.Index);
+                    int n = dgv_expense.RowCount;
+                    int count = 0;
+                    if (n > 0)
+                    {
+                        for (int i = 0; i < n; i++)
+                            dgv_expense.Rows[i].Cells[Eslno].Value = i + 1;
+                        dgv_expense.Rows.Add(1);
 
-                    n = dgv_expense.RowCount;
-                    for (int i = 0; i < n; i++)
-                    {
-                        if (dgv_expense.Rows[i].Cells[Eepidno].Value == null)
-                        {
-                            count = count + 1;
-                        }
-                    }
-                    if (count > 1)
-                    {
+                        n = dgv_expense.RowCount;
                         for (int i = 0; i < n; i++)
                         {
                             if (dgv_expense.Rows[i].Cells[Eepidno].Value == null)
                             {
-                                dgv_expense.Rows.RemoveAt(i);
-                                break;
+                                count = count + 1;
                             }
                         }
+                        if (count > 1)
+                        {
+                            for (int i = 0; i < n; i++)
+                            {
+                                if (dgv_expense.Rows[i].Cells[Eepidno].Value == null)
+                                {
+                                    dgv_expense.Rows.RemoveAt(i);
+                                    break;
+                                }
+                            }
+                        }
+
                     }
 
-                }
+                    if (n == 0)
+                    {
+                        dgv_expense.Rows.Add(1);
+                    }
+                    rearrange_slno();
 
-                if (n == 0)
-                {
-                    dgv_expense.Rows.Add(1);
                 }
-                rearrange_slno();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page dgv_expense_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
             }
+    
+
         }
 
 
@@ -439,62 +510,71 @@ namespace FoodandBeverage.Forms
 
        private void cmb_searchtype_SelectedIndexChanged(object sender, EventArgs e)
        {
-
-            Control controlToRemove = tlp_serachtype_controls.GetControlFromPosition(2, 0);
-            tlp_serachtype_controls.Controls.Remove(controlToRemove);
-             controlToRemove = tlp_serachtype_controls.GetControlFromPosition(2, 1);
-            tlp_serachtype_controls.Controls.Remove(controlToRemove);
-            lblserach_reason.Visible = false;
-            cmb_search_reason.Visible = false;
-            lbl_search_amount.Visible = false;
-            txtsearch_amount.Visible = false;
-            lblserach_employee.Visible = false;
-            cmb_search_Employee.Visible = false;
-            lblserach_payment.Visible = false;
-            cmb_search_payment.Visible = false;
-            if (cmb_searchtype.SelectedIndex == 0)
+            try
             {
-                lblserach_reason.Visible = true;
-                cmb_search_reason.Visible = true;
+                Control controlToRemove = tlp_serachtype_controls.GetControlFromPosition(2, 0);
+                tlp_serachtype_controls.Controls.Remove(controlToRemove);
+                controlToRemove = tlp_serachtype_controls.GetControlFromPosition(2, 1);
+                tlp_serachtype_controls.Controls.Remove(controlToRemove);
+                lblserach_reason.Visible = false;
+                cmb_search_reason.Visible = false;
+                lbl_search_amount.Visible = false;
+                txtsearch_amount.Visible = false;
+                lblserach_employee.Visible = false;
+                cmb_search_Employee.Visible = false;
+                lblserach_payment.Visible = false;
+                cmb_search_payment.Visible = false;
+                if (cmb_searchtype.SelectedIndex == 0)
+                {
+                    lblserach_reason.Visible = true;
+                    cmb_search_reason.Visible = true;
 
-                tlp_serachtype_controls.Controls.Add(lblserach_reason, 2, 0);
-                tlp_serachtype_controls.Controls.Add(cmb_search_reason, 2, 1);
-                lblserach_reason.Dock = DockStyle.Fill;
-                cmb_search_reason.Dock = DockStyle.Fill;
-            }
-            else if (cmb_searchtype.SelectedIndex == 1)
-            {
-                lbl_search_amount.Visible = true;
-                txtsearch_amount.Visible = true;
+                    tlp_serachtype_controls.Controls.Add(lblserach_reason, 2, 0);
+                    tlp_serachtype_controls.Controls.Add(cmb_search_reason, 2, 1);
+                    lblserach_reason.Dock = DockStyle.Fill;
+                    cmb_search_reason.Dock = DockStyle.Fill;
+                }
+                else if (cmb_searchtype.SelectedIndex == 1)
+                {
+                    lbl_search_amount.Visible = true;
+                    txtsearch_amount.Visible = true;
 
-                tlp_serachtype_controls.Controls.Add(lbl_search_amount, 2, 0);
-                tlp_serachtype_controls.Controls.Add(txtsearch_amount, 2, 1);
-                lbl_search_amount.Dock = DockStyle.Fill;
-                txtsearch_amount.Dock = DockStyle.Fill;
-            }
-            else if (cmb_searchtype.SelectedIndex == 2)
-            {
-                lblserach_employee.Visible = true;
-                cmb_search_Employee.Visible = true;
+                    tlp_serachtype_controls.Controls.Add(lbl_search_amount, 2, 0);
+                    tlp_serachtype_controls.Controls.Add(txtsearch_amount, 2, 1);
+                    lbl_search_amount.Dock = DockStyle.Fill;
+                    txtsearch_amount.Dock = DockStyle.Fill;
+                }
+                else if (cmb_searchtype.SelectedIndex == 2)
+                {
+                    lblserach_employee.Visible = true;
+                    cmb_search_Employee.Visible = true;
 
-                tlp_serachtype_controls.Controls.Add(lblserach_employee, 2, 0);
-                tlp_serachtype_controls.Controls.Add(cmb_search_Employee, 2, 1);
-                lblserach_employee.Dock = DockStyle.Fill;
-                cmb_search_Employee.Dock = DockStyle.Fill;
+                    tlp_serachtype_controls.Controls.Add(lblserach_employee, 2, 0);
+                    tlp_serachtype_controls.Controls.Add(cmb_search_Employee, 2, 1);
+                    lblserach_employee.Dock = DockStyle.Fill;
+                    cmb_search_Employee.Dock = DockStyle.Fill;
+                }
+                else if (cmb_searchtype.SelectedIndex == 3)
+                {
+                    lblserach_payment.Visible = true;
+                    cmb_search_payment.Visible = true;
+                    tlp_serachtype_controls.Controls.Add(lblserach_payment, 2, 0);
+                    tlp_serachtype_controls.Controls.Add(cmb_search_payment, 2, 1);
+                    lblserach_payment.Dock = DockStyle.Fill;
+                    cmb_search_payment.Dock = DockStyle.Fill;
+                }
             }
-            else if (cmb_searchtype.SelectedIndex == 3)
+            catch (Exception ex)
             {
-                lblserach_payment.Visible = true;
-                cmb_search_payment.Visible = true;
-                tlp_serachtype_controls.Controls.Add(lblserach_payment, 2, 0);
-                tlp_serachtype_controls.Controls.Add(cmb_search_payment, 2, 1);
-                lblserach_payment.Dock = DockStyle.Fill;
-                cmb_search_payment.Dock = DockStyle.Fill;
-            }
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page cmb_searchtype_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+
+            }           
         }
 
         private void btn_search_Click(object sender, EventArgs e)
-        {
+        {          
+
             try
             {
                 if(cmb_searchtype.SelectedIndex ==-1)
@@ -557,6 +637,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page btn_search_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
             }
         }
@@ -567,6 +649,7 @@ namespace FoodandBeverage.Forms
         }
 
         #region Grid Flow Fuction
+
         private int GetNextVisibleColumn(int currentColumnIndex)
         {
             try
@@ -582,9 +665,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page GetNextVisibleColumn()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
                 return -1;
             }
         }
+
         private int GetNextVisibleRow(int currentRowIndex)
         {
             try
@@ -600,10 +686,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page GetNextVisibleRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
                 return -1;
             }
-
         }
+
         private int GetFirstVisibleColumn()
         {
             try
@@ -619,63 +707,75 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page GetFirstVisibleColumn()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
                 return -1;
             }
-
         }
+
+
         #endregion
 
         public void Movefocus(int keytype)
         {
-            if(pnl_serachBox.Visible)
+            try
             {
-                if (cmb_searchtype.Focused)
+
+                if (pnl_serachBox.Visible)
                 {
-                    dtp_from_date.Focus();
+                    if (cmb_searchtype.Focused)
+                    {
+                        dtp_from_date.Focus();
+                    }
+                    else if (dtp_from_date.Focused)
+                    {
+                        dtp_from_time.Focus();
+                    }
+                    else if (dtp_from_time.Focused)
+                    {
+                        dtp_to_date.Focus();
+                    }
+                    else if (dtp_to_date.Focused)
+                    {
+                        dtp_to_time.Focus();
+                    }
+                    else if (dtp_to_time.Focused)
+                    {
+                        btn_search.Focus();
+                    }
+                    else if (keytype == 0)
+                    {
+                        if (btn_search.Focused)
+                            btn_search.PerformClick();
+                    }
                 }
-                else if (dtp_from_date.Focused)
+                else if (keytype == 1)
                 {
-                    dtp_from_time.Focus();
-                }
-                else if (dtp_from_time.Focused)
-                {
-                    dtp_to_date.Focus();
-                }
-                else if (dtp_to_date.Focused)
-                {
-                    dtp_to_time.Focus();
-                }
-                else if (dtp_to_time.Focused)
-                {
-                    btn_search.Focus();
+                    if (btnsave.Focused)
+                        btnSearch.Focus();
+                    else if (btnSearch.Focused)
+                        btnrefresh.Focus();
+                    else if (btnrefresh.Focused)
+                        btnclose.Focus();
                 }
                 else if (keytype == 0)
                 {
-                    if (btn_search.Focused)
-                        btn_search.PerformClick();
+                    if (btnsave.Focused)
+                        btnsave.PerformClick();
+                    else if (btnrefresh.Focused)
+                        btnrefresh.PerformClick();
+                    else if (btnSearch.Focused)
+                        btnSearch.PerformClick();
+                    else if (btnclose.Focused)
+                        btnclose.PerformClick();
                 }
             }
-            else if (keytype == 1)
+            catch (Exception ex)
             {
-                if (btnsave.Focused)
-                    btnSearch.Focus();
-                else if (btnSearch.Focused)
-                    btnrefresh.Focus();
-                else if (btnrefresh.Focused)
-                    btnclose.Focus();
-            }
-            else if (keytype == 0)
-            {
-                if (btnsave.Focused)
-                    btnsave.PerformClick();
-                else if (btnrefresh.Focused)
-                    btnrefresh.PerformClick();
-                else if (btnSearch.Focused)
-                    btnSearch.PerformClick();
-                else if (btnclose.Focused)
-                    btnclose.PerformClick();
-            }
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Expence page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
 
+            }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -716,7 +816,8 @@ namespace FoodandBeverage.Forms
 
                         catch (Exception ex)
                         {
-
+                            CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Expence page if (dgv_expense.Focused)", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
                         }
                     }
                     else
@@ -756,7 +857,8 @@ namespace FoodandBeverage.Forms
 
                         catch (Exception ex)
                         {
-
+                            CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Expence page if (dgv_expense.Focused)", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
                         }
                     }
                     else

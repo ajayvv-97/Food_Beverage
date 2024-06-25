@@ -2018,7 +2018,6 @@ namespace FoodandBeverage.Forms
             this.dgv_sigle_product.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_sigle_product_CellLeave);
             this.dgv_sigle_product.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_sigle_product_DataError);
             this.dgv_sigle_product.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_sigle_product_KeyDown);
-            this.dgv_sigle_product.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgv_sigle_product_KeyPress);
             // 
             // slno
             // 

@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
@@ -17,6 +18,8 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+        ClsGeneral clsgen = new ClsGeneral();
+
         #region Declare Grid
         public static int slno = 0;
         public static int idno = 1;
@@ -46,120 +49,154 @@ namespace FoodandBeverage.Forms
 
         private void btnsave_Click(object sender, EventArgs e)
         {
-            if (VendorMandatoryCheck())
+            try
             {
-                DmnVendor dmnvendor = new DmnVendor();
-                Bllvendor bllvendor = new Bllvendor();
-                if (string.IsNullOrWhiteSpace(txtvid.Text))
-                    txtvid.Text = "0";
-                dmnvendor.VendorId =Convert.ToInt32(txtvid.Text);
-                dmnvendor.VendorName = txtVendorName.Text;
-                dmnvendor.VendorName = txtVendorName.Text;
-                dmnvendor.Address = txtVenderAddress.Text;
-                dmnvendor.Email = txtVendorEmail.Text;
-                dmnvendor.Telephone = txtVendorTel.Text;
-                dmnvendor.Description = txtdesc.Text;
-                dmnvendor.BranchId = FrmDashboard.BranchId;
-                dmnvendor.CreatedBy = FrmDashboard.UserId; 
-                if (chk_active.Checked)
-                    dmnvendor.Status = 1;
-                else
-                    dmnvendor.Status = 0;
-                var InsertStatus = bllvendor.AddEditDataVendor("prdInsert_Upd_Vendor", dmnvendor);
-                if (InsertStatus == null)
+                if (VendorMandatoryCheck())
                 {
-                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //break;
+                    DmnVendor dmnvendor = new DmnVendor();
+                    Bllvendor bllvendor = new Bllvendor();
+                    if (string.IsNullOrWhiteSpace(txtvid.Text))
+                        txtvid.Text = "0";
+                    dmnvendor.VendorId = Convert.ToInt32(txtvid.Text);
+                    dmnvendor.VendorName = txtVendorName.Text;
+                    dmnvendor.VendorName = txtVendorName.Text;
+                    dmnvendor.Address = txtVenderAddress.Text;
+                    dmnvendor.Email = txtVendorEmail.Text;
+                    dmnvendor.Telephone = txtVendorTel.Text;
+                    dmnvendor.Description = txtdesc.Text;
+                    dmnvendor.BranchId = FrmDashboard.BranchId;
+                    dmnvendor.CreatedBy = FrmDashboard.UserId;
+                    if (chk_active.Checked)
+                        dmnvendor.Status = 1;
+                    else
+                        dmnvendor.Status = 0;
+                    var InsertStatus = bllvendor.AddEditDataVendor("prdInsert_Upd_Vendor", dmnvendor);
+                    if (InsertStatus == null)
+                    {
+                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //break;
+                    }
+                    if (InsertStatus != null)
+                    {
+                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Fillvendor();
+                        clearall();
+                    }
                 }
-                if (InsertStatus != null)
-                {
-                    CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Fillvendor();
-                    clearall();
-                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
             }
         }
         public bool VendorMandatoryCheck()
         {
-            if (string.IsNullOrEmpty(txtVendorName.Text))
+            try
             {
-                CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtVendorName.Focus();
-                return false;
+                if (string.IsNullOrEmpty(txtVendorName.Text))
+                {
+                    CMessageBox.Show("Vendor Name Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorName.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(txtVenderAddress.Text))
+                {
+                    CMessageBox.Show("Vendor Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVenderAddress.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(txtVendorTel.Text))
+                {
+                    CMessageBox.Show("Vendor PhNo Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtVendorTel.Focus();
+                    return false;
+                }
+                return true;
             }
-            else if (string.IsNullOrEmpty(txtVenderAddress.Text))
+            catch (Exception ex)
             {
-                CMessageBox.Show("Vendor Address Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtVenderAddress.Focus();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page VendorMandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
                 return false;
-            }
-            else if (string.IsNullOrEmpty(txtVendorTel.Text))
-            {
-                CMessageBox.Show("Vendor PhNo Is Mandatory & * Mandatory", "Mandatory Filed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtVendorTel.Focus();
-                return false;
-            }
-            return true;
+            }      
+
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            int returnValue = 0;
-            DataTable dtColumnAlign = new DataTable();
-            dtColumnAlign.Columns.Add();
-            DmnSearch _objSearch = new DmnSearch();
-            _objSearch.ColumnHeaders = "ID,VendorName,Telephone,Email,Description"; 
-            _objSearch.Select = "VendorId as Id,VendorName as Field1,Telephone as Field2,Email as Field3,Description as Field4";
-            _objSearch.Table = "tblVendor";
-            _objSearch.WhereNdGroupBy = "where Status = 1";
-            _objSearch.OrderBy = " ORDER BY VendorName";
-            var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-            if (gridSource.Count == 0)
+            try
             {
-                CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,VendorName,Telephone,Email,Description";
+                _objSearch.Select = "VendorId as Id,VendorName as Field1,Telephone as Field2,Email as Field3,Description as Field4";
+                _objSearch.Table = "tblVendor";
+                _objSearch.WhereNdGroupBy = "where Status = 1";
+                _objSearch.OrderBy = " ORDER BY VendorName";
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource.Count == 0)
                 {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
                     {
-                        returnValue = Convert.ToInt32(search._retValue);
+                        var dialogResult = search.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToInt32(search._retValue);
+                        }
+                    }
+                    if (returnValue > 0)
+                    {
+                        int vid = Convert.ToInt32(returnValue);
+                        BllSearch<DmnVendor> bllSearch1 = new BllSearch<DmnVendor>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch.Select = "* ";
+                        objSearch.Table = "tblVendor";
+                        objSearch.WhereNdGroupBy = "where status = 1 and VendorId=" + vid;
+                        objSearch.OrderBy = "";
+                        var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+                        if (itemSource.Count > 0)
+                        {
+                            txtvid.Text = Convert.ToString(itemSource[0].VendorId);
+                            txtVendorName.Text = Convert.ToString(itemSource[0].VendorName);
+                            txtVendorTel.Text = Convert.ToString(itemSource[0].Telephone);
+                            txtVendorEmail.Text = Convert.ToString(itemSource[0].Email);
+                            txtVenderAddress.Text = Convert.ToString(itemSource[0].Address);
+                            btn_del_vendor.Visible = true;
+                        }
                     }
                 }
-                if (returnValue > 0)
-                {
-                    int vid = Convert.ToInt32(returnValue);
-                    BllSearch<DmnVendor> bllSearch1 = new BllSearch<DmnVendor>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "* ";
-                    objSearch.Table = "tblVendor";
-                    objSearch.WhereNdGroupBy = "where status = 1 and VendorId=" + vid;
-                    objSearch.OrderBy = "";
-                    var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
-                    if (itemSource.Count > 0)
-                    {
-                        txtvid.Text = Convert.ToString(itemSource[0].VendorId);
-                        txtVendorName.Text = Convert.ToString(itemSource[0].VendorName);
-                        txtVendorTel.Text = Convert.ToString(itemSource[0].Telephone);
-                        txtVendorEmail.Text = Convert.ToString(itemSource[0].Email);
-                        txtVenderAddress.Text = Convert.ToString(itemSource[0].Address);
-                        btn_del_vendor.Visible = true;
-                    }
-                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
+            }   
         }
 
         private void btn_del_vendor_Click(object sender, EventArgs e)
         {
-            var result = CMessageBox.Show("Do You want Delete This Unit", "Confirm The Action", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            try
             {
-                chk_active.Checked = false;
-                btnsave.PerformClick();
+                var result = CMessageBox.Show("Do You want Delete This Unit", "Confirm The Action", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    chk_active.Checked = false;
+                    btnsave.PerformClick();
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page btn_del_vendor_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
+            }       
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
@@ -168,13 +205,21 @@ namespace FoodandBeverage.Forms
         }
         public void clearall()
         {
-            txtvid.Text = "";
-            txtVendorName.Text = "";
-            txtVendorTel.Text = "";
-            txtVendorEmail.Text = "";
-            txtVenderAddress.Text = "";
-            txtdesc.Text = "";
-            chk_active.Visible = false;
+            try
+            {
+                txtvid.Text = "";
+                txtVendorName.Text = "";
+                txtVendorTel.Text = "";
+                txtVendorEmail.Text = "";
+                txtVenderAddress.Text = "";
+                txtdesc.Text = "";
+                chk_active.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page clearall()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
+            }
         }
         public void Fillvendor()
         {
@@ -206,34 +251,46 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page Fillvendor()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
             }
+        
         }
 
         private void FrmVendor_Load(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+            try
             {
-                FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Vendor)))
-                    btnsave.Enabled = true;
-                else
-                    btnsave.Enabled = false;
-            }
-            txtVendorName.Focus();
-            Fillvendor();
-            clearall();
-            dgv_vendor.BorderStyle = BorderStyle.None;
-            dgv_vendor.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_vendor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_vendor.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_vendor.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_vendor.BackgroundColor = Color.White;
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Vendor)))
+                        btnsave.Enabled = true;
+                    else
+                        btnsave.Enabled = false;
+                }
+                txtVendorName.Focus();
+                Fillvendor();
+                clearall();
+                dgv_vendor.BorderStyle = BorderStyle.None;
+                dgv_vendor.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_vendor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_vendor.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_vendor.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_vendor.BackgroundColor = Color.White;
 
-            dgv_vendor.EnableHeadersVisualStyles = false;
-            dgv_vendor.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_vendor.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_vendor.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_vendor.EnableHeadersVisualStyles = false;
+                dgv_vendor.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_vendor.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_vendor.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page FrmVendor_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
+            }
+      
+            
         }
         #region TexBox Round function
         public void textb_shape()
@@ -249,25 +306,36 @@ namespace FoodandBeverage.Forms
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
             }
+           
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
+            }           
+
         }
 
         #endregion
@@ -320,7 +388,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page Filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
             }
         }
         private void dgv_vendor_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -407,8 +476,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Vendor page Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Vendor));
             }
+
             
         }
 
@@ -416,5 +487,6 @@ namespace FoodandBeverage.Forms
         {
             textb_shape();
         }
-    }
+   
+}
 }

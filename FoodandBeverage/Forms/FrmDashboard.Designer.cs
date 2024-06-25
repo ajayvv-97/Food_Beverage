@@ -219,8 +219,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menuhome
             // 
-            this.Menuhome.BackColor = System.Drawing.Color.Transparent;
-            this.Menuhome.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menuhome.BackgroundImage")));
+            this.Menuhome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menuhome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menuhome.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menuhome.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -231,10 +230,10 @@ namespace FoodandBeverage.Forms
             this.Menuhome.IconColor = System.Drawing.Color.White;
             this.Menuhome.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuhome.IconSize = 30;
-            this.Menuhome.Location = new System.Drawing.Point(0, 72);
-            this.Menuhome.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menuhome.Location = new System.Drawing.Point(3, 72);
+            this.Menuhome.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menuhome.Name = "Menuhome";
-            this.Menuhome.Size = new System.Drawing.Size(186, 66);
+            this.Menuhome.Size = new System.Drawing.Size(180, 66);
             this.Menuhome.TabIndex = 3;
             this.Menuhome.Tag = "Home";
             this.Menuhome.Text = "Home";
@@ -274,8 +273,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menubilling
             // 
-            this.Menubilling.BackColor = System.Drawing.Color.Transparent;
-            this.Menubilling.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menubilling.BackgroundImage")));
+            this.Menubilling.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menubilling.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menubilling.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menubilling.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -286,10 +284,10 @@ namespace FoodandBeverage.Forms
             this.Menubilling.IconColor = System.Drawing.Color.White;
             this.Menubilling.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menubilling.IconSize = 30;
-            this.Menubilling.Location = new System.Drawing.Point(0, 384);
-            this.Menubilling.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menubilling.Location = new System.Drawing.Point(3, 384);
+            this.Menubilling.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menubilling.Name = "Menubilling";
-            this.Menubilling.Size = new System.Drawing.Size(186, 66);
+            this.Menubilling.Size = new System.Drawing.Size(180, 66);
             this.Menubilling.TabIndex = 6;
             this.Menubilling.Tag = "Billing";
             this.Menubilling.Text = "Billing";
@@ -301,8 +299,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menuoperation
             // 
-            this.Menuoperation.BackColor = System.Drawing.Color.Transparent;
-            this.Menuoperation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menuoperation.BackgroundImage")));
+            this.Menuoperation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menuoperation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menuoperation.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menuoperation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -313,10 +310,10 @@ namespace FoodandBeverage.Forms
             this.Menuoperation.IconColor = System.Drawing.Color.White;
             this.Menuoperation.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuoperation.IconSize = 30;
-            this.Menuoperation.Location = new System.Drawing.Point(0, 228);
-            this.Menuoperation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menuoperation.Location = new System.Drawing.Point(3, 228);
+            this.Menuoperation.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menuoperation.Name = "Menuoperation";
-            this.Menuoperation.Size = new System.Drawing.Size(186, 66);
+            this.Menuoperation.Size = new System.Drawing.Size(180, 66);
             this.Menuoperation.TabIndex = 4;
             this.Menuoperation.Tag = "operation";
             this.Menuoperation.Text = "Operations";
@@ -328,8 +325,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menutable
             // 
-            this.Menutable.BackColor = System.Drawing.Color.Transparent;
-            this.Menutable.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menutable.BackgroundImage")));
+            this.Menutable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menutable.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menutable.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menutable.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -340,10 +336,10 @@ namespace FoodandBeverage.Forms
             this.Menutable.IconColor = System.Drawing.Color.White;
             this.Menutable.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menutable.IconSize = 30;
-            this.Menutable.Location = new System.Drawing.Point(0, 150);
-            this.Menutable.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menutable.Location = new System.Drawing.Point(3, 150);
+            this.Menutable.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menutable.Name = "Menutable";
-            this.Menutable.Size = new System.Drawing.Size(186, 66);
+            this.Menutable.Size = new System.Drawing.Size(180, 66);
             this.Menutable.TabIndex = 11;
             this.Menutable.Tag = "Table";
             this.Menutable.Text = "Table";
@@ -355,8 +351,7 @@ namespace FoodandBeverage.Forms
             // 
             // menuEmployee
             // 
-            this.menuEmployee.BackColor = System.Drawing.Color.Transparent;
-            this.menuEmployee.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuEmployee.BackgroundImage")));
+            this.menuEmployee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.menuEmployee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.menuEmployee.Dock = System.Windows.Forms.DockStyle.Top;
             this.menuEmployee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -367,10 +362,10 @@ namespace FoodandBeverage.Forms
             this.menuEmployee.IconColor = System.Drawing.Color.White;
             this.menuEmployee.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.menuEmployee.IconSize = 30;
-            this.menuEmployee.Location = new System.Drawing.Point(0, 306);
-            this.menuEmployee.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.menuEmployee.Location = new System.Drawing.Point(3, 306);
+            this.menuEmployee.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.menuEmployee.Name = "menuEmployee";
-            this.menuEmployee.Size = new System.Drawing.Size(186, 66);
+            this.menuEmployee.Size = new System.Drawing.Size(180, 66);
             this.menuEmployee.TabIndex = 9;
             this.menuEmployee.Tag = "Employee";
             this.menuEmployee.Text = "Employee";
@@ -382,8 +377,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menureport
             // 
-            this.Menureport.BackColor = System.Drawing.Color.Transparent;
-            this.Menureport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menureport.BackgroundImage")));
+            this.Menureport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menureport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menureport.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menureport.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -394,10 +388,10 @@ namespace FoodandBeverage.Forms
             this.Menureport.IconColor = System.Drawing.Color.White;
             this.Menureport.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menureport.IconSize = 30;
-            this.Menureport.Location = new System.Drawing.Point(0, 462);
-            this.Menureport.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menureport.Location = new System.Drawing.Point(3, 462);
+            this.Menureport.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menureport.Name = "Menureport";
-            this.Menureport.Size = new System.Drawing.Size(186, 66);
+            this.Menureport.Size = new System.Drawing.Size(180, 66);
             this.Menureport.TabIndex = 5;
             this.Menureport.Tag = "Report";
             this.Menureport.Text = "Report";
@@ -409,8 +403,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menulogout
             // 
-            this.Menulogout.BackColor = System.Drawing.Color.Transparent;
-            this.Menulogout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menulogout.BackgroundImage")));
+            this.Menulogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menulogout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menulogout.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menulogout.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -421,10 +414,10 @@ namespace FoodandBeverage.Forms
             this.Menulogout.IconColor = System.Drawing.Color.White;
             this.Menulogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menulogout.IconSize = 30;
-            this.Menulogout.Location = new System.Drawing.Point(0, 618);
-            this.Menulogout.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menulogout.Location = new System.Drawing.Point(3, 618);
+            this.Menulogout.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menulogout.Name = "Menulogout";
-            this.Menulogout.Size = new System.Drawing.Size(186, 66);
+            this.Menulogout.Size = new System.Drawing.Size(180, 66);
             this.Menulogout.TabIndex = 8;
             this.Menulogout.Tag = "Logout";
             this.Menulogout.Text = "Logout";
@@ -436,8 +429,7 @@ namespace FoodandBeverage.Forms
             // 
             // Menusetting
             // 
-            this.Menusetting.BackColor = System.Drawing.Color.Transparent;
-            this.Menusetting.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menusetting.BackgroundImage")));
+            this.Menusetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Menusetting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Menusetting.Dock = System.Windows.Forms.DockStyle.Top;
             this.Menusetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -448,10 +440,10 @@ namespace FoodandBeverage.Forms
             this.Menusetting.IconColor = System.Drawing.Color.White;
             this.Menusetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menusetting.IconSize = 30;
-            this.Menusetting.Location = new System.Drawing.Point(0, 540);
-            this.Menusetting.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+            this.Menusetting.Location = new System.Drawing.Point(3, 540);
+            this.Menusetting.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.Menusetting.Name = "Menusetting";
-            this.Menusetting.Size = new System.Drawing.Size(186, 66);
+            this.Menusetting.Size = new System.Drawing.Size(180, 66);
             this.Menusetting.TabIndex = 7;
             this.Menusetting.Tag = "Settings";
             this.Menusetting.Text = "Settings";
@@ -708,7 +700,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.46811F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 5, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -730,7 +722,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(606, 0);
+            this.lbltime.Location = new System.Drawing.Point(604, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -802,7 +794,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(618, 3);
+            this.pbusericon.Location = new System.Drawing.Point(616, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -813,7 +805,7 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(612, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(610, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
@@ -827,7 +819,7 @@ namespace FoodandBeverage.Forms
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblsync.Location = new System.Drawing.Point(351, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(249, 42);
+            this.lblsync.Size = new System.Drawing.Size(247, 42);
             this.lblsync.TabIndex = 7;
             this.lblsync.Tag = "Synchronizing...";
             this.lblsync.Text = "Synchronizing...";

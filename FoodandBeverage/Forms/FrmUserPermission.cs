@@ -1,28 +1,16 @@
 ﻿using BLL;
 using Domain;
 using FoodandBeverage.Classes;
-using FoodandBeverage.Forms;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
-using MetroFramework.Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
-using MetroFramework;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using FoodandBeverage.Forms.UserAccount;
-using System.Text.RegularExpressions;
 using System.Drawing.Drawing2D;
-
 using System.Runtime.InteropServices;
 using CustomMessageBox;
 
@@ -223,8 +211,6 @@ namespace FoodandBeverage.Forms
                 clsGeneral.LogException("User Permission Page  MandatoryCheckuser()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
                 return false;
             }
-
-
         }
 
         public void FillCombo()

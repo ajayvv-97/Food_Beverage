@@ -2276,8 +2276,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
-
                 pnlCustomer.Visible = false;
                 txtVendorName.Text = "";
                 txtVendorAddress.Text = "";

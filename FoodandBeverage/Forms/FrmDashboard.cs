@@ -174,14 +174,14 @@ namespace FoodandBeverage.Forms
                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                 this.FormBorderStyle = FormBorderStyle.None;
 
-                // Menuhome.BackColor = menubuttoncolor;
-                // Menuoperation.BackColor = menubuttoncolor;
-                // Menubilling.BackColor = menubuttoncolor;
-                // Menureport.BackColor = menubuttoncolor;
-                // Menulogout.BackColor = menubuttoncolor;
-                // Menusetting.BackColor = menubuttoncolor;
-                // menuEmployee.BackColor = menubuttoncolor;
-                // Menutable.BackColor = menubuttoncolor;
+                Menuhome.BackColor = menubuttoncolor;
+                Menuoperation.BackColor = menubuttoncolor;
+                Menubilling.BackColor = menubuttoncolor;
+                Menureport.BackColor = menubuttoncolor;
+                Menulogout.BackColor = menubuttoncolor;
+                Menusetting.BackColor = menubuttoncolor;
+                menuEmployee.BackColor = menubuttoncolor;
+                Menutable.BackColor = menubuttoncolor;
 
                 RunMethodInSeparateThread(button_imageset);
                 // flp_menu.BackColor = Color.White;
@@ -359,14 +359,14 @@ namespace FoodandBeverage.Forms
 
                                 menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-                                //Menuhome.BackColor = menubuttoncolor;
-                                //Menuoperation.BackColor = menubuttoncolor;
-                                //Menubilling.BackColor = menubuttoncolor;
-                                //Menureport.BackColor = menubuttoncolor;
-                                //Menulogout.BackColor = menubuttoncolor;
-                                //Menusetting.BackColor = menubuttoncolor;
-                                //menuEmployee.BackColor = menubuttoncolor;
-                                //Menutable.BackColor = menubuttoncolor;
+                                Menuhome.BackColor = menubuttoncolor;
+                                Menuoperation.BackColor = menubuttoncolor;
+                                Menubilling.BackColor = menubuttoncolor;
+                                Menureport.BackColor = menubuttoncolor;
+                                Menulogout.BackColor = menubuttoncolor;
+                                Menusetting.BackColor = menubuttoncolor;
+                                menuEmployee.BackColor = menubuttoncolor;
+                                Menutable.BackColor = menubuttoncolor;
 
                                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                                 pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
@@ -437,14 +437,14 @@ namespace FoodandBeverage.Forms
                                 ib_addon.BackColor = opbuttoncolor;
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
-                                //Menuhome.BackColor = menubuttoncolor;
-                                //Menuoperation.BackColor = menubuttoncolor;
-                                //Menubilling.BackColor = menubuttoncolor;
-                                //Menureport.BackColor = menubuttoncolor;
-                                //Menulogout.BackColor = menubuttoncolor;
-                                //Menusetting.BackColor = menubuttoncolor;
-                                //menuEmployee.BackColor = menubuttoncolor;
-                                //Menutable.BackColor = menubuttoncolor;
+                                Menuhome.BackColor = menubuttoncolor;
+                                Menuoperation.BackColor = menubuttoncolor;
+                                Menubilling.BackColor = menubuttoncolor;
+                                Menureport.BackColor = menubuttoncolor;
+                                Menulogout.BackColor = menubuttoncolor;
+                                Menusetting.BackColor = menubuttoncolor;
+                                menuEmployee.BackColor = menubuttoncolor;
+                                Menutable.BackColor = menubuttoncolor;
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
                                 pbappcoloepicker.BackColor = colorapp;
@@ -724,24 +724,32 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  RoundPictureBoxCorners()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
-
         }
-
         private void CollapseMenu()
         {
             try
             {
                 if (menutable_click)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        //_instanceFrmTableView.AutoTimer.Stop();
-                        _instanceFrmTableView.Close();
-                        _instanceFrmTableView.Dispose();
-                        GC.Collect();
-                    }
+                    CloseTableViewPage();
+
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
+                    ResizeForm(_instanceFrmTableView);
+                    _instanceFrmTableView.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmTableView.BringToFront();
+
                 }
+
                 tlp_main_sidebar_pnldesktop.SuspendLayout();
 
                 if (Menuhome.Width > 150) //Collapse menu
@@ -759,7 +767,7 @@ namespace FoodandBeverage.Forms
                     {
                         menuButton.Text = "";
                         menuButton.Width = 80;
-                        menuButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                         menuButton.Padding = new Padding(20, 0, 0, 0);
                     }
                     tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
@@ -776,7 +784,7 @@ namespace FoodandBeverage.Forms
                     {
                         menuButton.Width = 162;
                         menuButton.Text = menuButton.Tag.ToString();
-                        menuButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                         menuButton.Padding = new Padding(10, 0, 0, 0);
                     }
                     tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
