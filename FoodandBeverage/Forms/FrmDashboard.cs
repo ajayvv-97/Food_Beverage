@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms
         public static string SaleBillPath = "";
         public int Emp_RowCount = 0, Emp_ColCount = 0;
         public int OP_RowCount = 0, OP_ColCount = 0;
+        public int ButtonID = 0;
         public FrmDashboard()
         {
             InitializeComponent();
@@ -655,7 +656,8 @@ namespace FoodandBeverage.Forms
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
-            {               
+            {
+                ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -739,29 +741,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (menutable_click)
-                {
-                    CloseTableViewPage();
+                CloseTableViewPage();             
 
-                    tlp_tablestatus.SuspendLayout();
-                    btn_rev.Visible = true;
-                    btn_running.Visible = true;
-                    btn_avial.Visible = true;
-                    btntrefresh.Visible = true;
-                    tlp_tablestatus.ResumeLayout();
-
-                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
-                    ResizeForm(_instanceFrmTableView);
-                    _instanceFrmTableView.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmTableView);
-                    _instanceFrmTableView.Show();
-                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmTableView.BringToFront();
-
-                }
-
-                tlp_main_sidebar_pnldesktop.SuspendLayout();
-
+                //tlp_main_sidebar_pnldesktop.SuspendLayout();
                 if (Menuhome.Width > 150) //Collapse menu
                 {
                     flp_menu.Dock = DockStyle.None;
@@ -800,9 +782,38 @@ namespace FoodandBeverage.Forms
                     tlp_main_sidebar_pnldesktop.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 18.23f);
                     tlp_main_sidebar_pnldesktop.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 81.27f);
                 }
-
-                tlp_main_sidebar_pnldesktop.ResumeLayout();
+                //tlp_main_sidebar_pnldesktop.ResumeLayout();
                 RoundPictureBoxCorners(pb_appicon, 10);
+
+                if (ButtonID == Convert.ToInt32(Menubutton.Menutable))
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
+                    ResizeForm(_instanceFrmTableView);
+                    _instanceFrmTableView.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmTableView);
+                    _instanceFrmTableView.Show();
+                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmTableView.BringToFront();
+
+                }
+                else if (ButtonID == Convert.ToInt32(Menubutton.Menubilling))
+                {
+                    FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill();
+                    ResizeForm(_instanceCombinedBill);
+                    _instanceCombinedBill.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceCombinedBill);
+                    _instanceCombinedBill.Show();
+                    _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceCombinedBill.BringToFront();
+
+                }
 
             }
             catch (Exception ex)
@@ -816,6 +827,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
@@ -879,6 +891,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ButtonID = Convert.ToInt32(Menubutton.Menubilling);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
@@ -961,6 +974,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ButtonID = Convert.ToInt32(Menubutton.Menureport);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
@@ -1466,6 +1480,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ButtonID = Convert.ToInt32(Menubutton.Menusetting);
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 if (menutable_click)
@@ -2954,6 +2969,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
                 time_syn_lal.Stop();
                 time_syn_lal.Stop();
                 lblsync.Visible = false;
@@ -3624,7 +3640,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
+                ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;

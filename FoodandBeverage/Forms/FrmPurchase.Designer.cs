@@ -306,7 +306,7 @@ namespace FoodandBeverage.Forms
             this.tlp_textboxes.Controls.Add(this.label29, 4, 0);
             this.tlp_textboxes.Controls.Add(this.rcvamt, 5, 0);
             this.tlp_textboxes.Controls.Add(this.tlp_discount, 1, 0);
-            this.tlp_textboxes.Location = new System.Drawing.Point(-3, 238);
+            this.tlp_textboxes.Location = new System.Drawing.Point(0, 146);
             this.tlp_textboxes.Name = "tlp_textboxes";
             this.tlp_textboxes.RowCount = 4;
             this.tlp_textboxes.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -2029,7 +2029,7 @@ namespace FoodandBeverage.Forms
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.72131F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.27869F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 231F));
-            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 286F));
+            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 290F));
             this.tlp_productpop_header.Controls.Add(this.cmb_pcategory, 2, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_item, 0, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_ingrediant, 1, 0);
@@ -2055,7 +2055,7 @@ namespace FoodandBeverage.Forms
             "Item Category",
             "Expence Reasons",
             "Addon Category"});
-            this.cmb_pcategory.Location = new System.Drawing.Point(222, 3);
+            this.cmb_pcategory.Location = new System.Drawing.Point(218, 3);
             this.cmb_pcategory.Name = "cmb_pcategory";
             this.cmb_pcategory.Size = new System.Drawing.Size(225, 28);
             this.cmb_pcategory.TabIndex = 2;
@@ -2068,7 +2068,7 @@ namespace FoodandBeverage.Forms
             this.rd_item.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rd_item.Location = new System.Drawing.Point(3, 3);
             this.rd_item.Name = "rd_item";
-            this.rd_item.Size = new System.Drawing.Size(96, 24);
+            this.rd_item.Size = new System.Drawing.Size(94, 24);
             this.rd_item.TabIndex = 0;
             this.rd_item.TabStop = true;
             this.rd_item.Text = "Sale Product";
@@ -2080,9 +2080,9 @@ namespace FoodandBeverage.Forms
             this.rd_ingrediant.AutoSize = true;
             this.rd_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rd_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rd_ingrediant.Location = new System.Drawing.Point(105, 3);
+            this.rd_ingrediant.Location = new System.Drawing.Point(103, 3);
             this.rd_ingrediant.Name = "rd_ingrediant";
-            this.rd_ingrediant.Size = new System.Drawing.Size(111, 24);
+            this.rd_ingrediant.Size = new System.Drawing.Size(109, 24);
             this.rd_ingrediant.TabIndex = 1;
             this.rd_ingrediant.TabStop = true;
             this.rd_ingrediant.Text = "Non Sale Product";
@@ -2142,6 +2142,7 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 586);
+            this.Controls.Add(this.tlp_textboxes);
             this.Controls.Add(this.pnl_barcode);
             this.Controls.Add(this.pnl_dtpexp);
             this.Controls.Add(this.pnlCustomer);
@@ -2149,7 +2150,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_grid_registartion);
             this.Controls.Add(this.txt_exist_vendorid);
             this.Controls.Add(this.lblGrandTot);
-            this.Controls.Add(this.tlp_textboxes);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPurchase";

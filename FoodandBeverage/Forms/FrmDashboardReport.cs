@@ -63,15 +63,23 @@ namespace FoodandBeverage.Forms
         #region Grid Declaration
         //active dine grid
         public static int adslno = 0;
-        public static int adordermasteridno = 1;
-        public static int addateno = 2;
-        public static int adtotalqtyno = 3;
+        public static int addateno = 1;
+        public static int adordermasteridno = 2;
+        public static int adtotablecodeno = 3;
+        public static int adtablecateno = 4;
+        public static int adtimedurationno = 5;
+        public static int adtotalqtyno = 6;
 
         //Cancel order  grid
         public static int cslno = 0;
-        public static int cordermasteridno = 1;
-        public static int cdateno = 2;
-        public static int cresdesno = 3;
+        public static int cdateno = 1;
+        public static int cordermasteridno = 2;
+        public static int ctablecodeno = 3;
+        public static int ctablecateno = 4;
+        public static int ctotalqtyno = 5;
+        public static int cresdesno = 6;
+        public static int ccanceldateno = 7;
+
 
         //active Promotion grid
         public static int apslno = 0;
@@ -234,15 +242,21 @@ namespace FoodandBeverage.Forms
                         instanceFrmDashboard.StartTimerAndRefreshLabel();
                     }
                     RefreshFlag = true;
+
                     ShowLoadingdGif();
                     RunMethodInSeparateThread(LoadSlowfastData);
                     RunMethodInSeparateThread(Filldashboard);
                     RunMethodInSeparateThread(FillChartTwoBarChart);
                     RunMethodInSeparateThread(FillCharttotaldiscountChart);
+                    RunMethodInSeparateThread(FillBoxdetailed);
                     RunMethodInSeparateThread(FillChartExpence);
                     RunMethodInSeparateThread(Fillpaymentdetailed);
 
-                    tcslow_move.SelectedIndex = 1;
+                    if(tcslow_move.SelectedIndex == 1)
+                        tcslow_move.SelectedIndex = 0;
+                    else
+                        tcslow_move.SelectedIndex = 1;
+
                     this.Focus();
                     pnl_dashboard.ResumeLayout();
                 }
@@ -659,8 +673,8 @@ namespace FoodandBeverage.Forms
                 else if (dgv_activedine.Visible)
                 {
                     searchData_Activeorder.Clear();
-                    dmnSearch.Select = "ti.OrderMasterId Field1 ,CreatedDateTime Field2,TotalQuantity Field3";
-                    dmnSearch.Table = "tblTable_info ti left join tblOrderMaster om on om.OrderMasterId =ti.OrderMasterId ";
+                    dmnSearch.Select = "ti.OrderMasterId Field1 ,om.CreatedDateTime Field2,TotalQuantity Field3,BookmasterId Field4,c.CategoryName Field5, DATEDIFF(MINUTE, om.CreatedDateTime, getdate() ) AS Field6,ti.tid Field7,ti.TableCode Field8,c.Fcid Field9";
+                    dmnSearch.Table = "tblTable_info ti left join tblOrderMaster om on om.OrderMasterId =ti.OrderMasterId   left join tblCategory_FTI c on c.Fcid =ti.Fcid  ";
                     dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderMasterId >0";
                     dmnSearch.OrderBy = "order by  ti.OrderMasterId Desc";
                     var resultdate = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -687,10 +701,13 @@ namespace FoodandBeverage.Forms
                 else if (dgv_cancelorders.Visible)
                 {
                     searchData_CancelOrder.Clear();
-                    dmnSearch.Select = "DISTINCT om.OrderMasterId AS Field1,om.CreatedDateTime AS Field2,ko.OrderCancelNotes AS Field3";
-                    dmnSearch.Table = " tblOrderMaster om LEFT JOIN tblkitchenOrder ko ON ko.OrderMasterId = om.OrderMasterId AND ko.Status = 0 ";
-                    dmnSearch.WhereNdGroupBy = "where om.Status=0  AND CONVERT(DATE, om.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "')";
-                    dmnSearch.OrderBy = "order by  om.OrderMasterId Desc";
+                    dmnSearch.Select = " * FROM (SELECT DISTINCT  om.OrderMasterId AS Field1,om.CreatedDateTime AS Field2,om.TotalQuantity AS Field3, BookmasterId AS Field4,c.CategoryName AS Field5,t.tid AS Field7,t.TableCode AS Field8,c.Fcid AS Field9,ko.RemoveNotes AS Field10,om.OrderCancelDateTime Field11";
+                    dmnSearch.Table = " tblOrderMaster om"+
+                                      " LEFT JOIN tblkitchenOrder ko ON ko.OrderMasterId = om.OrderMasterId AND ko.Status = 0"+
+                                      " LEFT JOIN tblTable_info t ON t.Tid = om.Tid"+
+                                      " LEFT JOIN tblCategory_FTI c ON c.Fcid = t.Fcid ";
+                    dmnSearch.WhereNdGroupBy = "where om.Status=0  AND CONVERT(DATE, om.CreatedDateTime) = CONVERT(DATE, '" + dtp_dashboard.Value.ToString("yyyy-MM-dd") + "') ) AS subquery";
+                    dmnSearch.OrderBy = "ORDER BY  Field1 DESC";
                     searchData_CancelOrder = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     totalPages = (int)Math.Ceiling((double)searchData_CancelOrder.Count / pageSize);
                 }
@@ -737,6 +754,62 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashboardChart UpdateData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+        public void FillTablecode_Comb_Cdine(int rowindex, int bookingmasterid)
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "MTID as id, Name as value";
+                objSearch.Table = "tblBookDetails";
+                objSearch.WhereNdGroupBy = "where BookmasterId =" + bookingmasterid + " and Rid=0";
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                gridSource[0].Id = 0;
+                gridSource[0].Value = "Show Table";
+
+                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgv_cancelorders.Rows[rowindex].Cells[ctablecodeno];
+                dropDown.DataSource = gridSource;
+                dropDown.ValueMember = "Id";
+                dropDown.DisplayMember = "Value";
+
+                dropDown.Value = gridSource[0].Id;
+                dropDown.ReadOnly = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashboardChart page FillTablecode_Comb", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
+        public void FillTablecode_Comb_Adine(int rowindex, int bookingmasterid)
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "MTID as id, Name as value";
+                objSearch.Table = "tblBookDetails";
+                objSearch.WhereNdGroupBy = "where BookmasterId =" + bookingmasterid + " and Rid=0";
+                objSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                gridSource[0].Id = 0;
+                gridSource[0].Value = "Show Table";
+
+                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgv_activedine.Rows[rowindex].Cells[adtotablecodeno];
+                dropDown.DataSource = gridSource;
+                dropDown.ValueMember = "Id";
+                dropDown.DisplayMember = "Value";
+
+                dropDown.Value = gridSource[0].Id;
+                dropDown.ReadOnly = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashboardChart page FillTablecode_Comb", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
         private void DisplayDataForCurrentPage()
         {
             try
@@ -769,6 +842,34 @@ namespace FoodandBeverage.Forms
                             dgv_activedine.Rows[j].Cells[adslno].Value = i + 1;
                             dgv_activedine.Rows[j].Cells[adordermasteridno].Value = searchData_Activeorder[i].Field1;
                             dgv_activedine.Rows[j].Cells[addateno].Value = searchData_Activeorder[i].Field2;
+
+                            if (Convert.ToInt32(searchData_Activeorder[i].Field4) > 0)
+                            {
+                                FillTablecode_Comb_Adine(j, Convert.ToInt32(searchData_Activeorder[i].Field4));
+                            }
+                            else
+                            {
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgv_activedine.Rows[j].Cells[adtotablecodeno];
+                                List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(searchData_Activeorder[i].Field7), searchData_Activeorder[i].Field8);
+                                comboBoxItems.Add(comboBoxItem);
+                                dropDown.DataSource = comboBoxItems;
+                                dropDown.ValueMember = "Id";
+                                dropDown.DisplayMember = "Value";
+                                dropDown.Value = comboBoxItems[0].Id;
+                                dropDown.ReadOnly = true;
+
+                                DataGridViewComboBoxCell dropDown1 = (DataGridViewComboBoxCell)dgv_activedine.Rows[j].Cells[adtablecateno];
+                                List<ComboBoxItem> comboBoxItems1 = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem1 = new ComboBoxItem(Convert.ToInt32(searchData_Activeorder[i].Field9), searchData_Activeorder[i].Field5);
+                                comboBoxItems1.Add(comboBoxItem1);
+                                dropDown1.DataSource = comboBoxItems1;
+                                dropDown1.ValueMember = "Id";
+                                dropDown1.DisplayMember = "Value";
+                                dropDown1.Value = comboBoxItems1[0].Id;
+                                dropDown1.ReadOnly = true;
+                            }
+                            dgv_activedine.Rows[j].Cells[adtimedurationno].Value = searchData_Activeorder[i].Field6+ " Min";
                             dgv_activedine.Rows[j].Cells[adtotalqtyno].Value = searchData_Activeorder[i].Field3;
                         }
 
@@ -810,9 +911,37 @@ namespace FoodandBeverage.Forms
                         for (int i = startIndex, j = 0; i < endIndex; i++, j++)
                         {
                             dgv_cancelorders.Rows[j].Cells[cslno].Value = i + 1;
-                            dgv_cancelorders.Rows[j].Cells[cordermasteridno].Value = searchData_CancelOrder[i].Field1;
                             dgv_cancelorders.Rows[j].Cells[cdateno].Value = searchData_CancelOrder[i].Field2;
-                            dgv_cancelorders.Rows[j].Cells[cresdesno].Value = searchData_CancelOrder[i].Field3;
+                            dgv_cancelorders.Rows[j].Cells[cordermasteridno].Value = searchData_CancelOrder[i].Field1;
+
+                            if (Convert.ToInt32(searchData_CancelOrder[i].Field4) > 0)
+                            {
+                                FillTablecode_Comb_Cdine(j, Convert.ToInt32(searchData_CancelOrder[i].Field4));
+                            }
+                            else
+                            {
+                                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgv_cancelorders.Rows[j].Cells[adtotablecodeno];
+                                List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(searchData_CancelOrder[i].Field7), searchData_CancelOrder[i].Field8);
+                                comboBoxItems.Add(comboBoxItem);
+                                dropDown.DataSource = comboBoxItems;
+                                dropDown.ValueMember = "Id";
+                                dropDown.DisplayMember = "Value";
+                                dropDown.Value = comboBoxItems[0].Id;
+                                dropDown.ReadOnly = true;
+
+                                DataGridViewComboBoxCell dropDown1 = (DataGridViewComboBoxCell)dgv_cancelorders.Rows[j].Cells[adtablecateno];
+                                List<ComboBoxItem> comboBoxItems1 = new List<ComboBoxItem>();
+                                ComboBoxItem comboBoxItem1 = new ComboBoxItem(Convert.ToInt32(searchData_CancelOrder[i].Field9), searchData_CancelOrder[i].Field5);
+                                comboBoxItems1.Add(comboBoxItem1);
+                                dropDown1.DataSource = comboBoxItems1;
+                                dropDown1.ValueMember = "Id";
+                                dropDown1.DisplayMember = "Value";
+                                dropDown1.Value = comboBoxItems1[0].Id;
+                                dropDown1.ReadOnly = true;
+                            }
+                            dgv_cancelorders.Rows[j].Cells[cresdesno].Value = searchData_CancelOrder[i].Field10;
+                            dgv_cancelorders.Rows[j].Cells[ccanceldateno].Value = searchData_CancelOrder[i].Field11;
                         }
 
                     }
@@ -832,7 +961,6 @@ namespace FoodandBeverage.Forms
                         tlp_offer_type_main.Visible = false;
                         tlp_pagination.Visible = false;
                     }
-
                 }
                 else if (dgv_activefood.Visible)
                 {
@@ -1078,6 +1206,7 @@ namespace FoodandBeverage.Forms
 
                     }
                 }
+
                // UpdatePageButtonsText();
             }
             catch(Exception ex)
@@ -1086,7 +1215,22 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashboardChart DisplayDataForCurrentPage()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+        public class ComboBoxItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
 
+            public ComboBoxItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value;
+            }
+        }
         private void SetColumnPadding(TableLayoutPanel tlp, int columnStart, int columnEnd, Padding padding)
         {
             for (int col = columnStart; col <= columnEnd; col++)
@@ -2036,20 +2180,19 @@ namespace FoodandBeverage.Forms
                 DmnGridFields dmnSearch = new DmnGridFields();
                 dmnSearch.Field1 = startDate.ToString("yyyy-MM-dd");
                 dmnSearch.Field2 = endDate.ToString("yyyy-MM-dd");
-                resultslowfastdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);
-                //if (this.IsHandleCreated)
-                //{
-                //    this.Invoke(new Action(() =>
-                //    {
-                //        tcslow_move.SelectedIndex = 1;
-                //    }));
-                //}
-        
+                resultslowfastdata = bllSearch.serachSolwItemSerach("prdSolwFastItemchartdata", dmnSearch);               
             }
             catch(Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("DashboardChart LoadSlowfastData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        clsgen.LogException("DashboardChart LoadSlowfastData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+                    }));
+                }
+
             }
         }
         private void tcslow_move_SelectedIndexChanged(object sender, EventArgs e)
@@ -2061,7 +2204,13 @@ namespace FoodandBeverage.Forms
                     int rowIndex = 0;
                     int columnIndex = 0;
                     var resultdata = resultslowfastdata;
-                    if (tcslow_move.SelectedIndex == 0)
+                    int rcount = 0;
+                    if (resultdata.Count < 10)
+                        rcount = resultdata.Count;
+                    else
+                        rcount = 10;
+
+                    if (tcslow_move.SelectedIndex == 0 && rcount>0)
                     {
                         rowIndex = 0;
                         tlp_fastmovingitem.Controls.Clear();
@@ -2107,7 +2256,7 @@ namespace FoodandBeverage.Forms
                         rowIndex++;
                         #endregion
 
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < rcount; i++)
                         {
                             columnIndex = 0;
                             //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
@@ -2153,7 +2302,7 @@ namespace FoodandBeverage.Forms
                             rowIndex++;
                         }
                     }
-                    else if (tcslow_move.SelectedIndex == 1)
+                    else if (tcslow_move.SelectedIndex == 1 && rcount > 0)
                     {
                         rowIndex = 0;
                         tlp_slowingitems.Controls.Clear();
@@ -2200,7 +2349,7 @@ namespace FoodandBeverage.Forms
                         rowIndex++;
                         #endregion
 
-                        for (int i = resultdata.Count - 1; i >= Math.Max(0, resultdata.Count - 10); i--)
+                        for (int i = rcount - 1; i >= Math.Max(0, rcount - 10); i--)
                         {
                             if (Convert.ToDecimal(resultdata[i].Field3) < 5)
                             {
@@ -2543,6 +2692,11 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("DashboardChart lbl_up_res_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
+        }
+
+        private void FrmDashboardReport_Resize(object sender, EventArgs e)
+        {
+
         }
     }
 }

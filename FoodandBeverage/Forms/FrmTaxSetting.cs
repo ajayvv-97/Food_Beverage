@@ -101,7 +101,7 @@ namespace FoodandBeverage.Forms
             {
                 if (deleteclcik == false)
                 {
-                    if (Convert.ToString(cmbTaxType.Text) != "")
+                    if (Convert.ToString(cmbTaxType.Text) != "" && TaxSettingsId==0)
                     {
                         BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
                         DmnSearch objSearch = new DmnSearch();
@@ -144,7 +144,7 @@ namespace FoodandBeverage.Forms
                             return true;
                         }
                     }
-                    return false;
+                    return true;
                 }
                 return true;
             }
@@ -236,7 +236,7 @@ namespace FoodandBeverage.Forms
                         else
                             dmnTaxSettings.Status = 0;
                         dmnTaxSettings.BranchId = FrmDashboard.BranchId;
-                        dmnTaxSettings.CreatedBy = 1;
+                        dmnTaxSettings.CreatedBy = FrmDashboard.UserId;
 
                         var lstData = bllTaxSettings.AddData("prdInsert_Upd_TaxSettings", dmnTaxSettings);
                         savestatus = lstData;
@@ -666,6 +666,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 filltax();
+                TaxSettingsId = 0;
                 cmbTaxType.SelectedIndex = 0;
                 txtSgstPrcnt.Text = "";
                 txtIgstPrcnt.Text = "";

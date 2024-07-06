@@ -407,7 +407,14 @@ namespace FoodandBeverage.Forms
                 decimal value;
                 if (decimal.TryParse(odamt.Text, out value) && decimal.TryParse(totaldiscountamt.Text, out value) && decimal.TryParse(oaamount.Text, out value))
                 {
+                    if (string.IsNullOrEmpty(rcvamt.Text))
+                        rcvamt.Text = "0";
+
+                    if (rcvamt.Text==".")
+                        rcvamt.Text = "0";
+
                     decimal netAmount = 0;
+
                     netAmount = (Convert.ToDecimal(lblGrandTot.Text) + Convert.ToDecimal(oaamount.Text))
                         - (Convert.ToDecimal(totaldiscountamt.Text) + Convert.ToDecimal(odamt.Text));
                     netamount.Text = netAmount.ToString("N2");
@@ -946,6 +953,49 @@ namespace FoodandBeverage.Forms
                     CellRow = true;
 
                 }
+                else if (dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != null && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
+                {
+                    if (e.ColumnIndex == iprate)
+                    {
+                        DataGridViewTextBoxCell cell = dgvProduct[iprate, e.RowIndex] as DataGridViewTextBoxCell;
+                        if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue) <= 0)
+                        {
+                            CMessageBox.Show("Purchase Rate Is A Mandatory Field", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                        }
+                    }
+                    else if (e.ColumnIndex == idisper)
+                    {
+                        DataGridViewTextBoxCell cell = dgvProduct[idisper, e.RowIndex] as DataGridViewTextBoxCell;
+                        if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
+                        {
+                            CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                        }
+                    }
+                    else if (e.ColumnIndex == idisamt)
+                    {
+                        DataGridViewTextBoxCell cell = dgvProduct[idisamt, e.RowIndex] as DataGridViewTextBoxCell;
+                        if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
+                        {
+                            CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                        }
+
+                    }
+                    else if (e.ColumnIndex == iqty)
+                    {
+                        int value;
+                        DataGridViewTextBoxCell cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
+                        if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == "." || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) < 1)
+                        {
+                            CMessageBox.Show("Quantity Must Be Grater Than Or Equal To One", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                        }  
+                    }
+                    CellRow = true;
+
+                }
             }
             catch (Exception ex)
             {
@@ -963,7 +1013,7 @@ namespace FoodandBeverage.Forms
                 {
                     totalcellamount(e.RowIndex);
                 }
-                if ((e.ColumnIndex == 5 || e.ColumnIndex == 15) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
+                if ((e.ColumnIndex == 5 || e.ColumnIndex == 15) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iprate].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value))
                     {
@@ -974,7 +1024,7 @@ namespace FoodandBeverage.Forms
                         return;
                     }
                 }
-                else if ((e.ColumnIndex == 15 || e.ColumnIndex == 16) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
+                else if ((e.ColumnIndex == 15 || e.ColumnIndex == 16) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
                 {
                     if (Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[israte].Value) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[imrp].Value))
                     {
@@ -991,8 +1041,6 @@ namespace FoodandBeverage.Forms
                     SendKeys.Send("{RIGHT}");
                     CellRow = false;
                 }
-
-
                 grandTotal();
             }
             catch (Exception ex)
@@ -1259,7 +1307,46 @@ namespace FoodandBeverage.Forms
                         return;
                     }
                 }
-                CellRow = true;
+                else if (dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != null && CellRow == true && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.NonSaleProduct))
+                {
+                    DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
+                    cell = dgvProduct[idisper, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() != "" && cell.EditedFormattedValue.ToString() != string.Empty && cell.EditedFormattedValue.ToString() != ".")
+                    {
+                        if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > 100)
+                        {
+                            CMessageBox.Show("Discount % Must Be Less Than 100", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        cell.Value = "0";
+                    }
+                    cell = dgvProduct[idisamt, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() != "" || cell.EditedFormattedValue.ToString() != string.Empty)
+                    {
+                        if (Convert.ToDecimal(cell.EditedFormattedValue.ToString()) > Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells[iamount].Value))
+                        {
+                            CMessageBox.Show("Discount Amount Must Be Less Than Amount", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        cell.Value = "0";
+                    }
+                    cell = dgvProduct[iqty, e.RowIndex] as DataGridViewTextBoxCell;
+                    if (cell.EditedFormattedValue.ToString() == "" || cell.EditedFormattedValue.ToString() == string.Empty || Convert.ToDecimal(cell.EditedFormattedValue.ToString()) <= 0)
+                    {
+                        CMessageBox.Show("Quantity Must Be Grater Than Zero", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+                    CellRow = true;
             }
             catch (Exception ex)
             {
@@ -1404,9 +1491,8 @@ namespace FoodandBeverage.Forms
                     dgvProduct.Enabled = true;
 
                     dgvProduct.Focus();
-                    dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
-
-
+                    //dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
+                    RecallF8();
                 }
 
             }
@@ -1468,16 +1554,8 @@ namespace FoodandBeverage.Forms
 
         private void rcvamt_TextChanged(object sender, EventArgs e)
         {
-            netAmount();
-        }
-
-        private void rcvamt_Validating(object sender, CancelEventArgs e)
-        {
-            decimal value;
-            if (!decimal.TryParse(rcvamt.Text, out value))
-            {
-                rcvamt.Text = "0";
-            }
+            if(rcvamt.Text !="")
+                netAmount();
         }
 
         private void discountper_KeyPress(object sender, KeyPressEventArgs e)
@@ -1687,14 +1765,15 @@ namespace FoodandBeverage.Forms
                     panelProductPopup.Visible = false;
                     dgvProduct.Enabled = true;
                     dgvProduct.Focus();
+
                     //dgvProduct.CurrentCell = dgvProduct.Rows[r1].Cells[iqty];
 
-                    txtbarcode.Text = "";
-                    pnl_barcode.Visible = true;
-                    pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                    txtbarcode.Focus();
+                    //txtbarcode.Text = "";
+                    //pnl_barcode.Visible = true;
+                    //pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                    //txtbarcode.Focus();
 
-
+                    RecallBarCode();
                 }
                 else
                 {
@@ -2155,6 +2234,10 @@ namespace FoodandBeverage.Forms
                         _instancedash.Closeform();
                     }
                     return true;
+
+                    case Keys.F8:
+                    purchasepop();
+                    return true;                    
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
@@ -2356,5 +2439,93 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void rcvamt_Validating(object sender, CancelEventArgs e)
+        {
+            decimal value;
+            if (!decimal.TryParse(rcvamt.Text, out value))
+            {
+                rcvamt.Text = "0";
+            }
+        }
+        public void RecallF8()
+        {
+            try
+            {
+                if (dgvProduct.Rows.Count == 1)
+                {
+                    dgvProduct.Focus();
+                    dgvProduct.CurrentCell = dgvProduct.Rows[0].Cells[iname];
+                    if (Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == null)
+                    {
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "F8 for Products";
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Red;
+                    }
+                    dgvProduct.BeginEdit(true);
+                }
+                else if (dgvProduct.Rows.Count > 1)
+                {
+                    for (int i = 0; i < dgvProduct.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value) == null)
+                        {
+                            dgvProduct.Focus();
+                            dgvProduct.CurrentCell = dgvProduct.Rows[i].Cells[iname];
+                            dgvProduct.BeginEdit(true);
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Purchase page Recallmenu() ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Purchase));
+
+            }
+        }
+        public void RecallBarCode()
+        {
+            try
+            {
+                if (dgvProduct.Rows.Count == 1)
+                {
+                    dgvProduct.Focus();
+                    dgvProduct.CurrentCell = dgvProduct.Rows[0].Cells[ibarcode];
+
+                    //if (Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == null)
+                    //{
+                    //    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "F8 for Products";
+                    //    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Red;
+                    //}
+
+                    dgvProduct.BeginEdit(true);
+                }
+                else if (dgvProduct.Rows.Count > 1)
+                {
+                    for (int i = 0; i < dgvProduct.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemid].Value) == null)
+                        {
+                            dgvProduct.Focus();
+                            dgvProduct.CurrentCell = dgvProduct.Rows[i].Cells[ibarcode];
+                            dgvProduct.BeginEdit(true);
+
+                            txtbarcode.Text = "";
+                            pnl_barcode.Visible = true;
+                            pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                            txtbarcode.Focus();
+
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Purchase page Recallmenu() ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Purchase));
+
+            }
+        }
     }
 }

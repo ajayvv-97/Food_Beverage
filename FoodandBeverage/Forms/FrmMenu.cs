@@ -13,6 +13,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
+using System.Collections.Generic;
 
 namespace FoodandBeverage.Forms
 {
@@ -163,9 +164,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                var itemSource = new List<DmnGridFields>();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                if(searchmode==0)
+                if (rb_product.Checked==false && rb_item.Checked==false)
+                {
+                    dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                    dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+                    dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.status=1 and P.Fcid=" + searchmode;
+                    dmnSearch.OrderBy = "order by Product";
+                    rb_product.Checked = true;
+                }
+                else if (searchmode==0)
                 {
                     dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
                     dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
@@ -189,7 +199,7 @@ namespace FoodandBeverage.Forms
                     dmnSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1 and i.Fcid=" + searchmode;
                     dmnSearch.OrderBy = "order by i.Itemname";
                 }
-                var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_menu.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
@@ -553,7 +563,7 @@ namespace FoodandBeverage.Forms
                 dgv_menu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
                 clearall();
-
+                
                 if (rb_item.Checked)
                     Item_Fill();
                 else if (rb_product.Checked)

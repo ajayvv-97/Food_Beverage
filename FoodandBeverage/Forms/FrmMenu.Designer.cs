@@ -48,6 +48,15 @@ namespace FoodandBeverage.Forms
             this.btnrefresh = new System.Windows.Forms.Button();
             this.btnclose = new System.Windows.Forms.Button();
             this.dgv_menu = new System.Windows.Forms.DataGridView();
+            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Productid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Usertype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menucategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_registartion_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_outer_design = new System.Windows.Forms.TableLayoutPanel();
@@ -67,15 +76,6 @@ namespace FoodandBeverage.Forms
             this.txtsearch = new System.Windows.Forms.TextBox();
             this.cmbSearchlist = new System.Windows.Forms.ComboBox();
             this.chk_selectall = new System.Windows.Forms.CheckBox();
-            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Productid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Usertype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.menucategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.fcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_registration.SuspendLayout();
             this.tlp_button.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_menu)).BeginInit();
@@ -355,6 +355,79 @@ namespace FoodandBeverage.Forms
             this.dgv_menu.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_menu_EditingControlShowing);
             this.dgv_menu.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_menu_KeyDown);
             // 
+            // no
+            // 
+            this.no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.no.HeaderText = "Slno";
+            this.no.Name = "no";
+            this.no.ReadOnly = true;
+            this.no.Width = 66;
+            // 
+            // mid
+            // 
+            this.mid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.mid.HeaderText = "mid";
+            this.mid.Name = "mid";
+            this.mid.ReadOnly = true;
+            this.mid.Visible = false;
+            // 
+            // Productid
+            // 
+            this.Productid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Productid.HeaderText = "Productid";
+            this.Productid.Name = "Productid";
+            this.Productid.ReadOnly = true;
+            this.Productid.Visible = false;
+            // 
+            // Usertype
+            // 
+            this.Usertype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Usertype.HeaderText = "Food Name";
+            this.Usertype.Name = "Usertype";
+            this.Usertype.ReadOnly = true;
+            // 
+            // menucategory
+            // 
+            this.menucategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.menucategory.HeaderText = "Category";
+            this.menucategory.Name = "menucategory";
+            this.menucategory.ReadOnly = true;
+            // 
+            // price
+            // 
+            this.price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.price.HeaderText = "Price";
+            this.price.Name = "price";
+            this.price.ReadOnly = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.NullValue = "0";
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.Width = 93;
+            // 
+            // Status
+            // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.NullValue = false;
+            this.Status.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.Width = 62;
+            // 
+            // fcid
+            // 
+            this.fcid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fcid.HeaderText = "fcid";
+            this.fcid.Name = "fcid";
+            this.fcid.Visible = false;
+            // 
             // tlp_main
             // 
             this.tlp_main.BackColor = System.Drawing.Color.AliceBlue;
@@ -548,7 +621,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.52427F));
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.47573F));
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 210F));
-            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlp_search_box.Controls.Add(this.btn_refresh_list2, 1, 0);
             this.tlp_search_box.Controls.Add(this.Search, 3, 0);
             this.tlp_search_box.Controls.Add(this.txtsearch, 2, 0);
@@ -569,7 +642,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh_list2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_refresh_list2.FlatAppearance.BorderSize = 0;
             this.btn_refresh_list2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh_list2.Location = new System.Drawing.Point(225, 3);
+            this.btn_refresh_list2.Location = new System.Drawing.Point(224, 3);
             this.btn_refresh_list2.Name = "btn_refresh_list2";
             this.btn_refresh_list2.Size = new System.Drawing.Size(41, 31);
             this.btn_refresh_list2.TabIndex = 1;
@@ -584,9 +657,9 @@ namespace FoodandBeverage.Forms
             this.Search.FlatAppearance.BorderSize = 0;
             this.Search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Search.Location = new System.Drawing.Point(482, 3);
+            this.Search.Location = new System.Drawing.Point(481, 3);
             this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(74, 31);
+            this.Search.Size = new System.Drawing.Size(75, 31);
             this.Search.TabIndex = 3;
             this.Search.UseVisualStyleBackColor = true;
             this.Search.Click += new System.EventHandler(this.Search_Click);
@@ -597,7 +670,7 @@ namespace FoodandBeverage.Forms
             this.txtsearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtsearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtsearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtsearch.Location = new System.Drawing.Point(272, 3);
+            this.txtsearch.Location = new System.Drawing.Point(271, 3);
             this.txtsearch.Multiline = true;
             this.txtsearch.Name = "txtsearch";
             this.txtsearch.Size = new System.Drawing.Size(204, 31);
@@ -615,7 +688,7 @@ namespace FoodandBeverage.Forms
             this.cmbSearchlist.FormattingEnabled = true;
             this.cmbSearchlist.Location = new System.Drawing.Point(3, 3);
             this.cmbSearchlist.Name = "cmbSearchlist";
-            this.cmbSearchlist.Size = new System.Drawing.Size(216, 28);
+            this.cmbSearchlist.Size = new System.Drawing.Size(215, 28);
             this.cmbSearchlist.TabIndex = 0;
             this.cmbSearchlist.SelectionChangeCommitted += new System.EventHandler(this.cmbSearchlist_SelectionChangeCommitted_1);
             // 
@@ -629,79 +702,6 @@ namespace FoodandBeverage.Forms
             this.chk_selectall.TabIndex = 6;
             this.chk_selectall.UseVisualStyleBackColor = false;
             this.chk_selectall.Visible = false;
-            // 
-            // no
-            // 
-            this.no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.no.HeaderText = "Slno";
-            this.no.Name = "no";
-            this.no.ReadOnly = true;
-            this.no.Width = 66;
-            // 
-            // mid
-            // 
-            this.mid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.mid.HeaderText = "mid";
-            this.mid.Name = "mid";
-            this.mid.ReadOnly = true;
-            this.mid.Visible = false;
-            // 
-            // Productid
-            // 
-            this.Productid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Productid.HeaderText = "Productid";
-            this.Productid.Name = "Productid";
-            this.Productid.ReadOnly = true;
-            this.Productid.Visible = false;
-            // 
-            // Usertype
-            // 
-            this.Usertype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Usertype.HeaderText = "Food Name";
-            this.Usertype.Name = "Usertype";
-            this.Usertype.ReadOnly = true;
-            // 
-            // menucategory
-            // 
-            this.menucategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.menucategory.HeaderText = "Category";
-            this.menucategory.Name = "menucategory";
-            this.menucategory.ReadOnly = true;
-            // 
-            // price
-            // 
-            this.price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.price.HeaderText = "Price";
-            this.price.Name = "price";
-            this.price.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.Width = 93;
-            // 
-            // Status
-            // 
-            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.NullValue = false;
-            this.Status.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.Width = 62;
-            // 
-            // fcid
-            // 
-            this.fcid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.fcid.HeaderText = "fcid";
-            this.fcid.Name = "fcid";
-            this.fcid.Visible = false;
             // 
             // FrmMenu
             // 

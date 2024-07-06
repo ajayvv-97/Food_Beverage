@@ -15,6 +15,7 @@ namespace FoodandBeverage.Forms
     public partial class FrmUnit : Form
     {
         ClsGeneral clsgen = new ClsGeneral();
+        public bool deleteclcik = false;
         #region Declare Grid
         public static int slno = 0;
         public static int idno = 1;
@@ -42,47 +43,87 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
+        public Boolean NameExist()
+        {
+            try
+            {
+                if (deleteclcik == false)
+                {
+                    if (string.IsNullOrWhiteSpace(txtUid.Text))
+                        txtUid.Text = "0";
 
+                    if (Convert.ToString(txtunit.Text) != "" && Convert.ToInt32(txtUid.Text) == 0)
+                    {
+                        BllSearch<DmnUnit> bllSearch = new BllSearch<DmnUnit>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch = new DmnSearch();
+                        objSearch.Select = "UId,UnitName";
+                        objSearch.Table = " tblUnit ";
+                        objSearch.WhereNdGroupBy = " Where  UnitName = '" + txtunit.Text + "'";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                        if (gridSource.Count >= 1)
+                        {
+                            CMessageBox.Show("Unit Name Already Exist !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtunit.Focus();
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    return true;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Unit page NameExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Unit));
+                return false;
+            }
+
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
             {
                 if (MandatoryCheckuser())
                 {
-
-                    //if (clsGeneral.NameExist_UserType(txtusertype.Text))
-                    //{
-                    bool savestatus;
-                    if (txtunit.Text != "")
-                    {
-                        DmnUnit dmnunit = new DmnUnit();
-                        BllUnit bllunit = new BllUnit();
-                        if (string.IsNullOrWhiteSpace(txtUid.Text))
-                            txtUid.Text = "0";
-                        dmnunit.UId = Convert.ToInt32(txtUid.Text);
-                        dmnunit.UnitName = txtunit.Text;
-                        dmnunit.Description = txtdescr.Text;
-                        dmnunit.CreatedBy = FrmDashboard.UserId;
-                        dmnunit.BranchId = FrmDashboard.BranchId;
-                        if (chk_active.Checked)
-                            dmnunit.Status = 1;
-                        else
-                            dmnunit.Status = 0;
-                        var usertype = bllunit.AddeditData("prdInsert_upd_Unit", dmnunit);
-                        if (usertype.UId > 0)
+                    if (NameExist())
+                    { 
+                        bool savestatus;
+                        if (txtunit.Text != "")
                         {
-                            if (Convert.ToUInt32(txtUid.Text) > 0)
-                                CMessageBox.Show("Update Successfully saved");
+                            DmnUnit dmnunit = new DmnUnit();
+                            BllUnit bllunit = new BllUnit();
+                            if (string.IsNullOrWhiteSpace(txtUid.Text))
+                                txtUid.Text = "0";
+                            dmnunit.UId = Convert.ToInt32(txtUid.Text);
+                            dmnunit.UnitName = txtunit.Text;
+                            dmnunit.Description = txtdescr.Text;
+                            dmnunit.CreatedBy = FrmDashboard.UserId;
+                            dmnunit.BranchId = FrmDashboard.BranchId;
+                            if (chk_active.Checked)
+                                dmnunit.Status = 1;
                             else
-                                CMessageBox.Show("Successfully saved");
-                            clearall();
-                            Fillunit();
+                                dmnunit.Status = 0;
+                            var usertype = bllunit.AddeditData("prdInsert_upd_Unit", dmnunit);
+                            if (usertype.UId > 0)
+                            {
+                                if (Convert.ToUInt32(txtUid.Text) > 0)
+                                    CMessageBox.Show("Update Successfully saved");
+                                else
+                                    CMessageBox.Show("Successfully saved");
+                                clearall();
+                                Fillunit();
+                            }
+                            else
+                                CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                         }
                         else
-                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            txtunit.Focus();
                     }
-                    else
-                        txtunit.Focus();
                 }
             }
             catch (Exception ex)
@@ -93,6 +134,7 @@ namespace FoodandBeverage.Forms
         }
         public void clearall()
         {
+            deleteclcik = false;
             txtUid.Text = "";
             txtdescr.Text = "";
             txtunit.Text = "";
@@ -272,6 +314,7 @@ namespace FoodandBeverage.Forms
                 var result = CMessageBox.Show("Do You want Delete This Unit", "Confirm The Action", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    deleteclcik = true;
                     chk_active.Checked = false;
                     btnsave.PerformClick();
                     Fillunit();

@@ -323,6 +323,18 @@ namespace FoodandBeverage.Interfaces
         TableView = 30,
         Report = 31,
     };
+    public enum Menubutton
+    {
+        Menuhome = 1,
+        Menutable = 2,
+        Menuoperation = 3,
+        MenuEmployee = 4,
+        Menubilling = 5,
+        Menureport = 6,
+        Menusetting = 7,
+        Menulogout = 8
+    }
+
 
 }
 

@@ -365,7 +365,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (dgvProduct.Rows[cellproductid].Cells[iitemId].Value != "" && dgvProduct.Rows[cellproductid].Cells[iprate].Value != "" && dgvProduct.Rows[cellproductid].Cells[iqty].Value != "")
+                if (dgvProduct.Rows[cellproductid].Cells[iitemId].Value != "" && dgvProduct.Rows[cellproductid].Cells[iitemId].Value != null  && dgvProduct.Rows[cellproductid].Cells[iprate].Value != "" && dgvProduct.Rows[cellproductid].Cells[iqty].Value != "")
                 {
                     decimal amount = Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[iprate].Value) * Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[iqty].Value);
                     dgvProduct.Rows[cellproductid].Cells[iamount].Value = amount.ToString("N2");
@@ -406,23 +406,41 @@ namespace FoodandBeverage.Forms
                 string cellpopupid = Convert.ToString(dgvProduct.Rows[cellproductid].Cells[iitemId].Value);
                 if (cellpopupid != "")
                 {
-                    BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
-                    dmnSearch.Select = "TaxType, IgstPrcnt,VatPrcnt";
-                    dmnSearch.Table = "tblTaxSettings";
-                    dmnSearch.WhereNdGroupBy = " where status=1 and TaxSettingsId= " + dgvProduct.Rows[cellproductid].Cells[itaxsettingid].Value;
-                    dmnSearch.OrderBy = "";
-                    var gridSource = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource[0].TaxType == "GST")
+                    //BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
+                    //dmnSearch.Select = "TaxType, IgstPrcnt,VatPrcnt";
+                    //dmnSearch.Table = "tblTaxSettings";
+                    //dmnSearch.WhereNdGroupBy = " where status=1 and TaxSettingsId= " + dgvProduct.Rows[cellproductid].Cells[itaxsettingid].Value;
+                    //dmnSearch.OrderBy = "";
+                    //var gridSource = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
+                    //if (gridSource[0].TaxType == "GST")
+                    //{
+                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount / 100);
+                    //    dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
+                    //    dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].IgstPrcnt;
+                    //}
+                    //if (gridSource[0].TaxType == "VAT")
+                    //{
+                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * amount / 100);
+                    //    dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
+                    //    dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].VatPrcnt;
+                    //}
+                    //BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
+                    //dmnSearch.Select = "TaxType, IgstPrcnt,VatPrcnt";
+                    //dmnSearch.Table = "tblTaxSettings";
+                    //dmnSearch.WhereNdGroupBy = " where status=1 and TaxSettingsId= " + dgvProduct.Rows[cellproductid].Cells[itaxsettingid].Value;
+                    //dmnSearch.OrderBy = "";
+                    //var gridSource = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
+                    if (Convert.ToString(dgvProduct.Rows[cellproductid].Cells[itaxtype].Value) == "GST")
                     {
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount / 100);
+                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[itaxper].Value) * amount / 100);
                         dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
-                        dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].IgstPrcnt;
+                       // dgvProduct.Rows[cellproductid].Cells[itaxper].Value = dgvProduct.Rows[cellproductid].Cells[itaxper].Value;
                     }
-                    if (gridSource[0].TaxType == "VAT")
+                    if (Convert.ToString(dgvProduct.Rows[cellproductid].Cells[itaxtype].Value) == "VAT")
                     {
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * amount / 100);
+                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[itaxper].Value) * amount / 100);
                         dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
-                        dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].VatPrcnt;
+                        //dgvProduct.Rows[cellproductid].Cells[itaxper].Value = dgvProduct.Rows[cellproductid].Cells[itaxper].Value;
                     }
                 }
             }
@@ -595,6 +613,13 @@ namespace FoodandBeverage.Forms
                 if (decimal.TryParse(odamt.Text, out value) && decimal.TryParse(totaldiscountamt.Text, out value) && decimal.TryParse(oaamount.Text, out value))
                 {
                     decimal netAmount = 0;
+
+                    if (string.IsNullOrEmpty(rcvamt.Text))
+                        rcvamt.Text = "0";
+
+                    if (rcvamt.Text == ".")
+                        rcvamt.Text = "0";
+
                     netAmount = (Convert.ToDecimal(lblGrandTot.Text) + Convert.ToDecimal(oaamount.Text))
                         - (Convert.ToDecimal(totaldiscountamt.Text) + Convert.ToDecimal(odamt.Text));
                     netamount.Text = netAmount.ToString("N2");
@@ -1076,7 +1101,8 @@ namespace FoodandBeverage.Forms
 
         private void oaamount_TextChanged(object sender, EventArgs e)
         {
-            netAmount();
+            if(rcvamt.Text!="")
+                netAmount();
         }
 
         private void rcvamt_Validating(object sender, CancelEventArgs e)
@@ -1707,7 +1733,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Table = "tblPurchaseMaster a " +
                     "LEFT JOIN tblPurchaseDetails b ON b.PurchaseMasterId = a.PurchaseMasterId " +
                     "";
-                dmnSearch.WhereNdGroupBy = "where a.PurchaseMasterId='" + purchaseID + "'" + " and b.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'"; ;
+                dmnSearch.WhereNdGroupBy = "where a.PurchaseMasterId='" + purchaseID + "'" + " and b.ItemBarCode='" + dgvProduct.Rows[gridrowno].Cells[ibarcode].Value + "'";
                 dmnSearch.OrderBy = " Order By a.EntryNo ASC ";
                 var gridSource1 = bllSearch1.GetSearchData("prdSearch", dmnSearch);
 
@@ -1839,11 +1865,11 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                dmnSearch.Select = "a.ItemBarCode as ItemBarCode,ItemCode as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,a.PrId as PrId,,i.TaxType";
-                                if (Convert.ToString(gridSource1[0].ProductType) == "3")
-                                    tablename = "tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblitem i ON i.ItemId = a.ItemId ";
+                                dmnSearch.Select = " a.ItemBarCode as ItemBarCode,a.itemName as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,a.PrId as PrId,i.TaxType";
+                                //if (Convert.ToString(gridSource1[0].ProductType) == "3")
+                                    tablename = " tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblitem i ON i.ItemId = a.ItemId ";
                                 dmnSearch.Table = tablename;
-                                dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = '" + gridSource1[0].PurchaseDetailId + "'";
+                                dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = " + gridSource1[0].PurchaseDetailId ;
                                 dmnSearch.OrderBy = "";
                                 var gridSource3 = _bllSearchitem.GetSearchData("prdSearch", dmnSearch);
 

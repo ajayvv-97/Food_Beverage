@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         ClsGeneral clsgen = new ClsGeneral();
-
+        public bool deleteclcik = false;
         #region Declaration Grid
         public static int cslno = 0;
         public static int cidno = 1;
@@ -68,36 +68,38 @@ namespace FoodandBeverage.Forms
             {
                 if (Mandatory())
                 {
-                    bool savestatus;
-                    DmnCategory dmnfood = new DmnCategory();
-                    BllCategory bllcategory = new BllCategory();
-                    if (string.IsNullOrWhiteSpace(txtFcid.Text))
-                        txtFcid.Text = "0";
-                    dmnfood.Fcid = Convert.ToInt32(txtFcid.Text);
-                    dmnfood.CategoryName = txtfoodCate.Text;
-                    dmnfood.CategoryType = Convert.ToInt32(cmb_cate.SelectedIndex);
-                    dmnfood.Description = txtdescr.Text;
-                    dmnfood.CreatedBy = FrmDashboard.UserId;
-                    dmnfood.BranchId = FrmDashboard.BranchId;
-                    dmnfood.ColorCode = Convert.ToString(txtcolorname.Text); 
-                    if (chk_active.Checked)
-                        dmnfood.Status = 1;
-                    else
-                        dmnfood.Status = 0;
-
-                    var usertype = bllcategory.AddeditData("prdInsert_upd_Category", dmnfood);
-                    if (usertype.Fcid > 0)
+                    if (NameExist())
                     {
-                        if (Convert.ToUInt32(txtFcid.Text) > 0)
-                            CMessageBox.Show("Update Successfully saved");
+                        bool savestatus;
+                        DmnCategory dmnfood = new DmnCategory();
+                        BllCategory bllcategory = new BllCategory();
+                        if (string.IsNullOrWhiteSpace(txtFcid.Text))
+                            txtFcid.Text = "0";
+                        dmnfood.Fcid = Convert.ToInt32(txtFcid.Text);
+                        dmnfood.CategoryName = txtfoodCate.Text;
+                        dmnfood.CategoryType = Convert.ToInt32(cmb_cate.SelectedIndex);
+                        dmnfood.Description = txtdescr.Text;
+                        dmnfood.CreatedBy = FrmDashboard.UserId;
+                        dmnfood.BranchId = FrmDashboard.BranchId;
+                        dmnfood.ColorCode = Convert.ToString(txtcolorname.Text);
+                        if (chk_active.Checked)
+                            dmnfood.Status = 1;
                         else
-                            CMessageBox.Show("Successfully saved");
-                        clearall();
-                        Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
-                    }
-                    else
-                        CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            dmnfood.Status = 0;
 
+                        var usertype = bllcategory.AddeditData("prdInsert_upd_Category", dmnfood);
+                        if (usertype.Fcid > 0)
+                        {
+                            if (Convert.ToUInt32(txtFcid.Text) > 0)
+                                CMessageBox.Show("Update Successfully saved");
+                            else
+                                CMessageBox.Show("Successfully saved");
+                            clearall();
+                            Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
+                        }
+                        else
+                            CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)
@@ -110,6 +112,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                deleteclcik = false;
                 txtFcid.Text = "";
                 txtdescr.Text = "";
                 txtfoodCate.Text = "";
@@ -218,7 +221,7 @@ namespace FoodandBeverage.Forms
                 _objSearch.ColumnHeaders = "ID,Category Name,Description";
                 _objSearch.Select = "Fcid as Id,CategoryName as Field1,Description as Field2";
                 _objSearch.Table = "tblCategory_FTI";
-                _objSearch.WhereNdGroupBy = "where Status = 1";
+                _objSearch.WhereNdGroupBy = "where Status = 1 ";
                 _objSearch.OrderBy = " ORDER BY CategoryName";
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
@@ -240,7 +243,7 @@ namespace FoodandBeverage.Forms
                         int catid = Convert.ToInt32(returnValue);
                         BllSearch<DmnCategory> bllSearch1 = new BllSearch<DmnCategory>();
                         DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType";
+                        objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType,ColorCode";
                         objSearch.Table = "tblCategory_FTI";
                         objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
                         objSearch.OrderBy = "";
@@ -413,7 +416,6 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-
         private void cmb_cate_SelectedValueChanged(object sender, EventArgs e)
         {
             Fillcategory(Convert.ToInt32(cmb_cate.SelectedIndex));
@@ -426,6 +428,7 @@ namespace FoodandBeverage.Forms
                 var result = CMessageBox.Show("Do You want Delete This Category", "Confirm The Action", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    deleteclcik = true;
                     chk_active.Checked = false;
                     btnsave.PerformClick();
                     Fillcategory(5);
@@ -438,6 +441,46 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        public Boolean NameExist()
+        {
+            try
+            {
+                if (deleteclcik == false)
+                {
+                    if (string.IsNullOrWhiteSpace(txtFcid.Text))
+                        txtFcid.Text = "0";
+
+                    if (Convert.ToString(txtfoodCate.Text) != "" && Convert.ToInt32(txtFcid.Text)==0)
+                    {
+                        BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                        DmnSearch objSearch = new DmnSearch();
+                        objSearch = new DmnSearch();
+                        objSearch.Select = "Fcid,CategoryName";
+                        objSearch.Table = " tblCategory_FTI ";
+                        objSearch.WhereNdGroupBy = " Where CategoryType = " + cmb_cate.SelectedIndex + " and CategoryName = '" + txtfoodCate.Text+"'";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                        if (gridSource.Count >= 1)
+                        {
+                            CMessageBox.Show("Category Name Already Exist On This "+cmb_cate.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtfoodCate.Focus();
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    return true;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Category page NameExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Category));
+                return false;
+            }
+        }
 
         private void dgv_category_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
