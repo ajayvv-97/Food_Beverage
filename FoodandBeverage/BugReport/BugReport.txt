@@ -133,3 +133,77 @@ User Name: Ajay v v
 Designation: Manager
 FormTypeId: 17
 -------------------------------------------------------------------------
+Date and Time: 04-07-2024 10:25:34
+Page : DashboardChart tcslow_move_SelectedIndexChanged
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: test
+Designation: 
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 10:34:38
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: test
+Designation: 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 10:39:35
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: test
+Designation: 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 10:41:34
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: test
+Designation: 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:03
+Page : DashboardChart Filldashboard()
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:03
+Page : DashboardChart LoadSlowfastData
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:06
+Page : DashboardChart FillCharttotaldiscountChart()
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:07
+Page : DashboardChart Fillpaymentdetailed()
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:07
+Page : DashboardChart FillChartTwoBarChart()
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------
+Date and Time: 04-07-2024 11:09:07
+Page : DashboardChart FillbarRrevenuChart()
+Exception: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 29
+-------------------------------------------------------------------------

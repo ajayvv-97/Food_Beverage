@@ -74,6 +74,7 @@
             this.dtpWorkingHrs.ShowUpDown = true;
             this.dtpWorkingHrs.Size = new System.Drawing.Size(201, 26);
             this.dtpWorkingHrs.TabIndex = 2;
+            this.dtpWorkingHrs.Value = new System.DateTime(2024, 7, 4, 8, 0, 0, 0);
             this.dtpWorkingHrs.ValueChanged += new System.EventHandler(this.dtpWorkingHrs_ValueChanged);
             // 
             // dgvDesignation

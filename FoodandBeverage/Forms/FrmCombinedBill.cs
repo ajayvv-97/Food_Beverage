@@ -18,6 +18,7 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
+
         #region Declaration
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
@@ -26,6 +27,7 @@ namespace FoodandBeverage.Forms
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         #endregion
+
         #region Grid Declaration
         public static int cslno = 0;
         public static int actionno = 1;
@@ -41,6 +43,7 @@ namespace FoodandBeverage.Forms
         public static int statusno = 10;
         public static int ordermasteridno = 11;
         #endregion
+
         private void FrmCombinedBill_Load(object sender, EventArgs e)
         {
             dgvorderview.BorderStyle = BorderStyle.None;
@@ -672,13 +675,10 @@ namespace FoodandBeverage.Forms
                     int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordermasteridno].Value);
                     printBill(oid);
                 }
-
             }
             catch (Exception ex)
             {
-
             }
-
         }
         public void printBill(int oid)
         {
@@ -724,13 +724,10 @@ namespace FoodandBeverage.Forms
                         pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width + 500, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
                         pnl_split.Visible = true;
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
-
             }
         }
         public void FillTablecode_Comb(int rowindex, int salemasterid, int ordermasterid, int ordertype)

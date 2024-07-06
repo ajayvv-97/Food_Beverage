@@ -268,8 +268,11 @@ namespace FoodandBeverage.Forms
                                     txtcolorname.Text = "#4682B4";
                                 }
                                 else
+                                {
+                                    pbcolorpicker.BackgroundImage = null;
                                     pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
-                                txtcolorname.Text = itemSource[0].ColorCode;
+                                }
+
                                 btnresetcolor.Visible = true;
                                 pbcolorpicker.Visible = true;
                                 lblcolor.Visible = true;
@@ -470,8 +473,11 @@ namespace FoodandBeverage.Forms
                             pbcolorpicker.BackColor = Color.Transparent;
                             txtcolorname.Text = "#4682B4";
                         }  
-                        else                        
+                        else
+                        {
+                            pbcolorpicker.BackgroundImage = null;
                             pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
+                        }
                         txtcolorname.Text = itemSource[0].ColorCode;
                         btnresetcolor.Visible = true;
                         pbcolorpicker.Visible = true;

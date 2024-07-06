@@ -89,46 +89,46 @@ namespace FoodandBeverage.Forms
             this.label24 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
-            this.txtwebsite = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl = new System.Windows.Forms.Label();
-            this.lble = new System.Windows.Forms.Label();
-            this.txtemail = new System.Windows.Forms.TextBox();
-            this.tlp_buttons = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlcerti_view = new System.Windows.Forms.Panel();
-            this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_outdesign = new System.Windows.Forms.TableLayoutPanel();
-            this.txtcid = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_pb_viewheader = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_cert_view_name = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.btnclose_certi_view = new System.Windows.Forms.Button();
-            this.pb_cert_view_box = new System.Windows.Forms.PictureBox();
             this.btn_cert1_remove = new System.Windows.Forms.Button();
             this.btn_cert1_view = new System.Windows.Forms.Button();
             this.btn_cert1_dow = new System.Windows.Forms.Button();
             this.pb1 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_cert2_remove = new System.Windows.Forms.Button();
             this.btn_cert2_view = new System.Windows.Forms.Button();
             this.btn_cert2_dow = new System.Windows.Forms.Button();
             this.pb2 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_certipic3 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_certipic2 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_cert3_remove = new System.Windows.Forms.Button();
             this.btn_cert3_view = new System.Windows.Forms.Button();
             this.btn_cert3_dow = new System.Windows.Forms.Button();
             this.pb3 = new System.Windows.Forms.PictureBox();
+            this.txtwebsite = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_certipic1 = new System.Windows.Forms.Button();
+            this.lbl = new System.Windows.Forms.Label();
+            this.lble = new System.Windows.Forms.Label();
+            this.txtemail = new System.Windows.Forms.TextBox();
+            this.tlp_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btclose = new System.Windows.Forms.Button();
             this.btfresh = new System.Windows.Forms.Button();
             this.btsave = new System.Windows.Forms.Button();
+            this.pnlcerti_view = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tlp_pb_viewheader = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_cert_view_name = new System.Windows.Forms.Label();
+            this.btnclose_certi_view = new System.Windows.Forms.Button();
+            this.pb_cert_view_box = new System.Windows.Forms.PictureBox();
+            this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_outdesign = new System.Windows.Forms.TableLayoutPanel();
+            this.txtcid = new System.Windows.Forms.TextBox();
             this.pbCust2 = new System.Windows.Forms.PictureBox();
             this.pbCust1 = new System.Windows.Forms.PictureBox();
             this.cboProof2 = new System.Windows.Forms.PictureBox();
@@ -141,23 +141,23 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.tlp_buttons.SuspendLayout();
             this.pnlcerti_view.SuspendLayout();
-            this.tlp_main.SuspendLayout();
-            this.tlp_outdesign.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tlp_pb_viewheader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_cert_view_box)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
+            this.tlp_main.SuspendLayout();
+            this.tlp_outdesign.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).BeginInit();
@@ -865,6 +865,7 @@ namespace FoodandBeverage.Forms
             this.tbl_BookingIn.Size = new System.Drawing.Size(240, 27);
             this.tbl_BookingIn.TabIndex = 0;
             this.tbl_BookingIn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbl_BookingIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbl_BookingIn_KeyPress_1);
             // 
             // label13
             // 
@@ -985,331 +986,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel17.Size = new System.Drawing.Size(31, 161);
             this.tableLayoutPanel17.TabIndex = 294;
             // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel16, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.pb2, 0, 0);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(253, 322);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 1;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(242, 167);
-            this.tableLayoutPanel6.TabIndex = 15;
-            // 
-            // tableLayoutPanel16
-            // 
-            this.tableLayoutPanel16.ColumnCount = 1;
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_remove, 0, 2);
-            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_view, 0, 1);
-            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_dow, 0, 0);
-            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel16.Location = new System.Drawing.Point(208, 3);
-            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
-            this.tableLayoutPanel16.RowCount = 4;
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(31, 161);
-            this.tableLayoutPanel16.TabIndex = 307;
-            // 
-            // tableLayoutPanel9
-            // 
-            this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel9.Controls.Add(this.btn_certipic3, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.certi3, 0, 0);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(501, 282);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 1;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(246, 34);
-            this.tableLayoutPanel9.TabIndex = 13;
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.ColumnCount = 2;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel8.Controls.Add(this.btn_certipic2, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.certi2, 0, 0);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(253, 282);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 1;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(242, 34);
-            this.tableLayoutPanel8.TabIndex = 12;
-            // 
-            // tableLayoutPanel7
-            // 
-            this.tableLayoutPanel7.ColumnCount = 2;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel18, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.pb3, 0, 0);
-            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(501, 322);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 1;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(246, 167);
-            this.tableLayoutPanel7.TabIndex = 16;
-            // 
-            // tableLayoutPanel18
-            // 
-            this.tableLayoutPanel18.ColumnCount = 1;
-            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_remove, 0, 2);
-            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_view, 0, 1);
-            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_dow, 0, 0);
-            this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel18.Location = new System.Drawing.Point(212, 3);
-            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
-            this.tableLayoutPanel18.RowCount = 4;
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel18.Size = new System.Drawing.Size(31, 161);
-            this.tableLayoutPanel18.TabIndex = 308;
-            // 
-            // txtwebsite
-            // 
-            this.txtwebsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtwebsite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtwebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtwebsite.Location = new System.Drawing.Point(253, 214);
-            this.txtwebsite.Multiline = true;
-            this.txtwebsite.Name = "txtwebsite";
-            this.txtwebsite.Size = new System.Drawing.Size(242, 30);
-            this.txtwebsite.TabIndex = 10;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.AutoSize = true;
-            this.tableLayoutPanel4.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel4.Controls.Add(this.certi1, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.btn_certipic1, 1, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 282);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 34);
-            this.tableLayoutPanel4.TabIndex = 11;
-            // 
-            // lbl
-            // 
-            this.lbl.AutoSize = true;
-            this.lbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl.Location = new System.Drawing.Point(253, 191);
-            this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(242, 20);
-            this.lbl.TabIndex = 331;
-            this.lbl.Text = "Website ";
-            this.lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lble
-            // 
-            this.lble.AutoSize = true;
-            this.lble.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lble.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lble.Location = new System.Drawing.Point(3, 191);
-            this.lble.Name = "lble";
-            this.lble.Size = new System.Drawing.Size(244, 20);
-            this.lble.TabIndex = 332;
-            this.lble.Text = "Email ";
-            this.lble.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtemail
-            // 
-            this.txtemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtemail.Location = new System.Drawing.Point(3, 214);
-            this.txtemail.Multiline = true;
-            this.txtemail.Name = "txtemail";
-            this.txtemail.Size = new System.Drawing.Size(244, 30);
-            this.txtemail.TabIndex = 9;
-            this.txtemail.Validating += new System.ComponentModel.CancelEventHandler(this.txtemail_Validating);
-            // 
-            // tlp_buttons
-            // 
-            this.tlp_buttons.ColumnCount = 3;
-            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_buttons.Controls.Add(this.btclose, 2, 0);
-            this.tlp_buttons.Controls.Add(this.btfresh, 1, 0);
-            this.tlp_buttons.Controls.Add(this.btsave, 0, 0);
-            this.tlp_buttons.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tlp_buttons.Location = new System.Drawing.Point(469, 558);
-            this.tlp_buttons.Name = "tlp_buttons";
-            this.tlp_buttons.RowCount = 1;
-            this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_buttons.Size = new System.Drawing.Size(306, 36);
-            this.tlp_buttons.TabIndex = 310;
-            // 
-            // pnlcerti_view
-            // 
-            this.pnlcerti_view.BackColor = System.Drawing.Color.AliceBlue;
-            this.pnlcerti_view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlcerti_view.Controls.Add(this.tableLayoutPanel1);
-            this.pnlcerti_view.Location = new System.Drawing.Point(786, 19);
-            this.pnlcerti_view.Name = "pnlcerti_view";
-            this.pnlcerti_view.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlcerti_view.Size = new System.Drawing.Size(501, 512);
-            this.pnlcerti_view.TabIndex = 0;
-            this.pnlcerti_view.Visible = false;
-            // 
-            // tlp_main
-            // 
-            this.tlp_main.ColumnCount = 1;
-            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_main.Controls.Add(this.tlp_outdesign, 0, 1);
-            this.tlp_main.Controls.Add(this.tlp_header_nav, 0, 0);
-            this.tlp_main.Controls.Add(this.tlp_buttons, 0, 2);
-            this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_main.Location = new System.Drawing.Point(0, 0);
-            this.tlp_main.Name = "tlp_main";
-            this.tlp_main.RowCount = 3;
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.65233F));
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.34767F));
-            this.tlp_main.Size = new System.Drawing.Size(778, 597);
-            this.tlp_main.TabIndex = 315;
-            // 
-            // tlp_outdesign
-            // 
-            this.tlp_outdesign.ColumnCount = 3;
-            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1F));
-            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98F));
-            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1F));
-            this.tlp_outdesign.Controls.Add(this.tlp_reg, 1, 0);
-            this.tlp_outdesign.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_outdesign.Location = new System.Drawing.Point(3, 42);
-            this.tlp_outdesign.Name = "tlp_outdesign";
-            this.tlp_outdesign.RowCount = 2;
-            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this.tlp_outdesign.Size = new System.Drawing.Size(772, 510);
-            this.tlp_outdesign.TabIndex = 316;
-            // 
-            // txtcid
-            // 
-            this.txtcid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtcid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtcid.Location = new System.Drawing.Point(8, 8);
-            this.txtcid.MaxLength = 20;
-            this.txtcid.Multiline = true;
-            this.txtcid.Name = "txtcid";
-            this.txtcid.Size = new System.Drawing.Size(17, 23);
-            this.txtcid.TabIndex = 316;
-            this.txtcid.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtcid.Visible = false;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label25, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tlp_pb_viewheader, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pb_cert_view_box, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 504);
-            this.tableLayoutPanel1.TabIndex = 14;
-            // 
-            // tlp_pb_viewheader
-            // 
-            this.tlp_pb_viewheader.ColumnCount = 2;
-            this.tlp_pb_viewheader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.25051F));
-            this.tlp_pb_viewheader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.749486F));
-            this.tlp_pb_viewheader.Controls.Add(this.lbl_cert_view_name, 0, 0);
-            this.tlp_pb_viewheader.Controls.Add(this.btnclose_certi_view, 1, 0);
-            this.tlp_pb_viewheader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_pb_viewheader.Location = new System.Drawing.Point(3, 3);
-            this.tlp_pb_viewheader.Name = "tlp_pb_viewheader";
-            this.tlp_pb_viewheader.RowCount = 1;
-            this.tlp_pb_viewheader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_pb_viewheader.Size = new System.Drawing.Size(487, 24);
-            this.tlp_pb_viewheader.TabIndex = 0;
-            // 
-            // lbl_cert_view_name
-            // 
-            this.lbl_cert_view_name.AutoSize = true;
-            this.lbl_cert_view_name.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_cert_view_name.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl_cert_view_name.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lbl_cert_view_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_cert_view_name.ForeColor = System.Drawing.Color.White;
-            this.lbl_cert_view_name.Location = new System.Drawing.Point(3, 0);
-            this.lbl_cert_view_name.Name = "lbl_cert_view_name";
-            this.lbl_cert_view_name.Size = new System.Drawing.Size(452, 24);
-            this.lbl_cert_view_name.TabIndex = 14;
-            this.lbl_cert_view_name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.BackColor = System.Drawing.Color.Transparent;
-            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(3, 490);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(487, 15);
-            this.label25.TabIndex = 291;
-            this.label25.Text = "ESC close";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label25.Visible = false;
-            // 
-            // btnclose_certi_view
-            // 
-            this.btnclose_certi_view.BackColor = System.Drawing.Color.White;
-            this.btnclose_certi_view.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change1;
-            this.btnclose_certi_view.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnclose_certi_view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnclose_certi_view.FlatAppearance.BorderSize = 0;
-            this.btnclose_certi_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnclose_certi_view.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnclose_certi_view.ForeColor = System.Drawing.Color.Red;
-            this.btnclose_certi_view.Location = new System.Drawing.Point(461, 3);
-            this.btnclose_certi_view.Name = "btnclose_certi_view";
-            this.btnclose_certi_view.Size = new System.Drawing.Size(23, 18);
-            this.btnclose_certi_view.TabIndex = 12;
-            this.btnclose_certi_view.UseVisualStyleBackColor = false;
-            this.btnclose_certi_view.Click += new System.EventHandler(this.btnclose_certi_view_Click);
-            // 
-            // pb_cert_view_box
-            // 
-            this.pb_cert_view_box.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_certificate_icon;
-            this.pb_cert_view_box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_cert_view_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pb_cert_view_box.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb_cert_view_box.Location = new System.Drawing.Point(3, 33);
-            this.pb_cert_view_box.Name = "pb_cert_view_box";
-            this.pb_cert_view_box.Size = new System.Drawing.Size(487, 454);
-            this.pb_cert_view_box.TabIndex = 0;
-            this.pb_cert_view_box.TabStop = false;
-            // 
             // btn_cert1_remove
             // 
             this.btn_cert1_remove.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_clear__icon;
@@ -1365,6 +1041,39 @@ namespace FoodandBeverage.Forms
             this.pb1.TabIndex = 293;
             this.pb1.TabStop = false;
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel16, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.pb2, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(253, 322);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(242, 167);
+            this.tableLayoutPanel6.TabIndex = 15;
+            // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.ColumnCount = 1;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_remove, 0, 2);
+            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_view, 0, 1);
+            this.tableLayoutPanel16.Controls.Add(this.btn_cert2_dow, 0, 0);
+            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(208, 3);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 4;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(31, 161);
+            this.tableLayoutPanel16.TabIndex = 307;
+            // 
             // btn_cert2_remove
             // 
             this.btn_cert2_remove.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_clear__icon;
@@ -1374,7 +1083,7 @@ namespace FoodandBeverage.Forms
             this.btn_cert2_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert2_remove.Location = new System.Drawing.Point(3, 83);
             this.btn_cert2_remove.Name = "btn_cert2_remove";
-            this.btn_cert2_remove.Size = new System.Drawing.Size(28, 32);
+            this.btn_cert2_remove.Size = new System.Drawing.Size(25, 32);
             this.btn_cert2_remove.TabIndex = 335;
             this.btn_cert2_remove.UseVisualStyleBackColor = true;
             this.btn_cert2_remove.Click += new System.EventHandler(this.btn_cert2_remove_Click);
@@ -1388,7 +1097,7 @@ namespace FoodandBeverage.Forms
             this.btn_cert2_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert2_view.Location = new System.Drawing.Point(3, 43);
             this.btn_cert2_view.Name = "btn_cert2_view";
-            this.btn_cert2_view.Size = new System.Drawing.Size(28, 34);
+            this.btn_cert2_view.Size = new System.Drawing.Size(25, 34);
             this.btn_cert2_view.TabIndex = 334;
             this.btn_cert2_view.UseVisualStyleBackColor = true;
             this.btn_cert2_view.Click += new System.EventHandler(this.btn_cert2_view_Click);
@@ -1402,7 +1111,7 @@ namespace FoodandBeverage.Forms
             this.btn_cert2_dow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert2_dow.Location = new System.Drawing.Point(3, 3);
             this.btn_cert2_dow.Name = "btn_cert2_dow";
-            this.btn_cert2_dow.Size = new System.Drawing.Size(28, 34);
+            this.btn_cert2_dow.Size = new System.Drawing.Size(25, 34);
             this.btn_cert2_dow.TabIndex = 333;
             this.btn_cert2_dow.UseVisualStyleBackColor = true;
             this.btn_cert2_dow.Click += new System.EventHandler(this.btn_cert2_dow_Click);
@@ -1420,6 +1129,21 @@ namespace FoodandBeverage.Forms
             this.pb2.TabIndex = 306;
             this.pb2.TabStop = false;
             // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.ColumnCount = 2;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel9.Controls.Add(this.btn_certipic3, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.certi3, 0, 0);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(501, 282);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 1;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(246, 34);
+            this.tableLayoutPanel9.TabIndex = 13;
+            // 
             // btn_certipic3
             // 
             this.btn_certipic3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_certipic3.BackgroundImage")));
@@ -1434,6 +1158,21 @@ namespace FoodandBeverage.Forms
             this.btn_certipic3.UseVisualStyleBackColor = true;
             this.btn_certipic3.Click += new System.EventHandler(this.btn_certipic3_Click);
             // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.ColumnCount = 2;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel8.Controls.Add(this.btn_certipic2, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.certi2, 0, 0);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(253, 282);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.RowCount = 1;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(242, 34);
+            this.tableLayoutPanel8.TabIndex = 12;
+            // 
             // btn_certipic2
             // 
             this.btn_certipic2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_certipic2.BackgroundImage")));
@@ -1447,6 +1186,39 @@ namespace FoodandBeverage.Forms
             this.btn_certipic2.TabIndex = 2;
             this.btn_certipic2.UseVisualStyleBackColor = true;
             this.btn_certipic2.Click += new System.EventHandler(this.btn_certipic2_Click);
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel18, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.pb3, 0, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(501, 322);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(246, 167);
+            this.tableLayoutPanel7.TabIndex = 16;
+            // 
+            // tableLayoutPanel18
+            // 
+            this.tableLayoutPanel18.ColumnCount = 1;
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_remove, 0, 2);
+            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_view, 0, 1);
+            this.tableLayoutPanel18.Controls.Add(this.btn_cert3_dow, 0, 0);
+            this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel18.Location = new System.Drawing.Point(212, 3);
+            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
+            this.tableLayoutPanel18.RowCount = 4;
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.Size = new System.Drawing.Size(31, 161);
+            this.tableLayoutPanel18.TabIndex = 308;
             // 
             // btn_cert3_remove
             // 
@@ -1503,6 +1275,34 @@ namespace FoodandBeverage.Forms
             this.pb3.TabIndex = 307;
             this.pb3.TabStop = false;
             // 
+            // txtwebsite
+            // 
+            this.txtwebsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtwebsite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtwebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtwebsite.Location = new System.Drawing.Point(253, 214);
+            this.txtwebsite.Multiline = true;
+            this.txtwebsite.Name = "txtwebsite";
+            this.txtwebsite.Size = new System.Drawing.Size(242, 30);
+            this.txtwebsite.TabIndex = 10;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.AutoSize = true;
+            this.tableLayoutPanel4.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.certi1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btn_certipic1, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 282);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 34);
+            this.tableLayoutPanel4.TabIndex = 11;
+            // 
             // btn_certipic1
             // 
             this.btn_certipic1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_certipic1.BackgroundImage")));
@@ -1516,6 +1316,59 @@ namespace FoodandBeverage.Forms
             this.btn_certipic1.TabIndex = 1;
             this.btn_certipic1.UseVisualStyleBackColor = true;
             this.btn_certipic1.Click += new System.EventHandler(this.btn_certipic1_Click);
+            // 
+            // lbl
+            // 
+            this.lbl.AutoSize = true;
+            this.lbl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl.Location = new System.Drawing.Point(253, 191);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(242, 20);
+            this.lbl.TabIndex = 331;
+            this.lbl.Text = "Website ";
+            this.lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lble
+            // 
+            this.lble.AutoSize = true;
+            this.lble.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lble.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lble.Location = new System.Drawing.Point(3, 191);
+            this.lble.Name = "lble";
+            this.lble.Size = new System.Drawing.Size(244, 20);
+            this.lble.TabIndex = 332;
+            this.lble.Text = "Email ";
+            this.lble.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtemail
+            // 
+            this.txtemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtemail.Location = new System.Drawing.Point(3, 214);
+            this.txtemail.Multiline = true;
+            this.txtemail.Name = "txtemail";
+            this.txtemail.Size = new System.Drawing.Size(244, 30);
+            this.txtemail.TabIndex = 9;
+            this.txtemail.Validating += new System.ComponentModel.CancelEventHandler(this.txtemail_Validating);
+            // 
+            // tlp_buttons
+            // 
+            this.tlp_buttons.ColumnCount = 3;
+            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_buttons.Controls.Add(this.btclose, 2, 0);
+            this.tlp_buttons.Controls.Add(this.btfresh, 1, 0);
+            this.tlp_buttons.Controls.Add(this.btsave, 0, 0);
+            this.tlp_buttons.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tlp_buttons.Location = new System.Drawing.Point(469, 558);
+            this.tlp_buttons.Name = "tlp_buttons";
+            this.tlp_buttons.RowCount = 1;
+            this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_buttons.Size = new System.Drawing.Size(306, 36);
+            this.tlp_buttons.TabIndex = 310;
             // 
             // btclose
             // 
@@ -1561,6 +1414,154 @@ namespace FoodandBeverage.Forms
             this.btsave.TabIndex = 0;
             this.btsave.UseVisualStyleBackColor = false;
             this.btsave.Click += new System.EventHandler(this.btsave_Click);
+            // 
+            // pnlcerti_view
+            // 
+            this.pnlcerti_view.BackColor = System.Drawing.Color.AliceBlue;
+            this.pnlcerti_view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlcerti_view.Controls.Add(this.tableLayoutPanel1);
+            this.pnlcerti_view.Location = new System.Drawing.Point(786, 19);
+            this.pnlcerti_view.Name = "pnlcerti_view";
+            this.pnlcerti_view.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlcerti_view.Size = new System.Drawing.Size(501, 512);
+            this.pnlcerti_view.TabIndex = 0;
+            this.pnlcerti_view.Visible = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.label25, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tlp_pb_viewheader, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pb_cert_view_box, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 504);
+            this.tableLayoutPanel1.TabIndex = 14;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.BackColor = System.Drawing.Color.Transparent;
+            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.Red;
+            this.label25.Location = new System.Drawing.Point(3, 490);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(487, 15);
+            this.label25.TabIndex = 291;
+            this.label25.Text = "ESC close";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label25.Visible = false;
+            // 
+            // tlp_pb_viewheader
+            // 
+            this.tlp_pb_viewheader.ColumnCount = 2;
+            this.tlp_pb_viewheader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.25051F));
+            this.tlp_pb_viewheader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.749486F));
+            this.tlp_pb_viewheader.Controls.Add(this.lbl_cert_view_name, 0, 0);
+            this.tlp_pb_viewheader.Controls.Add(this.btnclose_certi_view, 1, 0);
+            this.tlp_pb_viewheader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlp_pb_viewheader.Location = new System.Drawing.Point(3, 3);
+            this.tlp_pb_viewheader.Name = "tlp_pb_viewheader";
+            this.tlp_pb_viewheader.RowCount = 1;
+            this.tlp_pb_viewheader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_pb_viewheader.Size = new System.Drawing.Size(487, 24);
+            this.tlp_pb_viewheader.TabIndex = 0;
+            // 
+            // lbl_cert_view_name
+            // 
+            this.lbl_cert_view_name.AutoSize = true;
+            this.lbl_cert_view_name.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_cert_view_name.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl_cert_view_name.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lbl_cert_view_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cert_view_name.ForeColor = System.Drawing.Color.White;
+            this.lbl_cert_view_name.Location = new System.Drawing.Point(3, 0);
+            this.lbl_cert_view_name.Name = "lbl_cert_view_name";
+            this.lbl_cert_view_name.Size = new System.Drawing.Size(452, 24);
+            this.lbl_cert_view_name.TabIndex = 14;
+            this.lbl_cert_view_name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnclose_certi_view
+            // 
+            this.btnclose_certi_view.BackColor = System.Drawing.Color.White;
+            this.btnclose_certi_view.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change1;
+            this.btnclose_certi_view.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnclose_certi_view.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnclose_certi_view.FlatAppearance.BorderSize = 0;
+            this.btnclose_certi_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnclose_certi_view.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclose_certi_view.ForeColor = System.Drawing.Color.Red;
+            this.btnclose_certi_view.Location = new System.Drawing.Point(461, 3);
+            this.btnclose_certi_view.Name = "btnclose_certi_view";
+            this.btnclose_certi_view.Size = new System.Drawing.Size(23, 18);
+            this.btnclose_certi_view.TabIndex = 12;
+            this.btnclose_certi_view.UseVisualStyleBackColor = false;
+            this.btnclose_certi_view.Click += new System.EventHandler(this.btnclose_certi_view_Click);
+            // 
+            // pb_cert_view_box
+            // 
+            this.pb_cert_view_box.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_certificate_icon;
+            this.pb_cert_view_box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_cert_view_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pb_cert_view_box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pb_cert_view_box.Location = new System.Drawing.Point(3, 33);
+            this.pb_cert_view_box.Name = "pb_cert_view_box";
+            this.pb_cert_view_box.Size = new System.Drawing.Size(487, 454);
+            this.pb_cert_view_box.TabIndex = 0;
+            this.pb_cert_view_box.TabStop = false;
+            // 
+            // tlp_main
+            // 
+            this.tlp_main.ColumnCount = 1;
+            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_main.Controls.Add(this.tlp_outdesign, 0, 1);
+            this.tlp_main.Controls.Add(this.tlp_header_nav, 0, 0);
+            this.tlp_main.Controls.Add(this.tlp_buttons, 0, 2);
+            this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_main.Location = new System.Drawing.Point(0, 0);
+            this.tlp_main.Name = "tlp_main";
+            this.tlp_main.RowCount = 3;
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.65233F));
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.34767F));
+            this.tlp_main.Size = new System.Drawing.Size(778, 597);
+            this.tlp_main.TabIndex = 315;
+            // 
+            // tlp_outdesign
+            // 
+            this.tlp_outdesign.ColumnCount = 3;
+            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1F));
+            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98F));
+            this.tlp_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1F));
+            this.tlp_outdesign.Controls.Add(this.tlp_reg, 1, 0);
+            this.tlp_outdesign.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_outdesign.Location = new System.Drawing.Point(3, 42);
+            this.tlp_outdesign.Name = "tlp_outdesign";
+            this.tlp_outdesign.RowCount = 2;
+            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
+            this.tlp_outdesign.Size = new System.Drawing.Size(772, 510);
+            this.tlp_outdesign.TabIndex = 316;
+            // 
+            // txtcid
+            // 
+            this.txtcid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtcid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtcid.Location = new System.Drawing.Point(8, 8);
+            this.txtcid.MaxLength = 20;
+            this.txtcid.Multiline = true;
+            this.txtcid.Name = "txtcid";
+            this.txtcid.Size = new System.Drawing.Size(17, 23);
+            this.txtcid.TabIndex = 316;
+            this.txtcid.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtcid.Visible = false;
             // 
             // pbCust2
             // 
@@ -1658,29 +1659,29 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel10.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel17.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel16.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb2)).EndInit();
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel18.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.tlp_buttons.ResumeLayout(false);
             this.pnlcerti_view.ResumeLayout(false);
-            this.tlp_main.ResumeLayout(false);
-            this.tlp_outdesign.ResumeLayout(false);
-            this.tlp_outdesign.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tlp_pb_viewheader.ResumeLayout(false);
             this.tlp_pb_viewheader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_cert_view_box)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();
+            this.tlp_main.ResumeLayout(false);
+            this.tlp_outdesign.ResumeLayout(false);
+            this.tlp_outdesign.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCust1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProof2)).EndInit();

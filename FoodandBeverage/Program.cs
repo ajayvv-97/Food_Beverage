@@ -1,26 +1,94 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Windows.Automation;
 
 namespace FoodandBeverage
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Forms.FrmItemRegistartion());
-            Application.Run(new Forms.FrmLogin()); 
-            //Application.Run(new Forms.FrmSplash());
-            //Application.Run(new SaleBill.FrmSaleInvoice(0,0,0));
-            //Application.Run(new Forms.FrmIngredient());
+            bool instanceCountOne = false;
+            using (Mutex mtex = new Mutex(true, "FoodandBeverage", out instanceCountOne))
+            {
+                if (instanceCountOne)
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Forms.FrmLogin());
+                }
+                else
+                {
+                    // Check if FoodandBeverage application is running
+                    if (IsApplicationRunning("FoodandBeverage"))
+                    {
+                        MessageBox.Show("An instance of the application is already running.", "Food and Beverage", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        BringExistingInstanceToFront();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Application not found or closed.", "Food and Beverage", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+        private static bool IsApplicationRunning(string processName)
+        {
+            var processes = Process.GetProcessesByName(processName);
+            Process oldestProcess = null;
+            if (processes.Length > 0)
+            {
+                oldestProcess = processes.OrderBy(p => p.StartTime).FirstOrDefault();
+            }
+            if (oldestProcess != null)
+            {
+                string mainModuleFileName = oldestProcess.MainModule.FileName;
+                if (mainModuleFileName.EndsWith("FoodandBeverage.exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private const int SW_MAXIMIZE = 3;
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private static void BringExistingInstanceToFront()
+        {
+            try
+            {
+
+                //var p = System.Diagnostics.Process.GetProcessesByName("FoodandBeverage").OrderBy(pr => pr.StartTime).FirstOrDefault();
+                //if (p != null)
+                //{
+                //    ShowWindow(p.MainWindowHandle, SW_MAXIMIZE);
+                //}
+                //var p = System.Diagnostics.Process.GetProcessesByName("FoodandBeverage").OrderBy(pr => pr.StartTime).FirstOrDefault();
+                //if (p != null)
+                //{
+                //    var element = AutomationElement.FromHandle(p.MainWindowHandle);
+                //    if (element != null)
+                //    {
+                //        var pattern = element.GetCurrentPattern(WindowPattern.Pattern) as WindowPattern;
+                //        if (pattern != null)
+                //            pattern.SetWindowVisualState(WindowVisualState.Maximized);
+                //    }
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions (e.g., access denied, process not found, etc.)
+                MessageBox.Show($"Error bringing existing instance to front: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -99,7 +99,6 @@ namespace FoodandBeverage.Forms
         public static int rfooddetailsno = 7;
 
         #endregion
-
         private void FrmDashboardReport_Load(object sender, EventArgs e)
         {
             try
@@ -126,15 +125,19 @@ namespace FoodandBeverage.Forms
                 SetupCharttotaldiscount();
                 SetupChartExpence();
 
-                RunMethodInSeparateThread(Filldashboard);
-                RunMethodInSeparateThread(FillChartTwoBarChart);
-                RunMethodInSeparateThread(FillbarRrevenuChart);
-                RunMethodInSeparateThread(FillChartExpence);
-                RunMethodInSeparateThread(FillCharttotaldiscountChart);
-                RunMethodInSeparateThread(FillBoxdetailed);
-                RunMethodInSeparateThread(LoadSlowfastData);
-                RunMethodInSeparateThread(Fillpaymentdetailed);
-                tcslow_move.SelectedIndex = 1;
+                if(!FrmLogin.TestUser)
+                {
+                    RunMethodInSeparateThread(Filldashboard);
+                    RunMethodInSeparateThread(FillChartTwoBarChart);
+                    RunMethodInSeparateThread(FillbarRrevenuChart);
+                    RunMethodInSeparateThread(FillChartExpence);
+                    RunMethodInSeparateThread(FillCharttotaldiscountChart);
+                    RunMethodInSeparateThread(FillBoxdetailed);
+                    RunMethodInSeparateThread(LoadSlowfastData);
+                    RunMethodInSeparateThread(Fillpaymentdetailed);
+                    tcslow_move.SelectedIndex = 1;
+                }       
+
                 this.Focus();
                 pnl_dashboard.ResumeLayout();
 
@@ -222,28 +225,32 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                pnl_dashboard.SuspendLayout();
-                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                if (!FrmLogin.TestUser)
                 {
-                    FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                    instanceFrmDashboard.StartTimerAndRefreshLabel();
-                }
-                RefreshFlag = true;
-                ShowLoadingdGif();
-                RunMethodInSeparateThread(LoadSlowfastData);
-                RunMethodInSeparateThread(Filldashboard);
-                RunMethodInSeparateThread(FillChartTwoBarChart);
-                RunMethodInSeparateThread(FillCharttotaldiscountChart);
-                RunMethodInSeparateThread(FillChartExpence);
-                RunMethodInSeparateThread(Fillpaymentdetailed);
+                    pnl_dashboard.SuspendLayout();
+                    if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                    {
+                        FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                        instanceFrmDashboard.StartTimerAndRefreshLabel();
+                    }
+                    RefreshFlag = true;
+                    ShowLoadingdGif();
+                    RunMethodInSeparateThread(LoadSlowfastData);
+                    RunMethodInSeparateThread(Filldashboard);
+                    RunMethodInSeparateThread(FillChartTwoBarChart);
+                    RunMethodInSeparateThread(FillCharttotaldiscountChart);
+                    RunMethodInSeparateThread(FillChartExpence);
+                    RunMethodInSeparateThread(Fillpaymentdetailed);
 
-                tcslow_move.SelectedIndex = 1;
-                this.Focus();
-                pnl_dashboard.ResumeLayout();
+                    tcslow_move.SelectedIndex = 1;
+                    this.Focus();
+                    pnl_dashboard.ResumeLayout();
+                }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);      
                 clsgen.LogException("DashboardChart RefreshCharts", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
@@ -260,101 +267,6 @@ namespace FoodandBeverage.Forms
         {
             e.Cancel = true;
         }
-
-        private void lblcancelled_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                lblboxdetailsheader.Text = "Cancel Order List";
-                int panelWidthPercentage = 90;
-                int panelheightPercentage = 70;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
-
-                pnl_boxdetails_dash.Visible = true;
-                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                dgv_cancelorders.Visible = true;
-                UpdateData();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("DashboardChart lblcancelled_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
-           
-            }
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                lblboxdetailsheader.Text = "Active Menu List";
-                int panelWidthPercentage = 90;
-                int panelheightPercentage = 70;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
-
-                pnl_boxdetails_dash.Visible = true;
-                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                dgv_activefood.Visible = true;
-                UpdateData();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("DashboardChart label18_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
-            }
-        }
-
-        private void lblactivepromo_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                lblboxdetailsheader.Text = "Active Promotion List";
-                int panelWidthPercentage = 90;
-                int panelheightPercentage = 70;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
-
-                pnl_boxdetails_dash.Visible = true;
-                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                tlp_offer_type_main.Visible = true;
-                UpdateData();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("DashboardChart lblactivepromo_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
-            }
-        }
-
-        private void lbl_up_res_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                lblboxdetailsheader.Text = "Upcoming Reservation List";
-                int panelWidthPercentage = 90;
-                int panelheightPercentage = 70;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
-
-                pnl_boxdetails_dash.Visible = true;
-                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-                dgv_reservation.Visible = true;
-                UpdateData();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("DashboardChart lbl_up_res_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
-            }
-        }
-
-
 
         public void FillTablecode_Reservation(int bmid, int rowno)
         {
@@ -502,31 +414,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)//Active Order in Dine selected day
-        {
-            try
-            {
-                lblboxdetailsheader.Text = "Active Dine List";
-                int panelWidthPercentage = 90;
-                int panelheightPercentage = 70;
-                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
-                pnl_boxdetails_dash.Visible = true;
 
-                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
-
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dgv_activedine.Visible = true;
-                UpdateData();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("DashboardChart pictureBox2_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
-            }
-        }
         public void FillBoxdetailed()
         {
             try
@@ -2143,7 +2031,7 @@ namespace FoodandBeverage.Forms
         public void LoadSlowfastData()
         {
             try
-            {
+            {                
                 BllFastSolwItemSerach<DmnGridFields> bllSearch = new BllFastSolwItemSerach<DmnGridFields>();
                 DmnGridFields dmnSearch = new DmnGridFields();
                 dmnSearch.Field1 = startDate.ToString("yyyy-MM-dd");
@@ -2160,7 +2048,7 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("DashboardChart LoadSlowfastData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
@@ -2168,154 +2056,61 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int rowIndex = 0;
-                int columnIndex = 0;
-                var resultdata = resultslowfastdata;
-                if (tcslow_move.SelectedIndex == 0)
+                if (!FrmLogin.TestUser)
                 {
-                    rowIndex = 0;
-                    tlp_fastmovingitem.Controls.Clear();
-
-                    #region Column heading Fast Moving Item
-                    Label fastmoveitem_h = new Label()
+                    int rowIndex = 0;
+                    int columnIndex = 0;
+                    var resultdata = resultslowfastdata;
+                    if (tcslow_move.SelectedIndex == 0)
                     {
-                        Text = "Product Name",
-                        Name = "lbl_product_fast",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleLeft,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
+                        rowIndex = 0;
+                        tlp_fastmovingitem.Controls.Clear();
 
-                    Label totalamount_h = new Label()
-                    {
-                        Text = "Total Amount",
-                        Name = "lbl_amount_fast",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
-
-                    Label occurancefast_h = new Label()
-                    {
-                        Text = "Total No Sales",
-                        Name = "lbl_totalsaleno",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
-                    tlp_fastmovingitem.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
-                    columnIndex++;
-                    tlp_fastmovingitem.Controls.Add(totalamount_h, columnIndex, rowIndex);
-                    columnIndex++;
-                    tlp_fastmovingitem.Controls.Add(occurancefast_h, columnIndex, rowIndex);
-                    rowIndex++;
-                    #endregion
-
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        columnIndex = 0;
-                        //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
-                        Label fastmoveitem = new Label()
+                        #region Column heading Fast Moving Item
+                        Label fastmoveitem_h = new Label()
                         {
-                            Text = resultdata[i].Field1,
-                            Name = "lbl_categoryname_" + resultdata[i].Field1,
+                            Text = "Product Name",
+                            Name = "lbl_product_fast",
                             Dock = DockStyle.Top,
                             ForeColor = Color.Black,
-                            Font = new Font("Arial", 12, FontStyle.Bold),
+                            Font = new Font("Arial", 13, FontStyle.Bold),
                             TextAlign = ContentAlignment.MiddleLeft,
-                            BackColor = Color.AliceBlue,
+                            BackColor = Color.FromArgb(159, 166, 178),
                         };
 
-                        Label totalamount = new Label()
+                        Label totalamount_h = new Label()
                         {
-                            Text = resultdata[i].Field2,
-                            Name = "lbl_amount_" + resultdata[i].Field1,
+                            Text = "Total Amount",
+                            Name = "lbl_amount_fast",
                             Dock = DockStyle.Top,
                             ForeColor = Color.Black,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            Font = new Font("Arial", 13, FontStyle.Bold),
                             TextAlign = ContentAlignment.MiddleCenter,
-                            BackColor = Color.AliceBlue,
+                            BackColor = Color.FromArgb(159, 166, 178),
                         };
 
-                        Label occurancefast = new Label()
+                        Label occurancefast_h = new Label()
                         {
-                            Text = resultdata[i].Field3,
-                            Name = "lbl_occurancefast_" + resultdata[i].Field1,
+                            Text = "Total No Sales",
+                            Name = "lbl_totalsaleno",
                             Dock = DockStyle.Top,
                             ForeColor = Color.Black,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            Font = new Font("Arial", 13, FontStyle.Bold),
                             TextAlign = ContentAlignment.MiddleCenter,
-                            BackColor = Color.AliceBlue,
+                            BackColor = Color.FromArgb(159, 166, 178),
                         };
-
-
-                        tlp_fastmovingitem.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+                        tlp_fastmovingitem.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
                         columnIndex++;
-                        tlp_fastmovingitem.Controls.Add(totalamount, columnIndex, rowIndex);
+                        tlp_fastmovingitem.Controls.Add(totalamount_h, columnIndex, rowIndex);
                         columnIndex++;
-                        tlp_fastmovingitem.Controls.Add(occurancefast, columnIndex, rowIndex);
+                        tlp_fastmovingitem.Controls.Add(occurancefast_h, columnIndex, rowIndex);
                         rowIndex++;
-                    }
-                }
-                else if (tcslow_move.SelectedIndex == 1)
-                {
-                    rowIndex = 0;
-                    tlp_slowingitems.Controls.Clear();
+                        #endregion
 
-                    #region Column heading Fast Solw Item
-                    Label fastmoveitem_h = new Label()
-                    {
-                        Text = "Product Name",
-                        Name = "lbl_product_Solw",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleLeft,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
-
-                    Label totalamount_h = new Label()
-                    {
-                        Text = "Total Amount",
-                        Name = "lbl_amount_solw",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
-
-                    Label occurancefast_h = new Label()
-                    {
-                        Text = "Total No Sales",
-                        Name = "lbl_totalsaleno_slow",
-                        Dock = DockStyle.Top,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", 13, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        BackColor = Color.FromArgb(159, 166, 178),
-                    };
-
-                    tlp_slowingitems.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
-                    columnIndex++;
-                    tlp_slowingitems.Controls.Add(totalamount_h, columnIndex, rowIndex);
-                    columnIndex++;
-                    tlp_slowingitems.Controls.Add(occurancefast_h, columnIndex, rowIndex);
-                    rowIndex++;
-                    #endregion
-
-                    for (int i = resultdata.Count - 1; i >= Math.Max(0, resultdata.Count - 10); i--)
-                    {
-                        if (Convert.ToDecimal( resultdata[i].Field3) <5)
+                        for (int i = 0; i < 10; i++)
                         {
                             columnIndex = 0;
+                            //tlp_expence_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent,10));
                             Label fastmoveitem = new Label()
                             {
                                 Text = resultdata[i].Field1,
@@ -2337,10 +2132,11 @@ namespace FoodandBeverage.Forms
                                 TextAlign = ContentAlignment.MiddleCenter,
                                 BackColor = Color.AliceBlue,
                             };
-                            Label occuranceslow = new Label()
+
+                            Label occurancefast = new Label()
                             {
                                 Text = resultdata[i].Field3,
-                                Name = "lbl_occuranceslow_" + resultdata[i].Field1,
+                                Name = "lbl_occurancefast_" + resultdata[i].Field1,
                                 Dock = DockStyle.Top,
                                 ForeColor = Color.Black,
                                 Font = new Font("Arial", 10, FontStyle.Bold),
@@ -2348,23 +2144,117 @@ namespace FoodandBeverage.Forms
                                 BackColor = Color.AliceBlue,
                             };
 
-                            tlp_slowingitems.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+
+                            tlp_fastmovingitem.Controls.Add(fastmoveitem, columnIndex, rowIndex);
                             columnIndex++;
-                            tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
+                            tlp_fastmovingitem.Controls.Add(totalamount, columnIndex, rowIndex);
                             columnIndex++;
-                            tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
+                            tlp_fastmovingitem.Controls.Add(occurancefast, columnIndex, rowIndex);
                             rowIndex++;
                         }
-                      
                     }
-                }
+                    else if (tcslow_move.SelectedIndex == 1)
+                    {
+                        rowIndex = 0;
+                        tlp_slowingitems.Controls.Clear();
 
-                if(RefreshFlag)                
-                    tlp_date_dashboard.Focus();                
-                else                 
-                    tcslow_move.Focus();
-                
-                RefreshFlag = false;
+                        #region Column heading Fast Solw Item
+                        Label fastmoveitem_h = new Label()
+                        {
+                            Text = "Product Name",
+                            Name = "lbl_product_Solw",
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 13, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            BackColor = Color.FromArgb(159, 166, 178),
+                        };
+
+                        Label totalamount_h = new Label()
+                        {
+                            Text = "Total Amount",
+                            Name = "lbl_amount_solw",
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 13, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.FromArgb(159, 166, 178),
+                        };
+
+                        Label occurancefast_h = new Label()
+                        {
+                            Text = "Total No Sales",
+                            Name = "lbl_totalsaleno_slow",
+                            Dock = DockStyle.Top,
+                            ForeColor = Color.Black,
+                            Font = new Font("Arial", 13, FontStyle.Bold),
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            BackColor = Color.FromArgb(159, 166, 178),
+                        };
+
+                        tlp_slowingitems.Controls.Add(fastmoveitem_h, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_slowingitems.Controls.Add(totalamount_h, columnIndex, rowIndex);
+                        columnIndex++;
+                        tlp_slowingitems.Controls.Add(occurancefast_h, columnIndex, rowIndex);
+                        rowIndex++;
+                        #endregion
+
+                        for (int i = resultdata.Count - 1; i >= Math.Max(0, resultdata.Count - 10); i--)
+                        {
+                            if (Convert.ToDecimal(resultdata[i].Field3) < 5)
+                            {
+                                columnIndex = 0;
+                                Label fastmoveitem = new Label()
+                                {
+                                    Text = resultdata[i].Field1,
+                                    Name = "lbl_categoryname_" + resultdata[i].Field1,
+                                    Dock = DockStyle.Top,
+                                    ForeColor = Color.Black,
+                                    Font = new Font("Arial", 12, FontStyle.Bold),
+                                    TextAlign = ContentAlignment.MiddleLeft,
+                                    BackColor = Color.AliceBlue,
+                                };
+
+                                Label totalamount = new Label()
+                                {
+                                    Text = resultdata[i].Field2,
+                                    Name = "lbl_amount_" + resultdata[i].Field1,
+                                    Dock = DockStyle.Top,
+                                    ForeColor = Color.Black,
+                                    Font = new Font("Arial", 10, FontStyle.Bold),
+                                    TextAlign = ContentAlignment.MiddleCenter,
+                                    BackColor = Color.AliceBlue,
+                                };
+                                Label occuranceslow = new Label()
+                                {
+                                    Text = resultdata[i].Field3,
+                                    Name = "lbl_occuranceslow_" + resultdata[i].Field1,
+                                    Dock = DockStyle.Top,
+                                    ForeColor = Color.Black,
+                                    Font = new Font("Arial", 10, FontStyle.Bold),
+                                    TextAlign = ContentAlignment.MiddleCenter,
+                                    BackColor = Color.AliceBlue,
+                                };
+
+                                tlp_slowingitems.Controls.Add(fastmoveitem, columnIndex, rowIndex);
+                                columnIndex++;
+                                tlp_slowingitems.Controls.Add(totalamount, columnIndex, rowIndex);
+                                columnIndex++;
+                                tlp_slowingitems.Controls.Add(occuranceslow, columnIndex, rowIndex);
+                                rowIndex++;
+                            }
+
+                        }
+                    }
+
+                    if (RefreshFlag)
+                        tlp_date_dashboard.Focus();
+                    else
+                        tcslow_move.Focus();
+
+                    RefreshFlag = false;
+                }
             }
             catch (Exception ex)
             {
@@ -2384,13 +2274,11 @@ namespace FoodandBeverage.Forms
         {
             FillbarRrevenuChart();
         }
-
-
-
         private void btnclose_exp_view_Click(object sender, EventArgs e)
         {
             pnlexpence_viewmore.Visible = false;
         }
+
         #region please wait loading
         private async void ShowLoadingdGif()
         {
@@ -2401,6 +2289,7 @@ namespace FoodandBeverage.Forms
             this.Opacity = 100;
         }
         #endregion
+
         private void btnrefreshreport_Click(object sender, EventArgs e)
         {
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -2528,9 +2417,7 @@ namespace FoodandBeverage.Forms
                     lblexpence.Text = "YEAR : " +  Convert.ToString(selectedYear);
                     lbl_res_dine_sales.Text = "YEAR : " +  Convert.ToString(selectedYear);
                 }
-
                 RefreshCharts();
-
             }
             catch (Exception ex)
             {
@@ -2539,5 +2426,123 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void label16_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Dine List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+                pnl_boxdetails_dash.Visible = true;
+
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dgv_activedine.Visible = true;
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart pictureBox2_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
+
+        private void label14_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Cancel Order List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                dgv_cancelorders.Visible = true;
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lblcancelled_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+
+            }
+        }
+
+        private void label18_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Menu List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                dgv_activefood.Visible = true;
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart label18_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
+
+        private void lbl_act_promo_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Active Promotion List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                tlp_offer_type_main.Visible = true;
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lblactivepromo_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
+
+        private void lbl_up_res_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblboxdetailsheader.Text = "Upcoming Reservation List";
+                int panelWidthPercentage = 90;
+                int panelheightPercentage = 70;
+                int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                pnl_boxdetails_dash.Size = new Size(panelWidth, panelHeight);
+
+                pnl_boxdetails_dash.Visible = true;
+                pnl_boxdetails_dash.Location = new Point(this.ClientSize.Width / 2 - pnl_boxdetails_dash.Size.Width / 2, this.ClientSize.Height / 2 - pnl_boxdetails_dash.Size.Height / 2);
+                dgv_reservation.Visible = true;
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart lbl_up_res_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
     }
 }

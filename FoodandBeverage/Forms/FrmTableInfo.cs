@@ -211,8 +211,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
-
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;

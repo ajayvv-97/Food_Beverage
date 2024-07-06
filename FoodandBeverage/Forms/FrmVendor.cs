@@ -214,6 +214,7 @@ namespace FoodandBeverage.Forms
                 txtVenderAddress.Text = "";
                 txtdesc.Text = "";
                 chk_active.Visible = false;
+                chk_active.Checked = true;
             }
             catch (Exception ex)
             {

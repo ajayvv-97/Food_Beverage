@@ -136,12 +136,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 DepartmentId = 0;
                 mtxtEmpSrlNo.Text = "";
                 mtxtName.Text = "";
                 mtxtCode.Text = "";
-
                 //MetroTextBox[] listTbx = { mtxtName, mtxtCode, mtxtEmpSrlNo };
                 //objGeneral.ResetSelectedMetroTextBoxes(listTbx);
                 fillGridView();
@@ -151,6 +149,7 @@ namespace FoodandBeverage.Forms
                 {
                     mbtnSave.Enabled = false;
                 }
+                mtxtName.Focus();
             }
             catch (Exception ex)
             {
@@ -347,7 +346,7 @@ namespace FoodandBeverage.Forms
                 }
                 mtxtName.Focus();
                 RefreshForm();
-                //fillGridView();
+                mtxtName.Focus();
 
             }
             catch (Exception ex)
@@ -430,7 +429,7 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            dmnDepartment.ModifiedBy = 1;
+                            dmnDepartment.ModifiedBy = Convert.ToInt32(FrmLogin.UserId);
                             dmnDepartment.ModifiedDateTime = DateTime.Now;
                             dmnDepartment.DepartmentId = DepartmentId;
                             var lstData = bllDepartment.UpdateData("prdUpdateDepartment", dmnDepartment);

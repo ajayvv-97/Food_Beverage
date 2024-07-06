@@ -65,6 +65,7 @@ namespace FoodandBeverage.Forms
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
                 mcmbDepartment.DataSource = gridSource;
                 mcmbDepartment.ValueMember = "Id";
+
                 mcmbDepartment.DisplayMember = "Value";
             }
             catch (Exception ex)
@@ -75,14 +76,33 @@ namespace FoodandBeverage.Forms
         }
         public bool IsSavable()
         {
-            Control[] controllist = { mcmbDepartment, mtxtName, dtpWorkingHrs };
-            if (objGeneral.IsControlNullOrDefault(this, controllist) == true)
+            try
             {
-                return false;
-            }
-            else
-            {
+                if (mcmbDepartment.SelectedIndex == 0 || mcmbDepartment.SelectedIndex == -1)
+                {
+                    CMessageBox.Show("Please Select Department This field is mandatory", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    mcmbDepartment.Focus();
+                    return false;
+                }
+                else if (string.IsNullOrEmpty(mtxtName.Text))
+                {
+                    CMessageBox.Show("Designation is mandatory This field is mandatory", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    mtxtName.Focus();
+                    return false;
+                }
+                else if (dtpWorkingHrs.Value.TimeOfDay == TimeSpan.Zero)
+                {
+                    CMessageBox.Show("Working hours must be specified. Please enter a valid time duration.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dtpWorkingHrs.Focus();
+                    return false;
+                }
                 return true;
+            }
+            catch (Exception ex)
+            {
+                objGeneral.LogException("Designation Page  IsSavable()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
         public void fillGridView()
@@ -346,6 +366,7 @@ namespace FoodandBeverage.Forms
 
                 }
                 RefreshForm();
+                mcmbDepartment.Focus();
             }
             catch (Exception ex)
             {         
@@ -390,6 +411,7 @@ namespace FoodandBeverage.Forms
                 {
                     mbtnSave.Enabled = true;
                 }
+                mcmbDepartment.Focus();
             }
             catch (Exception ex)
             {

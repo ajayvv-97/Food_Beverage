@@ -1,28 +1,20 @@
 ﻿using BLL;
-using MetroFramework;
 using MetroFramework.Controls;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Management;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Domain;
 using CustomMessageBox;
 using System.IO;
 using OfficeOpenXml;
-using ClosedXML.Excel;
 
 namespace FoodandBeverage.Classes
 {
     public class ClsGeneral
     {
-        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
-        public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";//  Application.StartupPath + @"\BugReport\BugReport.txt";//
+        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx"; //Application.StartupPath + @"\BugReport\BugReport.xlsx";// 
+        public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt"; // Application.StartupPath + @"\BugReport\BugReport.txt";//  
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {
             Control ctrl;
@@ -117,50 +109,56 @@ namespace FoodandBeverage.Classes
         //}
         public void LogExceptionExcel(string page, Exception ex, string userName, string designation, int formTypeId)
         {
-            try
-            {
-                FileInfo fileInfo = new FileInfo(BugReportFileExcel);
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-                using (ExcelPackage package = new ExcelPackage(fileInfo))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0
-                        ? package.Workbook.Worksheets[0]
-                        : package.Workbook.Worksheets.Add("BugReports");
-
-                    int row = worksheet.Dimension?.Rows + 1 ?? 1;
-
-                    if (row == 1) 
-                    {
-                        worksheet.Cells[row, 1].Value = "Date and Time";
-                        worksheet.Cells[row, 2].Value = "Page";
-                        worksheet.Cells[row, 3].Value = "Exception";
-                        worksheet.Cells[row, 4].Value = "User Name";
-                        worksheet.Cells[row, 5].Value = "Designation";
-                        worksheet.Cells[row, 6].Value = "FormTypeId";
-                        row++;
-                    }
-
-                    worksheet.Cells[row, 1].Value = DateTime.Now.ToString();
-                    worksheet.Cells[row, 2].Value = page;
-                    worksheet.Cells[row, 3].Value = ex.Message;
-                    worksheet.Cells[row, 4].Value = userName;
-                    worksheet.Cells[row, 5].Value = designation;
-                    worksheet.Cells[row, 6].Value = formTypeId;
-
-                    package.Save();
-                }
-            }
-            catch (Exception logEx)
-            {
-                CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
-            }
+            
         }
 
         public  void LogException(string page, Exception ex,string userName, string designation,int Formtypeid)
         {
             try
             {
+
+                #region Excel Write Log
+                try
+                {
+                    FileInfo fileInfo = new FileInfo(BugReportFileExcel);
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (ExcelPackage package = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0
+                            ? package.Workbook.Worksheets[0]
+                            : package.Workbook.Worksheets.Add("BugReports");
+
+                        int row = worksheet.Dimension?.Rows + 1 ?? 1;
+
+                        if (row == 1)
+                        {
+                            worksheet.Cells[row, 1].Value = "Date and Time";
+                            worksheet.Cells[row, 2].Value = "Page";
+                            worksheet.Cells[row, 3].Value = "Exception";
+                            worksheet.Cells[row, 4].Value = "User Name";
+                            worksheet.Cells[row, 5].Value = "Designation";
+                            worksheet.Cells[row, 6].Value = "FormTypeId";
+                            row++;
+                        }
+
+                        worksheet.Cells[row, 1].Value = DateTime.Now.ToString();
+                        worksheet.Cells[row, 2].Value = page;
+                        worksheet.Cells[row, 3].Value = ex.Message;
+                        worksheet.Cells[row, 4].Value = userName;
+                        worksheet.Cells[row, 5].Value = designation;
+                        worksheet.Cells[row, 6].Value = Formtypeid;
+
+                        package.Save();
+                    }
+                }
+                catch (Exception logEx)
+                {
+                    CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+                }
+                #endregion
+
+                #region  Text file Write Log
                 using (StreamWriter sw = new StreamWriter(BugReportFile, true))
                 {
                     sw.WriteLine("Date and Time: " + DateTime.Now.ToString());
@@ -171,6 +169,7 @@ namespace FoodandBeverage.Classes
                     sw.WriteLine("FormTypeId: " + Formtypeid);
                     sw.WriteLine("-------------------------------------------------------------------------");
                 }
+                #endregion
             }
             catch (Exception logEx)
             {

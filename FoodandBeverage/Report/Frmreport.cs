@@ -81,28 +81,32 @@ namespace FoodandBeverage.Report
         {
             try
             {
-                BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblHotelRegistration";
-                objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
-                DateTime currentDate = DateTime.Now;
-                List<DmnComboBox> finYearList = new List<DmnComboBox>();
-                for (int i = currentDate.Year - startYear; i >= 0; i--)
+                if(!FrmLogin.TestUser)
                 {
-                    int year = startYear + i;
-                    DateTime financialYearStart = new DateTime(year, 4, 1);
-                    DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
-                    string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
-                    DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
-                    finYearList.Add(finYear);
+                    BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblHotelRegistration";
+                    objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
+                    DateTime currentDate = DateTime.Now;
+                    List<DmnComboBox> finYearList = new List<DmnComboBox>();
+                    for (int i = currentDate.Year - startYear; i >= 0; i--)
+                    {
+                        int year = startYear + i;
+                        DateTime financialYearStart = new DateTime(year, 4, 1);
+                        DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
+                        string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
+                        DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
+                        finYearList.Add(finYear);
+                    }
+                    cmb_fin_year.DataSource = finYearList;
+                    cmb_fin_year.DisplayMember = "Value";
+                    cmb_fin_year.ValueMember = "Id";
                 }
-                cmb_fin_year.DataSource = finYearList;
-                cmb_fin_year.DisplayMember = "Value";
-                cmb_fin_year.ValueMember = "Id";
+
             }
             catch (Exception ex)
             {

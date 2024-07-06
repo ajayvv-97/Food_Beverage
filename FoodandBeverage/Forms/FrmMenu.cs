@@ -305,7 +305,7 @@ namespace FoodandBeverage.Forms
                 bool flagcount = true;
                 for (int i = 0; i < dgv_menu.RowCount; i++)
                 {
-                    if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) > 0)
+                    if (Convert.ToInt32(dgv_menu.Rows[i].Cells[pstatusno].Value) > 0)
                     {
                         flagcount = false;
                         break;

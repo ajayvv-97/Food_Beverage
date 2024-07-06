@@ -44,12 +44,9 @@ namespace FoodandBeverage.Forms
         public static bool TestUser = false;
 
         int UserStatus;
-        public string txtbox = ""; 
-        long CompanyId;
+        public string txtbox = "";
         public static long UserAccountTypeId;
         public static int rfid = 0;
-        string photo;
-        bool imageExist;
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
         public static int flag = 0;
@@ -57,9 +54,9 @@ namespace FoodandBeverage.Forms
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
 
-        public static string KitchenBillPath =Application.StartupPath + @"\KitchenBill";// @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";//
-        public static string ReportPath = Application.StartupPath + @"\Report"; //@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// 
-        public static string SaleBillPath =  Application.StartupPath + @"\SaleBill";//@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";// 
+        public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";// Application.StartupPath + @"\KitchenBill";// 
+        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";// Application.StartupPath + @"\Report"; //
+        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";//  Application.StartupPath + @"\SaleBill";// 
 
         #endregion
 
@@ -187,7 +184,7 @@ namespace FoodandBeverage.Forms
                                 obj.WhereNdGroupBy = " where status=1";;
                                 var result = bllpayments.GetSearchData("prdSearch", obj);
                                 if (result.Count > 0)                                
-                                    BranchId = Convert.ToInt16(result[0].BranchId);
+                                    BranchId = Convert.ToInt16(result[0].Id);
                                 else
                                     BranchId =0;
                                 UserId =1;

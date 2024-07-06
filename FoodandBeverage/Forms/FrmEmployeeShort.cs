@@ -25,8 +25,8 @@ namespace FoodandBeverage.Forms
         ClsDocument clsDocument = new ClsDocument();
         FilterInfoCollection FilterInfoCollection;
         VideoCaptureDevice VideoCaptureDevice;
-        long BranchId = FrmDashboard.BranchId;//16
-        long UserId = Forms.FrmLogin.UserId;//1
+        long BranchId = FrmDashboard.BranchId;
+        long UserId = Forms.FrmLogin.UserId;
         public static int Allaccess = 0;
         public static int ReportLevelID = 0;
         long DepartmentId = 0;
@@ -344,6 +344,11 @@ namespace FoodandBeverage.Forms
                 cmbUsreAccount.DataSource = acctype;
                 cmbUsreAccount.DisplayMember = "Value";
                 cmbUsreAccount.ValueMember = "Id";
+
+                mcmbaccounttype.DataSource = acctype;
+                mcmbaccounttype.DisplayMember = "Value";
+                mcmbaccounttype.ValueMember = "Id";
+                
             }
             catch (Exception ex)
             {
@@ -1026,7 +1031,6 @@ namespace FoodandBeverage.Forms
         }
         private void cmbUsreAccount_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
             if (cmbUsreAccount.SelectedIndex <= 0)
             {
                 dgvforms.Rows.Clear();
@@ -1190,8 +1194,6 @@ namespace FoodandBeverage.Forms
                                     flag = true;
                                     break;
                                 }
-
-
                             }
                             if (flag == true && MandatoryCheck())
                             {
@@ -1234,9 +1236,7 @@ namespace FoodandBeverage.Forms
 
                     FrmUserAccount frmUserAccount = new FrmUserAccount();
                     if (txtuname.Text != "")
-                    {
-                        if (frmUserAccount.MandatoryCheck())
-                        {
+                    {                   
                             BllUserAccount bllUserAccount = new BllUserAccount();
                             DmnUserAccount dmnUserAccount = new DmnUserAccount();
                             BllEncryption bllEncryption = new BllEncryption();
@@ -1287,7 +1287,7 @@ namespace FoodandBeverage.Forms
                                     CMessageBox.Show("Unable To Save ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
-                        }
+                        
                     }
 
                     #endregion
@@ -1638,6 +1638,7 @@ namespace FoodandBeverage.Forms
                 if (FrmLogin.UserId == 1 && Convert.ToString(FrmLogin.EmployeName) == "test")
                 {
                     btnusertype.Enabled = true;
+                    btnSave.Enabled = true;
                 }
                 clear();
                 txtEmpName.Focus();

@@ -29,7 +29,8 @@ namespace FoodandBeverage.Forms
         public static string KitchenBillPath = "";
         public static string ReportPath = "";
         public static string SaleBillPath = "";
-
+        public int Emp_RowCount = 0, Emp_ColCount = 0;
+        public int OP_RowCount = 0, OP_ColCount = 0;
         public FrmDashboard()
         {
             InitializeComponent();
@@ -228,6 +229,15 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Visible = false;
                 Loadchart();
                 panelDesktop.Visible = true;
+
+                if (FrmLogin.TestUser)
+                {
+                    menuEmployee.Visible = true;
+                    ib_Company.Visible = true;
+                    menuEmployee.Visible = true;
+                    ib_employee.Visible = true;
+                }
+
             }
             catch (Exception ex)
             {
@@ -814,11 +824,7 @@ namespace FoodandBeverage.Forms
                 {
                     CloseTableViewPage();
                 }
-
                 panelDesktop.Controls.Clear();
-
-                ib_Company.Visible = true;
-
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -3309,111 +3315,183 @@ namespace FoodandBeverage.Forms
                 var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
                 if (gridesource.Count > 0)
                 {
-                    for (int i = gridesource.Count() - 1; i >= 0; i--)
+                    Emp_RowCount = 0; Emp_ColCount = 0;
+                    OP_RowCount = 0; OP_ColCount = 0;
+                    tlp_empl_menu.Controls.Clear();
+                    tlp_op_menu.Controls.Clear();
+                    for (int i = 0; i <gridesource.Count(); i++)
                     {
                         if (this.IsHandleCreated)
                         {
                             this.Invoke(new Action(() =>
-                            {
+                            {                   
+                                #region Order Table
                                 if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Status == 1)
                                 {
-                                    ib_orderview.Visible = true;
-
+                                    Menutable.Visible = true;
                                 }
+                                #endregion
+
+                                #region Operation Buttons
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Status == 1)
                                 {
                                     ib_kitchenview.Visible = true;
-
+                                    Menuoperation.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_kitchenview);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Status == 1)
                                 {
                                     ib_Category.Visible = true;
+                                    Menuoperation.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_Category);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Status == 1)
                                 {
                                     ib_Item.Visible = true;
+                                    Menuoperation.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_Item);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_ingrediant.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_ingrediant);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_menu.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_menu);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_unit.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_unit);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_table.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_table);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_purchase.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_purchase);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_purchasereturn.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_purchasereturn);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_tax.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_tax);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_vendor.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_vendor);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_Discount_offer.Visible = true;
-
+                                    AddOperationButtons(tlp_op_menu, ib_Discount_offer);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_Expence.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_Expence);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_PromoCode.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_PromoCode);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_Company.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_Company);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Status == 1)
                                 {
+                                    Menuoperation.Visible = true;
                                     ib_reservation.Visible = true;
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
-                                {
-                                    ib_employee.Visible = true;
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
-                                {
-                                    ib_department.Visible = true;
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
-                                {
-                                    ib_designation.Visible = true;
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
-                                {
-                                    ib_useraccount.Visible = true;
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
-                                {
-                                    ib_userpermission.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_reservation);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Status == 1)
                                 {
                                     ib_orderview.Visible = true;
+                                    Menuoperation.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_orderview);
                                 }
                                 else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Status == 1)
                                 {
                                     ib_addon.Visible = true;
+                                    Menuoperation.Visible = true;
+                                    AddOperationButtons(tlp_op_menu, ib_addon);
                                 }
+                                #endregion
+
+                                #region Employee Buttons
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Status == 1)
+                                {
+                                    menuEmployee.Visible = true;
+                                    ib_userpermission.Visible = true;
+                                    AddEmployeeButtons(tlp_empl_menu, ib_userpermission);
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Status == 1)
+                                {
+                                    menuEmployee.Visible = true;
+                                    ib_useraccount.Visible = true;
+                                    AddEmployeeButtons(tlp_empl_menu, ib_useraccount);
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Status == 1)
+                                {
+                                    menuEmployee.Visible = true;
+                                    ib_designation.Visible = true;
+                                    AddEmployeeButtons(tlp_empl_menu, ib_designation);
+                                }
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Status == 1)
+                                {
+                                    menuEmployee.Visible = true;
+                                    ib_department.Visible = true;
+                                    AddEmployeeButtons(tlp_empl_menu, ib_department);
+                                }
+                              
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Status == 1)
+                                {
+                                    menuEmployee.Visible = true;
+                                    ib_employee.Visible = true;
+                                    AddEmployeeButtons(tlp_empl_menu, ib_employee);
+                                }
+                                #endregion
+
+                                #region Billing
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Billing) && gridesource[i].Status == 1)
+                                {
+                                    Menubilling.Visible = true;     
+                                }
+                                #endregion
+
+                                #region Setting
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Settings) && gridesource[i].Status == 1)
+                                {
+                                    Menusetting.Visible = true;
+                                    ib_department.Visible = true;
+                                }
+                                #endregion
+
                             }));
                         }
                     }
@@ -3424,7 +3502,44 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage FormPermissionChecking", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
-
+        }
+        private void AddEmployeeButtons(TableLayoutPanel tableLayoutPanel, Control control)
+        {
+            try
+            {
+                if (Emp_ColCount == 3)
+                {
+                    Emp_ColCount = 0;
+                    Emp_RowCount = Emp_RowCount + 1;
+                }
+                control.Dock = DockStyle.Fill;
+                tableLayoutPanel.Controls.Add(control, Emp_ColCount, Emp_RowCount);
+                Emp_ColCount = Emp_ColCount + 1;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("homepage AddEmployeeButtons", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        private void AddOperationButtons(TableLayoutPanel tableLayoutPanel, Control control)
+        {
+            try
+            {
+                if (OP_ColCount == 3)
+                {
+                    OP_ColCount = 0;
+                    OP_RowCount = OP_RowCount + 1;
+                }
+                control.Dock = DockStyle.Fill;
+                tableLayoutPanel.Controls.Add(control, OP_ColCount, OP_RowCount);
+                OP_ColCount = OP_ColCount + 1;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("homepage AddOperationButtons", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
         }
 
         public bool ChkWritePermission(int formid)

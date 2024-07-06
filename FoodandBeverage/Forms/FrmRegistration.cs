@@ -13,6 +13,7 @@ using CustomMessageBox;
 using System.Net;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 namespace FoodandBeverage.Forms
 {
@@ -82,6 +83,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                string urlPattern = @"^(https?://)?([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$";
+                string website = txtwebsite.Text.Trim();
                 if (string.IsNullOrWhiteSpace(txtname.Text.Trim()))
                 {
                     CMessageBox.Show("Company name must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -94,31 +97,31 @@ namespace FoodandBeverage.Forms
                     txtph.Focus();
                     return false;
                 }
-                else if(string.IsNullOrWhiteSpace(txtpin.Text.Trim()))
+                else if (string.IsNullOrWhiteSpace(txtpin.Text.Trim()))
                 {
-                    CMessageBox.Show("PIN must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Pincode must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtpin.Focus();
                     return false;
                 }
-                else if(cmbcountry.SelectedIndex == 0)
+                else if (cmbcountry.SelectedIndex == 0)
                 {
                     CMessageBox.Show("Country must be selected. Please select a country.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbcountry.Focus();
                     return false;
                 }
-                else if(cmdstate.SelectedIndex == 0)
+                else if (cmdstate.SelectedIndex == 0)
                 {
                     CMessageBox.Show("State must be selected. Please select a state.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmdstate.Focus();
                     return false;
                 }
-                else if(cmdcity.SelectedIndex == 0)
+                else if (cmdcity.SelectedIndex == 0 && string.IsNullOrWhiteSpace(cmdcity.Text.Trim()))
                 {
                     CMessageBox.Show("City must be selected. Please select a city.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmdcity.Focus();
                     return false;
                 }
-                else if(string.IsNullOrWhiteSpace(txtg.Text.Trim()))
+                else if (string.IsNullOrWhiteSpace(txtg.Text.Trim()))
                 {
                     CMessageBox.Show("Field 'GST NO' must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtg.Focus();
@@ -135,18 +138,27 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Booking Interval must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     tbl_BookingIn.Focus();
                     return false;
-                }                
-                else if(string.IsNullOrWhiteSpace(txtemail.Text.Trim()))
+                }
+                else if (string.IsNullOrWhiteSpace(txtemail.Text.Trim()))
                 {
                     CMessageBox.Show("Email must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtemail.Focus();
                     return false;
                 }
-                else if(string.IsNullOrWhiteSpace(txtwebsite.Text.Trim()))
+                //else if(string.IsNullOrWhiteSpace(txtwebsite.Text.Trim()))
+                //{
+                //    CMessageBox.Show("Website must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtwebsite.Focus();
+                //    return false;
+                //}
+                else if (txtwebsite.Text.Trim() != "")
                 {
-                    CMessageBox.Show("Website must be specified. Please enter the required information.", "Empty Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtwebsite.Focus();
-                    return false;
+                    if (!Regex.IsMatch(website, urlPattern, RegexOptions.IgnoreCase))
+                        {
+                            CMessageBox.Show("Please enter a valid website URL.", "Invalid Website", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtwebsite.Focus();
+                            return false;
+                        }
                 }
                 // Add more checks if there are more fields to validate
                 return true;
@@ -309,11 +321,11 @@ namespace FoodandBeverage.Forms
                     cmdcity.Text = "select";
 
                     pb1.BackgroundImage = null;
-                    pb1.Image = null;
-                    pb2.Image = null;
-                    pb2.Image = null;
+                    pb1.BackgroundImage = FoodandBeverage.Properties.Resources.reg_certificate_icon;
                     pb2.BackgroundImage = null;
+                    pb2.BackgroundImage = FoodandBeverage.Properties.Resources.reg_certificate_icon;
                     pb3.BackgroundImage = null;
+                    pb3.BackgroundImage = FoodandBeverage.Properties.Resources.reg_certificate_icon;
                     FillCombo();
                 }
 
@@ -1059,13 +1071,20 @@ namespace FoodandBeverage.Forms
                         }
                         FrmDashboard.BranchId = InsertStatus.Id;
                         FrmLogin.BranchId= InsertStatus.Id;
-                        CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       // this.Close();
+                        txtcid.Text =Convert.ToString(InsertStatus.Id);
+                        CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
+                        if(Convert.ToInt32(txtcid.Text)>0)
+                            CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else
+                            CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         FrmDashboard.BranchId = FrmDashboard.BranchId;
-                        CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtcid.Text = Convert.ToString(InsertStatus.Id);
+                   
+
                     }
                 }
                 else
@@ -1414,5 +1433,14 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
+
+        private void tbl_BookingIn_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }

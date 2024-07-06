@@ -97,6 +97,7 @@ namespace FoodandBeverage.Forms
             txtdescr.Text = "";
             txtunit.Text = "";
             chk_active.Visible = false;
+            chk_active.Checked = true;
         }
         public void Fillunit()
         {

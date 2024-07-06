@@ -503,6 +503,7 @@ namespace FoodandBeverage.Forms
             this.txtIgstPrcnt.Name = "txtIgstPrcnt";
             this.txtIgstPrcnt.Size = new System.Drawing.Size(183, 28);
             this.txtIgstPrcnt.TabIndex = 0;
+            this.txtIgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIgstPrcnt_KeyPress);
             this.txtIgstPrcnt.Validating += new System.ComponentModel.CancelEventHandler(this.txtIgstPrcnt_Validating);
             // 
             // cmbTaxType
