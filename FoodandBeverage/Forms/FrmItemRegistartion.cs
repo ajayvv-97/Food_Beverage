@@ -474,6 +474,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                rb_item.Checked = false;
+                rb_notsale.Checked = false;
                 dgv_item.CurrentCell = dgv_item[0, 0];
                 tlp_registration.Visible = false;
                 tlp_grid.Visible = true;
@@ -481,6 +483,7 @@ namespace FoodandBeverage.Forms
                 tlp_main.Controls.Remove(controlToRemove);
                 tlp_main.Controls.Add(tlp_grid, 1, 0);
                 tlp_grid.Dock = DockStyle.Fill;
+                Fillitem();
                 dgv_item.Focus();
             }
             catch (Exception ex)
@@ -488,8 +491,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Item page btntoggle_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
-
-
         }
 
         private void toggle_grid_Click(object sender, EventArgs e)
@@ -539,9 +540,11 @@ namespace FoodandBeverage.Forms
                     else
                         btnsave.Enabled = false;
                 }
+
                 Fillitem();
                 combofill();
                 Taxfill();
+
                 dgv_item.BorderStyle = BorderStyle.None;
                 cmbTaxType.SelectedIndex = 0;
 
@@ -556,9 +559,6 @@ namespace FoodandBeverage.Forms
                 dgv_item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-
-
-
                 dgvprDetails.BorderStyle = BorderStyle.None;
                 dgvprDetails.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvprDetails.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -571,6 +571,7 @@ namespace FoodandBeverage.Forms
                 dgvprDetails.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgvprDetails.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
                 Fillcombo(2);
+                cmbunit.Dock = DockStyle.Fill;
             }
             catch (Exception ex)
             {

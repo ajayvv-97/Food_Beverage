@@ -70,7 +70,8 @@ namespace FoodandBeverage.Forms
         int insflag;
         decimal PRDtotalqty;
         int qcount = 0;
-        bool purchasereturnstatus = false;
+        public bool purchasereturnstatus = false;
+        public bool MainPage = true,DetailsPage=false;
         DmnPurchaseMaster dmnPurchase = new DmnPurchaseMaster();
         BllPurchaseReturnMaster bllPurchase = new BllPurchaseReturnMaster();
         BllSearch<DmnPurchaseReturnMaster> _bllSearch = new BllSearch<DmnPurchaseReturnMaster>();
@@ -85,6 +86,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                MainPage = true;
+                DetailsPage = false;
                 tlp_grid_registartion.Visible = false;
                 tlp_registartion_main.Visible = true;
                 Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
@@ -99,6 +102,7 @@ namespace FoodandBeverage.Forms
                 tlp_textboxes.Dock = DockStyle.Fill;
                 txtbarcode.Text = "";
                 pnl_barcode.Visible = false;
+                tlp_label_cal.Visible = false;
             }
             catch (Exception ex)
             {
@@ -112,13 +116,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
+                MainPage = false;
+                DetailsPage = true;
                 tlp_grid_registartion.Visible = true;
                 tlp_registartion_main.Visible = false;
                 Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
                 tlp_main.Controls.Remove(controlToRemove);
+
                 tlp_main.Controls.Add(tlp_grid_registartion, 1, 0);
                 tlp_grid_registartion.Dock = DockStyle.Fill;
                 tlp_registartion_main.Dock = DockStyle.Fill;
+
+                tlp_grid_registartion.Controls.Add(tlp_label_cal, 0, 2);
+                tlp_label_cal.Dock = DockStyle.Right;
+                tlp_label_cal.Visible = true;
 
                 tlp_textboxes.Visible = true;
                 controlToRemove = tlp_regform_downtlp.GetControlFromPosition(0, 3);
@@ -334,7 +346,7 @@ namespace FoodandBeverage.Forms
                 netamount.Text = "0.00";
                 lblGrandTot.Text = "0.00";
                 lblBalAmt.Text = "0.00";
-                txtdocno.Focus();
+                txtpurchaseentry.Focus();
                 txtpurchaseentry.Text = "";
                 txtvedorname.Text = "";
                 setperficpurchaseret();
@@ -384,12 +396,15 @@ namespace FoodandBeverage.Forms
                         decimal tot = (amount - Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[idisamt].Value))
                         + Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[itaxamt].Value);
                         dgvProduct.Rows[cellproductid].Cells[iamount].Value = tot.ToString("N2");
+                        dgvProduct.Rows[cellproductid].Cells[inetamount].Value = tot.ToString("N2");
                     }
                     if (Convert.ToString(dgvProduct.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
                     {
                         decimal tot = (amount - Convert.ToDecimal(dgvProduct.Rows[cellproductid].Cells[idisamt].Value));
                         dgvProduct.Rows[cellproductid].Cells[iamount].Value = tot.ToString("N2");
+                        dgvProduct.Rows[cellproductid].Cells[inetamount].Value= tot.ToString("N2");
                     }
+
                 }
 
             }
@@ -845,12 +860,14 @@ namespace FoodandBeverage.Forms
         private void btn_close_dgvItemPop_Click(object sender, EventArgs e)
         {
             pnlpurchasedetails.Visible = false;
+            tlp_main.Enabled = true;
         }
 
         private void dgvItemPop__CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
+                tlp_main.Enabled = true;
                 int cellpopupid = dgvItemPop.CurrentCell.RowIndex;
                 int n = dgvProduct.RowCount;
                 int cellproductid = dgvProduct.CurrentCell.RowIndex;
@@ -925,12 +942,12 @@ namespace FoodandBeverage.Forms
                     dgvProduct.Rows[cellproductid].Cells[iqty].Value = "1";
                     dgvProduct.Rows[cellproductid].Cells[iunit].Value = gridSource[0].UnitName;
                     dgvProduct.Rows[cellproductid].Cells[iprate].Value = gridSource[0].PurchaseRate;
-                    dgvProduct.Rows[cellproductid].Cells[iamount].Value = gridSource[0].Amount;
+                   // dgvProduct.Rows[cellproductid].Cells[iamount].Value = gridSource[0].Amount;
                     dgvProduct.Rows[cellproductid].Cells[idisper].Value = 0;
                     dgvProduct.Rows[cellproductid].Cells[idisamt].Value = 0;
                     dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].TaxPer;
                     dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = gridSource[0].TaxAmount;
-                    dgvProduct.Rows[cellproductid].Cells[inetamount].Value = gridSource[0].NetAmount;
+                   // dgvProduct.Rows[cellproductid].Cells[inetamount].Value = gridSource[0].NetAmount;
                     dgvProduct.Rows[cellproductid].Cells[itax].Value = gridSource[0].taxname;
                     dgvProduct.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType;
                     dgvProduct.Rows[cellproductid].Cells[israte].Value = gridSource[0].srate;
@@ -970,8 +987,9 @@ namespace FoodandBeverage.Forms
                     txtpurchaseentry.Enabled = true;
                     //txtpurchaseentry.BackColor = Color.White;
                     dgvProduct.Rows[dgvProduct_rowid].Cells[iname].Style.ForeColor = Color.Black;
-                    dgvProduct.Focus();
+                    dgvProduct.Focus();              
                 }
+                RecallF8();
 
             }
             catch (Exception ex)
@@ -994,7 +1012,6 @@ namespace FoodandBeverage.Forms
                     else
                         btnsave.Enabled = false;
                 }
-                txtdocno.Focus();
                 ClearAll();
                 tlp_textboxes.Visible = true;
                 Control controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
@@ -1158,6 +1175,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
+
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1169,120 +1187,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.KeyCode == Keys.F8)
-                {
-                    if (dgvProduct.CurrentCell != null)
-                    {
-                        //compentry.SelectedValue.ToString()
-
-                        int cno = dgvProduct.CurrentCell.ColumnIndex;
-                        int rowno = dgvProduct.CurrentCell.RowIndex;
-                        bool t = false;
-                        decimal temp;
-
-
-                        if (cno == iname)
-                        {
-                            if (purchaseID == null || purchaseID == "")
-                            {
-                                CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                tlp_grid_registartion.Visible = false;
-                                tlp_registartion_main.Visible = true;
-                                Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-                                tlp_main.Controls.Remove(controlToRemove);
-                                tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
-                                tlp_registartion_main.Dock = DockStyle.Fill;
-
-                                tlp_textboxes.Visible = true;
-                                controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
-                                tlp_grid_registartion.Controls.Remove(controlToRemove);
-                                tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
-                                tlp_textboxes.Dock = DockStyle.Fill;
-                                txtbarcode.Text = "";
-                                pnl_barcode.Visible = false;
-                                txtpurchaseentry.Focus();
-                                return;
-                            }
-                            txtpurchaseentry.Enabled = false;
-                            txtpurchaseentry.BackColor = Color.DarkGray;
-
-                            DmnSearch dmnSearch = new DmnSearch();
-                            DmnSearch dmnSearch1 = new DmnSearch();
-                            BllSearch<DmnGridFields> _bllSearch1 = new BllSearch<DmnGridFields>();
-
-                            dmnSearch.Select = "a.EntryNo as EntryNo,b.itemName as Description,b.PurchaseRate as PurchaseRate,b.Quantity as Quantity,b.NetAmount as NetAmount,a.EntryDate as EntryDate,b.ItemId as ItemId,b.ProductType as ProductType,b.PurchaseDetailId as PurchaseDetailId,b.PurchaseMasterId as PurchaseMasterId,b.PrId as Prid,pr.QOH as AvaQOH";
-                            dmnSearch.Table = "tblPurchaseMaster a LEFT JOIN tblPurchaseDetails b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblProductRate pr on pr.id=b.PrId and pr.Status=1 ";
-                            dmnSearch.WhereNdGroupBy = " Where a.PurchaseMasterId=" + purchaseID;// + "and pr.QOH >= b.Quantity";
-                            dmnSearch.OrderBy = " Order By a.EntryNo desc ";
-                            var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-
-                            dmnSearch1.Select = " SUM(prd.Quantity) as field1,prd.itemid as field2";
-                            dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId "
-                                + "LEFT JOIN tblitem d ON d.itemid = prd.ItemId";
-                            dmnSearch1.WhereNdGroupBy = "where prm.PurchaseMasterId='" + purchaseID + "'";
-                            dmnSearch1.OrderBy = "GROUP BY prd.itemid";
-                            var gridSource1 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
-                            dgvItemPop.Rows.Clear();//----------------mutiple purchase return happen --------------
-                            if (gridSource.Count > 0)
-                            {
-                                dgvItemPop.Rows.Add(gridSource.Count);
-                                for (int i = 0; i < gridSource.Count; i++)
-                                {
-                                    t = false;
-                                    current_qty = 0;
-                                    PRDtotalqty = 0;
-                                    dgvItemPop.Rows[i].Cells[ipopslno].Value = i + 1;
-                                    dgvItemPop.Rows[i].Cells[ipopEntryNo].Value = gridSource[i].EntryNo;
-                                    dgvItemPop.Rows[i].Cells[ipopDescription].Value = gridSource[i].Description;
-                                    dgvItemPop.Rows[i].Cells[ipopPurchaseRate].Value = gridSource[i].PurchaseRate;
-
-
-                                    if (gridSource1.Count > 0)
-                                    {
-                                        for (int j = 0; j < gridSource1.Count; j++)
-                                        {
-                                            if (gridSource[i].ItemId == gridSource1[j].Field2)
-                                            {
-                                                PRDtotalqty = Convert.ToDecimal(gridSource[i].Quantity) - Convert.ToDecimal(gridSource1[j].Field1);
-                                                t = true;
-
-                                            }
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        PRDtotalqty = Convert.ToDecimal(gridSource[i].Quantity);
-                                    }//--------------------------mutiple purchase return happen ---------------------
-                                    if (PRDtotalqty == 0 && t)//qty is zero and enter loop true (happen only multiple purchase return)
-                                        dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
-                                    else if (PRDtotalqty == 0)//new purchase return happen
-                                        dgvItemPop.Rows[i].Cells[iqty].Value = Convert.ToDecimal(gridSource[i].Quantity) - current_qty;
-                                    else//new purchase return happen no purchase return happen
-                                        dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
-
-                                    dgvItemPop.Rows[i].Cells[ipopNetavaQoty].Value = gridSource[i].AvaQOH;
-                                    dgvItemPop.Rows[i].Cells[ipopNetAmount].Value = gridSource[i].NetAmount;
-                                    dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource[i].EntryDate;
-                                    dgvItemPop.Rows[i].Cells[ipopItemId].Value = gridSource[i].ItemId;//itemid
-                                    dgvItemPop.Rows[i].Cells[ipopProductType].Value = gridSource[i].ProductType;
-                                    dgvItemPop.Rows[i].Cells[ipopPurchaseDetailId].Value = gridSource[i].PurchaseDetailId;
-                                    dgvItemPop.Rows[i].Cells[ipopPurchaseMasterId].Value = gridSource[i].PurchaseMasterId;//purchaemasterid
-                                    dgvItemPop.Rows[i].Cells[ipopPrid].Value = gridSource[i].Prid;//purchaemasterid
-
-                                }
-                            }
-                            pnlpurchasedetails.Location = new Point(
-                              this.ClientSize.Width / 2 - pnlpurchasedetails.Size.Width / 2,
-                              (this.ClientSize.Height / 3 - pnlpurchasedetails.Size.Height / 2));
-                            pnlpurchasedetails.Show();
-                            dgvItemPop.Focus();
-
-                        }
-                    }
-                }
-                if (e.KeyData == Keys.Delete)
+               if (e.KeyData == Keys.Delete)
                 {
                     dgvProduct.Rows.RemoveAt(dgvProduct.CurrentRow.Index);
                     int n = dgvProduct.RowCount;
@@ -1321,7 +1226,6 @@ namespace FoodandBeverage.Forms
                     }
 
                 }
-
             }
             catch (Exception ex)
             {
@@ -1436,6 +1340,11 @@ namespace FoodandBeverage.Forms
                         }
 
                         totalcellamount(e.RowIndex);
+                        if (discountper.Text != "" && Convert.ToDecimal(discountper.Text) > 0)
+                        {
+                            discountAmnt();
+                            netAmount();
+                        }
                     }
 
                 }
@@ -1450,6 +1359,11 @@ namespace FoodandBeverage.Forms
                         dgvProduct.Rows[e.RowIndex].Cells[idisamt].Value = 0;
                     }
                     totalcellamount(e.RowIndex);
+                    if (discountper.Text != "" && Convert.ToDecimal(discountper.Text) > 0)
+                    {
+                        discountAmnt();
+                        netAmount();
+                    }
                 }
                 string tablename = null;
                 t = false;
@@ -1708,16 +1622,11 @@ namespace FoodandBeverage.Forms
             try
             {
                 //string purchaseID;
-                string purchasedetailsid;
-                bool t = false;
-                decimal totalqty = 0;
-                int curre_qty = 0;
-                decimal purch_qty = 0;
-                decimal ret_qty = 0;
-                bool flag = false;
-                int rowno = 0;
-                string tablename = null;
-                t = false;
+                string purchasedetailsid,tablename = null;
+                bool t = false,flag = false;
+                int curre_qty = 0,rowno = 0;
+                decimal purch_qty = 0, ret_qty = 0,totalqty = 0;
+
                 if (purchaseID == null || purchaseID == "")
                 {
                     CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1767,9 +1676,7 @@ namespace FoodandBeverage.Forms
                                     {
                                         PRDtotalqty = Convert.ToDecimal(gridSource1[i].Quantity) - Convert.ToDecimal(gridSource2[j].Field1);
                                         t = true;
-
                                     }
-
                                 }
                             }
                             else
@@ -1855,7 +1762,7 @@ namespace FoodandBeverage.Forms
                                         dgvProduct.Rows[gridrowno].Cells[ibarcode].Value = "";
                                     }
 
-                                    totalcellamount(gridrowno);
+                                    totalcellamount(rowno);
                                     grandTotal();
                                     totQty();
                                     totDisc();
@@ -1874,6 +1781,7 @@ namespace FoodandBeverage.Forms
                                 var gridSource3 = _bllSearchitem.GetSearchData("prdSearch", dmnSearch);
 
                                 dgvProduct.Rows[gridrowno].Cells[iname].ReadOnly = true;
+                                dgvProduct.Rows[gridrowno].Cells[ibarcode].ReadOnly = true;
                                 dgvProduct.Rows[gridrowno].Cells[iunit].ReadOnly = true;
                                 dgvProduct.Rows[gridrowno].Cells[iprate].ReadOnly = true;
                                 dgvProduct.Rows[gridrowno].Cells[inetamount].ReadOnly = true;
@@ -1963,10 +1871,7 @@ namespace FoodandBeverage.Forms
                     int n = dgvProduct.RowCount - 1;
                     dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[ibarcode];
                 }
-                txtbarcode.Text = "";
-                pnl_barcode.Visible = true;
-                pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
-                txtbarcode.Focus();
+                RecallBarCode(); 
             }
             catch (Exception ex)
             {
@@ -2323,6 +2228,7 @@ namespace FoodandBeverage.Forms
                     else
                         Movefocus(1);
                     return true;
+
                 case Keys.Enter:
                     if (dgvProduct.Focused)
                     {
@@ -2358,21 +2264,170 @@ namespace FoodandBeverage.Forms
                         catch (Exception ex)
                         {
                             MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            clsgen.LogException("Purchase_Return page if (dgvProduct.Focused)()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+                            clsgen.LogException("Purchase_Return page case Keys.Enter:", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
 
                         }
                     }
                     else if (pnl_barcode.Visible)
                     {
-                        pnl_barcode.Visible = false;
-                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
-                        txtbarcode.Text = "";
-                        int rowno = dgvProduct.CurrentCell.RowIndex;
-                        UpcScanner(rowno);
+                        try
+                        {
+                            pnl_barcode.Visible = false;
+                            dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[1].Value = txtbarcode.Text;
+                            txtbarcode.Text = "";
+                            int rowno = dgvProduct.CurrentCell.RowIndex;
+                            UpcScanner(rowno);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase_Return page case Keys.Enter:", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+
+                        }         
+
+                    }
+                    else if(pnlpurchasedetails.Visible)
+                    {                        
+                        try
+                        {
+                            tlp_main.Enabled = true;
+                            int cellpopupid = dgvItemPop.CurrentCell.RowIndex;
+                            int n = dgvProduct.RowCount;
+                            int cellproductid = dgvProduct.CurrentCell.RowIndex;
+                            string tablename = null;
+                            int dgvProduct_rowid = 0;
+                            if (dgvItemPop.Rows[cellpopupid].Cells[iqty].Value == "Out of stock")
+                            {
+                                CMessageBox.Show("Avilable PurChase Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            }
+                            else if (Convert.ToInt32(dgvItemPop.Rows[cellpopupid].Cells[ipopNetavaQoty].Value) == 0)
+                            {
+                                CMessageBox.Show("Avilable Stock Quantity is Zero ! ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            }
+                            else
+                            {
+                                dmnSearch.Select = "a.ItemBarCode as ItemBarCode,i.itemName as ItemName,a.Quantity as Quantity,a.PurchaseRate as PurchaseRate,a.Amount as Amount,a.DiscountPer as DiscountPer,a.DiscountAmount as DiscountAmount,a.taxper as TaxPer, a.TaxAmount as TaxAmount,a.NetAmount as  NetAmount,a.Tax as  taxname,a.Srate as srate ,a.MRP as  MRP,a.PurchaseMasterId as PurchaseMasterId,a.ItemId as ItemId ,a.ProductType as ProductType,a.PurchaseDetailId as PurchaseDetailsId,b.EntryNo as EntryNo,(Select Sum(QOH) from tblProductRate pr where pr.ProductId = i.itemid )as QuantityOnHand,i.TaxType,u.UnitName";
+                                tablename = "tblPurchaseDetails a LEFT JOIN tblPurchaseMaster b ON b.PurchaseMasterId = a.PurchaseMasterId " +
+                                    " LEFT JOIN tblitem i ON i.ItemId = a.ItemId " +
+                                " left join  tblProductRate pr on pr.ProductId =i.ItemId LEFT JOIN tblUnit u ON u.UId=a.UnitId";
+                                dmnSearch.Table = tablename;
+                                dmnSearch.WhereNdGroupBy = " Where a.PurchaseDetailId  = " + dgvItemPop.Rows[cellpopupid].Cells[ipopPurchaseDetailId].Value;
+                                dmnSearch.OrderBy = "";
+                                var gridSource = _bllSearchitem.GetSearchData("prdSearch", dmnSearch);
+
+                                decimal temp = 0;
+                                n = dgvProduct.RowCount;
+                                for (int i = 0; i < n; i++)
+                                {
+                                    if (dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value == null)
+                                    {
+                                        dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value = 0;
+                                    }
+
+                                    else if ((dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value.ToString() == Convert.ToString(gridSource[0].PurchasedetailsId)))//&& ((dgvProduct.Rows[i].Cells[10].Value).ToString() == gridSource[0].Field13)
+                                    {
+                                        temp = Convert.ToDecimal(dgvProduct.Rows[i].Cells[iqty].Value) + 1;
+                                        dgvProduct.Rows[i].Cells[iqty].Value = temp;
+                                        dgvProduct_rowid = i;
+                                        dgvProduct.Rows[cellproductid].Cells[ibarcode].Value = "";
+                                        totalcellamount(cellproductid);
+                                        grandTotal();
+                                        totQty();
+                                        totDisc();
+                                        netAmount();
+                                        pnlpurchasedetails.Hide();
+                                        txtpurchaseentry.Enabled = true;
+                                        //txtpurchaseentry.BackColor = Color.White;
+                                        dgvProduct.Rows[cellproductid].Cells[iname].Style.ForeColor = Color.Black;
+                                        dgvProduct.Focus();
+                                    }
+                                }
+                                if (temp == 0)
+                                {
+                                    dgvProduct.Rows[cellproductid].Cells[ibarcode].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[iname].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[iunit].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[iprate].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[inetamount].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxper].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxamt].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[iamount].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[itax].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[itax].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[israte].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[imrp].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxtype].ReadOnly = true;
+                                    dgvProduct.Rows[cellproductid].Cells[iname].Style.ForeColor = Color.Black;
+
+                                    dgvProduct.Rows[cellproductid].Cells[islno].Value = cellproductid + 1;
+                                    dgvProduct.Rows[cellproductid].Cells[ibarcode].Value = gridSource[0].ItemBarCode;
+                                    dgvProduct.Rows[cellproductid].Cells[iname].Value = gridSource[0].ItemName;
+                                    dgvProduct.Rows[cellproductid].Cells[iqty].Value = "1";
+                                    dgvProduct.Rows[cellproductid].Cells[iunit].Value = gridSource[0].UnitName;
+                                    dgvProduct.Rows[cellproductid].Cells[iprate].Value = gridSource[0].PurchaseRate;
+                                    // dgvProduct.Rows[cellproductid].Cells[iamount].Value = gridSource[0].Amount;
+                                    dgvProduct.Rows[cellproductid].Cells[idisper].Value = 0;
+                                    dgvProduct.Rows[cellproductid].Cells[idisamt].Value = 0;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].TaxPer;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxamt].Value = gridSource[0].TaxAmount;
+                                    // dgvProduct.Rows[cellproductid].Cells[inetamount].Value = gridSource[0].NetAmount;
+                                    dgvProduct.Rows[cellproductid].Cells[itax].Value = gridSource[0].taxname;
+                                    dgvProduct.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType;
+                                    dgvProduct.Rows[cellproductid].Cells[israte].Value = gridSource[0].srate;
+                                    dgvProduct.Rows[cellproductid].Cells[imrp].Value = gridSource[0].MRP;
+
+                                    dgvProduct.Rows[cellproductid].Cells[iPurchasemasterid].Value = gridSource[0].PurchaseMasterId;///purchasemasterid
+                                    dgvProduct.Rows[cellproductid].Cells[iitemId].Value = gridSource[0].ItemId;//item id 
+                                    dgvProduct.Rows[cellproductid].Cells[iproducttype].Value = gridSource[0].ProductType; //entype product
+                                    dgvProduct.Rows[cellproductid].Cells[iPurchaseDetailsId].Value = gridSource[0].PurchasedetailsId;
+                                    dgvProduct.Rows[cellproductid].Cells[ipurchasemasterentryno].Value = gridSource[0].EntryNo;
+                                    dgvProduct.Rows[cellproductid].Cells[iprid].Value = dgvItemPop.Rows[cellpopupid].Cells[ipopPrid].Value;
+                                    dgvProduct.Rows[cellproductid].Cells[iorglQty].Value = dgvItemPop.Rows[cellpopupid].Cells[iqty].Value;
+                                    dgvProduct.Rows[cellproductid].Cells[iorgbarcode].Value = gridSource[0].ItemBarCode;
+                                    dgvProduct.Rows[cellproductid].Cells[ibarcode].ReadOnly = true;
+                                    totalcellamount(cellproductid);
+                                    grandTotal();
+                                    totQty();
+                                    totDisc();
+                                    netAmount();
+                                    dgvProduct.Rows.Add(1);
+                                    dgvProduct.Focus();
+                                    pnlpurchasedetails.Hide();
+                                    txtpurchaseentry.Enabled = true;
+                                    //txtpurchaseentry.BackColor = Color.White;
+                                    dgvProduct.Focus();
+
+                                }
+                                else
+                                {
+                                    CheckQty_popclclick(cellpopupid);
+                                    totalcellamount(dgvProduct_rowid);
+                                    grandTotal();
+                                    totQty();
+                                    totDisc();
+                                    netAmount();
+                                    pnlpurchasedetails.Hide();
+                                    txtpurchaseentry.Enabled = true;
+                                    //txtpurchaseentry.BackColor = Color.White;
+                                    dgvProduct.Rows[dgvProduct_rowid].Cells[iname].Style.ForeColor = Color.Black;
+                                    dgvProduct.Focus();
+                                }
+                                RecallF8();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase_Return page case Keys.Enter:", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+
+                        }
+   
+
                     }
                     else
                         Movefocus(0);
                     return true;
+
                 case Keys.Escape:
                     if (tlp_grid_registartion.Visible)
                     {
@@ -2390,6 +2445,7 @@ namespace FoodandBeverage.Forms
                         tlp_textboxes.Dock = DockStyle.Fill;
                         pnl_barcode.Visible = false;
                         txtbarcode.Text = "";
+                        MainPage = true;
                     }
                     else
                     {
@@ -2397,6 +2453,137 @@ namespace FoodandBeverage.Forms
                         _instancedash.Closeform();
                     }
                     return true;
+
+                case Keys.F8:
+                    if(MainPage)
+                    {
+                        LedgerPopup();
+                    }
+                    else if (dgvProduct.CurrentCell != null && DetailsPage)
+                    {
+                        try
+                        {
+                            //compentry.SelectedValue.ToString()
+                            int cno = dgvProduct.CurrentCell.ColumnIndex;
+                            int rowno = dgvProduct.CurrentCell.RowIndex;
+                            bool t = false;
+                            decimal temp;
+
+                            if (cno == iname)
+                            {
+                                if (purchaseID == null || purchaseID == "")
+                                {
+                                    CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    tlp_grid_registartion.Visible = false;
+                                    tlp_registartion_main.Visible = true;
+                                    Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
+                                    tlp_main.Controls.Remove(controlToRemove);
+                                    tlp_main.Controls.Add(tlp_registartion_main, 1, 0);
+                                    tlp_registartion_main.Dock = DockStyle.Fill;
+
+                                    tlp_textboxes.Visible = true;
+                                    controlToRemove = tlp_grid_registartion.GetControlFromPosition(0, 3);
+                                    tlp_grid_registartion.Controls.Remove(controlToRemove);
+                                    tlp_regform_downtlp.Controls.Add(tlp_textboxes, 0, 2);
+                                    tlp_textboxes.Dock = DockStyle.Fill;
+                                    txtbarcode.Text = "";
+                                    pnl_barcode.Visible = false;
+                                    txtpurchaseentry.Focus();
+
+                                    MainPage = true;
+                                    DetailsPage = false;
+                                }
+                                else
+                                {
+                                    tlp_main.Enabled = false;
+                                    txtpurchaseentry.Enabled = false;
+                                    txtpurchaseentry.BackColor = Color.DarkGray;
+
+                                    DmnSearch dmnSearch = new DmnSearch();
+                                    DmnSearch dmnSearch1 = new DmnSearch();
+                                    BllSearch<DmnGridFields> _bllSearch1 = new BllSearch<DmnGridFields>();
+
+                                    dmnSearch.Select = "a.EntryNo as EntryNo,b.itemName as Description,b.PurchaseRate as PurchaseRate,b.Quantity as Quantity,b.NetAmount as NetAmount,a.EntryDate as EntryDate,b.ItemId as ItemId,b.ProductType as ProductType,b.PurchaseDetailId as PurchaseDetailId,b.PurchaseMasterId as PurchaseMasterId,b.PrId as Prid,pr.QOH as AvaQOH";
+                                    dmnSearch.Table = "tblPurchaseMaster a LEFT JOIN tblPurchaseDetails b ON b.PurchaseMasterId = a.PurchaseMasterId LEFT JOIN tblProductRate pr on pr.id=b.PrId and pr.Status=1 ";
+                                    dmnSearch.WhereNdGroupBy = " Where a.PurchaseMasterId=" + purchaseID;// + "and pr.QOH >= b.Quantity";
+                                    dmnSearch.OrderBy = " Order By a.EntryNo desc ";
+                                    var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+
+                                    dmnSearch1.Select = " SUM(prd.Quantity) as field1,prd.itemid as field2";
+                                    dmnSearch1.Table = "tblPurchaseReturnDetails prd left join tblPurchaseReturnMaster prm on prm.PurchaseReturnMasterId=prd.PurchaseReturnMasterId "
+                                        + "LEFT JOIN tblitem d ON d.itemid = prd.ItemId";
+                                    dmnSearch1.WhereNdGroupBy = "where prm.PurchaseMasterId='" + purchaseID + "'";
+                                    dmnSearch1.OrderBy = "GROUP BY prd.itemid";
+                                    var gridSource1 = _bllSearch1.GetSearchData("prdSearch", dmnSearch1);
+                                    dgvItemPop.Rows.Clear();//----------------mutiple purchase return happen --------------
+                                    if (gridSource.Count > 0)
+                                    {
+                                        dgvItemPop.Rows.Add(gridSource.Count);
+                                        for (int i = 0; i < gridSource.Count; i++)
+                                        {
+                                            t = false;
+                                            current_qty = 0;
+                                            PRDtotalqty = 0;
+                                            dgvItemPop.Rows[i].Cells[ipopslno].Value = i + 1;
+                                            dgvItemPop.Rows[i].Cells[ipopEntryNo].Value = gridSource[i].EntryNo;
+                                            dgvItemPop.Rows[i].Cells[ipopDescription].Value = gridSource[i].Description;
+                                            dgvItemPop.Rows[i].Cells[ipopPurchaseRate].Value = gridSource[i].PurchaseRate;
+
+
+                                            if (gridSource1.Count > 0)
+                                            {
+                                                for (int j = 0; j < gridSource1.Count; j++)
+                                                {
+                                                    if (gridSource[i].ItemId == gridSource1[j].Field2)
+                                                    {
+                                                        PRDtotalqty = Convert.ToDecimal(gridSource[i].Quantity) - Convert.ToDecimal(gridSource1[j].Field1);
+                                                        t = true;
+
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                PRDtotalqty = Convert.ToDecimal(gridSource[i].Quantity);
+                                            }//--------------------------mutiple purchase return happen ---------------------
+                                            if (PRDtotalqty == 0 && t)//qty is zero and enter loop true (happen only multiple purchase return)
+                                                dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
+                                            else if (PRDtotalqty == 0)//new purchase return happen
+                                                dgvItemPop.Rows[i].Cells[iqty].Value = Convert.ToDecimal(gridSource[i].Quantity) - current_qty;
+                                            else//new purchase return happen no purchase return happen
+                                                dgvItemPop.Rows[i].Cells[iqty].Value = PRDtotalqty - current_qty;
+
+                                            dgvItemPop.Rows[i].Cells[ipopNetavaQoty].Value = gridSource[i].AvaQOH;
+                                            dgvItemPop.Rows[i].Cells[ipopNetAmount].Value = gridSource[i].NetAmount;
+                                            dgvItemPop.Rows[i].Cells[ipopEntryDate].Value = gridSource[i].EntryDate;
+                                            dgvItemPop.Rows[i].Cells[ipopItemId].Value = gridSource[i].ItemId;//itemid
+                                            dgvItemPop.Rows[i].Cells[ipopProductType].Value = gridSource[i].ProductType;
+                                            dgvItemPop.Rows[i].Cells[ipopPurchaseDetailId].Value = gridSource[i].PurchaseDetailId;
+                                            dgvItemPop.Rows[i].Cells[ipopPurchaseMasterId].Value = gridSource[i].PurchaseMasterId;//purchaemasterid
+                                            dgvItemPop.Rows[i].Cells[ipopPrid].Value = gridSource[i].Prid;//purchaemasterid
+
+                                        }
+                                    }
+                                    pnlpurchasedetails.Location = new Point(
+                                      this.ClientSize.Width / 2 - pnlpurchasedetails.Size.Width / 2,
+                                      (this.ClientSize.Height / 3 - pnlpurchasedetails.Size.Height / 2));
+                                    pnlpurchasedetails.Show();
+                                    dgvItemPop.Focus();
+                                }                          
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            clsgen.LogException("Purchase_Return page case Keys.F8:", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Purchase_Return));
+
+                        }
+
+                    }
+                    return true;
+
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
@@ -2472,5 +2659,88 @@ namespace FoodandBeverage.Forms
         {
             textb_shape();
         }
+
+        public void RecallF8()
+        {
+            try
+            {
+                if (dgvProduct.Rows.Count == 1)
+                {
+                    dgvProduct.Focus();
+                    dgvProduct.CurrentCell = dgvProduct.Rows[0].Cells[iname];
+                    if (Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemId].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemId].Value) == null)
+                    {
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "F8 for Products";
+                        dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Red;
+                    }
+                    dgvProduct.BeginEdit(true);
+                }
+                else if (dgvProduct.Rows.Count > 1)
+                {
+                    for (int i = 0; i < dgvProduct.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemId].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemId].Value) == null)
+                        {
+                            dgvProduct.Focus();
+                            dgvProduct.CurrentCell = dgvProduct.Rows[i].Cells[iname];
+                            dgvProduct.BeginEdit(true);
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Purchase_Return page Recallmenu() ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Purchase_Return));
+
+            }
+        }       
+
+        public void RecallBarCode() 
+        {
+            try
+            {
+                if (dgvProduct.Rows.Count == 1)
+                {
+                    dgvProduct.Focus();
+                    dgvProduct.CurrentCell = dgvProduct.Rows[0].Cells[ibarcode];
+
+                    //if (Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[0].Cells[iitemid].Value) == null)
+                    //{
+                    //    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Value = "F8 for Products";
+                    //    dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iname].Style.ForeColor = Color.Red;
+                    //}
+
+                    dgvProduct.BeginEdit(true);
+                }
+                else if (dgvProduct.Rows.Count > 1)
+                {
+                    for (int i = 0; i < dgvProduct.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemId].Value) == 0 || Convert.ToInt32(dgvProduct.Rows[i].Cells[iitemId].Value) == null)
+                        {
+                            dgvProduct.Focus();
+                            dgvProduct.CurrentCell = dgvProduct.Rows[i].Cells[ibarcode];
+                            dgvProduct.BeginEdit(true);
+
+                            txtbarcode.Text = "";
+                            pnl_barcode.Visible = true;
+                            pnl_barcode.Location = new Point(this.ClientSize.Width / 2 - pnl_barcode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_barcode.Size.Height / 2));
+                            txtbarcode.Focus();
+
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Purchase_Return page Recallmenu() ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Purchase_Return));
+
+            }
+        }
+
     }
 }

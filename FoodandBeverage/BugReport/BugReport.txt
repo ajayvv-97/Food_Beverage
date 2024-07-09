@@ -716,3 +716,24 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 10
 -------------------------------------------------------------------------
+Date and Time: 09-07-2024 15:21:18
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 09-07-2024 15:21:20
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 09-07-2024 17:12:39
+Page : Discount_And_Offer page ProductPopup()
+Exception: Incorrect syntax near the keyword 'left'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------

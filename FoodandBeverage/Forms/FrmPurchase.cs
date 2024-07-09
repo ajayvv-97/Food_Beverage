@@ -1012,6 +1012,11 @@ namespace FoodandBeverage.Forms
                 if (e.ColumnIndex == idisper || e.ColumnIndex == idisamt || e.ColumnIndex == iqty || e.ColumnIndex == iprate)
                 {
                     totalcellamount(e.RowIndex);
+                    if (discountper.Text != "" && Convert.ToDecimal(discountper.Text) >0)
+                    {
+                        discountAmnt();
+                        netAmount();
+                    }
                 }
                 if ((e.ColumnIndex == 5 || e.ColumnIndex == 15) && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
                 {
