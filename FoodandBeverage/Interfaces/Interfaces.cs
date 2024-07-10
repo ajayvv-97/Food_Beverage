@@ -178,7 +178,7 @@ namespace FoodandBeverage.Interfaces
         CombinedOrderBill = 3
     };
     public enum Tabletype
-    {
+    {    
         Product = 1,
         DirectSale = 2,
         ComboProduct = 3,

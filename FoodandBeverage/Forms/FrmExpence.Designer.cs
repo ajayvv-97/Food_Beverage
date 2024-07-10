@@ -305,6 +305,7 @@ namespace FoodandBeverage.Forms
             this.dgv_expense.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_expense_CellFormatting);
             this.dgv_expense.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_expense_DataError);
             this.dgv_expense.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_expense_EditingControlShowing);
+            this.dgv_expense.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_expense_RowValidating);
             this.dgv_expense.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_expense_KeyDown);
             this.dgv_expense.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgv_expense_KeyPress);
             // 
@@ -389,8 +390,9 @@ namespace FoodandBeverage.Forms
             // pnl_serachBox
             // 
             this.pnl_serachBox.Controls.Add(this.tlp_search_main);
-            this.pnl_serachBox.Location = new System.Drawing.Point(26, 145);
+            this.pnl_serachBox.Location = new System.Drawing.Point(26, 218);
             this.pnl_serachBox.Name = "pnl_serachBox";
+            this.pnl_serachBox.Padding = new System.Windows.Forms.Padding(3);
             this.pnl_serachBox.Size = new System.Drawing.Size(606, 178);
             this.pnl_serachBox.TabIndex = 19;
             this.pnl_serachBox.Visible = false;
@@ -402,12 +404,12 @@ namespace FoodandBeverage.Forms
             this.tlp_search_main.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.tlp_search_main.Controls.Add(this.tlp_serachtype, 0, 1);
             this.tlp_search_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_search_main.Location = new System.Drawing.Point(0, 0);
+            this.tlp_search_main.Location = new System.Drawing.Point(3, 3);
             this.tlp_search_main.Name = "tlp_search_main";
             this.tlp_search_main.RowCount = 2;
             this.tlp_search_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_search_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_search_main.Size = new System.Drawing.Size(606, 178);
+            this.tlp_search_main.Size = new System.Drawing.Size(600, 172);
             this.tlp_search_main.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -424,7 +426,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 31);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(594, 31);
             this.tableLayoutPanel1.TabIndex = 18;
             // 
             // label1
@@ -445,7 +447,7 @@ namespace FoodandBeverage.Forms
             this.btn_searchbox_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_searchbox_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_searchbox_close.ForeColor = System.Drawing.Color.Red;
-            this.btn_searchbox_close.Location = new System.Drawing.Point(572, 3);
+            this.btn_searchbox_close.Location = new System.Drawing.Point(566, 3);
             this.btn_searchbox_close.Name = "btn_searchbox_close";
             this.btn_searchbox_close.Size = new System.Drawing.Size(25, 25);
             this.btn_searchbox_close.TabIndex = 10;
@@ -465,7 +467,7 @@ namespace FoodandBeverage.Forms
             this.tlp_serachtype.RowCount = 2;
             this.tlp_serachtype.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_serachtype.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_serachtype.Size = new System.Drawing.Size(600, 135);
+            this.tlp_serachtype.Size = new System.Drawing.Size(594, 135);
             this.tlp_serachtype.TabIndex = 19;
             // 
             // tableLayoutPanel2
@@ -480,7 +482,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(594, 33);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(588, 33);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // cmb_searchtype
@@ -495,7 +497,7 @@ namespace FoodandBeverage.Forms
             "Amount",
             "Employee Name",
             "Payment Type"});
-            this.cmb_searchtype.Location = new System.Drawing.Point(155, 3);
+            this.cmb_searchtype.Location = new System.Drawing.Point(153, 3);
             this.cmb_searchtype.Name = "cmb_searchtype";
             this.cmb_searchtype.Size = new System.Drawing.Size(206, 24);
             this.cmb_searchtype.TabIndex = 1;
@@ -508,7 +510,7 @@ namespace FoodandBeverage.Forms
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(146, 33);
+            this.label2.Size = new System.Drawing.Size(144, 33);
             this.label2.TabIndex = 0;
             this.label2.Text = "Serach Type";
             // 
@@ -530,7 +532,7 @@ namespace FoodandBeverage.Forms
             this.tlp_serachtype_controls.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_serachtype_controls.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_serachtype_controls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_serachtype_controls.Size = new System.Drawing.Size(594, 90);
+            this.tlp_serachtype_controls.Size = new System.Drawing.Size(588, 90);
             this.tlp_serachtype_controls.TabIndex = 2;
             // 
             // label4
@@ -540,7 +542,7 @@ namespace FoodandBeverage.Forms
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(241, 18);
+            this.label4.Size = new System.Drawing.Size(238, 18);
             this.label4.TabIndex = 266;
             this.label4.Text = "From";
             // 
@@ -557,7 +559,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(241, 31);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(238, 31);
             this.tableLayoutPanel6.TabIndex = 262;
             // 
             // dtp_from_time
@@ -565,9 +567,9 @@ namespace FoodandBeverage.Forms
             this.dtp_from_time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_from_time.Location = new System.Drawing.Point(123, 3);
+            this.dtp_from_time.Location = new System.Drawing.Point(122, 3);
             this.dtp_from_time.Name = "dtp_from_time";
-            this.dtp_from_time.Size = new System.Drawing.Size(115, 20);
+            this.dtp_from_time.Size = new System.Drawing.Size(113, 20);
             this.dtp_from_time.TabIndex = 263;
             // 
             // dtp_from_date
@@ -577,7 +579,7 @@ namespace FoodandBeverage.Forms
             this.dtp_from_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtp_from_date.Location = new System.Drawing.Point(3, 3);
             this.dtp_from_date.Name = "dtp_from_date";
-            this.dtp_from_date.Size = new System.Drawing.Size(114, 20);
+            this.dtp_from_date.Size = new System.Drawing.Size(113, 20);
             this.dtp_from_date.TabIndex = 262;
             // 
             // tableLayoutPanel4
@@ -588,11 +590,11 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel4.Controls.Add(this.dtp_to_date, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.dtp_to_time, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(250, 21);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(247, 21);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(241, 31);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(238, 31);
             this.tableLayoutPanel4.TabIndex = 263;
             // 
             // dtp_to_date
@@ -602,7 +604,7 @@ namespace FoodandBeverage.Forms
             this.dtp_to_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtp_to_date.Location = new System.Drawing.Point(3, 3);
             this.dtp_to_date.Name = "dtp_to_date";
-            this.dtp_to_date.Size = new System.Drawing.Size(114, 20);
+            this.dtp_to_date.Size = new System.Drawing.Size(113, 20);
             this.dtp_to_date.TabIndex = 263;
             // 
             // dtp_to_time
@@ -610,9 +612,9 @@ namespace FoodandBeverage.Forms
             this.dtp_to_time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_to_time.Location = new System.Drawing.Point(123, 3);
+            this.dtp_to_time.Location = new System.Drawing.Point(122, 3);
             this.dtp_to_time.Name = "dtp_to_time";
-            this.dtp_to_time.Size = new System.Drawing.Size(115, 20);
+            this.dtp_to_time.Size = new System.Drawing.Size(113, 20);
             this.dtp_to_time.TabIndex = 262;
             // 
             // btn_search
@@ -621,7 +623,7 @@ namespace FoodandBeverage.Forms
             this.btn_search.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_search.FlatAppearance.BorderSize = 0;
             this.btn_search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_search.Location = new System.Drawing.Point(497, 58);
+            this.btn_search.Location = new System.Drawing.Point(491, 58);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(94, 32);
             this.btn_search.TabIndex = 264;
@@ -633,9 +635,9 @@ namespace FoodandBeverage.Forms
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(250, 0);
+            this.label3.Location = new System.Drawing.Point(247, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(241, 18);
+            this.label3.Size = new System.Drawing.Size(238, 18);
             this.label3.TabIndex = 265;
             this.label3.Text = "To";
             // 

@@ -737,3 +737,148 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 13
 -------------------------------------------------------------------------
+Date and Time: 10-07-2024 11:17:37
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 11:42:48
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 11:48:59
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 11:54:04
+Page : Discount_And_Offer page discountPer_combo()
+Exception: Attempted to divide by zero.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 12:10:16
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 12:10:20
+Page : Discount_And_Offer page ClacTaxAmt_combo()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 12:47:20
+Page : Discount_And_Offer page btnsave_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 12:49:06
+Page : Discount_And_Offer page btnsave_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:23:20
+Page : Product page chk_variation_CheckedChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:23:23
+Page : Product page chk_variation_CheckedChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:23:27
+Page : Product page chk_variation_CheckedChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:24:39
+Page : Product page chk_variation_CheckedChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:26:17
+Page : Product page chk_variation_CheckedChanged()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:36:54
+Page : Product page chk_variation_CheckedChanged()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:43:37
+Page : Product page dgv_registartion_CellContentClick()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 16:59:14
+Page : Product page ProductMousehoverEventHandler()
+Exception: Index was outside the bounds of the array.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 17:00:30
+Page : Product page ProductMousehoverEventHandler()
+Exception: Index was outside the bounds of the array.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 17:00:31
+Page : Product page ProductMousehoverEventHandler()
+Exception: Index was outside the bounds of the array.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 17:01:20
+Page : Product page ProductMousehoverEventHandler()
+Exception: Index was outside the bounds of the array.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 10-07-2024 17:30:04
+Page : Expence page FillExpence()
+Exception: Operation did not succeed because the program cannot commit or quit a cell value change.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 14
+-------------------------------------------------------------------------

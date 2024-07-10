@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
 
         #region declaration
         public static int Eslno = 0;
-        public static int Ereasonno = 1;
+        public static int Ereasonno = 1; 
         public static int Eamountno = 2;
         public static int Edecriptionno = 3;
         public static int Eemployenameno = 4;
@@ -152,7 +152,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (VendorMandatoryCheck())
+                if (MandatoryCheck())
                 {
                     Dmnexpence dmnexpencer = new Dmnexpence();
                     Dmnexpence InsertStatus = new Dmnexpence();
@@ -199,7 +199,7 @@ namespace FoodandBeverage.Forms
     
 
         }
-        public bool VendorMandatoryCheck()
+        public bool MandatoryCheck()
         {
             //if (string.IsNullOrEmpty(txtVendorName.Text))
             //{
@@ -880,5 +880,49 @@ namespace FoodandBeverage.Forms
                     return base.ProcessCmdKey(ref msg, keyData);
             }
         }
+
+        private void dgv_expense_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            if (dgv != null)
+            {
+                DataGridViewRow row = dgv.Rows[e.RowIndex];
+
+                // Get the values from the cells being validated
+                var reasonValue = row.Cells[Ereasonno].Value?.ToString();
+                var amountValue = row.Cells[Eamountno].Value?.ToString();
+                var employeeNameValue = row.Cells[Eemployenameno].Value?.ToString();
+                var paymentTypeValue = row.Cells[Epaymentypeno].Value?.ToString();
+
+                // Validate reason
+                if (string.IsNullOrEmpty(reasonValue))
+                {
+                    CMessageBox.Show("Reason cannot be empty.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    e.Cancel = true;
+                }
+
+                // Validate amount
+                else if (string.IsNullOrEmpty(amountValue) || !decimal.TryParse(amountValue, out decimal amount) || amount <= 0)
+                {
+                    CMessageBox.Show("Please enter a valid amount greater than 0.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    e.Cancel = true;
+                }
+
+                // Validate employee name
+                else if (string.IsNullOrEmpty(employeeNameValue))
+                {
+                    CMessageBox.Show("Employee name cannot be empty.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    e.Cancel = true;
+                }
+
+                // Validate payment type
+                else if (string.IsNullOrEmpty(paymentTypeValue))
+                {
+                    CMessageBox.Show("Payment type cannot be empty.", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    e.Cancel = true;
+                }
+            }
+        }
+
     }
 }

@@ -311,6 +311,8 @@ namespace FoodandBeverage.Forms
 
                 txtmrp.Enabled = true;
                 txtprice.Enabled = true;
+                tlp_registration.Focus();
+                txtproductname.Focus();
             }
             catch(Exception ex)
             {
@@ -453,6 +455,8 @@ namespace FoodandBeverage.Forms
                 tlp_regform_grid.HorizontalScroll.Visible = false;
                 tlp_regform_grid.VerticalScroll.Enabled = true;
                 tlp_regform_grid.Dock = DockStyle.Fill;
+
+                txtproductname.Focus();
             }
             catch (Exception ex)
             {
@@ -537,25 +541,25 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == Raction)
+                if (e.ColumnIndex == Raction && e.RowIndex>=0)
                 {
                     if (e.RowIndex == dgv_registartion.Rows.Count - 1)
                     {
                         if (IsValidData(e.RowIndex))
-                            return;
+                        {
+                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[e.RowIndex].Cells[Raction];
+                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            cell.Value = Properties.Resources.delete;
 
-                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[e.RowIndex].Cells[Raction];
-                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                        cell.Value = Properties.Resources.delete;
+                            dgv_registartion.Rows.Add();
+                            rearrange_slno();
+                            dgv_registartion.CurrentCell = dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[1];
+                            dgv_registartion.Focus();
 
-                        dgv_registartion.Rows.Add();
-                        rearrange_slno();
-                        dgv_registartion.CurrentCell = dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[1];
-                        dgv_registartion.Focus();
-
-                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[Raction];
-                        cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                        cell1.Value = Properties.Resources.add_row;
+                            DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[dgv_registartion.Rows.Count - 1].Cells[Raction];
+                            cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            cell1.Value = Properties.Resources.add_row;
+                        }                        
                     }
                     else if (dgv_registartion.Rows[e.RowIndex].Cells[RIng_DetailsIdno].Value == null && Convert.ToInt32(dgv_registartion.Rows[e.RowIndex].Cells[Ritemidno].Value) > 0)
                     {
@@ -669,7 +673,6 @@ namespace FoodandBeverage.Forms
                     dgv_registartion.BeginEdit(false);
                     return false; // Changed from true to false based on expected behavior
                 }
-
                 DataGridViewTextBoxCell cell1 = dgv_registartion[Rqtyno, rowno] as DataGridViewTextBoxCell;
                 string quantityValue = cell1?.EditedFormattedValue?.ToString();
                 if (string.IsNullOrWhiteSpace(quantityValue) || quantityValue == "." || quantityValue == string.Empty)
@@ -1406,6 +1409,7 @@ namespace FoodandBeverage.Forms
                         lbltablename.Dock = DockStyle.Top;
                         lbltablename.Width = 60;
                         lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+                        lbltablename.Tag = info;
 
                         // Configure the TableLayoutPanel
                         tlp_Gallery_Box.RowCount = 2;
@@ -2481,43 +2485,39 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Product page txtproductname_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
-
-
         private void textBox_KeyPress_variation(object sender, KeyPressEventArgs e)
         {
             try
             {
-
-            
-            TextBox textBox = (TextBox)sender;
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true; 
-                return;
+                TextBox textBox = (TextBox)sender;
+                if (e.KeyChar == '\r')
+                {
+                    e.Handled = true;
+                    return;
+                }
+                if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                if (e.KeyChar == '.' && textBox.Text.Contains('.'))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                int maxLength = textBox.Text.Contains('.') ? 7 : 4;
+                if (textBox.Text.Length >= maxLength && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                    return;
+                }
             }
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-                return;
-            }
-            if (e.KeyChar == '.' && textBox.Text.Contains('.'))
-            {
-                e.Handled = true;
-                return;
-            }
-            int maxLength = textBox.Text.Contains('.') ? 7 : 4;
-            if (textBox.Text.Length >= maxLength && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-                return;
-            }
-        }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        clsgen.LogException("Product page textBox_KeyPress_variation()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Product page textBox_KeyPress_variation()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
-}
+        }
         private void pb_addon_Click(object sender, EventArgs e)
         {
             try
@@ -2925,108 +2925,115 @@ namespace FoodandBeverage.Forms
                         tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 95));
                         tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5));
 
-                        foreach (Control control in tlp_variation.Controls)
+                        //foreach (Control control in tlp_variation.Controls)
+                        //{
+                        //    if (control is TableLayoutPanel tlp_row_layout_tem)
+                        //    {
+                        //        tlp_row_layout_tem.RowStyles[0].SizeType = SizeType.Percent;
+                        //        tlp_row_layout_tem.RowStyles[0].Height = 65;
+                        //    }
+                        //}
+                        int con_count = tlp_variation.Controls.Count;
+                        if(con_count==1)
                         {
-                            if (control is TableLayoutPanel tlp_row_layout_tem)
+                            #region New Variation Control adding
+
+                            TableLayoutPanel tlp_left = new TableLayoutPanel();
+                            tlp_left.Name = "tlp_left_" + rowindex;
+                            //tlp_left.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                            tlp_left.Dock = DockStyle.Top;
+                            tlp_left.RowCount = 2;
+                            tlp_left.ColumnCount = 3;
+                            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                            //tlp_left.BackColor = Color.Red;
+
+                            // Add labels and controls
+                            string[] labels = { "Size", "Price", "Code" };
+                            for (int i = 0; i < 3; i++)
                             {
-                                tlp_row_layout_tem.RowStyles[0].SizeType = SizeType.Percent;
-                                tlp_row_layout_tem.RowStyles[0].Height = 65;
+                                Label label = new Label();
+                                label.Name = labels[i] + rowindex;
+                                label.Text = labels[i];
+                                label.Dock = DockStyle.Fill;
+                                label.ForeColor = System.Drawing.Color.Black;
+                                label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Bold);
+                                label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                                Control control;
+
+                                TextBox textBox = new TextBox();
+                                textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
+                                textBox.Tag = rowindex;
+                                textBox.Dock = DockStyle.Top;
+                                textBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12, System.Drawing.FontStyle.Regular);
+                                textBox.BorderStyle = BorderStyle.None;
+                                textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
+                                textBox.Multiline = true;
+                                textBox.Height = 30;
+                                if (i == 0)
+                                {
+                                    textBox.AccessibleDescription = "Enter Variation Type..";
+
+                                }
+                                else if (i == 1)
+                                {
+                                    textBox.AccessibleDescription = "Enter Price..";
+                                    textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
+                                }
+                                textBox.Leave += TextBox_Leave;
+                                textBox.Enter += TextBox_Enter;
+
+
+                                control = textBox;
+                                string tempname = control.Name;
+                                TextBoxList.Add(tempname);
+
+                                tlp_left.Controls.Add(label, i, 0);
+                                tlp_left.Controls.Add(control, i, 1);
+
                             }
-                        }
 
-                        TableLayoutPanel tlp_left = new TableLayoutPanel();
-                        tlp_left.Name = "tlp_left_" + rowindex;
-                        //tlp_left.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-                        tlp_left.Dock = DockStyle.Top;
-                        tlp_left.RowCount = 2;
-                        tlp_left.ColumnCount = 3;
-                        tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                        tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                        tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                        //tlp_left.BackColor = Color.Red;
-
-                        // Add labels and controls
-                        string[] labels = { "Size", "Price", "Code" };
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Label label = new Label();
-                            label.Name = labels[i] + rowindex;
-                            label.Text = labels[i];
-                            label.Dock = DockStyle.Fill;
-                            label.ForeColor = System.Drawing.Color.Black;
-                            label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Bold);
-                            label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-                            Control control;
-
-                            TextBox textBox = new TextBox();
-                            textBox.Name = "txt_" + labels[i].ToLower() + rowindex;
-                            textBox.Tag = rowindex;
-                            textBox.Dock = DockStyle.Top;
-                            textBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12, System.Drawing.FontStyle.Regular);
-                            textBox.BorderStyle = BorderStyle.None;
-                            textBox.BackColor = System.Drawing.Color.FromArgb(196, 223, 223);
-                            textBox.Multiline = true;
-                            textBox.Height = 30;
-                            if (i == 0)
+                            #region Delete Icon
+                            PictureBox pb_delrow = new PictureBox()
                             {
-                                textBox.AccessibleDescription = "Enter Variation Type..";
+                                Name = "Rowdel_" + rowindex,
+                                Image = Properties.Resources.delete,
+                                SizeMode = PictureBoxSizeMode.StretchImage,
+                                Dock = DockStyle.None,
+                                Tag = rowindex,
+                                AccessibleDescription = "",
+                            };
 
-                            }
-                            else if (i == 1)
+                            pb_delrow.Click += pb_delrow_Click;
+                            #endregion
+
+                            tlp_row_layout.Controls.Add(tlp_left, 0, 0);
+                            tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
+
+                            tlp_variation.Controls.Add(tlp_row_layout, 0, rowindex);
+
+                            #region Grid insert
+                            dgv_variation.Rows.Add();
+                            int newIndex = dgv_variation.Rows.Count - 1;
+                            dgv_variation.Rows[newIndex].Cells[Arowno].Value = rowindex;
+                            dgv_variation.Rows[newIndex].Cells[avariationno].Value = "";
+                            dgv_variation.Rows[newIndex].Cells[apriceno].Value = "0";
+                            dgv_variation.Rows[newIndex].Cells[Acodeno].Value = "";
+                            #endregion
+
+                            rowindex++;
+                            RoundAddonTextbox();
+                            if (tlp_left.Controls.Count > 0)
                             {
-                                textBox.AccessibleDescription = "Enter Price..";
-                                textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
+                                Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
+                                lastControl.Focus();
                             }
-                            textBox.Leave += TextBox_Leave;
-                            textBox.Enter += TextBox_Enter;
+                            a = tlp_variation.Height;
 
-
-                            control = textBox;
-                            string tempname = control.Name;
-                            TextBoxList.Add(tempname);
-
-                            tlp_left.Controls.Add(label, i, 0);
-                            tlp_left.Controls.Add(control, i, 1);
-
+                            #endregion
                         }
-
-                        #region Delete Icon
-                        PictureBox pb_delrow = new PictureBox()
-                        {
-                            Name = "Rowdel_" + rowindex,
-                            Image = Properties.Resources.delete,
-                            SizeMode = PictureBoxSizeMode.StretchImage,
-                            Dock = DockStyle.None,
-                            Tag = rowindex,
-                            AccessibleDescription = "",
-                        };
-                        pb_delrow.Click += pb_delrow_Click;
-
-                        tlp_row_layout.Controls.Add(tlp_left, 0, 0);
-                        tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
-
-                        #endregion
-
-                        tlp_variation.Controls.Add(tlp_row_layout, 0, rowindex);
-
-                        #region Grid insert
-                        dgv_variation.Rows.Add();
-                        int newIndex = dgv_variation.Rows.Count - 1;
-                        dgv_variation.Rows[newIndex].Cells[Arowno].Value = rowindex;
-                        dgv_variation.Rows[newIndex].Cells[avariationno].Value = "";
-                        dgv_variation.Rows[newIndex].Cells[apriceno].Value = "0";
-                        dgv_variation.Rows[newIndex].Cells[Acodeno].Value = "";
-                        #endregion
-
-                        rowindex++;
-                        RoundAddonTextbox();
-                        if (tlp_left.Controls.Count > 0)
-                        {
-                            Control lastControl = tlp_left.Controls[tlp_left.Controls.Count - 1];
-                            lastControl.Focus();
-                        }
-                         a= tlp_variation.Height;
                     }
                     else
                     {
@@ -3288,7 +3295,7 @@ namespace FoodandBeverage.Forms
                             txtsize.Text = "Enter Variation Type..";
                             TextBox textBoxToBlink = txtsize;
                             CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            StartBlinking(textBoxToBlink);
+                           // StartBlinking(textBoxToBlink);
                             return false;
                         }
 
@@ -3298,7 +3305,7 @@ namespace FoodandBeverage.Forms
                             TextBox textBoxToBlink = txtprice;
                             txtprice.Text = "Enter Price..";
                             CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            StartBlinking(textBoxToBlink);
+                           // StartBlinking(textBoxToBlink);
                             return false;
                         }
                     }
