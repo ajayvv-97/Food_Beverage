@@ -65,6 +65,7 @@ namespace BLL
             parms.Add("Addoncount", objTestClass.Addoncount);
             parms.Add("Pavid", objTestClass.Pavid);
             parms.Add("Srate", objTestClass.Srate);
+            parms.Add("VariatiionName", objTestClass.VariatiionName);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -205,6 +205,7 @@ namespace FoodandBeverage.Forms
 
                         if (gridSource[0].UserAccountTypeId != null)
                         {
+                            dgvforms.Visible = true;
                             UserAccountId = gridSource[0].UserAccountId;
                             cmbUsreAccount.SelectedValue = Convert.ToInt64(gridSource[0].UserAccountTypeId);
                             FillForms(Convert.ToInt32(gridSource[0].UserAccountTypeId));
@@ -239,7 +240,10 @@ namespace FoodandBeverage.Forms
         }
         private void txtICardNo1_Enter(object sender, EventArgs e)
         {
-            timer1.Start();
+            tlp_main.Enabled = false;
+            pnlwifi.Location = new Point(this.ClientSize.Width / 2 - pnlwifi.Size.Width / 2, this.ClientSize.Height / 2 - pnlwifi.Size.Height / 2);
+            pnlwifi.Visible = true;
+            tm_card.Start();
         }
         public void FillCombo1()
         {
@@ -451,6 +455,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (gridSource[0].UserAccountTypeId != null)
                     {
+                        dgvforms.Visible = true;
                         cmbUsreAccount.SelectedValue = Convert.ToInt64(gridSource[0].UserAccountTypeId);
                         FillForms(Convert.ToInt32(gridSource[0].UserAccountTypeId));
                         mcmbaccounttype.SelectedValue = Convert.ToInt64(gridSource[0].UserAccountTypeId);
@@ -498,32 +503,9 @@ namespace FoodandBeverage.Forms
         }
         private void btnrfid_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
-                if (str1 != "Card not in contact")
-                {
-                    timer1.Stop();
-                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
-
-                    str1 = RemoveSpecialCharacters(str1.Trim());
-
-                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                    {
-                        Keypad_Rfid(str1);
-                    }
-                }
-
-                //mcmbDesignationId.Focus();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsGeneral.LogException("Employee Page  btnrfid_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
-            }
+            Frmkeypad keypad = new Frmkeypad(this, 0);
+            keypad.StartPosition = FormStartPosition.CenterScreen;
+            keypad.ShowDialog();
         }
 
         private void mcmbDesignationId_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -649,7 +631,11 @@ namespace FoodandBeverage.Forms
                 pbCust.Image = FoodandBeverage.Properties.Resources.employe_female_icon;
             else if (Convert.ToInt32(cboGender.SelectedIndex) == 2)
                 pbCust.Image = FoodandBeverage.Properties.Resources.employe_male_icon;
+            else if (Convert.ToInt32(cboGender.SelectedIndex) == 3)
+                pbCust.Image = FoodandBeverage.Properties.Resources.employee_common_pic;
             pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
+
+
         }
 
         private void dtpBirthDate_KeyDown(object sender, KeyEventArgs e)
@@ -1000,6 +986,10 @@ namespace FoodandBeverage.Forms
                 txtcconpassword.Text = "";
                 txtuname.Text = "";
                 LocationFill();
+                tb_empolyee.SelectedTab = tp_employee;
+                tlp_employe_reg.Focus();
+                txtEmpName.Focus();
+                dtpBirthDate.Value = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -1702,11 +1692,41 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public void FillcardDetails()
+        {
+            try
+            {
+                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
+                if (str1 != "Card not in contact")
+                {
+                    tm_card.Stop();
+                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
+                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
+                    str1 = RemoveSpecialCharacters(str1.Trim());
+                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
+                    {
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        tm_card.Start();
+                    }
+                    else
+                    {
+                        tlp_main.Enabled = true;
+                        pnlwifi.Visible = false;
+                        Keypad_Rfid(str1);
+                    }
+                }
+                //mcmbDesignationId.Focus();                
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("Employee Page  FillcardDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
+            }
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            btnrfid_Click(sender, e);
+            FillcardDetails();
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -2216,9 +2236,16 @@ namespace FoodandBeverage.Forms
         }
         private void txtICardNo1_DoubleClick(object sender, EventArgs e)
         {
-            Frmkeypad keypad = new Frmkeypad(this, 0);
-            keypad.StartPosition = FormStartPosition.CenterScreen;
-            keypad.ShowDialog();
+            //Frmkeypad keypad = new Frmkeypad(this, 0);
+            //keypad.StartPosition = FormStartPosition.CenterScreen;
+            //keypad.ShowDialog();
+        }
+
+        private void btnwificancel_Click(object sender, EventArgs e)
+        {
+            tm_card.Stop();
+            pnlwifi.Visible = false;
+            tlp_main.Enabled = true;
         }
 
         private void dtpBirthDate_Validating(object sender, System.ComponentModel.CancelEventArgs e)

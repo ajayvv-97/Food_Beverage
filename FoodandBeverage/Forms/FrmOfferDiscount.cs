@@ -58,6 +58,7 @@ namespace FoodandBeverage.Forms
         public static int Cmarketpriceno = 22;
         public static int Caddoncountno = 23;
         public static int Cpavidno = 24;
+        public static int Cvariationnameno = 25;
 
         public static int didno = 0;
         public static int dselectionno = 1;
@@ -110,7 +111,7 @@ namespace FoodandBeverage.Forms
         public bool ProductPage = true, ComboPage = false;
         public int StatusValue=1;
         private List<(int productId, int saleType)> selectedProducts = new List<(int productId, int saleType)>();
-
+        public int maxLength_variation = 3;
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -918,6 +919,7 @@ namespace FoodandBeverage.Forms
                                     dmnOfferdetails.Addoncount = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[Caddoncountno].Value);
                                     dmnOfferdetails.Pavid = Convert.ToInt32(dgv_sele_cmb_products.Rows[i].Cells[Cpavidno].Value);
                                     dmnOfferdetails.Srate = Convert.ToDecimal(dgv_sele_cmb_products.Rows[i].Cells[cpriceno].Value);
+                                    dmnOfferdetails.VariatiionName = Convert.ToString(dgv_sele_cmb_products.Rows[i].Cells[Cvariationnameno].Value);
 
                                     var InsertStatusD = blldetails.AddEditDataD("prdInsert_Upd_offerdetails", dmnOfferdetails);
                                     if (InsertStatusD == null)
@@ -938,7 +940,7 @@ namespace FoodandBeverage.Forms
                                 else
                                     CMessageBox.Show("Saved Successfuly ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                //ClearAll();
+                                ClearAll();
                             }
 
                         }
@@ -1201,7 +1203,7 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,od.Description as Field10,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19,om.TaxType as Field20,od.AV_id as Field21,od.AddonStatus as Field22,od.Addoncount as Field23,od.Pavid as Field24,od.Price as Field25,od.Quantity as Field26";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,od.Description as Field10,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19,om.TaxType as Field20,od.AV_id as Field21,od.AddonStatus as Field22,od.Addoncount as Field23,od.Pavid as Field24,od.Price as Field25,od.Quantity as Field26,od.VariatiionName Field27";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid and od.Status=1 ";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -1361,6 +1363,7 @@ namespace FoodandBeverage.Forms
                                             objSearch_item.WhereNdGroupBy = "where ProductId=" + itemSource[i].Field3;
                                             objSearch_item.OrderBy = "";
                                         }
+
                                         var gridSourceitem = bllSearch.GetSearchData("prdSearch", objSearch_item);
                                         if (gridSourceitem.Count > 0)
                                         {
@@ -1387,7 +1390,9 @@ namespace FoodandBeverage.Forms
                                             dgv_sele_cmb_products.Rows[r].Cells[cmrpno].Value = gridSourceitem[0].Field11;
                                             dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = itemSource[i].Field2;
                                             dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
-                                            dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                                            dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                                            dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field12;
+
                                             mainrowno = r;
                                             if (Convert.ToInt32(itemSource[i].Field16) > 0)
                                             {            
@@ -1405,7 +1410,7 @@ namespace FoodandBeverage.Forms
                                                 dgv_sele_cmb_products.Rows[r].Cells[Cpavidno].Value = itemSource[i].Field24;
                                                 dgv_sele_cmb_products.Rows[r].Cells[Caddoncountno].Value = itemSource[i].Field23;
      
-                                                var Addonlist = itemSource.Where(item => item.Field21 == Convert.ToString(itemSource[i].Field21) && Convert.ToInt32( item.Field22) == 2).ToList();
+                                                var Addonlist = itemSource.Where(item => item.Field21 == Convert.ToString(itemSource[i].Field21) && Convert.ToInt32(item.Field22) == 2 && Convert.ToInt32(item.Field15) == 1).ToList(); 
                                                 int k = 0;
                                                 for (int j = 0; j < Addonlist.Count; j++)
                                                 {                   
@@ -1418,6 +1423,7 @@ namespace FoodandBeverage.Forms
                                                     dgv_sele_cmb_products.Rows[r].Cells[cbarcodeno].Value = "[ADDONS]";
                                                     dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                                                     dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = 0;
+                                                    dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = item.Field2;
 
                                                     dgv_sele_cmb_products.Rows[r].Cells[cpriceno].Value = item.Field25;
                                                     dgv_sele_cmb_products.Rows[r].Cells[cnetamtno].Value = Convert.ToDecimal(item.Field25) * Convert.ToDecimal(item.Field26);
@@ -1457,7 +1463,20 @@ namespace FoodandBeverage.Forms
 
                                         //Item Button   
                                         Button Button_Item = new Button();
-                                        Button_Item.Text = itemSource[i].Field17;
+                                        string shortVrianame = TruncateString(itemSource[i].Field27, maxLength_variation);
+                                        bool vastatus = Convert.ToInt32(itemSource[i].Field22) == 1;
+                                        int addonCount = Convert.ToInt32(itemSource[i].Field23);
+                                        bool hasVariation = !string.IsNullOrEmpty(shortVrianame);
+
+                                        if (vastatus && addonCount > 0 && hasVariation)
+                                            Button_Item.Text = itemSource[i].Field17 + " (" + shortVrianame + ") Add[" + addonCount + "]";
+                                        else if (vastatus && addonCount > 0)
+                                            Button_Item.Text = itemSource[i].Field17 + " Add[" + addonCount + "]";
+                                        else if (vastatus && hasVariation)
+                                            Button_Item.Text = itemSource[i].Field17 + " (" + itemSource[i].Field27 + ")";
+                                        else
+                                            Button_Item.Text = itemSource[i].Field17;
+
                                         Button_Item.Width = 150;
                                         Button_Item.Height = 50;
                                         Button_Item.FlatAppearance.BorderSize = 0;
@@ -1533,8 +1552,7 @@ namespace FoodandBeverage.Forms
                                                 tlp_selected_Item_Box.Name = "tlp_sele_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
                                                 tlp_selected_Item_Box.AccessibleDescription = "4";
                                                 tlp_selected_Item_Box.Tag = itemSource[i].Field21;
-
-                                                Button_Item.Text = itemSource[i].Field17;
+       
                                                 Button_Item.Name = "btn_sele_" + itemSource[i].Field21 + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
                                                 Button_Item.Tag = itemSource[i].Field21;
 
@@ -1556,7 +1574,6 @@ namespace FoodandBeverage.Forms
                                                 tlp_selected_Item_Box.AccessibleDescription = "1";
                                                 tlp_selected_Item_Box.Tag = itemSource[i].Field3;
 
-                                                Button_Item.Text = itemSource[i].Field17;
                                                 Button_Item.Name = "btn_sele_" + itemSource[i].Field3 + "_" + Convert.ToInt32(Tabletype.Product);
                                                 Button_Item.Tag = itemSource[i].Field3;
 
@@ -1605,6 +1622,22 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Discount_And_Offer page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
             }
         }
+
+        string TruncateString(string input, int maxLength)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(input)) return input;
+                return input.Length <= maxLength ? input : input.Substring(0, maxLength) + "..";
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Order page TruncateString()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                return string.Empty;
+            }
+        }
+
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
@@ -6057,13 +6090,20 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     objSearch = new DmnSearch();
-                    objSearch.Select = "p.Product Field1,p.DiscountPer Field2,p.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,p.TaxType Field6,p.Tax Field7,p.ProductId Field8,p.TaxSettingsId Field9,p.ItemCode Field10,p.mrp Field11";
-                    objSearch.Table = "tblProduct  p LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=p.TaxSettingsId";
-                    objSearch.WhereNdGroupBy = "where ProductId=" + pid;
+                    objSearch.Select =" p.Product Field1,p.DiscountPer Field2,p.Price Field3,tx.IgstPrcnt Field4,tx.VatPrcnt Field5,p.TaxType Field6,p.Tax Field7,p.ProductId Field8,p.TaxSettingsId Field9,p.ItemCode Field10,p.mrp Field11,pav.Pavid Field12,pav.Caption Field13";
+                    objSearch.Table = " tblProduct  p LEFT JOIN tblTaxSettings tx on tx.TaxSettingsId=p.TaxSettingsId"+
+                                      " LEFT JOIN tblProduct_Addon_Variation pav on pav.ProductId=p.ProductId and pav.status=1" +
+                                      " LEFT JOIN tblAddon a on a.Aid = pav.Aid and a.status = 1";
+                    objSearch.WhereNdGroupBy = "where p.ProductId=" + pid;
                     objSearch.OrderBy = "";
                     var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (gridSource.Count > 0)
                     {
+                        string vrianame = gridSource
+                             .Where(item => Convert.ToInt32(item.Field12) == vid)
+                             .Select(item => item.Field13.ToString())
+                             .FirstOrDefault();
+
                         #region Grid Fill Main product
                         dgv_sele_cmb_products.Rows.Add();
                         int r = dgv_sele_cmb_products.Rows.Count - 1;
@@ -6076,6 +6116,7 @@ namespace FoodandBeverage.Forms
                         dgv_sele_cmb_products.Rows[r].Cells[cdisperno].Value = gridSource[0].Field2;
                         dgv_sele_cmb_products.Rows[r].Cells[Cavidno].Value = Av_ID;
                         dgv_sele_cmb_products.Rows[r].Cells[Cpavidno].Value = vid;
+                        dgv_sele_cmb_products.Rows[r].Cells[Cvariationnameno].Value = vrianame;
 
                         var Variationprice = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
                         if (Variationprice == null)
@@ -6173,7 +6214,18 @@ namespace FoodandBeverage.Forms
 
                         //Item Button   
                         Button Button_Item = new Button();
-                        Button_Item.Text = gridSource[0].Field1 + "[" + AddonCount +"]";
+                        string shortVrianame = TruncateString(vrianame, maxLength_variation);
+                        if (AddonCount > 0 && vrianame != null && vrianame != "")
+                            Button_Item.Text = gridSource[0].Field1 + "(" + shortVrianame + ") Add[" + AddonCount + "]";
+                        else if (AddonCount > 0)
+                            Button_Item.Text = gridSource[0].Field1 + " Add[" + AddonCount + "]";
+                        else if (vrianame != null && vrianame != "")
+                            Button_Item.Text = gridSource[0].Field1 + "(" + vrianame + ")";
+                        else
+                            Button_Item.Text = gridSource[0].Field1;
+
+                        //Button_Item.Text = gridSource[0].Field1 + "[" + AddonCount +"]";
+
                         Button_Item.Name = "btn_sele_" + Av_ID + "_" + Convert.ToInt32(Tabletype.Variation_Addon);
                         Button_Item.AccessibleDescription = "4";
                         Button_Item.Tag = Av_ID;

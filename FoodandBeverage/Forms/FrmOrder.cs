@@ -3111,7 +3111,6 @@ namespace FoodandBeverage.Forms
                     buttonRemove.Dock = DockStyle.Top;
                     txtprice.Dock = DockStyle.Fill;
 
-
                     // Get the current row count
                     currentRowCount = tlp_seletedItem_col.RowCount;
 
@@ -3573,7 +3572,7 @@ namespace FoodandBeverage.Forms
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 pnl_products_descr.Size = new Size(panelWidth, panelHeight);
-
+                tlp_tableorder.Enabled = false;
                 if (saletype == Convert.ToInt32(Tabletype.DirectSale))
                 {
                     Proid_Prid = Convert.ToInt32(clickedControl.Tag);
@@ -4216,6 +4215,7 @@ namespace FoodandBeverage.Forms
                     pnlproductviewmore.Visible = false;
                 else
                 {
+                    tlp_tableorder.Enabled = false;
                     pnlproductviewmore.Visible = true;
                     int panelWidthPercentage = 50;
                     int panelheightPercentage = 50;
@@ -6016,12 +6016,27 @@ namespace FoodandBeverage.Forms
             switch (keyData)
             {
                 case Keys.Escape:
-                    if (pnl_products_descr.Visible)
+                    
+                    if (pnl_variation_addon.Visible)
+                    {
+                        tlp_tableorder.Enabled = true;
+                        pnl_variation_addon.Visible = false;
+                    }
+                    else if (pnl_products_descr.Visible)
+                    {
+                        tlp_tableorder.Enabled = true;
                         pnl_products_descr.Visible = false;
+                    }        
                     else if (pnlproductviewmore.Visible)
+                    {
+                        tlp_tableorder.Enabled = true;
                         pnlproductviewmore.Visible = false;
+                    }   
                     else if (tlp_gridview.Visible)
+                    {
                         tlp_gridview.Visible = false;
+                        tlp_tableorder.Enabled = true;
+                    }
                     else if (pnl_split.Visible)
                     {
                         if (btn_con_nosplit.Visible == false)
@@ -6126,6 +6141,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_close_prod_des_Click(object sender, EventArgs e)
         {
+            tlp_tableorder.Enabled = true;
             pnl_products_descr.Visible = false;
         }
 
@@ -6186,6 +6202,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 pnl_products_descr.Visible = false;
+                tlp_tableorder.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -6223,8 +6240,9 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    tlp_gridview.Visible = true;
+                    tlp_tableorder.Enabled = false;
 
+                    tlp_gridview.Visible = true;
                     int centerX = this.ClientSize.Width / 2 - tlp_gridview.Size.Width / 2;
                     int centerY = this.ClientSize.Height / 2 - tlp_gridview.Size.Height / 2;
 
@@ -8150,6 +8168,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_close_viewmore_Click(object sender, EventArgs e)
         {
+            tlp_tableorder.Enabled = true;
             pnlproductviewmore.Visible = false;
         }
 
@@ -9538,6 +9557,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_gridview_close_Click(object sender, EventArgs e)
         {
+            tlp_tableorder.Enabled = true;
             tlp_gridview.Visible = false;
         }
 

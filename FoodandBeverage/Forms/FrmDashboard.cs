@@ -252,42 +252,44 @@ namespace FoodandBeverage.Forms
             try
             {
                 #region Load Chart Form with thread
-                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
-                    FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
-                    if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                    if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                     {
-                        _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                        if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                        {
+                            _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        }
+                        else
+                        {
+                            _instanceDashboardReport.Dock = DockStyle.Fill;
+                            ResizeForm(_instanceDashboardReport);
+                            panelDesktop.Controls.Add(_instanceDashboardReport);
+                            _instanceDashboardReport.Filldashboard();
+                            _instanceDashboardReport.Show();
+                            _instanceDashboardReport.BringToFront();
+                        }
                     }
                     else
                     {
+                        FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
                         _instanceDashboardReport.Dock = DockStyle.Fill;
                         ResizeForm(_instanceDashboardReport);
-                        panelDesktop.Controls.Add(_instanceDashboardReport);
-                        _instanceDashboardReport.Filldashboard();
-                        _instanceDashboardReport.Show();
-                        _instanceDashboardReport.BringToFront();
-                    }
-                }
-                else
-                {
-                    FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
-                    _instanceDashboardReport.Dock = DockStyle.Fill;
-                    ResizeForm(_instanceDashboardReport);
-                    _instanceDashboardReport.TopLevel = false;
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() =>
+                        _instanceDashboardReport.TopLevel = false;
+                        if (this.IsHandleCreated)
                         {
-                            panelDesktop.Controls.Add(_instanceDashboardReport);
-                            _instanceDashboardReport.Show();
-                        }));
-                    }
-                    // _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceDashboardReport.BringToFront();
+                            this.Invoke(new Action(() =>
+                            {
+                                panelDesktop.Controls.Add(_instanceDashboardReport);
+                                _instanceDashboardReport.Show();
+                            }));
+                        }
+                        // _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        _instanceDashboardReport.BringToFront();
 
+                    }                
                 }
-
                 this.Opacity = 100;
                 #endregion
             }
@@ -656,7 +658,7 @@ namespace FoodandBeverage.Forms
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
-            {
+            {           
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 if (sender is Button button)
                 {
@@ -664,39 +666,42 @@ namespace FoodandBeverage.Forms
                 }
                 panelDesktop.Controls.Clear();
 
-                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
-                    FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
-                    if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
-                        _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                    {
+                        FrmDashboardReport _instanceDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                        if (_instanceDashboardReport.WindowState == FormWindowState.Minimized)
+                            _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        else
+                        {
+                            _instanceDashboardReport.Dock = DockStyle.Fill;
+                            _instanceDashboardReport.Visible = true;
+                            ResizeForm(_instanceDashboardReport);
+                            panelDesktop.Controls.Add(_instanceDashboardReport);
+                            _instanceDashboardReport.RefreshCharts();
+                            _instanceDashboardReport.Show();
+                            _instanceDashboardReport.BringToFront();
+                        }
+                    }
                     else
                     {
+                        FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
                         _instanceDashboardReport.Dock = DockStyle.Fill;
-                        _instanceDashboardReport.Visible = true;
                         ResizeForm(_instanceDashboardReport);
+                        _instanceDashboardReport.TopLevel = false;
                         panelDesktop.Controls.Add(_instanceDashboardReport);
-                        _instanceDashboardReport.RefreshCharts();
                         _instanceDashboardReport.Show();
+                        _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                         _instanceDashboardReport.BringToFront();
                     }
-                }
-                else
-                {
-                    FrmDashboardReport _instanceDashboardReport = new FrmDashboardReport();
-                    _instanceDashboardReport.Dock = DockStyle.Fill;
-                    ResizeForm(_instanceDashboardReport);
-                    _instanceDashboardReport.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceDashboardReport);
-                    _instanceDashboardReport.Show();
-                    _instanceDashboardReport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceDashboardReport.BringToFront();
                 }
 
                 if (menutable_click)
                 {
                     CloseTableViewPage();
                 }
-                //panelDesktop.ResumeLayout();
+
             }
             catch (Exception ex)
             {
@@ -3582,7 +3587,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("homepage ChkWritePermission", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("homepage ChkWritePermission()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
                 return false;
             }
         }

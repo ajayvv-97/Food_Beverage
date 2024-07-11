@@ -35,6 +35,8 @@ namespace Domain
         public int Addoncount { get; set; }
         public int Pavid { get; set; }
         public decimal Srate { get; set; }
+        public string VariatiionName { get; set; }
+
 
     }
 }

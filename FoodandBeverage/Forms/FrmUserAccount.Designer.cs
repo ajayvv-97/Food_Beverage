@@ -211,6 +211,7 @@ namespace FoodandBeverage.Forms.UserAccount
             // 
             this.mcmbaccounttype.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mcmbaccounttype.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mcmbaccounttype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcmbaccounttype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mcmbaccounttype.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mcmbaccounttype.FormattingEnabled = true;

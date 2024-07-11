@@ -49,7 +49,7 @@ namespace FoodandBeverage.Forms
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmb_employee = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cmb_paymenttype = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.employeeid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.expid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -302,7 +302,6 @@ namespace FoodandBeverage.Forms
             this.dgv_expense.Size = new System.Drawing.Size(644, 439);
             this.dgv_expense.TabIndex = 18;
             this.dgv_expense.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_expense_CellContentClick);
-            this.dgv_expense.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_expense_CellFormatting);
             this.dgv_expense.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_expense_DataError);
             this.dgv_expense.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_expense_EditingControlShowing);
             this.dgv_expense.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_expense_RowValidating);
@@ -354,12 +353,12 @@ namespace FoodandBeverage.Forms
             // 
             this.Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = null;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(3);
             this.Action.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Action.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Action.HeaderText = "Action";
-            this.Action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Action.Name = "Action";
+            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Action.Width = 60;
             // 
             // employeeid
@@ -389,6 +388,7 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_serachBox
             // 
+            this.pnl_serachBox.BackColor = System.Drawing.Color.AliceBlue;
             this.pnl_serachBox.Controls.Add(this.tlp_search_main);
             this.pnl_serachBox.Location = new System.Drawing.Point(26, 218);
             this.pnl_serachBox.Name = "pnl_serachBox";
@@ -807,16 +807,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btnclose;
         private System.Windows.Forms.TextBox txtvid;
         private System.Windows.Forms.DataGridView dgv_expense;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
-        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_reasontype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_employee;
-        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_paymenttype;
-        private System.Windows.Forms.DataGridViewImageColumn Action;
-        private System.Windows.Forms.DataGridViewTextBoxColumn employeeid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn expid;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn status;
         private System.Windows.Forms.Panel pnl_serachBox;
         private System.Windows.Forms.TableLayoutPanel tlp_search_main;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -844,5 +834,15 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Slno;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_reasontype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_employee;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmb_paymenttype;
+        private System.Windows.Forms.DataGridViewButtonColumn Action;
+        private System.Windows.Forms.DataGridViewTextBoxColumn employeeid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn expid;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn status;
     }
 }
