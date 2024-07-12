@@ -51,6 +51,8 @@ namespace Domain
         public int Addoncount { get; set; }
         public string Cmid { get; set; }
         public string VariatiionName { get; set; }
+        public int OrderDetailsId { get; set; }
         
+
     }    
 }

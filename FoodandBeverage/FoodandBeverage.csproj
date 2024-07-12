@@ -1732,9 +1732,6 @@
     <None Include="Resources\kitchen_order_sound.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\confirmbutton.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\monthly_report.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1764,6 +1761,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\confirmbutton.png" />
     <None Include="Resources\res_show button.png" />
     <None Include="Resources\res_hide button.png" />
     <None Include="Resources\offer button.png" />

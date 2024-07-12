@@ -331,7 +331,7 @@ namespace FoodandBeverage.Forms
                     string tableCode = clickedControl.Name;
                     int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                     int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                    if (CheckedtableNames.Count > 0)
+                    if (CheckedtableNames.Count > 1)
                     {
                         if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
                         {

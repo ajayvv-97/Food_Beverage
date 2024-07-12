@@ -60,7 +60,7 @@ namespace BLL
             parms.Add("CBalance", objTestClass.CBalance);
             parms.Add("TapType", objTestClass.TapType);
             parms.Add("LedgerId", objTestClass.LedgerId);
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms); 
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 
@@ -122,9 +122,10 @@ namespace BLL
             parms.Add("Addoncount", objTestClass.Addoncount);
             parms.Add("Cmid", objTestClass.Cmid);
             parms.Add("VariatiionName", objTestClass.VariatiionName);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
-            return lstData;      
-              
+            return lstData;
+
         }
     }
 }

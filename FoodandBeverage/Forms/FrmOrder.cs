@@ -856,7 +856,7 @@ namespace FoodandBeverage.Forms
                     ordercount = 0;
                     Booking_Status = true;
                     tlp_seletedItem_main.Controls.Clear();
-                    FillExistingProducts();
+                    //FillExistingProducts();
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label18.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label25.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
@@ -1296,7 +1296,7 @@ namespace FoodandBeverage.Forms
                     ordercount = 0;
                     OrderRunning_Status = true;
                     tlp_seletedItem_main.Controls.Clear();
-                    FillExistingProducts();
+                    //FillExistingProducts();
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label18.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label25.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
@@ -4967,6 +4967,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtname_search.Text == "Food Name .....")
             {
+                txtitemcode_serach.Text = "";
                 txtname_search.Text = "";
                 txtname_search.ForeColor = Color.Black;
             }
@@ -5970,7 +5971,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo, txtnumber_split, txtadvance, txtph, txtemailid, txtaddress, txtcusname, txt_split_recamt, txt_split_balamt })
+                foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txt_product_des, txtrecvamount, txtGrandTotal, txtpaidamount, txtotherdedamt, txtotheraddamt, txtdis_amt, txtdis_per, txtother_descr, txtdis_descr, txtnetamount, txtentrie_descr, txtdisamt_promo, txtpromocode, txtdiscountamt_promo, txtnumber_split, txtadvance, txtph, txtemailid, txtaddress, txtcusname, txt_split_recamt, txt_split_balamt, txt_cardbalance, txtcardemail, txt_cardno, txt_cardaddress, txt_cardph, txt_cardaccname })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -6050,7 +6051,7 @@ namespace FoodandBeverage.Forms
                             if (count == 0 && BillList.Count == 0)
                             {
                                 pnl_split.Visible = false;
-                                flp_payment_option.Visible = true;
+                                tlp_payment_option.Visible = true;
                                 btn_con_nosplit.Visible = true;
 
                                 btn_itemwise.Visible = true;
@@ -6069,7 +6070,7 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             pnl_split.Visible = false;
-                            flp_payment_option.Visible = true;
+                            tlp_payment_option.Visible = true;
                             btn_con_nosplit.Visible = true;
 
 
@@ -6086,9 +6087,9 @@ namespace FoodandBeverage.Forms
                         pnl_split_itemwise.Visible = false;
                         tlp_tableorder.Enabled = true;
                     }
-                    else if (flp_payment_option.Visible)
+                    else if (tlp_payment_option.Visible)
                     {
-                        flp_payment_option.Visible = false;
+                        tlp_payment_option.Visible = false;
                         tlp_tableorder.Enabled = true;
                     }
                     else if (pnl_partpayment.Visible)
@@ -6134,6 +6135,7 @@ namespace FoodandBeverage.Forms
         {
             if (txtitemcode_serach.Text == "Item Code .....")
             {
+                txtname_search.Text = "";
                 txtitemcode_serach.Text = "";
                 txtitemcode_serach.ForeColor = Color.Black;
             }
@@ -6231,7 +6233,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_sleteted_list_gridview_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (tlp_gridview.Visible)
@@ -6241,50 +6242,21 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     tlp_tableorder.Enabled = false;
-
                     tlp_gridview.Visible = true;
-                    int centerX = this.ClientSize.Width / 2 - tlp_gridview.Size.Width / 2;
-                    int centerY = this.ClientSize.Height / 2 - tlp_gridview.Size.Height / 2;
-
-                    // Get the screen resolution
                     Screen screen = Screen.FromControl(this);
                     int screenWidth = screen.Bounds.Width;
-                    int screenHeight = screen.Bounds.Height;
-
-                    // Adjust the position based on screen resolution
-                    int adjustedX = (screenWidth - tlp_gridview.Size.Width) / 2;
-                    int adjustedY = (screenHeight - tlp_gridview.Size.Height) / 2;
-
-                    // Set the location of tlp_gridview
-                    tlp_gridview.Location = new Point(adjustedX, adjustedY);
+                    int adjustedWidth = (int)(screenWidth * 0.8);
+                    tlp_gridview.Width = adjustedWidth;
+                    int centerX = (screenWidth - tlp_gridview.Width) / 2;
+                    int centerY = (this.ClientSize.Height - tlp_gridview.Height) / 2;
+                    tlp_gridview.Location = new Point(centerX, centerY);
                 }
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Order page  btn_save_product_des_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page btn_save_product_des_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
-
-        }
-
-
-
-
-        private void tlp_gridview_Paint(object sender, PaintEventArgs e)
-        {
-            float borderRadius = 10f; // adjust this value to change the roundness of the corners
-            GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(tlp_gridview.ClientRectangle.X, tlp_gridview.ClientRectangle.Y, tlp_gridview.ClientRectangle.Width, tlp_gridview.ClientRectangle.Height);
-            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
-            path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
-            path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
-            path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
-            path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
-            path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
-            path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
-            path.CloseFigure();
-            tlp_gridview.Region = new Region(path);
         }
 
         private void pnl_header_gridview_MouseDown(object sender, MouseEventArgs e)
@@ -6386,6 +6358,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
+                #region Setting on textbox Null or Empty
                 if (string.IsNullOrEmpty(txtotheraddamt.Text))
                     txtotheraddamt.Text = "0";
                 if (string.IsNullOrEmpty(txtdis_amt.Text))
@@ -6400,6 +6374,9 @@ namespace FoodandBeverage.Forms
                     txtadvance.Text = "0";
                 if (string.IsNullOrEmpty(txtreservationtotal.Text))
                     txtreservationtotal.Text = "0";
+                if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                    txtGrandTotal.Text = "0";
+                #endregion
 
                 decimal value;
                 if (decimal.TryParse(txtotheraddamt.Text, out value) && decimal.TryParse(txtdis_amt.Text, out value) && decimal.TryParse(txtotherdedamt.Text, out value))
@@ -6416,6 +6393,7 @@ namespace FoodandBeverage.Forms
                     decimal balAmnt = netAmount - Convert.ToDecimal(txtpaidamount.Text);
                     txtrecvamount.Text = balAmnt.ToString("N2");
                 }
+
                 totQty();
             }
             catch (Exception ex)
@@ -7064,6 +7042,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                btn_itemwise.Enabled = true;
                 pnlsidebar_searchproduct.Visible = true;
                 tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 27.22F);
                 tlp_serach_main.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 6.50f);
@@ -7079,6 +7058,10 @@ namespace FoodandBeverage.Forms
                 txtdisamt_promo.Text = "0";
                 txtdiscountamt_promo.Text = "0";
                 txtpromocode.Text = "";
+                btncreditcard.Visible = false;
+                btnnetbanking.Visible = false;
+                btn_splitpayment.Visible = false;
+                Btnpartpayment.Visible = false;
 
                 if (OrderRunning_Status)
                 {
@@ -7905,7 +7888,9 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
                                         dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
 
-                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
+                                        dmnsaledetails.OrderDetailsId = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
+                                        
+                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
 
                                         if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                             dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -7952,7 +7937,7 @@ namespace FoodandBeverage.Forms
                                         FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                                         _instanceFrmTableView.TableStaus(0);
                                     }
-                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
                                     {
                                         FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
                                         _instanceFrmCombinedBill.BillCombineBill_Update();
@@ -8023,26 +8008,83 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                Screen screen = Screen.FromControl(this);
+                int screenWidth = screen.Bounds.Width;
+                int screenHeight = screen.Bounds.Height;
+
+                int adjustedWidth=0, adjustedHeight=0;
                 if (combined_Status)
                 {
-                    int panelWidthPercentage = 32;
-                    int panelheightPercentage = 36;
-                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                    flp_payment_option.Size = new Size(panelWidth, panelHeight);
-                    flp_payment_option.Location = new Point(this.ClientSize.Width / 2 - flp_payment_option.Size.Width / 2, this.ClientSize.Height / 2 - flp_payment_option.Size.Height / 2);
-                    flp_payment_option.Visible = true;
+                    var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+
+                    tlp_payment_option.Controls.Add(btncreditcard, 2, 0); 
+                    tlp_payment_option.Controls.Add(btnnetbanking, 2, 1);
+                    btncreditcard.Visible = true;
+                    btnnetbanking.Visible = true;
+                    btn_splitpayment.Visible = false;
+                    Btnpartpayment.Visible = false;
+                    btncreditcard.Dock = DockStyle.Fill;
+                    btnnetbanking.Dock = DockStyle.Fill;
+
+                    if(screenWidth<=1024 && screenHeight<=768)                    
+                        adjustedWidth = (int)(screenWidth * 0.428);                    
+                    else                    
+                        adjustedWidth = (int)(screenWidth * 0.32);
+                    
+                    adjustedHeight = (int)(screenHeight * 0.36);
+                    tlp_payment_option.Size = new Size(adjustedWidth, adjustedHeight);
+
+                    //CMessageBox.Show(screenWidth + ""+adjustedWidth +" "+ adjustedHeight, "size", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    tlp_payment_option.Location = new Point(this.ClientSize.Width / 2 - tlp_payment_option.Size.Width / 2, this.ClientSize.Height / 2 - tlp_payment_option.Size.Height / 2);
+                    tlp_payment_option.Visible = true;
                     tlp_tableorder.Enabled = false;
                 }
                 else
                 {
-                    int panelWidthPercentage = 43;
-                    int panelheightPercentage = 36;
-                    int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                    int panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                    flp_payment_option.Size = new Size(panelWidth, panelHeight);
-                    flp_payment_option.Location = new Point(this.ClientSize.Width / 2 - flp_payment_option.Size.Width / 2, this.ClientSize.Height / 2 - flp_payment_option.Size.Height / 2);
-                    flp_payment_option.Visible = true;
+                    //CMessageBox.Show(screenWidth + "" + adjustedWidth + " " + adjustedHeight, "size", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
+                    tlp_payment_option.Controls.Remove(controlToRemove);
+
+                    tlp_payment_option.Controls.Add(btncreditcard,2, 0);
+                    tlp_payment_option.Controls.Add(btnnetbanking,3, 0);
+                    tlp_payment_option.Controls.Add(Btnpartpayment,2, 1);
+                    tlp_payment_option.Controls.Add(btn_splitpayment,3, 1);
+
+                    btncreditcard.Visible = true;
+                    btnnetbanking.Visible = true;
+                    btn_splitpayment.Visible = true;
+                    Btnpartpayment.Visible = true;
+
+                    btncreditcard.Dock = DockStyle.Fill;
+                    btnnetbanking.Dock = DockStyle.Fill;
+                    btn_splitpayment.Dock = DockStyle.Fill;
+                    Btnpartpayment.Dock = DockStyle.Fill;
+
+
+                    if (screenWidth <= 1024 && screenHeight <= 768)
+                        adjustedWidth = (int)(screenWidth * 0.58);                    
+                    else                    
+                        adjustedWidth = (int)(screenWidth * 0.45);  
+                    
+                    adjustedHeight = (int)(screenHeight * 0.36);
+
+                    tlp_payment_option.Size = new Size(adjustedWidth, adjustedHeight);
+                    tlp_payment_option.Location = new Point(this.ClientSize.Width / 2 - tlp_payment_option.Size.Width / 2, this.ClientSize.Height / 2 - tlp_payment_option.Size.Height / 2);
+                    tlp_payment_option.Visible = true;
                     tlp_tableorder.Enabled = false;
                 }
             }
@@ -8220,7 +8262,7 @@ namespace FoodandBeverage.Forms
                         dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                         dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                        panelWidthPercentage = 50;
+                        panelWidthPercentage = 53;
                         panelheightPercentage = 70;
                         panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                         panelHeight = (int)(this.Height * panelheightPercentage / 100);
@@ -8237,6 +8279,7 @@ namespace FoodandBeverage.Forms
                                 ((Button)control).Enabled = true;
                             }
                         }
+                        btnconfirm_part.Visible = false;
                         break;
                     case "btn_splitpayment":
                         tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
@@ -8252,7 +8295,7 @@ namespace FoodandBeverage.Forms
                         dgv_split.Rows.Clear();
                         break;
                 }
-                flp_payment_option.Visible = false;
+                tlp_payment_option.Visible = false;
                 if (clickedButton.Name != "Btnpartpayment" && clickedButton.Name != "btnothers" && clickedButton.Name != "btn_splitpayment")
                     paybillcal(payid);
             }
@@ -8277,7 +8320,6 @@ namespace FoodandBeverage.Forms
 
         private void btncash_part_Click(object sender, EventArgs e)
         {
-
             try
             {
                 dgv_part.Rows.Add();
@@ -8291,30 +8333,46 @@ namespace FoodandBeverage.Forms
                         dgv_part.Rows[rowno].Cells[2].Value = "DEBITCARD";
                         clickedButton.Enabled = false;
                         dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        dgv_part.BeginEdit(true);
                         break;
                     case "btnupi_part":
                         dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.UPI);
                         dgv_part.Rows[rowno].Cells[2].Value = "UPI";
                         dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        dgv_part.BeginEdit(true);
                         clickedButton.Enabled = false;
                         break;
                     case "btnnetbanking_part":
                         dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         dgv_part.Rows[rowno].Cells[2].Value = "BANKINGONLINE";
                         dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        dgv_part.BeginEdit(true);
                         clickedButton.Enabled = false;
                         break;
                     case "btncreditcard_part":
                         dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.CREDITCARD);
                         dgv_part.Rows[rowno].Cells[2].Value = "CREDITCARD";
                         dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+                        dgv_part.BeginEdit(true);
                         clickedButton.Enabled = false;
                         break;
                     case "btnother_part":
                         dgv_part.Rows[rowno].Cells[4].Value = Convert.ToInt32(PaymentType.OTHERS);
                         dgv_part.Rows[rowno].Cells[2].Value = "OTHERS";
-                        dgv_part.CurrentCell = dgv_part.Rows[rowno].Cells[0];
+
                         clickedButton.Enabled = false;
+                        txtcardrecamt.Visible = true;
+
+                        int panelWidthPercentage = 40;
+                        int panelheightPercentage = 30;        
+                        int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                        int panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                        pnlwifi.Size = new Size(panelWidth, panelHeight);
+                        pnlwifi.Location = new Point(this.ClientSize.Width / 2 - pnlwifi.Size.Width / 2, this.ClientSize.Height / 2 - pnlwifi.Size.Height / 2);
+                        pnlwifi.Visible = true;
+                        pnlwifi.BringToFront();
+                        wificard_timer.Start();
+
                         break;
                 }
                 foreach (Control control in flppart_paymentbutton.Controls)
@@ -8395,6 +8453,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     dgv_part.Rows.Clear();
+                    btnconfirm_part.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -8534,6 +8593,7 @@ namespace FoodandBeverage.Forms
                             dgv_part.Rows[1].ReadOnly = true;
                         }
                         rearrange_slno_part();
+                        btnconfirm_part.Visible = true;
                     }
 
                 }
@@ -8681,7 +8741,7 @@ namespace FoodandBeverage.Forms
                 if (count == 0 && BillList.Count == 0)
                 {
                     pnl_split.Visible = false;
-                    flp_payment_option.Visible = true;
+                    tlp_payment_option.Visible = true;
                     btn_con_nosplit.Visible = true;
 
                     btn_itemwise.Visible = true;
@@ -8761,6 +8821,7 @@ namespace FoodandBeverage.Forms
             {
                 if (e.ColumnIndex == 2 && Convert.ToInt32(dgv_split.Rows[dgv_split.CurrentCell.RowIndex].Cells[6].Value) == 1)
                 {
+                    txt_split_recamt.Text = "";
                     int panelWidthPercentage = 40;
                     int panelheightPercentage = 40;
                     int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
@@ -9070,6 +9131,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    btn_itemwise.Enabled = false;
                     btn_split_number.Visible = false;
                     paybillcal(Convert.ToInt32(PaymentType.SPLIT));
                     int j = 0;
@@ -10112,8 +10174,47 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                pnl_cardAcoount.Visible = false;
-                paybillcal(Convert.ToInt32(PaymentType.OTHERS));
+                if(pnl_partpayment.Visible)
+                {
+                   if(Convert.ToDecimal(txt_cardbalance.Text) < Convert.ToDecimal(txtcardrecamt.Text))
+                    {
+                        CMessageBox.Show("The entered amount is greater than the card balance. Please enter a valid amount.","Insufficient Balance",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtcardrecamt.Focus();
+                        return;
+                    }
+                    else if (Convert.ToDecimal(lbl_card_netamount.Text) < Convert.ToDecimal(txtcardrecamt.Text))
+                    {
+                        CMessageBox.Show("The entered amount is greater than the Netamount.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtcardrecamt.Focus();
+                        return;
+                    }
+                    pnl_cardAcoount.Visible = false;
+                    decimal netAmount = Convert.ToDecimal(txtnetamount.Text);
+                    dgv_part.Rows[0].Cells[1].Value = Convert.ToString(txtcardrecamt.Text);
+                    if (dgv_part.RowCount == 2)
+                    {
+                        dgv_part.Rows[1].Cells[4].Value = Convert.ToInt32(PaymentType.CASH);
+                        dgv_part.Rows[1].Cells[2].Value = "CASH";
+                        dgv_part.Rows[1].Cells[1].Value = netAmount - Convert.ToDecimal(txtcardrecamt.Text);
+                        dgv_part.Rows[1].ReadOnly = true;
+                    }
+                    else
+                    {
+                        dgv_part.Rows.Add();
+                        dgv_part.Rows[1].Cells[4].Value = Convert.ToInt32(PaymentType.CASH);
+                        dgv_part.Rows[1].Cells[2].Value = "CASH";
+                        dgv_part.Rows[1].Cells[1].Value = netAmount - Convert.ToDecimal(txtcardrecamt.Text);
+                        dgv_part.Rows[1].ReadOnly = true;
+                    }
+
+                    rearrange_slno_part();
+                        btnconfirm_part.Visible = true;
+                    
+                }
+                else
+                {
+                    paybillcal(Convert.ToInt32(PaymentType.OTHERS));
+                }
                 blinkTimer.Stop();
             }
             catch (Exception ex)
@@ -10212,18 +10313,27 @@ namespace FoodandBeverage.Forms
                                 pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
                             }
 
-                            if (Convert.ToDecimal(gridSource[0].CardBalance) < Convert.ToDecimal(txtnetamount.Text))
+                            if(pnl_partpayment.Visible!=true)
                             {
-                                lbl_insff_cashbal.Visible = true;
-                                blinkTimer.Start();
-                                btn_card_paynow.Visible = false;
-                            }
+                                if (Convert.ToDecimal(gridSource[0].CardBalance) < Convert.ToDecimal(txtnetamount.Text))
+                                {
+                                    lbl_insff_cashbal.Visible = true;
+                                    blinkTimer.Start();
+                                    btn_card_paynow.Visible = false;
+                                }
+                                else
+                                {
+                                    blinkTimer.Stop();
+                                    lbl_insff_cashbal.Visible = false;
+                                    btn_card_paynow.Visible = true;
+                                }
+                            }   
                             else
                             {
-                                blinkTimer.Stop();
-                                lbl_insff_cashbal.Visible = false;
+                                txtcardrecamt.Text = "0.00";
                                 btn_card_paynow.Visible = true;
-                            }
+                            }             
+
                             int panelWidthPercentage = 70;
                             int panelheightPercentage = 50;
                             int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
@@ -10231,7 +10341,15 @@ namespace FoodandBeverage.Forms
                             pnl_cardAcoount.Size = new Size(panelWidth, panelHeight);
                             pnl_cardAcoount.Location = new Point(this.ClientSize.Width / 2 - pnl_cardAcoount.Size.Width / 2, this.ClientSize.Height / 2 - pnl_cardAcoount.Size.Height / 2);
                             pnl_cardAcoount.Visible = true;
+
+                            pnl_cardAcoount.BringToFront();
                             pnlwifi.Visible = false;
+                            txtcardrecamt.Focus();
+                        }
+                        else
+                        {
+                            CMessageBox.Show("No account found for the tapped card. Please try again with a different card.","Card Not Recognized", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                            wificard_timer.Start();
                         }
                     }
                 }
@@ -10507,7 +10625,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 if (variflag == false && previousClickedButton == null)// addonflag 
                 {
                     CMessageBox.Show("Please Select Size", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -10526,6 +10643,9 @@ namespace FoodandBeverage.Forms
                     vid = Checked_VariationAddon_List[indexToUpdate].Pavid;
                     pid = Checked_VariationAddon_List[indexToUpdate].Pid;
                 }
+                else
+                    pid =Global_ProductId;
+
 
                 int AddonCount = 0;
                 for (int i = 0; i < Checked_VariationAddon_List.Count; i++)
@@ -10538,7 +10658,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                string Av_ID = pid + vid + "_" + combinedId;
+                string Av_ID =Convert.ToString(pid) + Convert.ToString(vid) + "_" + combinedId;
 
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -10596,6 +10716,7 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                         }
+
                         int mainrowno = 0;
                         r1 = Dgv_Selected_Item.RowCount - 1;
                         mainrowno = r1;
@@ -10693,6 +10814,11 @@ namespace FoodandBeverage.Forms
                             int indexToRemove = Checked_VariationAddon_List.IndexOf(Variationprice);
                             Dgv_Selected_Item.Rows[mainrowno].Cells[israte].Value = Convert.ToDecimal(Checked_VariationAddon_List[indexToRemove].Price) + Total_Addon_Amt;
                         }
+                        else
+                        {
+                            Dgv_Selected_Item.Rows[mainrowno].Cells[israte].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[mainrowno].Cells[israte].Value) + Total_Addon_Amt;
+                        }
+
                         totalcellamount(mainrowno);
                         decimal total_Vari_addon = Convert.ToDecimal(Dgv_Selected_Item.Rows[mainrowno].Cells[itotal].Value);
                         Dgv_Selected_Item.Rows[mainrowno].Cells[ioriginalprice].Value = total_Vari_addon;
@@ -11188,12 +11314,15 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (decimal.TryParse(txt_split_recamt.Text, out decimal receivedAmount))
+                decimal receivedAmount;
+               if (!decimal.TryParse(txt_split_recamt.Text, out receivedAmount))
                 {
-                    decimal previousAmount = Convert.ToDecimal(dgv_split.Rows[Split_Rowno].Cells[1].Value);
-                    decimal balanceAmount = previousAmount - receivedAmount;
-                    txt_split_balamt.Text = Convert.ToString(balanceAmount);
+                    receivedAmount = 0;
                 }
+                decimal previousAmount = Convert.ToDecimal(dgv_split.Rows[Split_Rowno].Cells[1].Value);
+                decimal balanceAmount = previousAmount - receivedAmount;
+                txt_split_balamt.Text = Convert.ToString(balanceAmount);
+
             }
             catch (Exception ex)
             {
@@ -11217,6 +11346,37 @@ namespace FoodandBeverage.Forms
                 _instanceFrmTableView.BringToFront();
                 _instanceFrmTableView.Dock = DockStyle.Fill;
             }
+        }
+
+        private void FrmOrder_Resize(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void txtcardrecamt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (e.KeyChar == '\r') // Check for Enter key
+            {
+                e.Handled = true; // Suppress the Enter key
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btn_serach_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void ButtonVariation_Click(object sender, EventArgs e)

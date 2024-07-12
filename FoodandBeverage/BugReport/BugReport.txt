@@ -966,3 +966,55 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 1
 -------------------------------------------------------------------------
+Date and Time: 12-07-2024 09:29:05
+Page : Order page  FillExistingProducts()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 09:29:18
+Page : Order page  FillExistingProducts()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 09:29:21
+Page : Order page  FillExistingProducts()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 10:54:01
+Page : Order page  paybillcal()
+Exception: Method not found: 'Int32 Domain.DmnSaledetails.get_OrderDetailsId()'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 10:54:30
+Page : Order page btn_savekot_print_Click()
+Exception: Procedure or function 'prdInsert_Upd_OrderDetails' expects parameter '@SalesDetailsId', which was not supplied.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 11:00:59
+Page : TableView page  tableClickEventHandler()
+Exception: Method not found: 'Void Domain.DmnSaledetails.set_OrderDetailsId(Int32)'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 12-07-2024 11:06:43
+Page : TableView page  tableClickEventHandler()
+Exception: Method not found: 'Void Domain.DmnSaledetails.set_OrderDetailsId(Int32)'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------

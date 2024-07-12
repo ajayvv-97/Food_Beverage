@@ -58,5 +58,7 @@ namespace Domain
         public int vid { get; set; }
         public string CCode { get; set; }
         public string VariatiionName { get; set; }
+        public int SalesDetailsId { get; set; }
+        
     } 
 }
