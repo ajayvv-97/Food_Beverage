@@ -242,7 +242,8 @@ namespace FoodandBeverage.Interfaces
     public enum SplitType
     {
         Number = 1,
-        Item = 2
+        Item = 2,
+        Normal=3
     }
     public enum BillSelect
     {

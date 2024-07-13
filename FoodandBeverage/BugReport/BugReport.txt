@@ -1018,3 +1018,41 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 30
 -------------------------------------------------------------------------
+Date and Time: 13-07-2024 13:45:18
+Page : Kitchen_View dgv_product_details_CellClick
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 2
+-------------------------------------------------------------------------
+Date and Time: 13-07-2024 14:55:11
+Page : Kitchen_View ReprintBill
+Exception: Class not registered
+
+Class not registered
+
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 2
+-------------------------------------------------------------------------
+Date and Time: 13-07-2024 14:55:40
+Page : Kitchen_View ReprintBill
+Exception: Class not registered
+
+Class not registered
+
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 2
+-------------------------------------------------------------------------
+Date and Time: 13-07-2024 14:56:50
+Page : Kitchen_View ReprintBill
+Exception: Class not registered
+
+Class not registered
+
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 2
+-------------------------------------------------------------------------

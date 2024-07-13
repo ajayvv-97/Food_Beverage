@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCombinedBill));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -45,12 +46,13 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCombinedBill));
             this.pnl_complebill_prevbill = new System.Windows.Forms.Panel();
             this.tlp_compl_pre_bill = new System.Windows.Forms.TableLayoutPanel();
             this.flp_header_com_pre = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_prevbill = new System.Windows.Forms.Button();
+            this.btn_backCompleorder = new System.Windows.Forms.Button();
             this.pnl_empty_msg = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblmsg = new System.Windows.Forms.Label();
             this.pnl_previous_bill = new System.Windows.Forms.Panel();
             this.tlp_previous_bill = new System.Windows.Forms.TableLayoutPanel();
@@ -68,6 +70,7 @@ namespace FoodandBeverage.Forms
             this.mAction = new System.Windows.Forms.DataGridViewImageColumn();
             this.cmordermasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flp_pre_bill_header = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_serach_prev_bill = new System.Windows.Forms.Button();
             this.pnl_compelte_bill = new System.Windows.Forms.Panel();
             this.pnl_split = new System.Windows.Forms.Panel();
             this.tlp_main_split = new System.Windows.Forms.TableLayoutPanel();
@@ -80,13 +83,11 @@ namespace FoodandBeverage.Forms
             this.stsalemasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stpayid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CombineBillAutoTimer = new System.Windows.Forms.Timer(this.components);
-            this.btn_serach_prev_bill = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btn_backCompleorder = new System.Windows.Forms.Button();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_compl_pre_bill.SuspendLayout();
             this.flp_header_com_pre.SuspendLayout();
             this.pnl_empty_msg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnl_previous_bill.SuspendLayout();
             this.tlp_previous_bill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).BeginInit();
@@ -95,7 +96,6 @@ namespace FoodandBeverage.Forms
             this.tlp_main_split.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnl_complebill_prevbill
@@ -149,6 +149,20 @@ namespace FoodandBeverage.Forms
             this.btn_prevbill.UseVisualStyleBackColor = true;
             this.btn_prevbill.Click += new System.EventHandler(this.btn_prevbill_Click);
             // 
+            // btn_backCompleorder
+            // 
+            this.btn_backCompleorder.BackgroundImage = global::FoodandBeverage.Properties.Resources.combined_backbill;
+            this.btn_backCompleorder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_backCompleorder.FlatAppearance.BorderSize = 0;
+            this.btn_backCompleorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_backCompleorder.Location = new System.Drawing.Point(393, 3);
+            this.btn_backCompleorder.Name = "btn_backCompleorder";
+            this.btn_backCompleorder.Size = new System.Drawing.Size(134, 39);
+            this.btn_backCompleorder.TabIndex = 3;
+            this.btn_backCompleorder.UseVisualStyleBackColor = true;
+            this.btn_backCompleorder.Visible = false;
+            this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
+            // 
             // pnl_empty_msg
             // 
             this.pnl_empty_msg.Controls.Add(this.pictureBox1);
@@ -158,6 +172,16 @@ namespace FoodandBeverage.Forms
             this.pnl_empty_msg.Size = new System.Drawing.Size(363, 89);
             this.pnl_empty_msg.TabIndex = 15;
             this.pnl_empty_msg.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // lblmsg
             // 
@@ -199,6 +223,7 @@ namespace FoodandBeverage.Forms
             // dgvorderview
             // 
             this.dgvorderview.AllowUserToAddRows = false;
+            this.dgvorderview.AllowUserToResizeRows = false;
             this.dgvorderview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvorderview.BackgroundColor = System.Drawing.Color.White;
             this.dgvorderview.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -385,6 +410,20 @@ namespace FoodandBeverage.Forms
             this.flp_pre_bill_header.Size = new System.Drawing.Size(446, 42);
             this.flp_pre_bill_header.TabIndex = 2;
             // 
+            // btn_serach_prev_bill
+            // 
+            this.btn_serach_prev_bill.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
+            this.btn_serach_prev_bill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_serach_prev_bill.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btn_serach_prev_bill.FlatAppearance.BorderSize = 0;
+            this.btn_serach_prev_bill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_serach_prev_bill.Location = new System.Drawing.Point(366, 3);
+            this.btn_serach_prev_bill.Name = "btn_serach_prev_bill";
+            this.btn_serach_prev_bill.Size = new System.Drawing.Size(77, 39);
+            this.btn_serach_prev_bill.TabIndex = 0;
+            this.btn_serach_prev_bill.UseVisualStyleBackColor = true;
+            this.btn_serach_prev_bill.Click += new System.EventHandler(this.btn_serach_prev_bill_Click);
+            // 
             // pnl_compelte_bill
             // 
             this.pnl_compelte_bill.AutoScroll = true;
@@ -462,6 +501,8 @@ namespace FoodandBeverage.Forms
             // dgv_split
             // 
             this.dgv_split.AllowUserToAddRows = false;
+            this.dgv_split.AllowUserToResizeColumns = false;
+            this.dgv_split.AllowUserToResizeRows = false;
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -552,44 +593,6 @@ namespace FoodandBeverage.Forms
             this.CombineBillAutoTimer.Interval = 2000;
             this.CombineBillAutoTimer.Tick += new System.EventHandler(this.CombineBillAutoTimer_Tick);
             // 
-            // btn_serach_prev_bill
-            // 
-            this.btn_serach_prev_bill.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
-            this.btn_serach_prev_bill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_serach_prev_bill.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btn_serach_prev_bill.FlatAppearance.BorderSize = 0;
-            this.btn_serach_prev_bill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_serach_prev_bill.Location = new System.Drawing.Point(366, 3);
-            this.btn_serach_prev_bill.Name = "btn_serach_prev_bill";
-            this.btn_serach_prev_bill.Size = new System.Drawing.Size(77, 39);
-            this.btn_serach_prev_bill.TabIndex = 0;
-            this.btn_serach_prev_bill.UseVisualStyleBackColor = true;
-            this.btn_serach_prev_bill.Click += new System.EventHandler(this.btn_serach_prev_bill_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btn_backCompleorder
-            // 
-            this.btn_backCompleorder.BackgroundImage = global::FoodandBeverage.Properties.Resources.combined_backbill;
-            this.btn_backCompleorder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_backCompleorder.FlatAppearance.BorderSize = 0;
-            this.btn_backCompleorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_backCompleorder.Location = new System.Drawing.Point(393, 3);
-            this.btn_backCompleorder.Name = "btn_backCompleorder";
-            this.btn_backCompleorder.Size = new System.Drawing.Size(134, 39);
-            this.btn_backCompleorder.TabIndex = 3;
-            this.btn_backCompleorder.UseVisualStyleBackColor = true;
-            this.btn_backCompleorder.Visible = false;
-            this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
-            // 
             // FrmCombinedBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -612,6 +615,7 @@ namespace FoodandBeverage.Forms
             this.flp_header_com_pre.ResumeLayout(false);
             this.pnl_empty_msg.ResumeLayout(false);
             this.pnl_empty_msg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnl_previous_bill.ResumeLayout(false);
             this.tlp_previous_bill.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).EndInit();
@@ -620,7 +624,6 @@ namespace FoodandBeverage.Forms
             this.tlp_main_split.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

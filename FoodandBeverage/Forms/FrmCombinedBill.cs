@@ -144,7 +144,7 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
                         tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
                         tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                        tlp_table_inner.Name = "tlp_com" + tabledata.TableCode;
+                        tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
                         tlp_table_inner.Tag = tabledata.Tid;
                         tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                         tlp_table_inner.Dock = DockStyle.None;
@@ -165,7 +165,7 @@ namespace FoodandBeverage.Forms
                         }
 
                         Button btn_select = new Button();
-                        btn_select.Name = "btn_select_com" + tabledata.TableCode;
+                        btn_select.Name = "btn_select_com" + tabledata.Tid;
                         btn_select.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode);
                         btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
                         btn_select.FlatStyle = FlatStyle.Flat;
@@ -178,7 +178,7 @@ namespace FoodandBeverage.Forms
 
                         // Configure the Label
                         Label lbltablename = new Label();
-                        lbltablename.Name = "lb_tablename" + tabledata.TableCode;
+                        lbltablename.Name = "lb_tablename" + tabledata.Tid;
                         lbltablename.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode);
                         lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                         lbltablename.Tag = tabledata.Tid;
@@ -206,8 +206,8 @@ namespace FoodandBeverage.Forms
                         else
                             tlp_table_inner.Visible = false;
 
-                        if (Convert.ToInt32(tabledata.OrderStatus) == 1)
-                            tlp_table_inner.Controls.Add(btn_select, 0, 0);
+                        //if (Convert.ToInt32(tabledata.OrderStatus) == 1)
+                        tlp_table_inner.Controls.Add(btn_select, 0, 0);
                         tlp_table_inner.Controls.Add(lbltablename, 0, 1);
                         tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
 
@@ -319,7 +319,6 @@ namespace FoodandBeverage.Forms
             public int Fcid { get; set; }
             public string CategoryName { get; set; }
         }
-
         private void CompleteEventHandler(object sender, EventArgs e)
         {
             try
@@ -480,7 +479,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void btn_backCompleorder_Click(object sender, EventArgs e)
         {
             btn_backCompleorder.Visible = false;
@@ -498,7 +496,6 @@ namespace FoodandBeverage.Forms
 
             CombineBillAutoTimer.Start();
         }
-
         private void btn_serach_prev_bill_Click(object sender, EventArgs e)
         {
             try
@@ -540,7 +537,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
         private void btn_prevbill_Click(object sender, EventArgs e)
         {
             try
@@ -665,7 +661,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
         private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -721,8 +716,9 @@ namespace FoodandBeverage.Forms
                                 dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
                             }
                         }
-                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width + 500, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width /2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
                         pnl_split.Visible = true;
+                        pnl_split.BringToFront();
                     }
                 }
             }
@@ -779,7 +775,6 @@ namespace FoodandBeverage.Forms
             {
             }
         }
-
         public class ComboBoxItem
         {
             public int Id { get; set; }
@@ -796,7 +791,6 @@ namespace FoodandBeverage.Forms
                 return Value;
             }
         }
-
         private void btn_close_split_Click(object sender, EventArgs e)
         {
             pnl_split.Visible = false;
@@ -842,16 +836,21 @@ namespace FoodandBeverage.Forms
                     int rowIndex_cate = 0;
                     foreach (var tabledata in gridSource)
                     {
-                        string tlpname = "tlp_com" + tabledata.TableCode;
+                        string tlpname = "tlp_com" + tabledata.Tid;
                         TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                         if (tlp_box != null)
                         {
                             if(tabledata.BillStatus==0)
                             {
                                 string lblname = "lb_netamount" + tabledata.TableCode;
+                                //string btniaddicon = "btn_select_com" + tabledata.TableCode;
+                                //Button btn_select = tlp_box.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
                                 Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                                lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                                tlp_box.Visible = true;
+                                if(lblnet!=null)
+                                    lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+                                //if (btn_select != null)
+                                //    btn_select.Visible = true;
+                                    tlp_box.Visible = true;
                             }
                             else                            
                                 tlp_box.Visible = false;                            

@@ -1043,49 +1043,42 @@ namespace FoodandBeverage.Forms
                 var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
                 if (InsertStatus.Id != 0)
                 {
-                    if (InsertStatus.Id == 0)
+                    if (pb1.BackgroundImage != null)
                     {
-                        if (pb1.BackgroundImage != null)
-                        {
-                            Bitmap bm = new Bitmap(pb1.BackgroundImage);
-                            clsDocument.UploadImage(bm, InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                        }
-                        if (pb2.BackgroundImage != null)
-                        {
-                            Bitmap bm2 = new Bitmap(pb2.BackgroundImage);
-                            clsDocument.UploadImage(bm2, InsertStatus.Id + "_2.jpeg", DocumentType.HotelRegistrationProofPics);
-                        }
+                        Bitmap bm = new Bitmap(pb1.BackgroundImage);
+                        clsDocument.UploadImage(bm, InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                    }
+                    if (pb2.BackgroundImage != null)
+                    {
+                        Bitmap bm2 = new Bitmap(pb2.BackgroundImage);
+                        clsDocument.UploadImage(bm2, InsertStatus.Id + "_2.jpeg", DocumentType.HotelRegistrationProofPics);
+                    }
+                    if (pb3.BackgroundImage != null)
+                    {
+                        Bitmap bm3 = new Bitmap(pb3.BackgroundImage);
+                        clsDocument.UploadImage(bm3, InsertStatus.Id + "_3.jpeg", DocumentType.HotelRegistrationProofPics);
+                    }
+                    else
+                    {
+                        bool imageExist = clsDocument.FileExistOrNot(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                        if (imageExist)
+                            clsDocument.DeleteImage(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
+                        InsertStatus.Photo = "";
+                        InsertStatus.Photo = "";
+                    }
+                    FrmDashboard.BranchId = InsertStatus.Id;
+                    FrmLogin.BranchId = InsertStatus.Id;
+                    txtcid.Text = Convert.ToString(InsertStatus.Id);
 
-                        if (pb3.BackgroundImage != null)
-                        {
-                            Bitmap bm3 = new Bitmap(pb3.BackgroundImage);
-                            clsDocument.UploadImage(bm3, InsertStatus.Id + "_3.jpeg", DocumentType.HotelRegistrationProofPics);
-                        }
-                        else
-                        {
-                            bool imageExist = clsDocument.FileExistOrNot(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                            if (imageExist)
-                                clsDocument.DeleteImage(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                            InsertStatus.Photo = "";
-                            InsertStatus.Photo = "";
-                        }
-                        FrmDashboard.BranchId = InsertStatus.Id;
-                        FrmLogin.BranchId= InsertStatus.Id;
-                        txtcid.Text =Convert.ToString(InsertStatus.Id);
+                    if (Convert.ToInt32(txtcid.Text) > 0)
+                    {
                         CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        if(Convert.ToInt32(txtcid.Text)>0)
-                            CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else
-                            CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        FrmDashboard.BranchId = FrmDashboard.BranchId;
-                        txtcid.Text = Convert.ToString(InsertStatus.Id);
-                   
-
+                        CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
                 }
                 else
                 {

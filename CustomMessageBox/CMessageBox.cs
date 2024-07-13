@@ -66,10 +66,13 @@ namespace CustomMessageBox
         }
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            DialogResult result;
-            using (var msgForm = new FormMessageBox(text, caption, buttons, icon))
-                result = msgForm.ShowDialog(owner);
-            return result;
+    
+                DialogResult result;
+                using (var msgForm = new FormMessageBox(text, caption, buttons, icon))
+                    result = msgForm.ShowDialog(owner);
+                return result;
+      
+
         }
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {

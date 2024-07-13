@@ -56,9 +56,9 @@ namespace FoodandBeverage.SaleBill
 
         private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
-           textb_shape();
+            textb_shape();
             MessageCheck();
-           PrintBill();
+            PrintBill();
         }
         #region Message settings
         public void MessageCheck()
@@ -118,12 +118,11 @@ namespace FoodandBeverage.SaleBill
         {
             try
             {
-                string reportPath,orderdetailsids="";
-                decimal cashamount = 0, othetamount = 0, splitamount=0;
-                string payname = "";
-                decimal I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0,
-                    I_VatAmount = 0;
+                string reportPath,orderdetailsids="", payname = "";
+                decimal cashamount = 0, othetamount = 0, splitamount=0,I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0,I_VatAmount = 0;
                 int splittype = 0;
+                var  invpayment = new List<DmnGridFields>();
+
                 #region Crystal Report Dclaration
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
@@ -176,16 +175,24 @@ namespace FoodandBeverage.SaleBill
                 }
 
                 #region Payment Table Fetching
-                DmnSearch obj = new DmnSearch();
-                BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
-                obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10,BalAmnt Field11,RcvAmnt Field12";
-                obj.Table = "tblpayment";
-                obj.WhereNdGroupBy = " where payid=" + paymentid;
-                var invpayment = bllpayments.GetSearchData("prdSearch", obj);
-                if (invpayment.Count > 0)
+                if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
                 {
-                    orderdetailsids= Convert.ToString(invpayment[0].Field4);
+                    DmnSearch obj = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10,BalAmnt Field11,RcvAmnt Field12";
+                    obj.Table = "tblpayment";
+                    obj.WhereNdGroupBy = " where payid=" + paymentid;
+                     invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                    if (invpayment.Count > 0)
+                    {
+                        orderdetailsids = Convert.ToString(invpayment[0].Field4);
+                        splittype = Convert.ToInt32(invpayment[0].Field3);
+                    }     
                 }
+                else
+                {
+                    splittype = Convert.ToInt32(SplitType.Normal);
+                }            
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
@@ -251,6 +258,7 @@ namespace FoodandBeverage.SaleBill
                 {
                     dtSalesDetail.Load(reader);
                 }
+
                 #region Tax Calculation
                 for (int i = 0; i < invoiceBillDetails.Count; i++)
                 {

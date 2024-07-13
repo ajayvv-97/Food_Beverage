@@ -846,8 +846,6 @@ namespace FoodandBeverage.Forms
                         tlp_sub_main.Controls.Remove(controlToRemove);
                         tlp_sub_main.Controls.Add(pnl_details_view, 0, 2);
                     }
-
-
                     pnl_details_view.Dock = DockStyle.Fill;
                     dgv_details_view.Rows.Clear();
                     dgv_details_view.Rows.Add(detailslist.Count);

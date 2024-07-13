@@ -154,7 +154,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 GC.Collect();
                 #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
@@ -234,7 +233,10 @@ namespace FoodandBeverage.Forms
                     {
                         bool flagstart_ready = false;
                         dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12,ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17,ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21,ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24";
+                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12," +
+                            "ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17," +
+                            "ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21," +
+                            "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -286,6 +288,26 @@ namespace FoodandBeverage.Forms
                                         cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
+                                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                                    {
+                                        cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
+                                    }
+                                    else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
+                                    {
+                                        cellcolumntype.Value = Properties.Resources.addonbutton;
+                                        cellcolumntype.ToolTipText = "Addon [clcik view more...]";
+                                    }
+                                    else
+                                    {
+                                        if (Convert.ToInt32(k) % 2 == 0)
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank;
+                                        else
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank_2;               
+                                    }
+
                                 }
                                 #endregion
 
@@ -304,6 +326,7 @@ namespace FoodandBeverage.Forms
                                     btn_cancelfood.Visible = false;
                                 }
                                 #endregion
+
                                 flp_order_view.ResumeLayout();
                             }
                             else
@@ -384,6 +407,7 @@ namespace FoodandBeverage.Forms
                                 else
                                     lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
                                 #endregion
+
                                 #region Token No
 
                                 Label lbl_tokkenno = new Label()
@@ -402,6 +426,7 @@ namespace FoodandBeverage.Forms
                                     lbl_tokkenno.Font = new Font("Arial", 12, FontStyle.Bold);
 
                                 #endregion
+
                                 #region Time Duration
                                 DateTime startTime = gridSourcedetails[0].Fielddatetime;
                                 DateTime currentTime = DateTime.Now;
@@ -437,10 +462,15 @@ namespace FoodandBeverage.Forms
                                 #endregion
 
                                 #region DataGridView Second Row
+                                bool comboflag = false, addonflag = false;
+
+                                #region dgv_product_details Declaration
                                 // DataGridView for product details
                                 DataGridView dgv_product_details = new DataGridView();
                                 dgv_product_details.CellClick += dgv_product_details_CellClick;
                                 dgv_product_details.AllowUserToDeleteRows = true;
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.Font = new Font(dgv_product_details.ColumnHeadersDefaultCellStyle.Font.FontFamily, 12, FontStyle.Bold);
                                 // Prevent the user from adding new rows
                                 dgv_product_details.AllowUserToAddRows = false;
                                 dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
@@ -461,10 +491,13 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                                 dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
+                                dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                                dgv_product_details.AllowUserToResizeRows = false;
+
                                 if (screenWidth > 1367 && screenHeight > 769)
                                 {
-                                    dgv_product_details.ColumnHeadersHeight = 50;
-                                    dgv_product_details.RowTemplate.Height = 50;
+                                    dgv_product_details.ColumnHeadersHeight = 70;
+                                    dgv_product_details.RowTemplate.Height = 70;
                                 }
                                 else
                                 {
@@ -550,11 +583,12 @@ namespace FoodandBeverage.Forms
                                 dgv_product_details.Columns[dqtyno].DefaultCellStyle.Font = boldFont;
                                 dgv_product_details.Columns[dnotes].DefaultCellStyle.Font = boldFont;
                                 dgv_product_details.Columns[dremnoteno].DefaultCellStyle.Font = boldFont;
+                                #endregion
 
                                 dgv_product_details.Rows.Clear();
                                 for (int k = 0; k < gridSourcedetails.Count; k++)
                                 {
-                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)//check ready or not
                                     {
                                         flagstart_ready = true;
                                     }
@@ -588,19 +622,26 @@ namespace FoodandBeverage.Forms
                                     DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
                                     if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
                                     {
+                                        comboflag = true;
                                         cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                         cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
                                     }
-                                    else if (Convert.ToInt32(gridSourcedetails[k].Field23) > 1)
+                                    else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
                                     {
+                                        addonflag = true;
                                         cellcolumntype.Value = Properties.Resources.addonbutton;
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                         cellcolumntype.ToolTipText = "Addon [clcik view more...]";
                                     }
                                     else
                                     {
-                                        cellcolumntype.Value = Properties.Resources.grid_select;
+                                        if (Convert.ToInt32(k) % 2 == 0)
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank;
+                                        else
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank_2;
+
+                                        //cellcolumntype.Value = Properties.Resources.grid_select;
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                         cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
                                     }
@@ -642,11 +683,14 @@ namespace FoodandBeverage.Forms
                                     else
                                         dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.None);
                                 }
+
                                 for (int x = 0; x < dgv_product_details.RowCount; x++)
                                 {
                                     //if (x != dactionno)
                                     dgv_product_details.Rows[x].ReadOnly = true;
                                 }
+                                if (addonflag != true && comboflag != true)
+                                    dgv_product_details.Columns[dptypeno].Visible = false;
 
                                 //#region Datagridview column Sizemode Set
                                 //dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -741,6 +785,7 @@ namespace FoodandBeverage.Forms
                                 tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
                                 tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
 
+                                #region start Button
                                 PictureBox pb_start = new PictureBox()
                                 {
                                     Name = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17,
@@ -761,7 +806,9 @@ namespace FoodandBeverage.Forms
                                     pb_start.Width = 80;
                                 }
                                 pb_start.Click += pbstart_Click;
+                                #endregion
 
+                                #region Ready Button
                                 PictureBox pb_ready = new PictureBox()
                                 {
                                     Name = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17,
@@ -783,7 +830,9 @@ namespace FoodandBeverage.Forms
                                     pb_ready.Width = 80;
                                 }
                                 pb_ready.Click += pbreadyfood_Click;
+                                #endregion
 
+                                #region Cancel Button
                                 PictureBox pb_cancelfood = new PictureBox()
                                 {
                                     Name = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17,
@@ -804,8 +853,9 @@ namespace FoodandBeverage.Forms
                                     pb_cancelfood.Width = 80;
                                 }
                                 pb_cancelfood.Click += pbcancelfood_Click;
+                                #endregion
 
-
+                                #region Reprint Button
                                 PictureBox reprintbutton = new PictureBox()
                                 {
                                     Name = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17,
@@ -828,6 +878,7 @@ namespace FoodandBeverage.Forms
                                     reprintbutton.Width = 80;
                                 }
                                 reprintbutton.Click += reprintbutton_Click;
+                                #endregion
 
                                 if (flagstart_ready)
                                 {
@@ -1214,26 +1265,24 @@ namespace FoodandBeverage.Forms
                             dtSalesDetail.Load(reader);
                         }
                         dsReport.Tables.Add(dtSalesDetail);
-                    }
-
-                    string reportPath = RPTPath + @"\crkitchenbill.rpt";
-                    if (!File.Exists(reportPath))
-                    {
-                        throw new FileNotFoundException("Report file not found.", reportPath);
-                    }
-                    reportDocument.Load(reportPath);
-
-                    reportDocument.SetDataSource(dsReport);
+                    }                   
 
                     if (this.IsHandleCreated)
                     {
                         this.Invoke(new Action(() =>
                         {
+                            string reportPath = RPTPath + @"\crkitchenbill.rpt";
+                            if (!File.Exists(reportPath))
+                            {
+                                throw new FileNotFoundException("Report file not found.", reportPath);
+                            }
+                            reportDocument.Load(reportPath);
+
+                            reportDocument.SetDataSource(dsReport);
                             crvkitchenbill.ReportSource = reportDocument;
+                            reportDocument.PrintToPrinter(1, false, 0, 0);
                         }));
                     }
-
-                    reportDocument.PrintToPrinter(1, false, 0, 0);
                     #endregion
 
                     #region Update Print Status to 2
@@ -1281,11 +1330,11 @@ namespace FoodandBeverage.Forms
                     {
                         blinkTimer.Stop();
                         lblprintloading.Text = "Printing Stopped";
+
+                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
                     }));
                 }
-
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
             finally
             {
@@ -1323,6 +1372,7 @@ namespace FoodandBeverage.Forms
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
                 //tlp_main.RowStyles[3] = new RowStyle(SizeType.AutoSize);
                 //tlp_main.Controls.Add(btn_viewmore_order,0,3);
+                txt_product_remove_des.ForeColor = Color.DarkGray;
             }
             catch (Exception ex)
             {
@@ -1360,12 +1410,13 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == dactionno)
+                if (e.ColumnIndex == dactionno && e.RowIndex >= 0)// Remove Prodcut one by one by clciking column 
                 {
                     refreshtimer.Stop();
                     DataGridView clickedDataGridView = sender as DataGridView;
-                    if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)
+                    if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)//  Food processing Not started
                     {
+                        tlp_main.Enabled = false;
                         txt_product_remove_des.Text = "Reason type here .....";
                         txt_product_remove_des.ForeColor = Color.LightGray;
                         dgv_view_name = clickedDataGridView.Name;
@@ -1381,11 +1432,12 @@ namespace FoodandBeverage.Forms
                         lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                         //txt_product_remove_des.Focus();
                     }
-                    else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 2)
+                    else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 2)//  Food processing started
                     {
                         var result = CMessageBox.Show("Food processing has started. Are you sure you want to cancel this item?", "Confirm The Action", MessageBoxButtons.YesNo);
                         if (result == DialogResult.Yes)
                         {
+                            tlp_main.Enabled = false;
                             txt_product_remove_des.Text = "Reason type here .....";
                             txt_product_remove_des.ForeColor = Color.LightGray;
                             dgv_view_name = clickedDataGridView.Name;
@@ -1402,14 +1454,18 @@ namespace FoodandBeverage.Forms
 
                     }
                 }
-                else if (e.ColumnIndex == dptypeno)
+                else if (e.ColumnIndex == dptypeno && e.RowIndex >= 0)//Addon or Combo product View more panel show
                 {
                     if (pnlproductviewmore.Visible)
+                    {
+                        tlp_main.Enabled = true;
                         pnlproductviewmore.Visible = false;
+                    }
                     else
                     {
+
                         DataGridView clickedDataGridView = sender as DataGridView;
-                        if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1 && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dtabletypeno].Value) == Convert.ToInt32(Tabletype.ComboProduct))
+                        if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1 && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dtabletypeno].Value) == Convert.ToInt32(Tabletype.ComboProduct))//cmbo products
                         {
                             lblviewmore.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                             int itemid = Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[ditemidno].Value);
@@ -1423,6 +1479,7 @@ namespace FoodandBeverage.Forms
                             var gridSource_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
                             if (gridSource_offer.Count > 0)
                             {
+                                tlp_main.Enabled = false;
                                 dgv_viewmore.Rows.Clear();
                                 dgv_viewmore.Columns[addactionno].Visible = false;
                                 for (int k = 0; k < gridSource_offer.Count; k++)
@@ -1438,7 +1495,7 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
-                        else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1 && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dAddonStatusno].Value) == Convert.ToInt32(AddonType.AddonType))
+                        else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1 && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dAddonStatusno].Value) == Convert.ToInt32(AddonType.AddonType))//addon products
                         {
                             lblviewmore.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                             string itemid = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[dAVIDno].Value);
@@ -1454,6 +1511,7 @@ namespace FoodandBeverage.Forms
                             var gridSource_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
                             if (gridSource_offer.Count > 1)
                             {
+                                tlp_main.Enabled = false;
                                 dgv_viewmore.Rows.Clear();
                                 dgv_viewmore.Columns[addactionno].Visible = true;
                                 int c = 0;
@@ -1494,7 +1552,6 @@ namespace FoodandBeverage.Forms
         }
         public void ReprintBill()
         {
-
             ReportDocument reportDocument = new ReportDocument();
             try
             {
@@ -1611,7 +1668,7 @@ namespace FoodandBeverage.Forms
                                 crvkitchenbill.ReportSource = reportDocument;
                             }));
                         }
-                        reportDocument.SetParameterValue("TotalQtyMain", mainCategoryCounts.Count);
+                        //reportDocument.SetParameterValue("TotalQtyMain", mainCategoryCounts.Count);
                         reportDocument.PrintToPrinter(1, false, 0, 0);
                     }
                     if (this.IsHandleCreated)
@@ -1640,11 +1697,12 @@ namespace FoodandBeverage.Forms
                     {
                         blinkTimer.Stop();
                         lblprintloading.Text = "Reprinting Stopped";
+
+                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        clsgen.LogException("Kitchen_View ReprintBill", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
                     }));
                 }
 
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View ReprintBill", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
             finally
             {
@@ -1669,6 +1727,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                tlp_main.Enabled = false;
                 refreshtimer.Stop();
                 PictureBox clickedPictureBox = (PictureBox)sender;
                 int id = Convert.ToInt32(clickedPictureBox.Tag);
@@ -1679,10 +1738,13 @@ namespace FoodandBeverage.Forms
                 int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
-                pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
+                //pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                 pbcancelfoodclciked = true;
                 lblheader_product_des.Text = "Order Cancel";
                 //txt_product_remove_des.Focus();
+                pnl_products_rem_descr.Focus();
+
             }
             catch (Exception ex)
             {
@@ -1924,6 +1986,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_cancel_product_des_Click(object sender, EventArgs e)
         {
+            tlp_main.Enabled = true;
             pnl_products_rem_descr.Visible = false;
             txt_product_remove_des.Text = "Reason type here .....";
             refreshtimer.Start();
@@ -1931,6 +1994,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_close_prod_des_Click(object sender, EventArgs e)
         {
+            tlp_main.Enabled = true;
             pnl_products_rem_descr.Visible = false;
             txt_product_remove_des.Text = "Reason type here .....";
             refreshtimer.Start();
@@ -1987,6 +2051,7 @@ namespace FoodandBeverage.Forms
                                 }
 
                             }
+                            tlp_main.Enabled = true;
                             pbcancelfoodclciked = false;
                             pnl_products_rem_descr.Visible = false;
                             txt_product_remove_des.Text = "";
@@ -2048,6 +2113,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_product_details.Rows[dgv_view_rowno].Cells[dactionno];
                         dgv_product_details.Rows[dgv_view_rowno].Cells[dremnoteno].Value = txt_product_remove_des.Text;
                         pnl_products_rem_descr.Visible = false;
+                        tlp_main.Enabled = true;
                         txt_product_remove_des.Text = "";
                         refreshtimer.Start();
                     }
@@ -3342,9 +3408,16 @@ namespace FoodandBeverage.Forms
             {
                 case Keys.Escape:
                     if (pnl_products_rem_descr.Visible)
+                    {
+                        tlp_main.Enabled = true;
                         pnl_products_rem_descr.Visible = false;
+                        refreshtimer.Start();
+                    }
                     else if (pnlproductviewmore.Visible)
+                    {
+                        tlp_main.Enabled = true;
                         pnlproductviewmore.Visible = false;
+                    }
                     else
                     {
                         FrmDashboard _instancedash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -3359,6 +3432,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_close_viewmore_Click(object sender, EventArgs e)
         {
+            tlp_main.Enabled = true;
             pnlproductviewmore.Visible = false;
         }
 
@@ -3454,7 +3528,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == addactionno)
+                if (e.ColumnIndex == addactionno && e.RowIndex>=0)
                 {
                     DmnKitchenaddonremove dmnRemove_addon = new DmnKitchenaddonremove();
                     BllKitchenorder bll_rem_addon = new BllKitchenorder();
@@ -3463,6 +3537,7 @@ namespace FoodandBeverage.Forms
                     var result = CMessageBox.Show("Are you sure you want to cancel this Addon?", "Confirm The Action", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
+                        refreshtimer.Stop();
                         #region To Reset Addon ID(remove id form avid name)
 
                         string avidValue = Convert.ToString(dgv_viewmore.Rows[e.RowIndex].Cells[addavidno].Value);
@@ -3550,10 +3625,17 @@ namespace FoodandBeverage.Forms
                         var InsertStatusaddon = bll_rem_addon.Kitchenremove_addon("prd_remove_KitchenOrder_addon", dmnRemove_addon);
 
                         dgv_viewmore.Rows.RemoveAt(e.RowIndex);
-
-                        for (int i = 0; i < dgv_viewmore.RowCount; i++)
-                            dgv_viewmore.Rows[i].Cells[addslno].Value = i + 1;
-
+                        if(dgv_viewmore.RowCount==0)
+                        {
+                            pnlproductviewmore.Visible = false;
+                            tlp_main.Enabled = true;
+                        }
+                        else
+                        {
+                            for (int i = 0; i < dgv_viewmore.RowCount; i++)
+                                dgv_viewmore.Rows[i].Cells[addslno].Value = i + 1;
+                        }
+                        refreshtimer.Start();
                     }
                 }
             }
