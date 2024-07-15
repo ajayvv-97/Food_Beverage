@@ -23,14 +23,16 @@ namespace FoodandBeverage.Forms
         public int tableId = 0;
         public int Bookingmasterid = 0;
         public int BookingType = 0;
+        public int PageType = 0;
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
 
-        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames)
+        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno)
         {
             tableId = tid;
             Bookingmasterid = bmasterid;
             BookingType = booktype;
+            PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             InitializeComponent();
         }
@@ -205,6 +207,8 @@ namespace FoodandBeverage.Forms
         public bool variflag = true, addonflag = true;
         public int Split_Rowno = 0;
         public int maxLength_variation = 3;
+
+        public bool BillCopy_Status = false;
         #endregion
 
         #region please wait loading
@@ -799,7 +803,10 @@ namespace FoodandBeverage.Forms
                         #endregion                
                     }
                 }
-                Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+
+                if(PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+
                 netAmount();
             }
             catch (Exception ex)
@@ -1231,7 +1238,8 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+                                if(PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.OrderPage))
+                                    Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                             }
                         }
                     }
@@ -1582,7 +1590,7 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
-                    if (ordercount == orginalCount)
+                    if (ordercount == orginalCount && PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
                     {
                         Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                     }
@@ -2039,7 +2047,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    if (ordercount == gridSourcemaster.Count && OrderRunning_Status)
+                    if (ordercount == gridSourcemaster.Count && OrderRunning_Status && PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
                     {
                         Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
                     }
@@ -7099,6 +7107,7 @@ namespace FoodandBeverage.Forms
                 btnnetbanking.Visible = false;
                 btn_splitpayment.Visible = false;
                 Btnpartpayment.Visible = false;
+                BillCopy_Status = false;
 
                 if (OrderRunning_Status)
                 {
@@ -7504,7 +7513,8 @@ namespace FoodandBeverage.Forms
                 if (MandatoryCheck_printbill())
                 {
                     setperfixsale();
-                    int countflag = 0;
+                    int countflag = 0,Biltypeno;
+
                     DmnSalemaster dmnsalemaster = new DmnSalemaster();
                     DmnSaledetails dmnsaledetails = new DmnSaledetails();
                     BllSale bllSales = new BllSale();
@@ -7520,7 +7530,11 @@ namespace FoodandBeverage.Forms
                         txtsalemasterid.Text = "0";
                     if (checkedtableNames.Count > 0)
                     {
+                        BillCopy_Status = true;
+
                         #region Combined  Save Salemaster And Saledetails
+
+                        #region sale Master 
                         int sum = 0;
                         int n = dgv_combined.RowCount;
                         for (int i = 0; i < n; i++)
@@ -7579,6 +7593,17 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.Tid = tableId;
                         dmnsalemaster.PayId = payid;
 
+                        if(BillCopy_Status)
+                        {
+                            Biltypeno = Convert.ToInt32(BillType.BillCopy);
+                            dmnsalemaster.BillCopyStatus = 1;
+                        }   
+                        else
+                        {
+                            Biltypeno=Convert.ToInt32(BillType.NormalBill);
+                            dmnsalemaster.BillCopyStatus = 0;
+                        }
+
                         if (Promomasterid > 0 && Promodetailsid > 0)
                         {
                             dmnsalemaster.PromoMId = Promomasterid;
@@ -7631,8 +7656,11 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
+                        #endregion
+
                         if (InsertStatusP.SalesMasterId != 0)
                         {
+                            #region Part Payment save DB
                             if (payid == Convert.ToInt32(PaymentType.PART))
                             {
                                 DmnPayment dmnpayment = new DmnPayment();
@@ -7651,9 +7679,11 @@ namespace FoodandBeverage.Forms
                                     var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                 }
                             }
+                            #endregion
 
                             if (dgv_combined.RowCount > 0)
                             {
+                                #region CombinedOrderBill Table info save DB
                                 for (int k = 0; k < checkedtableNames.Count; k++)
                                 {
                                     DmnCombinedOrderBill CombinedOrderBill = new DmnCombinedOrderBill();
@@ -7665,13 +7695,20 @@ namespace FoodandBeverage.Forms
                                     CombinedOrderBill.BranchId = FrmDashboard.BranchId;
                                     CombinedOrderBill.CreatedBy = FrmDashboard.UserId;
                                     CombinedOrderBill.Status = 1;
+
+                                    if (BillCopy_Status)
+                                        CombinedOrderBill.BillCopyStatus = 1;
+                                    else
+                                        CombinedOrderBill.BillCopyStatus = 0;
+
                                     var duration = DateTime.Now - OrderDateTime;
                                     int min = duration.Seconds;
                                     CombinedOrderBill.TimeDuration = min;
                                     var InsertStatus_cbill = bllCombinedOrderBill.AddCombinedOrderBill("prdInsert_CombinedOrderBill", CombinedOrderBill);
-
                                 }
+                                #endregion
 
+                                #region Sale details 
                                 for (int i = 0; i < dgv_combined.RowCount; i++)
                                 {
                                     if (Convert.ToInt32(dgv_combined.Rows[i].Cells[Cstatusno].Value) == 3)//Convert.ToInt32(dgv_combined.Rows[i].Cells[citemid].Value) > 0 && (Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value) == 0 || Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value) == 1)
@@ -7722,13 +7759,14 @@ namespace FoodandBeverage.Forms
                                             countflag = countflag + 1;
                                     }
                                 }
+                                #endregion
 
                             }
                             if (dgv_combined.RowCount == countflag)
                             {
                                 if (payid != 12)
                                 {
-                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
+                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -7810,6 +7848,17 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.PromoAmount = Convert.ToDecimal(txtdiscountamt_promo.Text);
                         dmnsalemaster.Tid = tableId;
                         dmnsalemaster.PayId = payid;
+
+                        if (BillCopy_Status)
+                        {
+                            Biltypeno = Convert.ToInt32(BillType.BillCopy);
+                            dmnsalemaster.BillCopyStatus = 1;
+                        }
+                        else
+                        {
+                            Biltypeno=Convert.ToInt32(BillType.NormalBill);
+                            dmnsalemaster.BillCopyStatus = 0;
+                        }
 
                         if (Promomasterid > 0 && Promodetailsid > 0)
                         {
@@ -7966,7 +8015,7 @@ namespace FoodandBeverage.Forms
                             {
                                 if (payid == 0)
                                 {
-                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
+                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -7985,7 +8034,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else if (payid != 12)
                                 {
-                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0);
+                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
 
@@ -8046,6 +8095,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                BillCopy_Status = false;
                 Screen screen = Screen.FromControl(this);
                 int screenWidth = screen.Bounds.Width;
                 int screenHeight = screen.Bounds.Height;
@@ -8136,6 +8186,7 @@ namespace FoodandBeverage.Forms
         {
             int count = 0;
             int rowno = 0;
+
             //for(int i=0;i< Dgv_Selected_Item.RowCount;i++)
             //{
             //    if (Dgv_Selected_Item.Rows[i].Cells[iitemid] != null)
@@ -8146,6 +8197,7 @@ namespace FoodandBeverage.Forms
             //    }
 
             //}
+
             //if(count==1)
             //{
             //    string tlpname = "";
@@ -8960,7 +9012,7 @@ namespace FoodandBeverage.Forms
                 var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                 if (InsertStatus.PayId > 0)
                 {
-                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
+                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId), Convert.ToInt32(BillType.NormalBill));
                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                     frmSalesInvoice.ShowDialog();
 
@@ -9089,7 +9141,7 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                     if (InsertStatus.PayId > 0)
                     {
-                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId));
+                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(txtsalemasterid.Text), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(InsertStatus.PayId), Convert.ToInt32(BillType.NormalBill));
                         frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                         frmSalesInvoice.ShowDialog();
 
@@ -11372,6 +11424,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_PrintCopy_Click(object sender, EventArgs e)
         {
+            BillCopy_Status = true;
             paybillcal(0);
         }
 

@@ -17,10 +17,10 @@ namespace Domain
         public int Status { get; set; }
         public int ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
-        public int  TimeDuration { get; set; }
-        
-    }
+        public int TimeDuration { get; set; }
+        public int BillCopyStatus { get; set; }
 
+    }
 
 }
 

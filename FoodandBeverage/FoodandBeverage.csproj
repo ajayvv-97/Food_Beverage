@@ -654,6 +654,12 @@
     <Compile Include="SaleBill\FrmSaleInvoice.Designer.cs">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
     </Compile>
+    <Compile Include="SaleBill\SaleBill_Copy.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleBill_Copy.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </EmbeddedResource>
@@ -860,6 +866,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\SaleBill_Copy.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleBill_Copy.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="DS\DSKitchen.xsc">
       <DependentUpon>DSKitchen.xsd</DependentUpon>

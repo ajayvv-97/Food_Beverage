@@ -1056,3 +1056,39 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 2
 -------------------------------------------------------------------------
+Date and Time: 15-07-2024 10:33:16
+Page : Order page  paybillcal()
+Exception: Method not found: 'Int32 Domain.DmnCombinedOrderBill.get_BillCopyStatus()'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 15-07-2024 10:33:48
+Page : Login Page btnlogin_Click()
+Exception: Method not found: 'Void Domain.DmnCombinedOrderBill.set_BillCopyStatus(Int32)'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 15-07-2024 10:54:44
+Page : OrderView page dgv_details_view_CellClick()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 23
+-------------------------------------------------------------------------
+Date and Time: 15-07-2024 12:37:42
+Page : OrderView btn_rem_product_des_Click()
+Exception: Unable to cast object of type 'System.Windows.Forms.DataGridViewTextBoxCell' to type 'System.Windows.Forms.DataGridViewImageCell'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 23
+-------------------------------------------------------------------------
+Date and Time: 15-07-2024 12:44:07
+Page : OrderView btn_rem_product_des_Click()
+Exception: Unable to cast object of type 'System.Windows.Forms.DataGridViewTextBoxCell' to type 'System.Windows.Forms.DataGridViewImageCell'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 23
+-------------------------------------------------------------------------

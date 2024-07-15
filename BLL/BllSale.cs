@@ -60,7 +60,8 @@ namespace BLL
             parms.Add("CBalance", objTestClass.CBalance);
             parms.Add("TapType", objTestClass.TapType);
             parms.Add("LedgerId", objTestClass.LedgerId);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("BillCopyStatus", objTestClass.BillCopyStatus); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 

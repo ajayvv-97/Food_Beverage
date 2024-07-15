@@ -48,7 +48,6 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmOrderView));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
@@ -63,8 +62,9 @@ namespace FoodandBeverage.Forms
             this.btn_Pending_order = new System.Windows.Forms.Button();
             this.btn_cancel_order = new System.Windows.Forms.Button();
             this.lblsync = new System.Windows.Forms.Label();
-            this.btn_refresh_detaislview = new System.Windows.Forms.Button();
+            this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_backorder = new System.Windows.Forms.Button();
+            this.btn_serach = new System.Windows.Forms.Button();
             this.tlp_next_prev = new System.Windows.Forms.TableLayoutPanel();
             this.btnnext = new System.Windows.Forms.Button();
             this.btnprevious = new System.Windows.Forms.Button();
@@ -96,6 +96,7 @@ namespace FoodandBeverage.Forms
             this.refreshtimer_main = new System.Windows.Forms.Timer(this.components);
             this.refreshtimer_sub = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Reset_Sync = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -225,7 +226,7 @@ namespace FoodandBeverage.Forms
             // tlp_serachproduct_controls
             // 
             this.tlp_serachproduct_controls.BackColor = System.Drawing.Color.Transparent;
-            this.tlp_serachproduct_controls.ColumnCount = 9;
+            this.tlp_serachproduct_controls.ColumnCount = 10;
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -234,16 +235,18 @@ namespace FoodandBeverage.Forms
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 226F));
+            this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_serachproduct_controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 201F));
             this.tlp_serachproduct_controls.Controls.Add(this.txtorderid_search, 0, 0);
             this.tlp_serachproduct_controls.Controls.Add(this.txttablecode_serach, 1, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.btn_complete_order, 3, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.btn_Pending_order, 4, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.btn_cancel_order, 5, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.lblsync, 8, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.btn_refresh_detaislview, 7, 0);
-            this.tlp_serachproduct_controls.Controls.Add(this.btn_backorder, 6, 0);
-            this.tlp_serachproduct_controls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_complete_order, 4, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_Pending_order, 5, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_cancel_order, 6, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.lblsync, 9, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_refresh, 8, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_backorder, 7, 0);
+            this.tlp_serachproduct_controls.Controls.Add(this.btn_serach, 2, 0);
+            this.tlp_serachproduct_controls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_serachproduct_controls.Location = new System.Drawing.Point(3, 3);
             this.tlp_serachproduct_controls.Name = "tlp_serachproduct_controls";
             this.tlp_serachproduct_controls.RowCount = 1;
@@ -261,7 +264,7 @@ namespace FoodandBeverage.Forms
             this.txtorderid_search.Location = new System.Drawing.Point(3, 3);
             this.txtorderid_search.Multiline = true;
             this.txtorderid_search.Name = "txtorderid_search";
-            this.txtorderid_search.Size = new System.Drawing.Size(215, 46);
+            this.txtorderid_search.Size = new System.Drawing.Size(175, 46);
             this.txtorderid_search.TabIndex = 1;
             this.txtorderid_search.Enter += new System.EventHandler(this.txtorderid_search_Enter);
             this.txtorderid_search.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtorderid_search_KeyDown);
@@ -275,10 +278,10 @@ namespace FoodandBeverage.Forms
             this.txttablecode_serach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txttablecode_serach.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txttablecode_serach.ForeColor = System.Drawing.Color.DarkGray;
-            this.txttablecode_serach.Location = new System.Drawing.Point(224, 3);
+            this.txttablecode_serach.Location = new System.Drawing.Point(184, 3);
             this.txttablecode_serach.Multiline = true;
             this.txttablecode_serach.Name = "txttablecode_serach";
-            this.txttablecode_serach.Size = new System.Drawing.Size(215, 46);
+            this.txttablecode_serach.Size = new System.Drawing.Size(175, 46);
             this.txttablecode_serach.TabIndex = 0;
             this.txttablecode_serach.Enter += new System.EventHandler(this.txttablecode_serach_Enter);
             this.txttablecode_serach.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txttablecode_serach_KeyDown);
@@ -292,7 +295,7 @@ namespace FoodandBeverage.Forms
             this.btn_complete_order.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_complete_order.FlatAppearance.BorderSize = 0;
             this.btn_complete_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_complete_order.Location = new System.Drawing.Point(445, 3);
+            this.btn_complete_order.Location = new System.Drawing.Point(407, 3);
             this.btn_complete_order.Name = "btn_complete_order";
             this.btn_complete_order.Size = new System.Drawing.Size(77, 46);
             this.btn_complete_order.TabIndex = 4;
@@ -306,7 +309,7 @@ namespace FoodandBeverage.Forms
             this.btn_Pending_order.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Pending_order.FlatAppearance.BorderSize = 0;
             this.btn_Pending_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Pending_order.Location = new System.Drawing.Point(528, 3);
+            this.btn_Pending_order.Location = new System.Drawing.Point(490, 3);
             this.btn_Pending_order.Name = "btn_Pending_order";
             this.btn_Pending_order.Size = new System.Drawing.Size(66, 46);
             this.btn_Pending_order.TabIndex = 5;
@@ -320,7 +323,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancel_order.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_cancel_order.FlatAppearance.BorderSize = 0;
             this.btn_cancel_order.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cancel_order.Location = new System.Drawing.Point(600, 3);
+            this.btn_cancel_order.Location = new System.Drawing.Point(562, 3);
             this.btn_cancel_order.Name = "btn_cancel_order";
             this.btn_cancel_order.Size = new System.Drawing.Size(62, 46);
             this.btn_cancel_order.TabIndex = 6;
@@ -331,29 +334,30 @@ namespace FoodandBeverage.Forms
             // 
             this.lblsync.AutoSize = true;
             this.lblsync.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lblsync.Location = new System.Drawing.Point(820, 0);
+            this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblsync.ForeColor = System.Drawing.Color.Green;
+            this.lblsync.Location = new System.Drawing.Point(870, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(220, 52);
+            this.lblsync.Size = new System.Drawing.Size(195, 52);
             this.lblsync.TabIndex = 7;
             this.lblsync.Text = "Synchronization  Stopped";
             this.lblsync.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblsync.Visible = false;
             // 
-            // btn_refresh_detaislview
+            // btn_refresh
             // 
-            this.btn_refresh_detaislview.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderview_Refresh_button_2;
-            this.btn_refresh_detaislview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_refresh_detaislview.FlatAppearance.BorderSize = 0;
-            this.btn_refresh_detaislview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh_detaislview.Location = new System.Drawing.Point(788, 3);
-            this.btn_refresh_detaislview.Name = "btn_refresh_detaislview";
-            this.btn_refresh_detaislview.Size = new System.Drawing.Size(26, 30);
-            this.btn_refresh_detaislview.TabIndex = 3;
-            this.btn_refresh_detaislview.UseVisualStyleBackColor = true;
-            this.btn_refresh_detaislview.Visible = false;
-            this.btn_refresh_detaislview.Click += new System.EventHandler(this.btn_refresh_detaislview_Click);
+            this.btn_refresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderview_Refresh_button_2;
+            this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_refresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_refresh.FlatAppearance.BorderSize = 0;
+            this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_refresh.Location = new System.Drawing.Point(750, 3);
+            this.btn_refresh.Name = "btn_refresh";
+            this.btn_refresh.Size = new System.Drawing.Size(114, 46);
+            this.btn_refresh.TabIndex = 3;
+            this.btn_refresh.UseVisualStyleBackColor = true;
+            this.btn_refresh.Visible = false;
+            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
             // btn_backorder
             // 
@@ -362,7 +366,7 @@ namespace FoodandBeverage.Forms
             this.btn_backorder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_backorder.FlatAppearance.BorderSize = 0;
             this.btn_backorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_backorder.Location = new System.Drawing.Point(668, 3);
+            this.btn_backorder.Location = new System.Drawing.Point(630, 3);
             this.btn_backorder.Name = "btn_backorder";
             this.btn_backorder.Size = new System.Drawing.Size(114, 46);
             this.btn_backorder.TabIndex = 2;
@@ -370,13 +374,27 @@ namespace FoodandBeverage.Forms
             this.btn_backorder.Visible = false;
             this.btn_backorder.Click += new System.EventHandler(this.btn_backorder_Click);
             // 
+            // btn_serach
+            // 
+            this.btn_serach.BackgroundImage = global::FoodandBeverage.Properties.Resources.search;
+            this.btn_serach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_serach.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_serach.FlatAppearance.BorderSize = 0;
+            this.btn_serach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_serach.Location = new System.Drawing.Point(365, 3);
+            this.btn_serach.Name = "btn_serach";
+            this.btn_serach.Size = new System.Drawing.Size(36, 46);
+            this.btn_serach.TabIndex = 8;
+            this.btn_serach.UseVisualStyleBackColor = true;
+            this.btn_serach.Click += new System.EventHandler(this.btn_serach_Click);
+            // 
             // tlp_next_prev
             // 
             this.tlp_next_prev.ColumnCount = 4;
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.29758F));
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.434783F));
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.086957F));
-            this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
             this.tlp_next_prev.Controls.Add(this.btnnext, 3, 0);
             this.tlp_next_prev.Controls.Add(this.btnprevious, 1, 0);
             this.tlp_next_prev.Controls.Add(this.lblorderheading, 0, 0);
@@ -396,7 +414,7 @@ namespace FoodandBeverage.Forms
             this.btnnext.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnnext.FlatAppearance.BorderSize = 0;
             this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnnext.Location = new System.Drawing.Point(715, 3);
+            this.btnnext.Location = new System.Drawing.Point(707, 3);
             this.btnnext.Name = "btnnext";
             this.btnnext.Size = new System.Drawing.Size(34, 27);
             this.btnnext.TabIndex = 1;
@@ -410,7 +428,7 @@ namespace FoodandBeverage.Forms
             this.btnprevious.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnprevious.FlatAppearance.BorderSize = 0;
             this.btnprevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnprevious.Location = new System.Drawing.Point(670, 3);
+            this.btnprevious.Location = new System.Drawing.Point(662, 3);
             this.btnprevious.Name = "btnprevious";
             this.btnprevious.Size = new System.Drawing.Size(32, 27);
             this.btnprevious.TabIndex = 0;
@@ -424,7 +442,7 @@ namespace FoodandBeverage.Forms
             this.lblorderheading.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblorderheading.Location = new System.Drawing.Point(3, 0);
             this.lblorderheading.Name = "lblorderheading";
-            this.lblorderheading.Size = new System.Drawing.Size(661, 33);
+            this.lblorderheading.Size = new System.Drawing.Size(653, 33);
             this.lblorderheading.TabIndex = 2;
             this.lblorderheading.Text = "label1";
             this.lblorderheading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -433,9 +451,10 @@ namespace FoodandBeverage.Forms
             // 
             this.pnl_ordergallery.Controls.Add(this.pnl_details_view);
             this.pnl_ordergallery.Controls.Add(this.dgvorderview);
-            this.pnl_ordergallery.Location = new System.Drawing.Point(143, 127);
+            this.pnl_ordergallery.Location = new System.Drawing.Point(143, 91);
             this.pnl_ordergallery.Name = "pnl_ordergallery";
-            this.pnl_ordergallery.Size = new System.Drawing.Size(631, 358);
+            this.pnl_ordergallery.Padding = new System.Windows.Forms.Padding(3);
+            this.pnl_ordergallery.Size = new System.Drawing.Size(630, 354);
             this.pnl_ordergallery.TabIndex = 3;
             this.pnl_ordergallery.Visible = false;
             // 
@@ -497,6 +516,7 @@ namespace FoodandBeverage.Forms
             this.dgv_details_view.TabIndex = 1;
             this.dgv_details_view.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_details_view_CellClick);
             this.dgv_details_view.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_details_view_DataError);
+            this.dgv_details_view.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgv_details_view_Scroll);
             // 
             // dgvorderview
             // 
@@ -531,7 +551,7 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvorderview.DefaultCellStyle = dataGridViewCellStyle17;
             this.dgvorderview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvorderview.Location = new System.Drawing.Point(0, 0);
+            this.dgvorderview.Location = new System.Drawing.Point(3, 3);
             this.dgvorderview.Name = "dgvorderview";
             this.dgvorderview.RowHeadersVisible = false;
             this.dgvorderview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
@@ -539,13 +559,14 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvorderview.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvorderview.RowTemplate.Height = 44;
-            this.dgvorderview.Size = new System.Drawing.Size(631, 358);
+            this.dgvorderview.Size = new System.Drawing.Size(624, 348);
             this.dgvorderview.TabIndex = 218;
             this.dgvorderview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellDoubleClick);
             this.dgvorderview.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellEnter);
             this.dgvorderview.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellLeave);
             this.dgvorderview.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvorderview_DataError);
             this.dgvorderview.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvorderview_EditingControlShowing);
+            this.dgvorderview.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvorderview_Scroll);
             // 
             // Slno
             // 
@@ -675,6 +696,8 @@ namespace FoodandBeverage.Forms
             this.txt_product_remove_des.Name = "txt_product_remove_des";
             this.txt_product_remove_des.Size = new System.Drawing.Size(272, 78);
             this.txt_product_remove_des.TabIndex = 3;
+            this.txt_product_remove_des.Enter += new System.EventHandler(this.txt_product_remove_des_Enter);
+            this.txt_product_remove_des.Leave += new System.EventHandler(this.txt_product_remove_des_Leave);
             // 
             // tlp_can_okay_des
             // 
@@ -817,6 +840,12 @@ namespace FoodandBeverage.Forms
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.ReadOnly = true;
             // 
+            // Reset_Sync
+            // 
+            this.Reset_Sync.Enabled = true;
+            this.Reset_Sync.Interval = 2000;
+            this.Reset_Sync.Tick += new System.EventHandler(this.Reset_Sync_Tick);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -864,7 +893,7 @@ namespace FoodandBeverage.Forms
             // 
             this.Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle6.NullValue")));
+            dataGridViewCellStyle6.NullValue = null;
             dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.Action.DefaultCellStyle = dataGridViewCellStyle6;
             this.Action.HeaderText = "Action";
@@ -938,7 +967,6 @@ namespace FoodandBeverage.Forms
             this.addonstatus.HeaderText = "addonstatus";
             this.addonstatus.Name = "addonstatus";
             this.addonstatus.ReadOnly = true;
-            this.addonstatus.Visible = false;
             this.addonstatus.Width = 123;
             // 
             // avid
@@ -947,7 +975,6 @@ namespace FoodandBeverage.Forms
             this.avid.HeaderText = "avid";
             this.avid.Name = "avid";
             this.avid.ReadOnly = true;
-            this.avid.Visible = false;
             this.avid.Width = 62;
             // 
             // Ccode
@@ -1031,7 +1058,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label lblheader_product_des;
         private System.Windows.Forms.TableLayoutPanel tlp_can_okay_des;
         private System.Windows.Forms.Button btn_cancel_product_des;
-        private System.Windows.Forms.Button btn_refresh_detaislview;
+        private System.Windows.Forms.Button btn_refresh;
         private System.Windows.Forms.Button btn_complete_order;
         private System.Windows.Forms.Button btn_Pending_order;
         private System.Windows.Forms.Button btn_cancel_order;
@@ -1058,6 +1085,8 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.Panel pnl_details_view;
         private System.Windows.Forms.TextBox txt_product_remove_des;
         private System.Windows.Forms.TableLayoutPanel tlp_header_desc;
+        private System.Windows.Forms.Button btn_serach;
+        public System.Windows.Forms.Timer Reset_Sync;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn item;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;

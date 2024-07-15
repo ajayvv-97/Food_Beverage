@@ -733,7 +733,7 @@ namespace FoodandBeverage.Forms
                             {
                                 //this.Visible = false;
                                 //this.Hide();
-                                FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder),0,CheckedtableNames);
+                                FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder),0,CheckedtableNames, Convert.ToInt32(PageType.OrderPage));
                                 _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                                 _instanceFrmOrder.Opacity = 0;
                                 _instanceFrmOrder.Visible = false;
@@ -743,6 +743,7 @@ namespace FoodandBeverage.Forms
                         }
 
                     }
+
                     else if (Btype == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))
                     {
                         var result = CMessageBox.Show("Do You want Cancel  This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
@@ -777,7 +778,7 @@ namespace FoodandBeverage.Forms
                         }
                         else if (result == DialogResult.No)
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames);
+                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames, Convert.ToInt32(PageType.OrderPage));
                             _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                             _instanceFrmOrder.Opacity = 0;
                             _instanceFrmOrder.Visible = false;
@@ -788,7 +789,7 @@ namespace FoodandBeverage.Forms
                     }
                     else if (Btype == Convert.ToInt32(DashboardTableType.Reverse_Table))
                     {
-                        FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames);
+                        FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames, Convert.ToInt32(PageType.OrderPage));
                         _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                         _instanceFrmOrder.Opacity = 0;
                         _instanceFrmOrder.Visible = false;

@@ -27,6 +27,7 @@ namespace FoodandBeverage.SaleBill
         public int SalesMasterId = 0;
         public int paytypeid = 0;
         public int paymentid = 0;
+        public int BillTypeData = 0;
         public static int BranchId = 0;
         public static int UserId = 0;
         public string folderPath = Application.StartupPath + "\\Barcode";
@@ -39,11 +40,12 @@ namespace FoodandBeverage.SaleBill
         public string invoiceno_api;
         public string pdfPath = "";
 
-        public FrmSaleInvoice(int masterId,int paytype,int paytid)
+        public FrmSaleInvoice(int masterId,int paytype,int paytid,int BillType )
         {
             SalesMasterId = masterId;
             paymentid = paytid;
             paytypeid = paytype;
+            BillTypeData = BillType;
             InitializeComponent();
             httpClient = new HttpClient();
         }
@@ -367,7 +369,10 @@ namespace FoodandBeverage.SaleBill
                 dsReport.Tables.Add(dtSalesHeader);
                 dsReport.Tables.Add(dtSalesMaster);
 
-                reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
+                    reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
+                    reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
 
                 reportDocument.SetDataSource(dsReport);
 
@@ -393,7 +398,7 @@ namespace FoodandBeverage.SaleBill
                 pdfPath = Path.Combine(pdffolderPath, "Bill.pdf");
                 reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
                 crvSalesBill.Focus();
-                reportDocument.PrintToPrinter(1, false, 0, 0);
+                //reportDocument.PrintToPrinter(1, false, 0, 0);
             }
             catch (Exception ex)
             {
