@@ -11,7 +11,7 @@ namespace Domain
         public int Ordermasterid { get; set; }
         public string Cnames { get; set; }
         public string Tablecode { get; set; }
-
+        public int Cbid { get; set; }
 
     }
 }

@@ -125,6 +125,9 @@ namespace FoodandBeverage.Forms
         public static int CAddoncount = 26;
         public static int Cstatusno = 27;
         public static int CVariatiionNameno = 28;
+        public static int CSalesMasterIdno = 29;
+        public static int CSalesDetailsIdno = 30;
+        public static int COrderDetailsIdno = 31; 
 
 
         public static int tslno = 0;
@@ -6152,9 +6155,15 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
+                        if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+                        {
+                            FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                            if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
+                                _instanceFrmCombinedBill.CheckedtableNames.Clear();
+                            _instanceFrmCombinedBill.BillCombineBill_Update();
+                        }
                         this.Close();
                         this.Dispose();
-
                     }
                     return true;
                 case Keys.F9:
@@ -7188,6 +7197,14 @@ namespace FoodandBeverage.Forms
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                 _instanceFrmTableView.TableStaus(0);
             }
+            if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+            {
+                FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
+                    _instanceFrmCombinedBill.CheckedtableNames.Clear();
+                _instanceFrmCombinedBill.BillCombineBill_Update();
+            }
+
             this.Close();
         }
 
@@ -7368,6 +7385,7 @@ namespace FoodandBeverage.Forms
                 dgv_combined.Rows.Clear();
                 for (int k = 0; k < checkedtableNames.Count; k++)
                 {
+   
                     dmnSearchmaster.Select = "*";
                     dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
                     dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
@@ -7399,7 +7417,6 @@ namespace FoodandBeverage.Forms
                                     int sourceItemId = Convert.ToInt32(gridSourcemaster_combined[i].ItemId);
                                     int sourcePrId = Convert.ToInt32(gridSourcemaster_combined[i].PrId);
                                     int sourcePavId = Convert.ToInt32(gridSourcemaster_combined[i].Pavid);
-
 
                                     if (tableType == Convert.ToInt32(Tabletype.Product) && addonStatus == 0 && itemId == sourceItemId)
                                     {
@@ -7436,6 +7453,7 @@ namespace FoodandBeverage.Forms
                                         valueExists = true;
                                         break;
                                     }
+
                                 }
                                 #endregion
 
@@ -7473,6 +7491,11 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[CAddoncount].Value = gridSourcemaster_combined[i].Addoncount;
                                     dgv_combined.Rows[rowIndex].Cells[Cstatusno].Value = gridSourcemaster_combined[i].Status;
                                     dgv_combined.Rows[rowIndex].Cells[CVariatiionNameno].Value = gridSourcemaster_combined[i].VariatiionName;
+                                    dgv_combined.Rows[rowIndex].Cells[CSalesMasterIdno].Value = gridSourcemaster_combined[i].SalesMasterId;
+                                    dgv_combined.Rows[rowIndex].Cells[CSalesDetailsIdno].Value = gridSourcemaster_combined[i].SalesDetailsId;
+                                    dgv_combined.Rows[rowIndex].Cells[CSalesDetailsIdno].Value = gridSourcemaster_combined[i].SalesDetailsId;
+                                    dgv_combined.Rows[rowIndex].Cells[COrderDetailsIdno].Value = gridSourcemaster_combined[i].OrderDetailsId;
+                                    txtsalemasterid.Text=Convert.ToString(gridSourcemaster_combined[i].SalesMasterId);
                                 }
                                 #endregion
 
@@ -7490,6 +7513,7 @@ namespace FoodandBeverage.Forms
                                     updateRow.Cells[CCgstamt].Value = Convert.ToDecimal(updateRow.Cells[CCgstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].CGSTAmount);
                                     updateRow.Cells[cSgstamt].Value = Convert.ToDecimal(updateRow.Cells[cSgstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].SGSTAmount);
                                     updateRow.Cells[cvatamt].Value = Convert.ToDecimal(updateRow.Cells[cvatamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].VATAmount);
+                                    updateRow.Cells[COrderDetailsIdno].Value  = updateRow.Cells[COrderDetailsIdno].Value + "," + gridSourcemaster_combined[i].OrderDetailsId;
                                 }
                                 #endregion
 
@@ -7688,8 +7712,8 @@ namespace FoodandBeverage.Forms
                                 {
                                     DmnCombinedOrderBill CombinedOrderBill = new DmnCombinedOrderBill();
                                     BllCombinedOrderBill bllCombinedOrderBill = new BllCombinedOrderBill();
-                                    CombinedOrderBill.Cbid = 0;
-                                    CombinedOrderBill.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId); ;
+                                    CombinedOrderBill.Cbid = Convert.ToInt32(checkedtableNames[k].Cbid);
+                                    CombinedOrderBill.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId); 
                                     CombinedOrderBill.OrderMasterID = Convert.ToInt32(checkedtableNames[k].Ordermasterid);
                                     CombinedOrderBill.Tid = Convert.ToInt32(checkedtableNames[k].Id);
                                     CombinedOrderBill.BranchId = FrmDashboard.BranchId;
@@ -7739,9 +7763,10 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.MarketPrice = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cmarketprice].Value);
                                         dmnsaledetails.TableType = Convert.ToInt32(dgv_combined.Rows[i].Cells[Ctabletype].Value);
                                         dmnsaledetails.BranchId = FrmDashboard.BranchId;
-                                        dmnsaledetails.CreatedBy = 1;
+                                        dmnsaledetails.CreatedBy = FrmDashboard.UserId;
                                         dmnsaledetails.Status = 1;
-                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32("0");
+                                        dmnsaledetails.OrderDetailsId = Convert.ToString(dgv_combined.Rows[i].Cells[COrderDetailsIdno].Value);
+                                        dmnsaledetails.SalesDetailsId = Convert.ToInt32(dgv_combined.Rows[i].Cells[CSalesDetailsIdno].Value);
 
                                         dmnsaledetails.Pavid = Convert.ToInt32(dgv_combined.Rows[i].Cells[CPavid].Value);
                                         dmnsaledetails.AddonStatus = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value);
@@ -7794,7 +7819,9 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         #region Normal Save Salemaster And Saledetails
+
                         finaltotalqty();
+
                         dmnsalemaster.EntryNo = txtinvoiceno.Text;
                         dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                         dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
@@ -7829,6 +7856,7 @@ namespace FoodandBeverage.Forms
                             else
                                 dmnsalemaster.Gender = 2;
                         }
+
 
                         if (txtother_descr.Text == "Description Type Here ...")
                             dmnsalemaster.OaDesc = "";
@@ -7872,6 +7900,7 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.PromoDId = 0;
                             dmnsalemaster.Promostatus = 0;
                         }
+
                         //dmnsalemaster.Remark = txtRemark.Text; 
                         dmnsalemaster.BranchId = FrmDashboard.BranchId;
                         dmnsalemaster.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
@@ -7904,7 +7933,9 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.ICardNo = reading_RFID;
                         dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
                         dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
+
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
+
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
                         {
@@ -7975,7 +8006,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
                                         dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
 
-                                        dmnsaledetails.OrderDetailsId = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
+                                        dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
                                         
                                         dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
 
@@ -8055,7 +8086,9 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                             #endregion
+
                         }
+
                         #endregion
                     }
                 }
@@ -10001,7 +10034,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                         {
                             GC.Collect();
                             FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;

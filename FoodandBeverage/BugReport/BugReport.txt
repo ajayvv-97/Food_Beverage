@@ -1092,3 +1092,77 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 23
 -------------------------------------------------------------------------
+Date and Time: 16-07-2024 11:30:01
+Page : Order page  paybillcal()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:00:52
+Page : Order page  paybillcal()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:08:49
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '695,698' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:14:14
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '700,702' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:25:19
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '708,710' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:26:15
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '712,714' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 13:28:23
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '712,714' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 14:33:07
+Page : Order page  paybillcal()
+Exception: Conversion failed when converting the varchar value '720,722' to data type int.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 15:53:51
+Page : CombinedBill Page CheckCombinedOrNot()
+Exception: The multi-part identifier "cob.OrderMasterid" could not be bound.
+The multi-part identifier "cob.SalesMasterId" could not be bound.
+The multi-part identifier "cob.OrderMasterid" could not be bound.
+The multi-part identifier "cob.tid" could not be bound.
+The multi-part identifier "cob.Cbid" could not be bound.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 16-07-2024 17:04:15
+Page : CombinedBill Page CheckCombinedOrNot_Tid()
+Exception: Ambiguous column name 'Ordermasterid'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
