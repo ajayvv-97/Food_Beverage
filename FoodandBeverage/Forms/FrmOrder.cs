@@ -26,7 +26,7 @@ namespace FoodandBeverage.Forms
         public int PageType = 0;
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
-
+        //ProcessCmdKey
         public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno)
         {
             tableId = tid;
@@ -228,6 +228,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
+                //tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
+
+                #region ChkWritePermission
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -236,13 +241,9 @@ namespace FoodandBeverage.Forms
                     else
                         btn_saveKOT.Enabled = false;
                 }
+                #endregion
 
-                combined_Status = false;
-                //ShowLoadingdGif();
-                //tlp_payment_outerdesign.BackColor = ColorTranslator.FromHtml("#205072");
-                //tlp_payment_main.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
-                settablecode();
+                #region BookingType Checking [Normalorder ,Reverse_overtime_Cancel , CombinedOrderBill]
                 if (BookingType == Convert.ToInt32(DashboardTableType.Normalorder))
                     CheckRe_order();
                 else if (BookingType == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))
@@ -267,20 +268,26 @@ namespace FoodandBeverage.Forms
 
                     lblorderid.Visible = false;
                     label10.Visible = false;
-                    tlp_orderid_tbcode.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 5);
-                    tlp_orderid_tbcode.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 95);
-                    tlp_orderid_tbcode.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
-                    tlp_orderid_tbcode.ColumnStyles[3] = new ColumnStyle(SizeType.AutoSize);
+
+                    //tlp_orderid_tbcode.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 5);
+                    //tlp_orderid_tbcode.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 95);
+                    //tlp_orderid_tbcode.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+                    //tlp_orderid_tbcode.ColumnStyles[3] = new ColumnStyle(SizeType.AutoSize);
+
                     Combined_Tables();
                     Combined_Table_Bill();
                 }
+                #endregion
 
+                #region tlp_calculation_total setting
                 Control controlToRemove = tlp_calculation_main.GetControlFromPosition(0, 0);
                 tlp_calculation_main.Controls.Remove(controlToRemove);
                 tlp_calculation_main.Controls.Add(tlp_calculation_total, 0, 0);
                 tlp_calculation_total.Visible = true;
                 tlp_calculation_total.Dock = DockStyle.Fill;
+                #endregion
 
+                #region Grid color setting
                 Dgv_Selected_Item.Rows.Add(1);
                 Dgv_Selected_Item.BorderStyle = BorderStyle.None;
                 Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
@@ -319,7 +326,21 @@ namespace FoodandBeverage.Forms
                 dgv_split.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_split.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                textb_shape();
+
+                dgv_tableprice.BorderStyle = BorderStyle.None;
+                dgv_tableprice.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_tableprice.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_tableprice.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_tableprice.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_tableprice.BackgroundColor = Color.White;
+
+                dgv_tableprice.EnableHeadersVisualStyles = false;
+                dgv_tableprice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_tableprice.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                #endregion
+
+                #region Palce Holder  Textboxes setting
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
                 txtother_descr.Text = "Description Type Here ...";
@@ -327,9 +348,10 @@ namespace FoodandBeverage.Forms
                 txtentrie_descr.Text = "Description Type here .....";
                 txtother_descr.ForeColor = Color.DarkGray;
                 txtdis_descr.ForeColor = Color.DarkGray;
+                #endregion
 
-                #region Side Bar for Search box main
-                //sidebar 
+                #region Side Bar Buttons
+
                 pnlsidebar_searchproduct.Controls.Clear();
                 tlp_searchproduct_sidebar.Controls.Clear();
                 tlp_searchproduct_sidebar.Dock = DockStyle.Fill;
@@ -422,6 +444,7 @@ namespace FoodandBeverage.Forms
                     rowIndex++;
                     #endregion
 
+                    #region Category Button
                     for (int i = 0; i < gridSource.Count; i++)
                     {
                         // Configure the Button
@@ -451,44 +474,27 @@ namespace FoodandBeverage.Forms
                         tlp_searchproduct_sidebar.Controls.Add(button, 0, rowIndex);
                         rowIndex++;
                     }
-                    pnlsidebar_searchproduct.Controls.Add(tlp_searchproduct_sidebar);
+                    #endregion
+
+                    pnlsidebar_searchproduct.Controls.Add(tlp_searchproduct_sidebar);                    
+
                     pnl_toggle_btn.Dock = DockStyle.Fill;
                     btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
                 }
                 #endregion Main 
 
+                textb_shape();
                 ShowLoadingdGif();
+                setperfixsale();
+                settablecode();
+
+                btn_clear_cus.Visible = true;
+
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                     _instanceFrmdash.Visible = true;
                 }
-                setperfixsale();
-                btn_clear_cus.Visible = true;
-
-                //int rcount = 0;
-                //for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
-                //{
-                //    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
-                //    {
-                //        rcount++;
-                //        break;
-                //    }
-                //}
-                //if (rcount == 0)
-                //    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
-
-                dgv_tableprice.BorderStyle = BorderStyle.None;
-                dgv_tableprice.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                dgv_tableprice.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                dgv_tableprice.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                dgv_tableprice.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                dgv_tableprice.BackgroundColor = Color.White;
-
-                dgv_tableprice.EnableHeadersVisualStyles = false;
-                dgv_tableprice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                dgv_tableprice.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             }
             catch (Exception ex)
@@ -545,6 +551,23 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Order page  settablecode()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
+
+        }
+        public class ComboBoxItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value;
+            }
         }
         public void Combined_Table_Bill()
         {
@@ -555,10 +578,14 @@ namespace FoodandBeverage.Forms
                 tlp_seletedItem_main.Controls.Clear();
                 txtGrandTotal.Text = "0";
                 lbltablecode.Text = string.Empty;
-
+                cmb_tblcode.Items.Clear();
+                cmb_tblcode.Items.Add("Combined Table");
                 for (int k = 0; k < checkedtableNames.Count; k++)
                 {
-                    lbltablecode.Text += "  " + Convert.ToString(checkedtableNames[k].Tablecode);
+                    lbltablecode.Visible = false;      
+                    cmb_tblcode.Items.Add(Convert.ToString(checkedtableNames[k].Tablecode));
+                    cmb_tblcode.Visible = true;
+
                     #region Table Name Add to the Top
                     Panel pnlbox_table = new Panel();
                     pnlbox_table.Name = "pnlbox" + checkedtableNames[k].Ordermasterid;
@@ -804,6 +831,8 @@ namespace FoodandBeverage.Forms
                         pnlboxend.Margin = new Padding(0, 5, 0, 5);
                         tlp_seletedItem_main.Controls.Add(pnlboxend);
                         #endregion                
+
+
                     }
                 }
 
@@ -811,6 +840,7 @@ namespace FoodandBeverage.Forms
                     Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
 
                 netAmount();
+                cmb_tblcode.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -1279,6 +1309,7 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+
                     int orginalCount = gridSourcemaster.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
                     OrderDateTime = gridSourcemaster[0].CreatedDateTime;
                     txtGrandTotal.Text = "0";
@@ -1310,6 +1341,9 @@ namespace FoodandBeverage.Forms
                     OrderRunning_Status = true;
                     tlp_seletedItem_main.Controls.Clear();
                     //FillExistingProducts();
+
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = true;
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label18.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     label25.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
@@ -6155,17 +6189,29 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
-                        {
-                            FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
-                            if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
-                                _instanceFrmCombinedBill.CheckedtableNames.Clear();
-                            _instanceFrmCombinedBill.BillCombineBill_Update();
-                        }
+                        ResetBillpage();
+
                         this.Close();
                         this.Dispose();
                     }
                     return true;
+
+                case Keys.F4:
+                    Button btnfv = this.Controls.Find("btn_fav", true).FirstOrDefault() as Button;
+                    if (btnfv != null)
+                        btnfv.PerformClick();
+                    return true;
+                case Keys.F6:
+                    Button btnof = this.Controls.Find("btn_offer", true).FirstOrDefault() as Button;
+                    if (btnof != null)
+                        btnof.PerformClick();
+                    return true;
+                case Keys.F7:
+                    Button btnco = this.Controls.Find("btn_combo_offer", true).FirstOrDefault() as Button;
+                    if (btnco != null)
+                        btnco.PerformClick();
+                    return true;
+
                 case Keys.F9:
                     btn_savekot_print.PerformClick();
                     return true;
@@ -6925,23 +6971,12 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                         {
                             GC.Collect();
                             FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                             _instanceFrmTableView.TableStaus(0);
                         }
-
-                        //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        //{
-                        //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                        //    _instanceFrmOrderView.FillOrders();
-                        //}
-                        //if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
-                        //{
-                        //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                        //    _instanceFrmKitchenView.Fillorders();
-                        //}
 
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearAll();
@@ -7096,6 +7131,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                lbltablecode.Visible = true;
+                cmb_tblcode.Visible = false;
                 btn_itemwise.Enabled = true;
                 pnlsidebar_searchproduct.Visible = true;
                 tlp_serach_main.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 27.22F);
@@ -7192,22 +7229,36 @@ namespace FoodandBeverage.Forms
 
         private void btncolse_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-            {
-                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                _instanceFrmTableView.TableStaus(0);
-            }
+            ResetTableViewPage();
+            ResetBillpage();
+            this.Close();
+        }
+        public void ResetBillpage()
+        {
             if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
             {
                 FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
                 if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
+                {
                     _instanceFrmCombinedBill.CheckedtableNames.Clear();
+
+                    _instanceFrmCombinedBill.cmb_tbl_names.Visible = false;
+                    _instanceFrmCombinedBill.lbl_tbl_totalcount.Visible = false;
+                    _instanceFrmCombinedBill.cmb_tbl_names.Items.Clear();
+                    _instanceFrmCombinedBill.lbl_tbl_totalcount.Text = "Total Tables : ";                    
+                }
                 _instanceFrmCombinedBill.BillCombineBill_Update();
             }
-
-            this.Close();
         }
-
+        public void ResetTableViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.Visible = true;
+                _instanceFrmTableView.TableStaus(0);
+            }
+        }
         private void txtentrie_descr_Enter(object sender, EventArgs e)
         {
             if (txtentrie_descr.Text == "Description Type here .....")
@@ -7554,10 +7605,8 @@ namespace FoodandBeverage.Forms
                         txtsalemasterid.Text = "0";
                     if (checkedtableNames.Count > 0)
                     {
-                        BillCopy_Status = true;
-
+                        
                         #region Combined  Save Salemaster And Saledetails
-
                         #region sale Master 
                         int sum = 0;
                         int n = dgv_combined.RowCount;
@@ -7574,6 +7623,7 @@ namespace FoodandBeverage.Forms
 
                         if (RFID_Status)
                         {
+                            dmnsalemaster.CombineStatus = 1;
                             dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
                             dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
                             dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
@@ -7795,18 +7845,9 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                                    {
-                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                                        _instanceFrmTableView.TableStaus(0);
-                                    }
-                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
-                                    {
-                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
-                                        if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
-                                            _instanceFrmCombinedBill.CheckedtableNames.Clear();
-                                        _instanceFrmCombinedBill.BillCombineBill_Update();
-                                    }
+                                    
+                                    ResetTableViewPage();
+                                    ResetBillpage();
                                     //ClearAll();
                                     this.Close();
                                 }
@@ -8050,17 +8091,9 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                                    {
-                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                                        _instanceFrmTableView.TableStaus(0);
-                                    }
-                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
-                                    {
-                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
-                                        _instanceFrmCombinedBill.BillCombineBill_Update();
-                                    }
-
+                                    
+                                    ResetTableViewPage();
+                                    ResetBillpage();
                                     this.Close();
                                 }
                                 else if (payid != 12)
@@ -8068,18 +8101,11 @@ namespace FoodandBeverage.Forms
                                     FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
-
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                                    {
-                                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                                        _instanceFrmTableView.TableStaus(0);
-                                    }
-                                    if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
-                                    {
-                                        FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
-                                        _instanceFrmCombinedBill.BillCombineBill_Update();
-                                    }
+                                    
+                                    ResetTableViewPage();
+                                    ResetBillpage();
+
                                     //ClearAll();
                                     this.Close();
 
@@ -8432,13 +8458,9 @@ namespace FoodandBeverage.Forms
 
         private void btn_frm_close_Click(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-            {
-                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                _instanceFrmTableView.TableStaus(0);
-            }
+            ResetTableViewPage();
+            ResetBillpage();
             this.Close();
-
         }
 
         private void btncash_part_Click(object sender, EventArgs e)
@@ -9066,12 +9088,7 @@ namespace FoodandBeverage.Forms
                 if (count == dgv_split.RowCount)
                 {
                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        _instanceFrmTableView.Visible = true;
-                        _instanceFrmTableView.TableStaus(0);
-                    }
+                    ResetTableViewPage();
                     this.Close();
                 }
             }
@@ -9195,11 +9212,7 @@ namespace FoodandBeverage.Forms
                     if (count == dgv_split.RowCount)
                     {
                         CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                        {
-                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                            _instanceFrmTableView.TableStaus(0);
-                        }
+                        ResetTableViewPage();
                         this.Close();
                     }
                 }
@@ -10034,24 +10047,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                        {
-                            GC.Collect();
-                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                            _instanceFrmTableView.TableStaus(0);
-                        }
-
-                        //if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        //{
-                        //    FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                        //    _instanceFrmOrderView.FillOrders();
-                        //}
-                        //if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
-                        //{
-                        //    FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
-                        //    _instanceFrmKitchenView.Fillorders();
-                        //}
-
+                        ResetTableViewPage();
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearAll();
                         this.Close();
@@ -10089,12 +10085,7 @@ namespace FoodandBeverage.Forms
                     {
                         CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
                         this.Close();
-                        if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                        {
-                            FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                            _instanceFrmTableView.Visible = true;
-                            _instanceFrmTableView.TableStaus(0);
-                        }
+                        ResetTableViewPage();
                     }
                 }
             }
@@ -11472,11 +11463,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void FrmOrder_Resize(object sender, EventArgs e)
-        {
-          
-        }
-
         private void txtcardrecamt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r') // Check for Enter key
@@ -12104,6 +12090,11 @@ namespace FoodandBeverage.Forms
             txtpromocode.Text = "0";
             btn_promo_reset.Visible = false;
             txtpromocode.Enabled = true;
+        }
+
+        private void cmb_tblcode_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            cmb_tblcode.SelectedIndex = 0;
         }
 
         private void ButtonVariation_Click(object sender, EventArgs e)

@@ -58,9 +58,9 @@ namespace FoodandBeverage.Forms
         public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
         public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
 
-        //public static string KitchenBillPath =  Application.StartupPath + @"\KitchenBill";
-        //public static string ReportPath =  Application.StartupPath + @"\Report"; 
-        //public static string SaleBillPath =   Application.StartupPath + @"\SaleBill";
+        //public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
+        //public static string ReportPath = Application.StartupPath + @"\Report";
+        //public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
         #endregion
 

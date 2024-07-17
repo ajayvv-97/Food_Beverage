@@ -4799,18 +4799,21 @@ namespace FoodandBeverage.Forms
                 int rowIndex = e.RowIndex;
                 if (e.ColumnIndex == dselectionno && rowIndex >= 0)
                 {
-                    DataGridViewCheckBoxCell checkBoxCell = (DataGridViewCheckBoxCell)dgv_product_list.Rows[rowIndex].Cells[dselectionno];
-                    bool isChecked = (bool)checkBoxCell.EditedFormattedValue;
                     int productId = Convert.ToInt32(dgv_product_list.Rows[rowIndex].Cells[dproductidno].Value);
                     int saleType = Convert.ToInt32(dgv_product_list.Rows[rowIndex].Cells[dsaletypeno].Value);
-                    if (isChecked)
+                    DataGridViewRow row = dgv_product_list.Rows[e.RowIndex];
+                    DataGridViewCheckBoxCell checkBox = (row.Cells[dselectionno] as DataGridViewCheckBoxCell);
+                    bool isChecked = Convert.ToBoolean(checkBox.Value);
+                    if (isChecked == true)
                     {
-                        selectedProducts.Add((productId, saleType));
+                        selectedProducts.RemoveAll(item => item.productId == productId && item.saleType == saleType);
+                        checkBox.Value = false;
                     }
                     else
                     {
-                        selectedProducts.RemoveAll(item => item.productId == productId && item.saleType == saleType);
-                    }
+                        selectedProducts.Add((productId, saleType));
+                        checkBox.Value = true;
+                    }                
                 }
                 else
                 {

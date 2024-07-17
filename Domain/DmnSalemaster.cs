@@ -105,7 +105,9 @@ namespace Domain
         public int TapType { get; set; }
         public int LedgerId { get; set; }
         public int BillCopyStatus { get; set; }
+        public int CombineStatus { get; set; }
         
+
 
     }
 }

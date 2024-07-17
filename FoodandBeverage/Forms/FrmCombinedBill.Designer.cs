@@ -51,6 +51,9 @@ namespace FoodandBeverage.Forms
             this.flp_header_com_pre = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_prevbill = new System.Windows.Forms.Button();
             this.btn_backCompleorder = new System.Windows.Forms.Button();
+            this.tlp_tblcount_namelist = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_tbl_totalcount = new System.Windows.Forms.Label();
+            this.cmb_tbl_names = new System.Windows.Forms.ComboBox();
             this.pnl_empty_msg = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblmsg = new System.Windows.Forms.Label();
@@ -86,6 +89,7 @@ namespace FoodandBeverage.Forms
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_compl_pre_bill.SuspendLayout();
             this.flp_header_com_pre.SuspendLayout();
+            this.tlp_tblcount_namelist.SuspendLayout();
             this.pnl_empty_msg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnl_previous_bill.SuspendLayout();
@@ -128,6 +132,7 @@ namespace FoodandBeverage.Forms
             // 
             this.flp_header_com_pre.Controls.Add(this.btn_prevbill);
             this.flp_header_com_pre.Controls.Add(this.btn_backCompleorder);
+            this.flp_header_com_pre.Controls.Add(this.tlp_tblcount_namelist);
             this.flp_header_com_pre.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_header_com_pre.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flp_header_com_pre.Location = new System.Drawing.Point(6, 6);
@@ -162,6 +167,49 @@ namespace FoodandBeverage.Forms
             this.btn_backCompleorder.UseVisualStyleBackColor = true;
             this.btn_backCompleorder.Visible = false;
             this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
+            // 
+            // tlp_tblcount_namelist
+            // 
+            this.tlp_tblcount_namelist.ColumnCount = 2;
+            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.28411F));
+            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.71589F));
+            this.tlp_tblcount_namelist.Controls.Add(this.lbl_tbl_totalcount, 1, 0);
+            this.tlp_tblcount_namelist.Controls.Add(this.cmb_tbl_names, 0, 0);
+            this.tlp_tblcount_namelist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_tblcount_namelist.Location = new System.Drawing.Point(192, 48);
+            this.tlp_tblcount_namelist.Name = "tlp_tblcount_namelist";
+            this.tlp_tblcount_namelist.RowCount = 1;
+            this.tlp_tblcount_namelist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_tblcount_namelist.Size = new System.Drawing.Size(447, 0);
+            this.tlp_tblcount_namelist.TabIndex = 19;
+            // 
+            // lbl_tbl_totalcount
+            // 
+            this.lbl_tbl_totalcount.AutoSize = true;
+            this.lbl_tbl_totalcount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl_tbl_totalcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_tbl_totalcount.Location = new System.Drawing.Point(267, 3);
+            this.lbl_tbl_totalcount.Margin = new System.Windows.Forms.Padding(3);
+            this.lbl_tbl_totalcount.Name = "lbl_tbl_totalcount";
+            this.lbl_tbl_totalcount.Size = new System.Drawing.Size(177, 1);
+            this.lbl_tbl_totalcount.TabIndex = 4;
+            this.lbl_tbl_totalcount.Text = "Total Tables : ";
+            this.lbl_tbl_totalcount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_tbl_totalcount.Visible = false;
+            // 
+            // cmb_tbl_names
+            // 
+            this.cmb_tbl_names.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmb_tbl_names.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmb_tbl_names.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_tbl_names.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmb_tbl_names.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_tbl_names.FormattingEnabled = true;
+            this.cmb_tbl_names.Location = new System.Drawing.Point(3, 3);
+            this.cmb_tbl_names.Name = "cmb_tbl_names";
+            this.cmb_tbl_names.Size = new System.Drawing.Size(258, 28);
+            this.cmb_tbl_names.TabIndex = 5;
+            this.cmb_tbl_names.Visible = false;
             // 
             // pnl_empty_msg
             // 
@@ -198,7 +246,7 @@ namespace FoodandBeverage.Forms
             // pnl_previous_bill
             // 
             this.pnl_previous_bill.Controls.Add(this.tlp_previous_bill);
-            this.pnl_previous_bill.Location = new System.Drawing.Point(-96, 28);
+            this.pnl_previous_bill.Location = new System.Drawing.Point(-96, 198);
             this.pnl_previous_bill.Name = "pnl_previous_bill";
             this.pnl_previous_bill.Padding = new System.Windows.Forms.Padding(5);
             this.pnl_previous_bill.Size = new System.Drawing.Size(462, 154);
@@ -613,6 +661,8 @@ namespace FoodandBeverage.Forms
             this.pnl_complebill_prevbill.ResumeLayout(false);
             this.tlp_compl_pre_bill.ResumeLayout(false);
             this.flp_header_com_pre.ResumeLayout(false);
+            this.tlp_tblcount_namelist.ResumeLayout(false);
+            this.tlp_tblcount_namelist.PerformLayout();
             this.pnl_empty_msg.ResumeLayout(false);
             this.pnl_empty_msg.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -668,5 +718,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn stsalemasterid;
         private System.Windows.Forms.DataGridViewTextBoxColumn stpayid;
         public System.Windows.Forms.Timer CombineBillAutoTimer;
+        public System.Windows.Forms.ComboBox cmb_tbl_names;
+        public System.Windows.Forms.Label lbl_tbl_totalcount;
+        private System.Windows.Forms.TableLayoutPanel tlp_tblcount_namelist;
     }
 }

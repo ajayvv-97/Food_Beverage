@@ -1166,3 +1166,33 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 32
 -------------------------------------------------------------------------
+Date and Time: 17-07-2024 09:53:41
+Page : Login Page btnlogin_Click()
+Exception: Method not found: 'Int32 Domain.DmnTableinfo.get_Cbid()'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 17-07-2024 16:46:51
+Page : Order page  btncash_Click()
+Exception: Method not found: 'Void Domain.DmnSalemaster.set_CombineStatus(Int32)'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 17-07-2024 17:13:35
+Page : PromoCode page btnserach_Click()
+Exception: The multi-part identifier "pd.PromoMId" could not be bound.
+The multi-part identifier "pd.Status" could not be bound.
+The multi-part identifier "pd.PromoMId" could not be bound.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 15
+-------------------------------------------------------------------------
+Date and Time: 17-07-2024 17:21:59
+Page : PromoCode page btnserach_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 15
+-------------------------------------------------------------------------

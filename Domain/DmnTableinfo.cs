@@ -25,7 +25,7 @@ namespace Domain
         public int BookmasterId { get; set; }
         public decimal NetAmount { get; set; }
         public int BillStatus { get; set; }
-
+        public int Cbid { get; set; }        
 
     }
 }

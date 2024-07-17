@@ -30,6 +30,9 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         public bool ListFillFlag = false;
+
+        public Color CombinedBillcolor = Color.Wheat;//System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
+        public Color NormalBillingColor = Color.White;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
         #endregion
 
         #region Grid Declaration
@@ -65,6 +68,7 @@ namespace FoodandBeverage.Forms
                 dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
                 Billcomplete_Fill();
+                cmb_tbl_names.Items.Add("Table List");
             }
             catch (Exception ex)
             {
@@ -91,10 +95,11 @@ namespace FoodandBeverage.Forms
                 pnl_complebill_prevbill.Visible = true;
                 BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus";
+                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid";
                 dmnSearch.Table = "tblTable_info  ti " +
                     "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0";
+                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0"+
+                    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
                 dmnSearch.WhereNdGroupBy = "where ti.Status=1";
                 dmnSearch.OrderBy = "order by ti.tid";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -163,19 +168,21 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
                         tlp_table_inner.Dock = DockStyle.None;
                         //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-                        tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
+
                         tlp_table_inner.BackColor = Color.White;
 
 
                         if (screenWidth > 1366)
                         {
-                            tlp_table_inner.Width = 300;
-                            tlp_table_inner.Height = 100;
+                            tlp_table_inner.Width = 120;
+                            tlp_table_inner.Height = 80;
+                            tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
                         }
                         else if (screenWidth >= 1024 && screenWidth <= 1366)
                         {
                             tlp_table_inner.Width = 120;
-                            tlp_table_inner.Height = 120;
+                            tlp_table_inner.Height = 80;
+                            tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
                         }
 
                         Button btn_select = new Button();
@@ -219,6 +226,18 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner.Visible = true;
                         else
                             tlp_table_inner.Visible = false;
+
+                        if (Convert.ToInt32(tabledata.Cbid) > 0)
+                        {
+                            tlp_table_inner.BackColor = CombinedBillcolor;
+                            btn_select.Visible = false;
+                        }
+                        else
+                        {
+                            tlp_table_inner.BackColor = NormalBillingColor;
+                            btn_select.Visible = true;
+                        }
+
 
                         //if (Convert.ToInt32(tabledata.OrderStatus) == 1)
                         tlp_table_inner.Controls.Add(btn_select, 0, 0);
@@ -285,6 +304,86 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page Billcomplete_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+        private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
+        {
+            BillCombineBill_Update();
+        }
+
+        public void BillCombineBill_Update()
+        {
+            try
+            {
+                CombineBillAutoTimer.Stop();
+
+                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid";
+                dmnSearch.Table = "tblTable_info  ti " +
+                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                    " LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0"+
+                    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
+                dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                dmnSearch.OrderBy = "order by ti.tid";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    #region Check order status and set visible flase and true
+                    int rowIndex_cate = 0;
+                    foreach (var tabledata in gridSource)
+                    {
+                        string tlpname = "tlp_com" + tabledata.Tid;
+                        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                        if (tlp_box != null)
+                        {
+                            if (tabledata.BillStatus == 0)
+                            {
+                                string lblname = "lb_netamount" + tabledata.Tid;
+                                string btniaddicon = "btn_select_com" + tabledata.Tid;
+                                Button btn_select = tlp_table_dashboard.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
+                                Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                                if (lblnet != null)
+                                    lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);  
+                            
+                                if(Convert.ToInt32(tabledata.Cbid) > 0)
+                                {
+                                    if (btn_select != null)
+                                    {
+                                        btn_select.Visible = false;
+                                        tlp_box.BackColor = CombinedBillcolor;
+                                    }
+                                }
+                                else
+                                {
+                                    tlp_box.BackColor = NormalBillingColor;
+                                    if(CheckedtableNames.Count==0)
+                                        if (btn_select != null)
+                                        {
+                                            btn_select.Visible = true;
+                                            btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+                                            btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+                                            btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+                                        }
+                                    //DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
+                                }
+
+
+                                tlp_box.Visible = true;
+                            }
+                            else
+                                tlp_box.Visible = false;
+                        }
+                    }
+                    #endregion
+                }
+
+                CombineBillAutoTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
         public void CheckCombinedOrNot(int Ordermasterid)
         {
             try
@@ -320,6 +419,7 @@ namespace FoodandBeverage.Forms
                             // btn_select.Enabled = false;
                         }
                     }
+                    lbl_tbl_totalcount.Text = Convert.ToString(CheckedtableNames.Count);
                 }
                 else
                 {
@@ -399,7 +499,10 @@ namespace FoodandBeverage.Forms
 
                     CheckCombinedOrNot(omasterid);
 
-                    if(!ListFillFlag)
+                    if (CheckedtableNames.Count == 0)
+                        cmb_tbl_names.Items.Add("Table List");
+
+                    if (!ListFillFlag)
                     {
                         if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Unselect))
                         {
@@ -411,6 +514,11 @@ namespace FoodandBeverage.Forms
                             });
                             button.BackgroundImage = Properties.Resources.billselectedicon;
                             button.Tag = Convert.ToInt32(BillSelect.Selected);
+
+                            // Add to the combo box
+                            string comboBoxItem = $"{tablecode}";
+                            cmb_tbl_names.Items.Add(comboBoxItem);
+
                         }
                         else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
                         {
@@ -418,11 +526,30 @@ namespace FoodandBeverage.Forms
                             if (itemToRemove != null)
                             {
                                 CheckedtableNames.Remove(itemToRemove);
+
+                                // Remove from the combo box
+                                string comboBoxItemToRemove = $"{itemToRemove.Tablecode}";
+                                cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
                             }
+
                             button.BackgroundImage = Properties.Resources.Billaddicon;
                             button.Tag = Convert.ToInt32(BillSelect.Unselect);
                         }
+
                         button.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        lbl_tbl_totalcount.Text = "Total Tables : " + Convert.ToString(CheckedtableNames.Count);
+                        if (CheckedtableNames.Count > 1)
+                        {
+                            lbl_tbl_totalcount.Visible = true;
+                            cmb_tbl_names.Visible = true;
+                            cmb_tbl_names.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            lbl_tbl_totalcount.Visible = false;
+                            cmb_tbl_names.Visible = false;
+                        }
                     }
 
                 }
@@ -555,7 +682,6 @@ namespace FoodandBeverage.Forms
 
                     }
 
-
                 }
                 CombineBillAutoTimer.Start();
             }
@@ -614,6 +740,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                tlp_tblcount_namelist.Visible = true;
                 btn_backCompleorder.Visible = false;
                 btn_prevbill.Visible = true;
 
@@ -683,6 +810,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                tlp_tblcount_namelist.Visible = false;
                 CombineBillAutoTimer.Stop();
 
                 this.Controls.Add(pnl_complebill_prevbill);
@@ -969,66 +1097,6 @@ namespace FoodandBeverage.Forms
             e.Cancel = true;
         }
 
-        private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
-        {
-            BillCombineBill_Update();
-        }
-        public void BillCombineBill_Update()
-        {
-            try
-            {
-                CombineBillAutoTimer.Stop();
 
-                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus";
-                dmnSearch.Table = "tblTable_info  ti " +
-                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                dmnSearch.OrderBy = "order by ti.tid";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    #region Check order status and set visible flase and true
-                    int rowIndex_cate = 0;
-                    foreach (var tabledata in gridSource)
-                    {
-                        string tlpname = "tlp_com" + tabledata.Tid;
-                        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                        if (tlp_box != null)
-                        {
-                            if (tabledata.BillStatus == 0)
-                            {
-                                string lblname = "lb_netamount" + tabledata.Tid;
-                                string btniaddicon = "btn_select_com" + tabledata.Tid;
-                                Button btn_select = tlp_table_dashboard.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
-                                Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                                if (lblnet != null)
-                                    lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-
-                                //if (btn_select != null)
-                                //{
-                                //    btn_select.BackgroundImage = Properties.Resources.Billaddicon;
-                                //    btn_select.BackgroundImageLayout = ImageLayout.Stretch;
-                                //}
-
-                                tlp_box.Visible = true;
-                            }
-                            else
-                                tlp_box.Visible = false;
-                        }
-                    }
-                    #endregion
-                }
-
-                CombineBillAutoTimer.Start();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
-            }
-        }
     }
 }

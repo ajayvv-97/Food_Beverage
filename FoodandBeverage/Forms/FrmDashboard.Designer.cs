@@ -708,7 +708,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.46811F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 5, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -730,7 +730,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(592, 0);
+            this.lbltime.Location = new System.Drawing.Point(591, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -802,7 +802,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(604, 3);
+            this.pbusericon.Location = new System.Drawing.Point(603, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -813,7 +813,7 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(598, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(597, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
@@ -827,7 +827,7 @@ namespace FoodandBeverage.Forms
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblsync.Location = new System.Drawing.Point(343, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(243, 42);
+            this.lblsync.Size = new System.Drawing.Size(242, 42);
             this.lblsync.TabIndex = 7;
             this.lblsync.Tag = "Synchronizing...";
             this.lblsync.Text = "Synchronizing...";

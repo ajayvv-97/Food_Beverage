@@ -165,6 +165,7 @@ namespace FoodandBeverage.Forms
 				txttotPro.Text = "0";
 				txtPromoMId.Text = "0";
 				btnSave.Visible = true;
+				btngen.Visible = true;
 			}
 			catch (Exception ex)
 			{
@@ -321,6 +322,7 @@ namespace FoodandBeverage.Forms
 						txtdiscper.Text = Convert.ToString(gridSource[0].DiscountPer);
 						txtproLbl.Text = Convert.ToString(gridSource[0].PromoLabel);
 						txttotPro.Text = Convert.ToString(gridSource[0].TotalPromo);
+					
 						BllSearch<DmnPromoDetails> bllSearch1 = new BllSearch<DmnPromoDetails>();
 						objSearch.Select = "*";
 						objSearch.Table = "tblPromoDetails";
@@ -338,7 +340,13 @@ namespace FoodandBeverage.Forms
 							}
 							dgvProCode.Rows[i].Cells[1].Value = i + 1;
 							dgvProCode.Rows[i].Cells[2].Value = gridSource1[i].Code;
+							if (Convert.ToInt32(gridSource1[i].Status) == 2)
+								dgvProCode.Rows[i].Cells[4].Value = "Promo Applied"; 
 						}
+						if (Convert.ToInt32(gridSource[0].TotalPromo) < Convert.ToInt32(gridSource1.Count))						
+							btngen.Visible = false;
+						else
+							btngen.Visible = true;
 					}
 				}
 			}
