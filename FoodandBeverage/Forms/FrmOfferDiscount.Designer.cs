@@ -40,12 +40,6 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -53,6 +47,12 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -169,17 +169,6 @@ namespace FoodandBeverage.Forms
             this.tlp_product_list = new System.Windows.Forms.TableLayoutPanel();
             this.btn_grid_product_close = new System.Windows.Forms.Button();
             this.dgv_product_list = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.s_selectall = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.barode_itemcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoryname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.saletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.s_OfferStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Offerstartend = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_prod_serach_header = new System.Windows.Forms.TableLayoutPanel();
             this.txtnamepro_offer = new System.Windows.Forms.TextBox();
             this.txt_prodlist_serach = new System.Windows.Forms.TextBox();
@@ -238,6 +227,17 @@ namespace FoodandBeverage.Forms
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnl_barcode = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_selectall = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.barode_itemcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.saletype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_OfferStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Offerstartend = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -1795,109 +1795,6 @@ namespace FoodandBeverage.Forms
             this.dgv_product_list.TabIndex = 182;
             this.dgv_product_list.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_list_CellClick);
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Sl.No";
-            this.dataGridViewTextBoxColumn1.MaxInputLength = 100;
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.Width = 71;
-            // 
-            // s_selectall
-            // 
-            this.s_selectall.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.s_selectall.HeaderText = "";
-            this.s_selectall.Name = "s_selectall";
-            this.s_selectall.ReadOnly = true;
-            this.s_selectall.Width = 5;
-            // 
-            // barode_itemcode
-            // 
-            this.barode_itemcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.barode_itemcode.HeaderText = "Barode/Code";
-            this.barode_itemcode.Name = "barode_itemcode";
-            this.barode_itemcode.ReadOnly = true;
-            this.barode_itemcode.Width = 126;
-            // 
-            // itemname
-            // 
-            this.itemname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.itemname.DefaultCellStyle = dataGridViewCellStyle9;
-            this.itemname.HeaderText = "Product";
-            this.itemname.Name = "itemname";
-            this.itemname.ReadOnly = true;
-            this.itemname.Width = 86;
-            // 
-            // Price
-            // 
-            this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Price.DefaultCellStyle = dataGridViewCellStyle10;
-            this.Price.HeaderText = "Price";
-            this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
-            this.Price.Width = 69;
-            // 
-            // categoryname
-            // 
-            this.categoryname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.categoryname.DefaultCellStyle = dataGridViewCellStyle11;
-            this.categoryname.HeaderText = "Food Category";
-            this.categoryname.Name = "categoryname";
-            this.categoryname.ReadOnly = true;
-            this.categoryname.Width = 124;
-            // 
-            // categid
-            // 
-            this.categid.HeaderText = "categid";
-            this.categid.Name = "categid";
-            this.categid.ReadOnly = true;
-            this.categid.Visible = false;
-            // 
-            // productid
-            // 
-            this.productid.HeaderText = "Productid";
-            this.productid.Name = "productid";
-            this.productid.ReadOnly = true;
-            this.productid.Visible = false;
-            // 
-            // saletype
-            // 
-            this.saletype.HeaderText = "Saletype";
-            this.saletype.Name = "saletype";
-            this.saletype.ReadOnly = true;
-            this.saletype.Visible = false;
-            // 
-            // s_OfferStatus
-            // 
-            this.s_OfferStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.s_OfferStatus.DefaultCellStyle = dataGridViewCellStyle12;
-            this.s_OfferStatus.HeaderText = "Offer Status";
-            this.s_OfferStatus.Name = "s_OfferStatus";
-            this.s_OfferStatus.ReadOnly = true;
-            this.s_OfferStatus.Width = 104;
-            // 
-            // Offerstartend
-            // 
-            this.Offerstartend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Offerstartend.DefaultCellStyle = dataGridViewCellStyle13;
-            this.Offerstartend.HeaderText = "Offer Start End Date";
-            this.Offerstartend.Name = "Offerstartend";
-            this.Offerstartend.ReadOnly = true;
-            this.Offerstartend.Width = 125;
-            // 
             // tlp_prod_serach_header
             // 
             this.tlp_prod_serach_header.ColumnCount = 3;
@@ -2612,6 +2509,110 @@ namespace FoodandBeverage.Forms
             this.textBox1.Size = new System.Drawing.Size(209, 31);
             this.textBox1.TabIndex = 1;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Sl.No";
+            this.dataGridViewTextBoxColumn1.MaxInputLength = 100;
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            this.dataGridViewTextBoxColumn1.Width = 71;
+            // 
+            // s_selectall
+            // 
+            this.s_selectall.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.s_selectall.HeaderText = "";
+            this.s_selectall.Name = "s_selectall";
+            this.s_selectall.ReadOnly = true;
+            this.s_selectall.Width = 5;
+            // 
+            // barode_itemcode
+            // 
+            this.barode_itemcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.barode_itemcode.HeaderText = "Barode/Code";
+            this.barode_itemcode.Name = "barode_itemcode";
+            this.barode_itemcode.ReadOnly = true;
+            this.barode_itemcode.Width = 126;
+            // 
+            // itemname
+            // 
+            this.itemname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.itemname.DefaultCellStyle = dataGridViewCellStyle9;
+            this.itemname.HeaderText = "Product";
+            this.itemname.Name = "itemname";
+            this.itemname.ReadOnly = true;
+            this.itemname.Width = 86;
+            // 
+            // Price
+            // 
+            this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Price.DefaultCellStyle = dataGridViewCellStyle10;
+            this.Price.HeaderText = "Price";
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            this.Price.Width = 69;
+            // 
+            // categoryname
+            // 
+            this.categoryname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.categoryname.DefaultCellStyle = dataGridViewCellStyle11;
+            this.categoryname.HeaderText = "Food Category";
+            this.categoryname.Name = "categoryname";
+            this.categoryname.ReadOnly = true;
+            this.categoryname.Width = 124;
+            // 
+            // categid
+            // 
+            this.categid.HeaderText = "categid";
+            this.categid.Name = "categid";
+            this.categid.ReadOnly = true;
+            this.categid.Visible = false;
+            // 
+            // productid
+            // 
+            this.productid.HeaderText = "Productid";
+            this.productid.Name = "productid";
+            this.productid.ReadOnly = true;
+            this.productid.Visible = false;
+            // 
+            // saletype
+            // 
+            this.saletype.HeaderText = "Saletype";
+            this.saletype.Name = "saletype";
+            this.saletype.ReadOnly = true;
+            this.saletype.Visible = false;
+            // 
+            // s_OfferStatus
+            // 
+            this.s_OfferStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.s_OfferStatus.DefaultCellStyle = dataGridViewCellStyle12;
+            this.s_OfferStatus.HeaderText = "Offer Status";
+            this.s_OfferStatus.Name = "s_OfferStatus";
+            this.s_OfferStatus.ReadOnly = true;
+            this.s_OfferStatus.Width = 104;
+            // 
+            // Offerstartend
+            // 
+            this.Offerstartend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Offerstartend.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Offerstartend.HeaderText = "Offer Start End Date";
+            this.Offerstartend.Name = "Offerstartend";
+            this.Offerstartend.ReadOnly = true;
+            this.Offerstartend.Width = 125;
+            // 
             // FrmOfferDiscount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2849,17 +2850,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn sofferdetailsid;
         private System.Windows.Forms.DataGridViewTextBoxColumn staxsettingid;
         private System.Windows.Forms.Button btn_productoff_rem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn s_selectall;
-        private System.Windows.Forms.DataGridViewTextBoxColumn barode_itemcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn itemname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn categoryname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn categid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn saletype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn s_OfferStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Offerstartend;
         private System.Windows.Forms.DataGridViewTextBoxColumn cslno;
         private System.Windows.Forms.DataGridViewTextBoxColumn cItemCodeupc;
         private System.Windows.Forms.DataGridViewTextBoxColumn productname_combo;
@@ -2886,5 +2876,16 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn addoncount;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_pavid;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_variationname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn s_selectall;
+        private System.Windows.Forms.DataGridViewTextBoxColumn barode_itemcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn itemname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categoryname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn saletype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_OfferStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Offerstartend;
     }
 }
