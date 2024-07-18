@@ -6055,6 +6055,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  btn_sidebar_toggle_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -6138,7 +6139,11 @@ namespace FoodandBeverage.Forms
                                 if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 2 && Convert.ToInt32(dgv_split.Rows[i].Cells[4].Value) > 0)
                                     count++;
                             }
-                            if (count == 0 && BillList.Count == 0)
+                            if (count < dgv_split.RowCount && btn_split_number.Visible)
+                            {
+                                CMessageBox.Show("Closing not possible. Pending bills still exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            if (count == 0 && BillList.Count == 0 && btn_itemwise.Visible)
                             {
                                 pnl_split.Visible = false;
                                 tlp_payment_option.Visible = true;
@@ -6152,9 +6157,9 @@ namespace FoodandBeverage.Forms
                                 tlp_numberwise.Visible = false;
 
                             }
-                            else if (count < dgv_split.RowCount)
+                            else if (count < dgv_split.RowCount && btn_itemwise.Visible)
                             {
-                                CMessageBox.Show("Closing not possible. Pending bills still exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Closing not possible. Pending bills still exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
                             }
                         }
                         else
@@ -8876,14 +8881,19 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 int count = 0;
                 for (int i = 0; i < dgv_split.RowCount; i++)
                 {
                     if (Convert.ToInt32(dgv_split.Rows[i].Cells[6].Value) == 2 && Convert.ToInt32(dgv_split.Rows[i].Cells[4].Value) > 0)
                         count++;
                 }
-                if (count == 0 && BillList.Count == 0)
+
+                if (count < dgv_split.RowCount && btn_split_number.Visible)
+                {
+                    CMessageBox.Show("Closing not possible. Pending bills still exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (count == 0 && BillList.Count == 0 && btn_itemwise.Visible)
                 {
                     pnl_split.Visible = false;
                     tlp_payment_option.Visible = true;
@@ -8897,7 +8907,7 @@ namespace FoodandBeverage.Forms
                     tlp_numberwise.Visible = false;
 
                 }
-                else if (count < dgv_split.RowCount)
+                else if (count < dgv_split.RowCount && btn_itemwise.Visible )
                 {
                     CMessageBox.Show("Closing not possible. Pending bills still exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -8952,6 +8962,8 @@ namespace FoodandBeverage.Forms
                 }
                 btn_itemwise.Visible = false;
                 btn_con_nosplit.Visible = false;
+                txtnumber_split.Enabled = false;
+
             }
             catch (Exception ex)
             {
@@ -8974,7 +8986,7 @@ namespace FoodandBeverage.Forms
                     tlp_split_payment_button_main.Size = new Size(panelWidth, panelHeight);
 
                     tlp_split_payment_button_main.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button_main.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button_main.Size.Height);
-                    // tlp_split_payment_button_main.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button_main.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button_main.Size.Height/2);
+                    //tlp_split_payment_button_main.Location = new Point(this.ClientSize.Width / 2 - tlp_split_payment_button_main.Size.Width / 2, this.ClientSize.Height / 2 - tlp_split_payment_button_main.Size.Height/2);
                     tlp_split_payment_button_main.Visible = true;
                     tlp_split_payment_button_main.BringToFront();
                     // pnl_split.Visible = false;
