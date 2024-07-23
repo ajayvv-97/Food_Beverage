@@ -1184,34 +1184,42 @@ namespace FoodandBeverage.Forms
                   this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2,
                   (this.ClientSize.Height / 2 - panelProductPopup.Size.Height / 2));
                 panelProductPopup.Anchor = AnchorStyles.None;
-                panelProductPopup.Show();
-                dgvItemPop.Rows.Clear();
-                dmnSearch.Select = "i.Itemname as Field1,(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field2,(Select Sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field3,i.ItemId as Field4,c.CategoryName as Field5,i.saletype as Field6";
-                dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
-                dmnSearch.WhereNdGroupBy = "where i.Status=1";// and LocationId =" + BranchId;
-                dmnSearch.OrderBy = "order by c.CategoryName ";
-                var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    rd_ingrediant.Checked = false;
-                    rd_item.Checked = false;
 
-                    dgvProduct.Enabled = false;
-                    dgvItemPop.Rows.Add(gridSource.Count);
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        dgvItemPop.Rows[i].Cells[pslno].Value = i + 1;
-                        dgvItemPop.Rows[i].Cells[pnameno].Value = gridSource[i].Field1;
-                        dgvItemPop.Rows[i].Cells[prateno].Value = gridSource[i].Field2;
-                        dgvItemPop.Rows[i].Cells[pqohno].Value = gridSource[i].Field3;
-                        dgvItemPop.Rows[i].Cells[pitemidno].Value = gridSource[i].Field4;
-                        dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSource[i].Field5;
-                        dgvItemPop.Rows[i].Cells[psaletypeno].Value = gridSource[i].Field6;
-                    }
+                if(panelProductPopup.Visible)
+                {
+                    panelProductPopup.Visible = false;
                 }
-                panelProductPopup.Show();
-                pnlCustomer.Hide();
-                dgvItemPop.Focus();
+                else
+                {
+                    dgvItemPop.Rows.Clear();
+                    dmnSearch.Select = "i.Itemname as Field1,(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field2,(Select Sum(QOH) from tblProductRate where ProductId=i.ItemId) as Field3,i.ItemId as Field4,c.CategoryName as Field5,i.saletype as Field6";
+                    dmnSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c on c.Fcid = i.Fcid";
+                    dmnSearch.WhereNdGroupBy = "where i.Status=1";// and LocationId =" + BranchId;
+                    dmnSearch.OrderBy = "order by c.CategoryName ";
+                    var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    if (gridSource.Count > 0)
+                    {
+                        rd_ingrediant.Checked = false;
+                        rd_item.Checked = false;
+
+                        dgvProduct.Enabled = false;
+                        dgvItemPop.Rows.Add(gridSource.Count);
+                        for (int i = 0; i < gridSource.Count; i++)
+                        {
+                            dgvItemPop.Rows[i].Cells[pslno].Value = i + 1;
+                            dgvItemPop.Rows[i].Cells[pnameno].Value = gridSource[i].Field1;
+                            dgvItemPop.Rows[i].Cells[prateno].Value = gridSource[i].Field2;
+                            dgvItemPop.Rows[i].Cells[pqohno].Value = gridSource[i].Field3;
+                            dgvItemPop.Rows[i].Cells[pitemidno].Value = gridSource[i].Field4;
+                            dgvItemPop.Rows[i].Cells[pcategorytypeno].Value = gridSource[i].Field5;
+                            dgvItemPop.Rows[i].Cells[psaletypeno].Value = gridSource[i].Field6;
+                        }
+                    }
+                    panelProductPopup.Show();
+                    pnlCustomer.Hide();
+                    dgvItemPop.Focus();
+                }
+
             }
             catch (Exception ex)
             {
@@ -2207,7 +2215,7 @@ namespace FoodandBeverage.Forms
                         FillDetails();
                     else
                         Movefocus(0);
-                    return true; // Mark the key as handled
+                    return true; 
                 case Keys.Escape:
                     if (pnlCustomer.Visible)
                         pnlCustomer.Visible = false;
@@ -2241,7 +2249,8 @@ namespace FoodandBeverage.Forms
                     return true;
 
                     case Keys.F8:
-                    purchasepop();
+                    if(tlp_registartion_main.Visible==false && dgvProduct.Focused)
+                        purchasepop();
                     return true;                    
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);

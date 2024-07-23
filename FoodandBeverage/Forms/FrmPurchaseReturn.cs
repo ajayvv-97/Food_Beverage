@@ -254,12 +254,12 @@ namespace FoodandBeverage.Forms
                             dmnPurchase.DisAmnt = Convert.ToDecimal(dgvProduct.Rows[i].Cells[idisamt].Value.ToString());
                             dmnPurchase.TotalAmnt = Convert.ToDecimal(dgvProduct.Rows[i].Cells[inetamount].Value.ToString());
                             dmnPurchase.Type = dgvProduct.Rows[i].Cells[iproducttype].Value.ToString();
-                            dmnPurchase.CreatedBy = 1;
+                            dmnPurchase.CreatedBy = FrmDashboard.UserId;
                             dmnPurchase.BranchId = FrmDashboard.BranchId;
                             dmnPurchase.Status = 1;
                             dmnPurchase.PurchaseMasterId = Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchasemasterid].Value.ToString());
                             dmnPurchase.EntryNo = dgvProduct.Rows[i].Cells[ipurchasemasterentryno].Value.ToString();
-                            dmnPurchase.Unit = dgvProduct.Rows[i].Cells[iunit].Value.ToString();
+                            dmnPurchase.Unit = Convert.ToString(dgvProduct.Rows[i].Cells[iunit].Value);
                             dmnPurchase.PurchaseDetailId = Convert.ToInt32(dgvProduct.Rows[i].Cells[iPurchaseDetailsId].Value.ToString());
 
                             dmnPurchase.TaxType = Convert.ToString(dgvProduct.Rows[i].Cells[itaxtype].Value);
@@ -667,7 +667,6 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.F8)
                     LedgerPopup();
-
                 if (e.KeyData == Keys.Enter)
                 {
                     dgvProduct.Focus();
@@ -2455,11 +2454,11 @@ namespace FoodandBeverage.Forms
                     return true;
 
                 case Keys.F8:
-                    if(MainPage)
+                    if(MainPage && txtpurchaseentry.Focused)
                     {
                         LedgerPopup();
                     }
-                    else if (dgvProduct.CurrentCell != null && DetailsPage)
+                    else if ( DetailsPage && dgvProduct.Focused)//dgvProduct.CurrentCell != null &&
                     {
                         try
                         {
@@ -2469,8 +2468,8 @@ namespace FoodandBeverage.Forms
                             bool t = false;
                             decimal temp;
 
-                            if (cno == iname)
-                            {
+                           // if (cno == iname)
+                           // {
                                 if (purchaseID == null || purchaseID == "")
                                 {
                                     CMessageBox.Show("Please Select Purchase Entry No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2572,7 +2571,7 @@ namespace FoodandBeverage.Forms
                                     pnlpurchasedetails.Show();
                                     dgvItemPop.Focus();
                                 }                          
-                            }
+                          //  }
                         }
                         catch(Exception ex)
                         {

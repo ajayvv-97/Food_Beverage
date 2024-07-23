@@ -6372,23 +6372,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txt_product_des_Enter(object sender, EventArgs e)
-        {
-            if (txt_product_des.Text == "Description Type Here .....")
-            {
-                txt_product_des.Text = "";
-                txt_product_des.ForeColor = Color.Black;
-            }
-        }
 
-        private void txt_product_des_Leave(object sender, EventArgs e)
-        {
-            if (txt_product_des.Text == "")
-            {
-                txt_product_des.Text = "Description Type Here .....";
-                txt_product_des.ForeColor = Color.DarkGray;
-            }
-        }
 
         private void btn_offer_calc_Click(object sender, EventArgs e)
         {
@@ -12107,6 +12091,24 @@ namespace FoodandBeverage.Forms
         private void cmb_tblcode_SelectionChangeCommitted(object sender, EventArgs e)
         {
             cmb_tblcode.SelectedIndex = 0;
+        }
+
+        private void txt_product_des_Enter(object sender, EventArgs e)
+        {
+            if (txt_product_des.Text == "Description Type Here .....")
+            {
+                txt_product_des.Text = "";
+                txt_product_des.ForeColor = Color.Black;
+            }
+        }
+
+        private void txt_product_des_Leave(object sender, EventArgs e)
+        {
+            if (txt_product_des.Text == "")
+            {
+                txt_product_des.Text = "Description Type Here .....";
+                txt_product_des.ForeColor = Color.DarkGray;
+            }
         }
 
         private void ButtonVariation_Click(object sender, EventArgs e)

@@ -1982,6 +1982,11 @@ namespace FoodandBeverage.Forms
         private void FrmEmployeeShort_Resize(object sender, EventArgs e)
         {
             textb_shape();
+            if (tb_empolyee.SelectedIndex == 1)
+            {
+                clsGeneral.GrideAutoSize(dgvforms);
+
+            }
         }
 
         private void mcmbDesignationId_KeyDown_1(object sender, KeyEventArgs e)
@@ -2248,6 +2253,47 @@ namespace FoodandBeverage.Forms
             tlp_main.Enabled = true;
         }
 
+        private void dgvforms_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+            {
+
+                int firstDisplayedRowIndex = dgvforms.FirstDisplayedScrollingRowIndex;
+                int firstDisplayedColumnIndex = dgvforms.FirstDisplayedScrollingColumnIndex;
+
+
+                int displayedRowCount = dgvforms.DisplayedRowCount(true);
+                int totalRowCount = dgvforms.RowCount;
+
+                int lastDisplayedRowIndex = firstDisplayedRowIndex + displayedRowCount - 1;
+                bool isAtRightEnd = lastDisplayedRowIndex >= totalRowCount - 1;
+                bool isAtLeftEnd = firstDisplayedColumnIndex == 0;
+                if (isAtRightEnd)
+                {
+                    Rectangle headerCellRect = dgvforms.GetColumnDisplayRectangle(3, true);
+                    int checkBoxX = headerCellRect.X + (headerCellRect.Width - headerCheckBoxwrite.Width) / 2;
+                    Point headerCellLocation = this.dgvforms.GetCellDisplayRectangle(3, -1, true).Location;
+                    headerCheckBoxwrite.Location = new Point(checkBoxX, headerCellLocation.Y + 27);
+
+                     headerCellRect = dgvforms.GetColumnDisplayRectangle(4, true);
+                     checkBoxX = headerCellRect.X + (headerCellRect.Width - headerCheckBoxwrite.Width) / 2;
+                     headerCellLocation = this.dgvforms.GetCellDisplayRectangle(4, -1, true).Location;
+                    headerCheckBoxread.Location = new Point(checkBoxX, headerCellLocation.Y + 27);
+                }
+                else
+                {
+                    headerCheckBoxwrite.Visible = false;
+                    headerCheckBoxread.Visible = false;
+
+                }
+                if (isAtLeftEnd)
+                {
+                    headerCheckBoxwrite.Visible = false;
+                    headerCheckBoxread.Visible = false;
+                }
+            }
+        }
+
         private void dtpBirthDate_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
@@ -2268,24 +2314,36 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void tb_empolyee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tb_empolyee.SelectedIndex == 1)
+            {
+                checkboxreset();
+            }
+
+        }
+
         public void FillForms(int id)
         {
             try
             {
                 dgvforms.Rows.Clear();
                 headerCheckBoxwrite.Checked = false;
-                headerCheckBoxread.Checked = false;
-                int x = dgvforms.Width;
+                headerCheckBoxread.Checked = false;               
+
+                /*int x = dgvforms.Width;
                 headerCheckBoxwrite.Location = new Point(x - 400, 10);
                 headerCheckBoxwrite.BackColor = Color.FromArgb(20, 25, 72);
                 headerCheckBoxwrite.Size = new Size(18, 18);
                 headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
                 dgvforms.Controls.Add(headerCheckBoxwrite);
+
                 headerCheckBoxread.Location = new Point(x - 150, 10);
                 headerCheckBoxread.BackColor = Color.FromArgb(20, 25, 72);
                 headerCheckBoxread.Size = new Size(18, 18);
                 headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
-                dgvforms.Controls.Add(headerCheckBoxread);
+                dgvforms.Controls.Add(headerCheckBoxread);*/
+
                 BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
                 DmnSearch dmnforms = new DmnSearch();
                 dmnforms.Select = "f.Id,g.Caption,g.GTypeSubId,[Read],Write,f.UserType,f.Status,Note";
@@ -2307,12 +2365,55 @@ namespace FoodandBeverage.Forms
                         dgvforms.Rows[i].Cells[iread].Value = gridesource[i].Read;
                         dgvforms.Rows[i].Cells[iwrite].Value = gridesource[i].Write;
                     }
+
+                    checkboxreset();
                 }
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("Employee Page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
+            }
+        }
+        public void checkboxreset()
+        {
+            try
+            {
+                #region Remove existing Check Box Controls
+                if (dgvforms.Controls.Contains(headerCheckBoxwrite))
+                {
+                    dgvforms.Controls.Remove(headerCheckBoxwrite);
+                }
+                if (dgvforms.Controls.Contains(headerCheckBoxread))
+                {
+                    dgvforms.Controls.Remove(headerCheckBoxread);
+                }
+                #endregion
+
+                #region Check Box Select all
+                Rectangle headerCellRect = dgvforms.GetColumnDisplayRectangle(3, true);
+                int checkBoxX = headerCellRect.X + (headerCellRect.Width - headerCheckBoxwrite.Width) / 2;
+                Point headerCellLocation = this.dgvforms.GetCellDisplayRectangle(3, -1, true).Location;
+                headerCheckBoxwrite.Location = new Point(checkBoxX, headerCellLocation.Y + 27);
+                headerCheckBoxwrite.BackColor = Color.FromArgb(20, 25, 72);
+                headerCheckBoxwrite.Size = new Size(18, 18);
+                headerCheckBoxwrite.Click += new EventHandler(HeaderCheckBoxwrite_Clicked);
+                dgvforms.Controls.Add(headerCheckBoxwrite);
+
+                headerCellRect = dgvforms.GetColumnDisplayRectangle(4, true);
+                checkBoxX = headerCellRect.X + (headerCellRect.Width - headerCheckBoxread.Width) / 2;
+                headerCellLocation = this.dgvforms.GetCellDisplayRectangle(4, -1, true).Location;
+                headerCheckBoxread.Location = new Point(checkBoxX, headerCellLocation.Y + 27);
+                headerCheckBoxread.BackColor = Color.FromArgb(20, 25, 72);
+                headerCheckBoxread.Size = new Size(18, 18);
+                headerCheckBoxread.Click += new EventHandler(HeaderCheckBoxread_Clicked);
+                dgvforms.Controls.Add(headerCheckBoxread);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsGeneral.LogException("Employee Page checkboxreset()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Employee));
             }
         }
 

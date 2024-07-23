@@ -31,7 +31,8 @@ namespace FoodandBeverage.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEmployeeShort));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tm_card = new System.Windows.Forms.Timer(this.components);
             this.tb_empolyee = new System.Windows.Forms.TabControl();
             this.tp_employee = new System.Windows.Forms.TabPage();
@@ -185,6 +186,7 @@ namespace FoodandBeverage.Forms
             this.tb_empolyee.SelectedIndex = 0;
             this.tb_empolyee.Size = new System.Drawing.Size(903, 385);
             this.tb_empolyee.TabIndex = 0;
+            this.tb_empolyee.SelectedIndexChanged += new System.EventHandler(this.tb_empolyee_SelectedIndexChanged);
             // 
             // tp_employee
             // 
@@ -464,13 +466,13 @@ namespace FoodandBeverage.Forms
             this.btnDesgtn.BackColor = System.Drawing.Color.Transparent;
             this.btnDesgtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDesgtn.BackgroundImage")));
             this.btnDesgtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnDesgtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDesgtn.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDesgtn.FlatAppearance.BorderSize = 0;
             this.btnDesgtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesgtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDesgtn.Location = new System.Drawing.Point(190, 3);
             this.btnDesgtn.Name = "btnDesgtn";
-            this.btnDesgtn.Size = new System.Drawing.Size(34, 48);
+            this.btnDesgtn.Size = new System.Drawing.Size(34, 28);
             this.btnDesgtn.TabIndex = 0;
             this.btnDesgtn.UseVisualStyleBackColor = false;
             this.btnDesgtn.Click += new System.EventHandler(this.btnDesgtn_Click);
@@ -581,13 +583,13 @@ namespace FoodandBeverage.Forms
             // 
             this.btn_depart_reg.BackgroundImage = global::FoodandBeverage.Properties.Resources.employe_add_icon;
             this.btn_depart_reg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_depart_reg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_depart_reg.Dock = System.Windows.Forms.DockStyle.Top;
             this.btn_depart_reg.FlatAppearance.BorderSize = 0;
             this.btn_depart_reg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_depart_reg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_depart_reg.Location = new System.Drawing.Point(178, 3);
             this.btn_depart_reg.Name = "btn_depart_reg";
-            this.btn_depart_reg.Size = new System.Drawing.Size(32, 48);
+            this.btn_depart_reg.Size = new System.Drawing.Size(32, 28);
             this.btn_depart_reg.TabIndex = 1;
             this.btn_depart_reg.UseVisualStyleBackColor = false;
             this.btn_depart_reg.Click += new System.EventHandler(this.btn_depart_reg_Click);
@@ -884,7 +886,16 @@ namespace FoodandBeverage.Forms
             // 
             this.dgvforms.AllowUserToAddRows = false;
             this.dgvforms.AllowUserToDeleteRows = false;
-            this.dgvforms.ColumnHeadersHeight = 35;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvforms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvforms.ColumnHeadersHeight = 48;
+            this.dgvforms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvforms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.formid,
@@ -895,13 +906,14 @@ namespace FoodandBeverage.Forms
             this.dgvforms.Location = new System.Drawing.Point(10, 105);
             this.dgvforms.Name = "dgvforms";
             this.dgvforms.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvforms.RowTemplate.Height = 35;
             this.dgvforms.Size = new System.Drawing.Size(875, 239);
             this.dgvforms.TabIndex = 0;
             this.dgvforms.Visible = false;
             this.dgvforms.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvforms_CellEndEdit);
+            this.dgvforms.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvforms_Scroll);
             // 
             // id
             // 

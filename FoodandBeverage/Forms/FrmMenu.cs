@@ -361,7 +361,6 @@ namespace FoodandBeverage.Forms
                 else if (rb_item.Checked)
                 {
                     _objSearch.ColumnHeaders = "ID,ItemCode,Product,Price,Category Name,Quantity";
-
                     _objSearch.Select = "i.ItemId AS ID,i.ItemCode_UPC Field3, i.Itemname AS Field2," +
     "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field3,C.CategoryName AS Field4," +
     "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5";
@@ -369,6 +368,11 @@ namespace FoodandBeverage.Forms
                     _objSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1";
                     _objSearch.OrderBy = "order by i.Itemname";
 
+                }
+                else
+                {
+                    CMessageBox.Show("Please select a product or item", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
@@ -501,7 +505,10 @@ namespace FoodandBeverage.Forms
                     dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
                 }
 
-                chk_seleall_pro.Checked = false;
+                if(rb_product.Checked)
+                    chk_seleall_pro.Checked = true;
+                else
+                    chk_seleall_pro.Checked = false;
             }
             catch (Exception ex)
             {
@@ -696,6 +703,7 @@ namespace FoodandBeverage.Forms
                             lbltablename.BackColor = Color.Transparent;
                             lbltablename.Dock = DockStyle.Top;
                             lbltablename.Width = 60;
+                            lbltablename.Tag = info;
                             lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
 
                             // Configure the TableLayoutPanel
@@ -776,10 +784,13 @@ namespace FoodandBeverage.Forms
                     Label label = (Label)sender;
                     string info = Convert.ToString(label.Tag);
                     // Split the info string by commas
-                    string[] infoParts = info.Split(',');
-                    string tooltipText = "";
-                    tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
-                    toolTip_gallery.Show(tooltipText, label);
+                    if(info!=null)
+                    {
+                        string[] infoParts = info.Split(',');
+                        string tooltipText = "";
+                        tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
+                        toolTip_gallery.Show(tooltipText, label);
+                    } 
                 }
                 else if (sender is TableLayoutPanel)
                 {
@@ -1144,6 +1155,7 @@ namespace FoodandBeverage.Forms
                         lbltablename.BackColor = Color.Transparent;
                         lbltablename.Dock = DockStyle.Top;
                         lbltablename.Width = 60;
+                        lbltablename.Tag = info;
                         lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
 
                         // Configure the TableLayoutPanel
@@ -1418,6 +1430,7 @@ namespace FoodandBeverage.Forms
                 cmbMenu_category.SelectedIndex = -1;
                 Product_Fill();
                 txtsearchlist.Text = "";
+                chk_seleall_pro.Visible = true;
             }
         }
         public void Item_Fill()
