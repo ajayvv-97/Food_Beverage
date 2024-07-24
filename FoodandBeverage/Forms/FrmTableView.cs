@@ -52,6 +52,7 @@ namespace FoodandBeverage.Forms
         {
             LoadTableStaus(tabletype);
         }
+
         public void LoadTableStaus(int serachmode)
         {
             try
@@ -321,7 +322,7 @@ namespace FoodandBeverage.Forms
 
                                             lbltablename.ForeColor = Ordertablefontcolor;
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                            lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                         }
                                         #endregion
 
@@ -336,7 +337,7 @@ namespace FoodandBeverage.Forms
                                             {
 
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 tlp_table_inner.BackColor = ReservationColor;
 
                                                 tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
@@ -566,7 +567,7 @@ namespace FoodandBeverage.Forms
 
                                                 lbltablename.ForeColor = Ordertablefontcolor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             }
                                         }
                                         #endregion
@@ -582,7 +583,7 @@ namespace FoodandBeverage.Forms
                                             {
                                                 tlp_table_inner.BackColor = ReservationColor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                lbltablename.AccessibleDescription = Convert.ToString(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
 
                                                 tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                                 tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);

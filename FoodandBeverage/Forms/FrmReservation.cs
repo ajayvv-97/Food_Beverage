@@ -786,6 +786,9 @@ namespace FoodandBeverage.Forms
                         dgvItemPop.Rows[i].Cells[mTaxno].Value = gridSource[i].Field5;
                         dgvItemPop.Rows[i].Cells[midno].Value = gridSource[i].Id;
 
+                        dgvItemPop.Columns[mNameno].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        dgvItemPop.Columns[mPriceno].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvItemPop.Rows[i].Cells[mproducticono];
                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         if (Convert.ToInt32(gridSource[i].Field4) == Convert.ToInt32(formsenum.Discount_And_Offer))
@@ -899,6 +902,12 @@ namespace FoodandBeverage.Forms
                     sumTable();
                     GrandTotal();
                     CalNetAmt();
+                    if (dgvforms.Controls.OfType<VScrollBar>().First().Visible && tlp_reg_design.Visible != false)
+                    {
+                        tlp_reg_design.Visible = false;
+                        btn_res_details.BackgroundImage = null;
+                        btn_res_details.BackgroundImage = FoodandBeverage.Properties.Resources.res_show_button;
+                    }
                 }
                 dgvforms.Focus();
                 RecallTable();
@@ -1670,39 +1679,46 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(rcvamt.Text) || rcvamt.Text == "." || rcvamt.Text == ".0.00")
+                //if (string.IsNullOrWhiteSpace(rcvamt.Text) || rcvamt.Text == "." || rcvamt.Text == ".0.00")
+                //{
+                //    rcvamt.Text = "0.00";
+                //}
+                if(rcvamt.Text != "." && rcvamt.Text != "")
                 {
-                    rcvamt.Text = "0.00";
-                }
-
-                decimal advancePayment = Convert.ToDecimal(txtadvpa.Text);
-                decimal receivedAmount = Convert.ToDecimal(rcvamt.Text);
-                decimal balancePayment = Convert.ToDecimal(lblBAmt.Text);
-                decimal balanceAmount = 0;
-                if (lblBAmt.Visible)
-                {
-                    if (receivedAmount == 0)
-                        balanceAmount = 0;
+                    decimal advancePayment = Convert.ToDecimal(txtadvpa.Text);
+                    decimal receivedAmount = Convert.ToDecimal(rcvamt.Text);
+                    decimal balancePayment = Convert.ToDecimal(lblBAmt.Text);
+                    decimal balanceAmount = 0;
+                    if (lblBAmt.Visible)
+                    {
+                        if (receivedAmount == 0)
+                            balanceAmount = 0;
+                        else
+                        {
+                            //if (balancePayment > receivedAmount)
+                            //    balanceAmount = balancePayment - receivedAmount;
+                            //else
+                            balanceAmount = receivedAmount - balancePayment;
+                        }
+                    }
                     else
                     {
-                        //if (balancePayment > receivedAmount)
-                        //    balanceAmount = balancePayment - receivedAmount;
+                        //if (advancePayment > receivedAmount)
+                        //{
+                        //    balanceAmount = advancePayment - receivedAmount;
+                        //}
                         //else
-                            balanceAmount = receivedAmount - balancePayment;
-                    }                    
+                        //{
+                        balanceAmount = receivedAmount - advancePayment;
+                        //}
+                    }
+                    lblBalAmt.Text = balanceAmount.ToString("0.00");
                 }
                 else
                 {
-                    //if (advancePayment > receivedAmount)
-                    //{
-                    //    balanceAmount = advancePayment - receivedAmount;
-                    //}
-                    //else
-                    //{
-                        balanceAmount = receivedAmount - advancePayment;
-                    //}
-                }               
-                lblBalAmt.Text = balanceAmount.ToString("0.00");
+                    lblBalAmt.Text = "0.00";
+                }
+         
 
             }
             catch (Exception ex)
@@ -1996,7 +2012,6 @@ namespace FoodandBeverage.Forms
                         dmnReservation.Status = 1;
                     else
                     {
-                        CMessageBox.Show("status", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                         dmnReservation.Status = 0;
                     }
                     var InsertStatusP = bllReservation.AddData("prdInsert_Upd_bookMaster", dmnReservation);
@@ -2166,34 +2181,40 @@ namespace FoodandBeverage.Forms
 
                         if (chb_active.Checked == false)
                         {
-                            CMessageBox.Show("Reservation Cancel", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                            CMessageBox.Show("Reservation cancelled successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             btn_rev_cancel.Visible = false;
                         }
-                        if (datadetails == true)
+                        else
                         {
-                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else if (datadetails == false)
-                        {
-                            CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
-
-
-                        if (saveStatus == true)
-                        {
-                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else if (saveStatus == false)
-                        {
-                            CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                            if (Convert.ToInt32(txtBookmasterId.Text) > 0)
+                            {
+                                CMessageBox.Show("Update Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                CMessageBox.Show("Saved Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            if (!datadetails)
+                            {
+                                CMessageBox.Show("Unable to Save", "Error on Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
-                    //clear();
+
+                    //else
+                    //{
+                    //    bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
+                    //    if (saveStatus == true)
+                    //    {
+                    //        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    }
+                    //    else if (saveStatus == false)
+                    //    {
+                    //        CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
+                    //}
+
+                    clear();
                 }
 
             }
@@ -2209,6 +2230,8 @@ namespace FoodandBeverage.Forms
         {
             save();
         }
+
+
         private void cboGender_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //if (Convert.ToInt32(cboGender.SelectedValue) == 1)
@@ -2226,6 +2249,7 @@ namespace FoodandBeverage.Forms
             //    pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
             //}
         }
+
 
         private void lblSTotal_Leave(object sender, EventArgs e)
         {
@@ -2649,6 +2673,13 @@ namespace FoodandBeverage.Forms
                 dgvmenu.Focus(); 
                 Recallmenu();  
                 GridSlno_Refresh();
+
+                if (dgvmenu.Controls.OfType<VScrollBar>().First().Visible && tlp_reg_design.Visible != false)
+                {
+                    tlp_reg_design.Visible = false;
+                    btn_res_details.BackgroundImage = null;
+                    btn_res_details.BackgroundImage = FoodandBeverage.Properties.Resources.res_show_button;
+                }
             }
             catch (Exception ex)
             {
@@ -4597,7 +4628,14 @@ namespace FoodandBeverage.Forms
                     CalNetAmt();
                     GridSlno_Refresh();
                     Recallmenu();
-                
+
+                    /*if (dgvmenu.Controls.OfType<VScrollBar>().First().Visible == false && tlp_reg_design.Visible == false)
+                    {
+                        tlp_reg_design.Visible = true;
+                        btn_res_details.BackgroundImage = null;
+                        btn_res_details.BackgroundImage = FoodandBeverage.Properties.Resources.res_hide_button;
+                    }*/
+
                 }
             }
             catch (Exception ex)

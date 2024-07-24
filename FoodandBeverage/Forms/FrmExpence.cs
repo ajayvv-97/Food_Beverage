@@ -16,6 +16,7 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         ClsGeneral clsgen = new ClsGeneral();
+        public string Dateformat = Convert.ToString(FrmLogin.DateFormat);
 
         #region declaration
         public static int Eslno = 0;
@@ -561,6 +562,7 @@ namespace FoodandBeverage.Forms
                 {
                     lbl_search_amount.Visible = true;
                     txtsearch_amount.Visible = true;
+                    txtsearch_amount.Text = "";
 
                     tlp_serachtype_controls.Controls.Add(lbl_search_amount, 2, 0);
                     tlp_serachtype_controls.Controls.Add(txtsearch_amount, 2, 1);
@@ -650,7 +652,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_search_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (SerachDataValid())
@@ -671,19 +672,19 @@ namespace FoodandBeverage.Forms
 
                     if (cmb_searchtype.SelectedIndex == 0)
                     {
-                        objSearch.WhereNdGroupBy = " WHERE Status = 1 AND reason = " + cmb_search_reason.SelectedValue + " AND CreatedOn <= CONVERT(datetime, '" + sfrom + "',120) AND CONVERT(datetime,'" + sto + "',120) >=CreatedOn";
+                        objSearch.WhereNdGroupBy = " WHERE Status = 1 AND reason = " + cmb_search_reason.SelectedValue + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
                     }
                     else if (cmb_searchtype.SelectedIndex == 1)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Amount = " + txtsearch_amount.Text + " AND CreatedOn <= CONVERT(datetime, '" + sfrom + "',120) AND CONVERT(datetime,'" + sto + "',120) >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Amount = " + txtsearch_amount.Text + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
                     }
                     else if (cmb_searchtype.SelectedIndex == 2)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Empolyeeid = " + cmb_search_Employee.SelectedIndex + " AND CreatedOn <= CONVERT(datetime, '" + sfrom + "',120) AND CONVERT(datetime,'" + sto + "',120) >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Empolyeeid = " + cmb_search_Employee.SelectedIndex + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
                     }
                     else if (cmb_searchtype.SelectedIndex == 3)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND paymentid =" + cmb_search_payment.SelectedIndex + " AND CreatedOn <= CONVERT(datetime, '" + sfrom + "',120) AND CONVERT(datetime,'" + sto + "',120) >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND paymentid =" + cmb_search_payment.SelectedIndex + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
                     }
 
                     objSearch.OrderBy = "";
@@ -703,6 +704,11 @@ namespace FoodandBeverage.Forms
                             dgv_expense.Rows[i].Cells[Eemployenameno].Value = Convert.ToInt64(itemSource[i].Empolyeeid);
                             dgv_expense.Rows[i].Cells[Epaymentypeno].Value = Convert.ToInt64(itemSource[i].paymentid);
                             dgv_expense.Rows[i].Cells[Estatusno].Value = Convert.ToInt32(itemSource[i].Status);
+
+                            if (i == dgv_expense.Rows.Count - 1)
+                                dgv_expense.Rows[i].Cells[Eactiono].Value = "Add";
+                            else
+                                dgv_expense.Rows[i].Cells[Eactiono].Value = "Edit";
                         }
                     }
                     else
@@ -720,6 +726,7 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Expence page btn_search_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Expence));
+                tlp_main.Enabled = true;
 
             }
         }

@@ -1266,3 +1266,234 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 6
 -------------------------------------------------------------------------
+Date and Time: 24-07-2024 10:18:23
+Page : Expence page btn_search_Click()
+Exception: The conversion of a varchar data type to a datetime data type resulted in an out-of-range value.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 14
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 10:18:56
+Page : Expence page btn_search_Click()
+Exception: The conversion of a varchar data type to a datetime data type resulted in an out-of-range value.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 14
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 10:44:39
+Page : Expence page btn_search_Click()
+Exception: The conversion of a varchar data type to a datetime data type resulted in an out-of-range value.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 14
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:33:53
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:33:57
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:33:59
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:34:02
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:34:34
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:34:37
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:35:22
+Page : homepage IsValidHtmlColor()
+Exception: #lver is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:54:53
+Page : homepage IsValidHtmlColor()
+Exception: #llow is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:54:57
+Page : homepage IsValidHtmlColor()
+Exception: #llow is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:55:05
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:55:10
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:55:28
+Page : homepage IsValidHtmlColor()
+Exception: #llow is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:55:39
+Page : homepage IsValidHtmlColor()
+Exception: #llow is not a valid value for Int32.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:59:37
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:59:40
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 11:59:42
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:00:12
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:01:07
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:06:31
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:06:49
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:06:58
+Page : homepage IsValidHtmlColor()
+Exception: Could not find any recognizable digits.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:28:24
+Page : Discount_And_Offer page ProductPopup()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:28:27
+Page : Discount_And_Offer page ProductPopup()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:37:42
+Page : Discount_And_Offer page ProductPopup()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:39:14
+Page : Discount_And_Offer page ProductPopup()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 12:44:53
+Page : Discount_And_Offer page ProductPopup()
+Exception: The multi-part identifier "i.Fcid" could not be bound.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 15:49:11
+Page : TableView page  tableClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 15:52:22
+Page : TableView page  tableClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 15:54:34
+Page : TableView page  tableClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 24-07-2024 15:57:54
+Page : TableView page  tableClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------

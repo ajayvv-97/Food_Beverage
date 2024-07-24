@@ -53,6 +53,7 @@ namespace FoodandBeverage.Forms
         public byte[] encryptPassword;
         public bool loginkeyboard = false;
         private bool passwordVisible = false;
+        public static string DateFormat = "yyyy-MM-dd HH:mm:ss";
 
         public static string KitchenBillPath =@"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
         public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";

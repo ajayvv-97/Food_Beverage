@@ -392,8 +392,9 @@ namespace FoodandBeverage.Forms
                         " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  " +
                         " LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid " +
                         " left join tblOfferDetails fd on fd.ProductId=p.ProductId and fd.Status=1 " +
-                        " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime where p.Status=1 and m.Status=1  " +
-                " union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11 from " +
+                        " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime " +
+                        "where p.Status=1 and m.Status=1  and p.Fcid=" + fcid+
+                    " union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11,fm.Omid Field12 from " +
                          " tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid" +
                          " left join tblOfferDetails fd on fd.ProductId=i.ItemId and fd.Status=1 " +
                          " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime ";
@@ -561,7 +562,6 @@ namespace FoodandBeverage.Forms
 
                     LoadFlag = false;
 
-
                     txtname_search.Text = "Food Name .....";
                     txtitemcode_serach.Text = "Item Code .....";
                     foreach (TextBox textBox in new TextBox[] { txtname_search, txtitemcode_serach, txtcombodes, txtcombo_finalprice, txtcombo_disamt, txtcombo_disper, txtcombo_totalprice, txtcmbo_offername, txt_prodlist_serach })
@@ -604,6 +604,8 @@ namespace FoodandBeverage.Forms
 
                     lbligst.Dock = DockStyle.Fill;
                     cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    cmbtaxtype.Text = "GST";
+                    cmbIgstPrcnt.SelectedIndex = 0;
 
 
                     tlp_comboproduct_view.Controls.Add(tlp_taxtype_taxamt_lbl, 2, 2);
@@ -5322,6 +5324,7 @@ namespace FoodandBeverage.Forms
         private void cmb_productlist_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ProductPopup(Convert.ToInt32(cmb_productlist.SelectedValue));
+            clsgen.GrideAutoSize(dgv_product_list);
         }
 
         private void txt_prodlist_serach_KeyDown(object sender, KeyEventArgs e)

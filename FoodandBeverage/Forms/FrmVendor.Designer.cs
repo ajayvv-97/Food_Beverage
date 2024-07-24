@@ -216,7 +216,7 @@ namespace FoodandBeverage.Forms
             this.tlp_registration.ColumnCount = 3;
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.63939F));
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.36061F));
-            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 244F));
+            this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
             this.tlp_registration.Controls.Add(this.txtVendorEmail, 2, 1);
             this.tlp_registration.Controls.Add(this.txtVenderAddress, 0, 3);
             this.tlp_registration.Controls.Add(this.label1, 0, 0);
@@ -245,13 +245,14 @@ namespace FoodandBeverage.Forms
             // 
             this.txtVendorEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtVendorEmail.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtVendorEmail.Location = new System.Drawing.Point(441, 42);
+            this.txtVendorEmail.Location = new System.Drawing.Point(440, 42);
             this.txtVendorEmail.MaxLength = 100;
             this.txtVendorEmail.Multiline = true;
             this.txtVendorEmail.Name = "txtVendorEmail";
-            this.txtVendorEmail.Size = new System.Drawing.Size(239, 31);
+            this.txtVendorEmail.Size = new System.Drawing.Size(240, 31);
             this.txtVendorEmail.TabIndex = 18;
             this.txtVendorEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorEmail_KeyPress);
+            this.txtVendorEmail.Validating += new System.ComponentModel.CancelEventHandler(this.txtVendorEmail_Validating);
             // 
             // txtVenderAddress
             // 
@@ -260,7 +261,7 @@ namespace FoodandBeverage.Forms
             this.txtVenderAddress.Location = new System.Drawing.Point(3, 108);
             this.txtVenderAddress.Multiline = true;
             this.txtVenderAddress.Name = "txtVenderAddress";
-            this.txtVenderAddress.Size = new System.Drawing.Size(216, 48);
+            this.txtVenderAddress.Size = new System.Drawing.Size(215, 48);
             this.txtVenderAddress.TabIndex = 257;
             // 
             // label1
@@ -270,7 +271,7 @@ namespace FoodandBeverage.Forms
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(216, 39);
+            this.label1.Size = new System.Drawing.Size(215, 39);
             this.label1.TabIndex = 5;
             this.label1.Text = "Vendor Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -280,7 +281,7 @@ namespace FoodandBeverage.Forms
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(225, 0);
+            this.label3.Location = new System.Drawing.Point(224, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(210, 39);
             this.label3.TabIndex = 7;
@@ -294,7 +295,7 @@ namespace FoodandBeverage.Forms
             this.txtVendorName.Location = new System.Drawing.Point(3, 42);
             this.txtVendorName.Multiline = true;
             this.txtVendorName.Name = "txtVendorName";
-            this.txtVendorName.Size = new System.Drawing.Size(216, 31);
+            this.txtVendorName.Size = new System.Drawing.Size(215, 31);
             this.txtVendorName.TabIndex = 0;
             this.txtVendorName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorName_KeyPress);
             // 
@@ -305,7 +306,7 @@ namespace FoodandBeverage.Forms
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 80);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(216, 25);
+            this.label2.Size = new System.Drawing.Size(215, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "Address";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -315,9 +316,9 @@ namespace FoodandBeverage.Forms
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(441, 0);
+            this.label5.Location = new System.Drawing.Point(440, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(239, 39);
+            this.label5.Size = new System.Drawing.Size(240, 39);
             this.label5.TabIndex = 11;
             this.label5.Text = "Email id";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -326,7 +327,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtVendorTel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtVendorTel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtVendorTel.Location = new System.Drawing.Point(225, 42);
+            this.txtVendorTel.Location = new System.Drawing.Point(224, 42);
             this.txtVendorTel.MaxLength = 12;
             this.txtVendorTel.Multiline = true;
             this.txtVendorTel.Name = "txtVendorTel";
@@ -340,7 +341,7 @@ namespace FoodandBeverage.Forms
             this.btn_del_vendor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_del_vendor.FlatAppearance.BorderSize = 0;
             this.btn_del_vendor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_del_vendor.Location = new System.Drawing.Point(528, 108);
+            this.btn_del_vendor.Location = new System.Drawing.Point(527, 108);
             this.btn_del_vendor.Margin = new System.Windows.Forms.Padding(90, 3, 3, 3);
             this.btn_del_vendor.Name = "btn_del_vendor";
             this.btn_del_vendor.Size = new System.Drawing.Size(48, 47);
@@ -353,7 +354,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txtdesc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtdesc.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtdesc.Location = new System.Drawing.Point(225, 108);
+            this.txtdesc.Location = new System.Drawing.Point(224, 108);
             this.txtdesc.Multiline = true;
             this.txtdesc.Name = "txtdesc";
             this.txtdesc.Size = new System.Drawing.Size(210, 48);
@@ -364,7 +365,7 @@ namespace FoodandBeverage.Forms
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(225, 80);
+            this.label4.Location = new System.Drawing.Point(224, 80);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(210, 25);
             this.label4.TabIndex = 256;
@@ -377,7 +378,7 @@ namespace FoodandBeverage.Forms
             this.chk_active.Checked = true;
             this.chk_active.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_active.Location = new System.Drawing.Point(538, 95);
+            this.chk_active.Location = new System.Drawing.Point(537, 95);
             this.chk_active.Margin = new System.Windows.Forms.Padding(100, 15, 3, 3);
             this.chk_active.Name = "chk_active";
             this.chk_active.Size = new System.Drawing.Size(15, 7);
@@ -550,7 +551,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.txtvid);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            //this.Name = "FrmVendor";
             this.Text = "FrmVendor";
             this.Load += new System.EventHandler(this.FrmVendor_Load);
             this.Resize += new System.EventHandler(this.FrmVendor_Resize);

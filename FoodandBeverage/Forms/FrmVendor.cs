@@ -169,6 +169,7 @@ namespace FoodandBeverage.Forms
                             txtVendorTel.Text = Convert.ToString(itemSource[0].Telephone);
                             txtVendorEmail.Text = Convert.ToString(itemSource[0].Email);
                             txtVenderAddress.Text = Convert.ToString(itemSource[0].Address);
+                            txtdesc.Text = Convert.ToString(itemSource[0].Description);
                             btn_del_vendor.Visible = true;
                         }
                     }
@@ -384,6 +385,7 @@ namespace FoodandBeverage.Forms
                     txtVendorTel.Text = Convert.ToString(itemSource[0].Telephone);
                     txtVendorEmail.Text = Convert.ToString(itemSource[0].Email);
                     txtVenderAddress.Text = Convert.ToString(itemSource[0].Address);
+                    txtdesc.Text = Convert.ToString(itemSource[0].Description);
                     btn_del_vendor.Visible = true;
                 }
             }
@@ -397,6 +399,7 @@ namespace FoodandBeverage.Forms
         {
             int vid = Convert.ToInt32(dgv_vendor.Rows[e.RowIndex].Cells[idno].Value);
             Filldetails(vid);
+            clsgen.GrideAutoSize(dgv_vendor);
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -487,7 +490,19 @@ namespace FoodandBeverage.Forms
         private void FrmVendor_Resize(object sender, EventArgs e)
         {
             textb_shape();
+            clsgen.GrideAutoSize(dgv_vendor);
         }
-   
-}
+
+        private void txtVendorEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (txtVendorEmail.Text != "")
+            {
+                ClsGeneral cls = new ClsGeneral();
+                if (!cls.CheckEmailId(this, txtVendorEmail.Text))
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+    }
 }

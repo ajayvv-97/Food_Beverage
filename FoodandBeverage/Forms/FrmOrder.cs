@@ -1250,7 +1250,7 @@ namespace FoodandBeverage.Forms
                         bookinorder_F = false;
                         btn_frm_close.Dock = DockStyle.Left;
                         tlp_buttons.Controls.Add(btncancelrev, 5, 0);
-                        btncancelrev.Text = "Cancel Res";
+                        //btncancelrev.Text = "Cancel Res";
                         btncancelrev.Visible = true;
                     }
                     else
@@ -2096,7 +2096,7 @@ namespace FoodandBeverage.Forms
                             {
                                 Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
                                 tlp_buttons.Controls.Add(btncancelrev, 3, 0);
-                                btncancelrev.Text = "Cancel Resv";
+                                //btncancelrev.Text = "Cancel Resv";
                                 btncancelrev.Visible = true;
                             }
 

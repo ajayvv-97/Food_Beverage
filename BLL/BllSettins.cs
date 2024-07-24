@@ -19,7 +19,6 @@ namespace BLL
             parms.Add("OperationButtonColor", objTestClass.OperationButtonColor);
             parms.Add("Description", objTestClass.Description);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
-            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
