@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using FoodandBeverage.Interfaces;
 using CustomMessageBox;
 using System.Drawing;
-
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -20,7 +19,6 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmReservation : Form
     {
-
         public FrmReservation()
         {
             InitializeComponent();
@@ -35,6 +33,7 @@ namespace FoodandBeverage.Forms
            int nWidthEllipse,
            int nHeightEllipse
        );
+
         #region Declaration 
         ClsGeneral ClsGeneral = new ClsGeneral();
         ClsDocument clsDocument = new ClsDocument();
@@ -53,6 +52,7 @@ namespace FoodandBeverage.Forms
         private int yourTargetColumnIndex = 1;
 
         public bool Expireflag = false;
+        public bool PaymentCFlage = false;
         #endregion
 
         #region Grid Declaration
@@ -122,13 +122,14 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-
         private void FrmReservation_Load(object sender, EventArgs e)
         {
             try
             {
                 this.SuspendLayout();
                 string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
+
+                #region Grid Design
                 dgvforms.BorderStyle = BorderStyle.None;
                 dgvforms.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvforms.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -176,19 +177,10 @@ namespace FoodandBeverage.Forms
                 dgv_spopup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
                 dgv_spopup.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_spopup.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                #endregion
 
                 panelProductPopup.Visible = false;
-                BllSearch<DmnHRegistration> bllSearch = new BllSearch<DmnHRegistration>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "BookingInerwell";
-                objSearch.Table = "tblHotelRegistration";
-                objSearch.WhereNdGroupBy = " where Status = 1";
-                objSearch.OrderBy = "";
-                var result = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (result != null)
-                {
-                    txt_HR.Text = result[0].BookingInerwell.ToString();
-                }
+                txt_HR.Text = Convert.ToString(FrmLogin.BookingInterwell);
                 combofill();
                 FillCombo();
                 dgvforms.Rows.Add(1);
@@ -199,11 +191,9 @@ namespace FoodandBeverage.Forms
                 dtp_from_time.Format = DateTimePickerFormat.Custom;
                 dtp_from_time.CustomFormat = "hh:mm:tt";
 
-                txtname_search.Text = "Food Name .....";
-                txtname_search.ForeColor = Color.Gray;
-
                 pnl_menu.Visible = false;
 
+                #region Setting Permission on Save Button
                 FrmDashboard frmDash = new FrmDashboard();
                 if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.Reservation)))
                 {
@@ -213,12 +203,19 @@ namespace FoodandBeverage.Forms
                 {
                     mbtnSave.Enabled = false;
                 }
-                lblSTotal.Text = "0";
+                #endregion
+
+                #region Setting Placeholder
                 oddesc.Text = PlaceholderText;
                 oadesc.Text = PlaceholderText;
                 oddesc.ForeColor = Color.Gray;
                 oadesc.ForeColor = Color.Gray;
 
+                txtname_search.Text = "Food Name .....";
+                txtname_search.ForeColor = Color.Gray;
+                #endregion
+
+                #region Setting Blank icon on Grids
                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvmenu.Rows[0].Cells[iaction];
                 cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 cell.Value = null;
@@ -228,7 +225,9 @@ namespace FoodandBeverage.Forms
                 cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 cell1.Value = null;
                 cell1.Value = Properties.Resources.orderview_blank;
+                #endregion
 
+                #region Setting F8 For Table List Table Grid
                 dgvforms.Focus();
                 dgvforms.CurrentCell = dgvforms.Rows[0].Cells[itablename];
                 if (Convert.ToInt32(dgvforms.Rows[0].Cells[itid].Value) == 0 || Convert.ToInt32(dgvforms.Rows[0].Cells[itid].Value) == null)
@@ -236,6 +235,13 @@ namespace FoodandBeverage.Forms
                     dgvforms.Rows[0].Cells[itablename].Value = "F8 For Table List";
                     dgvforms.Rows[0].Cells[itablename].Style.ForeColor = Color.Red;
                 }
+                #endregion
+
+                lblBAmt_Pay.Visible = false;
+                label21.Visible = false;
+
+                lblSTotal.Text = "0";
+
                 dgvforms.BeginEdit(true);
 
                 this.ResumeLayout();
@@ -298,6 +304,7 @@ namespace FoodandBeverage.Forms
             {
                 chb_active.Checked = true;
                 btn_rev_cancel.Visible = false;
+                PaymentCFlage = false;
                 dgvforms.Rows.Clear();
                 dgvmenu.Rows.Clear();
                 txtAddress.Text = "";
@@ -328,10 +335,10 @@ namespace FoodandBeverage.Forms
                 rcvamt.Text = "0.00";
                 lblBalAmt.Text = "0.00";
                 lblNetAmt.Text = "0.00";
-                lblBAmt.Text = "0.00";
+                lblBAmt_Pay.Text = "0.00";
                 discountper.Text = "0.00";
                 label21.Visible = false;
-                lblBAmt.Visible = false;
+                lblBAmt_Pay.Visible = false;
                 panelProductPopup.Visible = false;
                 dgvmenu.Enabled = true;
                 txtadvpa.Enabled = true;
@@ -389,7 +396,11 @@ namespace FoodandBeverage.Forms
 
                 if (blinkTimer.Enabled)
                     blinkTimer.Stop();
+
                 lbl_infoExpire.Visible = false;
+                label21.Text = "Balance To Pay";
+                lblpayment_status.Visible = false;
+                txtfinalamt.Text = "0.00";
             }
             catch (Exception ex)
             {
@@ -461,7 +472,7 @@ namespace FoodandBeverage.Forms
                 if (tlp_reg_design.Visible == false)
                     tlp_reg_design.Visible = true;
             }
-            catch( Exception ex)
+            catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("Reservation Page ShowuserDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
@@ -474,6 +485,10 @@ namespace FoodandBeverage.Forms
             {
                 if (String.IsNullOrEmpty(txtBookmasterId.Text))
                     txtBookmasterId.Text = "0";
+                if (String.IsNullOrEmpty(txt_PaymentTimes.Text))
+                    txt_PaymentTimes.Text = "0";
+                if (String.IsNullOrEmpty(txt_CashGivenAmt.Text))
+                    txt_CashGivenAmt.Text = "0";
 
                 bool data = true;
                 string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
@@ -485,28 +500,28 @@ namespace FoodandBeverage.Forms
 
                 if (txtNam.Text == "" || txtNam.Text == string.Empty)
                 {
-                    CMessageBox.Show("Please enter your Customer Name. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter Customer Name. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ShowuserDetails();
                     txtNam.Focus();
                     return false;
                 }
                 else if (txtMob.Text == "" || txtMob.Text == null)
                 {
-                    DialogResult result = CMessageBox.Show("Please provide your mobile number. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    DialogResult result = CMessageBox.Show("Please enter mobile number. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ShowuserDetails();
                     txtMob.Focus();
                     return false;
                 }
                 else if (txtEmail.Text == "" || txtEmail.Text == string.Empty)
                 {
-                    CMessageBox.Show("Please provide your email address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter email address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ShowuserDetails();
                     txtEmail.Focus();
                     return false;
                 }
                 else if (cboGender.SelectedIndex == 0 || cboGender.SelectedIndex == -1)
                 {
-                    CMessageBox.Show("Please specify your gender. This information is mandatory.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select gender. This information is mandatory.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ShowuserDetails();
                     cboGender.Focus();
                     return false;
@@ -518,7 +533,7 @@ namespace FoodandBeverage.Forms
                     txtNOP.Focus();
                     return false;
                 }
-                else if (selectedDateTime < DateTime.Now && Convert.ToInt32(txtBookmasterId.Text)==0 )
+                else if (selectedDateTime < DateTime.Now && Convert.ToInt32(txtBookmasterId.Text) == 0)
                 {
                     if (selectedDate < currentDate)
                     {
@@ -547,7 +562,7 @@ namespace FoodandBeverage.Forms
                 }
                 else if (txtAddress.Text == "" || txtAddress.Text == string.Empty)
                 {
-                    CMessageBox.Show("Please enter your address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter  address. This field is mandatory.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ShowuserDetails();
                     txtAddress.Focus();
                     return false;
@@ -561,9 +576,9 @@ namespace FoodandBeverage.Forms
                         {
                             flag = false;
                             break;
-                        }                      
+                        }
                     }
-                    if(flag)
+                    if (flag)
                     {
                         CMessageBox.Show("Please select a table first.", "Required Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dgvforms.Focus();
@@ -762,7 +777,7 @@ namespace FoodandBeverage.Forms
                 panelProductPopup.Size = new Size(panelWidth, panelHeight);
                 panelProductPopup.Location = new Point(this.ClientSize.Width / 2 - panelProductPopup.Size.Width / 2, (this.ClientSize.Height / 3 - panelProductPopup.Size.Height / 3));
                 dgvItemPop.Rows.Clear();
-                _objSearch.Select = "MId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, " + Convert.ToInt32(formsenum.Menu) + " Field4 ,p.Tax as Field5,p.TaxType as Field6, " +
+                _objSearch.Select = "p.ProductId as Id , Name as Field1,p.Price as Field2,  'Menu' as Field3, " + Convert.ToInt32(formsenum.Menu) + " Field4 ,p.Tax as Field5,p.TaxType as Field6, " +
                     "(select count(*) from tblOfferMaster ofm left join tblOfferDetails ofd on ofd.Omid=ofm.Omid and ofd.Status=1 where ofm.Status=1 AND OfferType=0 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME() and ofd.ProductId= m.ProductId) as Field7";
                 _objSearch.Table = " tblMenu m   " +
                     "left join tblProduct p on m.ProductId = p.ProductId  where m.Status = 1 and p.Status = 1 " +
@@ -976,7 +991,7 @@ namespace FoodandBeverage.Forms
                 //    }
                 //    lblSTotal.Text = totalSum.ToString();
                 //}
-      
+
             }
             catch (Exception ex)
             {
@@ -1059,7 +1074,7 @@ namespace FoodandBeverage.Forms
                 else if (e.KeyData == Keys.F8 && dgvmenu.CurrentCell.ColumnIndex == imname)
                 {
                     menu(Convert.ToInt32(cboBtype.SelectedValue));
-        
+
                 }
                 //else if (e.KeyData == Keys.Delete)
                 //{
@@ -1079,23 +1094,23 @@ namespace FoodandBeverage.Forms
 
         private void dgvmenu_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            try 
-            { 
-            if (e.ColumnIndex == imname)
+            try
             {
-                if (Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[imid].Value) == 0 || string.IsNullOrEmpty(Convert.ToString(dgvmenu.Rows[e.RowIndex].Cells[imid].Value)))
+                if (e.ColumnIndex == imname)
                 {
-                    dgvmenu.Rows[e.RowIndex].Cells[imname].Value = "F8 For Menu List";
-                    dgvmenu.Rows[e.RowIndex].Cells[imname].Style.ForeColor = Color.Red;
+                    if (Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[imid].Value) == 0 || string.IsNullOrEmpty(Convert.ToString(dgvmenu.Rows[e.RowIndex].Cells[imid].Value)))
+                    {
+                        dgvmenu.Rows[e.RowIndex].Cells[imname].Value = "F8 For Menu List";
+                        dgvmenu.Rows[e.RowIndex].Cells[imname].Style.ForeColor = Color.Red;
+                    }
                 }
             }
-        }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page dgvmenu_CellEnter", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
-}
+        }
 
         public void CapacityCheck()
         {
@@ -1136,7 +1151,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == iqty && dgvmenu.Rows[e.RowIndex].Cells[imid].Value !=null)
+                if (e.ColumnIndex == iqty && dgvmenu.Rows[e.RowIndex].Cells[imid].Value != null)
                 {
                     string value = e.FormattedValue.ToString();
 
@@ -1234,38 +1249,66 @@ namespace FoodandBeverage.Forms
                     oaamount.Text = "0";
                 if (string.IsNullOrEmpty(txtadvpa.Text))
                     txtadvpa.Text = "0";
-                if (string.IsNullOrEmpty(lblBAmt.Text))
-                    lblBAmt.Text = "0";
+                if (string.IsNullOrEmpty(lblBAmt_Pay.Text))
+                    lblBAmt_Pay.Text = "0";
                 if (string.IsNullOrEmpty(lblGTotal.Text))
                     lblGTotal.Text = "0";
                 if (string.IsNullOrEmpty(netamount.Text))
                     netamount.Text = "0";
                 if (string.IsNullOrEmpty(lblNetAmt.Text))
                     lblNetAmt.Text = "0";
+                if (string.IsNullOrEmpty(txtfinalamt.Text))
+                    txtfinalamt.Text = "0";
 
                 decimal Update_BalnceAmt = 0;
                 decimal discount = Convert.ToDecimal(totaldiscountamt.Text);
                 decimal otheraddamt = Convert.ToDecimal(oaamount.Text);
                 decimal otherdedamt = Convert.ToDecimal(odamt.Text);
                 decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
-                decimal balanceneed = Convert.ToDecimal(lblBAmt.Text);
+                decimal balanceneed = Convert.ToDecimal(lblBAmt_Pay.Text);
                 decimal cashreciv = Convert.ToDecimal(rcvamt.Text);
                 decimal netamt = (Convert.ToDecimal(lblGTotal.Text) - discount - otherdedamt) + otheraddamt;
 
                 netamount.Text = netamt.ToString("0.00");
                 lblNetAmt.Text = netamt.ToString("0.00");
 
-                if (lblBAmt.Visible)
+                decimal finalAmount = Convert.ToDecimal(txtfinalamt.Text);
+                if (finalAmount >= netamt)
                 {
-                    Update_BalnceAmt = Convert.ToDecimal(lblNetAmt.Text) - adpayment;
-                    lblBAmt.Text = Update_BalnceAmt.ToString("0.0");
+                    Update_BalnceAmt = finalAmount - netamt;
                 }
                 else
                 {
-                    decimal balAmnt = adpayment - Convert.ToDecimal(rcvamt.Text);
-                    lblBalAmt.Text = balAmnt.ToString("N2");
-                    mbtnSave.Enabled = true;
-                }             
+                    Update_BalnceAmt = netamt - finalAmount;
+                }
+                lblBAmt_Pay.Text = Update_BalnceAmt.ToString("0.00");
+                if(netamt>0)
+                {
+                    if (Convert.ToDecimal(txtfinalamt.Text) > netamt)
+                    {
+                        label21.Text = "Cash Given";
+                        lblpayment_status.Visible = false;
+                        rcvamt.Enabled = false;
+                    }
+                    else if (Convert.ToDecimal(txtfinalamt.Text) == netamt)
+                    {
+                        lblpayment_status.Visible = true;
+                        label21.Text = "Balance To Pay";
+                        lblpayment_status.Visible = true;
+                    }
+                    else
+                    {
+                        label21.Text = "Balance To Pay";
+                        rcvamt.Enabled = true;
+                        lblpayment_status.Visible = false;
+                    }
+                }
+                else
+                {
+                    label21.Text = "Balance To Pay";
+                    rcvamt.Enabled = true;
+                    lblpayment_status.Visible = false;
+                }
 
             }
             catch (Exception ex)
@@ -1507,10 +1550,7 @@ namespace FoodandBeverage.Forms
             }
             if (lblGTotal.Text != "Rs:")
             {
-
-
                 CalNetAmt();
-
             }
         }
 
@@ -1587,7 +1627,7 @@ namespace FoodandBeverage.Forms
 
         private void rcvamt_Leave(object sender, EventArgs e)
         {
-          
+
             try
             {
                 decimal value;
@@ -1624,7 +1664,7 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page rcvamt_Leave", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
-            
+
 
         }
         public void SalesGridCalc(int r, int c)
@@ -1675,57 +1715,85 @@ namespace FoodandBeverage.Forms
 
         //    }
         //}
+
         private void rcvamt_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                //if (string.IsNullOrWhiteSpace(rcvamt.Text) || rcvamt.Text == "." || rcvamt.Text == ".0.00")
-                //{
-                //    rcvamt.Text = "0.00";
-                //}
-                if(rcvamt.Text != "." && rcvamt.Text != "")
+                if (string.IsNullOrWhiteSpace(txt_pre_balamtpay.Text))
+                {
+                    txt_pre_balamtpay.Text = "0.00";
+                }
+                if (string.IsNullOrWhiteSpace(txtfinalamt.Text))
+                {
+                    txtfinalamt.Text = "0.00";
+                }
+                if (rcvamt.Text != "." && rcvamt.Text != "")
                 {
                     decimal advancePayment = Convert.ToDecimal(txtadvpa.Text);
                     decimal receivedAmount = Convert.ToDecimal(rcvamt.Text);
-                    decimal balancePayment = Convert.ToDecimal(lblBAmt.Text);
+                    decimal balancePayment = Convert.ToDecimal(lblBAmt_Pay.Text);
                     decimal balanceAmount = 0;
-                    if (lblBAmt.Visible)
+                    decimal NetAmt = Convert.ToDecimal(lblNetAmt.Text);
+                    decimal Finalamt = Convert.ToDecimal(txtfinalamt.Text);
+
+                    #region Payment Complete or advanaced payment
+                    if (Convert.ToInt32(txtBookmasterId.Text) > 0 && lblBAmt_Pay.Visible)
+                    {
+                        //if (receivedAmount == 0)
+                        //    balanceAmount = 0;
+                        //else
+                        //{
+                        //    #region Payment completed
+                        //    if (PaymentCFlage)
+                        //    {
+                        //        balanceAmount = Convert.ToDecimal(lblBAmt_Pay.Text) - receivedAmount;
+                        //        lblBalAmt.Text = balanceAmount.ToString("0.00");
+                        //    }
+                        //    #endregion
+                        //    else
+                        //    {
+                        //        balanceAmount = Convert.ToDecimal(txt_pre_balamtpay.Text) - receivedAmount;
+                        //        if (receivedAmount >= Convert.ToDecimal(txt_pre_balamtpay.Text))
+                        //            lblBAmt_Pay.Text = "0.00";
+                        //        else
+                        //            lblBAmt_Pay.Text = balanceAmount.ToString("0.00");
+                        //    }
+                        //}
+
+                        balanceAmount = NetAmt - Finalamt - receivedAmount;
+                        lblBalAmt.Text = balanceAmount.ToString("0.00");
+
+                        balanceAmount = NetAmt - Finalamt;
+                        lblBAmt_Pay.Text = balanceAmount.ToString("0.00");
+
+                    }
+                    #endregion
+
+                    #region Payment not complete Not save 
+                    else
                     {
                         if (receivedAmount == 0)
                             balanceAmount = 0;
                         else
-                        {
-                            //if (balancePayment > receivedAmount)
-                            //    balanceAmount = balancePayment - receivedAmount;
-                            //else
-                            balanceAmount = receivedAmount - balancePayment;
-                        }
+                            balanceAmount = receivedAmount - advancePayment;// balanceAmount = NetAmt - receivedAmount - advancePayment;
+
+                        lblBalAmt.Text = balanceAmount.ToString("0.00");
                     }
-                    else
-                    {
-                        //if (advancePayment > receivedAmount)
-                        //{
-                        //    balanceAmount = advancePayment - receivedAmount;
-                        //}
-                        //else
-                        //{
-                        balanceAmount = receivedAmount - advancePayment;
-                        //}
-                    }
-                    lblBalAmt.Text = balanceAmount.ToString("0.00");
+                    #endregion
+
                 }
                 else
                 {
                     lblBalAmt.Text = "0.00";
                 }
-         
 
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page rcvamt_TextChanged", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
-          }
+            }
         }
 
         private void txtadvpa_KeyDown(object sender, KeyEventArgs e)
@@ -1744,9 +1812,10 @@ namespace FoodandBeverage.Forms
                 decimal totalSum = 0;
                 for (int i = 0; i < dgvmenu.Rows.Count; i++)
                 {
-                    if ( (Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 0 || Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 1) && Convert.ToString(dgvmenu.Rows[i].Cells[iAddonstatus].Value)!=null)                    
-                        totalSum = totalSum+Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
-                 }
+                    if ((Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 0 || Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 1) && Convert.ToString(dgvmenu.Rows[i].Cells[iAddonstatus].Value) != null)
+                        totalSum = totalSum + Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
+                }
+
                 lblMTotal.Text = Convert.ToString(totalSum);
                 decimal value1 = totalSum;
                 decimal value2 = Convert.ToDecimal(lblSTotal.Text);
@@ -1758,11 +1827,11 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page GrandTotal", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
-       
+
         }
         private void dgvmenu_Leave(object sender, EventArgs e)
         {
-           GrandTotal();
+            GrandTotal();
             CalNetAmt();
         }
         public void SumMenu()
@@ -1773,7 +1842,9 @@ namespace FoodandBeverage.Forms
                 int i = 0;
                 for (i = 0; i <= dgvmenu.RowCount - 1; i++)
                 {
-                    if (dgvmenu.Rows[i].Cells[imprice].Value != null && (Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value)== Convert.ToInt32(AddonType.AddonType) || Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value)== Convert.ToInt32(AddonType.None)))
+                    if (dgvmenu.Rows[i].Cells[imprice].Value != null &&
+                        (Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == Convert.ToInt32(AddonType.AddonType) ||
+                        Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == Convert.ToInt32(AddonType.None)))
                     {
                         decimal cellValue;
                         if (decimal.TryParse(dgvmenu.Rows[i].Cells[isamount].Value.ToString(), out cellValue))
@@ -1812,7 +1883,7 @@ namespace FoodandBeverage.Forms
                 }
                 lblSTotal.Text = totalSum.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page sumTable()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
@@ -1839,15 +1910,15 @@ namespace FoodandBeverage.Forms
                     }
                     lblSTotal.Text = totalSum.ToString();
                 }
-                GrandTotal(); 
+                GrandTotal();
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page dgvforms_CellEndEdit", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
 
-            }     
-      
+            }
+
         }
 
         private void dgvmenu_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -1864,18 +1935,18 @@ namespace FoodandBeverage.Forms
                             totalSum = totalSum + Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
                     }
                     lblMTotal.Text = totalSum.ToString();
-                
-                SumMenu();
-                GrandTotal();
-                CalNetAmt();
-                
+
+                    SumMenu();
+                    GrandTotal();
+                    CalNetAmt();
+
                 }
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page dgvmenu_CellEndEdit", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
-            }           
+            }
         }
 
         private void txtadvpa_KeyPress(object sender, KeyPressEventArgs e)
@@ -1901,20 +1972,21 @@ namespace FoodandBeverage.Forms
                 {
                     txtadvpa.Text = "0.00";
                 }
+                decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
+                decimal netamt = Convert.ToDecimal(lblNetAmt.Text);
+                if (adpayment > netamt)
+                {
+                    CMessageBox.Show("Advance payment is greater than the net amount.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtadvpa.Focus();
+                }
 
-                //if (Convert.ToInt32(txtBookmasterId.Text) == 0)
-                //{
-                //    decimal adpayment = Convert.ToDecimal(txtadvpa.Text);
-                //    decimal balAmnt = adpayment - Convert.ToDecimal(rcvamt.Text);
-                //    lblBalAmt.Text = balAmnt.ToString("N2");
-                //}
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page txtadvpa_Leave", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
 
-            }       
+            }
 
         }
 
@@ -1951,12 +2023,12 @@ namespace FoodandBeverage.Forms
                     string dtfrom = dtpBooking.Value.ToString("yyyy-MM-dd") + " " + dtp_from_time.Value.ToString("HH:mm:ss");
                     dmnReservation.BookingDateTime = Convert.ToDateTime(dtfrom);
 
-                    if (oddesc.Text == PlaceholderText)                    
-                        oddesc.Text = string.Empty;                    
-                    if (oadesc.Text == PlaceholderText)                    
+                    if (oddesc.Text == PlaceholderText)
+                        oddesc.Text = string.Empty;
+                    if (oadesc.Text == PlaceholderText)
                         oadesc.Text = string.Empty;
 
-                        #region booking Master Inseration  
+                    #region booking Master Inseration  
                     dmnReservation.BookmasterId = Convert.ToInt32(txtBookmasterId.Text);
                     dmnReservation.cusName = txtNam.Text;
                     dmnReservation.Mobile = txtMob.Text;
@@ -1983,31 +2055,75 @@ namespace FoodandBeverage.Forms
                     dmnReservation.OtherDedText = oddesc.Text;
                     dmnReservation.NetAmount = Convert.ToDecimal(netamount.Text);
                     dmnReservation.Terms = sterms.Text;
-                    dmnReservation.BalnceNeed = Convert.ToDecimal(lblBAmt.Text);
-                    if (Convert.ToInt32(txtBookmasterId.Text) >0)
+                    dmnReservation.BalnceNeed = Convert.ToDecimal(lblBAmt_Pay.Text);
+
+                    decimal tota_amt = 0, adv_amt = 0, rcv_amt = 0, Net_amt = 0, Balpay_amt=0,Final_Amt=0;
+                    adv_amt = Convert.ToDecimal(txtadvpa.Text);
+                    rcv_amt = Convert.ToDecimal(rcvamt.Text);
+                    Net_amt = Convert.ToDecimal(lblNetAmt.Text);
+                    Balpay_amt = Convert.ToDecimal(lblBAmt_Pay.Text);
+                    Balpay_amt = Convert.ToDecimal(lblBAmt_Pay.Text);
+                    Final_Amt = Convert.ToDecimal(txtfinalamt.Text);
+
+                    if (Convert.ToInt32(txtBookmasterId.Text) > 0)
                     {
-                        if (Convert.ToDecimal(lblBalAmt.Text) > 0)
+                        #region Regsiatartion complete But Payment complete or Not
+
+                        tota_amt = Final_Amt + rcv_amt;
+                        if(tota_amt>Net_amt)
                         {
-                            txtadvpa.Text = (Convert.ToDecimal(txtadvpa.Text) + Convert.ToDecimal(rcvamt.Text)).ToString();
+                            dmnReservation.FinalAmount = Net_amt;
+                            txtadvpa.Text = Convert.ToString(Net_amt);
+
+                        }
+                        else if (tota_amt == Net_amt)
+                        {
+                            dmnReservation.FinalAmount = tota_amt;
                         }
                         else
                         {
-                            dmnReservation.FinalAmount = dmnReservation.BalnceNeed;
-                            dmnReservation.BalnceNeed = 0;
+                            dmnReservation.FinalAmount = tota_amt;
+                            txtadvpa.Text = Convert.ToString(tota_amt);
+                        }              
+
+                        if (label21.Text == "Cash Given")
+                        {
+                            dmnReservation.CashGivenflag = 1;
+                            dmnReservation.CashGivenAmt = Convert.ToDecimal(lblBAmt_Pay.Text);
+                        }                    
+                        else
+                        {
+                            dmnReservation.CashGivenflag = 0;
+                            dmnReservation.CashGivenAmt = Convert.ToDecimal(txt_CashGivenAmt.Text);
                         }
+
+                        #endregion
                     }
                     else
                     {
-                        if (Convert.ToDecimal(lblBalAmt.Text) <= 0 && Convert.ToDecimal(txtadvpa.Text) == 0)
+                        #region Regsiatartion not savein db
+                        tota_amt = Net_amt - (adv_amt + rcv_amt);
+                        if(adv_amt ==0 && rcv_amt==0)// without recive amount and advance amount 
                         {
-                            dmnReservation.FinalAmount = dmnReservation.BalnceNeed;
-                            dmnReservation.BalnceNeed = 0;
+                            dmnReservation.FinalAmount = 0;
                         }
+                        else if ( adv_amt < Net_amt) //advance amount  less than Net amount
+                        {
+                            dmnReservation.FinalAmount = Convert.ToDecimal(txtadvpa.Text);
+                        }
+                        else if (adv_amt == Net_amt)//full payment
+                        {
+                            dmnReservation.FinalAmount = Convert.ToDecimal(lblNetAmt.Text);
+                        }
+                        #endregion
+                    }                   
 
-                    }
                     dmnReservation.AdvancePay = Convert.ToDecimal(txtadvpa.Text);
                     dmnReservation.CashRev = Convert.ToDecimal(rcvamt.Text);
                     dmnReservation.BalnceAmt = Convert.ToDecimal(lblBalAmt.Text);
+                    dmnReservation.PaymentTimes = Convert.ToInt32(txt_PaymentTimes.Text);
+                    dmnReservation.AdvanceAmts_List = Convert.ToString(txt_AdvanceAmts_List.Text);
+
                     if (chb_active.Checked)
                         dmnReservation.Status = 1;
                     else
@@ -2015,6 +2131,7 @@ namespace FoodandBeverage.Forms
                         dmnReservation.Status = 0;
                     }
                     var InsertStatusP = bllReservation.AddData("prdInsert_Upd_bookMaster", dmnReservation);
+
                     #endregion
 
                         #region Booking Details Inseration Table
@@ -2036,8 +2153,8 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.Description = Convert.ToString(dgvforms.Rows[i].Cells[idescription].Value);
                                 dmnReservation1.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                                 dmnReservation1.BranchId = Convert.ToInt32(FrmLogin.BranchId);
-                                dmnReservation1.Rid = Convert.ToInt32(TableMenu.Rid);               
-                                dmnReservation1.Status = 1;      
+                                dmnReservation1.Rid = Convert.ToInt32(TableMenu.Rid);
+                                dmnReservation1.Status = 1;
                                 datadetails = bllReservation.AddDetails("prdInsert_Upd_bookDetails", dmnReservation1);
                             }
 
@@ -2089,7 +2206,7 @@ namespace FoodandBeverage.Forms
                                 dmnReservation1.PrId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprid].Value);
                                 dmnReservation1.TaxSettingsId = Convert.ToInt32(dgvmenu.Rows[i].Cells[itaxsettingid].Value);
 
-                                datadetails = bllReservation.AddDetails("prdInsert_Upd_bookDetails" , dmnReservation1);
+                                datadetails = bllReservation.AddDetails("prdInsert_Upd_bookDetails", dmnReservation1);
                             }
                         }
                         #endregion
@@ -2099,7 +2216,7 @@ namespace FoodandBeverage.Forms
                         int n = dgvmenu.RowCount;
                         for (int i = 0; i < n; i++)
                         {
-                            if ( (Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) != null && Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) > 0) && (Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) ==1 || Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value)==0))
+                            if ((Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) != null && Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value) > 0) && (Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 1 || Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value) == 0))
                                 sum = sum + Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
                         }
                         dmnordermaster.OrderMasterId = 0;
@@ -2150,7 +2267,7 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.Status = 4;
                                     dmnOrderDetails.UnitId = Convert.ToInt32(dgvmenu.Rows[i].Cells[iunit].Value);
                                     dmnOrderDetails.Amount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
-                                    dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value);                        
+                                    dmnOrderDetails.ItemBarCode = Convert.ToString(dgvmenu.Rows[i].Cells[iitemcode].Value);
                                     dmnOrderDetails.TableType = Convert.ToInt32(dgvmenu.Rows[i].Cells[itabletype].Value);
                                     dmnOrderDetails.MarketPrice = Convert.ToDecimal(dgvmenu.Rows[i].Cells[imarketprice].Value);
                                     dmnOrderDetails.Fcid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iproductType].Value);
@@ -2162,8 +2279,8 @@ namespace FoodandBeverage.Forms
                                     dmnOrderDetails.DiscountAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisamt].Value);
                                     dmnOrderDetails.DiscountPer = Convert.ToDecimal(dgvmenu.Rows[i].Cells[idisper].Value);
                                     dmnOrderDetails.PurchaseRate = Convert.ToInt32(dgvmenu.Rows[i].Cells[iprate].Value);
-                                    dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);                              
-                                    
+                                    dmnOrderDetails.NetAmount = Convert.ToDecimal(dgvmenu.Rows[i].Cells[isamount].Value);
+
                                     dmnOrderDetails.Tid = 0;
                                     dmnOrderDetails.Pavid = Convert.ToInt32(dgvmenu.Rows[i].Cells[iPavid].Value);
                                     dmnOrderDetails.AddonStatus = Convert.ToInt32(dgvmenu.Rows[i].Cells[iAddonstatus].Value);
@@ -2200,20 +2317,6 @@ namespace FoodandBeverage.Forms
                             }
                         }
                     }
-
-                    //else
-                    //{
-                    //    bool saveStatus = bllReservation.UpdateData("prdInsert_Upd_bookDetails", dmnReservation);
-                    //    if (saveStatus == true)
-                    //    {
-                    //        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //    }
-                    //    else if (saveStatus == false)
-                    //    {
-                    //        CMessageBox.Show("Unable To Save  ", "Error On Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //    }
-                    //}
-
                     clear();
                 }
 
@@ -2223,7 +2326,7 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page save()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
-           
+
         }
 
         private void mbtnSave_Click_1(object sender, EventArgs e)
@@ -2231,54 +2334,60 @@ namespace FoodandBeverage.Forms
             save();
         }
 
-
-        private void cboGender_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            //if (Convert.ToInt32(cboGender.SelectedValue) == 1)
-            //{
-            //    pictureBox3.Image = FoodandBeverage.Properties.Resources.Profilepicmale;
-            //}
-            //else if (Convert.ToInt32(cboGender.SelectedValue) == 2)
-            //{
-            //    pictureBox3.Image = FoodandBeverage.Properties.Resources.Profilepicfemale;
-            //    pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            //}
-            //else if (Convert.ToInt32(cboGender.SelectedValue) == 3)
-            //{
-            //    pictureBox3.Image = FoodandBeverage.Properties.Resources.Admin_1;
-            //    pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            //}
-        }
-
-
         private void lblSTotal_Leave(object sender, EventArgs e)
         {
-            decimal value;
-            if (!decimal.TryParse(lblSTotal.Text, out value))
+            try
             {
-                lblSTotal.Text = "0";
+                decimal value;
+                if (!decimal.TryParse(lblSTotal.Text, out value))
+                {
+                    lblSTotal.Text = "0";
 
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page lblSTotal_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void lblMTotal_Leave(object sender, EventArgs e)
         {
-            decimal value;
-            if (!decimal.TryParse(lblMTotal.Text, out value))
+            try
             {
-                lblMTotal.Text = "0";
+                decimal value;
+                if (!decimal.TryParse(lblMTotal.Text, out value))
+                {
+                    lblMTotal.Text = "0";
 
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page lblMTotal_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
+
         }
 
         private void lblGTotal_Leave(object sender, EventArgs e)
         {
-            decimal value;
-            if (!decimal.TryParse(lblMTotal.Text, out value))
+            try
             {
-                lblMTotal.Text = "0";
+                decimal value;
+                if (!decimal.TryParse(lblMTotal.Text, out value))
+                {
+                    lblMTotal.Text = "0";
 
+                }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page lblGTotal_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
+
         }
 
 
@@ -2351,117 +2460,19 @@ namespace FoodandBeverage.Forms
 
                 #region Calculation
 
-                    #region Product With offer, addon
+                #region Product With offer, addon
 
-                    if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Menu))
+                if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Menu))
+                {
+                    if (Variation_Flag)
                     {
-                        if (Variation_Flag)
-                        {
-                            Global_ProductId = Convert.ToInt32(dgvItemPop.Rows[r].Cells[midno].Value);
-                            ShowVariationAddon(Convert.ToInt32(dgvItemPop.Rows[r].Cells[midno].Value));
-                        }
-                        else
-                        {
-                            var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                            if (gridSource.Count > 0)
-                            {
-                                int qty = 1;
-                                int price = 0;
-                                bool flag = true;
-                                int i = 0;
-                                for (i = 0; i <= dgvmenu.RowCount - 1; i++)
-                                {
-                                    if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].MId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Menu))
-                                    {
-                                        flag = false;
-                                        qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
-                                        price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
-                                        break;
-                                    }
-                                }
-                                //if (gridSource[0].QOH >= qty)
-                                //{
-                                if (flag == true)
-                                {
-                                    if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
-                                    {
-                                        dgvmenu.Rows.Add(1);
-                                    }
-                                    decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ProductId), Convert.ToInt32(Tabletype.Product));
-                                    if (disper == 0)
-                                    {
-                                        dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DisPer;
-                                    }
-                                    else
-                                    {
-                                        dgvmenu.Rows[r1].Cells[idisper].Value = disper;
-                                    }
-
-                                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvmenu.Rows[r1].Cells[iaction];
-                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                    cellcolumntype.Value = Properties.Resources.food_cancel_icon;
-                                    dgvmenu.Rows[r1].Cells[islno].Value = r1 + 1;
-                                    dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].MId;
-                                    dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
-                                    dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Title;
-                                    dgvmenu.Rows[r1].Cells[imname].Style.ForeColor = Color.Black;
-                                    dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
-                                    dgvmenu.Rows[r1].Cells[iqty].Value = 1;
-                                    dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
-                                    dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iqty].Value);
-                                    dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Menu);
-                                    dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
-                                    dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
-                                    dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
-                                    dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
-                                    dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
-                                    dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
-                                    dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
-                                    dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
-                                    dgvmenu.Rows[r1].Cells[iAddonstatus].Value = Convert.ToInt32(AddonType.None);
-                                //dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource[0].DisAmt;
-
-                                    dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
-                                    dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
-                                    dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].PrId;
-                                    dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                                    dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
-
-                                    //dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
-                                    dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-
-                                    txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
-                                    totalcellamount(r1);
-                                    dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value);
-                                }
-                                else
-                                {
-                                    dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                                    dgvmenu.Rows[i].Cells[imprice].Value = price;
-                                    txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
-                                    totalcellamount(i);
-                                }
-
-                            }
-                            if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
-                            {
-                                SumMenu();
-                                panelProductPopup.Visible = false;
-                                dgvmenu.Enabled = true;
-                                dgvmenu.Focus();
-
-                            }
-                        }
-
+                        Global_ProductId = Convert.ToInt32(dgvItemPop.Rows[r].Cells[midno].Value);
+                        ShowVariationAddon(Convert.ToInt32(dgvItemPop.Rows[r].Cells[midno].Value));
                     }
-                    #endregion
-
-                    #region Multiple price
-                    else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Item))
+                    else
                     {
                         var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-
-                        if (gridSource.Count == 1)
+                        if (gridSource.Count > 0)
                         {
                             int qty = 1;
                             int price = 0;
@@ -2469,135 +2480,7 @@ namespace FoodandBeverage.Forms
                             int i = 0;
                             for (i = 0; i <= dgvmenu.RowCount - 1; i++)
                             {
-                                if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].ItemId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Item))
-                                {
-                                    flag = false;
-                                    qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
-                                    price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
-
-
-                                    break;
-
-                                }
-
-                            }
-                            if (gridSource[0].QOH >= qty)
-                            {
-                                if (flag == true)
-                                {
-                                    if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
-                                    {
-                                        dgvmenu.Rows.Add(1);
-                                    }
-                                    decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ItemId), Convert.ToInt32(Tabletype.DirectSale));
-
-                                    if (disper == 0)
-                                    {
-                                        dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DiscountPer;
-                                    }
-                                    else
-                                    {
-                                        dgvmenu.Rows[r1].Cells[idisper].Value = disper;
-                                    }
-
-                                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvmenu.Rows[r1].Cells[iaction];
-                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                    cellcolumntype.Value = Properties.Resources.food_cancel_icon;
-
-                                    dgvmenu.Rows[r1].Cells[islno].Value = r1 + 1;
-                                    dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
-                                    dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
-                                    dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
-                                    dgvmenu.Rows[r1].Cells[imname].Style.ForeColor = Color.Black;
-                                    dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
-                                    dgvmenu.Rows[r1].Cells[iqty].Value = 1;
-                                    dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
-                                    dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
-                                    dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
-                                    dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
-                                    dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
-                                    dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
-                                    dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
-                                    dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
-
-
-                                    dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
-                                    dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
-                                    dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
-                                    dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
-                                    dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
-                                    dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].PrId;
-                                    dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
-                                    dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
-                                    dgvmenu.Rows[r1].Cells[iQOH].Value = gridSource[0].QOH;
-                                    dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
-                                    dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
-                                    dgvmenu.Rows[r1].Cells[iAddonstatus].Value = Convert.ToInt32(AddonType.None);
-                                txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
-                                    totalcellamount(r1);
-                                }
-                                else
-                                {
-                                    dgvmenu.Rows[i].Cells[iqty].Value = qty;
-                                    dgvmenu.Rows[i].Cells[imprice].Value = price;
-                                    txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
-                                    totalcellamount(i);
-                                }
-                            }
-                            else
-                            {
-                                CMessageBox.Show("Avilable Stock Quanity Is " + gridSource[0].QOH, "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                //dgvSProduct.Rows[i].Cells[isqty].Value = gridSource[0].QOH;
-                            }
-                            panelProductPopup.Visible = false;
-                            dgvmenu.Enabled = true;
-                            dgvmenu.Focus();
-                        }
-                        else if (gridSource.Count > 1)
-                        {
-                            dgv_spopup.Rows.Clear();
-
-                            dgv_spopup.Rows.Add(gridSource.Count);
-                            for (int i = 0; i < gridSource.Count; i++)
-                            {
-                                dgv_spopup.Rows[i].Cells[slno].Value = i + 1;
-                                dgv_spopup.Rows[i].Cells[prId].Value = gridSource[i].PrId;
-                                dgv_spopup.Rows[i].Cells[iiDescription].Value = gridSource[i].Itemname;
-                                dgv_spopup.Rows[i].Cells[Srate].Value = gridSource[i].Srate;
-                                dgv_spopup.Rows[i].Cells[qt].Value = gridSource[i].QOH;
-
-                            }
-                            pnl_menu.Location = new Point(
-                              this.ClientSize.Width / 5 - pnl_menu.Size.Width / 5,
-                              (this.ClientSize.Height / 5 - pnl_menu.Size.Height / 5));
-                            pnl_menu.Anchor = AnchorStyles.None;
-                            dgvmenu.Enabled = false;
-                            dgv_spopup.Enabled = true;
-                            pnl_menu.Visible = true;
-                            dgv_spopup.Visible = true;
-                            dgv_spopup.Focus();
-                            panelProductPopup.Visible = false;
-                        }
-                        if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
-                        {
-                            SumMenu();
-                        }
-                    }
-                    #endregion
-
-                    #region Combo Products
-                    else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
-                    {
-                        var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
-                        if (gridSource1.Count > 0)
-                        {
-                            int qty = 1;
-                            int price = 0;
-                            bool flag = true;
-                            int i = 0;
-                            for (i = 0; i <= dgvmenu.RowCount - 1; i++)
-                            {
-                                if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource1[0].Omid && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
+                                if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].MId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Menu))
                                 {
                                     flag = false;
                                     qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
@@ -2605,11 +2488,125 @@ namespace FoodandBeverage.Forms
                                     break;
                                 }
                             }
+                            //if (gridSource[0].QOH >= qty)
+                            //{
                             if (flag == true)
                             {
                                 if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
                                 {
                                     dgvmenu.Rows.Add(1);
+                                }
+                                decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ProductId), Convert.ToInt32(Tabletype.Product));
+                                if (disper == 0)
+                                {
+                                    dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DisPer;
+                                }
+                                else
+                                {
+                                    dgvmenu.Rows[r1].Cells[idisper].Value = disper;
+                                }
+
+                                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvmenu.Rows[r1].Cells[iaction];
+                                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                cellcolumntype.Value = Properties.Resources.food_cancel_icon;
+                                dgvmenu.Rows[r1].Cells[islno].Value = r1 + 1;
+                                dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].MId;
+                                dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
+                                dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Title;
+                                dgvmenu.Rows[r1].Cells[imname].Style.ForeColor = Color.Black;
+                                dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Price;
+                                dgvmenu.Rows[r1].Cells[iqty].Value = 1;
+                                dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
+                                dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[r1].Cells[iqty].Value);
+                                dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Menu);
+                                dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
+                                dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
+                                dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
+                                dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                                dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                                dgvmenu.Rows[r1].Cells[iAddonstatus].Value = Convert.ToInt32(AddonType.None);
+                                //dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource[0].DisAmt;
+
+                                dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
+                                dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
+                                dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].PrId;
+                                dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
+                                dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+
+                                //dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(formsenum.Menu);
+                                dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
+
+                                txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                                totalcellamount(r1);
+                                dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToDecimal(dgvmenu.Rows[r1].Cells[isamount].Value);
+                            }
+                            else
+                            {
+                                dgvmenu.Rows[i].Cells[iqty].Value = qty;
+                                dgvmenu.Rows[i].Cells[imprice].Value = price;
+                                txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                                totalcellamount(i);
+                            }
+
+                        }
+                        if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                        {
+                            SumMenu();
+                            panelProductPopup.Visible = false;
+                            dgvmenu.Enabled = true;
+                            dgvmenu.Focus();
+
+                        }
+                    }
+
+                }
+                #endregion
+
+                #region Multiple price
+                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Item))
+                {
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+
+                    if (gridSource.Count == 1)
+                    {
+                        int qty = 1;
+                        int price = 0;
+                        bool flag = true;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                            if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource[0].ItemId && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Item))
+                            {
+                                flag = false;
+                                qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+
+
+                                break;
+
+                            }
+
+                        }
+                        if (gridSource[0].QOH >= qty)
+                        {
+                            if (flag == true)
+                            {
+                                if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                                {
+                                    dgvmenu.Rows.Add(1);
+                                }
+                                decimal disper = OfferCheckItem(Convert.ToInt32(gridSource[0].ItemId), Convert.ToInt32(Tabletype.DirectSale));
+
+                                if (disper == 0)
+                                {
+                                    dgvmenu.Rows[r1].Cells[idisper].Value = gridSource[0].DiscountPer;
+                                }
+                                else
+                                {
+                                    dgvmenu.Rows[r1].Cells[idisper].Value = disper;
                                 }
 
                                 DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvmenu.Rows[r1].Cells[iaction];
@@ -2617,34 +2614,36 @@ namespace FoodandBeverage.Forms
                                 cellcolumntype.Value = Properties.Resources.food_cancel_icon;
 
                                 dgvmenu.Rows[r1].Cells[islno].Value = r1 + 1;
-                                dgvmenu.Rows[r1].Cells[imid].Value = gridSource1[0].Omid;
+                                dgvmenu.Rows[r1].Cells[imid].Value = gridSource[0].ItemId;
                                 dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
-                                dgvmenu.Rows[r1].Cells[imname].Value = gridSource1[0].OfferName;
+                                dgvmenu.Rows[r1].Cells[imname].Value = gridSource[0].Itemname;
                                 dgvmenu.Rows[r1].Cells[imname].Style.ForeColor = Color.Black;
-                                dgvmenu.Rows[r1].Cells[imprice].Value = gridSource1[0].FinalPrice;
-                                dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource1[0].DiscountAmt;
-                                dgvmenu.Rows[r1].Cells[idisper].Value = gridSource1[0].Discountper;
+                                dgvmenu.Rows[r1].Cells[imprice].Value = gridSource[0].Srate;
                                 dgvmenu.Rows[r1].Cells[iqty].Value = 1;
-                                dgvmenu.Rows[r1].Cells[iqtyadd].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[iqty].Value);
-                                dgvmenu.Rows[r1].Cells[imdescription].Value = "";
                                 dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
-                                dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Discount_And_Offer);
-                                dgvmenu.Rows[r1].Cells[iTax].Value = gridSource1[0].Tax;
-                                dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource1[0].TaxType;
-                                dgvmenu.Rows[r1].Cells[icgst].Value = gridSource1[0].CgstPrcnt;
-                                dgvmenu.Rows[r1].Cells[ivat].Value = gridSource1[0].VatPrcnt;
-                                dgvmenu.Rows[r1].Cells[imgst].Value = gridSource1[0].IgstPrcnt;
-                                dgvmenu.Rows[r1].Cells[isgst].Value = gridSource1[0].SgstPrcnt;
-                                dgvmenu.Rows[r1].Cells[iprate].Value = 0;
-                                dgvmenu.Rows[r1].Cells[imrp].Value = 0;
-                                dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource1[0].TaxSettingsId;
+                                dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Item);
+                                dgvmenu.Rows[r1].Cells[iTax].Value = gridSource[0].Tax;
+                                dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource[0].TaxType;
+                                dgvmenu.Rows[r1].Cells[icgst].Value = gridSource[0].CgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[ivat].Value = gridSource[0].VatPrcnt;
+                                dgvmenu.Rows[r1].Cells[imgst].Value = gridSource[0].IgstPrcnt;
+                                dgvmenu.Rows[r1].Cells[isgst].Value = gridSource[0].SgstPrcnt;
+
+
+                                dgvmenu.Rows[r1].Cells[iprate].Value = gridSource[0].Prate;
+                                dgvmenu.Rows[r1].Cells[imdescription].Value = gridSource[0].Description;
+                                dgvmenu.Rows[r1].Cells[imrp].Value = gridSource[0].MRP;
+                                dgvmenu.Rows[r1].Cells[iunit].Value = gridSource[0].unit;
+                                dgvmenu.Rows[r1].Cells[iitemcode].Value = gridSource[0].ItemCode_UPC;
+                                dgvmenu.Rows[r1].Cells[iprid].Value = gridSource[0].PrId;
+                                dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource[0].TaxSettingsId;
+                                dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.DirectSale);
+                                dgvmenu.Rows[r1].Cells[iQOH].Value = gridSource[0].QOH;
+                                dgvmenu.Rows[r1].Cells[iproductType].Value = gridSource[0].Fcid;
                                 dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
-                                dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
                                 dgvmenu.Rows[r1].Cells[iAddonstatus].Value = Convert.ToInt32(AddonType.None);
-                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                                txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
                                 totalcellamount(r1);
-
-
                             }
                             else
                             {
@@ -2654,24 +2653,134 @@ namespace FoodandBeverage.Forms
                                 totalcellamount(i);
                             }
                         }
-                        if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                        else
                         {
-                            SumMenu();
-                            panelProductPopup.Visible = false;
-                            dgvmenu.Enabled = true;
-                            dgvmenu.Focus();
+                            CMessageBox.Show("Avilable Stock Quanity Is " + gridSource[0].QOH, "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            //dgvSProduct.Rows[i].Cells[isqty].Value = gridSource[0].QOH;
                         }
-
+                        panelProductPopup.Visible = false;
+                        dgvmenu.Enabled = true;
+                        dgvmenu.Focus();
                     }
-                    #endregion
+                    else if (gridSource.Count > 1)
+                    {
+                        dgv_spopup.Rows.Clear();
+
+                        dgv_spopup.Rows.Add(gridSource.Count);
+                        for (int i = 0; i < gridSource.Count; i++)
+                        {
+                            dgv_spopup.Rows[i].Cells[slno].Value = i + 1;
+                            dgv_spopup.Rows[i].Cells[prId].Value = gridSource[i].PrId;
+                            dgv_spopup.Rows[i].Cells[iiDescription].Value = gridSource[i].Itemname;
+                            dgv_spopup.Rows[i].Cells[Srate].Value = gridSource[i].Srate;
+                            dgv_spopup.Rows[i].Cells[qt].Value = gridSource[i].QOH;
+
+                        }
+                        pnl_menu.Location = new Point(
+                          this.ClientSize.Width / 5 - pnl_menu.Size.Width / 5,
+                          (this.ClientSize.Height / 5 - pnl_menu.Size.Height / 5));
+                        pnl_menu.Anchor = AnchorStyles.None;
+                        dgvmenu.Enabled = false;
+                        dgv_spopup.Enabled = true;
+                        pnl_menu.Visible = true;
+                        dgv_spopup.Visible = true;
+                        dgv_spopup.Focus();
+                        panelProductPopup.Visible = false;
+                    }
+                    if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                    {
+                        SumMenu();
+                    }
+                }
+                #endregion
+
+                #region Combo Products
+                else if (Convert.ToInt32(dgvItemPop.Rows[r].Cells[mformsenumno].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
+                {
+                    var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
+                    if (gridSource1.Count > 0)
+                    {
+                        int qty = 1;
+                        int price = 0;
+                        bool flag = true;
+                        int i = 0;
+                        for (i = 0; i <= dgvmenu.RowCount - 1; i++)
+                        {
+                            if (Convert.ToInt32(dgvmenu.Rows[i].Cells[imid].Value) == gridSource1[0].Omid && Convert.ToInt32(dgvmenu.Rows[i].Cells[iFormType].Value) == Convert.ToInt32(formsenum.Discount_And_Offer))
+                            {
+                                flag = false;
+                                qty += Convert.ToInt32(dgvmenu.Rows[i].Cells[iqty].Value);
+                                price += Convert.ToInt32(dgvmenu.Rows[i].Cells[imprice].Value);
+                                break;
+                            }
+                        }
+                        if (flag == true)
+                        {
+                            if (dgvmenu.Rows.Count - 1 == dgvmenu.CurrentCell.RowIndex)
+                            {
+                                dgvmenu.Rows.Add(1);
+                            }
+
+                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvmenu.Rows[r1].Cells[iaction];
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            cellcolumntype.Value = Properties.Resources.food_cancel_icon;
+
+                            dgvmenu.Rows[r1].Cells[islno].Value = r1 + 1;
+                            dgvmenu.Rows[r1].Cells[imid].Value = gridSource1[0].Omid;
+                            dgvmenu.Rows[r1].Cells[imBookingDetailId].Value = 0;
+                            dgvmenu.Rows[r1].Cells[imname].Value = gridSource1[0].OfferName;
+                            dgvmenu.Rows[r1].Cells[imname].Style.ForeColor = Color.Black;
+                            dgvmenu.Rows[r1].Cells[imprice].Value = gridSource1[0].FinalPrice;
+                            dgvmenu.Rows[r1].Cells[idisamt].Value = gridSource1[0].DiscountAmt;
+                            dgvmenu.Rows[r1].Cells[idisper].Value = gridSource1[0].Discountper;
+                            dgvmenu.Rows[r1].Cells[iqty].Value = 1;
+                            dgvmenu.Rows[r1].Cells[iqtyadd].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[iqty].Value);
+                            dgvmenu.Rows[r1].Cells[imdescription].Value = "";
+                            dgvmenu.Rows[r1].Cells[isamount].Value = Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[imprice].Value) * Convert.ToDecimal(dgvmenu.Rows[dgvmenu.CurrentCell.RowIndex].Cells[iqty].Value);
+                            dgvmenu.Rows[r1].Cells[iFormType].Value = Convert.ToInt32(formsenum.Discount_And_Offer);
+                            dgvmenu.Rows[r1].Cells[iTax].Value = gridSource1[0].Tax;
+                            dgvmenu.Rows[r1].Cells[iTaxType].Value = gridSource1[0].TaxType;
+                            dgvmenu.Rows[r1].Cells[icgst].Value = gridSource1[0].CgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[ivat].Value = gridSource1[0].VatPrcnt;
+                            dgvmenu.Rows[r1].Cells[imgst].Value = gridSource1[0].IgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[isgst].Value = gridSource1[0].SgstPrcnt;
+                            dgvmenu.Rows[r1].Cells[iprate].Value = 0;
+                            dgvmenu.Rows[r1].Cells[imrp].Value = 0;
+                            dgvmenu.Rows[r1].Cells[itaxsettingid].Value = gridSource1[0].TaxSettingsId;
+                            dgvmenu.Rows[r1].Cells[imarketprice].Value = Convert.ToInt32(dgvmenu.Rows[r1].Cells[isamount].Value);
+                            dgvmenu.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
+                            dgvmenu.Rows[r1].Cells[iAddonstatus].Value = Convert.ToInt32(AddonType.None);
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[r1].Cells[iqty].Value);
+                            totalcellamount(r1);
+
+
+                        }
+                        else
+                        {
+                            dgvmenu.Rows[i].Cells[iqty].Value = qty;
+                            dgvmenu.Rows[i].Cells[imprice].Value = price;
+                            txtqty.Text = Convert.ToString(dgvmenu.Rows[i].Cells[iqty].Value);
+                            totalcellamount(i);
+                        }
+                    }
+                    if (dgvmenu.CurrentCell.ColumnIndex == imname && dgvmenu.CurrentCell.RowIndex >= 0)
+                    {
+                        SumMenu();
+                        panelProductPopup.Visible = false;
+                        dgvmenu.Enabled = true;
+                        dgvmenu.Focus();
+                    }
+
+                }
+                #endregion
 
                 #endregion
 
                 SumMenu();
                 GrandTotal();
                 CalNetAmt();
-                dgvmenu.Focus(); 
-                Recallmenu();  
+                dgvmenu.Focus();
+                Recallmenu();
                 GridSlno_Refresh();
 
                 if (dgvmenu.Controls.OfType<VScrollBar>().First().Visible && tlp_reg_design.Visible != false)
@@ -2686,7 +2795,7 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page dgvItemPop_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
-        
+
         }
 
         public void ShowVariationAddon(int pid)
@@ -2885,12 +2994,12 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page ShowVariationAddon()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
-            
+
             }
-           
+
         }
         private void Button_addonaddClickEventHandler(object sender, EventArgs e)
-        {         
+        {
             try
             {
                 if (Checked_VariationAddon_List.Count > 10)
@@ -2960,7 +3069,7 @@ namespace FoodandBeverage.Forms
         }
         private void Button_Remove_addonqtyClickEventHandler(object sender, EventArgs e)
         {
-  
+
             try
             {
                 Control clickedControl = sender as Control;
@@ -3017,7 +3126,7 @@ namespace FoodandBeverage.Forms
 
         private void ButtonVariation_Click(object sender, EventArgs e)
         {
-          
+
             try
             {
                 Button clickedControl = (Button)sender;
@@ -3077,7 +3186,7 @@ namespace FoodandBeverage.Forms
             }
         }
         public void totalcellamount(int cellproductid)
-        {         
+        {
             try
             {
                 if (dgvmenu.Rows[cellproductid].Cells[imid].Value != "" && dgvmenu.Rows[cellproductid].Cells[imprice].Value != "")
@@ -3164,7 +3273,7 @@ namespace FoodandBeverage.Forms
         }
         public void cellTaxAmount(int cellproductid, decimal amount)
         {
-           
+
             try
             {
                 string cellpopupid = Convert.ToString(dgvmenu.Rows[cellproductid].Cells[imid].Value);
@@ -3192,7 +3301,7 @@ namespace FoodandBeverage.Forms
                         dgvmenu.Rows[cellproductid].Cells[iTaxper].Value = gridSource[0].VatPrcnt;
                     }
                 }
-               // dgvmenu.Rows[cellproductid].Cells[istaxamt].Value = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[isamount].Value) * Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[iTaxper].Value) / 100;
+                // dgvmenu.Rows[cellproductid].Cells[istaxamt].Value = Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[isamount].Value) * Convert.ToDecimal(dgvmenu.Rows[cellproductid].Cells[iTaxper].Value) / 100;
             }
             catch (Exception ex)
             {
@@ -3660,7 +3769,7 @@ namespace FoodandBeverage.Forms
 
         private void dgv_spopup_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-          
+
             try
             {
 
@@ -3791,7 +3900,7 @@ namespace FoodandBeverage.Forms
 
         private void dgv_spopup_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
             try
             {
 
@@ -3906,7 +4015,7 @@ namespace FoodandBeverage.Forms
         }
         public decimal OfferCheckItem(int ProductId, int ProductType)
         {
-           
+
             try
             {
                 int r = dgvItemPop.CurrentCell.RowIndex;
@@ -3980,47 +4089,78 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page gridefllow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
-
             }
-            
-            
+
         }
 
         private void btnItemPopclose_Click(object sender, EventArgs e)
         {
-            panelProductPopup.Visible = false;
-            tlp_main.Enabled = true;
-            dgvmenu.Focus();
-            Recallmenu();
+            try
+            {
+                panelProductPopup.Visible = false;
+                tlp_main.Enabled = true;
+                dgvmenu.Focus();
+                Recallmenu();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page btnItemPopclose_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
 
         private void txtname_search_Enter(object sender, EventArgs e)
         {
-            if (txtname_search.Text == "Food Name .....")
+            try
             {
-                txtname_search.Text = "";
-                txtname_search.ForeColor = Color.Black;
+                if (txtname_search.Text == "Food Name .....")
+                {
+                    txtname_search.Text = "";
+                    txtname_search.ForeColor = Color.Black;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page txtname_search_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void txtname_search_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')
-                e.Handled = true;
+            try
+            {
+                if (e.KeyChar == '\r')
+                    e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page txtname_search_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
 
         private void txtname_search_Leave(object sender, EventArgs e)
         {
-            if (txtname_search.Text == "")
+            try
             {
-                txtname_search.Text = "Food Name .....";
-                txtname_search.ForeColor = Color.Gray;
+                if (txtname_search.Text == "")
+                {
+                    txtname_search.Text = "Food Name .....";
+                    txtname_search.ForeColor = Color.Gray;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page txtname_search_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
+
         private void txtname_search_TextChanged(object sender, EventArgs e)
         {
-           
+
             try
             {
                 if (txtname_search.Text != "" && txtname_search.Text != null && txtname_search.Text != "Food Name .....")
@@ -4092,7 +4232,7 @@ namespace FoodandBeverage.Forms
         }
         public void combofill()
         {
-           
+
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
@@ -4124,7 +4264,7 @@ namespace FoodandBeverage.Forms
         }
         public void ProductPopup(int fcid)
         {
-            
+
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -4194,52 +4334,84 @@ namespace FoodandBeverage.Forms
 
         private void discountper_Enter(object sender, EventArgs e)
         {
-            GrandTotal();
-            CalNetAmt();
+            try
+            {
+                GrandTotal();
+                CalNetAmt();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page discountper_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
 
-        private void netamount_Enter(object sender, EventArgs e)
-        {
-            GrandTotal();
-            CalNetAmt();
-        }
+        
 
         private void btn_rev_cancel_Click(object sender, EventArgs e)
         {
-            var result = CMessageBox.Show("Do You want Cancel This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            try
             {
-                chb_active.Checked = false;
-                save();
+                var result = CMessageBox.Show("Do You want to cancel this reservation?", "Confirm the Action", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    chb_active.Checked = false;
+                    save();
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page btn_rev_cancel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void dgvforms_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == itablename)
+            try
             {
-                if (Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[itid].Value) == 0 || Convert.ToString(dgvforms.Rows[e.RowIndex].Cells[itid].Value) == null)
+                if (e.ColumnIndex == itablename)
                 {
-                    dgvforms.Rows[e.RowIndex].Cells[itablename].Value = "";
-                    dgvforms.Rows[e.RowIndex].Cells[itablename].Style.ForeColor = Color.Black;
+                    var cellValue = dgvforms.Rows[e.RowIndex].Cells[itid].Value;
+                    if (cellValue == null || Convert.ToInt32(cellValue) == 0)
+                    {
+                        dgvforms.Rows[e.RowIndex].Cells[itablename].Value = "";
+                        dgvforms.Rows[e.RowIndex].Cells[itablename].Style.ForeColor = Color.Black;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page dgvforms_CellLeave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
+
 
         private void dgvmenu_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == imname)
+            try
             {
-                if (Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[imid].Value) == 0 || Convert.ToString(dgvmenu.Rows[e.RowIndex].Cells[imid].Value) == null)
+                if (e.ColumnIndex == imname && e.RowIndex >= 0)
                 {
-                    dgvmenu.Rows[e.RowIndex].Cells[imname].Value = "";
-                    dgvmenu.Rows[e.RowIndex].Cells[imname].Style.ForeColor = Color.Black;
+                    var cellValue = dgvmenu.Rows[e.RowIndex].Cells[imid].Value;
+                    if (cellValue == null || Convert.ToInt32(cellValue) == 0)
+                    {
+                        dgvmenu.Rows[e.RowIndex].Cells[imname].Value = "";
+                        dgvmenu.Rows[e.RowIndex].Cells[imname].Style.ForeColor = Color.Black;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page dgvmenu_CellLeave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
+
         private void tc_rese_menu_SelectedIndexChanged(object sender, EventArgs e)
-        {           
+        {
             try
             {
                 if (tc_rese_menu.SelectedTab == tp_reservation)
@@ -4259,7 +4431,7 @@ namespace FoodandBeverage.Forms
         }
         private void btn_va_ok_Click(object sender, EventArgs e)
         {
-       
+
             try
             {
                 int rc = dgvmenu.RowCount;
@@ -4295,7 +4467,7 @@ namespace FoodandBeverage.Forms
                         AddonCount = AddonCount + 1;
                     }
                 }
-                string Av_ID =Convert.ToString(pid) + Convert.ToString(vid) + "_" + combinedId;
+                string Av_ID = Convert.ToString(pid) + Convert.ToString(vid) + "_" + combinedId;
 
                 #region grid Inseration
 
@@ -4476,6 +4648,12 @@ namespace FoodandBeverage.Forms
                 CalNetAmt();
                 Recallmenu();
                 GridSlno_Refresh();
+                if (dgvmenu.Controls.OfType<VScrollBar>().First().Visible && tlp_reg_design.Visible != false)
+                {
+                    tlp_reg_design.Visible = false;
+                    btn_res_details.BackgroundImage = null;
+                    btn_res_details.BackgroundImage = FoodandBeverage.Properties.Resources.res_show_button;
+                }
                 Checked_VariationAddon_List.Clear();
                 pnl_variation_addon.ResumeLayout();
                 tlp_main.Enabled = true;
@@ -4492,13 +4670,21 @@ namespace FoodandBeverage.Forms
             if (string.IsNullOrEmpty(input)) return input;
             return input.Length <= maxLength ? input : input.Substring(0, maxLength) + "..";
         }
-
         private void btn_va_cancel_Click(object sender, EventArgs e)
         {
-            tlp_main.Enabled = true;
-            pnl_variation_addon.Visible = false;
-            Recallmenu();
+            try
+            {
+                tlp_main.Enabled = true;
+                pnl_variation_addon.Visible = false;
+                Recallmenu();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page btn_va_cancel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
+
 
         private void dgvmenu_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -4531,7 +4717,7 @@ namespace FoodandBeverage.Forms
                             //product with addon
                             else if (Convert.ToInt32(dgvmenu.Rows[e.RowIndex].Cells[iAddonstatus].Value) == Convert.ToInt32(AddonType.AddonType))
                             {
-                                int dgvcount = dgvmenu.RowCount-1;
+                                int dgvcount = dgvmenu.RowCount - 1;
                                 string remove_id = Convert.ToString(dgvmenu.Rows[e.RowIndex].Cells[iAvid].Value);
                                 for (int i = dgvcount; i >= 0; i--)
                                 {
@@ -4549,7 +4735,7 @@ namespace FoodandBeverage.Forms
                                         //{
                                         // }
                                     }
-                                }         
+                                }
                             }
                         }
                         #endregion
@@ -4621,7 +4807,7 @@ namespace FoodandBeverage.Forms
                         #endregion
 
                         #endregion
-                    }                
+                    }
 
                     SumMenu();
                     GrandTotal();
@@ -4686,52 +4872,91 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 ClsGeneral.LogException("reservation page btn_res_details_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
 
-            }       
+            }
         }
 
         private void btn_va_close_Click(object sender, EventArgs e)
         {
-            tlp_main.Enabled = true;
-            pnl_variation_addon.Visible = false;
+            try
+            {
+                tlp_main.Enabled = true;
+                pnl_variation_addon.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page btn_va_close_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
 
         private void oadesc_Enter(object sender, EventArgs e)
         {
-
-            if (oadesc.Text == PlaceholderText)
+            try
             {
-                oadesc.Text = string.Empty;
-                oadesc.ForeColor = Color.Black;
+                if (oadesc.Text == PlaceholderText)
+                {
+                    oadesc.Text = string.Empty;
+                    oadesc.ForeColor = Color.Black;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page oadesc_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void oadesc_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(oadesc.Text))
+            try
             {
-                oadesc.Text = PlaceholderText;
-                oadesc.ForeColor = Color.Gray;
+                if (string.IsNullOrEmpty(oadesc.Text))
+                {
+                    oadesc.Text = PlaceholderText;
+                    oadesc.ForeColor = Color.Gray;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page oadesc_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void oddesc_Enter(object sender, EventArgs e)
         {
-            if (oddesc.Text == PlaceholderText)
+            try
             {
-                oddesc.Text = string.Empty;
-                oddesc.ForeColor = Color.Black;
+                if (oddesc.Text == PlaceholderText)
+                {
+                    oddesc.Text = string.Empty;
+                    oddesc.ForeColor = Color.Black;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page oddesc_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
         }
 
         private void oddesc_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(oddesc.Text))
+            try
             {
-                oddesc.Text = PlaceholderText;
-                oddesc.ForeColor = Color.Gray;
+                if (string.IsNullOrEmpty(oddesc.Text))
+                {
+                    oddesc.Text = PlaceholderText;
+                    oddesc.ForeColor = Color.Gray;
+                }
             }
-       
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page oddesc_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
+
 
         private void txtEmail_Validating(object sender, CancelEventArgs e)
         {
@@ -4752,7 +4977,7 @@ namespace FoodandBeverage.Forms
                 int i = 1;
                 for (int j = 0; j < dgvmenu.RowCount; j++)
                 {
-                    if ( (Convert.ToInt32(dgvmenu.Rows[j].Cells[iAddonstatus].Value) == 0 || Convert.ToInt32(dgvmenu.Rows[j].Cells[iAddonstatus].Value) == 1))
+                    if ((Convert.ToInt32(dgvmenu.Rows[j].Cells[iAddonstatus].Value) == 0 || Convert.ToInt32(dgvmenu.Rows[j].Cells[iAddonstatus].Value) == 1))
                     {
                         dgvmenu.Rows[j].Cells[islno].Value = i;
                         i = i + 1;
@@ -4765,7 +4990,7 @@ namespace FoodandBeverage.Forms
                 ClsGeneral.LogException("reservation page GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
 
             }
-          
+
         }
         #region Grid Flow Functions
 
@@ -4923,7 +5148,7 @@ namespace FoodandBeverage.Forms
                             int currentRowIndex = dgvmenu.CurrentCell.RowIndex;
                             int currentColumnIndex = dgvmenu.CurrentCell.ColumnIndex;
 
-                            int nextColumnIndex = GetNextVisibleColumn(dgvmenu,currentColumnIndex);
+                            int nextColumnIndex = GetNextVisibleColumn(dgvmenu, currentColumnIndex);
 
                             if (nextColumnIndex != -1)
                             {
@@ -4931,7 +5156,7 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                int nextRowIndex = GetNextVisibleRow(dgvmenu,currentRowIndex);
+                                int nextRowIndex = GetNextVisibleRow(dgvmenu, currentRowIndex);
                                 if (nextRowIndex != -1)
                                 {
                                     dgvmenu.CurrentCell = dgvmenu[GetFirstVisibleColumn(dgvmenu), nextRowIndex];
@@ -5035,15 +5260,15 @@ namespace FoodandBeverage.Forms
                     if (tc_rese_menu.SelectedTab == tp_menu)
                     {
                         Recallmenu();
-                        menu(Convert.ToInt32(cboBtype.SelectedValue));                        
+                        menu(Convert.ToInt32(cboBtype.SelectedValue));
                     }
                     else if (tc_rese_menu.SelectedTab == tp_reservation)
                     {
                         RecallTable();
-                        Tablepop(Convert.ToInt32(cboBtype.SelectedValue));        
+                        Tablepop(Convert.ToInt32(cboBtype.SelectedValue));
                     }
 
-                return true;
+                    return true;
 
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -5066,7 +5291,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewImageCell cell1 = (DataGridViewImageCell)dgvforms.Rows[0].Cells[iraction];
                         cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         cell1.Value = null;
-                        cell1.Value = Properties.Resources.orderview_blank;   
+                        cell1.Value = Properties.Resources.orderview_blank;
                     }
                     dgvforms.BeginEdit(true);
                 }
@@ -5123,11 +5348,11 @@ namespace FoodandBeverage.Forms
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgvmenu.Rows[i].Cells[iaction];
                             cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                             cell.Value = null;
-                            if ( (i+1) % 2 == 0)                            
-                                cell.Value = Properties.Resources.orderview_blank_2;                            
-                            else                          
+                            if ((i + 1) % 2 == 0)
+                                cell.Value = Properties.Resources.orderview_blank_2;
+                            else
                                 cell.Value = Properties.Resources.orderview_blank;
-                            
+
                             dgvmenu.Focus();
                             dgvmenu.CurrentCell = dgvmenu.Rows[i].Cells[imname];
                             dgvmenu.BeginEdit(true);
@@ -5189,18 +5414,21 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = " Where BranchId = " + BranchId + "   and BookmasterId ='" + returnValue + "'";
                         dmnSearch.OrderBy = "";
                         var gridSource1 = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-                        if(gridSource1.Count>0)
+                        if (gridSource1.Count > 0)
                         {
+                            if (blinkTimer.Enabled)
+                                blinkTimer.Stop();
+
                             DateTime modifiedEndDate_before = gridSource1[0].BookingDateTime.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
                             DateTime modifiedEndDate_after = gridSource1[0].BookingDateTime.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));//
                             DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
                             DateTime Bookdate = Convert.ToDateTime(gridSource1[0].BookingDateTime.ToString("yyyy-MM-dd HH:mm"));
-       
+
                             #region Fill Textbox and labels
                             btn_rev_cancel.Visible = true;
                             txtadvpa.Enabled = false;
                             label21.Visible = true;
-                            lblBAmt.Visible = true;
+                            lblBAmt_Pay.Visible = true;
                             txtNam.Text = Convert.ToString(gridSource1[0].cusName);
                             txtAddress.Text = Convert.ToString(gridSource1[0].Address);
                             cboGender.SelectedValue = Convert.ToInt64(gridSource1[0].gender);
@@ -5215,6 +5443,7 @@ namespace FoodandBeverage.Forms
                             lblGTotal.Text = Convert.ToString(gridSource1[0].GrandTotal);
                             discountper.Text = Convert.ToString(gridSource1[0].DiscountPer);
                             totaldiscountamt.Text = Convert.ToString(gridSource1[0].DiscountAmt);
+
 
                             oaamount.Text = Convert.ToString(gridSource1[0].OtherAdd);
                             odamt.Text = Convert.ToString(gridSource1[0].OtherDed);
@@ -5245,29 +5474,28 @@ namespace FoodandBeverage.Forms
                             decimal balanceneed = 0;
                             decimal cashreciv = Convert.ToDecimal(rcvamt.Text);
                             decimal finalAmt = Convert.ToDecimal(gridSource1[0].FinalAmount);
+                            txtfinalamt.Text = Convert.ToString(gridSource1[0].FinalAmount);
+                            txt_PaymentTimes.Text = Convert.ToString(gridSource1[0].PaymentTimes);
+                            txt_AdvanceAmts_List.Text = Convert.ToString(gridSource1[0].AdvanceAmts_List);
+                            txt_CashGivenAmt.Text = Convert.ToString(gridSource1[0].CashGivenAmt);
+
                             rcvamt.Text = "0";
                             lblBalAmt.Text = "0";
 
-                            balanceneed = net - (adpayment + finalAmt);
-                            lblBAmt.Text = balanceneed.ToString("0.0");
+                            balanceneed = net - finalAmt;
+                            lblBAmt_Pay.Text = balanceneed.ToString("0.0");
+                            txt_pre_balamtpay.Text = Convert.ToString(gridSource1[0].FinalAmount);
 
-
-                            //if (Convert.ToDecimal(finalAmt) > 0)
-                            //{
-                            //    label21.Text = "Final Settlement :";
-                            //    lblBAmt.Text = finalAmt.ToString();
-                            //    mbtnSave.Visible = false;
-                            //}
-                            //else if (Convert.ToDecimal(lblBAmt.Text) > 0)
-                            //{
-                            //    label21.Text = "Balance To Pay :";
-                            //}
-                            //else if (Convert.ToDecimal(lblBAmt.Text) == 0)
-                            //{
-                            //    label21.Text = "Amount Settled :";
-                            //    lblBAmt.Text = "0";
-                            //    mbtnSave.Visible = false;
-                            //}
+                            if (finalAmt >= net)
+                            {
+                                lblpayment_status.Visible = true;
+                                PaymentCFlage = true;
+                            }
+                            else
+                            {
+                                PaymentCFlage = false;
+                                lblpayment_status.Visible = false;
+                            }
 
                             #endregion
 
@@ -5423,13 +5651,13 @@ namespace FoodandBeverage.Forms
                                         }
                                     }
                                     #endregion
-                                }           
+                                }
                                 GridSlno_Refresh();
 
                                 tlp_reg_design.Visible = false;
                                 btn_res_details.BackgroundImage = null;
                                 btn_res_details.BackgroundImage = FoodandBeverage.Properties.Resources.res_show_button;
-                          
+
                             }
 
                             #endregion
@@ -5479,7 +5707,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == iraction && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[itid].Value) > 0 && Expireflag==false)
+                if (e.ColumnIndex == iraction && Convert.ToInt32(dgvforms.Rows[e.RowIndex].Cells[itid].Value) > 0 && Expireflag == false)
                 {
                     #region Product & product With addon (complete Remove )
                     var itemName = dgvforms.Rows[e.RowIndex].Cells[itablename].Value.ToString();
@@ -5516,157 +5744,235 @@ namespace FoodandBeverage.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            txtNam.Text = "John Doe";
-            txtMob.Text = "8922115230";
-            txtEmail.Text = "johndoe@gmail.com";
-            txtNOP.Text = "2";
-            txtAddress.Text = "123 Main St, Anytown, USA";
-            txtRemarks.Text = "No remarks.";
-            cboGender.SelectedIndex = 2;
-            cboBtype.SelectedIndex = 2;
-            DateTime currentTime = DateTime.Now;
-            dtp_from_time.Value = currentTime.AddMinutes(15);
+            try
+            {
+                txtNam.Text = "John Doe";
+                txtMob.Text = "8922115230";
+                txtEmail.Text = "johndoe@gmail.com";
+                txtNOP.Text = "2";
+                txtAddress.Text = "123 Main St, Anytown, USA";
+                txtRemarks.Text = "No remarks.";
+                cboGender.SelectedIndex = 2;
+                cboBtype.SelectedIndex = 2;
+                DateTime currentTime = DateTime.Now;
+                dtp_from_time.Value = currentTime.AddMinutes(15);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("Reservation Page  button1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
+
+        }
+
+        private void txtadvpa_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(txtfinalamt.Text))
+                    txtfinalamt.Text = "0";
+                if (Convert.ToInt32(txtBookmasterId.Text) == 0)
+                {
+                    if (txtadvpa.Text != "" && txtadvpa.Text != "." && txtadvpa.Text != "0.00")
+                    {
+                        decimal advancePayment = Convert.ToDecimal(txtadvpa.Text);
+
+                        decimal balamt_pay = 0, balamt = 0;
+                        balamt_pay = Convert.ToDecimal(lblNetAmt.Text) - Convert.ToDecimal(txtadvpa.Text);
+                        if (rcvamt.Text != "" && rcvamt.Text != ".")
+                        {
+                            decimal receivedAmount = Convert.ToDecimal(rcvamt.Text);
+                            if (receivedAmount == 0)
+                                lblBalAmt.Text = "0";
+                            else
+                            {
+                                balamt = advancePayment - receivedAmount;
+                                lblBalAmt.Text = balamt.ToString("N2");
+                            }
+                        }
+
+                        lblBAmt_Pay.Visible = true;
+                        label21.Visible = true;
+                        lblBAmt_Pay.Text = balamt_pay.ToString("N2");
+                        textb_shape();
+                    }
+                    else
+                    {
+                        lblBAmt_Pay.Visible = false;
+                        label21.Visible = false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("Reservation Page  txtadvpa_TextChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
+        }
+
+        private void netamount_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                GrandTotal();
+                CalNetAmt();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("reservation page netamount_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
+            }
         }
 
         public void Movefocus(int keytype)
         {
-            if (txtNam.Focused)
+            try
             {
-                txtMob.Focus();
-            }
-            else if (txtMob.Focused)
-            {
-                txtEmail.Focus();
-            }
-            else if (txtEmail.Focused)
-            {
-                cboGender.Focus();
-            }
-            else if (cboGender.Focused)
-            {
-                txtNOP.Focus();
-            }
-            else if (txtNOP.Focused)
-            {
-                dtpBooking.Focus();
-            }
-            else if (dtpBooking.Focused)
-            {
-                dtp_from_time.Focus();
-            }
-            else if (dtp_from_time.Focused)
-            {
-                cboBtype.Focus();
-            }
-            else if (cboBtype.Focused)
-            {
-                txtAddress.Focus();
-            }
-            else if (txtAddress.Focused)
-            {
-                txtRemarks.Focus();
-            }
-            else if (txtRemarks.Focused)
-            {
-                if (keytype == 1)
-                    btn_res_details.Focus(); 
-                else if (keytype == 0)
-                    btn_res_details.PerformClick();
-            }
-            else if (btn_res_details.Focused)
-            {
-                if (keytype == 1)
+                if (txtNam.Focused)
                 {
-                    if (tc_rese_menu.SelectedTab == tp_reservation)
-                        RecallTable();
-                    else
-                        Recallmenu();
+                    txtMob.Focus();
+                }
+                else if (txtMob.Focused)
+                {
+                    txtEmail.Focus();
+                }
+                else if (txtEmail.Focused)
+                {
+                    cboGender.Focus();
+                }
+                else if (cboGender.Focused)
+                {
+                    txtNOP.Focus();
+                }
+                else if (txtNOP.Focused)
+                {
+                    dtpBooking.Focus();
+                }
+                else if (dtpBooking.Focused)
+                {
+                    dtp_from_time.Focus();
+                }
+                else if (dtp_from_time.Focused)
+                {
+                    cboBtype.Focus();
+                }
+                else if (cboBtype.Focused)
+                {
+                    txtAddress.Focus();
+                }
+                else if (txtAddress.Focused)
+                {
+                    txtRemarks.Focus();
+                }
+                else if (txtRemarks.Focused)
+                {
+                    if (keytype == 1)
+                        btn_res_details.Focus();
+                    else if (keytype == 0)
+                        btn_res_details.PerformClick();
+                }
+                else if (btn_res_details.Focused)
+                {
+                    if (keytype == 1)
+                    {
+                        if (tc_rese_menu.SelectedTab == tp_reservation)
+                            RecallTable();
+                        else
+                            Recallmenu();
+                    }
+                    else if (keytype == 0)
+                        btn_res_details.PerformClick();
+                }
+                else if (dgvforms.Focused)
+                {
+                    int currentRowIndex = dgvforms.CurrentCell.RowIndex;
+                    int currentColumnIndex = itablename;
+                    if (currentColumnIndex == itablename && currentRowIndex == dgvforms.RowCount - 1)
+                        mbtnSave.Focus();
+                }
+                else if (dgvmenu.Focused)
+                {
+                    int currentRowIndex = dgvmenu.CurrentCell.RowIndex;
+                    int currentColumnIndex = iqty;
+                    if (currentColumnIndex == iqty && currentRowIndex == dgvmenu.RowCount - 1)
+                        discountper.Focus();
+                }
+                else if (discountper.Focused)
+                {
+                    totaldiscountamt.Focus();
+                }
+                else if (totaldiscountamt.Focused)
+                {
+                    oaamount.Focus();
+                }
+                else if (oaamount.Focused)
+                {
+                    oadesc.Focus();
+                }
+                else if (oadesc.Focused)
+                {
+                    odamt.Focus();
+                }
+                else if (odamt.Focused)
+                {
+                    oddesc.Focus();
+                }
+                else if (oddesc.Focused)
+                {
+                    sterms.Focus();
+                }
+                else if (sterms.Focused)
+                {
+                    netamount.Focus();
+                }
+                else if (netamount.Focused)
+                {
+                    txtadvpa.Focus();
+                }
+                else if (txtadvpa.Focused)
+                {
+                    rcvamt.Focus();
+                }
+                else if (rcvamt.Focused)
+                {
+                    mbtnSave.Focus();
+                }
+                else if (keytype == 1)
+                {
+                    if (mbtnSave.Focused)
+                        mbtnRefresh.Focus();
+                    else if (mbtnRefresh.Focused)
+                        mbtnList.Focus();
+                    else if (mbtnList.Focused)
+                        mbtnClose.Focus();
+                    else if (mbtnClose.Focused)
+                        btn_rev_cancel.Focus();
+                    else if (btn_rev_cancel.Focused)
+                        txtNam.Focus();
                 }
                 else if (keytype == 0)
-                    btn_res_details.PerformClick();
+                {
+                    if (mbtnSave.Focused)
+                        mbtnSave.PerformClick();
+                    else if (mbtnRefresh.Focused)
+                        mbtnRefresh.PerformClick();
+                    else if (mbtnList.Focused)
+                        mbtnList.PerformClick();
+                    else if (mbtnClose.Focused)
+                        mbtnClose.PerformClick();
+                    else if (btn_rev_cancel.Focused)
+                        btn_rev_cancel.PerformClick();
+                }
             }
-            else if (dgvforms.Focused)
+            catch (Exception ex)
             {
-                int currentRowIndex = dgvforms.CurrentCell.RowIndex;
-                int currentColumnIndex = itablename;
-                if (currentColumnIndex == itablename && currentRowIndex == dgvforms.RowCount - 1)
-                    mbtnSave.Focus();
-            }
-            else if (dgvmenu.Focused)
-            {
-                int currentRowIndex = dgvmenu.CurrentCell.RowIndex;
-                int currentColumnIndex = iqty;
-                if (currentColumnIndex == iqty && currentRowIndex == dgvmenu.RowCount - 1)
-                    discountper.Focus();
-            }
-            else if (discountper.Focused)
-            {
-                totaldiscountamt.Focus();
-            }
-            else if (totaldiscountamt.Focused)
-            {
-                oaamount.Focus();
-            }
-            else if (oaamount.Focused)
-            {
-                oadesc.Focus();
-            }
-            else if (oadesc.Focused)
-            {
-                odamt.Focus();
-            }
-            else if (odamt.Focused)
-            {
-                oddesc.Focus();
-            }
-            else if (oddesc.Focused)
-            {
-                sterms.Focus();
-            }
-            else if (sterms.Focused)
-            {
-                netamount.Focus();
-            }
-            else if (netamount.Focused)
-            {
-                txtadvpa.Focus();
-            }
-            else if (txtadvpa.Focused)
-            {
-                rcvamt.Focus();
-            }
-            else if (rcvamt.Focused)
-            {
-                mbtnSave.Focus();
-            }
-            else if (keytype == 1)
-            {
-                if (mbtnSave.Focused)
-                    mbtnRefresh.Focus();
-                else if (mbtnRefresh.Focused)
-                    mbtnList.Focus();
-                else if (mbtnList.Focused)
-                    mbtnClose.Focus();
-                else if (mbtnClose.Focused)
-                    btn_rev_cancel.Focus();
-                else if (btn_rev_cancel.Focused)
-                    txtNam.Focus();
-            }
-            else if (keytype == 0)
-            {
-                if (mbtnSave.Focused)
-                    mbtnSave.PerformClick();
-                else if (mbtnRefresh.Focused)
-                    mbtnRefresh.PerformClick();
-                else if (mbtnList.Focused)
-                    mbtnList.PerformClick();
-                else if (mbtnClose.Focused)
-                    mbtnClose.PerformClick();
-                else if (btn_rev_cancel.Focused)
-                    btn_rev_cancel.PerformClick();
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                ClsGeneral.LogException("Reservation Page  Movefocus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Reservation));
             }
 
+
         }
-       
+
     }
 }

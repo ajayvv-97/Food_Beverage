@@ -33,7 +33,8 @@ namespace Domain
         public int OrderDetailsId { get; set; }
         public int AddonStatus { get; set; }
         public int SalesMasterId { get; set; }
-        
+        public decimal FinalAmount { get; set; }
+
     }
 
 }

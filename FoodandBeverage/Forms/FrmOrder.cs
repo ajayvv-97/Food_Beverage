@@ -855,7 +855,7 @@ namespace FoodandBeverage.Forms
                 int ordermsid = 0;
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
-                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal,om.Gender Gender,om.OrderMasterId,(select count(*)  from tblBookDetails where Rid=0 and Status=1 and BookmasterId= " + Bookingmasterid + ") as Tablecount ";
+                dmnSearchmaster.Select = "*,od.status status,bm.AdvancePay AdvancePay,bm.ReservationTotal ReservationTotal,om.Gender Gender,om.OrderMasterId,(select count(*)  from tblBookDetails where Rid=0 and Status=1 and BookmasterId= " + Bookingmasterid + ") as Tablecount,od.NetAmount NetAmount ";
                 dmnSearchmaster.Table = " tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId " +
                     "left join tblbookMaster bm on bm.BookmasterId=om.BookmasterId";
                 dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.BookmasterId=" + Bookingmasterid;
@@ -892,7 +892,7 @@ namespace FoodandBeverage.Forms
                     #endregion
 
                     btn_itemwise.Enabled = false;
-                    tableId = 0;
+
                     txttotalQTY.Text = Convert.ToString(gridSourcemaster[0].Quantity);
                     txtGrandTotal.Text = "0";
                     ordercount = 0;
@@ -910,7 +910,7 @@ namespace FoodandBeverage.Forms
                     txtadvance.Visible = true;
                     ReservationTotal = Convert.ToDecimal(gridSourcemaster[0].ReservationTotal);
                     txtreservationtotal.Text = Convert.ToString(gridSourcemaster[0].ReservationTotal);
-                    txtadvance.Text = Convert.ToString(gridSourcemaster[0].AdvancePay);
+                    txtadvance.Text = Convert.ToString(gridSourcemaster[0].FinalAmount);
 
                     tlp_calculation_total.RowStyles[0] = new RowStyle(SizeType.Percent, 25);
                     tlp_calculation_total.RowStyles[1] = new RowStyle(SizeType.Percent, 25);
@@ -977,7 +977,6 @@ namespace FoodandBeverage.Forms
                     pb_item_table_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
                     pb_item_table_delete.Click += new EventHandler(pb_item_table_delete_ClickEventHandler);
 
-
                     //Dock Setting
                     tlp_seletedItem_tablecharge.Dock = DockStyle.Top;
                     btntablename.Dock = DockStyle.Top;
@@ -998,7 +997,6 @@ namespace FoodandBeverage.Forms
                     tlp_seletedItem_main.Controls.Add(tlp_seletedItem_tablecharge);
 
                     #endregion
-
 
                     var distinctCategories = gridSourcemaster
                         .Select(item => item.OrderNo)
@@ -1244,6 +1242,7 @@ namespace FoodandBeverage.Forms
                     pnlboxend.Controls.Add(lblend);
                     tlp_seletedItem_main.Controls.Add(pnlboxend);
                     #endregion
+
                     if (bookinorder_F)
                     {
                         Showprint_Save(Convert.ToInt32(ShowButtonType.save));
@@ -1271,8 +1270,10 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                if(PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.OrderPage))
+                                if(PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
                                     Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+                                else
+                                    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
                             }
                         }
                     }

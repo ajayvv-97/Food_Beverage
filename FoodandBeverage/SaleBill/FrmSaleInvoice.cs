@@ -115,6 +115,7 @@ namespace FoodandBeverage.SaleBill
             }
         }
         #endregion
+
         #region Print Bill for Normal & Part 
         public void PrintBill()
         {
@@ -370,9 +371,9 @@ namespace FoodandBeverage.SaleBill
                 dsReport.Tables.Add(dtSalesMaster);
 
                 if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
-                    reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
                 else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
-                    reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
 
                 reportDocument.SetDataSource(dsReport);
 

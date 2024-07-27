@@ -45,8 +45,11 @@ namespace Domain
         public int RevStatus { get; set; }
         public int Tid { get; set; }
         public int Cancel_Type { get; set; }
-
-
+        public Decimal PaymentTimes { get; set; }
+        public string AdvanceAmts_List { get; set; }
+        public Decimal CashGivenAmt { get; set; }
+        public int CashGivenflag { get; set; }
+        
 
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL
 {
-    public class BllReservation:BllOrder
+    public class BllReservation : BllOrder
     {
         public DmnReservation AddData(string procedureName, DmnReservation objTestClass)
         {
@@ -20,9 +20,6 @@ namespace BLL
             parms.Add("Remarks", objTestClass.Remarks);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
-            //parms.Add("CreatedDateTime", objTestClass.CreatedDateTime);
-            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
-            //parms.Add("ModifiedDateTime", objTestClass.ModifiedDateTime);
             parms.Add("Status", objTestClass.Status);
             parms.Add("Gender", objTestClass.gender);
             parms.Add("BookingType", objTestClass.BookingType);
@@ -44,11 +41,14 @@ namespace BLL
             parms.Add("CashRev", objTestClass.CashRev);
             parms.Add("BalnceAmt", objTestClass.BalnceAmt);
 
+            parms.Add("PaymentTimes", objTestClass.PaymentTimes);
+            parms.Add("AdvanceAmts_List", objTestClass.AdvanceAmts_List);
+
             parms.Add("FinalAmount", objTestClass.FinalAmount);
-           
+            parms.Add("CashGivenAmt", objTestClass.CashGivenAmt);
+            parms.Add("CashGivenflag", objTestClass.CashGivenflag); 
 
-
-            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+     var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
         public bool AddDetails(string procedureName, DmnReservationDetails objTestClass)
@@ -96,7 +96,7 @@ namespace BLL
             bool lstData = objDapperRepository.Add(procedureName, parms);
             return lstData;
         }
-        
+
         public bool UpdateData(string procedureName, DmnReservation objTestClass)
         {
             DAL.DapperRepository<DmnReservation> objDapperRepository = new DAL.DapperRepository<DmnReservation>();
