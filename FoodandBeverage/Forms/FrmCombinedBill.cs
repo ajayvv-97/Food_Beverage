@@ -93,17 +93,21 @@ namespace FoodandBeverage.Forms
 
                 pnl_empty_msg.Visible = false;
                 pnl_complebill_prevbill.Visible = true;
-                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid," +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId";
-                dmnSearch.Table = "tblTable_info  ti " +
-                    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
-                    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                dmnSearch.OrderBy = "order by ti.tid";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                //DmnSearch dmnSearch = new DmnSearch();
+                //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid," +
+                //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId";
+                //dmnSearch.Table = "tblTable_info  ti " +
+                //    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                //    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
+                //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
+                //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                //dmnSearch.OrderBy = "order by ti.tid";
+                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                BllTableData<DmnTableinfo> SearchDetails = new BllTableData<DmnTableinfo>();
+                DmnTableinfo dmnSearchtabledata = new DmnTableinfo();
+                dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+                var gridSource = SearchDetails.serachreport("TableData", dmnSearchtabledata);
                 if (gridSource.Count > 0)
                 {
                     pnl_compelte_bill.Controls.Clear();
@@ -188,7 +192,7 @@ namespace FoodandBeverage.Forms
 
                         Button btn_select = new Button();
                         btn_select.Name = "btn_select_com" + tabledata.Tid;
-                        btn_select.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode);
+                        btn_select.AccessibleDescription = Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode)+"," +Convert.ToInt32(tabledata.BookmasterId);
                         btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
                         btn_select.FlatStyle = FlatStyle.Flat;
                         btn_select.FlatAppearance.BorderSize = 0;
@@ -228,16 +232,24 @@ namespace FoodandBeverage.Forms
                         else
                             tlp_table_inner.Visible = false;
 
-                        if (Convert.ToInt32(tabledata.Cbid) > 0)
+                        if (tabledata.BookmasterId > 0 )//&& tabledata.TableCount > 1)//Bokking order hide plus button
                         {
-                            tlp_table_inner.BackColor = CombinedBillcolor;
                             btn_select.Visible = false;
                         }
                         else
                         {
-                            tlp_table_inner.BackColor = NormalBillingColor;
-                            btn_select.Visible = true;
+                            if (Convert.ToInt32(tabledata.Cbid) > 0)
+                            {
+                                tlp_table_inner.BackColor = CombinedBillcolor;
+                                btn_select.Visible = false;
+                            }
+                            else
+                            {
+                                tlp_table_inner.BackColor = NormalBillingColor;
+                                btn_select.Visible = true;
+                            }
                         }
+                       
                         //if (Convert.ToInt32(tabledata.OrderStatus) == 1)
                         tlp_table_inner.Controls.Add(btn_select, 0, 0);
                         tlp_table_inner.Controls.Add(lbltablename, 0, 1);
@@ -262,7 +274,6 @@ namespace FoodandBeverage.Forms
                             lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + Convert.ToInt32(tabledata.BookmasterId);
                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + Convert.ToInt32(tabledata.BookmasterId);
                             netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + Convert.ToInt32(tabledata.BookmasterId);
-                            btn_select.Visible = false;
                         }
                         else if (Convert.ToInt32(tabledata.OrderMasterId) > 0)
                         {
@@ -290,7 +301,7 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Visible = true;
                     #endregion
 
-                    CombineBillAutoTimer.Start();
+                    //CombineBillAutoTimer.Start();
                 }
                 else
                 {
@@ -321,17 +332,23 @@ namespace FoodandBeverage.Forms
             {
                 CombineBillAutoTimer.Stop();
 
-                BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid,"+
-                                " (select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId"; 
-                dmnSearch.Table = "tblTable_info  ti " +
-                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                    " LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
-                    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
-                dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                dmnSearch.OrderBy = "order by ti.tid";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+                //DmnSearch dmnSearch = new DmnSearch();
+                //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid,"+
+                //                " (select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId"; 
+                //dmnSearch.Table = "tblTable_info  ti " +
+                //    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+                //    " LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
+                //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
+                //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                //dmnSearch.OrderBy = "order by ti.tid";
+                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                BllTableData<DmnTableinfo> SearchDetails = new BllTableData<DmnTableinfo>();
+                DmnTableinfo dmnSearchtabledata = new DmnTableinfo();
+                dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+                var gridSource = SearchDetails.serachreport("TableData", dmnSearchtabledata);
+
                 if (gridSource.Count > 0)
                 {
                     #region Check order status and set visible flase and true
@@ -351,7 +368,7 @@ namespace FoodandBeverage.Forms
                                 if (lblnet != null)
                                     lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
 
-                                if (tabledata.BookmasterId> 0)//Bokking order hide plus button
+                                if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1)//Bokking order hide plus button
                                 {
                                     btn_select.Visible = false;
                                 }//combined or normal order bill
@@ -497,7 +514,7 @@ namespace FoodandBeverage.Forms
                 Button button = (Button)sender;
                 string textvalue = button.AccessibleDescription;
                 string[] parts = textvalue.Split(',');
-                int omasterid = 0, tid = 0;
+                int omasterid = 0, tid = 0, bid = 0;
                 string tablecode = "";
 
                 if (button != null)
@@ -507,6 +524,8 @@ namespace FoodandBeverage.Forms
                         omasterid = Convert.ToInt32(parts[0]);
                         tid = Convert.ToInt32(parts[1]);
                         tablecode = Convert.ToString(parts[2]);
+                        tablecode = Convert.ToString(parts[2]);
+                        bid=Convert.ToInt32(parts[3]);
                     }
 
                     CheckCombinedOrNot(omasterid);
@@ -522,7 +541,8 @@ namespace FoodandBeverage.Forms
                             {
                                 Id = tid,
                                 Ordermasterid = omasterid,
-                                Tablecode = tablecode
+                                Tablecode = tablecode,
+                                BookingMasterid = bid
                             });
                             button.BackgroundImage = Properties.Resources.billselectedicon;
                             button.Tag = Convert.ToInt32(BillSelect.Selected);
@@ -696,9 +716,9 @@ namespace FoodandBeverage.Forms
 
                                 }
                             }
-                            #endregion
-
                         }
+                     #endregion
+                        
                     }
 
                 }

@@ -12,6 +12,7 @@ namespace Domain
         public string Cnames { get; set; }
         public string Tablecode { get; set; }
         public int Cbid { get; set; }
+        public int BookingMasterid { get; set; }
 
     }
 }

@@ -293,22 +293,13 @@ namespace FoodandBeverage.Forms
                                         if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
                                         {
                                             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                            dmnSearch.Select = " WHEN COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
+                                            dmnSearch.Select = "COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
                                             dmnSearch.Table = "tblOrderDetails";
                                             dmnSearch.WhereNdGroupBy = "WHERE status=3 and OrderMasterId = " + gridSource[i].Field6;
                                             dmnSearch.OrderBy = "";
                                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
-                                            if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                            {
-                                                netamountlabel.Visible = false;
-                                                tlp_table_inner.BackColor = OrderColor;
-                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                lbltablename.Dock = DockStyle.Fill;
-                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                            }
-                                            else
+                                            if (Convert.ToInt32(gridSource_order[0].Field1) >0)
                                             {
                                                 netamountlabel.Visible = true;
                                                 tlp_table_inner.BackColor = BillingColor;
@@ -319,7 +310,16 @@ namespace FoodandBeverage.Forms
                                                 lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                                                 netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                                             }
-
+                                            else
+                                            {
+                                                netamountlabel.Visible = false;
+                                                tlp_table_inner.BackColor = OrderColor;
+                                                tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                lbltablename.Dock = DockStyle.Fill;
+                                                lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                            }   
+                                            
                                             lbltablename.ForeColor = Ordertablefontcolor;
                                             tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                             lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
@@ -544,17 +544,7 @@ namespace FoodandBeverage.Forms
                                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
                                             if (gridSource_order.Count > 0)
                                             {
-                                                if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                                {
-                                                    netamountlabel.Visible = false;
-                                                    tlp_table_inner.BackColor = OrderColor;
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                    string s = netamountlabel.Text;
-                                                }
-                                                else
+                                                if (Convert.ToInt32(gridSource_order[0].Field1) >0)
                                                 {
                                                     netamountlabel.Visible = true;
                                                     tlp_table_inner.BackColor = BillingColor;
@@ -564,11 +554,18 @@ namespace FoodandBeverage.Forms
                                                     lbltablename.Dock = DockStyle.Fill;
                                                     lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                                                     netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                                    netamountlabel.Text = gridSource[i].Field8;
-
-
+                                                    netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource[i].Field8);
                                                 }
-
+                                                else
+                                                {
+                                                    netamountlabel.Visible = false;
+                                                    tlp_table_inner.BackColor = OrderColor;
+                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                                                    lbltablename.Dock = DockStyle.Fill;
+                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                                                }                                               
+                                             
                                                 lbltablename.ForeColor = Ordertablefontcolor;
                                                 tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
                                                 lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;

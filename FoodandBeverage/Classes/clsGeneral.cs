@@ -191,6 +191,7 @@ namespace FoodandBeverage.Classes
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                     }
                 }
+
                 int columnCount = dataGridView.Columns.Count;
                 int availableWidth = dataGridView.ClientSize.Width - dataGridView.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
                 if (availableWidth > 0)

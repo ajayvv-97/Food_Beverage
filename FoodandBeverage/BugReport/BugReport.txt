@@ -1637,3 +1637,31 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 30
 -------------------------------------------------------------------------
+Date and Time: 29-07-2024 12:39:12
+Page : TableView page  LoadTableStaus()
+Exception: Incorrect syntax near the keyword 'WHEN'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 29-07-2024 13:16:10
+Page : TableView page  LoadTableStaus()
+Exception: Incorrect syntax near the keyword 'WHEN'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 29-07-2024 17:15:25
+Page : Home Page  TableTurnoverReports_Click()
+Exception: Procedure or function 'prdInsert_Upd_Setting' expects parameter '@ModifiedBy', which was not supplied.
+User Name: Aljo
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 29-07-2024 17:15:26
+Page : Home Page  TableTurnoverReports_Click()
+Exception: Procedure or function 'prdInsert_Upd_Setting' expects parameter '@ModifiedBy', which was not supplied.
+User Name: Aljo
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------

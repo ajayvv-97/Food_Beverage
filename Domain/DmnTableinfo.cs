@@ -26,7 +26,8 @@ namespace Domain
         public decimal NetAmount { get; set; }
         public int BillStatus { get; set; }
         public int Cbid { get; set; }
-
+        public decimal BookingInterwell { get; set; }
+        public int TableCount { get; set; }
         
     }
 }

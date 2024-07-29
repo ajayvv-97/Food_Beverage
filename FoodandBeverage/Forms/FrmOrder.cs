@@ -1021,6 +1021,8 @@ namespace FoodandBeverage.Forms
                             #region Order Add to the second Top
                             //heading Top
                             Panel pnlbox = new Panel();
+
+
                             pnlbox.Name = "pnlbox" + gridSourcemaster[j].OrderMasterId;
                             pnlbox.Dock = DockStyle.Top;
                             pnlbox.Height = 15;
@@ -1031,7 +1033,7 @@ namespace FoodandBeverage.Forms
                             lblcategory_head.Name = "lbcate_head_" + gridSourcemaster[j].OrderMasterId;
                             lblcategory_head.Tag = gridSourcemaster[j].OrderMasterId;
                             int ordernumber = j + 1;
-                            lblcategory_head.Text = "Order ID : " + ordernumber + "           [" + gridSource[0].CreatedDateTime + "]" + "    Table : " + gridSource[0].TableCode;
+                            lblcategory_head.Text = "Order ID : " + ordernumber + "           [" + gridSource[0].CreatedDateTime + "]";// + "    Table : " + gridSource[0].TableCode;
                             lblcategory_head.ForeColor = Color.Black;
                             lblcategory_head.BackColor = Color.Transparent;
                             lblcategory_head.Dock = DockStyle.Fill;
@@ -1664,7 +1666,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  CheckRe_order()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
-
         public void Showprint_Save(int typeno)
         {
             try

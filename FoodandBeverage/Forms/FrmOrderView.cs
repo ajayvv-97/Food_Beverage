@@ -55,7 +55,7 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> pagedata;
         private List<DmnGridFields> Resultdata;
         int currentPage = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         int totalPages = 0;
         public bool SerachFlag = false;
         public DateTime startTime = DateTime.Now;
@@ -837,10 +837,13 @@ namespace FoodandBeverage.Forms
             MasterFlag = true;
             if (PermissionFlag)
             {
-                OrderMasterId = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
+                OrderMasterId = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);                
                 btn_backorder.Visible = true;
                 refreshtimer_sub.Start();
                 DetailsFlag = true;
+                clsgen.GrideAutoSize(dgv_details_view);
+                dgv_details_view.Columns[dactionno].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                dgv_details_view.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 
@@ -1011,6 +1014,7 @@ namespace FoodandBeverage.Forms
                     btn_backorder.Visible = false;
                     DetailsFlag = false;
                     refreshtimer_main.Start();
+                    clsgen.GrideAutoSize(dgvorderview);
                 }
             }
             catch (Exception ex)
