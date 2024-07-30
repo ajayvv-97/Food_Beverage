@@ -66,30 +66,42 @@ namespace FoodandBeverage.Forms
                 //    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
                 //dmnSearch.OrderBy = "";
 
-                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate" +
-                    ", (select NetAmount from tblOrderMaster where OrderMasterId=ti.OrderMasterId and Status in(1,2,3)) Field8";
-                dmnSearch.Table = " tblTable_info  ti " +
-                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
-                dmnSearch.OrderBy = "";
+                BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
+                DmnGridFields dmnSearchtabledata = new DmnGridFields();
+                dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
+
+
+                //dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
+                //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
+                //    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate" +
+                //    ", (select NetAmount from tblOrderMaster where OrderMasterId=ti.OrderMasterId and Status in(1,2,3)) Field8";
+                //dmnSearch.Table = " tblTable_info  ti " +
+                //    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid "; //and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
+                //dmnSearch.OrderBy = "";
+
                 switch (serachmode)
                 {
                     case 0:
+                        dmnSearchtabledata.Field29 = "0";
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1";
                         break;
                     case 1:
+                        dmnSearchtabledata.Field29 = "1";
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1";
                         break;
                     case 2:
+                        dmnSearchtabledata.Field29 = "2";
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1 and ti.OrderMasterId >0";
                         break;
                     case 3:
+                        dmnSearchtabledata.Field29 = "3";
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0";
                         break;
                 }
-                dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                var gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+
+                //dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
+                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 bool flag = false;
                 for (int j = 0; j < gridSource.Count; j++)
@@ -106,7 +118,8 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 if (flag)
-                    gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                     gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+                //gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -410,32 +423,26 @@ namespace FoodandBeverage.Forms
             {
                 AutoTimer.Stop();
                 tlp_table_dashboard.SuspendLayout();
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3,ti.TableCode Field4,ti.OrderStatus Field5,ti.OrderMasterId Field6, " +
-                    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) Field7" +
-                    ",(select top (1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId=bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, " + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc)  EndDate" +
-                   ", (select NetAmount from tblOrderMaster where OrderMasterId=ti.OrderMasterId and Status in(1,2,3)) Field8";
-                dmnSearch.Table = " tblTable_info  ti " +
-                    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid ";//and SYSDATETIME() <= DATEADD(MINUTE," + Convert.ToDecimal(FrmLogin.BookingInterwell) + ",BookingDateTime)";
-                dmnSearch.OrderBy = "";
+                BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
+                DmnGridFields dmnSearchtabledata = new DmnGridFields();
+                dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
                 switch (serachmode)
                 {
                     case 0:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+                        dmnSearchtabledata.Field29 = "0";
                         break;
                     case 1:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1";
+                        dmnSearchtabledata.Field29 = "1";
                         break;
                     case 2:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.RevStatus=1";
+                        dmnSearchtabledata.Field29 = "2";
                         break;
                     case 3:
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.RevStatus=0";
+                        dmnSearchtabledata.Field29 = "3";
                         break;
                 }
-                dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                var gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
                 if (gridSource.Count > 0)
                 {
                     bool flag = false;
@@ -453,7 +460,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     if (flag)
-                        gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
 
                     var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                     List<CategoryInfo> categoryList = new List<CategoryInfo>();

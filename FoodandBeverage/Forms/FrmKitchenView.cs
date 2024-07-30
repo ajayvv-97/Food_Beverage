@@ -158,14 +158,21 @@ namespace FoodandBeverage.Forms
                 #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
                 int countpendingorder = 0;
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2,KOTPrintStatus Field3";
-                dmnSearch.Table = " tblkitchenOrder ";
-                dmnSearch.WhereNdGroupBy = "where status in(1,2)  and AddonStatus in(1,0) ";
-                dmnSearch.OrderBy = "order by koid DESC";
-                var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                //dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2,KOTPrintStatus Field3";
+                //dmnSearch.Table = " tblkitchenOrder ";
+                //dmnSearch.WhereNdGroupBy = "where status in(1,2)  and AddonStatus in(1,0) ";
+                //dmnSearch.OrderBy = "order by koid DESC";
+                //var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
+                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                var gridSourcemaster = SearchDetails.serachreport("KitchenData", dmnSearchKitchendata);
+
                 if (gridSourcemaster.Count > 0)
                 {
                     //pnl_empty_msg.Visible = false;
@@ -929,7 +936,6 @@ namespace FoodandBeverage.Forms
                     pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
                 }
                 #endregion
-
             }
             catch (Exception ex)
             {
@@ -1133,11 +1139,16 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "OrderMasterId Field1, OrderNo Field2, KOTPrintStatus Field3";
-                dmnSearch.Table = "tblkitchenOrder";
-                dmnSearch.WhereNdGroupBy = "where status in(1) and AddonStatus in(1,0) and KOTPrintStatus=1";
-                dmnSearch.OrderBy = "order by koid DESC";
-                var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                //dmnSearch.Select = "OrderMasterId Field1, OrderNo Field2, KOTPrintStatus Field3";
+                //dmnSearch.Table = "tblkitchenOrder";
+                //dmnSearch.WhereNdGroupBy = "where status in(1) and AddonStatus in(1,0) and KOTPrintStatus=1";
+                //dmnSearch.OrderBy = "order by koid DESC";
+                ////var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
+                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                var gridSourcemaster = SearchDetails.serachreport("PrintOrder", dmnSearchKitchendata);
+
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
                     return;

@@ -184,58 +184,83 @@ namespace FoodandBeverage.Forms
                     pagedata.Clear();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
 
-                if (SearchType == 4)
+                BllOrderviews<DmnGridFields> SearchDetails = new BllOrderviews<DmnGridFields>();
+                DmnGridFields dmnSearchOrderviews = new DmnGridFields();       
+
+
+                #region old code
+                //dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //if (SearchType == 4)
+                //{
+                //    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //    dmnSearch.WhereNdGroupBy = "where om.status in (1,2)";
+                //    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                //}
+                //else if (SearchType == Convert.ToInt32(Food_Status.Pending))
+                //{
+                //    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //    dmnSearch.WhereNdGroupBy = "where om.status=1";
+                //    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                //}
+                //else if (SearchType == Convert.ToInt32(Food_Status.FoodProcessing))
+                //{
+                //    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //    dmnSearch.WhereNdGroupBy = "where om.status=2";
+                //    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                //}
+                //else if (SearchType == Convert.ToInt32(Food_Status.Complete))
+                //{
+                //    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //    dmnSearch.WhereNdGroupBy = "where om.status=3";
+                //    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                //}
+                //else if (SearchType == Convert.ToInt32(Food_Status.Cancel))
+                //{
+                //    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
+                //    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
+                //    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
+
+                //    dmnSearch.WhereNdGroupBy = "where om.status=0";
+                //    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+
+                //}
+                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                #endregion
+
+                if (SearchType == Convert.ToInt32(Food_Status.Pending))
                 {
-                    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
-
-                    dmnSearch.WhereNdGroupBy = "where om.status in (1,2)";
-                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-                }
-                else if (SearchType == Convert.ToInt32(Food_Status.Pending))
-                {
-                    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
-
-                    dmnSearch.WhereNdGroupBy = "where om.status=1";
-                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                    dmnSearchOrderviews.SearchData = Convert.ToInt32(Food_Status.Pending);
                 }
                 else if (SearchType == Convert.ToInt32(Food_Status.FoodProcessing))
                 {
-                    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
-
-                    dmnSearch.WhereNdGroupBy = "where om.status=2";
-                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                    dmnSearchOrderviews.SearchData =  Convert.ToInt32(Food_Status.FoodProcessing);
                 }
                 else if (SearchType == Convert.ToInt32(Food_Status.Complete))
                 {
-                    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
-
-                    dmnSearch.WhereNdGroupBy = "where om.status=3";
-                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
+                    dmnSearchOrderviews.SearchData =  Convert.ToInt32(Food_Status.Complete);
                 }
                 else if (SearchType == Convert.ToInt32(Food_Status.Cancel))
                 {
-                    dmnSearch.Select = " om.OrderMasterId Field1,ti.TableCode Field2,om.TotalQuantity Field3,om.status Field4 ," +
-                    "(SELECT CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 0 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Result FROM tblOrderDetails WHERE OrderMasterId =  om.OrderMasterId ) Field5,om.CreatedDateTime Field6,om.BookmasterId Field7,ti.Tid Field8,om.RemoveNotes Field9,om.RemoveNotes Field9";
-                    dmnSearch.Table = "tblOrderMaster om Left Join tblTable_info  ti on ti.Tid=om.Tid";//Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId
-
-                    dmnSearch.WhereNdGroupBy = "where om.status=0";
-                    dmnSearch.OrderBy = "order by om.OrderMasterId DESC";
-
+                    dmnSearchOrderviews.SearchData =  Convert.ToInt32(Food_Status.Cancel);
                 }
 
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                var gridSource = SearchDetails.serachreport("FillOrderMaster", dmnSearchOrderviews);
                 Resultdata = gridSource;
                 totalPages = (int)Math.Ceiling((double)Resultdata.Count / pageSize);
                 pagedata = Resultdata.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -852,19 +877,26 @@ namespace FoodandBeverage.Forms
             try
             {
                 refreshtimer_sub.Stop();
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select = "od.itemName Field1,od.Quantity Field2,od.CreatedDateTime Field3,ko.Status Field4,od.OrderDetailsId Field5," +
-                    "ko.koid Field6,ko.RemoveNotes Field7,om.OrderMasterId Field8,om.Tid Field9,od.AddonStatus Field10,od.AV_id Field11," +
-                    "od.CCode Field12,od.Srate Field13,od.OrderNo Field14";
-                dmnSearch.Table = "tblOrderMaster om " +
-                    "Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId  " +
-                    "Left Join tblTable_info  ti on ti.Tid=om.Tid " +
-                    "Left Join tblkitchenOrder  ko on ko.OrderDetailsId=od.OrderDetailsId";
-                dmnSearch.WhereNdGroupBy = "where om.status!=0 and  om.OrderMasterId =" + OrderMasterId ;
-                dmnSearch.OrderBy = "order by  od.CreatedDateTime DESC";
-                var detailslist = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                #region Old Code
+                //            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                //            DmnSearch dmnSearch = new DmnSearch();
+                //            dmnSearch.Select = "od.itemName Field1,od.Quantity Field2,od.CreatedDateTime Field3,ko.Status Field4,od.OrderDetailsId Field5," +
+                //"ko.koid Field6,ko.RemoveNotes Field7,om.OrderMasterId Field8,om.Tid Field9,od.AddonStatus Field10,od.AV_id Field11," +
+                //"od.CCode Field12,od.Srate Field13,od.OrderNo Field14";
+                //            dmnSearch.Table = "tblOrderMaster om " +
+                //                "Left Join tblOrderDetails od on od.OrderMasterId=om.OrderMasterId  " +
+                //                "Left Join tblTable_info  ti on ti.Tid=om.Tid " +
+                //                "Left Join tblkitchenOrder  ko on ko.OrderDetailsId=od.OrderDetailsId";
+                //            dmnSearch.WhereNdGroupBy = "where om.status!=0 and  om.OrderMasterId =" + OrderMasterId;
+                //            dmnSearch.OrderBy = "order by  od.CreatedDateTime DESC";
+                //            var detailslist = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                #endregion
+
+                BllOrderviews<DmnGridFields> SearchDetails = new BllOrderviews<DmnGridFields>();
+                DmnGridFields dmnSearchOrderviews = new DmnGridFields();
+                dmnSearchOrderviews.SearchData = OrderMasterId;
+                var detailslist = SearchDetails.serachreport("FillOrderdetails", dmnSearchOrderviews);
                 if (detailslist.Count > 0)
                 {
                     int count = 0;

@@ -232,7 +232,7 @@ namespace FoodandBeverage.Forms
                         else
                             tlp_table_inner.Visible = false;
 
-                        if (tabledata.BookmasterId > 0 )//&& tabledata.TableCount > 1)//Bokking order hide plus button
+                        if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1//Bokking order hide plus button
                         {
                             btn_select.Visible = false;
                         }
@@ -368,7 +368,7 @@ namespace FoodandBeverage.Forms
                                 if (lblnet != null)
                                     lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
 
-                                if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1)//Bokking order hide plus button
+                                if (tabledata.BookmasterId > 0 )//&& tabledata.TableCount > 1 //Bokking order hide plus button
                                 {
                                     btn_select.Visible = false;
                                 }//combined or normal order bill

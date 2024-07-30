@@ -1665,3 +1665,10 @@ User Name: Aljo
 Designation: Manager
 FormTypeId: 26
 -------------------------------------------------------------------------
+Date and Time: 30-07-2024 10:51:33
+Page : TableView page  LoadTableStaus()
+Exception: Incorrect syntax near the keyword 'from'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
