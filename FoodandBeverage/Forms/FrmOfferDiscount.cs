@@ -1280,6 +1280,8 @@ namespace FoodandBeverage.Forms
                                 Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
                                 tlp_comboproduct_view.Controls.Remove(controlToRemove2);
                                 txttaxamt.Dock = DockStyle.Fill;
+
+                                #region Tax fill
                                 if (cmbtaxtype.Text == "GST")
                                 {
                                     lbligst.Visible = true;
@@ -1341,6 +1343,8 @@ namespace FoodandBeverage.Forms
 
                                     cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].Field18);
                                 }
+                                #endregion
+
                                 #region Fill combo products
                                 for (int i = 0; i < itemSource.Count; i++)
                                 {
@@ -1392,6 +1396,11 @@ namespace FoodandBeverage.Forms
                                             dgv_sele_cmb_products.Rows[r].Cells[cstatusno].Value = 1;
                                             dgv_sele_cmb_products.Rows[r].Cells[cmrpno].Value = gridSourceitem[0].Field11;
                                             dgv_sele_cmb_products.Rows[r].Cells[cofferdetailsidno].Value = itemSource[i].Field2;
+                                            if (Convert.ToInt32(itemSource[i].Field16) > 0)//item (checking prid)
+                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field8;
+                                            else
+                                                dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
+
                                             dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Value = gridSourceitem[0].Field1;
                                             dgv_sele_cmb_products.Rows[r].Cells[Cproductno].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                                             dgv_sele_cmb_products.Rows[r].Cells[cproductidno].Value = gridSourceitem[0].Field12;
@@ -1471,14 +1480,19 @@ namespace FoodandBeverage.Forms
                                         int addonCount = Convert.ToInt32(itemSource[i].Field23);
                                         bool hasVariation = !string.IsNullOrEmpty(shortVrianame);
 
-                                        if (vastatus && addonCount > 0 && hasVariation)
-                                            Button_Item.Text = itemSource[i].Field17 + " (" + shortVrianame + ") Add[" + addonCount + "]";
-                                        else if (vastatus && addonCount > 0)
-                                            Button_Item.Text = itemSource[i].Field17 + " Add[" + addonCount + "]";
-                                        else if (vastatus && hasVariation)
-                                            Button_Item.Text = itemSource[i].Field17 + " (" + itemSource[i].Field27 + ")";
+                                        if (Convert.ToInt32(itemSource[i].Field16) > 0)//item (checking prid)
+                                            Button_Item.Text = gridSourceitem[0].Field8;
                                         else
-                                            Button_Item.Text = itemSource[i].Field17;
+                                        {
+                                            if (vastatus && addonCount > 0 && hasVariation)
+                                                Button_Item.Text = itemSource[i].Field17 + " (" + shortVrianame + ") Add[" + addonCount + "]";
+                                            else if (vastatus && addonCount > 0)
+                                                Button_Item.Text = itemSource[i].Field17 + " Add[" + addonCount + "]";
+                                            else if (vastatus && hasVariation)
+                                                Button_Item.Text = itemSource[i].Field17 + " (" + itemSource[i].Field27 + ")";
+                                            else
+                                                Button_Item.Text = itemSource[i].Field17;
+                                        }
 
                                         Button_Item.Width = 150;
                                         Button_Item.Height = 50;

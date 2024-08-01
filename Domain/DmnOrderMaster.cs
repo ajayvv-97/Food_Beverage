@@ -34,7 +34,13 @@ namespace Domain
         public int AddonStatus { get; set; }
         public int SalesMasterId { get; set; }
         public decimal FinalAmount { get; set; }
+        public decimal DiscountPer { get; set; }
+        public decimal OtherAdd { get; set; }
+        public decimal OtherDed { get; set; }
+        public string OtherAddText { get; set; }
+        public string OtherDedText { get; set; }
 
+        
     }
 
 }

@@ -3239,9 +3239,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (System.Windows.Forms.Application.OpenForms[""] != null)
+                if (System.Windows.Forms.Application.OpenForms["FrmReservation"] != null)
                 {
-                    FrmReservation _instanceFrmres = Application.OpenForms[""] as FrmReservation;
+                    FrmReservation _instanceFrmres = Application.OpenForms["FrmReservation"] as FrmReservation;
                     if (_instanceFrmres.WindowState == FormWindowState.Minimized)
                         _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else

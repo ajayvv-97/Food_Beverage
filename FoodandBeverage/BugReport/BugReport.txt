@@ -1672,3 +1672,250 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 30
 -------------------------------------------------------------------------
+Date and Time: 30-07-2024 14:52:33
+Page : Reservation Page  button1_Click()
+Exception: Value of '30-07-2024 15:07:30' is not valid for 'Value'. 'Value' should be between 'MinDate' and 'MaxDate'.
+Parameter name: Value
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 10:48:16
+Page : Order page btn_va_ok_Click()
+Exception: Incorrect syntax near ')'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 11:13:00
+Page : reservation page dgvItemPop_CellClick()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 17
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 12:21:33
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:25:34
+Page : Order page  discountAmnt()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:25:35
+Page : Order page pb_item_table_delete_ClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:33:57
+Page : Order page  discountAmnt()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:34:52
+Page : Order page pb_item_table_delete_ClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:35:38
+Page : Order page  discountAmnt()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 13:35:38
+Page : Order page pb_item_table_delete_ClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:28:07
+Page : Order page  CheckRe_Bookingorder()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:33
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:35
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:37
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:39
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:42
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:47
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:36:50
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:38:20
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:39:05
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:16
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:26
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:27
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:29
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:31
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:33
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:37
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:39
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:41
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:44
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:40:51
+Page : Order page btn_va_ok_Click()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 01-08-2024 16:44:51
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
