@@ -175,7 +175,8 @@ namespace FoodandBeverage.Interfaces
         Normalorder = 0,
         Reverse_overtime_Cancel = 1,
         Reverse_Table = 2,
-        CombinedOrderBill = 3
+        CombinedOrderBill = 3,
+        PickupOrder=4,
     };
     public enum Tabletype
     {    
@@ -346,7 +347,16 @@ namespace FoodandBeverage.Interfaces
         OrderPage = 1,
         Billpage = 2,
     }
-
+    public enum PickupType
+    {
+        AddNew = 0,
+        Existing = 1,
+    }
+    public enum PickupOrderOrNot
+    {
+        Pickuporder = 1,
+        None = 0,
+    }
 
 }
 

@@ -24,17 +24,20 @@ namespace FoodandBeverage.Forms
         public int Bookingmasterid = 0;
         public int BookingType = 0;
         public int PageType = 0;
+        public int PickupId = 0;
+        
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
         //ProcessCmdKey
 
-        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno)
+        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno,int pkid)
         {
             tableId = tid;
             Bookingmasterid = bmasterid;
             BookingType = booktype;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
+            PickupId = pkid;
             InitializeComponent();
         }
 
@@ -158,6 +161,7 @@ namespace FoodandBeverage.Forms
         public bool OrderRunning_Status = false;
         public bool Booking_Status = false;
         public bool combined_Status = false;
+        public bool Pickup_Status = false;
 
         private Point mouseDownLocation;
         public int r1 = 0;
@@ -226,13 +230,14 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        //public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int pkid)
         private async void FrmOrder_Load(object sender, EventArgs e)
         {
             try
             {
                
                 tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
-
+                lbltablecode_header.Text = "TABLE CODE ";
                 #region ChkWritePermission
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
@@ -244,7 +249,7 @@ namespace FoodandBeverage.Forms
                 }
                 #endregion
 
-                #region BookingType Checking [Normalorder ,Reverse_overtime_Cancel , CombinedOrderBill]
+                #region BookingType Checking [Normalorder ,Reverse_overtime_Cancel , CombinedOrderBill,Pickup Order]
                 if (BookingType == Convert.ToInt32(DashboardTableType.Normalorder))
                     CheckRe_order();
                 else if (BookingType == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))
@@ -278,6 +283,8 @@ namespace FoodandBeverage.Forms
                     Combined_Tables();
                     Combined_Table_Bill();
                 }
+                else if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
+                    CheckRe_Pickuporder();
                 #endregion
 
                 #region tlp_calculation_total setting
@@ -1324,6 +1331,376 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Order page  CheckRe_Bookingorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        public void CheckRe_Pickuporder()
+        {
+            try
+            {
+                BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
+                DmnSearch dmnSearchmaster = new DmnSearch();
+                dmnSearchmaster.Select = "*";
+                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
+                dmnSearchmaster.WhereNdGroupBy = "where om.PkId = " + PickupId + " and om.Status=1";
+                dmnSearchmaster.OrderBy = " order by OrderNo ";
+                gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
+                if (gridSourcemaster.Count > 0)
+                {
+                    int orginalCount = gridSourcemaster.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
+                    OrderDateTime = gridSourcemaster[0].CreatedDateTime;
+                    txtGrandTotal.Text = "0";
+
+                    if (Convert.ToInt32(gridSourcemaster[0].SalesMasterId) > 0)
+                        txtsalemasterid.Text = Convert.ToString(gridSourcemaster[0].SalesMasterId);
+                    else
+                        txtsalemasterid.Text = "0";
+
+                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
+                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
+                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
+                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
+                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
+                        rb_male.Checked = true;
+                    else
+                        rb_female.Checked = true;
+
+                    txtph.Enabled = false;
+                    txtemailid.Enabled = false;
+                    txtaddress.Enabled = false;
+                    txtcusname.Enabled = false;
+                    rb_female.Enabled = false;
+                    rb_male.Enabled = false;
+                    btn_edit_cus.Visible = true;
+                    btn_clear_cus.Visible = true;
+
+                    ordercount = 0;
+                    Pickup_Status = true;
+                    tlp_seletedItem_main.Controls.Clear();
+                    //FillExistingProducts();
+
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = true;
+                    lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+                    label18.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+                    label25.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+
+                    lblorderid.Visible = true;
+                    label10.Visible = true;
+
+                    var distinctCategories = gridSourcemaster
+                        .Select(item => item.OrderNo)
+                        .Distinct()
+                        .ToList();
+
+                    int j = 0;
+                    txtordermasterid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
+                    //if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                    //    txtGrandTotal.Text = "0";
+                    foreach (var orderNo in distinctCategories)
+                    {
+                        BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "*";
+                        dmnSearch.Table = "tblOrderDetails";
+                        dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + gridSourcemaster[j].OrderMasterId + " and Status IN (1, 2, 3) and Orderno=" + orderNo;
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            #region Order Add to the Top
+                            //heading Top
+                            Panel pnlbox = new Panel();
+                            pnlbox.Name = "pnlbox" + gridSourcemaster[j].OrderMasterId;
+                            pnlbox.Dock = DockStyle.Top;
+                            pnlbox.Height = 15;
+                            pnlbox.Margin = new Padding(0, 0, 0, 5);
+                            //Frist Row Cateory Heading
+                            // Configure the Label
+                            Label lblcategory_head = new Label();
+                            lblcategory_head.Name = "lbcate_head_" + gridSourcemaster[j].OrderMasterId;
+                            lblcategory_head.Tag = gridSourcemaster[j].OrderMasterId;
+                            int ordernumber = j + 1;
+                            lblcategory_head.Text = "Order ID : " + ordernumber + "           [" + gridSource[0].CreatedDateTime + "]";
+                            lblcategory_head.ForeColor = Color.Black;
+                            lblcategory_head.BackColor = Color.Transparent;
+                            lblcategory_head.Dock = DockStyle.Fill;
+                            lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 9, FontStyle.Bold);
+                            pnlbox.Controls.Add(lblcategory_head);
+
+                            tlp_seletedItem_main.Controls.Add(pnlbox);
+                            #endregion
+
+                            txtordermasterid.Text = Convert.ToString(gridSourcemaster[j].OrderMasterId);
+                            txtentrie_descr.Text = Convert.ToString(gridSourcemaster[j].Remarks);
+
+                            for (int i = 0; i < gridSource.Count; i++)
+                            {
+                                if (gridSource[i].Status == 3 && (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0))
+                                    ordercount = ordercount + 1;
+
+                                #region Grid fill data
+                                //Dgv_Selected_Item.Rows[i].Cells[islno].Value = i + 1;
+                                //Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value = gridSource[i].ItemBarCode;
+                                //Dgv_Selected_Item.Rows[i].Cells[iname].Value = gridSource[i].ItemName;
+                                //Dgv_Selected_Item.Rows[i].Cells[iitemid].Value = gridSource[i].ItemId;
+                                //Dgv_Selected_Item.Rows[i].Cells[iunit].Value = "Number";
+                                ////Dgv_Selected_Item.Rows[i].Cells[iqty].Value = gridSource[i].Quantity;
+                                //Dgv_Selected_Item.Rows[i].Cells[iprate].Value = gridSource[i].PurchaseRate;
+                                //Dgv_Selected_Item.Rows[i].Cells[iamount].Value = gridSource[i].Amount;
+                                //Dgv_Selected_Item.Rows[i].Cells[idisper].Value = gridSource[i].DiscountPer;
+                                //Dgv_Selected_Item.Rows[i].Cells[idisamt].Value = gridSource[i].DiscountAmount;
+                                //Dgv_Selected_Item.Rows[i].Cells[itaxper].Value = gridSource[i].TaxPer;
+                                //Dgv_Selected_Item.Rows[i].Cells[itaxamt].Value = gridSource[i].TaxAmount;
+                                //Dgv_Selected_Item.Rows[i].Cells[itotal].Value = gridSource[i].NetAmount;
+                                //Dgv_Selected_Item.Rows[i].Cells[itaxtype].Value = gridSource[i].TaxType;
+                                //Dgv_Selected_Item.Rows[i].Cells[itax].Value = gridSource[i].Tax;
+                                //Dgv_Selected_Item.Rows[i].Cells[israte].Value = gridSource[i].Srate;
+                                //Dgv_Selected_Item.Rows[i].Cells[imrp].Value = gridSource[i].MRP;
+                                //Dgv_Selected_Item.Rows[i].Cells[ipridno].Value = gridSource[i].PrId;
+                                //Dgv_Selected_Item.Rows[i].Cells[iunitid].Value = gridSource[i].UnitId;
+                                //Dgv_Selected_Item.Rows[i].Cells[istatusno].Value = 0;
+                                #endregion
+
+                                if (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0)
+                                {
+                                    #region Add data to the List
+                                    // Configure the TableLayoutPanel
+                                    TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
+                                    float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
+                                    for (int x = 0; x < columnPercentages.Length; x++)
+                                    {
+                                        tlp_seletedItem_col.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, columnPercentages[x]));
+                                    }
+                                    tlp_seletedItem_col.Dock = DockStyle.Top;
+                                    tlp_seletedItem_col.BackColor = Color.LightBlue;
+                                    tlp_seletedItem_col.Height = 45;
+                                    tlp_seletedItem_col.Enabled = false;
+
+                                    // Configure the Button for Item name
+                                    Button buttonitemname = new Button();
+
+                                    buttonitemname.BackColor = Color.Beige;
+                                    buttonitemname.Height = 40;
+                                    buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
+
+
+                                    // Configure the Button for add Qty
+                                    Button buttonAdd = new Button();
+                                    buttonAdd.Text = "+";
+
+                                    buttonAdd.BackColor = Color.Beige;
+                                    buttonAdd.Margin = new Padding(0, 14, 0, 0);
+                                    buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
+
+
+                                    // Configure the textbox enter QTY
+                                    TextBox txtqty = new TextBox();
+                                    txtqty.Text = Convert.ToString(gridSource[i].Quantity);
+
+                                    txtqty.BackColor = Color.Beige;
+                                    txtqty.TextAlign = HorizontalAlignment.Center;
+                                    txtqty.Margin = new Padding(0, 14, 0, 0);
+                                    txtqty.Font = new Font(txtqty.Font.FontFamily, 8, FontStyle.Bold);
+
+                                    // Configure the textbox enter QTY
+                                    Button buttonRemove = new Button();
+                                    buttonRemove.Text = "-";
+
+                                    buttonRemove.BackColor = Color.Beige;
+                                    buttonRemove.Margin = new Padding(0, 14, 0, 0);
+                                    buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
+
+
+                                    // Configure the textbox Price
+                                    TextBox txtprice = new TextBox();
+
+                                    txtprice.BackColor = Color.Beige;
+                                    txtprice.TextAlign = HorizontalAlignment.Center;
+                                    txtprice.Margin = new Padding(0, 14, 0, 0);
+                                    txtprice.Font = new Font(txtprice.Font.FontFamily, 8, FontStyle.Bold);
+
+                                    // Configure Item Delete Button
+                                    PictureBox pb_item_delete = new PictureBox();
+                                    pb_item_delete.BackColor = Color.Transparent;
+                                    pb_item_delete.Dock = DockStyle.Top;
+                                    pb_item_delete.Height = 40;
+                                    pb_item_delete.Padding = new Padding(5, 5, 5, 5);
+                                    if (gridSource[i].Status == Convert.ToInt32(Food_Status.Pending))
+                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.kitchen_oder_icon;
+                                    else if (gridSource[i].Status == Convert.ToInt32(Food_Status.FoodProcessing))
+                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.food_preparation;
+                                    else if (gridSource[i].Status == Convert.ToInt32(Food_Status.Complete))
+                                        pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.orderpage_food_finished_icon;
+
+                                    pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch
+                                    decimal amount = Convert.ToDecimal(gridSource[i].NetAmount);
+                                    decimal tamt = Convert.ToDecimal(txtGrandTotal.Text) + amount;
+                                    txtGrandTotal.Text = Convert.ToString(tamt);
+
+                                    //if (Convert.ToInt32(gridSource[i].PrId) > 0)
+                                    //{
+                                    tlp_seletedItem_col.Name = "tlp_seletedItem_col_e_" + gridSource[i].PrId;
+                                    tlp_seletedItem_col.Tag = gridSource[i].PrId;
+                                    tlp_seletedItem_col.AccessibleDescription = "1";
+
+                                    string shortVrianame = TruncateString(gridSource[i].VariatiionName, maxLength_variation);
+                                    bool vastatus = Convert.ToInt32(gridSource[i].AddonStatus) == 1;
+                                    int addonCount = Convert.ToInt32(gridSource[i].Addoncount);
+                                    bool hasVariation = !string.IsNullOrEmpty(shortVrianame);
+
+                                    if (vastatus && addonCount > 0 && hasVariation)
+                                        buttonitemname.Text = gridSource[i].ItemName + " (" + shortVrianame + ") Add[" + addonCount + "]";
+                                    else if (vastatus && addonCount > 0)
+                                        buttonitemname.Text = gridSource[i].ItemName + " Add[" + addonCount + "]";
+                                    else if (vastatus && hasVariation)
+                                        buttonitemname.Text = gridSource[i].ItemName + " (" + gridSource[i].VariatiionName + ")";
+                                    else
+                                        buttonitemname.Text = gridSource[i].ItemName;
+
+                                    buttonitemname.Name = "buttonitemname_e_" + gridSource[i].ItemName;
+                                    buttonitemname.Tag = gridSource[i].PrId;
+                                    buttonitemname.Click += new EventHandler(buttonitemnameClickEventHandler);
+
+                                    buttonAdd.Name = "buttonAdd_e_" + gridSource[i].PrId;
+                                    buttonAdd.Tag = gridSource[i].PrId;
+                                    buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+
+                                    txtqty.Name = "txtqty_e_" + gridSource[i].PrId;
+                                    txtqty.Tag = gridSource[i].PrId;
+
+                                    buttonRemove.Name = "btn_remove_e_" + gridSource[i].PrId;
+                                    buttonRemove.Tag = gridSource[i].PrId;
+                                    buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
+
+                                    txtprice.Text = Convert.ToString(gridSource[i].MarketPrice);
+                                    txtprice.Name = "txtprice_e_" + gridSource[i].PrId;
+                                    txtprice.Tag = gridSource[i].PrId;
+
+                                    pb_item_delete.Name = "btn_remove_" + gridSource[i].PrId;
+                                    pb_item_delete.Tag = gridSource[i].PrId;
+                                    pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
+
+                                    //CalcTotalAmt_Add_prid(Convert.ToInt32(gridSource[i].PrId), gridSource[i].Quantity);
+                                    //}
+                                    //else
+                                    //{
+                                    //    tlp_seletedItem_col.Name = "tlp_seletedItem_col_e_" + gridSource[i].ItemId;
+                                    //    tlp_seletedItem_col.Tag = gridSource[i].ItemId;
+                                    //    tlp_seletedItem_col.AccessibleDescription = "0";
+
+                                    //    buttonitemname.Text = gridSource[i].ItemName;
+                                    //    buttonitemname.Name = "buttonitemname_e_" + gridSource[i].ItemName;
+                                    //    buttonitemname.Tag = gridSource[i].ItemId;
+                                    //    buttonitemname.Click += new EventHandler(buttonitemnameClickEventHandler);
+
+                                    //    buttonAdd.Name = "buttonAdd_e_" + gridSource[i].ItemId;
+                                    //    buttonAdd.Tag = gridSource[i].ItemId;
+                                    //    buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+
+                                    //    txtqty.Name = "txtqty_e_" + gridSource[i].ItemId;
+                                    //    txtqty.Tag = gridSource[i].ItemId;
+
+                                    //    buttonRemove.Name = "btn_remove_e_" + gridSource[i].ItemId;
+                                    //    buttonRemove.Tag = gridSource[i].ItemId;
+                                    //    buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
+
+                                    //    txtprice.Text = Convert.ToString(gridSource[i].Srate);
+                                    //    txtprice.Name = "txtprice_e_" + gridSource[i].ItemId;
+                                    //    txtprice.Tag = gridSource[i].ItemId;
+
+                                    //    pb_item_delete.Name = "btn_remove_e_" + gridSource[i].ItemId;
+                                    //    pb_item_delete.Tag = gridSource[i].ItemId;
+                                    //    pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
+
+                                    //    //CalcTotalAmt_Add(Convert.ToInt32(gridSource[i].ItemId), gridSource[i].Quantity);
+                                    //}
+
+                                    //Dock Setting
+                                    tlp_seletedItem_col.Dock = DockStyle.Top;
+                                    buttonitemname.Dock = DockStyle.Top;
+                                    buttonAdd.Dock = DockStyle.Top;
+                                    txtqty.Dock = DockStyle.Fill;
+                                    buttonRemove.Dock = DockStyle.Top;
+                                    txtprice.Dock = DockStyle.Fill;
+
+                                    // Get the current row count
+                                    currentRowCount = tlp_seletedItem_col.RowCount;
+
+                                    // Add controls to TableLayoutPanel at the next row
+                                    tlp_seletedItem_col.Controls.Add(buttonitemname, 0, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(buttonAdd, 1, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(txtqty, 2, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(buttonRemove, 3, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(txtprice, 4, currentRowCount);
+                                    tlp_seletedItem_col.Controls.Add(pb_item_delete, 5, currentRowCount);
+
+                                    // Increment the row count
+                                    tlp_seletedItem_col.RowCount = currentRowCount + 1;
+                                    // Add the new TableLayoutPanel to tlp_seletedItem_main
+                                    tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
+
+                                    #endregion
+                                }
+                            }
+                        }
+                        j = j + 1;
+                    }
+                    #region End Heading Grid List
+                    //heading Top
+                    Panel pnlboxend = new Panel();
+                    pnlboxend.Name = "pnlbox_end";
+                    pnlboxend.Dock = DockStyle.Top;
+                    pnlboxend.Height = 15;
+                    pnlboxend.Margin = new Padding(0, 5, 0, 5);
+                    // Configure the Label
+                    Label lblend = new Label();
+                    lblend.Name = "lbcate_end";
+                    lblend.Text = DateTime.Now.ToString(" yyyy:MM:dd  HH:mm:ss");
+                    lblend.ForeColor = Color.Black;
+                    lblend.BackColor = Color.Transparent;
+                    lblend.Dock = DockStyle.Fill;
+                    lblend.Font = new Font(lblend.Font.FontFamily, 11, FontStyle.Bold);
+                    pnlboxend.Controls.Add(lblend);
+                    tlp_seletedItem_main.Controls.Add(pnlboxend);
+                    #endregion
+                    if (ordercount == orginalCount && PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
+                    {
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.Print));
+                    }
+                    else
+                    {
+                        int rcount = 0;
+                        for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
+                            {
+                                rcount++;
+                                break;
+                            }
+                        }
+                        if (rcount == 0)
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+                        else
+                            Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    }
+                    netAmount();
+                }
+                else
+                {
+                    lbltablecode_header.Text = "PICK UP";
+                    Pickup_Status = false;
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Order page  CheckRe_Pickuporder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
         public void CheckRe_order()
@@ -6877,11 +7254,54 @@ namespace FoodandBeverage.Forms
                     else
                         dmnordermaster.Gender = 2;
 
+                    if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
+                        dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.Pickuporder);
+                    else
+                        dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.None);
+
                     dmnordermaster.BranchId = FrmDashboard.BranchId;
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+
+                    #region Pickup Table Inseration
+                    DmnPickup dmnDmnPickup = new DmnPickup();
+                    BllPickup bll_Pickup = new BllPickup();
+                    dmnDmnPickup.PkId = Bookingmasterid;
+                    dmnDmnPickup.CusName = Convert.ToString(txtcusname.Text);
+                    dmnDmnPickup.Mobile = Convert.ToString(txtph.Text);
+                    dmnDmnPickup.Address = Convert.ToString(txtaddress.Text);
+                    dmnDmnPickup.EmailId = Convert.ToString(txtemailid.Text);
+                    dmnDmnPickup.Remarks = "";
+                    dmnordermaster.BranchId = FrmDashboard.BranchId;
+                    if (rb_male.Checked)
+                        dmnDmnPickup.Gender = 1;
+                    else
+                        dmnDmnPickup.Gender = 2; 
+
+                    dmnDmnPickup.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+
+                    dmnDmnPickup.DiscountAmt = Convert.ToDecimal(txtdis_amt.Text);
+                    dmnDmnPickup.DiscountPer = Convert.ToDecimal(txtdis_per.Text);
+
+                    dmnDmnPickup.OtherAdd = Convert.ToDecimal(txtotheraddamt.Text);
+                    dmnDmnPickup.OtherDed = Convert.ToDecimal(txtotherdedamt.Text);
+                    dmnDmnPickup.OtherAddText = Convert.ToString(txtother_descr.Text);
+
+                    dmnDmnPickup.OtherDedText = Convert.ToString(txtother_descr.Text);
+                    dmnDmnPickup.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                    dmnDmnPickup.CashRev = Convert.ToDecimal(txtpaidamount.Text);
+
+                    dmnDmnPickup.BalnceAmt = Convert.ToDecimal(txtrecvamount.Text);
+                    dmnDmnPickup.RemoveNotes = "";
+                    dmnDmnPickup.SalesMasterId = Convert.ToInt32(txtph.Text);
+                    //dmnDmnPickup.OrderCancelDateTime ="";
+                    dmnDmnPickup.Status = 1;
+                    dmnDmnPickup.CreatedBy = FrmDashboard.UserId;
+                    var InsertStatuspkup = bll_Pickup.AddData("prdInsert_upd_Pickup", dmnDmnPickup);
+                    #endregion
+
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -7262,6 +7682,12 @@ namespace FoodandBeverage.Forms
             {
                 if (string.IsNullOrEmpty(txtordermasterid.Text))
                     txtordermasterid.Text = "0";
+                if (string.IsNullOrEmpty(txttid.Text))
+                    txttid.Text = "0";
+                if (string.IsNullOrEmpty(txtdis_per.Text))
+                    txtdis_per.Text = "0";
+                if (string.IsNullOrEmpty(txtsalemasterid.Text))
+                    txtsalemasterid.Text = "0"; 
                 if (tlp_seletedItem_main.Controls.Count == 0)
                 {
 
@@ -8037,6 +8463,9 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.ICardNo = reading_RFID;
                         dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
                         dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
+
+                        dmnsalemaster.PickupOrderFlag = gridSourcemaster[0].PickupOrderFlag;
+                        dmnsalemaster.PkId = gridSourcemaster[0].PkId;
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
 
@@ -9958,11 +10387,61 @@ namespace FoodandBeverage.Forms
                     else
                         dmnordermaster.Gender = 2;
 
+                    if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder)) 
+                        dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.Pickuporder);
+                    else
+                        dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.None);
+
                     dmnordermaster.BranchId = FrmDashboard.BranchId;
                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+
+                    #region Pickup Table Inseration
+                    DmnPickup dmnDmnPickup = new DmnPickup();
+                    BllPickup bll_Pickup = new BllPickup();
+                    dmnDmnPickup.PkId = Bookingmasterid;
+                    dmnDmnPickup.CusName = Convert.ToString(txtcusname.Text);
+                    dmnDmnPickup.Mobile = Convert.ToString(txtph.Text);
+                    dmnDmnPickup.Address = Convert.ToString(txtaddress.Text);
+                    dmnDmnPickup.EmailId = Convert.ToString(txtemailid.Text);
+                    dmnDmnPickup.Remarks = "";
+                    dmnDmnPickup.BranchId = FrmDashboard.BranchId;
+                    if (rb_male.Checked)
+                        dmnDmnPickup.Gender = 1;
+                    else
+                        dmnDmnPickup.Gender = 2;
+
+                    dmnDmnPickup.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+
+                    dmnDmnPickup.DiscountAmt = Convert.ToDecimal(txtdis_amt.Text);
+                    dmnDmnPickup.DiscountPer = Convert.ToDecimal(txtdis_per.Text);
+
+                    dmnDmnPickup.OtherAdd = Convert.ToDecimal(txtotheraddamt.Text);
+                    dmnDmnPickup.OtherDed = Convert.ToDecimal(txtotherdedamt.Text);
+                    if(txtother_descr.Text!= "Description Type Here ...")
+                        dmnDmnPickup.OtherAddText = Convert.ToString(txtother_descr.Text);
+                    else
+                        dmnDmnPickup.OtherAddText ="";
+
+                    if (txtother_descr.Text != "Description Type Here ...")
+                        dmnDmnPickup.OtherDedText = Convert.ToString(txtother_descr.Text);
+                    else
+                        dmnDmnPickup.OtherDedText = "";
+
+                    dmnDmnPickup.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                    dmnDmnPickup.CashRev = Convert.ToDecimal(txtpaidamount.Text);
+
+                    dmnDmnPickup.BalnceAmt = Convert.ToDecimal(txtrecvamount.Text);
+                    dmnDmnPickup.RemoveNotes = "";
+                    dmnDmnPickup.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+                    dmnDmnPickup.Status = 1;
+                    dmnDmnPickup.CreatedBy = FrmDashboard.UserId;
+                    var InsertStatuspkup = bll_Pickup.AddData("prdInsert_upd_Pickup", dmnDmnPickup);
+                    #endregion
+                    dmnordermaster.PkId = Convert.ToInt32(InsertStatuspkup.PkId);
+
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -10110,10 +10589,7 @@ namespace FoodandBeverage.Forms
                                     }
 
                                 }
-                            }
-
-
-                        }
+                            }                        }
                     }
                     if (flage == false)
                     {

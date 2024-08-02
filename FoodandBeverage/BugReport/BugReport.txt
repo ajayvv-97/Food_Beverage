@@ -1919,3 +1919,77 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 1
 -------------------------------------------------------------------------
+Date and Time: 02-08-2024 11:58:57
+Page : Order page btn_savekot_print_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 12:01:03
+Page : Order page btn_savekot_print_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 12:25:52
+Page : Order page btn_savekot_print_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 12:31:08
+Page : Order page btn_savekot_print_Click()
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 12:33:23
+Page : Order page btn_savekot_print_Click()
+Exception: Invalid column name 'GrandTotal'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 12:33:45
+Page : Order page btn_savekot_print_Click()
+Exception: @GrandTotal is not a parameter for procedure prdInsert_upd_Pickup.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 13:08:27
+Page : TableView page  LoadTableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 13:08:32
+Page : TableView page  LoadTableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 16:25:51
+Page : TableView page  LoadTableStaus()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 02-08-2024 16:46:39
+Page : TableView page  LoadTableStaus()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 30
+-------------------------------------------------------------------------

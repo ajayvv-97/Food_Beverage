@@ -631,7 +631,7 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(0, Convert.ToInt32(DashboardTableType.CombinedOrderBill), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage));
+                            FrmOrder _instanceFrmOrder = new FrmOrder(0, Convert.ToInt32(DashboardTableType.CombinedOrderBill), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage),0);
                             _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                             _instanceFrmOrder.Opacity = 0;
                             _instanceFrmOrder.Visible = false;
@@ -677,7 +677,7 @@ namespace FoodandBeverage.Forms
                                 int tagValue;
                                 if (clickedControl.Tag != null)
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage));
+                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage),0);
                                     _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                                     _instanceFrmOrder.Opacity = 0;
                                     _instanceFrmOrder.Visible = false;
@@ -707,7 +707,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.Billpage));
+                                    FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.Billpage),0);
                                     _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                                     _instanceFrmOrder.Opacity = 0;
                                     _instanceFrmOrder.Visible = false;

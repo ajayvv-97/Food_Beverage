@@ -61,8 +61,11 @@ namespace BLL
             parms.Add("TapType", objTestClass.TapType);
             parms.Add("LedgerId", objTestClass.LedgerId);
             parms.Add("BillCopyStatus", objTestClass.BillCopyStatus);
-            parms.Add("CombineStatus", objTestClass.CombineStatus); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("CombineStatus", objTestClass.CombineStatus);
+
+            parms.Add("PkId", objTestClass.PkId); 
+            parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
 

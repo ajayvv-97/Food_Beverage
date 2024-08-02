@@ -29,6 +29,8 @@ namespace BLL
             parms.Add("Status", objTestClass.Status);
             parms.Add("Tid", objTestClass.Tid);
             parms.Add("NetAmount", objTestClass.NetAmount);
+            parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
+            parms.Add("PkId", objTestClass.PkId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
