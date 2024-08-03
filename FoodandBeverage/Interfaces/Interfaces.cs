@@ -324,7 +324,8 @@ namespace FoodandBeverage.Interfaces
         DashboardChart = 29,
         TableView = 30,
         Report = 31,
-        CombinedBillpage = 32
+        CombinedBillpage = 32,
+        Pickuppage = 33
     };
     public enum Menubutton
     {
@@ -335,7 +336,8 @@ namespace FoodandBeverage.Interfaces
         Menubilling = 5,
         Menureport = 6,
         Menusetting = 7,
-        Menulogout = 8
+        Menulogout = 8,
+        Pickup=9
     }
     public enum BillType
     {
@@ -356,6 +358,12 @@ namespace FoodandBeverage.Interfaces
     {
         Pickuporder = 1,
         None = 0,
+    }
+    public enum SourcepageType
+    {
+        Tableviewpage = 1,
+        Billingpage = 2,
+        Pickuppae=3
     }
 
 }

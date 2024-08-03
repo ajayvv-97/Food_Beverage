@@ -31,7 +31,8 @@ namespace BLL
             parms.Add("NetAmount", objTestClass.NetAmount);
             parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
             parms.Add("PkId", objTestClass.PkId);
-            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("Kitchennumber", objTestClass.Kitchennumber); 
+             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
         public DmnOrderMaster AddData(string procedureName, DmnOrderMaster objTestClass)

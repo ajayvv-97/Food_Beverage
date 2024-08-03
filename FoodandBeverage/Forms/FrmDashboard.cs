@@ -668,7 +668,7 @@ namespace FoodandBeverage.Forms
                     ChangeButtonBorder(button);
                 }
                 panelDesktop.Controls.Clear();
-
+                btn_pickup.Visible = false;
                 if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
@@ -851,7 +851,9 @@ namespace FoodandBeverage.Forms
                 }
                 panelDesktop.Controls.Add(tlp_op_menu);
                 tlp_op_menu.Dock = DockStyle.Fill;
+
                 tlp_op_menu.Visible = true;
+                btn_pickup.Visible = false;
 
                 if (screenWidth > 1367 && screenHeight > 769)
                 {
@@ -876,6 +878,7 @@ namespace FoodandBeverage.Forms
                     desiredHeight = 32;
                     HdesiredWidth = 40;
                     HdesiredHeight = 40;
+
                     //foreach (Control control in flp_operations.Controls)
                     //{
                     //    if (control is Button buttonm)
@@ -903,6 +906,7 @@ namespace FoodandBeverage.Forms
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
+                btn_pickup.Visible = false;
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
@@ -986,6 +990,7 @@ namespace FoodandBeverage.Forms
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
+                btn_pickup.Visible = false;
                 panelDesktop.SuspendLayout();
 
                 if (menutable_click)
@@ -1464,6 +1469,7 @@ namespace FoodandBeverage.Forms
                     btn_running.Visible = false;
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
+                    btn_pickup.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                 }
                 if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
@@ -1472,6 +1478,14 @@ namespace FoodandBeverage.Forms
                     //_instanceFrmTableView.AutoTimer.Stop();
                     _instanceFrmCombinedBill.Close();
                     _instanceFrmCombinedBill.Dispose();
+                    GC.Collect();
+                }
+                if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+                {
+                    FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                    //_instanceFrmTableView.AutoTimer.Stop();
+                    _instanceFrmPickup.Close();
+                    _instanceFrmPickup.Dispose();
                     GC.Collect();
                 }
             }
@@ -1491,6 +1505,7 @@ namespace FoodandBeverage.Forms
                 ButtonID = Convert.ToInt32(Menubutton.Menusetting);
                 reset_sync.Stop();
                 lblsync.Visible = false;
+                btn_pickup.Visible = false;
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -3030,6 +3045,7 @@ namespace FoodandBeverage.Forms
                 tlp_empl_menu.Dock = DockStyle.Fill;
                 panelDesktop.Controls.Add(tlp_empl_menu);
                 tlp_empl_menu.Visible = true;
+                btn_pickup.Visible = false;
 
                 //if (screenWidth > 1367 && screenHeight > 769)
                 //{
@@ -3704,6 +3720,8 @@ namespace FoodandBeverage.Forms
                 if (tlp_op_menu.Visible)
                     tlp_op_menu.Visible = false;
 
+                btn_pickup.Visible = true;
+
                 if (sender is Button button)
                 {
                     ChangeButtonBorder(button);
@@ -3986,32 +4004,17 @@ namespace FoodandBeverage.Forms
                 {
                     CloseTableViewPage();
                 }
-
-                if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                if (ButtonID == Convert.ToInt32(Menubutton.Pickup))
                 {
-                    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                    if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
-                        _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    else
+                    if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
                     {
-                        tlp_tablestatus.SuspendLayout();
-                        btn_rev.Visible = true;
-                        btn_running.Visible = true;
-                        btn_avial.Visible = true;
-                        btntrefresh.Visible = true;
-                        tlp_tablestatus.ResumeLayout();
-
-                        _instanceFrmTableView.Visible = true;
-                        _instanceFrmTableView.AutoTimer.Start();
-                        _instanceFrmTableView.Dock = DockStyle.Fill;
-                        ResizeForm(_instanceFrmTableView);
-                        panelDesktop.Controls.Add(_instanceFrmTableView);
-                        _instanceFrmTableView.Show();
-                        _instanceFrmTableView.BringToFront();
+                        FrmPickup instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                        //_instanceFrmTableView.AutoTimer.Stop();
+                        instanceFrmPickup.Close();
+                        instanceFrmPickup.Dispose();
+                        GC.Collect();
                     }
-                }
-                else
-                {
+
                     tlp_tablestatus.SuspendLayout();
                     btn_rev.Visible = true;
                     btn_running.Visible = true;
@@ -4019,14 +4022,61 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
-                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
-                    ResizeForm(_instanceFrmTableView);
-                    _instanceFrmTableView.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmTableView);
-                    _instanceFrmTableView.Show();
-                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmTableView.BringToFront();
+                    FrmPickup _instanceFrmPickup = new FrmPickup(0);
+                    ResizeForm(_instanceFrmPickup);
+                    _instanceFrmPickup.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmPickup);
+                    _instanceFrmPickup.Show();
+                    _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmPickup.BringToFront();
+
                 }
+                else if (ButtonID == Convert.ToInt32(Menubutton.Menutable))
+                {
+                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                    {
+                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                            _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        else
+                        {
+                            tlp_tablestatus.SuspendLayout();
+                            btn_rev.Visible = true;
+                            btn_running.Visible = true;
+                            btn_avial.Visible = true;
+                            btntrefresh.Visible = true;
+                            btn_pickup.Visible = true;
+                            tlp_tablestatus.ResumeLayout();
+
+                            _instanceFrmTableView.Visible = true;
+                            _instanceFrmTableView.AutoTimer.Start();
+                            _instanceFrmTableView.Dock = DockStyle.Fill;
+                            ResizeForm(_instanceFrmTableView);
+                            panelDesktop.Controls.Add(_instanceFrmTableView);
+                            _instanceFrmTableView.Show();
+                            _instanceFrmTableView.BringToFront();
+                        }
+                    }
+                    else
+                    {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = true;
+                        btn_running.Visible = true;
+                        btn_avial.Visible = true;
+                        btntrefresh.Visible = true;
+                        btn_pickup.Visible = true;
+                        tlp_tablestatus.ResumeLayout();
+
+                        FrmTableView _instanceFrmTableView = new FrmTableView(0);
+                        ResizeForm(_instanceFrmTableView);
+                        _instanceFrmTableView.TopLevel = false;
+                        panelDesktop.Controls.Add(_instanceFrmTableView);
+                        _instanceFrmTableView.Show();
+                        _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        _instanceFrmTableView.BringToFront();
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -4065,6 +4115,82 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage StopTimerAndRefreshLabel", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_pickup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ButtonID = Convert.ToInt32(Menubutton.Pickup);
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    _instanceFrmDashboardReport.Visible = false;
+                }
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
+
+                panelDesktop.SuspendLayout();
+
+                if (tlp_op_menu.Visible)
+                    tlp_op_menu.Visible = false;
+
+                if (sender is Button button)
+                {
+                    ChangeButtonBorder(button);
+                }
+
+                if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+                {
+                    FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                    if (_instanceFrmPickup.WindowState == FormWindowState.Minimized)
+                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = false;
+                        btn_running.Visible = true;
+                        btn_avial.Visible = true;
+                        btntrefresh.Visible = true;
+                        tlp_tablestatus.ResumeLayout();
+
+                        _instanceFrmPickup.Visible = true;
+                       // _instanceFrmPickup.AutoTimer.Start();
+                        _instanceFrmPickup.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceFrmPickup);
+                        panelDesktop.Controls.Add(_instanceFrmPickup);
+                        _instanceFrmPickup.Show();
+                        _instanceFrmPickup.BringToFront();
+                    }
+                }
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = true;
+                    btn_running.Visible = true;
+                    btn_avial.Visible = true;
+                    btntrefresh.Visible = true;
+                    tlp_tablestatus.ResumeLayout();
+
+                    FrmPickup _instanceFrmPickup = new FrmPickup(0);
+                    ResizeForm(_instanceFrmPickup);
+                    _instanceFrmPickup.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmPickup);
+                    _instanceFrmPickup.Show();
+                    _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmPickup.BringToFront();
+
+                }
+
+                menutable_click = true;
+                panelDesktop.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("homepage btn_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 

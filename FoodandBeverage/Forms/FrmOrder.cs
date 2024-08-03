@@ -25,14 +25,16 @@ namespace FoodandBeverage.Forms
         public int BookingType = 0;
         public int PageType = 0;
         public int PickupId = 0;
-        
+        public int sourcepage = 0;
+
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
         //ProcessCmdKey
 
-        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno,int pkid)
+        public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames,int Pageno,int pkid,int sourcepagetype)
         {
             tableId = tid;
+            sourcepage = sourcepagetype;
             Bookingmasterid = bmasterid;
             BookingType = booktype;
             PageType = Pageno;
@@ -7264,7 +7266,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
-
+                    dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                     #region Pickup Table Inseration
                     DmnPickup dmnDmnPickup = new DmnPickup();
                     BllPickup bll_Pickup = new BllPickup();
@@ -7718,7 +7720,11 @@ namespace FoodandBeverage.Forms
 
         private void btncolse_Click(object sender, EventArgs e)
         {
-            ResetTableViewPage();
+            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                ResetTableViewPage();
+            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                ResetPickupViewPage();
+
             ResetBillpage();
             this.Close();
         }
@@ -7741,6 +7747,11 @@ namespace FoodandBeverage.Forms
         }
         public void ResetTableViewPage()
         {
+            if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+            {
+                FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                _instanceFrmPickup.Visible = false;
+            }
             if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
@@ -7748,6 +7759,21 @@ namespace FoodandBeverage.Forms
                 _instanceFrmTableView.TableStaus(0);
             }
         }
+        public void ResetPickupViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.Visible = false;
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+            {
+                FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                _instanceFrmPickup.Visible = true;
+                _instanceFrmPickup.UpdatePickupView(0);
+            }
+        }
+        
         private void txtentrie_descr_Enter(object sender, EventArgs e)
         {
             if (txtentrie_descr.Text == "Description Type here .....")
@@ -8334,8 +8360,12 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    
-                                    ResetTableViewPage();
+
+                                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                                        ResetTableViewPage();
+                                    else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                                        ResetPickupViewPage();
+
                                     ResetBillpage();
                                     //ClearAll();
                                     this.Close();
@@ -8583,8 +8613,11 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    
-                                    ResetTableViewPage();
+
+                                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                                        ResetTableViewPage();
+                                    else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                                        ResetPickupViewPage();
                                     ResetBillpage();
                                     this.Close();
                                 }
@@ -8594,8 +8627,11 @@ namespace FoodandBeverage.Forms
                                     frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                     frmSalesInvoice.ShowDialog();
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    
-                                    ResetTableViewPage();
+
+                                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                                        ResetTableViewPage();
+                                    else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                                        ResetPickupViewPage();
                                     ResetBillpage();
 
                                     //ClearAll();
@@ -8950,7 +8986,10 @@ namespace FoodandBeverage.Forms
 
         private void btn_frm_close_Click(object sender, EventArgs e)
         {
-            ResetTableViewPage();
+            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                ResetTableViewPage();
+            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                ResetPickupViewPage();
             ResetBillpage();
             this.Close();
         }
@@ -9587,7 +9626,10 @@ namespace FoodandBeverage.Forms
                 if (count == dgv_split.RowCount)
                 {
                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ResetTableViewPage();
+                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                        ResetTableViewPage();
+                    else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                        ResetPickupViewPage();
                     this.Close();
                 }
             }
@@ -9711,7 +9753,10 @@ namespace FoodandBeverage.Forms
                     if (count == dgv_split.RowCount)
                     {
                         CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ResetTableViewPage();
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                            ResetTableViewPage();
+                        else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                            ResetPickupViewPage();
                         this.Close();
                     }
                 }
@@ -10397,6 +10442,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.Status = 1;
                     dmnordermaster.Tid = tableId;
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                    dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
 
                     #region Pickup Table Inseration
                     DmnPickup dmnDmnPickup = new DmnPickup();
@@ -10440,6 +10486,7 @@ namespace FoodandBeverage.Forms
                     dmnDmnPickup.CreatedBy = FrmDashboard.UserId;
                     var InsertStatuspkup = bll_Pickup.AddData("prdInsert_upd_Pickup", dmnDmnPickup);
                     #endregion
+
                     dmnordermaster.PkId = Convert.ToInt32(InsertStatuspkup.PkId);
 
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
@@ -10593,7 +10640,10 @@ namespace FoodandBeverage.Forms
                     }
                     if (flage == false)
                     {
-                        ResetTableViewPage();
+                        if(sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                            ResetTableViewPage();
+                        else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                            ResetPickupViewPage();
                         CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearAll();
                         this.Close();
@@ -10631,7 +10681,10 @@ namespace FoodandBeverage.Forms
                     {
                         CMessageBox.Show("Reservation Cancel Sucessfull", "Information", MessageBoxButtons.OK);
                         this.Close();
-                        ResetTableViewPage();
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                            ResetTableViewPage();
+                        else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppae))
+                            ResetPickupViewPage();
                     }
                 }
             }
