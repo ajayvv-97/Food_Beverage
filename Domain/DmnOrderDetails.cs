@@ -59,6 +59,7 @@ namespace Domain
         public string CCode { get; set; }
         public string VariatiionName { get; set; }
         public int SalesDetailsId { get; set; }
-        
+        public int PkId { get; set; }
+
     } 
 }

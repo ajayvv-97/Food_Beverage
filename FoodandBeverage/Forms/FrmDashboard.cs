@@ -4122,6 +4122,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (menutable_click)
+                {
+                    CloseTableViewPage();
+                }
                 ButtonID = Convert.ToInt32(Menubutton.Pickup);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -4151,9 +4155,10 @@ namespace FoodandBeverage.Forms
                     {
                         tlp_tablestatus.SuspendLayout();
                         btn_rev.Visible = false;
-                        btn_running.Visible = true;
-                        btn_avial.Visible = true;
-                        btntrefresh.Visible = true;
+                        btn_running.Visible = false;
+                        btn_avial.Visible = false;
+                        btntrefresh.Visible = false;
+                        btn_pickup.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -4168,10 +4173,11 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     tlp_tablestatus.SuspendLayout();
-                    btn_rev.Visible = true;
-                    btn_running.Visible = true;
-                    btn_avial.Visible = true;
-                    btntrefresh.Visible = true;
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+                    btn_pickup.Visible = false;
                     tlp_tablestatus.ResumeLayout();
 
                     FrmPickup _instanceFrmPickup = new FrmPickup(0);

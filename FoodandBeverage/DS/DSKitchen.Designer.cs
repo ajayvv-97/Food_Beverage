@@ -311,6 +311,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnTotalQTY;
             
+            private global::System.Data.DataColumn columnPkid;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_kitchenbillDataTable() {
@@ -474,6 +476,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PkidColumn {
+                get {
+                    return this.columnPkid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -525,7 +535,8 @@ namespace FoodandBeverage.DS {
                         int TableType_, 
                         string cobmoitemname, 
                         string KitchenNumber, 
-                        decimal TotalQTY) {
+                        decimal TotalQTY, 
+                        int Pkid) {
                 DT_kitchenbillRow rowDT_kitchenbillRow = ((DT_kitchenbillRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -543,7 +554,8 @@ namespace FoodandBeverage.DS {
                         TableType_,
                         cobmoitemname,
                         KitchenNumber,
-                        TotalQTY};
+                        TotalQTY,
+                        Pkid};
                 rowDT_kitchenbillRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_kitchenbillRow);
                 return rowDT_kitchenbillRow;
@@ -582,6 +594,7 @@ namespace FoodandBeverage.DS {
                 this.columncobmoitemname = base.Columns["cobmoitemname"];
                 this.columnKitchenNumber = base.Columns["KitchenNumber"];
                 this.columnTotalQTY = base.Columns["TotalQTY"];
+                this.columnPkid = base.Columns["Pkid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -619,6 +632,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnKitchenNumber);
                 this.columnTotalQTY = new global::System.Data.DataColumn("TotalQTY", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalQTY);
+                this.columnPkid = new global::System.Data.DataColumn("Pkid", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPkid);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1017,6 +1032,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Pkid {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_kitchenbill.PkidColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Pkid\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.PkidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_kitchenbill.ItemNameColumn);
             }
@@ -1205,6 +1236,18 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetTotalQTYNull() {
                 this[this.tableDT_kitchenbill.TotalQTYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPkidNull() {
+                return this.IsNull(this.tableDT_kitchenbill.PkidColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPkidNull() {
+                this[this.tableDT_kitchenbill.PkidColumn] = global::System.Convert.DBNull;
             }
         }
         

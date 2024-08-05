@@ -109,6 +109,8 @@ namespace BLL
             parms.Add("CCode", objTestClass.CCode);
             parms.Add("VariatiionName", objTestClass.VariatiionName);
 
+            parms.Add("PkId", objTestClass.PkId);
+            
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

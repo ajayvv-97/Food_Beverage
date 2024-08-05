@@ -23,7 +23,8 @@ namespace Domain
         public string Kitchennumber { get; set; }
         public string VariatiionName { get; set; }
         public decimal TotalQTY { get; set; }
-        
+        public int Pkid { get; set; }
 
+        
     }
 }

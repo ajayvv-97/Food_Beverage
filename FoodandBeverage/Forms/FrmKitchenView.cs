@@ -243,7 +243,7 @@ namespace FoodandBeverage.Forms
                             ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12," +
                             "ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17," +
                             "ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21," +
-                            "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24";
+                            "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24,ko.pkid Field25";
                         dmnSearch.Table = "tblkitchenOrder ko " +
                             "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                             "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -401,20 +401,29 @@ namespace FoodandBeverage.Forms
                                 #region Table Name 
                                 Label lbl_tablecode = new Label()
                                 {
-                                    Text = gridSourcedetails[0].Field2,
+
                                     Name = "lbl_tablecod_k_" + orders.Field1 + gridSourcedetails[0].Field17,
                                     Dock = DockStyle.Fill,
                                     ForeColor = Color.White,
                                     AutoSize = true,
                                     TextAlign = ContentAlignment.MiddleLeft,
 
-                                };
-                                if (screenWidth > 1367 && screenHeight > 769)
-                                    lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
-                                else
-                                    lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
+                                };                              
                                 #endregion
 
+                                if (Convert.ToInt32(gridSourcedetails[0].Field25) > 0)
+                                {
+                                    lbl_tablecode.Text = "Pick Up  " + gridSourcedetails[0].Field25;
+                                    lbl_tablecode.Font = new Font("Arial", 12, FontStyle.Bold);
+                                }
+                                else
+                                {
+                                    if (screenWidth > 1367 && screenHeight > 769)
+                                        lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
+                                    else
+                                        lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
+                                    lbl_tablecode.Text = gridSourcedetails[0].Field2;
+                                }
                                 #region Token No
 
                                 Label lbl_tokkenno = new Label()
@@ -1195,7 +1204,7 @@ namespace FoodandBeverage.Forms
                     //dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName," +
-                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY";
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid";
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -1230,6 +1239,7 @@ namespace FoodandBeverage.Forms
                         MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
                         MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory),
                         TotalQTY = item.TotalQTY,
+                        Pkid = item.Pkid,
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -1265,13 +1275,14 @@ namespace FoodandBeverage.Forms
                                   processedItem.offeritemname,
                                   processedItem.offerqty,
                                   processedItem.Kitchennumber,
-                                  processedItem.TotalQTY
+                                  processedItem.TotalQTY,
+                                  processedItem.Pkid
                               })
                         .ToList();
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY","Pkid"))
                         {
                             dtSalesDetail.Load(reader);
                         }
@@ -1282,7 +1293,12 @@ namespace FoodandBeverage.Forms
                     {
                         this.Invoke(new Action(() =>
                         {
-                            string reportPath = RPTPath + @"\crkitchenbill.rpt";
+                            string reportPath = "";
+                            if (Convert.ToInt32(BillDetails[0].Pkid)>0)
+                                reportPath = RPTPath + @"\CRkitchenbill_Pickup.rpt";
+                            else
+                                 reportPath = RPTPath + @"\crkitchenbill.rpt";
+
                             if (!File.Exists(reportPath))
                             {
                                 throw new FileNotFoundException("Report file not found.", reportPath);

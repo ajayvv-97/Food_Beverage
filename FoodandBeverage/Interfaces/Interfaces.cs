@@ -363,7 +363,7 @@ namespace FoodandBeverage.Interfaces
     {
         Tableviewpage = 1,
         Billingpage = 2,
-        Pickuppae=3
+        Pickuppage=3
     }
 
 }

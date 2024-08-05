@@ -1993,3 +1993,17 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 30
 -------------------------------------------------------------------------
+Date and Time: 05-08-2024 10:32:55
+Page : Order page  btn_saveKOT_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 05-08-2024 16:01:36
+Page : Order page btn_savekot_print_Click()
+Exception: Procedure or function 'prdInsert_Upd_OrderDetails' expects parameter '@PkId', which was not supplied.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------

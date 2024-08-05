@@ -545,7 +545,17 @@ namespace FoodandBeverage.Forms
                         {
                             DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
                             List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                            ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
+                            ComboBoxItem comboBoxItem; 
+
+                            if (Convert.ToInt32(gridSource[i].Field10) == 1)
+                            {
+                                comboBoxItem = new ComboBoxItem(0, "PICKUP ORDER");
+                            }
+                            else
+                            {
+                                comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field8), gridSource[i].Field2);
+                            }
+
                             comboBoxItems.Add(comboBoxItem);
                             dropDown.DataSource = comboBoxItems;
                             dropDown.ValueMember = "Id";
@@ -553,6 +563,7 @@ namespace FoodandBeverage.Forms
                             dropDown.Value = comboBoxItems[0].Id;
                             dropDown.ReadOnly = true;
                         }
+
 
                         dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field3;
                         dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
