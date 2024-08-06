@@ -9,7 +9,7 @@ namespace BLL
 {
     public class BllTableData<T> where T : class
     {
-        public List<T> serachreport(string Procedure, DmnTableinfo objSearch)
+        public List<T> serachreport(string Procedure, DmncombinedBill objSearch)
         {
             DAL.DapperRepository<T> dapper = new DAL.DapperRepository<T>();
             DynamicParameters parms = new DynamicParameters();

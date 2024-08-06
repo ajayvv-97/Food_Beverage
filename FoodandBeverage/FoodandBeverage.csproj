@@ -1790,6 +1790,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\downarrow.png" />
     <None Include="Resources\confirmbutton.png" />
     <None Include="Resources\res_show button.png" />
     <None Include="Resources\res_hide button.png" />

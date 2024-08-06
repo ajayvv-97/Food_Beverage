@@ -2254,6 +2254,8 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.Status = 1;
                         dmnordermaster.Tid = 0;
                         dmnordermaster.NetAmount = 0;
+                        dmnordermaster.PickupOrderFlag = 0;
+                        dmnordermaster.PkId = 0;
                         var InsertStatusO = bllOrder.AddData("prdInsert_Upd_OrderMaster", dmnordermaster);
                         #endregion
 

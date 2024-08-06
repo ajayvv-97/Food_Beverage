@@ -279,6 +279,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2DDAA52C932443489E218B3A47B0786F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2E8624AD3F01E37537E920FC6A9F2974"
         "OwnerKey" = "8:_B24CBA906EF7971DC49FF62591CBEC95"
         "MsmSig" = "8:_UNDEFINED"
@@ -3640,6 +3646,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2DDAA52C932443489E218B3A47B0786F"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRkitchenbill_Pickup.rpt"
+            "TargetName" = "8:CRkitchenbill_Pickup.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2E8624AD3F01E37537E920FC6A9F2974"
@@ -8483,7 +8509,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Midasfun FoodBeverage Setup"
         "ProductCode" = "8:{7395D94D-250C-4CA2-AC30-E6DBF44A6AB0}"
-        "PackageCode" = "8:{E0C6E1FD-F2E9-43AB-8601-9A2BAAC02A34}"
+        "PackageCode" = "8:{6C2A60B6-F9EA-4F3C-94B2-F391257B966E}"
         "UpgradeCode" = "8:{96E9E708-BC35-40FC-A20C-18944D6B75BC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

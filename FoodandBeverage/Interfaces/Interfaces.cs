@@ -363,7 +363,14 @@ namespace FoodandBeverage.Interfaces
     {
         Tableviewpage = 1,
         Billingpage = 2,
-        Pickuppage=3
+        Pickuppage = 3
+    }
+    public enum CombinedBillType
+    {
+        CombinedBill = 1,
+        Normal = 2,
+        BookingBill = 3,
+        PickupBill = 4
     }
 
 }

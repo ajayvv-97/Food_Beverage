@@ -907,10 +907,17 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
                     _instanceFrmDashboardReport.Visible = false;
+                }
+
+                if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                {
+                    FrmTableView _insFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                    _insFrmTableView.Visible = false;
                 }
                 panelDesktop.SuspendLayout();
 
@@ -970,7 +977,7 @@ namespace FoodandBeverage.Forms
                     _instanceCombinedBill.BringToFront();
 
                 }
-                menutable_click = true;
+                menutable_click = false;
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
@@ -3710,6 +3717,14 @@ namespace FoodandBeverage.Forms
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
                     _instanceFrmDashboardReport.Visible = false;
+                }
+                if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+                {
+                    FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                    //_instanceFrmTableView.AutoTimer.Stop();
+                    _instanceFrmCombinedBill.Close();
+                    _instanceFrmCombinedBill.Dispose();
+                    GC.Collect();
                 }
                 time_syn_lal.Stop();
                 reset_sync.Stop();

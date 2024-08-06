@@ -166,6 +166,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     #endregion
+
                     flp_pickup_view.SuspendLayout();
 
                     for (int i = 0; i < gridSource.Count; i++)
