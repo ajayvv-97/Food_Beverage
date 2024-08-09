@@ -435,6 +435,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4A9715836F4E4A518401E52E72E652BC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4AD0C9B5494FFC64FCDCF02CF1D56E85"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -1083,6 +1089,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A4335C8BAE3E4CDBBB2054B95EC744A7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A68D9E2DBE41BD68095CB576964A3124"
         "OwnerKey" = "8:_2323D1AA433C3C97BF5E1D5AD5465E1F"
         "MsmSig" = "8:_UNDEFINED"
@@ -1103,6 +1115,12 @@
         {
         "MsmKey" = "8:_A68D9E2DBE41BD68095CB576964A3124"
         "OwnerKey" = "8:_89C76547512EE451B6B46EECE6D37EE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A774BD38BEB340DA87433FD92BA16E93"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1307,6 +1325,12 @@
         {
         "MsmKey" = "8:_C16B3D243A14440E9B2B04B8400E4611"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4FE35C9513249E798935CF479CB92B8"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1684,7 +1708,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_372589E7AFCC3A89049558FE00890966"
+        "OwnerKey" = "8:_9AC63F81318E59F8BB5E1DA420F904F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1697,6 +1721,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_55E630B6F16E5F9A901376D3B0DB160E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_372589E7AFCC3A89049558FE00890966"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2639,12 +2669,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5798F5E5F02B5C355968D19EB6B1CC88"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9AC63F81318E59F8BB5E1DA420F904F6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -4087,6 +4111,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4A9715836F4E4A518401E52E72E652BC"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\SaleBill\\SaleBill_Copy.rpt"
+            "TargetName" = "8:SaleBill_Copy.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_834D7703A8BF43B7877A13EB352AEADB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4AD0C9B5494FFC64FCDCF02CF1D56E85"
@@ -6304,6 +6348,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4335C8BAE3E4CDBBB2054B95EC744A7"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\SaleBill\\CR_Bill_Without_QR.rpt"
+            "TargetName" = "8:CR_Bill_Without_QR.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_834D7703A8BF43B7877A13EB352AEADB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A68D9E2DBE41BD68095CB576964A3124"
             {
             "AssemblyRegister" = "3:1"
@@ -6333,6 +6397,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A774BD38BEB340DA87433FD92BA16E93"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\SaleBill\\CR_Bill_withoutQR_Logo.rpt"
+            "TargetName" = "8:CR_Bill_withoutQR_Logo.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_834D7703A8BF43B7877A13EB352AEADB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A7996827BBF3122E782B2A1A5ADF091A"
@@ -7055,6 +7139,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4FE35C9513249E798935CF479CB92B8"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\SaleBill\\CR_Bill_Without_Logo.rpt"
+            "TargetName" = "8:CR_Bill_Without_Logo.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_834D7703A8BF43B7877A13EB352AEADB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C571DCFF8DF38A44873269D66BB54E0D"
@@ -8509,7 +8613,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Midasfun FoodBeverage Setup"
         "ProductCode" = "8:{7395D94D-250C-4CA2-AC30-E6DBF44A6AB0}"
-        "PackageCode" = "8:{6C2A60B6-F9EA-4F3C-94B2-F391257B966E}"
+        "PackageCode" = "8:{9C7FCECA-C284-4C45-AA10-450C360E4AA6}"
         "UpgradeCode" = "8:{96E9E708-BC35-40FC-A20C-18944D6B75BC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

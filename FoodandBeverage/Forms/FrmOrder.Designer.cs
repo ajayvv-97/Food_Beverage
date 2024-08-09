@@ -431,14 +431,7 @@ namespace FoodandBeverage.Forms
             this.cSalesMasterId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.C_SalesDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.C_OrderDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btncash = new System.Windows.Forms.Button();
-            this.btnnetbanking = new System.Windows.Forms.Button();
-            this.btnupi = new System.Windows.Forms.Button();
-            this.btncreditcard = new System.Windows.Forms.Button();
-            this.btndebit = new System.Windows.Forms.Button();
-            this.btnothers = new System.Windows.Forms.Button();
             this.txttid = new System.Windows.Forms.TextBox();
-            this.btncancelrev = new System.Windows.Forms.Button();
             this.pnl_tableprice = new System.Windows.Forms.Panel();
             this.tlp_tableprice = new System.Windows.Forms.TableLayoutPanel();
             this.dgv_tableprice = new System.Windows.Forms.DataGridView();
@@ -517,15 +510,22 @@ namespace FoodandBeverage.Forms
             this.btn_split_paynow = new System.Windows.Forms.Button();
             this.txtkitchenslrno = new System.Windows.Forms.TextBox();
             this.blinkTimer = new System.Windows.Forms.Timer(this.components);
+            this.tlp_payment_option = new System.Windows.Forms.TableLayoutPanel();
+            this.btncash = new System.Windows.Forms.Button();
+            this.btnothers = new System.Windows.Forms.Button();
+            this.btnupi = new System.Windows.Forms.Button();
+            this.btndebit = new System.Windows.Forms.Button();
+            this.btncreditcard = new System.Windows.Forms.Button();
+            this.btnnetbanking = new System.Windows.Forms.Button();
             this.btn_print_bill = new System.Windows.Forms.Button();
             this.btn_PrintCopy = new System.Windows.Forms.Button();
+            this.btncancelrev = new System.Windows.Forms.Button();
             this.btn_savekot_print = new System.Windows.Forms.Button();
             this.btn_saveKOT = new System.Windows.Forms.Button();
             this.btn_frm_close = new System.Windows.Forms.Button();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_entire_desc = new System.Windows.Forms.Button();
             this.btn_promo_code = new System.Windows.Forms.Button();
-            this.tlp_payment_option = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_tableorder.SuspendLayout();
             this.tlp_tableorder.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -838,7 +838,7 @@ namespace FoodandBeverage.Forms
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.58005F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 222F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 226F));
             this.tlp_userdetails.Controls.Add(this.btn_clear_cus, 3, 1);
             this.tlp_userdetails.Controls.Add(this.label32, 0, 5);
             this.tlp_userdetails.Controls.Add(this.label29, 0, 2);
@@ -873,7 +873,7 @@ namespace FoodandBeverage.Forms
             this.btn_clear_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_clear_cus.FlatAppearance.BorderSize = 0;
             this.btn_clear_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clear_cus.Location = new System.Drawing.Point(164, 23);
+            this.btn_clear_cus.Location = new System.Drawing.Point(160, 23);
             this.btn_clear_cus.Name = "btn_clear_cus";
             this.btn_clear_cus.Size = new System.Drawing.Size(51, 1);
             this.btn_clear_cus.TabIndex = 11;
@@ -888,7 +888,7 @@ namespace FoodandBeverage.Forms
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.Location = new System.Drawing.Point(3, 17);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(40, 1);
+            this.label32.Size = new System.Drawing.Size(39, 1);
             this.label32.TabIndex = 8;
             this.label32.Text = "Gender";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -900,7 +900,7 @@ namespace FoodandBeverage.Forms
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.Location = new System.Drawing.Point(3, 20);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(40, 1);
+            this.label29.Size = new System.Drawing.Size(39, 1);
             this.label29.TabIndex = 3;
             this.label29.Text = "Address";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -912,7 +912,7 @@ namespace FoodandBeverage.Forms
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.Location = new System.Drawing.Point(3, 20);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(40, 1);
+            this.label28.Size = new System.Drawing.Size(39, 1);
             this.label28.TabIndex = 0;
             this.label28.Text = "Customer Name";
             this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -921,10 +921,10 @@ namespace FoodandBeverage.Forms
             // 
             this.txtcusname.BackColor = System.Drawing.Color.White;
             this.txtcusname.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtcusname.Location = new System.Drawing.Point(49, 23);
+            this.txtcusname.Location = new System.Drawing.Point(48, 23);
             this.txtcusname.Multiline = true;
             this.txtcusname.Name = "txtcusname";
-            this.txtcusname.Size = new System.Drawing.Size(63, 1);
+            this.txtcusname.Size = new System.Drawing.Size(60, 1);
             this.txtcusname.TabIndex = 1;
             this.txtcusname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtcusname_KeyPress);
             // 
@@ -932,10 +932,10 @@ namespace FoodandBeverage.Forms
             // 
             this.txtaddress.BackColor = System.Drawing.Color.White;
             this.txtaddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtaddress.Location = new System.Drawing.Point(49, 23);
+            this.txtaddress.Location = new System.Drawing.Point(48, 23);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
-            this.txtaddress.Size = new System.Drawing.Size(63, 1);
+            this.txtaddress.Size = new System.Drawing.Size(60, 1);
             this.txtaddress.TabIndex = 2;
             // 
             // label30
@@ -945,7 +945,7 @@ namespace FoodandBeverage.Forms
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.Location = new System.Drawing.Point(3, 19);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(40, 1);
+            this.label30.Size = new System.Drawing.Size(39, 1);
             this.label30.TabIndex = 4;
             this.label30.Text = "Email Id";
             this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -957,7 +957,7 @@ namespace FoodandBeverage.Forms
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.Location = new System.Drawing.Point(3, 18);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(40, 1);
+            this.label31.Size = new System.Drawing.Size(39, 1);
             this.label31.TabIndex = 5;
             this.label31.Text = "Ph";
             this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -966,10 +966,10 @@ namespace FoodandBeverage.Forms
             // 
             this.txtemailid.BackColor = System.Drawing.Color.White;
             this.txtemailid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtemailid.Location = new System.Drawing.Point(49, 22);
+            this.txtemailid.Location = new System.Drawing.Point(48, 22);
             this.txtemailid.Multiline = true;
             this.txtemailid.Name = "txtemailid";
-            this.txtemailid.Size = new System.Drawing.Size(63, 1);
+            this.txtemailid.Size = new System.Drawing.Size(60, 1);
             this.txtemailid.TabIndex = 6;
             this.txtemailid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtemailid_KeyPress);
             this.txtemailid.Leave += new System.EventHandler(this.txtemailid_Leave);
@@ -978,11 +978,11 @@ namespace FoodandBeverage.Forms
             // 
             this.txtph.BackColor = System.Drawing.Color.White;
             this.txtph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtph.Location = new System.Drawing.Point(49, 21);
+            this.txtph.Location = new System.Drawing.Point(48, 21);
             this.txtph.MaxLength = 12;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
-            this.txtph.Size = new System.Drawing.Size(63, 1);
+            this.txtph.Size = new System.Drawing.Size(60, 1);
             this.txtph.TabIndex = 7;
             this.txtph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtph_KeyPress);
             this.txtph.Leave += new System.EventHandler(this.txtph_Leave);
@@ -995,11 +995,11 @@ namespace FoodandBeverage.Forms
             this.tlp_gender.Controls.Add(this.rb_female, 1, 0);
             this.tlp_gender.Controls.Add(this.rb_male, 0, 0);
             this.tlp_gender.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_gender.Location = new System.Drawing.Point(49, 20);
+            this.tlp_gender.Location = new System.Drawing.Point(48, 20);
             this.tlp_gender.Name = "tlp_gender";
             this.tlp_gender.RowCount = 1;
             this.tlp_gender.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_gender.Size = new System.Drawing.Size(63, 1);
+            this.tlp_gender.Size = new System.Drawing.Size(60, 1);
             this.tlp_gender.TabIndex = 9;
             // 
             // rb_female
@@ -1008,9 +1008,9 @@ namespace FoodandBeverage.Forms
             this.rb_female.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rb_female.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rb_female.ForeColor = System.Drawing.Color.White;
-            this.rb_female.Location = new System.Drawing.Point(34, 3);
+            this.rb_female.Location = new System.Drawing.Point(33, 3);
             this.rb_female.Name = "rb_female";
-            this.rb_female.Size = new System.Drawing.Size(26, 1);
+            this.rb_female.Size = new System.Drawing.Size(24, 1);
             this.rb_female.TabIndex = 0;
             this.rb_female.TabStop = true;
             this.rb_female.Text = "Female";
@@ -1025,7 +1025,7 @@ namespace FoodandBeverage.Forms
             this.rb_male.ForeColor = System.Drawing.Color.White;
             this.rb_male.Location = new System.Drawing.Point(3, 3);
             this.rb_male.Name = "rb_male";
-            this.rb_male.Size = new System.Drawing.Size(25, 1);
+            this.rb_male.Size = new System.Drawing.Size(24, 1);
             this.rb_male.TabIndex = 1;
             this.rb_male.TabStop = true;
             this.rb_male.Text = "Male";
@@ -1040,7 +1040,7 @@ namespace FoodandBeverage.Forms
             this.btn_edit_cus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_edit_cus.FlatAppearance.BorderSize = 0;
             this.btn_edit_cus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_edit_cus.Location = new System.Drawing.Point(118, 23);
+            this.btn_edit_cus.Location = new System.Drawing.Point(114, 23);
             this.btn_edit_cus.Name = "btn_edit_cus";
             this.btn_edit_cus.Size = new System.Drawing.Size(40, 1);
             this.btn_edit_cus.TabIndex = 10;
@@ -4280,7 +4280,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.73589F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 81.26411F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 173F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 489F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 493F));
             this.tableLayoutPanel7.Controls.Add(this.chk_itemwise_pro_selectall, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.cmb_itemcategory_split, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -4296,7 +4296,7 @@ namespace FoodandBeverage.Forms
             this.chk_itemwise_pro_selectall.AutoSize = true;
             this.chk_itemwise_pro_selectall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chk_itemwise_pro_selectall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(207, 3);
+            this.chk_itemwise_pro_selectall.Location = new System.Drawing.Point(203, 3);
             this.chk_itemwise_pro_selectall.Name = "chk_itemwise_pro_selectall";
             this.chk_itemwise_pro_selectall.Size = new System.Drawing.Size(167, 25);
             this.chk_itemwise_pro_selectall.TabIndex = 0;
@@ -4313,9 +4313,9 @@ namespace FoodandBeverage.Forms
             this.cmb_itemcategory_split.FormattingEnabled = true;
             this.cmb_itemcategory_split.Items.AddRange(new object[] {
             "None"});
-            this.cmb_itemcategory_split.Location = new System.Drawing.Point(41, 3);
+            this.cmb_itemcategory_split.Location = new System.Drawing.Point(40, 3);
             this.cmb_itemcategory_split.Name = "cmb_itemcategory_split";
-            this.cmb_itemcategory_split.Size = new System.Drawing.Size(160, 26);
+            this.cmb_itemcategory_split.Size = new System.Drawing.Size(157, 26);
             this.cmb_itemcategory_split.TabIndex = 1;
             // 
             // tlp_split_payment_button
@@ -4873,111 +4873,6 @@ namespace FoodandBeverage.Forms
             this.C_OrderDetailsId.ReadOnly = true;
             this.C_OrderDetailsId.Width = 134;
             // 
-            // btncash
-            // 
-            this.btncash.BackColor = System.Drawing.Color.Transparent;
-            this.btncash.BackgroundImage = global::FoodandBeverage.Properties.Resources.cash;
-            this.btncash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btncash.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btncash.FlatAppearance.BorderSize = 0;
-            this.btncash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncash.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncash.ForeColor = System.Drawing.Color.White;
-            this.btncash.Location = new System.Drawing.Point(3, 3);
-            this.btncash.Name = "btncash";
-            this.btncash.Size = new System.Drawing.Size(139, 120);
-            this.btncash.TabIndex = 66;
-            this.btncash.UseVisualStyleBackColor = false;
-            this.btncash.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btnnetbanking
-            // 
-            this.btnnetbanking.BackColor = System.Drawing.Color.Transparent;
-            this.btnnetbanking.BackgroundImage = global::FoodandBeverage.Properties.Resources.Internet_Banking;
-            this.btnnetbanking.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnnetbanking.FlatAppearance.BorderSize = 0;
-            this.btnnetbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnnetbanking.ForeColor = System.Drawing.Color.White;
-            this.btnnetbanking.Location = new System.Drawing.Point(0, 60);
-            this.btnnetbanking.Name = "btnnetbanking";
-            this.btnnetbanking.Size = new System.Drawing.Size(139, 120);
-            this.btnnetbanking.TabIndex = 62;
-            this.btnnetbanking.UseVisualStyleBackColor = false;
-            this.btnnetbanking.Visible = false;
-            this.btnnetbanking.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btnupi
-            // 
-            this.btnupi.BackColor = System.Drawing.Color.Transparent;
-            this.btnupi.BackgroundImage = global::FoodandBeverage.Properties.Resources.upi;
-            this.btnupi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnupi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnupi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnupi.FlatAppearance.BorderSize = 0;
-            this.btnupi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnupi.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnupi.ForeColor = System.Drawing.Color.White;
-            this.btnupi.Location = new System.Drawing.Point(148, 3);
-            this.btnupi.Name = "btnupi";
-            this.btnupi.Size = new System.Drawing.Size(139, 120);
-            this.btnupi.TabIndex = 64;
-            this.btnupi.UseVisualStyleBackColor = false;
-            this.btnupi.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btncreditcard
-            // 
-            this.btncreditcard.BackColor = System.Drawing.Color.Transparent;
-            this.btncreditcard.BackgroundImage = global::FoodandBeverage.Properties.Resources.credit_card;
-            this.btncreditcard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btncreditcard.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btncreditcard.FlatAppearance.BorderSize = 0;
-            this.btncreditcard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncreditcard.ForeColor = System.Drawing.Color.White;
-            this.btncreditcard.Location = new System.Drawing.Point(0, 130);
-            this.btncreditcard.Name = "btncreditcard";
-            this.btncreditcard.Size = new System.Drawing.Size(139, 120);
-            this.btncreditcard.TabIndex = 63;
-            this.btncreditcard.UseVisualStyleBackColor = false;
-            this.btncreditcard.Visible = false;
-            this.btncreditcard.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btndebit
-            // 
-            this.btndebit.BackColor = System.Drawing.Color.Transparent;
-            this.btndebit.BackgroundImage = global::FoodandBeverage.Properties.Resources.rupay;
-            this.btndebit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btndebit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btndebit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btndebit.FlatAppearance.BorderSize = 0;
-            this.btndebit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btndebit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btndebit.ForeColor = System.Drawing.Color.White;
-            this.btndebit.Location = new System.Drawing.Point(148, 129);
-            this.btndebit.Name = "btndebit";
-            this.btndebit.Size = new System.Drawing.Size(139, 122);
-            this.btndebit.TabIndex = 61;
-            this.btndebit.UseVisualStyleBackColor = false;
-            this.btndebit.Click += new System.EventHandler(this.btncash_Click);
-            // 
-            // btnothers
-            // 
-            this.btnothers.BackColor = System.Drawing.Color.Transparent;
-            this.btnothers.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
-            this.btnothers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnothers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnothers.FlatAppearance.BorderSize = 0;
-            this.btnothers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnothers.ForeColor = System.Drawing.Color.White;
-            this.btnothers.Location = new System.Drawing.Point(3, 129);
-            this.btnothers.Name = "btnothers";
-            this.btnothers.Size = new System.Drawing.Size(139, 122);
-            this.btnothers.TabIndex = 65;
-            this.btnothers.UseVisualStyleBackColor = false;
-            this.btnothers.Click += new System.EventHandler(this.btncash_Click);
-            // 
             // txttid
             // 
             this.txttid.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -4988,22 +4883,6 @@ namespace FoodandBeverage.Forms
             this.txttid.Size = new System.Drawing.Size(61, 16);
             this.txttid.TabIndex = 280;
             this.txttid.Visible = false;
-            // 
-            // btncancelrev
-            // 
-            this.btncancelrev.BackColor = System.Drawing.Color.Transparent;
-            this.btncancelrev.BackgroundImage = global::FoodandBeverage.Properties.Resources.res_rev_cancel;
-            this.btncancelrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btncancelrev.FlatAppearance.BorderSize = 0;
-            this.btncancelrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncancelrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncancelrev.Location = new System.Drawing.Point(843, 7);
-            this.btncancelrev.Name = "btncancelrev";
-            this.btncancelrev.Size = new System.Drawing.Size(90, 36);
-            this.btncancelrev.TabIndex = 282;
-            this.btncancelrev.UseVisualStyleBackColor = false;
-            this.btncancelrev.Visible = false;
-            this.btncancelrev.Click += new System.EventHandler(this.btncancelrev_Click);
             // 
             // pnl_tableprice
             // 
@@ -5240,7 +5119,7 @@ namespace FoodandBeverage.Forms
             this.tlp_cardbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.41958F));
             this.tlp_cardbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.58042F));
             this.tlp_cardbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
-            this.tlp_cardbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 238F));
+            this.tlp_cardbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 242F));
             this.tlp_cardbutton.Controls.Add(this.btn_close_cardaccount, 3, 0);
             this.tlp_cardbutton.Controls.Add(this.btn_card_paynow, 2, 0);
             this.tlp_cardbutton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -5258,7 +5137,7 @@ namespace FoodandBeverage.Forms
             this.btn_close_cardaccount.FlatAppearance.BorderSize = 0;
             this.btn_close_cardaccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_close_cardaccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_close_cardaccount.Location = new System.Drawing.Point(606, 3);
+            this.btn_close_cardaccount.Location = new System.Drawing.Point(602, 3);
             this.btn_close_cardaccount.Name = "btn_close_cardaccount";
             this.btn_close_cardaccount.Size = new System.Drawing.Size(93, 25);
             this.btn_close_cardaccount.TabIndex = 1;
@@ -5272,7 +5151,7 @@ namespace FoodandBeverage.Forms
             this.btn_card_paynow.FlatAppearance.BorderSize = 0;
             this.btn_card_paynow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_card_paynow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_card_paynow.Location = new System.Drawing.Point(505, 3);
+            this.btn_card_paynow.Location = new System.Drawing.Point(501, 3);
             this.btn_card_paynow.Name = "btn_card_paynow";
             this.btn_card_paynow.Size = new System.Drawing.Size(95, 25);
             this.btn_card_paynow.TabIndex = 0;
@@ -5352,7 +5231,7 @@ namespace FoodandBeverage.Forms
             this.tlp_acc_details_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.45283F));
             this.tlp_acc_details_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.54717F));
             this.tlp_acc_details_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
-            this.tlp_acc_details_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 358F));
+            this.tlp_acc_details_sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 362F));
             this.tlp_acc_details_sub.Controls.Add(this.txt_cardbalance, 3, 2);
             this.tlp_acc_details_sub.Controls.Add(this.txtcardemail, 3, 1);
             this.tlp_acc_details_sub.Controls.Add(this.txt_cardno, 3, 0);
@@ -5381,11 +5260,11 @@ namespace FoodandBeverage.Forms
             this.txt_cardbalance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txt_cardbalance.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_cardbalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_cardbalance.Location = new System.Drawing.Point(352, 118);
+            this.txt_cardbalance.Location = new System.Drawing.Point(348, 118);
             this.txt_cardbalance.Multiline = true;
             this.txt_cardbalance.Name = "txt_cardbalance";
             this.txt_cardbalance.ReadOnly = true;
-            this.txt_cardbalance.Size = new System.Drawing.Size(353, 33);
+            this.txt_cardbalance.Size = new System.Drawing.Size(357, 33);
             this.txt_cardbalance.TabIndex = 17;
             // 
             // txtcardemail
@@ -5393,11 +5272,11 @@ namespace FoodandBeverage.Forms
             this.txtcardemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txtcardemail.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtcardemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtcardemail.Location = new System.Drawing.Point(352, 61);
+            this.txtcardemail.Location = new System.Drawing.Point(348, 61);
             this.txtcardemail.Multiline = true;
             this.txtcardemail.Name = "txtcardemail";
             this.txtcardemail.ReadOnly = true;
-            this.txtcardemail.Size = new System.Drawing.Size(353, 33);
+            this.txtcardemail.Size = new System.Drawing.Size(357, 33);
             this.txtcardemail.TabIndex = 16;
             // 
             // txt_cardno
@@ -5405,11 +5284,11 @@ namespace FoodandBeverage.Forms
             this.txt_cardno.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txt_cardno.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_cardno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_cardno.Location = new System.Drawing.Point(352, 3);
+            this.txt_cardno.Location = new System.Drawing.Point(348, 3);
             this.txt_cardno.Multiline = true;
             this.txt_cardno.Name = "txt_cardno";
             this.txt_cardno.ReadOnly = true;
-            this.txt_cardno.Size = new System.Drawing.Size(353, 33);
+            this.txt_cardno.Size = new System.Drawing.Size(357, 33);
             this.txt_cardno.TabIndex = 15;
             // 
             // txt_cardaddress
@@ -5417,11 +5296,11 @@ namespace FoodandBeverage.Forms
             this.txt_cardaddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txt_cardaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cardaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_cardaddress.Location = new System.Drawing.Point(92, 118);
+            this.txt_cardaddress.Location = new System.Drawing.Point(90, 118);
             this.txt_cardaddress.Multiline = true;
             this.txt_cardaddress.Name = "txt_cardaddress";
             this.txt_cardaddress.ReadOnly = true;
-            this.txt_cardaddress.Size = new System.Drawing.Size(115, 89);
+            this.txt_cardaddress.Size = new System.Drawing.Size(113, 89);
             this.txt_cardaddress.TabIndex = 14;
             // 
             // txt_cardph
@@ -5429,11 +5308,11 @@ namespace FoodandBeverage.Forms
             this.txt_cardph.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txt_cardph.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_cardph.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_cardph.Location = new System.Drawing.Point(92, 61);
+            this.txt_cardph.Location = new System.Drawing.Point(90, 61);
             this.txt_cardph.Multiline = true;
             this.txt_cardph.Name = "txt_cardph";
             this.txt_cardph.ReadOnly = true;
-            this.txt_cardph.Size = new System.Drawing.Size(115, 33);
+            this.txt_cardph.Size = new System.Drawing.Size(113, 33);
             this.txt_cardph.TabIndex = 13;
             // 
             // label45
@@ -5441,7 +5320,7 @@ namespace FoodandBeverage.Forms
             this.label45.AutoSize = true;
             this.label45.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label45.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label45.Location = new System.Drawing.Point(213, 115);
+            this.label45.Location = new System.Drawing.Point(209, 115);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(133, 95);
             this.label45.TabIndex = 10;
@@ -5454,7 +5333,7 @@ namespace FoodandBeverage.Forms
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label34.Location = new System.Drawing.Point(3, 0);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(83, 58);
+            this.label34.Size = new System.Drawing.Size(81, 58);
             this.label34.TabIndex = 0;
             this.label34.Text = "Account Name";
             // 
@@ -5463,7 +5342,7 @@ namespace FoodandBeverage.Forms
             this.label36.AutoSize = true;
             this.label36.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label36.Location = new System.Drawing.Point(213, 0);
+            this.label36.Location = new System.Drawing.Point(209, 0);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(133, 58);
             this.label36.TabIndex = 2;
@@ -5476,7 +5355,7 @@ namespace FoodandBeverage.Forms
             this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label39.Location = new System.Drawing.Point(3, 58);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(83, 57);
+            this.label39.Size = new System.Drawing.Size(81, 57);
             this.label39.TabIndex = 4;
             this.label39.Text = "Phone No";
             // 
@@ -5485,7 +5364,7 @@ namespace FoodandBeverage.Forms
             this.label41.AutoSize = true;
             this.label41.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label41.Location = new System.Drawing.Point(213, 58);
+            this.label41.Location = new System.Drawing.Point(209, 58);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(133, 57);
             this.label41.TabIndex = 6;
@@ -5498,7 +5377,7 @@ namespace FoodandBeverage.Forms
             this.label43.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label43.Location = new System.Drawing.Point(3, 115);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(83, 95);
+            this.label43.Size = new System.Drawing.Size(81, 95);
             this.label43.TabIndex = 8;
             this.label43.Text = "Address";
             // 
@@ -5507,11 +5386,11 @@ namespace FoodandBeverage.Forms
             this.txt_cardaccname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.txt_cardaccname.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_cardaccname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_cardaccname.Location = new System.Drawing.Point(92, 3);
+            this.txt_cardaccname.Location = new System.Drawing.Point(90, 3);
             this.txt_cardaccname.Multiline = true;
             this.txt_cardaccname.Name = "txt_cardaccname";
             this.txt_cardaccname.ReadOnly = true;
-            this.txt_cardaccname.Size = new System.Drawing.Size(115, 33);
+            this.txt_cardaccname.Size = new System.Drawing.Size(113, 33);
             this.txt_cardaccname.TabIndex = 12;
             // 
             // tlp_card_pay_amount
@@ -5829,7 +5708,7 @@ namespace FoodandBeverage.Forms
             this.tlp_var_addon_button.ColumnCount = 3;
             this.tlp_var_addon_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.69621F));
             this.tlp_var_addon_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.3038F));
-            this.tlp_var_addon_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tlp_var_addon_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 235F));
             this.tlp_var_addon_button.Controls.Add(this.btn_va_cancel, 2, 0);
             this.tlp_var_addon_button.Controls.Add(this.btn_va_ok, 1, 0);
             this.tlp_var_addon_button.Dock = System.Windows.Forms.DockStyle.Top;
@@ -5850,9 +5729,9 @@ namespace FoodandBeverage.Forms
             this.btn_va_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_va_cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_va_cancel.ForeColor = System.Drawing.Color.Red;
-            this.btn_va_cancel.Location = new System.Drawing.Point(519, 3);
+            this.btn_va_cancel.Location = new System.Drawing.Point(515, 3);
             this.btn_va_cancel.Name = "btn_va_cancel";
-            this.btn_va_cancel.Size = new System.Drawing.Size(226, 35);
+            this.btn_va_cancel.Size = new System.Drawing.Size(230, 35);
             this.btn_va_cancel.TabIndex = 12;
             this.btn_va_cancel.UseVisualStyleBackColor = false;
             this.btn_va_cancel.Click += new System.EventHandler(this.btn_va_cancel_Click);
@@ -5867,7 +5746,7 @@ namespace FoodandBeverage.Forms
             this.btn_va_ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_va_ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_va_ok.ForeColor = System.Drawing.Color.Red;
-            this.btn_va_ok.Location = new System.Drawing.Point(420, 3);
+            this.btn_va_ok.Location = new System.Drawing.Point(416, 3);
             this.btn_va_ok.Name = "btn_va_ok";
             this.btn_va_ok.Size = new System.Drawing.Size(93, 35);
             this.btn_va_ok.TabIndex = 11;
@@ -5881,7 +5760,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.72922F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.27078F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 461F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 465F));
             this.tableLayoutPanel1.Controls.Add(this.lbladdontotal, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label46, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblsizetotal, 1, 0);
@@ -5900,9 +5779,9 @@ namespace FoodandBeverage.Forms
             this.lbladdontotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbladdontotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbladdontotal.ForeColor = System.Drawing.Color.Red;
-            this.lbladdontotal.Location = new System.Drawing.Point(289, 0);
+            this.lbladdontotal.Location = new System.Drawing.Point(285, 0);
             this.lbladdontotal.Name = "lbladdontotal";
-            this.lbladdontotal.Size = new System.Drawing.Size(456, 30);
+            this.lbladdontotal.Size = new System.Drawing.Size(460, 30);
             this.lbladdontotal.TabIndex = 3;
             this.lbladdontotal.Text = "0.00";
             this.lbladdontotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -5912,7 +5791,7 @@ namespace FoodandBeverage.Forms
             this.label46.AutoSize = true;
             this.label46.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label46.Location = new System.Drawing.Point(172, 0);
+            this.label46.Location = new System.Drawing.Point(168, 0);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(111, 30);
             this.label46.TabIndex = 2;
@@ -5925,9 +5804,9 @@ namespace FoodandBeverage.Forms
             this.lblsizetotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblsizetotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblsizetotal.ForeColor = System.Drawing.Color.Red;
-            this.lblsizetotal.Location = new System.Drawing.Point(65, 0);
+            this.lblsizetotal.Location = new System.Drawing.Point(63, 0);
             this.lblsizetotal.Name = "lblsizetotal";
-            this.lblsizetotal.Size = new System.Drawing.Size(101, 30);
+            this.lblsizetotal.Size = new System.Drawing.Size(99, 30);
             this.lblsizetotal.TabIndex = 1;
             this.lblsizetotal.Text = "0.00";
             this.lblsizetotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -5939,7 +5818,7 @@ namespace FoodandBeverage.Forms
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label40.Location = new System.Drawing.Point(3, 0);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(56, 30);
+            this.label40.Size = new System.Drawing.Size(54, 30);
             this.label40.TabIndex = 0;
             this.label40.Text = "Size Total";
             this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6074,6 +5953,131 @@ namespace FoodandBeverage.Forms
             this.blinkTimer.Interval = 500;
             this.blinkTimer.Tick += new System.EventHandler(this.blinkTimer_Tick);
             // 
+            // tlp_payment_option
+            // 
+            this.tlp_payment_option.ColumnCount = 4;
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_payment_option.Controls.Add(this.btncash, 0, 0);
+            this.tlp_payment_option.Controls.Add(this.btnothers, 0, 1);
+            this.tlp_payment_option.Controls.Add(this.btnupi, 1, 0);
+            this.tlp_payment_option.Controls.Add(this.btndebit, 1, 1);
+            this.tlp_payment_option.Location = new System.Drawing.Point(153, 132);
+            this.tlp_payment_option.Name = "tlp_payment_option";
+            this.tlp_payment_option.RowCount = 2;
+            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_payment_option.Size = new System.Drawing.Size(583, 254);
+            this.tlp_payment_option.TabIndex = 69;
+            this.tlp_payment_option.Visible = false;
+            // 
+            // btncash
+            // 
+            this.btncash.BackColor = System.Drawing.Color.Transparent;
+            this.btncash.BackgroundImage = global::FoodandBeverage.Properties.Resources.cash;
+            this.btncash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btncash.FlatAppearance.BorderSize = 0;
+            this.btncash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncash.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncash.ForeColor = System.Drawing.Color.White;
+            this.btncash.Location = new System.Drawing.Point(3, 3);
+            this.btncash.Name = "btncash";
+            this.btncash.Size = new System.Drawing.Size(139, 120);
+            this.btncash.TabIndex = 66;
+            this.btncash.UseVisualStyleBackColor = false;
+            this.btncash.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnothers
+            // 
+            this.btnothers.BackColor = System.Drawing.Color.Transparent;
+            this.btnothers.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
+            this.btnothers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnothers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnothers.FlatAppearance.BorderSize = 0;
+            this.btnothers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnothers.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnothers.ForeColor = System.Drawing.Color.White;
+            this.btnothers.Location = new System.Drawing.Point(3, 129);
+            this.btnothers.Name = "btnothers";
+            this.btnothers.Size = new System.Drawing.Size(139, 122);
+            this.btnothers.TabIndex = 65;
+            this.btnothers.UseVisualStyleBackColor = false;
+            this.btnothers.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnupi
+            // 
+            this.btnupi.BackColor = System.Drawing.Color.Transparent;
+            this.btnupi.BackgroundImage = global::FoodandBeverage.Properties.Resources.upi;
+            this.btnupi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnupi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnupi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnupi.FlatAppearance.BorderSize = 0;
+            this.btnupi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnupi.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnupi.ForeColor = System.Drawing.Color.White;
+            this.btnupi.Location = new System.Drawing.Point(148, 3);
+            this.btnupi.Name = "btnupi";
+            this.btnupi.Size = new System.Drawing.Size(139, 120);
+            this.btnupi.TabIndex = 64;
+            this.btnupi.UseVisualStyleBackColor = false;
+            this.btnupi.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btndebit
+            // 
+            this.btndebit.BackColor = System.Drawing.Color.Transparent;
+            this.btndebit.BackgroundImage = global::FoodandBeverage.Properties.Resources.rupay;
+            this.btndebit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btndebit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btndebit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btndebit.FlatAppearance.BorderSize = 0;
+            this.btndebit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btndebit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btndebit.ForeColor = System.Drawing.Color.White;
+            this.btndebit.Location = new System.Drawing.Point(148, 129);
+            this.btndebit.Name = "btndebit";
+            this.btndebit.Size = new System.Drawing.Size(139, 122);
+            this.btndebit.TabIndex = 61;
+            this.btndebit.UseVisualStyleBackColor = false;
+            this.btndebit.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btncreditcard
+            // 
+            this.btncreditcard.BackColor = System.Drawing.Color.Transparent;
+            this.btncreditcard.BackgroundImage = global::FoodandBeverage.Properties.Resources.credit_card;
+            this.btncreditcard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncreditcard.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btncreditcard.FlatAppearance.BorderSize = 0;
+            this.btncreditcard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncreditcard.ForeColor = System.Drawing.Color.White;
+            this.btncreditcard.Location = new System.Drawing.Point(0, 130);
+            this.btncreditcard.Name = "btncreditcard";
+            this.btncreditcard.Size = new System.Drawing.Size(139, 120);
+            this.btncreditcard.TabIndex = 63;
+            this.btncreditcard.UseVisualStyleBackColor = false;
+            this.btncreditcard.Visible = false;
+            this.btncreditcard.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnnetbanking
+            // 
+            this.btnnetbanking.BackColor = System.Drawing.Color.Transparent;
+            this.btnnetbanking.BackgroundImage = global::FoodandBeverage.Properties.Resources.Internet_Banking;
+            this.btnnetbanking.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnnetbanking.FlatAppearance.BorderSize = 0;
+            this.btnnetbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnnetbanking.ForeColor = System.Drawing.Color.White;
+            this.btnnetbanking.Location = new System.Drawing.Point(0, 60);
+            this.btnnetbanking.Name = "btnnetbanking";
+            this.btnnetbanking.Size = new System.Drawing.Size(139, 120);
+            this.btnnetbanking.TabIndex = 62;
+            this.btnnetbanking.UseVisualStyleBackColor = false;
+            this.btnnetbanking.Visible = false;
+            this.btnnetbanking.Click += new System.EventHandler(this.btncash_Click);
+            // 
             // btn_print_bill
             // 
             this.btn_print_bill.BackgroundImage = global::FoodandBeverage.Properties.Resources.orderpage_print_bill_button;
@@ -6103,6 +6107,22 @@ namespace FoodandBeverage.Forms
             this.btn_PrintCopy.UseVisualStyleBackColor = true;
             this.btn_PrintCopy.Visible = false;
             this.btn_PrintCopy.Click += new System.EventHandler(this.btn_PrintCopy_Click);
+            // 
+            // btncancelrev
+            // 
+            this.btncancelrev.BackColor = System.Drawing.Color.Transparent;
+            this.btncancelrev.BackgroundImage = global::FoodandBeverage.Properties.Resources.res_rev_cancel;
+            this.btncancelrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncancelrev.FlatAppearance.BorderSize = 0;
+            this.btncancelrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncancelrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncancelrev.Location = new System.Drawing.Point(843, 7);
+            this.btncancelrev.Name = "btncancelrev";
+            this.btncancelrev.Size = new System.Drawing.Size(90, 36);
+            this.btncancelrev.TabIndex = 282;
+            this.btncancelrev.UseVisualStyleBackColor = false;
+            this.btncancelrev.Visible = false;
+            this.btncancelrev.Click += new System.EventHandler(this.btncancelrev_Click);
             // 
             // btn_savekot_print
             // 
@@ -6191,26 +6211,6 @@ namespace FoodandBeverage.Forms
             this.btn_promo_code.UseVisualStyleBackColor = true;
             this.btn_promo_code.Visible = false;
             this.btn_promo_code.Click += new System.EventHandler(this.btn_promo_code_Click);
-            // 
-            // tlp_payment_option
-            // 
-            this.tlp_payment_option.ColumnCount = 4;
-            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_payment_option.Controls.Add(this.btncash, 0, 0);
-            this.tlp_payment_option.Controls.Add(this.btnothers, 0, 1);
-            this.tlp_payment_option.Controls.Add(this.btnupi, 1, 0);
-            this.tlp_payment_option.Controls.Add(this.btndebit, 1, 1);
-            this.tlp_payment_option.Location = new System.Drawing.Point(153, 132);
-            this.tlp_payment_option.Name = "tlp_payment_option";
-            this.tlp_payment_option.RowCount = 2;
-            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_payment_option.Size = new System.Drawing.Size(583, 254);
-            this.tlp_payment_option.TabIndex = 69;
-            this.tlp_payment_option.Visible = false;
             // 
             // FrmOrder
             // 

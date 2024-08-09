@@ -373,5 +373,12 @@ namespace FoodandBeverage.Interfaces
         PickupBill = 4
     }
 
+    public enum OrderType
+    {
+        Booking_NormalOrder = 0,
+        PickupOrder = 1,
+        Combined_pick_normal_Order=2
+    }
+
 }
 

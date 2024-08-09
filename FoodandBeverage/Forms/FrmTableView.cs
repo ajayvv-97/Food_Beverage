@@ -94,7 +94,7 @@ namespace FoodandBeverage.Forms
                         dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0";
                         break;
                 }
-                var gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+                var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
 
                 //dmnSearch.OrderBy = "group by c.Fcid ,c.CategoryName ,ti.Tid,ti.TableCode ,ti.OrderStatus ,ti.OrderMasterId ";
                 //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -114,7 +114,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 if (flag)
-                     gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+                     gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
                 //gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
@@ -137,7 +137,6 @@ namespace FoodandBeverage.Forms
                     tlp_table_dashboard.BackColor = Color.Transparent;       
                     foreach (var category in categoryList)
                     {
-
                         #region Normal or Reservation Order
         
                             int countcateitem = 0;
@@ -402,7 +401,6 @@ namespace FoodandBeverage.Forms
                             rowIndex_cate++;
                         
                         #endregion
-
                     }
                    //tlp_table_dashboard.BorderStyle = BorderStyle.FixedSingle;
                     this.Controls.Add(tlp_table_dashboard);
@@ -432,6 +430,15 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
+
+                #region For checking query (no use )
+                /* c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3, ti.TableCode Field4,
+     ti.OrderStatus Field5, ti.OrderMasterId Field6,
+     (select top(1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -@BookingInterwell, BookingDateTime) and MTID = ti.tid and rid = 0  order by bm.BookingDateTime desc) Field7,
+     (select top(1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -@BookingInterwell, BookingDateTime) and MTID = ti.tid and rid = 0  order by bm.BookingDateTime desc)  EndDate,
+     (select NetAmount from tblOrderMaster where OrderMasterId = ti.OrderMasterId and Status in(1, 2, 3)) Field8*/
+                #endregion
+
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
                 switch (serachmode)
                 {
@@ -448,7 +455,7 @@ namespace FoodandBeverage.Forms
                         dmnSearchtabledata.Field29 = "3";
                         break;
                 }
-                var gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+                var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
                 if (gridSource.Count > 0)
                 {
                     bool flag = false;
@@ -466,7 +473,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     if (flag)
-                        gridSource = SearchDetails.serachreport("TableView", dmnSearchtabledata);
+                        gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
 
                     var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                     List<CategoryInfo> categoryList = new List<CategoryInfo>();
@@ -483,8 +490,8 @@ namespace FoodandBeverage.Forms
                     {
                          #region Normal or Reservation Order 
              
-                        for (int i = 0; i < 2; i++)
-                            {
+                        for (int i = 0; i < gridSource.Count; i++)
+                        {                             
                                 string tlpboxname = "tlpbox" + gridSource[i].Field4;
                                 string lbtable = "lbtablename" + gridSource[i].Field4;
                                 string lblnetamountname = "lb_netamount" + gridSource[i].Field4;
@@ -544,7 +551,7 @@ namespace FoodandBeverage.Forms
                                     #endregion
 
                                     #region Rservation Bokking Order
-                                    else if (Convert.ToInt32(gridSource[i].Field5) == 0)//reservation booking order
+                                    else if (Convert.ToInt32(gridSource[i].Field5) == 0 && (Convert.ToInt32(gridSource[i].Field7) > 0))//reservation booking order
                                     {
                                         if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
                                         {

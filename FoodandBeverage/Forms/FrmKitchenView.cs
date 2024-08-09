@@ -109,6 +109,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View Page PlaySound()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -171,7 +172,7 @@ namespace FoodandBeverage.Forms
 
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
-                var gridSourcemaster = SearchDetails.serachreport("KitchenData", dmnSearchKitchendata);
+                var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
 
                 if (gridSourcemaster.Count > 0)
                 {
@@ -239,18 +240,28 @@ namespace FoodandBeverage.Forms
                     foreach (var orders in distinctOrders)
                     {
                         bool flagstart_ready = false;
-                        dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                            ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12," +
-                            "ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17," +
-                            "ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21," +
-                            "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24,ko.pkid Field25";
-                        dmnSearch.Table = "tblkitchenOrder ko " +
-                            "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-                            "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                            "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
-                        dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2 + " and ko.AddonStatus in(1,0)";
-                        dmnSearch.OrderBy = "order by ko.koid DESC";
-                        var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
+
+                        BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
+                        Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
+                        dmnSearchtabledata.OrderNo =Convert.ToInt32(orders.Field2);
+                        dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
+                        var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
+
+                        #region Query code no use
+                        //dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
+                        //    ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12," +
+                        //    "ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17," +
+                        //    "ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21," +
+                        //    "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24,ko.pkid Field25";
+                        //dmnSearch.Table = "tblkitchenOrder ko " +
+                        //    "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
+                        //    "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
+                        //    "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
+                        //dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId =" + orders.Field1 + " and ko.OrderNo =" + orders.Field2 + " and ko.AddonStatus in(1,0)";
+                        //dmnSearch.OrderBy = "order by ko.koid DESC";
+                        //var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
+                        #endregion
+
                         if (gridSourcedetails.Count > 0)
                         {
                             string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
@@ -418,11 +429,13 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
+                                    lbl_tablecode.Text = gridSourcedetails[0].Field2;
+
                                     if (screenWidth > 1367 && screenHeight > 769)
                                         lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
                                     else
                                         lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
-                                    lbl_tablecode.Text = gridSourcedetails[0].Field2;
+                    
                                 }
                                 #region Token No
 
@@ -1156,7 +1169,7 @@ namespace FoodandBeverage.Forms
 
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
-                var gridSourcemaster = SearchDetails.serachreport("PrintOrder", dmnSearchKitchendata);
+                var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
 
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {

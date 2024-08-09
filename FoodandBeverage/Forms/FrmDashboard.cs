@@ -217,6 +217,7 @@ namespace FoodandBeverage.Forms
 
                 RunMethodInSeparateThread(textb_shape);
                 RunMethodInSeparateThread(AppColorSetting);
+                RunMethodInSeparateThread(BillSetting); 
                 // flpEmployee.Visible = false;
                 // ib_employee.Visible = false;
                 ib_designation.Visible = false;
@@ -504,7 +505,7 @@ namespace FoodandBeverage.Forms
                     this.Invoke(new Action(() =>
                     {
                         // Apply rounded corners to text boxes based on the list
-                        foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search })
+                        foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txtfooter_msg })
                         {
                             ApplyRoundedTextBox(textBox, 10);
                             textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -545,7 +546,51 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        public void BillSetting()
+        {
+            try
+            {
+                BllSearch<DmnSetting> bllSearch = new BllSearch<DmnSetting>();
+                DmnSearch dmnSearch = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblsettings",
+                    WhereNdGroupBy = " where Status=1 ",
+                    OrderBy = ""
+                };
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            txtsid.Text =Convert.ToString(gridSource[0].SId);
+                            chk_Qr.Checked= Convert.ToBoolean(gridSource[0].QRcode);
+                            chk_logo.Checked = Convert.ToBoolean(gridSource[0].Logostatus);
+                            chk_ucsdetails.Checked = Convert.ToBoolean(gridSource[0].Customer_Status); 
+                            txtfooter_msg.Text= Convert.ToString(gridSource[0].Footermsg);
 
+                        }));
+                    }
+                }
+                else
+                {
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+
+                        }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Home Page BillSetting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         public void SetButtonImage(Button button, Image originalImage, int desiredWidth, int desiredHeight)
         {
             Image resizedImage = new Bitmap(originalImage, new Size(desiredWidth, desiredHeight));
@@ -1586,6 +1631,34 @@ namespace FoodandBeverage.Forms
                 columnIndex++;
                 #endregion
 
+                #region Button Bill Setting
+                Button button_bill = new Button();
+                button_bill.Text = "Bill Configuration";
+                button_bill.Name = "btn_Bill";
+                //button_bill.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_bill.BackgroundImageLayout = ImageLayout.Stretch;
+                button_bill.FlatStyle = FlatStyle.Flat;
+                button_bill.BackColor = opbuttoncolor;
+                button_bill.ForeColor = System.Drawing.Color.White;
+                button_bill.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_bill.Width = 350;
+                    button_bill.Height = 120;
+                }
+                else
+                {
+                    button_bill.Width = 212;
+                    button_bill.Height = 89;
+                }
+                button_bill.Margin = new Padding(20, 10, 0, 0);
+                // Add the event handler for the button
+                button_bill.Click += new EventHandler(button_billClickEventHandler);
+                flpcolor.Controls.Add(button_bill);
+                columnIndex++;
+                #endregion
+
+
                 panelDesktop.Controls.Add(flpcolor);
             }
             catch (Exception ex)
@@ -1607,9 +1680,25 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("Home Page  button_messageClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+        private void button_billClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                tlp_main_sidebar_pnldesktop.Enabled = false;
+                pnl_billsetting.Visible = true;
+                pnl_billsetting.Location = new Point(this.ClientSize.Width / 2 - pnl_billsetting.Size.Width / 2, this.ClientSize.Height / 2 - pnl_billsetting.Size.Height / 2);
+                pnl_billsetting.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Home Page  button_billClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        
         private void BgClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -1624,7 +1713,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("HomePage  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("HomePage  BgClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void btnclose_Click(object sender, EventArgs e)
@@ -2344,6 +2433,11 @@ namespace FoodandBeverage.Forms
                     {
                         tlp_main_sidebar_pnldesktop.Enabled = true;
                         panl_msgsettings.Visible = false;
+                    }
+                    else if (pnl_billsetting.Visible)
+                    {
+                        tlp_main_sidebar_pnldesktop.Enabled = true;
+                        pnl_billsetting.Visible = false;
                     }
                     else
                         Closeform();
@@ -4212,6 +4306,58 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage btn_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_billsetting_Click(object sender, EventArgs e)
+        {
+            tlp_main_sidebar_pnldesktop.Enabled = true;
+            pnl_billsetting.Visible = false;
+        }
+
+        private void btn_bill_save_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtsid.Text))
+                    txtsid.Text = "0";
+
+                DmnSetting dmnmsg = new DmnSetting();
+                BllSettins bllmessage = new BllSettins();
+
+                dmnmsg.SId = Convert.ToInt32(txtsid.Text);
+                dmnmsg.QRcode = chk_Qr.Checked;
+                dmnmsg.Logostatus = chk_logo.Checked;
+                dmnmsg.Logopath = "";
+                dmnmsg.Footermsg = txtfooter_msg.Text;
+                dmnmsg.Customer_Status = chk_ucsdetails.Checked;
+                dmnmsg.BranchId = FrmDashboard.BranchId;
+                dmnmsg.CreatedBy = FrmDashboard.UserId;
+                dmnmsg.Status = 1;
+
+                var InsertStatus = bllmessage.AddEditDataSetting_bill("prdInsertBill", dmnmsg);
+
+                if (InsertStatus.SId > 0)
+                {
+                    if (Convert.ToInt32(txtsid.Text) > 0)
+                        CMessageBox.Show(this, "Update successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        CMessageBox.Show(this, "Insert successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtsid.Text = Convert.ToString(InsertStatus.SId);
+                    }
+                    pnl_billsetting.Visible = false;
+                }
+                else
+                {
+                    CMessageBox.Show(this, "Operation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                tlp_main_sidebar_pnldesktop.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("homepage btn_save_msg_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 

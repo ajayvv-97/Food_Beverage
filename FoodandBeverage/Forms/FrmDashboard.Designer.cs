@@ -71,33 +71,34 @@ namespace FoodandBeverage.Forms
             this.pbusericon = new System.Windows.Forms.PictureBox();
             this.lbluser_designation = new System.Windows.Forms.Label();
             this.lblsync = new System.Windows.Forms.Label();
+            this.btn_pickup = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_minimium = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ib_reservation = new FontAwesome.Sharp.IconButton();
-            this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
-            this.ib_Expence = new FontAwesome.Sharp.IconButton();
-            this.ib_Discount_offer = new FontAwesome.Sharp.IconButton();
-            this.ib_vendor = new FontAwesome.Sharp.IconButton();
-            this.ib_tax = new FontAwesome.Sharp.IconButton();
-            this.ib_purchasereturn = new FontAwesome.Sharp.IconButton();
-            this.ib_purchase = new FontAwesome.Sharp.IconButton();
-            this.ib_table = new FontAwesome.Sharp.IconButton();
-            this.ib_unit = new FontAwesome.Sharp.IconButton();
-            this.ib_menu = new FontAwesome.Sharp.IconButton();
-            this.ib_ingrediant = new FontAwesome.Sharp.IconButton();
-            this.ib_Item = new FontAwesome.Sharp.IconButton();
-            this.ib_Category = new FontAwesome.Sharp.IconButton();
-            this.ib_Company = new FontAwesome.Sharp.IconButton();
-            this.ib_orderview = new FontAwesome.Sharp.IconButton();
-            this.ib_kitchenview = new FontAwesome.Sharp.IconButton();
             this.ib_addon = new FontAwesome.Sharp.IconButton();
-            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
-            this.ib_designation = new FontAwesome.Sharp.IconButton();
-            this.ib_department = new FontAwesome.Sharp.IconButton();
-            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
+            this.ib_kitchenview = new FontAwesome.Sharp.IconButton();
+            this.ib_orderview = new FontAwesome.Sharp.IconButton();
+            this.ib_Company = new FontAwesome.Sharp.IconButton();
+            this.ib_Category = new FontAwesome.Sharp.IconButton();
+            this.ib_Item = new FontAwesome.Sharp.IconButton();
+            this.ib_ingrediant = new FontAwesome.Sharp.IconButton();
+            this.ib_menu = new FontAwesome.Sharp.IconButton();
+            this.ib_unit = new FontAwesome.Sharp.IconButton();
+            this.ib_table = new FontAwesome.Sharp.IconButton();
+            this.ib_purchase = new FontAwesome.Sharp.IconButton();
+            this.ib_purchasereturn = new FontAwesome.Sharp.IconButton();
+            this.ib_tax = new FontAwesome.Sharp.IconButton();
+            this.ib_vendor = new FontAwesome.Sharp.IconButton();
+            this.ib_Discount_offer = new FontAwesome.Sharp.IconButton();
+            this.ib_Expence = new FontAwesome.Sharp.IconButton();
+            this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
+            this.ib_reservation = new FontAwesome.Sharp.IconButton();
             this.ib_employee = new FontAwesome.Sharp.IconButton();
+            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
+            this.ib_department = new FontAwesome.Sharp.IconButton();
+            this.ib_designation = new FontAwesome.Sharp.IconButton();
+            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
             this.pnl_tableorder = new System.Windows.Forms.Panel();
             this.tlp_tableorder = new System.Windows.Forms.TableLayoutPanel();
             this.btn_tableorder = new System.Windows.Forms.Button();
@@ -136,7 +137,20 @@ namespace FoodandBeverage.Forms
             this.tlp_empl_menu = new System.Windows.Forms.TableLayoutPanel();
             this.time_syn_lal = new System.Windows.Forms.Timer(this.components);
             this.reset_sync = new System.Windows.Forms.Timer(this.components);
-            this.btn_pickup = new System.Windows.Forms.Button();
+            this.pnl_billsetting = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_Qr = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chk_logo = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtfooter_msg = new System.Windows.Forms.TextBox();
+            this.tlp_setting = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_billsetting = new System.Windows.Forms.Button();
+            this.btn_bill_save = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.chk_ucsdetails = new System.Windows.Forms.CheckBox();
             this.panelMenu.SuspendLayout();
             this.flp_menu.SuspendLayout();
             this.pnl_header.SuspendLayout();
@@ -166,6 +180,10 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.SuspendLayout();
             this.pnl_empty_msg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnl_billsetting.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.tlp_setting.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -710,7 +728,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.88156F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 6, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -733,7 +751,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(610, 0);
+            this.lbltime.Location = new System.Drawing.Point(601, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -762,7 +780,7 @@ namespace FoodandBeverage.Forms
             this.btn_avial.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_avial.FlatAppearance.BorderSize = 0;
             this.btn_avial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_avial.Location = new System.Drawing.Point(71, 3);
+            this.btn_avial.Location = new System.Drawing.Point(70, 3);
             this.btn_avial.Name = "btn_avial";
             this.btn_avial.Size = new System.Drawing.Size(54, 36);
             this.btn_avial.TabIndex = 0;
@@ -777,7 +795,7 @@ namespace FoodandBeverage.Forms
             this.btn_rev.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_rev.FlatAppearance.BorderSize = 0;
             this.btn_rev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_rev.Location = new System.Drawing.Point(207, 3);
+            this.btn_rev.Location = new System.Drawing.Point(204, 3);
             this.btn_rev.Name = "btn_rev";
             this.btn_rev.Size = new System.Drawing.Size(54, 36);
             this.btn_rev.TabIndex = 1;
@@ -792,7 +810,7 @@ namespace FoodandBeverage.Forms
             this.btn_running.Dock = System.Windows.Forms.DockStyle.Left;
             this.btn_running.FlatAppearance.BorderSize = 0;
             this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_running.Location = new System.Drawing.Point(139, 3);
+            this.btn_running.Location = new System.Drawing.Point(137, 3);
             this.btn_running.Name = "btn_running";
             this.btn_running.Size = new System.Drawing.Size(54, 36);
             this.btn_running.TabIndex = 2;
@@ -805,7 +823,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(622, 3);
+            this.pbusericon.Location = new System.Drawing.Point(613, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -816,7 +834,7 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(616, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(607, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
@@ -828,14 +846,32 @@ namespace FoodandBeverage.Forms
             this.lblsync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblsync.Location = new System.Drawing.Point(403, 0);
+            this.lblsync.Location = new System.Drawing.Point(398, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(201, 42);
+            this.lblsync.Size = new System.Drawing.Size(197, 42);
             this.lblsync.TabIndex = 7;
             this.lblsync.Tag = "Synchronizing...";
             this.lblsync.Text = "Synchronizing...";
             this.lblsync.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblsync.Visible = false;
+            // 
+            // btn_pickup
+            // 
+            this.btn_pickup.BackgroundImage = global::FoodandBeverage.Properties.Resources.sidemenu_button;
+            this.btn_pickup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_pickup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_pickup.FlatAppearance.BorderSize = 0;
+            this.btn_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_pickup.ForeColor = System.Drawing.Color.White;
+            this.btn_pickup.Location = new System.Drawing.Point(267, 3);
+            this.btn_pickup.Name = "btn_pickup";
+            this.btn_pickup.Size = new System.Drawing.Size(125, 36);
+            this.btn_pickup.TabIndex = 8;
+            this.btn_pickup.Text = "Pick Up";
+            this.btn_pickup.UseVisualStyleBackColor = true;
+            this.btn_pickup.Visible = false;
+            this.btn_pickup.Click += new System.EventHandler(this.btn_pickup_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -868,437 +904,31 @@ namespace FoodandBeverage.Forms
             this.btn_minimium.UseVisualStyleBackColor = false;
             this.btn_minimium.Click += new System.EventHandler(this.btn_minimium_Click);
             // 
-            // ib_reservation
+            // ib_addon
             // 
-            this.ib_reservation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_reservation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_reservation.FlatAppearance.BorderSize = 0;
-            this.ib_reservation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_reservation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_reservation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_reservation.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_reservation.IconColor = System.Drawing.Color.White;
-            this.ib_reservation.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_reservation.IconSize = 30;
-            this.ib_reservation.Location = new System.Drawing.Point(39, 18);
-            this.ib_reservation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_reservation.Name = "ib_reservation";
-            this.ib_reservation.Size = new System.Drawing.Size(138, 56);
-            this.ib_reservation.TabIndex = 20;
-            this.ib_reservation.Tag = "Reservation";
-            this.ib_reservation.Text = "Reservation";
-            this.ib_reservation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_reservation, "Reservation Registartion");
-            this.ib_reservation.UseVisualStyleBackColor = false;
-            this.ib_reservation.Visible = false;
-            this.ib_reservation.Click += new System.EventHandler(this.ib_reservation_Click);
-            this.ib_reservation.MouseLeave += new System.EventHandler(this.ib_reservation_MouseLeave);
-            this.ib_reservation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_PromoCode
-            // 
-            this.ib_PromoCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_PromoCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_PromoCode.FlatAppearance.BorderSize = 0;
-            this.ib_PromoCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_PromoCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_PromoCode.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_PromoCode.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_PromoCode.IconColor = System.Drawing.Color.White;
-            this.ib_PromoCode.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_PromoCode.IconSize = 30;
-            this.ib_PromoCode.Location = new System.Drawing.Point(39, 20);
-            this.ib_PromoCode.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_PromoCode.Name = "ib_PromoCode";
-            this.ib_PromoCode.Size = new System.Drawing.Size(139, 52);
-            this.ib_PromoCode.TabIndex = 18;
-            this.ib_PromoCode.Tag = "PromoCode";
-            this.ib_PromoCode.Text = "PromoCode";
-            this.ib_PromoCode.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_PromoCode, "Table Registartion");
-            this.ib_PromoCode.UseVisualStyleBackColor = false;
-            this.ib_PromoCode.Visible = false;
-            this.ib_PromoCode.Click += new System.EventHandler(this.ib_PromoCode_Click);
-            this.ib_PromoCode.MouseLeave += new System.EventHandler(this.ib_PromoCode_MouseLeave);
-            this.ib_PromoCode.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Expence
-            // 
-            this.ib_Expence.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_Expence.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Expence.FlatAppearance.BorderSize = 0;
-            this.ib_Expence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Expence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Expence.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Expence.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Expence.IconColor = System.Drawing.Color.White;
-            this.ib_Expence.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Expence.IconSize = 30;
-            this.ib_Expence.Location = new System.Drawing.Point(39, 20);
-            this.ib_Expence.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Expence.Name = "ib_Expence";
-            this.ib_Expence.Size = new System.Drawing.Size(138, 52);
-            this.ib_Expence.TabIndex = 15;
-            this.ib_Expence.Tag = "Expence";
-            this.ib_Expence.Text = "Expence";
-            this.ib_Expence.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Expence, "Expence");
-            this.ib_Expence.UseVisualStyleBackColor = false;
-            this.ib_Expence.Visible = false;
-            this.ib_Expence.Click += new System.EventHandler(this.ib_withdrawal_Click);
-            this.ib_Expence.MouseLeave += new System.EventHandler(this.ib_withdrawal_MouseLeave);
-            this.ib_Expence.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Discount_offer
-            // 
-            this.ib_Discount_offer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_Discount_offer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Discount_offer.FlatAppearance.BorderSize = 0;
-            this.ib_Discount_offer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Discount_offer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Discount_offer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Discount_offer.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Discount_offer.IconColor = System.Drawing.Color.White;
-            this.ib_Discount_offer.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Discount_offer.IconSize = 30;
-            this.ib_Discount_offer.Location = new System.Drawing.Point(40, 20);
-            this.ib_Discount_offer.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Discount_offer.Name = "ib_Discount_offer";
-            this.ib_Discount_offer.Size = new System.Drawing.Size(137, 52);
-            this.ib_Discount_offer.TabIndex = 14;
-            this.ib_Discount_offer.Tag = "Discount And Offer";
-            this.ib_Discount_offer.Text = "Discount And Offer";
-            this.ib_Discount_offer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Discount_offer, "Tax Registartion");
-            this.ib_Discount_offer.UseVisualStyleBackColor = false;
-            this.ib_Discount_offer.Visible = false;
-            this.ib_Discount_offer.Click += new System.EventHandler(this.ib_Discount_Click);
-            this.ib_Discount_offer.MouseLeave += new System.EventHandler(this.ib_Discount_MouseLeave);
-            this.ib_Discount_offer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_vendor
-            // 
-            this.ib_vendor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_vendor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_vendor.FlatAppearance.BorderSize = 0;
-            this.ib_vendor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_vendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_vendor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_vendor.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_vendor.IconColor = System.Drawing.Color.White;
-            this.ib_vendor.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_vendor.IconSize = 30;
-            this.ib_vendor.Location = new System.Drawing.Point(39, 20);
-            this.ib_vendor.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_vendor.Name = "ib_vendor";
-            this.ib_vendor.Size = new System.Drawing.Size(139, 52);
-            this.ib_vendor.TabIndex = 13;
-            this.ib_vendor.Tag = "Vendor";
-            this.ib_vendor.Text = "Vendor";
-            this.ib_vendor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_vendor, "Tax Registartion");
-            this.ib_vendor.UseVisualStyleBackColor = false;
-            this.ib_vendor.Visible = false;
-            this.ib_vendor.Click += new System.EventHandler(this.ib_vendor_Click);
-            this.ib_vendor.MouseLeave += new System.EventHandler(this.ib_vendor_MouseLeave);
-            this.ib_vendor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_tax
-            // 
-            this.ib_tax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_tax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_tax.FlatAppearance.BorderSize = 0;
-            this.ib_tax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_tax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_tax.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_tax.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_tax.IconColor = System.Drawing.Color.White;
-            this.ib_tax.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_tax.IconSize = 30;
-            this.ib_tax.Location = new System.Drawing.Point(39, 20);
-            this.ib_tax.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_tax.Name = "ib_tax";
-            this.ib_tax.Size = new System.Drawing.Size(138, 52);
-            this.ib_tax.TabIndex = 12;
-            this.ib_tax.Tag = "Tax";
-            this.ib_tax.Text = "Tax";
-            this.ib_tax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_tax, "Tax Registartion");
-            this.ib_tax.UseVisualStyleBackColor = false;
-            this.ib_tax.Visible = false;
-            this.ib_tax.Click += new System.EventHandler(this.ib_tax_Click);
-            this.ib_tax.MouseLeave += new System.EventHandler(this.ib_tax_MouseLeave);
-            this.ib_tax.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_purchasereturn
-            // 
-            this.ib_purchasereturn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_purchasereturn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_purchasereturn.FlatAppearance.BorderSize = 0;
-            this.ib_purchasereturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_purchasereturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_purchasereturn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_purchasereturn.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_purchasereturn.IconColor = System.Drawing.Color.White;
-            this.ib_purchasereturn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_purchasereturn.IconSize = 30;
-            this.ib_purchasereturn.Location = new System.Drawing.Point(40, 20);
-            this.ib_purchasereturn.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_purchasereturn.Name = "ib_purchasereturn";
-            this.ib_purchasereturn.Size = new System.Drawing.Size(137, 52);
-            this.ib_purchasereturn.TabIndex = 11;
-            this.ib_purchasereturn.Tag = "Purchase Return";
-            this.ib_purchasereturn.Text = "Purchase Return";
-            this.ib_purchasereturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_purchasereturn, "Purchase Return Registartion");
-            this.ib_purchasereturn.UseVisualStyleBackColor = false;
-            this.ib_purchasereturn.Visible = false;
-            this.ib_purchasereturn.Click += new System.EventHandler(this.ib_purchasereturn_Click);
-            this.ib_purchasereturn.MouseLeave += new System.EventHandler(this.ib_purchasereturn_MouseLeave);
-            this.ib_purchasereturn.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_purchase
-            // 
-            this.ib_purchase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_purchase.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_purchase.FlatAppearance.BorderSize = 0;
-            this.ib_purchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_purchase.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_purchase.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_purchase.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_purchase.IconColor = System.Drawing.Color.White;
-            this.ib_purchase.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_purchase.IconSize = 30;
-            this.ib_purchase.Location = new System.Drawing.Point(39, 20);
-            this.ib_purchase.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_purchase.Name = "ib_purchase";
-            this.ib_purchase.Size = new System.Drawing.Size(139, 52);
-            this.ib_purchase.TabIndex = 10;
-            this.ib_purchase.Tag = "Purchase";
-            this.ib_purchase.Text = "Purchase";
-            this.ib_purchase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_purchase, "Purchase Registartion");
-            this.ib_purchase.UseVisualStyleBackColor = false;
-            this.ib_purchase.Visible = false;
-            this.ib_purchase.Click += new System.EventHandler(this.ib_purchase_Click);
-            this.ib_purchase.MouseLeave += new System.EventHandler(this.ib_purchase_MouseLeave);
-            this.ib_purchase.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_table
-            // 
-            this.ib_table.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_table.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_table.FlatAppearance.BorderSize = 0;
-            this.ib_table.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_table.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_table.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_table.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_table.IconColor = System.Drawing.Color.White;
-            this.ib_table.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_table.IconSize = 30;
-            this.ib_table.Location = new System.Drawing.Point(39, 20);
-            this.ib_table.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_table.Name = "ib_table";
-            this.ib_table.Size = new System.Drawing.Size(138, 52);
-            this.ib_table.TabIndex = 9;
-            this.ib_table.Tag = "Table";
-            this.ib_table.Text = "Table";
-            this.ib_table.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_table, "Table Registartion");
-            this.ib_table.UseVisualStyleBackColor = false;
-            this.ib_table.Visible = false;
-            this.ib_table.Click += new System.EventHandler(this.ib_table_Click);
-            this.ib_table.MouseLeave += new System.EventHandler(this.ib_table_MouseLeave);
-            this.ib_table.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_unit
-            // 
-            this.ib_unit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_unit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_unit.FlatAppearance.BorderSize = 0;
-            this.ib_unit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_unit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_unit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_unit.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_unit.IconColor = System.Drawing.Color.White;
-            this.ib_unit.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_unit.IconSize = 30;
-            this.ib_unit.Location = new System.Drawing.Point(40, 20);
-            this.ib_unit.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_unit.Name = "ib_unit";
-            this.ib_unit.Size = new System.Drawing.Size(137, 52);
-            this.ib_unit.TabIndex = 8;
-            this.ib_unit.Tag = "Unit";
-            this.ib_unit.Text = "Unit";
-            this.ib_unit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_unit, "Unit Registartion");
-            this.ib_unit.UseVisualStyleBackColor = false;
-            this.ib_unit.Visible = false;
-            this.ib_unit.Click += new System.EventHandler(this.ib_unit_Click);
-            this.ib_unit.MouseLeave += new System.EventHandler(this.ib_unit_MouseLeave);
-            this.ib_unit.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_menu
-            // 
-            this.ib_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_menu.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_menu.FlatAppearance.BorderSize = 0;
-            this.ib_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_menu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_menu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_menu.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_menu.IconColor = System.Drawing.Color.White;
-            this.ib_menu.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_menu.IconSize = 30;
-            this.ib_menu.Location = new System.Drawing.Point(39, 20);
-            this.ib_menu.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_menu.Name = "ib_menu";
-            this.ib_menu.Size = new System.Drawing.Size(139, 52);
-            this.ib_menu.TabIndex = 7;
-            this.ib_menu.Tag = "Menu";
-            this.ib_menu.Text = "Menu";
-            this.ib_menu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_menu, "Menu Registartion");
-            this.ib_menu.UseVisualStyleBackColor = false;
-            this.ib_menu.Visible = false;
-            this.ib_menu.Click += new System.EventHandler(this.ib_menu_Click);
-            this.ib_menu.MouseLeave += new System.EventHandler(this.ib_menu_MouseLeave);
-            this.ib_menu.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_ingrediant
-            // 
-            this.ib_ingrediant.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_ingrediant.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_ingrediant.FlatAppearance.BorderSize = 0;
-            this.ib_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_ingrediant.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_ingrediant.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_ingrediant.IconColor = System.Drawing.Color.White;
-            this.ib_ingrediant.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_ingrediant.IconSize = 30;
-            this.ib_ingrediant.Location = new System.Drawing.Point(39, 20);
-            this.ib_ingrediant.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_ingrediant.Name = "ib_ingrediant";
-            this.ib_ingrediant.Size = new System.Drawing.Size(138, 52);
-            this.ib_ingrediant.TabIndex = 6;
-            this.ib_ingrediant.Tag = "Product";
-            this.ib_ingrediant.Text = "Product";
-            this.ib_ingrediant.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_ingrediant, "Product Registartion");
-            this.ib_ingrediant.UseVisualStyleBackColor = false;
-            this.ib_ingrediant.Visible = false;
-            this.ib_ingrediant.Click += new System.EventHandler(this.ib_ingrediant_Click);
-            this.ib_ingrediant.MouseLeave += new System.EventHandler(this.ib_ingrediant_MouseLeave);
-            this.ib_ingrediant.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Item
-            // 
-            this.ib_Item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_Item.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Item.FlatAppearance.BorderSize = 0;
-            this.ib_Item.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Item.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_Item.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Item.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Item.IconColor = System.Drawing.Color.White;
-            this.ib_Item.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Item.IconSize = 30;
-            this.ib_Item.Location = new System.Drawing.Point(40, 18);
-            this.ib_Item.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Item.Name = "ib_Item";
-            this.ib_Item.Size = new System.Drawing.Size(137, 56);
-            this.ib_Item.TabIndex = 5;
-            this.ib_Item.Tag = "Item";
-            this.ib_Item.Text = "Item";
-            this.ib_Item.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Item, "Item Registartion");
-            this.ib_Item.UseVisualStyleBackColor = false;
-            this.ib_Item.Visible = false;
-            this.ib_Item.Click += new System.EventHandler(this.ib_Item_Click);
-            this.ib_Item.MouseLeave += new System.EventHandler(this.ib_Item_MouseLeave);
-            this.ib_Item.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Category
-            // 
-            this.ib_Category.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_Category.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Category.FlatAppearance.BorderSize = 0;
-            this.ib_Category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Category.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_Category.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Category.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Category.IconColor = System.Drawing.Color.White;
-            this.ib_Category.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Category.IconSize = 30;
-            this.ib_Category.Location = new System.Drawing.Point(40, 20);
-            this.ib_Category.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Category.Name = "ib_Category";
-            this.ib_Category.Size = new System.Drawing.Size(137, 52);
-            this.ib_Category.TabIndex = 4;
-            this.ib_Category.Tag = "Category";
-            this.ib_Category.Text = "Category";
-            this.ib_Category.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Category, "Category Registartion");
-            this.ib_Category.UseVisualStyleBackColor = false;
-            this.ib_Category.Visible = false;
-            this.ib_Category.Click += new System.EventHandler(this.ib_Category_Click);
-            this.ib_Category.MouseLeave += new System.EventHandler(this.ib_Category_MouseLeave);
-            this.ib_Category.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Company
-            // 
-            this.ib_Company.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_Company.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Company.FlatAppearance.BorderSize = 0;
-            this.ib_Company.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Company.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Company.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Company.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Company.IconColor = System.Drawing.Color.White;
-            this.ib_Company.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Company.IconSize = 30;
-            this.ib_Company.Location = new System.Drawing.Point(40, 20);
-            this.ib_Company.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Company.Name = "ib_Company";
-            this.ib_Company.Size = new System.Drawing.Size(137, 52);
-            this.ib_Company.TabIndex = 19;
-            this.ib_Company.Tag = "Company";
-            this.ib_Company.Text = "Company";
-            this.ib_Company.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Company, "Table Registartion");
-            this.ib_Company.UseVisualStyleBackColor = false;
-            this.ib_Company.Visible = false;
-            this.ib_Company.Click += new System.EventHandler(this.ib_Company_Click);
-            this.ib_Company.MouseLeave += new System.EventHandler(this.ib_Company_MouseLeave);
-            this.ib_Company.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_orderview
-            // 
-            this.ib_orderview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_orderview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_orderview.FlatAppearance.BorderSize = 0;
-            this.ib_orderview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_orderview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_orderview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_orderview.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_orderview.IconColor = System.Drawing.Color.White;
-            this.ib_orderview.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_orderview.IconSize = 30;
-            this.ib_orderview.Location = new System.Drawing.Point(39, 20);
-            this.ib_orderview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_orderview.Name = "ib_orderview";
-            this.ib_orderview.Size = new System.Drawing.Size(139, 52);
-            this.ib_orderview.TabIndex = 16;
-            this.ib_orderview.Tag = "Order";
-            this.ib_orderview.Text = "Order";
-            this.ib_orderview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_orderview, "Tax Registartion");
-            this.ib_orderview.UseVisualStyleBackColor = false;
-            this.ib_orderview.Visible = false;
-            this.ib_orderview.Click += new System.EventHandler(this.ib_orderview_Click);
-            this.ib_orderview.MouseLeave += new System.EventHandler(this.ib_orderview_MouseLeave);
-            this.ib_orderview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_addon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_addon.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_addon.FlatAppearance.BorderSize = 0;
+            this.ib_addon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_addon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_addon.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_addon.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_addon.IconColor = System.Drawing.Color.White;
+            this.ib_addon.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_addon.IconSize = 30;
+            this.ib_addon.Location = new System.Drawing.Point(39, 14);
+            this.ib_addon.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_addon.Name = "ib_addon";
+            this.ib_addon.Size = new System.Drawing.Size(139, 56);
+            this.ib_addon.TabIndex = 21;
+            this.ib_addon.Tag = "Addon";
+            this.ib_addon.Text = "Addon";
+            this.ib_addon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_addon, "Addon Registartion");
+            this.ib_addon.UseVisualStyleBackColor = false;
+            this.ib_addon.Visible = false;
+            this.ib_addon.Click += new System.EventHandler(this.ib_addon_Click);
+            this.ib_addon.MouseLeave += new System.EventHandler(this.ib_addon_MouseLeave);
             // 
             // ib_kitchenview
             // 
@@ -1327,115 +957,465 @@ namespace FoodandBeverage.Forms
             this.ib_kitchenview.MouseLeave += new System.EventHandler(this.ib_kitchenview_MouseLeave);
             this.ib_kitchenview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_addon
+            // ib_orderview
             // 
-            this.ib_addon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_addon.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_addon.FlatAppearance.BorderSize = 0;
-            this.ib_addon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_addon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_addon.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_addon.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_addon.IconColor = System.Drawing.Color.White;
-            this.ib_addon.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_addon.IconSize = 30;
-            this.ib_addon.Location = new System.Drawing.Point(39, 14);
-            this.ib_addon.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_addon.Name = "ib_addon";
-            this.ib_addon.Size = new System.Drawing.Size(139, 56);
-            this.ib_addon.TabIndex = 21;
-            this.ib_addon.Tag = "Addon";
-            this.ib_addon.Text = "Addon";
-            this.ib_addon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_addon, "Addon Registartion");
-            this.ib_addon.UseVisualStyleBackColor = false;
-            this.ib_addon.Visible = false;
-            this.ib_addon.Click += new System.EventHandler(this.ib_addon_Click);
-            this.ib_addon.MouseLeave += new System.EventHandler(this.ib_addon_MouseLeave);
+            this.ib_orderview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_orderview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_orderview.FlatAppearance.BorderSize = 0;
+            this.ib_orderview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_orderview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_orderview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_orderview.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_orderview.IconColor = System.Drawing.Color.White;
+            this.ib_orderview.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_orderview.IconSize = 30;
+            this.ib_orderview.Location = new System.Drawing.Point(39, 20);
+            this.ib_orderview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_orderview.Name = "ib_orderview";
+            this.ib_orderview.Size = new System.Drawing.Size(139, 52);
+            this.ib_orderview.TabIndex = 16;
+            this.ib_orderview.Tag = "Order";
+            this.ib_orderview.Text = "Order";
+            this.ib_orderview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_orderview, "Tax Registartion");
+            this.ib_orderview.UseVisualStyleBackColor = false;
+            this.ib_orderview.Visible = false;
+            this.ib_orderview.Click += new System.EventHandler(this.ib_orderview_Click);
+            this.ib_orderview.MouseLeave += new System.EventHandler(this.ib_orderview_MouseLeave);
+            this.ib_orderview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_userpermission
+            // ib_Company
             // 
-            this.ib_userpermission.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_userpermission.FlatAppearance.BorderSize = 0;
-            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_userpermission.IconColor = System.Drawing.Color.White;
-            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_userpermission.IconSize = 30;
-            this.ib_userpermission.Location = new System.Drawing.Point(104, 0);
-            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_userpermission.Name = "ib_userpermission";
-            this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_userpermission.Size = new System.Drawing.Size(51, 47);
-            this.ib_userpermission.TabIndex = 22;
-            this.ib_userpermission.Tag = "User Permission";
-            this.ib_userpermission.Text = "User Permission";
-            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
-            this.ib_userpermission.UseVisualStyleBackColor = false;
-            this.ib_userpermission.Visible = false;
-            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
-            this.ib_userpermission.MouseLeave += new System.EventHandler(this.ib_userpermission_MouseLeave);
-            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_Company.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Company.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Company.FlatAppearance.BorderSize = 0;
+            this.ib_Company.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Company.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Company.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Company.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Company.IconColor = System.Drawing.Color.White;
+            this.ib_Company.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Company.IconSize = 30;
+            this.ib_Company.Location = new System.Drawing.Point(40, 20);
+            this.ib_Company.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Company.Name = "ib_Company";
+            this.ib_Company.Size = new System.Drawing.Size(137, 52);
+            this.ib_Company.TabIndex = 19;
+            this.ib_Company.Tag = "Company";
+            this.ib_Company.Text = "Company";
+            this.ib_Company.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Company, "Table Registartion");
+            this.ib_Company.UseVisualStyleBackColor = false;
+            this.ib_Company.Visible = false;
+            this.ib_Company.Click += new System.EventHandler(this.ib_Company_Click);
+            this.ib_Company.MouseLeave += new System.EventHandler(this.ib_Company_MouseLeave);
+            this.ib_Company.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_designation
+            // ib_Category
             // 
-            this.ib_designation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_designation.FlatAppearance.BorderSize = 0;
-            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_designation.IconColor = System.Drawing.Color.White;
-            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_designation.IconSize = 30;
-            this.ib_designation.Location = new System.Drawing.Point(30, 3);
-            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_designation.Name = "ib_designation";
-            this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_designation.Size = new System.Drawing.Size(23, 39);
-            this.ib_designation.TabIndex = 20;
-            this.ib_designation.Tag = "Designation ";
-            this.ib_designation.Text = "Designation ";
-            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
-            this.ib_designation.UseVisualStyleBackColor = false;
-            this.ib_designation.Visible = false;
-            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
-            this.ib_designation.MouseLeave += new System.EventHandler(this.ib_designation_MouseLeave);
-            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_Category.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Category.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Category.FlatAppearance.BorderSize = 0;
+            this.ib_Category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Category.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_Category.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Category.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Category.IconColor = System.Drawing.Color.White;
+            this.ib_Category.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Category.IconSize = 30;
+            this.ib_Category.Location = new System.Drawing.Point(40, 20);
+            this.ib_Category.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Category.Name = "ib_Category";
+            this.ib_Category.Size = new System.Drawing.Size(137, 52);
+            this.ib_Category.TabIndex = 4;
+            this.ib_Category.Tag = "Category";
+            this.ib_Category.Text = "Category";
+            this.ib_Category.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Category, "Category Registartion");
+            this.ib_Category.UseVisualStyleBackColor = false;
+            this.ib_Category.Visible = false;
+            this.ib_Category.Click += new System.EventHandler(this.ib_Category_Click);
+            this.ib_Category.MouseLeave += new System.EventHandler(this.ib_Category_MouseLeave);
+            this.ib_Category.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_department
+            // ib_Item
             // 
-            this.ib_department.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_department.FlatAppearance.BorderSize = 0;
-            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_department.IconColor = System.Drawing.Color.White;
-            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_department.IconSize = 30;
-            this.ib_department.Location = new System.Drawing.Point(0, 0);
-            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_department.Name = "ib_department";
-            this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_department.Size = new System.Drawing.Size(23, 39);
-            this.ib_department.TabIndex = 19;
-            this.ib_department.Tag = "Department";
-            this.ib_department.Text = "Department";
-            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
-            this.ib_department.UseVisualStyleBackColor = false;
-            this.ib_department.Visible = false;
-            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
-            this.ib_department.MouseLeave += new System.EventHandler(this.ib_department_MouseLeave);
-            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_Item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Item.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Item.FlatAppearance.BorderSize = 0;
+            this.ib_Item.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Item.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_Item.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Item.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Item.IconColor = System.Drawing.Color.White;
+            this.ib_Item.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Item.IconSize = 30;
+            this.ib_Item.Location = new System.Drawing.Point(40, 18);
+            this.ib_Item.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Item.Name = "ib_Item";
+            this.ib_Item.Size = new System.Drawing.Size(137, 56);
+            this.ib_Item.TabIndex = 5;
+            this.ib_Item.Tag = "Item";
+            this.ib_Item.Text = "Item";
+            this.ib_Item.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Item, "Item Registartion");
+            this.ib_Item.UseVisualStyleBackColor = false;
+            this.ib_Item.Visible = false;
+            this.ib_Item.Click += new System.EventHandler(this.ib_Item_Click);
+            this.ib_Item.MouseLeave += new System.EventHandler(this.ib_Item_MouseLeave);
+            this.ib_Item.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_ingrediant
+            // 
+            this.ib_ingrediant.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_ingrediant.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_ingrediant.FlatAppearance.BorderSize = 0;
+            this.ib_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_ingrediant.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_ingrediant.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_ingrediant.IconColor = System.Drawing.Color.White;
+            this.ib_ingrediant.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_ingrediant.IconSize = 30;
+            this.ib_ingrediant.Location = new System.Drawing.Point(39, 20);
+            this.ib_ingrediant.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_ingrediant.Name = "ib_ingrediant";
+            this.ib_ingrediant.Size = new System.Drawing.Size(138, 52);
+            this.ib_ingrediant.TabIndex = 6;
+            this.ib_ingrediant.Tag = "Product";
+            this.ib_ingrediant.Text = "Product";
+            this.ib_ingrediant.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_ingrediant, "Product Registartion");
+            this.ib_ingrediant.UseVisualStyleBackColor = false;
+            this.ib_ingrediant.Visible = false;
+            this.ib_ingrediant.Click += new System.EventHandler(this.ib_ingrediant_Click);
+            this.ib_ingrediant.MouseLeave += new System.EventHandler(this.ib_ingrediant_MouseLeave);
+            this.ib_ingrediant.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_menu
+            // 
+            this.ib_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_menu.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_menu.FlatAppearance.BorderSize = 0;
+            this.ib_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_menu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_menu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_menu.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_menu.IconColor = System.Drawing.Color.White;
+            this.ib_menu.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_menu.IconSize = 30;
+            this.ib_menu.Location = new System.Drawing.Point(39, 20);
+            this.ib_menu.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_menu.Name = "ib_menu";
+            this.ib_menu.Size = new System.Drawing.Size(139, 52);
+            this.ib_menu.TabIndex = 7;
+            this.ib_menu.Tag = "Menu";
+            this.ib_menu.Text = "Menu";
+            this.ib_menu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_menu, "Menu Registartion");
+            this.ib_menu.UseVisualStyleBackColor = false;
+            this.ib_menu.Visible = false;
+            this.ib_menu.Click += new System.EventHandler(this.ib_menu_Click);
+            this.ib_menu.MouseLeave += new System.EventHandler(this.ib_menu_MouseLeave);
+            this.ib_menu.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_unit
+            // 
+            this.ib_unit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_unit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_unit.FlatAppearance.BorderSize = 0;
+            this.ib_unit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_unit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_unit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_unit.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_unit.IconColor = System.Drawing.Color.White;
+            this.ib_unit.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_unit.IconSize = 30;
+            this.ib_unit.Location = new System.Drawing.Point(40, 20);
+            this.ib_unit.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_unit.Name = "ib_unit";
+            this.ib_unit.Size = new System.Drawing.Size(137, 52);
+            this.ib_unit.TabIndex = 8;
+            this.ib_unit.Tag = "Unit";
+            this.ib_unit.Text = "Unit";
+            this.ib_unit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_unit, "Unit Registartion");
+            this.ib_unit.UseVisualStyleBackColor = false;
+            this.ib_unit.Visible = false;
+            this.ib_unit.Click += new System.EventHandler(this.ib_unit_Click);
+            this.ib_unit.MouseLeave += new System.EventHandler(this.ib_unit_MouseLeave);
+            this.ib_unit.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_table
+            // 
+            this.ib_table.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_table.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_table.FlatAppearance.BorderSize = 0;
+            this.ib_table.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_table.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_table.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_table.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_table.IconColor = System.Drawing.Color.White;
+            this.ib_table.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_table.IconSize = 30;
+            this.ib_table.Location = new System.Drawing.Point(39, 20);
+            this.ib_table.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_table.Name = "ib_table";
+            this.ib_table.Size = new System.Drawing.Size(138, 52);
+            this.ib_table.TabIndex = 9;
+            this.ib_table.Tag = "Table";
+            this.ib_table.Text = "Table";
+            this.ib_table.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_table, "Table Registartion");
+            this.ib_table.UseVisualStyleBackColor = false;
+            this.ib_table.Visible = false;
+            this.ib_table.Click += new System.EventHandler(this.ib_table_Click);
+            this.ib_table.MouseLeave += new System.EventHandler(this.ib_table_MouseLeave);
+            this.ib_table.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_purchase
+            // 
+            this.ib_purchase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_purchase.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_purchase.FlatAppearance.BorderSize = 0;
+            this.ib_purchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_purchase.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_purchase.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_purchase.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_purchase.IconColor = System.Drawing.Color.White;
+            this.ib_purchase.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_purchase.IconSize = 30;
+            this.ib_purchase.Location = new System.Drawing.Point(39, 20);
+            this.ib_purchase.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_purchase.Name = "ib_purchase";
+            this.ib_purchase.Size = new System.Drawing.Size(139, 52);
+            this.ib_purchase.TabIndex = 10;
+            this.ib_purchase.Tag = "Purchase";
+            this.ib_purchase.Text = "Purchase";
+            this.ib_purchase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_purchase, "Purchase Registartion");
+            this.ib_purchase.UseVisualStyleBackColor = false;
+            this.ib_purchase.Visible = false;
+            this.ib_purchase.Click += new System.EventHandler(this.ib_purchase_Click);
+            this.ib_purchase.MouseLeave += new System.EventHandler(this.ib_purchase_MouseLeave);
+            this.ib_purchase.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_purchasereturn
+            // 
+            this.ib_purchasereturn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_purchasereturn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_purchasereturn.FlatAppearance.BorderSize = 0;
+            this.ib_purchasereturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_purchasereturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_purchasereturn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_purchasereturn.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_purchasereturn.IconColor = System.Drawing.Color.White;
+            this.ib_purchasereturn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_purchasereturn.IconSize = 30;
+            this.ib_purchasereturn.Location = new System.Drawing.Point(40, 20);
+            this.ib_purchasereturn.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_purchasereturn.Name = "ib_purchasereturn";
+            this.ib_purchasereturn.Size = new System.Drawing.Size(137, 52);
+            this.ib_purchasereturn.TabIndex = 11;
+            this.ib_purchasereturn.Tag = "Purchase Return";
+            this.ib_purchasereturn.Text = "Purchase Return";
+            this.ib_purchasereturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_purchasereturn, "Purchase Return Registartion");
+            this.ib_purchasereturn.UseVisualStyleBackColor = false;
+            this.ib_purchasereturn.Visible = false;
+            this.ib_purchasereturn.Click += new System.EventHandler(this.ib_purchasereturn_Click);
+            this.ib_purchasereturn.MouseLeave += new System.EventHandler(this.ib_purchasereturn_MouseLeave);
+            this.ib_purchasereturn.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_tax
+            // 
+            this.ib_tax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_tax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_tax.FlatAppearance.BorderSize = 0;
+            this.ib_tax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_tax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_tax.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_tax.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_tax.IconColor = System.Drawing.Color.White;
+            this.ib_tax.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_tax.IconSize = 30;
+            this.ib_tax.Location = new System.Drawing.Point(39, 20);
+            this.ib_tax.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_tax.Name = "ib_tax";
+            this.ib_tax.Size = new System.Drawing.Size(138, 52);
+            this.ib_tax.TabIndex = 12;
+            this.ib_tax.Tag = "Tax";
+            this.ib_tax.Text = "Tax";
+            this.ib_tax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_tax, "Tax Registartion");
+            this.ib_tax.UseVisualStyleBackColor = false;
+            this.ib_tax.Visible = false;
+            this.ib_tax.Click += new System.EventHandler(this.ib_tax_Click);
+            this.ib_tax.MouseLeave += new System.EventHandler(this.ib_tax_MouseLeave);
+            this.ib_tax.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_vendor
+            // 
+            this.ib_vendor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_vendor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_vendor.FlatAppearance.BorderSize = 0;
+            this.ib_vendor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_vendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_vendor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_vendor.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_vendor.IconColor = System.Drawing.Color.White;
+            this.ib_vendor.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_vendor.IconSize = 30;
+            this.ib_vendor.Location = new System.Drawing.Point(39, 20);
+            this.ib_vendor.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_vendor.Name = "ib_vendor";
+            this.ib_vendor.Size = new System.Drawing.Size(139, 52);
+            this.ib_vendor.TabIndex = 13;
+            this.ib_vendor.Tag = "Vendor";
+            this.ib_vendor.Text = "Vendor";
+            this.ib_vendor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_vendor, "Tax Registartion");
+            this.ib_vendor.UseVisualStyleBackColor = false;
+            this.ib_vendor.Visible = false;
+            this.ib_vendor.Click += new System.EventHandler(this.ib_vendor_Click);
+            this.ib_vendor.MouseLeave += new System.EventHandler(this.ib_vendor_MouseLeave);
+            this.ib_vendor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Discount_offer
+            // 
+            this.ib_Discount_offer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Discount_offer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Discount_offer.FlatAppearance.BorderSize = 0;
+            this.ib_Discount_offer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Discount_offer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Discount_offer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Discount_offer.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Discount_offer.IconColor = System.Drawing.Color.White;
+            this.ib_Discount_offer.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Discount_offer.IconSize = 30;
+            this.ib_Discount_offer.Location = new System.Drawing.Point(40, 20);
+            this.ib_Discount_offer.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Discount_offer.Name = "ib_Discount_offer";
+            this.ib_Discount_offer.Size = new System.Drawing.Size(137, 52);
+            this.ib_Discount_offer.TabIndex = 14;
+            this.ib_Discount_offer.Tag = "Discount And Offer";
+            this.ib_Discount_offer.Text = "Discount And Offer";
+            this.ib_Discount_offer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Discount_offer, "Tax Registartion");
+            this.ib_Discount_offer.UseVisualStyleBackColor = false;
+            this.ib_Discount_offer.Visible = false;
+            this.ib_Discount_offer.Click += new System.EventHandler(this.ib_Discount_Click);
+            this.ib_Discount_offer.MouseLeave += new System.EventHandler(this.ib_Discount_MouseLeave);
+            this.ib_Discount_offer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Expence
+            // 
+            this.ib_Expence.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_Expence.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Expence.FlatAppearance.BorderSize = 0;
+            this.ib_Expence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Expence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Expence.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Expence.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Expence.IconColor = System.Drawing.Color.White;
+            this.ib_Expence.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Expence.IconSize = 30;
+            this.ib_Expence.Location = new System.Drawing.Point(39, 20);
+            this.ib_Expence.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Expence.Name = "ib_Expence";
+            this.ib_Expence.Size = new System.Drawing.Size(138, 52);
+            this.ib_Expence.TabIndex = 15;
+            this.ib_Expence.Tag = "Expence";
+            this.ib_Expence.Text = "Expence";
+            this.ib_Expence.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Expence, "Expence");
+            this.ib_Expence.UseVisualStyleBackColor = false;
+            this.ib_Expence.Visible = false;
+            this.ib_Expence.Click += new System.EventHandler(this.ib_withdrawal_Click);
+            this.ib_Expence.MouseLeave += new System.EventHandler(this.ib_withdrawal_MouseLeave);
+            this.ib_Expence.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_PromoCode
+            // 
+            this.ib_PromoCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_PromoCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_PromoCode.FlatAppearance.BorderSize = 0;
+            this.ib_PromoCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_PromoCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_PromoCode.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_PromoCode.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_PromoCode.IconColor = System.Drawing.Color.White;
+            this.ib_PromoCode.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_PromoCode.IconSize = 30;
+            this.ib_PromoCode.Location = new System.Drawing.Point(39, 20);
+            this.ib_PromoCode.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_PromoCode.Name = "ib_PromoCode";
+            this.ib_PromoCode.Size = new System.Drawing.Size(139, 52);
+            this.ib_PromoCode.TabIndex = 18;
+            this.ib_PromoCode.Tag = "PromoCode";
+            this.ib_PromoCode.Text = "PromoCode";
+            this.ib_PromoCode.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_PromoCode, "Table Registartion");
+            this.ib_PromoCode.UseVisualStyleBackColor = false;
+            this.ib_PromoCode.Visible = false;
+            this.ib_PromoCode.Click += new System.EventHandler(this.ib_PromoCode_Click);
+            this.ib_PromoCode.MouseLeave += new System.EventHandler(this.ib_PromoCode_MouseLeave);
+            this.ib_PromoCode.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_reservation
+            // 
+            this.ib_reservation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_reservation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_reservation.FlatAppearance.BorderSize = 0;
+            this.ib_reservation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_reservation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_reservation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_reservation.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_reservation.IconColor = System.Drawing.Color.White;
+            this.ib_reservation.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_reservation.IconSize = 30;
+            this.ib_reservation.Location = new System.Drawing.Point(39, 18);
+            this.ib_reservation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_reservation.Name = "ib_reservation";
+            this.ib_reservation.Size = new System.Drawing.Size(138, 56);
+            this.ib_reservation.TabIndex = 20;
+            this.ib_reservation.Tag = "Reservation";
+            this.ib_reservation.Text = "Reservation";
+            this.ib_reservation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_reservation, "Reservation Registartion");
+            this.ib_reservation.UseVisualStyleBackColor = false;
+            this.ib_reservation.Visible = false;
+            this.ib_reservation.Click += new System.EventHandler(this.ib_reservation_Click);
+            this.ib_reservation.MouseLeave += new System.EventHandler(this.ib_reservation_MouseLeave);
+            this.ib_reservation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_employee
+            // 
+            this.ib_employee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_employee.FlatAppearance.BorderSize = 0;
+            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_employee.IconColor = System.Drawing.Color.White;
+            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_employee.IconSize = 30;
+            this.ib_employee.Location = new System.Drawing.Point(0, 0);
+            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_employee.Name = "ib_employee";
+            this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_employee.Size = new System.Drawing.Size(23, 39);
+            this.ib_employee.TabIndex = 18;
+            this.ib_employee.Tag = "Employee";
+            this.ib_employee.Text = "Employee";
+            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
+            this.ib_employee.UseVisualStyleBackColor = false;
+            this.ib_employee.Visible = false;
+            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
+            this.ib_employee.MouseLeave += new System.EventHandler(this.ib_employee_MouseLeave);
+            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // ib_useraccount
             // 
@@ -1465,33 +1445,89 @@ namespace FoodandBeverage.Forms
             this.ib_useraccount.MouseLeave += new System.EventHandler(this.ib_useraccount_MouseLeave);
             this.ib_useraccount.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
-            // ib_employee
+            // ib_department
             // 
-            this.ib_employee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_employee.FlatAppearance.BorderSize = 0;
-            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_employee.IconColor = System.Drawing.Color.White;
-            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_employee.IconSize = 30;
-            this.ib_employee.Location = new System.Drawing.Point(0, 0);
-            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_employee.Name = "ib_employee";
-            this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_employee.Size = new System.Drawing.Size(23, 39);
-            this.ib_employee.TabIndex = 18;
-            this.ib_employee.Tag = "Employee";
-            this.ib_employee.Text = "Employee";
-            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
-            this.ib_employee.UseVisualStyleBackColor = false;
-            this.ib_employee.Visible = false;
-            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
-            this.ib_employee.MouseLeave += new System.EventHandler(this.ib_employee_MouseLeave);
-            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            this.ib_department.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_department.FlatAppearance.BorderSize = 0;
+            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_department.IconColor = System.Drawing.Color.White;
+            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_department.IconSize = 30;
+            this.ib_department.Location = new System.Drawing.Point(0, 0);
+            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_department.Name = "ib_department";
+            this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_department.Size = new System.Drawing.Size(23, 39);
+            this.ib_department.TabIndex = 19;
+            this.ib_department.Tag = "Department";
+            this.ib_department.Text = "Department";
+            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
+            this.ib_department.UseVisualStyleBackColor = false;
+            this.ib_department.Visible = false;
+            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
+            this.ib_department.MouseLeave += new System.EventHandler(this.ib_department_MouseLeave);
+            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_designation
+            // 
+            this.ib_designation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_designation.FlatAppearance.BorderSize = 0;
+            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_designation.IconColor = System.Drawing.Color.White;
+            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_designation.IconSize = 30;
+            this.ib_designation.Location = new System.Drawing.Point(30, 3);
+            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_designation.Name = "ib_designation";
+            this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_designation.Size = new System.Drawing.Size(23, 39);
+            this.ib_designation.TabIndex = 20;
+            this.ib_designation.Tag = "Designation ";
+            this.ib_designation.Text = "Designation ";
+            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
+            this.ib_designation.UseVisualStyleBackColor = false;
+            this.ib_designation.Visible = false;
+            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
+            this.ib_designation.MouseLeave += new System.EventHandler(this.ib_designation_MouseLeave);
+            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_userpermission
+            // 
+            this.ib_userpermission.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_userpermission.FlatAppearance.BorderSize = 0;
+            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_userpermission.IconColor = System.Drawing.Color.White;
+            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_userpermission.IconSize = 30;
+            this.ib_userpermission.Location = new System.Drawing.Point(104, 0);
+            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_userpermission.Name = "ib_userpermission";
+            this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.ib_userpermission.Size = new System.Drawing.Size(51, 47);
+            this.ib_userpermission.TabIndex = 22;
+            this.ib_userpermission.Tag = "User Permission";
+            this.ib_userpermission.Text = "User Permission";
+            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
+            this.ib_userpermission.UseVisualStyleBackColor = false;
+            this.ib_userpermission.Visible = false;
+            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
+            this.ib_userpermission.MouseLeave += new System.EventHandler(this.ib_userpermission_MouseLeave);
+            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // pnl_tableorder
             // 
@@ -1987,29 +2023,196 @@ namespace FoodandBeverage.Forms
             this.reset_sync.Interval = 4000;
             this.reset_sync.Tick += new System.EventHandler(this.reset_sync_Tick);
             // 
-            // btn_pickup
+            // pnl_billsetting
             // 
-            this.btn_pickup.BackgroundImage = global::FoodandBeverage.Properties.Resources.sidemenu_button;
-            this.btn_pickup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_pickup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_pickup.FlatAppearance.BorderSize = 0;
-            this.btn_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_pickup.ForeColor = System.Drawing.Color.White;
-            this.btn_pickup.Location = new System.Drawing.Point(272, 3);
-            this.btn_pickup.Name = "btn_pickup";
-            this.btn_pickup.Size = new System.Drawing.Size(125, 36);
-            this.btn_pickup.TabIndex = 8;
-            this.btn_pickup.Text = "Pick Up";
-            this.btn_pickup.UseVisualStyleBackColor = true;
-            this.btn_pickup.Visible = false;
-            this.btn_pickup.Click += new System.EventHandler(this.btn_pickup_Click);
+            this.pnl_billsetting.BackColor = System.Drawing.SystemColors.Control;
+            this.pnl_billsetting.Controls.Add(this.tableLayoutPanel4);
+            this.pnl_billsetting.Location = new System.Drawing.Point(312, 104);
+            this.pnl_billsetting.Name = "pnl_billsetting";
+            this.pnl_billsetting.Padding = new System.Windows.Forms.Padding(3);
+            this.pnl_billsetting.Size = new System.Drawing.Size(400, 250);
+            this.pnl_billsetting.TabIndex = 24;
+            this.pnl_billsetting.Visible = false;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tlp_setting, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btn_bill_save, 0, 2);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.66991F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.3301F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(394, 244);
+            this.tableLayoutPanel4.TabIndex = 21;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.1877F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.8123F));
+            this.tableLayoutPanel5.Controls.Add(this.label7, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.chk_Qr, 1, 1);
+            this.tableLayoutPanel5.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label5, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.chk_logo, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label6, 0, 2);
+            this.tableLayoutPanel5.Controls.Add(this.txtfooter_msg, 1, 3);
+            this.tableLayoutPanel5.Controls.Add(this.chk_ucsdetails, 1, 2);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 41);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(388, 154);
+            this.tableLayoutPanel5.TabIndex = 22;
+            // 
+            // chk_Qr
+            // 
+            this.chk_Qr.AutoSize = true;
+            this.chk_Qr.Location = new System.Drawing.Point(207, 57);
+            this.chk_Qr.Margin = new System.Windows.Forms.Padding(59, 20, 3, 3);
+            this.chk_Qr.Name = "chk_Qr";
+            this.chk_Qr.Size = new System.Drawing.Size(15, 14);
+            this.chk_Qr.TabIndex = 12;
+            this.chk_Qr.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(142, 37);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Bill Logo";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.label5.Location = new System.Drawing.Point(3, 37);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(142, 37);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "QR Code ";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // chk_logo
+            // 
+            this.chk_logo.AutoSize = true;
+            this.chk_logo.Location = new System.Drawing.Point(207, 20);
+            this.chk_logo.Margin = new System.Windows.Forms.Padding(59, 20, 3, 3);
+            this.chk_logo.Name = "chk_logo";
+            this.chk_logo.Size = new System.Drawing.Size(15, 14);
+            this.chk_logo.TabIndex = 11;
+            this.chk_logo.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(3, 74);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(142, 37);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Customer Details";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtfooter_msg
+            // 
+            this.txtfooter_msg.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtfooter_msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtfooter_msg.Location = new System.Drawing.Point(151, 114);
+            this.txtfooter_msg.Multiline = true;
+            this.txtfooter_msg.Name = "txtfooter_msg";
+            this.txtfooter_msg.Size = new System.Drawing.Size(234, 40);
+            this.txtfooter_msg.TabIndex = 14;
+            this.txtfooter_msg.Text = "\" Thank You Visit Again \"";
+            // 
+            // tlp_setting
+            // 
+            this.tlp_setting.BackColor = System.Drawing.Color.SteelBlue;
+            this.tlp_setting.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlp_setting.ColumnCount = 3;
+            this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_setting.Controls.Add(this.btn_billsetting, 2, 0);
+            this.tlp_setting.Location = new System.Drawing.Point(3, 3);
+            this.tlp_setting.Name = "tlp_setting";
+            this.tlp_setting.RowCount = 1;
+            this.tlp_setting.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_setting.Size = new System.Drawing.Size(388, 32);
+            this.tlp_setting.TabIndex = 23;
+            // 
+            // btn_billsetting
+            // 
+            this.btn_billsetting.BackColor = System.Drawing.Color.White;
+            this.btn_billsetting.FlatAppearance.BorderSize = 0;
+            this.btn_billsetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_billsetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_billsetting.ForeColor = System.Drawing.Color.Red;
+            this.btn_billsetting.Location = new System.Drawing.Point(359, 4);
+            this.btn_billsetting.Name = "btn_billsetting";
+            this.btn_billsetting.Size = new System.Drawing.Size(25, 25);
+            this.btn_billsetting.TabIndex = 10;
+            this.btn_billsetting.Text = "X";
+            this.btn_billsetting.UseVisualStyleBackColor = false;
+            this.btn_billsetting.Click += new System.EventHandler(this.btn_billsetting_Click);
+            // 
+            // btn_bill_save
+            // 
+            this.btn_bill_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_bill_save.Location = new System.Drawing.Point(150, 201);
+            this.btn_bill_save.Margin = new System.Windows.Forms.Padding(150, 3, 3, 3);
+            this.btn_bill_save.Name = "btn_bill_save";
+            this.btn_bill_save.Size = new System.Drawing.Size(91, 40);
+            this.btn_bill_save.TabIndex = 24;
+            this.btn_bill_save.Text = "ok";
+            this.btn_bill_save.UseVisualStyleBackColor = true;
+            this.btn_bill_save.Click += new System.EventHandler(this.btn_bill_save_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.label7.Location = new System.Drawing.Point(3, 111);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(142, 46);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Footer Message";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // chk_ucsdetails
+            // 
+            this.chk_ucsdetails.AutoSize = true;
+            this.chk_ucsdetails.Location = new System.Drawing.Point(207, 94);
+            this.chk_ucsdetails.Margin = new System.Windows.Forms.Padding(59, 20, 3, 3);
+            this.chk_ucsdetails.Name = "chk_ucsdetails";
+            this.chk_ucsdetails.Size = new System.Drawing.Size(15, 14);
+            this.chk_ucsdetails.TabIndex = 16;
+            this.chk_ucsdetails.UseVisualStyleBackColor = true;
             // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 748);
+            this.Controls.Add(this.pnl_billsetting);
             this.Controls.Add(this.panl_msgsettings);
             this.Controls.Add(this.pnlappcolor);
             this.Controls.Add(this.ib_addon);
@@ -2086,6 +2289,11 @@ namespace FoodandBeverage.Forms
             this.pnl_empty_msg.ResumeLayout(false);
             this.pnl_empty_msg.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnl_billsetting.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
+            this.tlp_setting.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2198,5 +2406,19 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.Label lblsync;
         private System.Windows.Forms.Timer reset_sync;
         private System.Windows.Forms.Button btn_pickup;
+        private System.Windows.Forms.Panel pnl_billsetting;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.CheckBox chk_Qr;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chk_logo;
+        private System.Windows.Forms.TableLayoutPanel tlp_setting;
+        private System.Windows.Forms.Button btn_billsetting;
+        private System.Windows.Forms.Button btn_bill_save;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtfooter_msg;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox chk_ucsdetails;
     }
 }

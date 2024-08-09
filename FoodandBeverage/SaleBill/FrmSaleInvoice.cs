@@ -56,6 +56,12 @@ namespace FoodandBeverage.SaleBill
         public static extern bool SetDefaultPrinter(string printerName);
         #endregion
 
+        #region Declaration
+        public bool Logo_Status = false;
+        public bool QR_Status = false;
+        public bool Customer_Status = false;
+        public string FooterMsg = ""; 
+        #endregion
         private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
             textb_shape();
@@ -78,6 +84,23 @@ namespace FoodandBeverage.SaleBill
 
                 if (gridesource.Count > 0)
                 {
+                    if (gridesource[0].Logostatus)
+                    {
+                        Logo_Status = true;
+                    }
+                    if (gridesource[0].QRcode)
+                    {
+                        QR_Status = true;
+                    }
+                    if (gridesource[0].Footermsg != "")
+                    {
+                        FooterMsg = gridesource[0].Footermsg;
+                    }
+                    if (gridesource[0].Customer_Status)
+                    {
+                        Customer_Status = true;
+                    }                    
+
                     if (gridesource[0].Gmail)
                     {
                         btn_gmail.Visible = true;
@@ -99,6 +122,7 @@ namespace FoodandBeverage.SaleBill
                         btn_whatsup.Visible = false;
                         txt_ph_report.Visible = false;
                     }
+
                 }
                 else
                 {
@@ -149,7 +173,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
                                               " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
                                               " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
-                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal";
+                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal,s.PkChargeAmount,s.Rev_Status,s.OrderType";
                 dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
@@ -361,7 +385,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal"))
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType"))
                 {
                     dtSalesMaster.Load(reader);
                 }               
@@ -371,7 +395,18 @@ namespace FoodandBeverage.SaleBill
                 dsReport.Tables.Add(dtSalesMaster);
 
                 if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
-                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+                {
+                    if (Logo_Status && QR_Status)
+                        reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+                    else if (!Logo_Status)
+                        reportDocument.Load(RPTPath + @"\CR_Bill_Without_Logo.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+                    else if (!QR_Status)
+                        reportDocument.Load(RPTPath + @"\CR_Bill_Without_QR.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+                    if (!Logo_Status && !QR_Status)
+                        reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+
+                    //reportDocument.Load(RPTPath + @"\CR_TEST.rpt");
+                }            
                 else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
                     reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
 
@@ -381,6 +416,20 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("cashamount",cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+
+                reportDocument.SetParameterValue("footermsg", FooterMsg);
+
+                if (invoiceBillMasters[0].Rev_Status==1)
+                {
+                    reportDocument.SetParameterValue("Adv_pkc_label", "Advance Amount");
+                    reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].AdvanceAmount);
+                }
+                else
+                {
+                    reportDocument.SetParameterValue("Adv_pkc_label", "Packing Charge");
+                    reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].PkChargeAmount);
+                }
+
 
                 crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;

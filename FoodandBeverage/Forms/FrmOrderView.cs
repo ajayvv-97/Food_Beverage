@@ -547,7 +547,7 @@ namespace FoodandBeverage.Forms
                             List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
                             ComboBoxItem comboBoxItem; 
 
-                            if (Convert.ToInt32(gridSource[i].Field10) == 1)
+                            if (Convert.ToInt32(gridSource[i].Field10) ==1)
                             {
                                 comboBoxItem = new ComboBoxItem(0, "PICKUP ORDER");
                             }

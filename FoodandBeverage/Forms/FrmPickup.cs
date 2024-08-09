@@ -330,7 +330,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (clickedControl.Tag != null)
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage));
+                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage));
                             _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                             _instanceFrmOrder.Opacity = 0;
                             _instanceFrmOrder.Visible = false;
@@ -463,7 +463,7 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner_pkup_fetch.Dock = DockStyle.Top;
                             tlp_table_inner_pkup_fetch.Margin = new Padding(15, 10, 15, 10);
                             tlp_table_inner_pkup_fetch.AccessibleDescription = item.Field1;
-                            tlp_table_inner_pkup_fetch.CellBorderStyle =TableLayoutPanelCellBorderStyle.Single;
+                            //tlp_table_inner_pkup_fetch.CellBorderStyle =TableLayoutPanelCellBorderStyle.Single;
                             //tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.Fixed3D;
                             #endregion
 

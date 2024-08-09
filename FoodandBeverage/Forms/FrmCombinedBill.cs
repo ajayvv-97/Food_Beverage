@@ -33,6 +33,9 @@ namespace FoodandBeverage.Forms
 
         public Color CombinedBillcolor = Color.Wheat;//System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
         public Color NormalBillingColor = Color.White;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        public Color Netamountcolor = Color.Green;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        public Color Description_color = Color.Black;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        
         #endregion
 
         #region Grid Declaration
@@ -68,7 +71,7 @@ namespace FoodandBeverage.Forms
                 dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
                 Billcomplete_Fill();
-                cmb_tbl_names.Items.Add("Table List");
+                cmb_tbl_names.Items.Add("List");
             }
             catch (Exception ex)
             {
@@ -112,7 +115,7 @@ namespace FoodandBeverage.Forms
                 BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
                 DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
                 dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
-                var gridSource = SearchDetails.serachreport("BillData", dmnSearchtabledata);
+                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
                 //var sortedGridSource = gridSource.OrderBy(item => item.t).ToList();
                 pnl_compelte_bill.Controls.Clear();
                 tlp_table_dashboard.Controls.Clear();
@@ -157,8 +160,7 @@ namespace FoodandBeverage.Forms
 
                 if (gridSource.Count > 0)
                 {
-                    #region order complete only dispaly code
-   
+
                     foreach (var tabledata in gridSource)
                     {
                         if (Convert.ToInt32(tabledata.PickupOrderFlag) == 1 && Convert.ToInt32(tabledata.BillStatus) == 0)
@@ -168,6 +170,8 @@ namespace FoodandBeverage.Forms
                             FlowLayoutPanel flp_box_check_pk = tlp_table_dashboard.Controls.Find(flpname, true).FirstOrDefault() as FlowLayoutPanel;
 
                             #region pickup Box creation
+
+                            #region tlp_table_inner_pk
                             // Configure the TableLayoutPanel
                             TableLayoutPanel tlp_table_inner_pk = new TableLayoutPanel();
                             tlp_table_inner_pk.RowCount = 3;
@@ -195,7 +199,9 @@ namespace FoodandBeverage.Forms
                                 tlp_table_inner_pk.Height = 80;
                                 tlp_table_inner_pk.Margin = new Padding(10, 10, 0, 10);
                             }
+                            #endregion
 
+                            #region btn_select_pk
                             Button btn_select_pk = new Button();
                             btn_select_pk.Name = "btn_select_pk_com" + tabledata.pkid;
                             btn_select_pk.AccessibleDescription = Convert.ToInt32(DashboardTableType.PickupOrder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
@@ -207,20 +213,23 @@ namespace FoodandBeverage.Forms
                             btn_select_pk.Dock = DockStyle.Fill;
                             btn_select_pk.Margin = new Padding(20, 0, 20, 0);
                             btn_select_pk.Click += new EventHandler(btn_select_Clicked);
+                            #endregion
 
+                            #region lbltablename_pk
                             // Configure the Label
                             Label lbltablename_pk = new Label();
                             lbltablename_pk.Name = "lb_tablename" + tabledata.pkid;
                             lbltablename_pk.AccessibleDescription = Convert.ToInt32(DashboardTableType.PickupOrder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
                             lbltablename_pk.TextAlign = ContentAlignment.MiddleCenter;
                             lbltablename_pk.Tag = Convert.ToInt32(CombinedBillType.PickupBill);
-                            lbltablename_pk.Text =Convert.ToString(tabledata.pkid);
-                            lbltablename_pk.ForeColor = Color.Black;
+                            lbltablename_pk.Text = Convert.ToString(tabledata.pkid);
+                            lbltablename_pk.ForeColor = Description_color;
                             lbltablename_pk.BackColor = Color.Transparent;
                             lbltablename_pk.Font = new Font("Arial", 10, FontStyle.Bold);
-                            lbltablename_pk.ForeColor = Color.Red;
                             lbltablename_pk.Dock = DockStyle.Fill;
+                            #endregion
 
+                            #region netamountlabel_pk
                             // Configure the Label
                             Label netamountlabel_pk = new Label();
                             netamountlabel_pk.Name = "lb_netamount" + tabledata.pkid;
@@ -228,10 +237,11 @@ namespace FoodandBeverage.Forms
                             netamountlabel_pk.TextAlign = ContentAlignment.MiddleCenter;
                             netamountlabel_pk.Tag = Convert.ToInt32(CombinedBillType.PickupBill);
                             netamountlabel_pk.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                            netamountlabel_pk.ForeColor = Color.Black;
+                            netamountlabel_pk.ForeColor = Netamountcolor;
                             netamountlabel_pk.BackColor = Color.Transparent;
                             netamountlabel_pk.Font = new Font("Arial", 10, FontStyle.Bold);
                             netamountlabel_pk.Dock = DockStyle.Fill;
+                            #endregion
 
                             if (Convert.ToInt32(tabledata.BillStatus) == 0)
                                 tlp_table_inner_pk.Visible = true;
@@ -269,7 +279,7 @@ namespace FoodandBeverage.Forms
 
                             #endregion
                         }
-                        else
+                        else if (Convert.ToInt32(tabledata.Tid) > 0)
                         {
                             #region Normal , Combined ,bokking orders
                             string tlpname = "tlp_category_Com_" + tabledata.CategoryName;
@@ -362,10 +372,9 @@ namespace FoodandBeverage.Forms
                             lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                             lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
                             lbltablename.Text = tabledata.TableCode;
-                            lbltablename.ForeColor = Color.Black;
+                            lbltablename.ForeColor = Description_color;
                             lbltablename.BackColor = Color.Transparent;
                             lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                            lbltablename.ForeColor = Color.Red;
                             lbltablename.Dock = DockStyle.Fill;
 
                             // Configure the Label
@@ -375,7 +384,7 @@ namespace FoodandBeverage.Forms
                             netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                             netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
                             netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                            netamountlabel.ForeColor = Color.Black;
+                            netamountlabel.ForeColor = Netamountcolor;
                             netamountlabel.BackColor = Color.Transparent;
                             netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
                             netamountlabel.Dock = DockStyle.Fill;
@@ -432,7 +441,7 @@ namespace FoodandBeverage.Forms
                     pnl_compelte_bill.Controls.Add(tlp_table_dashboard);
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
-                    #endregion
+              
 
                    CombineBillAutoTimer.Start();
                 }
@@ -482,12 +491,13 @@ namespace FoodandBeverage.Forms
                 BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
                 DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
                 dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
-                var gridSource = SearchDetails.serachreport("BillData", dmnSearchtabledata);
+                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
 
                 if (gridSource.Count > 0)
                 {
                     string flpname = "flp_box_Com_Pickup";
                     FlowLayoutPanel flp_box_check_pk = tlp_table_dashboard.Controls.Find(flpname, true).FirstOrDefault() as FlowLayoutPanel;
+
                     #region Remove Pickup on complete or cancel Orders
 
                     var preserveNames = gridSource
@@ -513,8 +523,10 @@ namespace FoodandBeverage.Forms
                         {
                             #region Pickup Box 
 
-                            if(flp_box_check_pk==null)
-                            {                  
+                            string tlpname = "tlp_com_pk" + tabledata.pkid;
+                            TableLayoutPanel tlp_box_check_pk = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                            if(tlp_box_check_pk == null)
+                            {
                                 #region pickup bill Box creation 
                                 // Configure the TableLayoutPanel
                                 TableLayoutPanel tlp_table_inner_pk = new TableLayoutPanel();
@@ -563,10 +575,9 @@ namespace FoodandBeverage.Forms
                                 lbltablename_pk.TextAlign = ContentAlignment.MiddleCenter;
                                 lbltablename_pk.Tag = Convert.ToInt32(CombinedBillType.PickupBill);
                                 lbltablename_pk.Text = Convert.ToString(tabledata.pkid);
-                                lbltablename_pk.ForeColor = Color.Black;
+                                lbltablename_pk.ForeColor = Description_color;
                                 lbltablename_pk.BackColor = Color.Transparent;
                                 lbltablename_pk.Font = new Font("Arial", 10, FontStyle.Bold);
-                                lbltablename_pk.ForeColor = Color.Red;
                                 lbltablename_pk.Dock = DockStyle.Fill;
 
                                 // Configure the Label
@@ -576,7 +587,7 @@ namespace FoodandBeverage.Forms
                                 netamountlabel_pk.TextAlign = ContentAlignment.MiddleCenter;
                                 netamountlabel_pk.Tag = Convert.ToInt32(CombinedBillType.PickupBill);
                                 netamountlabel_pk.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                                netamountlabel_pk.ForeColor = Color.Black;
+                                netamountlabel_pk.ForeColor = Netamountcolor;
                                 netamountlabel_pk.BackColor = Color.Transparent;
                                 netamountlabel_pk.Font = new Font("Arial", 10, FontStyle.Bold);
                                 netamountlabel_pk.Dock = DockStyle.Fill;
@@ -622,9 +633,23 @@ namespace FoodandBeverage.Forms
                                 flp_box_check_pk.Controls.Add(tlp_table_inner_pk);
                                 #endregion
                             }
+                            else
+                            {
+                                string btniaddicon = "btn_select_pk_com" + tabledata.pkid;
+                                Button btn_select = tlp_table_dashboard.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
+                                tlp_box_check_pk.BackColor = NormalBillingColor;
+                                if (CheckedtableNames.Count == 0)
+                                    if (btn_select != null)
+                                    {
+                                        btn_select.Visible = true;
+                                        btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+                                        btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+                                        btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+                                    }
+                            }
                             #endregion
                         }
-                        else
+                        else if (Convert.ToInt32(tabledata.Tid)>0)
                         {
                             #region Normal , Combined ,bokking orders
                             string tlpname = "tlp_com" + tabledata.Tid;
@@ -802,8 +827,7 @@ namespace FoodandBeverage.Forms
                 {
                     CheckCombinedOrNot(OrderMasterId);
 
-                    if (CheckedtableNames.Count == 0)
-                        cmb_tbl_names.Items.Add("Table List");
+                    //cmb_tbl_names.Items.Add("Table List");
 
                     if (!ListFillFlag)
                     {
@@ -814,14 +838,24 @@ namespace FoodandBeverage.Forms
                                 Id = tid,
                                 Ordermasterid = OrderMasterId,
                                 Tablecode = tableCode,
-                                BookingMasterid = BmasterId
+                                BookingMasterid = BmasterId,
+                                pkid = pkid,
                             });
                             button.BackgroundImage = Properties.Resources.billselectedicon;
                             button.Tag = Convert.ToInt32(BillSelect.Selected);
+                            if (pkid > 0)
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{pkid}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
+                            else
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{tableCode}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
 
-                            // Add to the combo box
-                            string comboBoxItem = $"{tableCode}";
-                            cmb_tbl_names.Items.Add(comboBoxItem);
 
                         }
                         else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
@@ -830,10 +864,18 @@ namespace FoodandBeverage.Forms
                             if (itemToRemove != null)
                             {
                                 CheckedtableNames.Remove(itemToRemove);
-
-                                // Remove from the combo box
-                                string comboBoxItemToRemove = $"{itemToRemove.Tablecode}";
-                                cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                if (pkid > 0)
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{pkid}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
+                                else
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{itemToRemove.Tablecode}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
                             }
 
                             button.BackgroundImage = Properties.Resources.Billaddicon;
@@ -842,7 +884,11 @@ namespace FoodandBeverage.Forms
 
                         button.BackgroundImageLayout = ImageLayout.Stretch;
 
-                        lbl_tbl_totalcount.Text = "Total Tables : " + Convert.ToString(CheckedtableNames.Count);
+                        if(pkid>0)
+                            lbl_tbl_totalcount.Text = "Pickup Orders : " + Convert.ToString(CheckedtableNames.Count);
+                        else
+                            lbl_tbl_totalcount.Text = "Total Tables : " + Convert.ToString(CheckedtableNames.Count);
+
                         if (CheckedtableNames.Count > 1)
                         {
                             lbl_tbl_totalcount.Visible = true;
@@ -1172,7 +1218,7 @@ namespace FoodandBeverage.Forms
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "Top 20 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13";
+                dmnSearch.Select = "Top 20 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -1191,6 +1237,7 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
 
                         dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field3;
+
                         #region multiple table code case reservation 
                         if (Convert.ToInt32(gridSource[i].Field11) == 0)
                         {
@@ -1200,7 +1247,15 @@ namespace FoodandBeverage.Forms
                         {
                             DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
                             List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                            ComboBoxItem comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
+                            ComboBoxItem comboBoxItem;
+                            if (Convert.ToInt32(gridSource[i].Field14) == Convert.ToInt32(OrderType.PickupOrder))
+                            {
+                                comboBoxItem = new ComboBoxItem(0, "PICKUP ORDER");
+                            }
+                            else
+                            {
+                                comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
+                            }
                             comboBoxItems.Add(comboBoxItem);
                             dropDown.DataSource = comboBoxItems;
                             dropDown.ValueMember = "Id";
@@ -1370,7 +1425,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    objSearch.Select = "com.tid id,ti.TableCode value";
+                    objSearch.Select = "com.tid id,case when PickupOrderFlag=1 then 'PICK NO '+ CONVERT(varchar, PkId) else ti.TableCode end value";
                     objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
                     objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
                     objSearch.OrderBy = "";

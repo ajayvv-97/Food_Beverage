@@ -2007,3 +2007,17 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 1
 -------------------------------------------------------------------------
+Date and Time: 08-08-2024 11:21:53
+Page : Order page  paybillcal()
+Exception: Procedure or function prdInsert_Upd_SalesMaster has too many arguments specified.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 09-08-2024 11:46:33
+Page : homepage btn_save_msg_Click
+Exception: Procedure or function 'prdInsertBill' expects parameter '@CreatedBy', which was not supplied.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------

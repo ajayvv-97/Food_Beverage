@@ -660,6 +660,30 @@
       <DependentUpon>CR_Bill.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SaleBill\CR_Bill_withoutQR_Logo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bill_withoutQR_Logo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_Bill_Without_Logo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bill_Without_Logo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_Bill_Without_QR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bill_Without_QR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_TEST.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_TEST.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SaleBill\FrmSaleInvoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -882,6 +906,22 @@
     <EmbeddedResource Include="SaleBill\CR_Bill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bill_withoutQR_Logo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bill_withoutQR_Logo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bill_Without_Logo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bill_Without_Logo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bill_Without_QR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bill_Without_QR.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_TEST.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_TEST.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
@@ -1758,9 +1798,6 @@
     <None Include="Resources\okay_description.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\kitchen_order_sound.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\monthly_report.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1790,6 +1827,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\kitchen_order_sound.wav" />
+    <None Include="Resources\kitchen_order_sound.mp3" />
     <None Include="Resources\downarrow.png" />
     <None Include="Resources\confirmbutton.png" />
     <None Include="Resources\res_show button.png" />

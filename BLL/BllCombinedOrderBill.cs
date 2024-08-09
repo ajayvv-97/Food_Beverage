@@ -18,9 +18,11 @@ namespace BLL
             parameters.Add("SalesMasterId", obj.SalemasterId);
             parameters.Add("BranchId", obj.BranchId);
             parameters.Add("CreatedBy", obj.CreatedBy);
-            parameters.Add("Status", obj.Status); 
+            parameters.Add("Status", obj.Status);
             parameters.Add("TimeDuration", obj.TimeDuration);
             parameters.Add("BillCopyStatus", obj.BillCopyStatus);
+            parameters.Add("PkId", obj.PkId);
+            parameters.Add("PickupOrderFlag", obj.PickupOrderFlag);
             var lstData = dapperRepository.AddandReturnID(procedureName, parameters);
             return lstData;
         }

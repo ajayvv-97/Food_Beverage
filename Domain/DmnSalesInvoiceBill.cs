@@ -35,7 +35,11 @@ namespace Domain
         public int PromoDId { get; set; }
         public decimal PromoAmount { get; set; }
         public decimal ReservationTotal { get; set; }
-        public decimal AdvanceAmount { get; set; }        
-            
+        public decimal AdvanceAmount { get; set; }
+        public decimal PkChargeAmount { get; set; }
+        public int Rev_Status { get; set; }
+        public int OrderType { get; set; }
+
     }
+    
 }

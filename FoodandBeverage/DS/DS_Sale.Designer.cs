@@ -750,6 +750,12 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnReservationTotal;
             
+            private global::System.Data.DataColumn columnPkChargeAmount;
+            
+            private global::System.Data.DataColumn columnRev_Status;
+            
+            private global::System.Data.DataColumn columnOrderType;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_salemasterDataTable() {
@@ -1009,6 +1015,30 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PkChargeAmountColumn {
+                get {
+                    return this.columnPkChargeAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Rev_StatusColumn {
+                get {
+                    return this.columnRev_Status;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn OrderTypeColumn {
+                get {
+                    return this.columnOrderType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1072,7 +1102,10 @@ namespace FoodandBeverage.DS {
                         int PromoDId, 
                         decimal PromoAmount, 
                         decimal AdvanceAmount, 
-                        decimal ReservationTotal) {
+                        decimal ReservationTotal, 
+                        decimal PkChargeAmount, 
+                        int Rev_Status, 
+                        int OrderType) {
                 DT_salemasterRow rowDT_salemasterRow = ((DT_salemasterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         EntryNo,
@@ -1102,7 +1135,10 @@ namespace FoodandBeverage.DS {
                         PromoDId,
                         PromoAmount,
                         AdvanceAmount,
-                        ReservationTotal};
+                        ReservationTotal,
+                        PkChargeAmount,
+                        Rev_Status,
+                        OrderType};
                 rowDT_salemasterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_salemasterRow);
                 return rowDT_salemasterRow;
@@ -1153,6 +1189,9 @@ namespace FoodandBeverage.DS {
                 this.columnPromoAmount = base.Columns["PromoAmount"];
                 this.columnAdvanceAmount = base.Columns["AdvanceAmount"];
                 this.columnReservationTotal = base.Columns["ReservationTotal"];
+                this.columnPkChargeAmount = base.Columns["PkChargeAmount"];
+                this.columnRev_Status = base.Columns["Rev_Status"];
+                this.columnOrderType = base.Columns["OrderType"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1214,6 +1253,12 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnAdvanceAmount);
                 this.columnReservationTotal = new global::System.Data.DataColumn("ReservationTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnReservationTotal);
+                this.columnPkChargeAmount = new global::System.Data.DataColumn("PkChargeAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPkChargeAmount);
+                this.columnRev_Status = new global::System.Data.DataColumn("Rev_Status", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRev_Status);
+                this.columnOrderType = new global::System.Data.DataColumn("OrderType", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderType);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2430,6 +2475,54 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal PkChargeAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_salemaster.PkChargeAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PkChargeAmount\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.PkChargeAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Rev_Status {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_salemaster.Rev_StatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Rev_Status\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.Rev_StatusColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int OrderType {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_salemaster.OrderTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OrderType\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.OrderTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsEntryNoNull() {
                 return this.IsNull(this.tableDT_salemaster.EntryNoColumn);
             }
@@ -2762,6 +2855,42 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetReservationTotalNull() {
                 this[this.tableDT_salemaster.ReservationTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPkChargeAmountNull() {
+                return this.IsNull(this.tableDT_salemaster.PkChargeAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPkChargeAmountNull() {
+                this[this.tableDT_salemaster.PkChargeAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsRev_StatusNull() {
+                return this.IsNull(this.tableDT_salemaster.Rev_StatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetRev_StatusNull() {
+                this[this.tableDT_salemaster.Rev_StatusColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsOrderTypeNull() {
+                return this.IsNull(this.tableDT_salemaster.OrderTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetOrderTypeNull() {
+                this[this.tableDT_salemaster.OrderTypeColumn] = global::System.Convert.DBNull;
             }
         }
         

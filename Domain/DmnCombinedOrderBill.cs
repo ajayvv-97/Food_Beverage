@@ -19,6 +19,8 @@ namespace Domain
         public DateTime ModifiedOn { get; set; }
         public int TimeDuration { get; set; }
         public int BillCopyStatus { get; set; }
+        public int PickupOrderFlag { get; set; }
+        public int PkId { get; set; }
 
     }
 

@@ -18,7 +18,13 @@ namespace Domain
         public int ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
         public bool Whatsapp { get; set; }
-        public bool Gmail { get; set; }        
-
+        public bool Gmail { get; set; }
+        public bool QRcode { get; set; }
+        public bool Logostatus { get; set; }
+        public string Logopath { get; set; }
+        public string Footermsg { get; set; }
+        public bool Customer_Status { get; set; }
+        
     }
+    
 }
