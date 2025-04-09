@@ -11030,12 +11030,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul();
+                reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul(FrmLogin.Compid);
                 if (reading_RFID != "Card not in contact")
                 {
                     wificard_timer.Stop();
                     if (reading_RFID == "" || reading_RFID == "empty" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        reading_RFID = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi();
+                        reading_RFID = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi(FrmLogin.Compid);
                     reading_RFID = RemoveSpecialCharacters(reading_RFID.Trim());
                     if (reading_RFID == "" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication" || reading_RFID == "Cardnotincontact")
                     {
