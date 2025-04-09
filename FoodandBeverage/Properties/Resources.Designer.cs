@@ -1412,6 +1412,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Noorder {
+            get {
+                object obj = ResourceManager.GetObject("Noorder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap offer_Add_button {
             get {
                 object obj = ResourceManager.GetObject("offer_Add_button", resourceCulture);

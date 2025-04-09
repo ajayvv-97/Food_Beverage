@@ -396,14 +396,40 @@ namespace FoodandBeverage.SaleBill
 
                 if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
                 {
-                    if (Logo_Status && QR_Status)
-                        reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
-                    else if (!Logo_Status)
-                        reportDocument.Load(RPTPath + @"\CR_Bill_Without_Logo.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
-                    else if (!QR_Status)
-                        reportDocument.Load(RPTPath + @"\CR_Bill_Without_QR.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
-                    if (!Logo_Status && !QR_Status)
-                        reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt"); //
+                    //if (Logo_Status && QR_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
+                    //else if (!Logo_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill_Without_Logo.rpt"); 
+                    //else if (!QR_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill_Without_QR.rpt");
+                    //else if (!Customer_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill_CR_Bill_Without_CUS.rpt");
+                    //else if (!Logo_Status && !QR_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo.rpt");
+                    //else if (!Logo_Status && !QR_Status && !Customer_Status)
+                    //    reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo_QR_CUS.rpt.rpt");
+
+                    string reportFileName = "";
+                    if (Logo_Status && QR_Status && Customer_Status)
+                        reportFileName = "CR_Bill.rpt";
+                    else if (Logo_Status && !QR_Status && Customer_Status)
+                        reportFileName = "CR_Bill_Without_QR.rpt";
+                    else if (!Logo_Status && QR_Status && Customer_Status)
+                        reportFileName = "CR_Bill_Without_Logo.rpt";
+                    else if (Logo_Status && QR_Status && !Customer_Status)
+                        reportFileName = "CR_Bill_Without_CUS.rpt";
+
+                    else if (!Logo_Status && !QR_Status && Customer_Status)
+                        reportFileName = "CR_Bill_withoutQR_Logo.rpt";
+                    else if (!Logo_Status && QR_Status && !Customer_Status)
+                        reportFileName = "CR_Bill_withoutLogo_CUS.rpt";
+                    else if (Logo_Status && !QR_Status && !Customer_Status)
+                        reportFileName = "CR_Bill_withoutQR_CUS.rpt";
+                    else if (!Logo_Status && !QR_Status && !Customer_Status)
+                        reportFileName = "CR_Bill_withoutQR_Logo_CUS.rpt";
+
+                    if (!string.IsNullOrEmpty(reportFileName))
+                        reportDocument.Load(Path.Combine(RPTPath, reportFileName));
 
                     //reportDocument.Load(RPTPath + @"\CR_TEST.rpt");
                 }            

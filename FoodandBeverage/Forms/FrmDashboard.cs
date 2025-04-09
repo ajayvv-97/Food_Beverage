@@ -1812,6 +1812,43 @@ namespace FoodandBeverage.Forms
                 }
                 pnlappcolor.Visible = false;
                 tlp_main_sidebar_pnldesktop.Enabled = true;
+
+                //operation button color 
+                ib_Category.BackColor = opbuttoncolor;
+                ib_Item.BackColor = opbuttoncolor;
+                ib_ingrediant.BackColor = opbuttoncolor;
+                ib_menu.BackColor = opbuttoncolor;
+                ib_unit.BackColor = opbuttoncolor;
+                ib_table.BackColor = opbuttoncolor;
+                ib_purchase.BackColor = opbuttoncolor;
+                ib_purchasereturn.BackColor = opbuttoncolor;
+                ib_tax.BackColor = opbuttoncolor;
+                ib_vendor.BackColor = opbuttoncolor;
+                ib_Discount_offer.BackColor = opbuttoncolor;
+                ib_Expence.BackColor = opbuttoncolor;
+                ib_orderview.BackColor = opbuttoncolor;
+                ib_kitchenview.BackColor = opbuttoncolor;
+                ib_PromoCode.BackColor = opbuttoncolor;
+                ib_Company.BackColor = opbuttoncolor;
+                ib_useraccount.BackColor = opbuttoncolor;
+                ib_designation.BackColor = opbuttoncolor;
+                ib_department.BackColor = opbuttoncolor;
+                ib_employee.BackColor = opbuttoncolor;
+                ib_reservation.BackColor = opbuttoncolor;
+                ib_userpermission.BackColor = opbuttoncolor;
+                ib_addon.BackColor = opbuttoncolor;
+
+                Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
+                if (btnsetting != null)
+                    btnsetting.BackColor = opbuttoncolor;
+
+                Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
+                if (btnwhatsappsetting != null)
+                    btnwhatsappsetting.BackColor = opbuttoncolor;
+
+                Button btnbillsetting = this.Controls.Find("btn_Bill", true).FirstOrDefault() as Button;
+                if (btnbillsetting != null)
+                    btnbillsetting.BackColor = opbuttoncolor;
             }
             catch (Exception ex)
             {
@@ -2969,39 +3006,7 @@ namespace FoodandBeverage.Forms
                                         selectedColor.G.ToString("X2") +
                                         selectedColor.B.ToString("X2");
                     }                     
-                    txtoperbuttoncolorname.Text = hexColor;   
-
-                    //operation button color 
-                    ib_Category.BackColor = opbuttoncolor;
-                    ib_Item.BackColor = opbuttoncolor;
-                    ib_ingrediant.BackColor = opbuttoncolor;
-                    ib_menu.BackColor = opbuttoncolor;
-                    ib_unit.BackColor = opbuttoncolor;
-                    ib_table.BackColor = opbuttoncolor;
-                    ib_purchase.BackColor = opbuttoncolor;
-                    ib_purchasereturn.BackColor = opbuttoncolor;
-                    ib_tax.BackColor = opbuttoncolor;
-                    ib_vendor.BackColor = opbuttoncolor;
-                    ib_Discount_offer.BackColor = opbuttoncolor;
-                    ib_Expence.BackColor = opbuttoncolor;
-                    ib_orderview.BackColor = opbuttoncolor;
-                    ib_kitchenview.BackColor = opbuttoncolor;
-                    ib_PromoCode.BackColor = opbuttoncolor;
-                    ib_Company.BackColor = opbuttoncolor;
-                    ib_useraccount.BackColor = opbuttoncolor;
-                    ib_designation.BackColor = opbuttoncolor;
-                    ib_department.BackColor = opbuttoncolor;
-                    ib_employee.BackColor = opbuttoncolor;
-                    ib_reservation.BackColor = opbuttoncolor;
-                    ib_userpermission.BackColor = opbuttoncolor;
-                    ib_addon.BackColor = opbuttoncolor;
-                    Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
-                    if (btnsetting != null)
-                        btnsetting.BackColor = opbuttoncolor;
-
-                    Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
-                    if (btnwhatsappsetting != null)
-                        btnwhatsappsetting.BackColor = opbuttoncolor;
+                    txtoperbuttoncolorname.Text = hexColor;                       
                 }
             }
             catch (Exception ex)
@@ -3077,6 +3082,11 @@ namespace FoodandBeverage.Forms
                     Button btnwhatsappsetting = this.Controls.Find("btn_Message", true).FirstOrDefault() as Button;
                     if (btnwhatsappsetting != null)
                         btnwhatsappsetting.BackColor = opbuttoncolor;
+
+
+                    Button btnbillsetting = this.Controls.Find("btn_Bill", true).FirstOrDefault() as Button;
+                    if (btnbillsetting != null)
+                        btnbillsetting.BackColor = opbuttoncolor;
                 }
 
             }
@@ -3976,7 +3986,7 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
-                    FrmTableView _instanceFrmTableView = new FrmTableView(3);
+                    FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.avilabletbl));
                     ResizeForm(_instanceFrmTableView);
                     _instanceFrmTableView.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmTableView);
@@ -4032,7 +4042,7 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
-                    FrmTableView _instanceFrmTableView = new FrmTableView(2);
+                    FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.Revtbl));
                     ResizeForm(_instanceFrmTableView);
                     _instanceFrmTableView.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmTableView);
@@ -4089,7 +4099,7 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
-                    FrmTableView _instanceFrmTableView = new FrmTableView(1);
+                    FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.Activetbl));
                     ResizeForm(_instanceFrmTableView);
                     _instanceFrmTableView.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmTableView);
@@ -4176,7 +4186,7 @@ namespace FoodandBeverage.Forms
                         btn_pickup.Visible = true;
                         tlp_tablestatus.ResumeLayout();
 
-                        FrmTableView _instanceFrmTableView = new FrmTableView(0);
+                        FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.refresh));
                         ResizeForm(_instanceFrmTableView);
                         _instanceFrmTableView.TopLevel = false;
                         panelDesktop.Controls.Add(_instanceFrmTableView);
@@ -4289,7 +4299,7 @@ namespace FoodandBeverage.Forms
                     btn_pickup.Visible = false;
                     tlp_tablestatus.ResumeLayout();
 
-                    FrmPickup _instanceFrmPickup = new FrmPickup(0);
+                    FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup));
                     ResizeForm(_instanceFrmPickup);
                     _instanceFrmPickup.TopLevel = false;
                     panelDesktop.Controls.Add(_instanceFrmPickup);
