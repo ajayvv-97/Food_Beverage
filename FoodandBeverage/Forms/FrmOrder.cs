@@ -11533,6 +11533,12 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                         }
+            
+
+                        int mainrowno = 0;
+                        r1 = Dgv_Selected_Item.RowCount - 1;
+                        mainrowno = r1;
+
                         decimal disper = OfferCheckItem(Convert.ToInt32(Global_ProductId), Convert.ToInt32(Tabletype.Product));
                         if (disper == 0)
                         {
@@ -11542,10 +11548,6 @@ namespace FoodandBeverage.Forms
                         {
                             Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = disper;
                         }
-
-                        int mainrowno = 0;
-                        r1 = Dgv_Selected_Item.RowCount - 1;
-                        mainrowno = r1;
                         Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
                         Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);

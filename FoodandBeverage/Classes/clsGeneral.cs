@@ -13,11 +13,11 @@ namespace FoodandBeverage.Classes
 {
     public class ClsGeneral
     {
-        //public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx"; 
-        //public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
+        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx"; 
+        public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
 
-        public static string BugReportFileExcel = Application.StartupPath + @"\BugReport\BugReport.xlsx";
-        public static string BugReportFile = Application.StartupPath + @"\BugReport\BugReport.txt";
+        //public static string BugReportFileExcel = Application.StartupPath + @"\BugReport\BugReport.xlsx";
+       // public static string BugReportFile = Application.StartupPath + @"\BugReport\BugReport.txt";
 
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {
@@ -119,46 +119,46 @@ namespace FoodandBeverage.Classes
         {
             try
             {
-                #region Excel Write Log
-                try
-                {
-                    FileInfo fileInfo = new FileInfo(BugReportFileExcel);
-                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //#region Excel Write Log
+                //try
+                //{
+                //    FileInfo fileInfo = new FileInfo(BugReportFileExcel);
+                //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-                    using (ExcelPackage package = new ExcelPackage(fileInfo))
-                    {
-                        ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0
-                            ? package.Workbook.Worksheets[0]
-                            : package.Workbook.Worksheets.Add("BugReports");
+                //    using (ExcelPackage package = new ExcelPackage(fileInfo))
+                //    {
+                //        ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0
+                //            ? package.Workbook.Worksheets[0]
+                //            : package.Workbook.Worksheets.Add("BugReports");
 
-                        int row = worksheet.Dimension?.Rows + 1 ?? 1;
+                //        int row = worksheet.Dimension?.Rows + 1 ?? 1;
 
-                        if (row == 1)
-                        {
-                            worksheet.Cells[row, 1].Value = "Date and Time";
-                            worksheet.Cells[row, 2].Value = "Page";
-                            worksheet.Cells[row, 3].Value = "Exception";
-                            worksheet.Cells[row, 4].Value = "User Name";
-                            worksheet.Cells[row, 5].Value = "Designation";
-                            worksheet.Cells[row, 6].Value = "FormTypeId";
-                            row++;
-                        }
+                //        if (row == 1)
+                //        {
+                //            worksheet.Cells[row, 1].Value = "Date and Time";
+                //            worksheet.Cells[row, 2].Value = "Page";
+                //            worksheet.Cells[row, 3].Value = "Exception";
+                //            worksheet.Cells[row, 4].Value = "User Name";
+                //            worksheet.Cells[row, 5].Value = "Designation";
+                //            worksheet.Cells[row, 6].Value = "FormTypeId";
+                //            row++;
+                //        }
 
-                        worksheet.Cells[row, 1].Value = DateTime.Now.ToString();
-                        worksheet.Cells[row, 2].Value = page;
-                        worksheet.Cells[row, 3].Value = ex.Message;
-                        worksheet.Cells[row, 4].Value = userName;
-                        worksheet.Cells[row, 5].Value = designation;
-                        worksheet.Cells[row, 6].Value = Formtypeid;
+                //        worksheet.Cells[row, 1].Value = DateTime.Now.ToString();
+                //        worksheet.Cells[row, 2].Value = page;
+                //        worksheet.Cells[row, 3].Value = ex.Message;
+                //        worksheet.Cells[row, 4].Value = userName;
+                //        worksheet.Cells[row, 5].Value = designation;
+                //        worksheet.Cells[row, 6].Value = Formtypeid;
 
-                        package.Save();
-                    }
-                }
-                catch (Exception logEx)
-                {
-                    CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
-                }
-                #endregion
+                //        package.Save();
+                //    }
+                //}
+                //catch (Exception logEx)
+                //{
+                //    CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+                //}
+                //#endregion
 
                 #region  Text file Write Log
                 using (StreamWriter sw = new StreamWriter(BugReportFile, true))

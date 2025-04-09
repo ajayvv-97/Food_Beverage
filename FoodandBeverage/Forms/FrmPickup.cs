@@ -34,7 +34,7 @@ namespace FoodandBeverage.Forms
         public FrmPickup(int type)
         {
             InitializeComponent();
-            Searchmode = 0;
+            Searchmode = type;
         }
 
         private void btncolse_Click(object sender, System.EventArgs e)
@@ -47,10 +47,41 @@ namespace FoodandBeverage.Forms
         private void FrmPickup_Load(object sender, System.EventArgs e)
         {
             LoadPickupView(Searchmode);
+            ShowEmptyOrderIcon();
             textb_shape();
             txtPkid_search.Text = "Token No ....";
             txtPkid_search.ForeColor = Color.DarkGray;
         }
+        private void ShowEmptyOrderIcon()
+        {
+            // Check if flp_pickup_view has any real controls
+            bool hasRealContent = flp_pickup_view.Controls.Count > 0;
+
+            if (!hasRealContent)
+            {
+                pbempty.Visible = true;
+                pbempty.BringToFront();
+                pbempty.SizeMode = PictureBoxSizeMode.Zoom;
+                pbempty.Size = new Size(150, 150);
+
+                // Calculate position relative to flp_pickup_view
+                Point panelLocation = flp_pickup_view.PointToScreen(Point.Empty);
+                Point formLocation = this.PointToScreen(Point.Empty);
+                int offsetX = panelLocation.X - formLocation.X;
+                int offsetY = panelLocation.Y - formLocation.Y;
+
+                int x = offsetX + (flp_pickup_view.Width - pbempty.Width) / 2;
+                int y = offsetY + (flp_pickup_view.Height - pbempty.Height) / 2;
+
+                pbempty.Location = new Point(x, y);
+            }
+            else
+            {
+                pbempty.Visible = false;
+            }
+        }
+
+
 
         #region TexBox Round function
         public void textb_shape()
@@ -140,18 +171,18 @@ namespace FoodandBeverage.Forms
                 BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
                 DmnGridFields dmnSearchpickdata = new DmnGridFields();
                 dmnSearchpickdata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-                switch (serachmode)
-                {
-                    case 0:
-                        dmnSearchpickdata.Field29 = "0"; 
-                        break;
-                    case 1:
-                        dmnSearchpickdata.Field29 = "1";
-                        break;
-                    case 3:
-                        dmnSearchpickdata.Field29 = "3";
-                        break;
-                }
+
+                //if (serachmode == Convert.ToInt32(ButtonType.refresh))
+                //    dmnSearchpickdata.Field29 = "0";
+                //else if (serachmode == Convert.ToInt32(ButtonType.avilabletbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.Activetbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.Revtbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.pickup))
+                    dmnSearchpickdata.Field29 = "1";
+
                 var gridSource = SearchDetails.SerachData("Prd_Pickupview", dmnSearchpickdata);
                 if (gridSource.Count > 0)
                 {
@@ -256,16 +287,16 @@ namespace FoodandBeverage.Forms
                         {
                             tlp_table_inner_pkup_fetch.Width = 300;
                             tlp_table_inner_pkup_fetch.Height = 100;
-                            tlp_addnew.Width = 300;
-                            tlp_addnew.Height = 100;
+                            //tlp_addnew.Width = 300;
+                            //tlp_addnew.Height = 100;
                         }
                         else if (screenWidth >= 1024 && screenWidth <= 1366)
                         {
                             tlp_table_inner_pkup_fetch.Width = 120;
                             tlp_table_inner_pkup_fetch.Height = 80;
 
-                            tlp_addnew.Width = 120;
-                            tlp_addnew.Height = 80;
+                            //tlp_addnew.Width = 120;
+                            //tlp_addnew.Height = 80;
                             
                         }
 
@@ -360,18 +391,18 @@ namespace FoodandBeverage.Forms
                 BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
                 DmnGridFields dmnSearchpickdata = new DmnGridFields();
                 dmnSearchpickdata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-                switch (serachmode)
-                {
-                    case 0:
-                        dmnSearchpickdata.Field29 = "0";
-                        break;
-                    case 1:
-                        dmnSearchpickdata.Field29 = "1";
-                        break;
-                    case 3:
-                        dmnSearchpickdata.Field29 = "3";
-                        break;
-                }
+
+                //if (serachmode == Convert.ToInt32(ButtonType.refresh))
+                //    dmnSearchpickdata.Field29 = "0";
+                //else if (serachmode == Convert.ToInt32(ButtonType.avilabletbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.Activetbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.Revtbl))
+                //    dmnSearchpickdata.Field29 = "";
+                //else if (serachmode == Convert.ToInt32(ButtonType.pickup))
+                    dmnSearchpickdata.Field29 = "1";
+
                 var gridSource = SearchDetails.SerachData("Prd_Pickupview", dmnSearchpickdata);
 
                 if (gridSource.Count == 0 )
@@ -702,16 +733,16 @@ namespace FoodandBeverage.Forms
                             {
                                 tlp_table_inner_pkup_fetch.Width = 300;
                                 tlp_table_inner_pkup_fetch.Height = 100;
-                                tlp_addnew.Width = 300;
-                                tlp_addnew.Height = 100;
+                                //tlp_addnew.Width = 300;
+                                //tlp_addnew.Height = 100;
                             }
                             else if (screenWidth >= 1024 && screenWidth <= 1366)
                             {
                                 tlp_table_inner_pkup_fetch.Width = 120;
                                 tlp_table_inner_pkup_fetch.Height = 80;
 
-                                tlp_addnew.Width = 120;
-                                tlp_addnew.Height = 80;
+                                //tlp_addnew.Width = 120;
+                                //tlp_addnew.Height = 80;
 
                             }
 
@@ -896,16 +927,16 @@ namespace FoodandBeverage.Forms
                             {
                                 tlp_table_inner_pkup_fetch.Width = 300;
                                 tlp_table_inner_pkup_fetch.Height = 100;
-                                tlp_addnew.Width = 300;
-                                tlp_addnew.Height = 100;
+                                //tlp_addnew.Width = 300;
+                                //tlp_addnew.Height = 100;
                             }
                             else if (screenWidth >= 1024 && screenWidth <= 1366)
                             {
                                 tlp_table_inner_pkup_fetch.Width = 120;
                                 tlp_table_inner_pkup_fetch.Height = 80;
 
-                                tlp_addnew.Width = 120;
-                                tlp_addnew.Height = 80;
+                                //tlp_addnew.Width = 120;
+                                //tlp_addnew.Height = 80;
 
                             }
 

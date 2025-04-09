@@ -666,6 +666,18 @@
       <DependentUpon>CR_Bill_withoutQR_Logo.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SaleBill\CR_Bill_withoutQR_Logo_QR_CUS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bill_withoutQR_Logo_QR_CUS.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_Bill_Without_CUS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Bill_Without_CUS.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SaleBill\CR_Bill_Without_Logo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -910,6 +922,14 @@
     <EmbeddedResource Include="SaleBill\CR_Bill_withoutQR_Logo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill_withoutQR_Logo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bill_withoutQR_Logo_QR_CUS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bill_withoutQR_Logo_QR_CUS.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Bill_Without_CUS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Bill_Without_CUS.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_Bill_Without_Logo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1827,6 +1847,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Noorder.png" />
     <None Include="Resources\kitchen_order_sound.wav" />
     <None Include="Resources\kitchen_order_sound.mp3" />
     <None Include="Resources\downarrow.png" />

@@ -379,6 +379,14 @@ namespace FoodandBeverage.Interfaces
         PickupOrder = 1,
         Combined_pick_normal_Order=2
     }
+    public enum ButtonType
+    {
+        refresh = 0,
+        avilabletbl = 1,
+        Activetbl = 2,
+        Revtbl = 3,
+        pickup=4
+    };
 
 }
 
