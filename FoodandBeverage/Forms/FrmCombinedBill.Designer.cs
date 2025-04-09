@@ -86,6 +86,7 @@ namespace FoodandBeverage.Forms
             this.stsalemasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stpayid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CombineBillAutoTimer = new System.Windows.Forms.Timer(this.components);
+            this.Drawer_Panel = new System.Windows.Forms.Panel();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_compl_pre_bill.SuspendLayout();
             this.flp_header_com_pre.SuspendLayout();
@@ -119,6 +120,7 @@ namespace FoodandBeverage.Forms
             this.tlp_compl_pre_bill.ColumnCount = 1;
             this.tlp_compl_pre_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_compl_pre_bill.Controls.Add(this.flp_header_com_pre, 0, 0);
+            this.tlp_compl_pre_bill.Controls.Add(this.Drawer_Panel, 0, 1);
             this.tlp_compl_pre_bill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_compl_pre_bill.Location = new System.Drawing.Point(0, 0);
             this.tlp_compl_pre_bill.Name = "tlp_compl_pre_bill";
@@ -641,6 +643,13 @@ namespace FoodandBeverage.Forms
             this.CombineBillAutoTimer.Interval = 2000;
             this.CombineBillAutoTimer.Tick += new System.EventHandler(this.CombineBillAutoTimer_Tick);
             // 
+            // Drawer_Panel
+            // 
+            this.Drawer_Panel.Location = new System.Drawing.Point(6, 57);
+            this.Drawer_Panel.Name = "Drawer_Panel";
+            this.Drawer_Panel.Size = new System.Drawing.Size(200, 100);
+            this.Drawer_Panel.TabIndex = 4;
+            // 
             // FrmCombinedBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -721,5 +730,6 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.ComboBox cmb_tbl_names;
         public System.Windows.Forms.Label lbl_tbl_totalcount;
         private System.Windows.Forms.TableLayoutPanel tlp_tblcount_namelist;
+        private System.Windows.Forms.Panel Drawer_Panel;
     }
 }

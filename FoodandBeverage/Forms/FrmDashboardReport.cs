@@ -113,6 +113,9 @@ namespace FoodandBeverage.Forms
             {
                 startDate = DateTime.Today;
                 endDate = DateTime.Today.AddHours(23);
+                Cmbserachtype.SelectedIndex = Convert.ToInt32(DMY.DAY);
+                cmbserachvalue.SelectedItem = Convert.ToString(startDate.Date);
+
 
                 lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
                 lbl_discount.Text = "DATE : " + Convert.ToString(startDate.Date);

@@ -140,21 +140,25 @@ namespace FoodandBeverage.Forms
             this.pnl_billsetting = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
             this.chk_Qr = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.chk_logo = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtfooter_msg = new System.Windows.Forms.TextBox();
+            this.chk_ucsdetails = new System.Windows.Forms.CheckBox();
             this.tlp_setting = new System.Windows.Forms.TableLayoutPanel();
             this.btn_billsetting = new System.Windows.Forms.Button();
             this.btn_bill_save = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.chk_ucsdetails = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.flp_menu.SuspendLayout();
             this.pnl_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
+            this.panelDesktop.SuspendLayout();
             this.pnlappcolor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbopbuttoncoloepicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbsidebuttoncoloepicker)).BeginInit();
@@ -481,6 +485,9 @@ namespace FoodandBeverage.Forms
             this.panelDesktop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelDesktop.BackColor = System.Drawing.Color.White;
             this.panelDesktop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDesktop.Controls.Add(this.button3);
+            this.panelDesktop.Controls.Add(this.button2);
+            this.panelDesktop.Controls.Add(this.button1);
             this.panelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDesktop.Location = new System.Drawing.Point(3, 51);
             this.panelDesktop.Name = "panelDesktop";
@@ -728,7 +735,7 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.88156F));
-            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 126F));
             this.tlp_tablestatus.Controls.Add(this.lbltime, 6, 0);
             this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
@@ -751,7 +758,7 @@ namespace FoodandBeverage.Forms
             this.lbltime.AutoSize = true;
             this.lbltime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbltime.Location = new System.Drawing.Point(601, 0);
+            this.lbltime.Location = new System.Drawing.Point(599, 0);
             this.lbltime.Name = "lbltime";
             this.lbltime.Size = new System.Drawing.Size(1, 42);
             this.lbltime.TabIndex = 6;
@@ -823,7 +830,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.BackgroundImage = global::FoodandBeverage.Properties.Resources.usericon_dashboard;
             this.pbusericon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbusericon.Location = new System.Drawing.Point(613, 3);
+            this.pbusericon.Location = new System.Drawing.Point(611, 3);
             this.pbusericon.Name = "pbusericon";
             this.pbusericon.Size = new System.Drawing.Size(67, 36);
             this.pbusericon.TabIndex = 4;
@@ -834,7 +841,7 @@ namespace FoodandBeverage.Forms
             this.lbluser_designation.AutoSize = true;
             this.lbluser_designation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbluser_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbluser_designation.Location = new System.Drawing.Point(607, 0);
+            this.lbluser_designation.Location = new System.Drawing.Point(605, 0);
             this.lbluser_designation.Name = "lbluser_designation";
             this.lbluser_designation.Size = new System.Drawing.Size(1, 42);
             this.lbluser_designation.TabIndex = 5;
@@ -848,7 +855,7 @@ namespace FoodandBeverage.Forms
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblsync.Location = new System.Drawing.Point(398, 0);
             this.lblsync.Name = "lblsync";
-            this.lblsync.Size = new System.Drawing.Size(197, 42);
+            this.lblsync.Size = new System.Drawing.Size(195, 42);
             this.lblsync.TabIndex = 7;
             this.lblsync.Tag = "Synchronizing...";
             this.lblsync.Text = "Synchronizing...";
@@ -2072,8 +2079,20 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(388, 154);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(388, 153);
             this.tableLayoutPanel5.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.label7.Location = new System.Drawing.Point(3, 111);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(142, 46);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Footer Message";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // chk_Qr
             // 
@@ -2142,6 +2161,16 @@ namespace FoodandBeverage.Forms
             this.txtfooter_msg.TabIndex = 14;
             this.txtfooter_msg.Text = "\" Thank You Visit Again \"";
             // 
+            // chk_ucsdetails
+            // 
+            this.chk_ucsdetails.AutoSize = true;
+            this.chk_ucsdetails.Location = new System.Drawing.Point(207, 94);
+            this.chk_ucsdetails.Margin = new System.Windows.Forms.Padding(59, 20, 3, 3);
+            this.chk_ucsdetails.Name = "chk_ucsdetails";
+            this.chk_ucsdetails.Size = new System.Drawing.Size(15, 14);
+            this.chk_ucsdetails.TabIndex = 16;
+            this.chk_ucsdetails.UseVisualStyleBackColor = true;
+            // 
             // tlp_setting
             // 
             this.tlp_setting.BackColor = System.Drawing.Color.SteelBlue;
@@ -2176,7 +2205,7 @@ namespace FoodandBeverage.Forms
             // btn_bill_save
             // 
             this.btn_bill_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_bill_save.Location = new System.Drawing.Point(150, 201);
+            this.btn_bill_save.Location = new System.Drawing.Point(150, 200);
             this.btn_bill_save.Margin = new System.Windows.Forms.Padding(150, 3, 3, 3);
             this.btn_bill_save.Name = "btn_bill_save";
             this.btn_bill_save.Size = new System.Drawing.Size(91, 40);
@@ -2185,27 +2214,32 @@ namespace FoodandBeverage.Forms
             this.btn_bill_save.UseVisualStyleBackColor = true;
             this.btn_bill_save.Click += new System.EventHandler(this.btn_bill_save_Click);
             // 
-            // label7
+            // button1
             // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(3, 111);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 46);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Footer Message";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(223, 637);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Y - Out";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // chk_ucsdetails
+            // button2
             // 
-            this.chk_ucsdetails.AutoSize = true;
-            this.chk_ucsdetails.Location = new System.Drawing.Point(207, 94);
-            this.chk_ucsdetails.Margin = new System.Windows.Forms.Padding(59, 20, 3, 3);
-            this.chk_ucsdetails.Name = "chk_ucsdetails";
-            this.chk_ucsdetails.Size = new System.Drawing.Size(15, 14);
-            this.chk_ucsdetails.TabIndex = 16;
-            this.chk_ucsdetails.UseVisualStyleBackColor = true;
+            this.button2.Location = new System.Drawing.Point(369, 321);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Y - Out";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(322, 637);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Z - Out";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // FrmDashboard
             // 
@@ -2257,6 +2291,7 @@ namespace FoodandBeverage.Forms
             this.flp_menu.ResumeLayout(false);
             this.pnl_header.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).EndInit();
+            this.panelDesktop.ResumeLayout(false);
             this.pnlappcolor.ResumeLayout(false);
             this.pnlappcolor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbopbuttoncoloepicker)).EndInit();
@@ -2420,5 +2455,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtfooter_msg;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox chk_ucsdetails;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
