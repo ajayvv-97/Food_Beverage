@@ -86,7 +86,27 @@ namespace FoodandBeverage.Forms
             this.stsalemasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stpayid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CombineBillAutoTimer = new System.Windows.Forms.Timer(this.components);
-            this.Drawer_Panel = new System.Windows.Forms.Panel();
+            this.pnl_Drawer = new System.Windows.Forms.Panel();
+            this.btndrawersave = new System.Windows.Forms.Button();
+            this.txtdrops = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtinitialamt = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtextraaddamt = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btnclose_drawer = new System.Windows.Forms.Button();
+            this.txtempoyeId = new System.Windows.Forms.TextBox();
+            this.lbl_staffname_tip = new System.Windows.Forms.Label();
+            this.txtstaffname = new System.Windows.Forms.TextBox();
+            this.txtdrops_backup = new System.Windows.Forms.TextBox();
+            this.txtextraaddamt_backup = new System.Windows.Forms.TextBox();
+            this.lbl_desigtnation = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.lbl_staffname = new System.Windows.Forms.Label();
+            this.txtdrawerid = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lbldrawername = new System.Windows.Forms.Label();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_compl_pre_bill.SuspendLayout();
             this.flp_header_com_pre.SuspendLayout();
@@ -101,6 +121,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main_split.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).BeginInit();
+            this.pnl_Drawer.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_complebill_prevbill
@@ -108,9 +129,10 @@ namespace FoodandBeverage.Forms
             this.pnl_complebill_prevbill.AutoScroll = true;
             this.pnl_complebill_prevbill.AutoSize = true;
             this.pnl_complebill_prevbill.Controls.Add(this.tlp_compl_pre_bill);
-            this.pnl_complebill_prevbill.Location = new System.Drawing.Point(44, 84);
+            this.pnl_complebill_prevbill.Location = new System.Drawing.Point(15, 34);
             this.pnl_complebill_prevbill.Name = "pnl_complebill_prevbill";
-            this.pnl_complebill_prevbill.Size = new System.Drawing.Size(654, 356);
+            this.pnl_complebill_prevbill.Padding = new System.Windows.Forms.Padding(10);
+            this.pnl_complebill_prevbill.Size = new System.Drawing.Size(663, 386);
             this.pnl_complebill_prevbill.TabIndex = 2;
             this.pnl_complebill_prevbill.Visible = false;
             // 
@@ -120,14 +142,16 @@ namespace FoodandBeverage.Forms
             this.tlp_compl_pre_bill.ColumnCount = 1;
             this.tlp_compl_pre_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_compl_pre_bill.Controls.Add(this.flp_header_com_pre, 0, 0);
-            this.tlp_compl_pre_bill.Controls.Add(this.Drawer_Panel, 0, 1);
             this.tlp_compl_pre_bill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_compl_pre_bill.Location = new System.Drawing.Point(0, 0);
+            this.tlp_compl_pre_bill.Location = new System.Drawing.Point(10, 10);
             this.tlp_compl_pre_bill.Name = "tlp_compl_pre_bill";
-            this.tlp_compl_pre_bill.RowCount = 2;
+            this.tlp_compl_pre_bill.RowCount = 3;
             this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_compl_pre_bill.Size = new System.Drawing.Size(654, 356);
+            this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_compl_pre_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_compl_pre_bill.Size = new System.Drawing.Size(643, 366);
             this.tlp_compl_pre_bill.TabIndex = 0;
             // 
             // flp_header_com_pre
@@ -139,7 +163,7 @@ namespace FoodandBeverage.Forms
             this.flp_header_com_pre.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flp_header_com_pre.Location = new System.Drawing.Point(6, 6);
             this.flp_header_com_pre.Name = "flp_header_com_pre";
-            this.flp_header_com_pre.Size = new System.Drawing.Size(642, 42);
+            this.flp_header_com_pre.Size = new System.Drawing.Size(631, 44);
             this.flp_header_com_pre.TabIndex = 1;
             // 
             // btn_prevbill
@@ -149,7 +173,7 @@ namespace FoodandBeverage.Forms
             this.btn_prevbill.Dock = System.Windows.Forms.DockStyle.Top;
             this.btn_prevbill.FlatAppearance.BorderSize = 0;
             this.btn_prevbill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_prevbill.Location = new System.Drawing.Point(533, 3);
+            this.btn_prevbill.Location = new System.Drawing.Point(522, 3);
             this.btn_prevbill.Name = "btn_prevbill";
             this.btn_prevbill.Size = new System.Drawing.Size(106, 39);
             this.btn_prevbill.TabIndex = 0;
@@ -162,7 +186,7 @@ namespace FoodandBeverage.Forms
             this.btn_backCompleorder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_backCompleorder.FlatAppearance.BorderSize = 0;
             this.btn_backCompleorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_backCompleorder.Location = new System.Drawing.Point(393, 3);
+            this.btn_backCompleorder.Location = new System.Drawing.Point(382, 3);
             this.btn_backCompleorder.Name = "btn_backCompleorder";
             this.btn_backCompleorder.Size = new System.Drawing.Size(134, 39);
             this.btn_backCompleorder.TabIndex = 3;
@@ -173,15 +197,15 @@ namespace FoodandBeverage.Forms
             // tlp_tblcount_namelist
             // 
             this.tlp_tblcount_namelist.ColumnCount = 2;
-            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.28411F));
-            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.71589F));
+            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tlp_tblcount_namelist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tlp_tblcount_namelist.Controls.Add(this.lbl_tbl_totalcount, 1, 0);
             this.tlp_tblcount_namelist.Controls.Add(this.cmb_tbl_names, 0, 0);
             this.tlp_tblcount_namelist.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_tblcount_namelist.Location = new System.Drawing.Point(192, 48);
+            this.tlp_tblcount_namelist.Location = new System.Drawing.Point(181, 48);
             this.tlp_tblcount_namelist.Name = "tlp_tblcount_namelist";
             this.tlp_tblcount_namelist.RowCount = 1;
-            this.tlp_tblcount_namelist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_tblcount_namelist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_tblcount_namelist.Size = new System.Drawing.Size(447, 0);
             this.tlp_tblcount_namelist.TabIndex = 19;
             // 
@@ -190,10 +214,10 @@ namespace FoodandBeverage.Forms
             this.lbl_tbl_totalcount.AutoSize = true;
             this.lbl_tbl_totalcount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_tbl_totalcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_tbl_totalcount.Location = new System.Drawing.Point(267, 3);
+            this.lbl_tbl_totalcount.Location = new System.Drawing.Point(315, 3);
             this.lbl_tbl_totalcount.Margin = new System.Windows.Forms.Padding(3);
             this.lbl_tbl_totalcount.Name = "lbl_tbl_totalcount";
-            this.lbl_tbl_totalcount.Size = new System.Drawing.Size(177, 1);
+            this.lbl_tbl_totalcount.Size = new System.Drawing.Size(129, 1);
             this.lbl_tbl_totalcount.TabIndex = 4;
             this.lbl_tbl_totalcount.Text = "Total Tables : ";
             this.lbl_tbl_totalcount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -209,7 +233,7 @@ namespace FoodandBeverage.Forms
             this.cmb_tbl_names.FormattingEnabled = true;
             this.cmb_tbl_names.Location = new System.Drawing.Point(3, 3);
             this.cmb_tbl_names.Name = "cmb_tbl_names";
-            this.cmb_tbl_names.Size = new System.Drawing.Size(258, 28);
+            this.cmb_tbl_names.Size = new System.Drawing.Size(306, 28);
             this.cmb_tbl_names.TabIndex = 5;
             this.cmb_tbl_names.Visible = false;
             // 
@@ -248,7 +272,7 @@ namespace FoodandBeverage.Forms
             // pnl_previous_bill
             // 
             this.pnl_previous_bill.Controls.Add(this.tlp_previous_bill);
-            this.pnl_previous_bill.Location = new System.Drawing.Point(-96, 198);
+            this.pnl_previous_bill.Location = new System.Drawing.Point(4, 0);
             this.pnl_previous_bill.Name = "pnl_previous_bill";
             this.pnl_previous_bill.Padding = new System.Windows.Forms.Padding(5);
             this.pnl_previous_bill.Size = new System.Drawing.Size(462, 154);
@@ -643,24 +667,257 @@ namespace FoodandBeverage.Forms
             this.CombineBillAutoTimer.Interval = 2000;
             this.CombineBillAutoTimer.Tick += new System.EventHandler(this.CombineBillAutoTimer_Tick);
             // 
-            // Drawer_Panel
+            // pnl_Drawer
             // 
-            this.Drawer_Panel.Location = new System.Drawing.Point(6, 57);
-            this.Drawer_Panel.Name = "Drawer_Panel";
-            this.Drawer_Panel.Size = new System.Drawing.Size(200, 100);
-            this.Drawer_Panel.TabIndex = 4;
+            this.pnl_Drawer.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pnl_Drawer.Controls.Add(this.btndrawersave);
+            this.pnl_Drawer.Controls.Add(this.txtdrops);
+            this.pnl_Drawer.Controls.Add(this.label8);
+            this.pnl_Drawer.Controls.Add(this.txtinitialamt);
+            this.pnl_Drawer.Controls.Add(this.label11);
+            this.pnl_Drawer.Controls.Add(this.txtextraaddamt);
+            this.pnl_Drawer.Controls.Add(this.label12);
+            this.pnl_Drawer.Controls.Add(this.label13);
+            this.pnl_Drawer.Controls.Add(this.btnclose_drawer);
+            this.pnl_Drawer.Controls.Add(this.txtempoyeId);
+            this.pnl_Drawer.Controls.Add(this.lbl_staffname_tip);
+            this.pnl_Drawer.Controls.Add(this.txtstaffname);
+            this.pnl_Drawer.Controls.Add(this.txtdrops_backup);
+            this.pnl_Drawer.Controls.Add(this.txtextraaddamt_backup);
+            this.pnl_Drawer.Controls.Add(this.lbl_desigtnation);
+            this.pnl_Drawer.Controls.Add(this.label14);
+            this.pnl_Drawer.Controls.Add(this.lbl_staffname);
+            this.pnl_Drawer.Controls.Add(this.txtdrawerid);
+            this.pnl_Drawer.Controls.Add(this.label15);
+            this.pnl_Drawer.Controls.Add(this.lbldrawername);
+            this.pnl_Drawer.Location = new System.Drawing.Point(0, 0);
+            this.pnl_Drawer.Name = "pnl_Drawer";
+            this.pnl_Drawer.Size = new System.Drawing.Size(346, 421);
+            this.pnl_Drawer.TabIndex = 26;
+            this.pnl_Drawer.Visible = false;
+            // 
+            // btndrawersave
+            // 
+            this.btndrawersave.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btndrawersave.Location = new System.Drawing.Point(139, 362);
+            this.btndrawersave.Name = "btndrawersave";
+            this.btndrawersave.Size = new System.Drawing.Size(75, 23);
+            this.btndrawersave.TabIndex = 22;
+            this.btndrawersave.Text = "Save";
+            this.btndrawersave.UseVisualStyleBackColor = false;
+            // 
+            // txtdrops
+            // 
+            this.txtdrops.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtdrops.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtdrops.Location = new System.Drawing.Point(121, 289);
+            this.txtdrops.MaxLength = 8;
+            this.txtdrops.Multiline = true;
+            this.txtdrops.Name = "txtdrops";
+            this.txtdrops.Size = new System.Drawing.Size(197, 33);
+            this.txtdrops.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(33, 298);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(71, 16);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Drops Amt";
+            // 
+            // txtinitialamt
+            // 
+            this.txtinitialamt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtinitialamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtinitialamt.Location = new System.Drawing.Point(121, 192);
+            this.txtinitialamt.MaxLength = 8;
+            this.txtinitialamt.Multiline = true;
+            this.txtinitialamt.Name = "txtinitialamt";
+            this.txtinitialamt.Size = new System.Drawing.Size(197, 33);
+            this.txtinitialamt.TabIndex = 3;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(29, 104);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(77, 16);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Staff Name ";
+            // 
+            // txtextraaddamt
+            // 
+            this.txtextraaddamt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtextraaddamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtextraaddamt.Location = new System.Drawing.Point(121, 240);
+            this.txtextraaddamt.MaxLength = 8;
+            this.txtextraaddamt.Multiline = true;
+            this.txtextraaddamt.Name = "txtextraaddamt";
+            this.txtextraaddamt.Size = new System.Drawing.Size(197, 32);
+            this.txtextraaddamt.TabIndex = 7;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(29, 248);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(86, 16);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Loan Amount";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(29, 198);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(86, 16);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "Initial Amount";
+            // 
+            // btnclose_drawer
+            // 
+            this.btnclose_drawer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnclose_drawer.BackgroundImage")));
+            this.btnclose_drawer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnclose_drawer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnclose_drawer.FlatAppearance.BorderSize = 0;
+            this.btnclose_drawer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnclose_drawer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclose_drawer.ForeColor = System.Drawing.Color.White;
+            this.btnclose_drawer.Location = new System.Drawing.Point(272, 15);
+            this.btnclose_drawer.Name = "btnclose_drawer";
+            this.btnclose_drawer.Size = new System.Drawing.Size(64, 43);
+            this.btnclose_drawer.TabIndex = 21;
+            this.btnclose_drawer.UseVisualStyleBackColor = true;
+            // 
+            // txtempoyeId
+            // 
+            this.txtempoyeId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtempoyeId.Location = new System.Drawing.Point(162, 35);
+            this.txtempoyeId.MaxLength = 8;
+            this.txtempoyeId.Name = "txtempoyeId";
+            this.txtempoyeId.Size = new System.Drawing.Size(30, 21);
+            this.txtempoyeId.TabIndex = 20;
+            this.txtempoyeId.Visible = false;
+            // 
+            // lbl_staffname_tip
+            // 
+            this.lbl_staffname_tip.AutoSize = true;
+            this.lbl_staffname_tip.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_staffname_tip.ForeColor = System.Drawing.Color.Red;
+            this.lbl_staffname_tip.Location = new System.Drawing.Point(136, 131);
+            this.lbl_staffname_tip.Name = "lbl_staffname_tip";
+            this.lbl_staffname_tip.Size = new System.Drawing.Size(81, 13);
+            this.lbl_staffname_tip.TabIndex = 19;
+            this.lbl_staffname_tip.Text = "F8 For Staff List";
+            // 
+            // txtstaffname
+            // 
+            this.txtstaffname.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtstaffname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtstaffname.Location = new System.Drawing.Point(121, 89);
+            this.txtstaffname.MaxLength = 8;
+            this.txtstaffname.Multiline = true;
+            this.txtstaffname.Name = "txtstaffname";
+            this.txtstaffname.Size = new System.Drawing.Size(203, 33);
+            this.txtstaffname.TabIndex = 18;
+            // 
+            // txtdrops_backup
+            // 
+            this.txtdrops_backup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtdrops_backup.Location = new System.Drawing.Point(126, 35);
+            this.txtdrops_backup.MaxLength = 8;
+            this.txtdrops_backup.Name = "txtdrops_backup";
+            this.txtdrops_backup.Size = new System.Drawing.Size(30, 21);
+            this.txtdrops_backup.TabIndex = 16;
+            this.txtdrops_backup.Visible = false;
+            // 
+            // txtextraaddamt_backup
+            // 
+            this.txtextraaddamt_backup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtextraaddamt_backup.Location = new System.Drawing.Point(82, 35);
+            this.txtextraaddamt_backup.MaxLength = 8;
+            this.txtextraaddamt_backup.Name = "txtextraaddamt_backup";
+            this.txtextraaddamt_backup.Size = new System.Drawing.Size(33, 21);
+            this.txtextraaddamt_backup.TabIndex = 15;
+            this.txtextraaddamt_backup.Visible = false;
+            // 
+            // lbl_desigtnation
+            // 
+            this.lbl_desigtnation.AutoSize = true;
+            this.lbl_desigtnation.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_desigtnation.Location = new System.Drawing.Point(123, 155);
+            this.lbl_desigtnation.Name = "lbl_desigtnation";
+            this.lbl_desigtnation.Size = new System.Drawing.Size(86, 18);
+            this.lbl_desigtnation.TabIndex = 14;
+            this.lbl_desigtnation.Text = "Designation";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(26, 157);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(80, 16);
+            this.label14.TabIndex = 13;
+            this.label14.Text = "Designation";
+            // 
+            // lbl_staffname
+            // 
+            this.lbl_staffname.AutoSize = true;
+            this.lbl_staffname.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_staffname.Location = new System.Drawing.Point(121, 102);
+            this.lbl_staffname.Name = "lbl_staffname";
+            this.lbl_staffname.Size = new System.Drawing.Size(82, 18);
+            this.lbl_staffname.TabIndex = 12;
+            this.lbl_staffname.Text = "Staff Name";
+            // 
+            // txtdrawerid
+            // 
+            this.txtdrawerid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtdrawerid.Location = new System.Drawing.Point(24, 32);
+            this.txtdrawerid.MaxLength = 8;
+            this.txtdrawerid.Name = "txtdrawerid";
+            this.txtdrawerid.Size = new System.Drawing.Size(47, 21);
+            this.txtdrawerid.TabIndex = 10;
+            this.txtdrawerid.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(123, 56);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(104, 18);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Drawer Name ";
+            // 
+            // lbldrawername
+            // 
+            this.lbldrawername.AutoSize = true;
+            this.lbldrawername.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbldrawername.Location = new System.Drawing.Point(29, 56);
+            this.lbldrawername.Name = "lbldrawername";
+            this.lbldrawername.Size = new System.Drawing.Size(94, 16);
+            this.lbldrawername.TabIndex = 0;
+            this.lbldrawername.Text = "Drawer Name ";
             // 
             // FrmCombinedBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(835, 577);
+            this.ClientSize = new System.Drawing.Size(835, 679);
+            this.Controls.Add(this.pnl_Drawer);
+            this.Controls.Add(this.pnl_complebill_prevbill);
             this.Controls.Add(this.pnl_previous_bill);
             this.Controls.Add(this.pnl_split);
             this.Controls.Add(this.pnl_compelte_bill);
             this.Controls.Add(this.pnl_empty_msg);
-            this.Controls.Add(this.pnl_complebill_prevbill);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmCombinedBill";
@@ -683,6 +940,8 @@ namespace FoodandBeverage.Forms
             this.tlp_main_split.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_split)).EndInit();
+            this.pnl_Drawer.ResumeLayout(false);
+            this.pnl_Drawer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -730,6 +989,26 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.ComboBox cmb_tbl_names;
         public System.Windows.Forms.Label lbl_tbl_totalcount;
         private System.Windows.Forms.TableLayoutPanel tlp_tblcount_namelist;
-        private System.Windows.Forms.Panel Drawer_Panel;
+        public System.Windows.Forms.Panel pnl_Drawer;
+        private System.Windows.Forms.Button btndrawersave;
+        private System.Windows.Forms.TextBox txtdrops;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtinitialamt;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtextraaddamt;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnclose_drawer;
+        public System.Windows.Forms.TextBox txtempoyeId;
+        private System.Windows.Forms.Label lbl_staffname_tip;
+        private System.Windows.Forms.TextBox txtstaffname;
+        public System.Windows.Forms.TextBox txtdrops_backup;
+        public System.Windows.Forms.TextBox txtextraaddamt_backup;
+        private System.Windows.Forms.Label lbl_desigtnation;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lbl_staffname;
+        private System.Windows.Forms.TextBox txtdrawerid;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lbldrawername;
     }
 }

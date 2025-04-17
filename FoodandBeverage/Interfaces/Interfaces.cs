@@ -169,6 +169,8 @@ namespace FoodandBeverage.Interfaces
         Designation = 25,
         User_Account = 26,
         User_Permission = 27,
+        AllowCashDrawer =28,
+        AllowDrawerpermissionFullControl =29
     };
     public enum DashboardTableType
     {

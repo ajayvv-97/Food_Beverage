@@ -32,6 +32,18 @@ namespace FoodandBeverage.Forms
         public int Emp_RowCount = 0, Emp_ColCount = 0;
         public int OP_RowCount = 0, OP_ColCount = 0;
         public int ButtonID = 0;
+        /*permission checking for manager and supervisor*/
+        public static int DrawerId;
+        public int ExitDrawerID = 0;
+        public decimal Drawerloan = 0;
+        public decimal Drawerdrops = 0;
+
+        public string Drawerassginstaffname;
+        public string Drawerassginstaffdes;
+        public int Drawerassginid;
+        public int Drawerassginstaffid;
+
+        public string Drawersystemname;
         public FrmDashboard()
         {
             InitializeComponent();
@@ -54,7 +66,8 @@ namespace FoodandBeverage.Forms
             int nWidthEllipse,
             int nHeightEllipse
         );
-        #region grid Declaration
+        #region grid Declarationassign
+
         public int desiredWidth = 0;
         public int desiredHeight = 0;
         public int HdesiredWidth = 0;
@@ -79,6 +92,14 @@ namespace FoodandBeverage.Forms
         private LoadingGIF_Timer loadingForm;
         public DateTime startTime = DateTime.Now;
         ClsGeneral clsgen = new ClsGeneral();
+
+        /*permission checking for manager and supervisor*/
+        public static bool AllowCashDrawer = false;
+        public static bool AllowDrawerpermissionFullControl = false;
+       
+
+        bool flagDrawerF = false, flagDrawer = false;
+
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -114,6 +135,7 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            
             lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
 
             Task.Run(() =>
@@ -270,6 +292,7 @@ namespace FoodandBeverage.Forms
                             _instanceDashboardReport.Filldashboard();
                             _instanceDashboardReport.Show();
                             _instanceDashboardReport.BringToFront();
+
                         }
                     }
                     else
@@ -947,11 +970,13 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
                 ButtonID = Convert.ToInt32(Menubutton.Menubilling);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+                
 
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -1657,6 +1682,33 @@ namespace FoodandBeverage.Forms
                 flpcolor.Controls.Add(button_bill);
                 columnIndex++;
                 #endregion
+                #region Drawer
+                Button button_drawer = new Button();
+                button_drawer.Text = "Drawer";
+                button_drawer.Name = "Drawer";
+                //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_type.BackgroundImageLayout = ImageLayout.Stretch;
+                button_drawer.FlatStyle = FlatStyle.Flat;
+                button_drawer.BackColor = opbuttoncolor;
+                button_drawer.ForeColor = System.Drawing.Color.White;
+                button_drawer.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_drawer.Width = 350;
+                    button_drawer.Height = 120;
+                }
+                else
+                {
+                    button_drawer.Width = 212;
+                    button_drawer.Height = 89;
+                }
+                button_drawer.Margin = new Padding(20, 10, 0, 0);
+                // Add the event handler for the button
+                button_drawer.Click += new EventHandler(Drawer_Assign);
+                flpcolor.Controls.Add(button_drawer);
+                flpcolor.BringToFront();
+                #endregion
+                columnIndex++;
 
 
                 panelDesktop.Controls.Add(flpcolor);
@@ -1667,6 +1719,19 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("HomePage Menusetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
+        }
+        private void Drawer_Assign(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_Drawer.Visible = true;
+                AssigndrawerCheck();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page pictureBox7_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void button_messageClickEventHandler(object sender, EventArgs e)
         {
@@ -1720,6 +1785,183 @@ namespace FoodandBeverage.Forms
         {
             Application.Exit();
         }
+       
+
+        public bool DrawerCheckBranch(int empid)
+        {
+            try
+            {
+                Drawersystemname = "";
+                BllSearch<DmnGridFields> bllsearchdrawer = new BllSearch<DmnGridFields>();
+                DmnSearch dmnsearckdrawer = new DmnSearch();
+                dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,u.UserAccountId as Field8,e.EmployeeId as Field9,t.DName as Field10";
+                dmnsearckdrawer.Table = "tblDrawerAssign t   left join tblUserAccount  u on u.EmployeeId= t.EmployeeId left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
+                dmnsearckdrawer.WhereNdGroupBy = "where  t.BranchId=" + BranchId + " and t.Status=1 and t.EmployeeId =" + empid;
+                dmnsearckdrawer.OrderBy = "";
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
+                if (gridesource.Count > 0)
+                {
+                    Drawersystemname = gridesource[0].Field10;
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page DrawerCheckBranch()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return true;
+            }
+        }
+        #region drawerAssign
+        public void AssigndrawerCheck()
+        {
+            try
+            {
+             
+                if (pnl_Drawer.Visible)
+                {
+                    pnl_Drawer.Visible = false;
+                    BllSearch<DmnGridFields> bllsearchdrawer = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnsearckdrawer = new DmnSearch();
+                    dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,InitilAmount as Field8,e.EmployeeId as Field9,t.CreatedDateTime Field10";
+                    dmnsearckdrawer.Table = "tblDrawerAssign t  left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
+                    dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
+                    dmnsearckdrawer.OrderBy = "";
+                    var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
+                    if (gridesource.Count > 0)
+                    {
+                        if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId))
+                        {
+                            
+                            txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
+                            txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
+                            txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
+                            txtdrops.Text = Convert.ToString(gridesource[0].Field7);
+                            txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
+
+                            txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
+                            txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
+
+                            label15.Text = System.Environment.MachineName;
+                            lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
+                            lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
+                            lbl_staffname.Visible = true;
+                            txtdrops.Visible = true;
+                            txtextraaddamt.Visible = true;
+                            label12.Visible = true;
+                            label12.Visible = true;
+                            label8.Visible = true;
+                            txtstaffname.Visible = false;
+                            lbl_staffname_tip.Visible = false;
+                            pnl_Drawer.Size = new Size(346, 421);
+                            btndrawersave.Location = new Point(116, 350);
+                            btndrawersave.Visible = true;
+                            decimal a = pnl_Drawer.Height;
+                            pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+                            pnl_Drawer.Visible = true;
+
+                        }
+                        else
+                        {
+
+                            MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4 + "  DateTime " + gridesource[0].Field10, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
+                            txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
+                            txtinitialamt.ReadOnly = true;
+                            txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
+                            txtdrops.Text = Convert.ToString(gridesource[0].Field7);
+                            txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
+
+                            txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
+                            txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
+
+                            label1.Text = System.Environment.MachineName;
+                            lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
+                            lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
+                            lbl_staffname.Visible = true;
+                            txtdrops.Visible = true;
+                            txtextraaddamt.Visible = true;
+                            label12.Visible = true;
+                            label12.Visible = true;
+                            label8.Visible = true;
+                            txtstaffname.Visible = false;
+                            lbl_staffname_tip.Visible = false;
+                            pnl_Drawer.Size = new Size(346, 421);
+                            btndrawersave.Location = new Point(116, 350);
+                            decimal a = pnl_Drawer.Height;
+                            pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+                            pnl_Drawer.Visible = true;
+
+                        }
+                    }
+                    else
+                    {
+                        flagDrawerF = false; flagDrawer = false;
+                        BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+                        DmnSearch dmnforms = new DmnSearch();
+                        dmnforms.Select = "*";
+                        dmnforms.Table = " tblforms ";
+                        dmnforms.WhereNdGroupBy = " where Form=2 and Status=1 and UserType=" + UserType;
+                        dmnforms.OrderBy = "order by Form";
+                        var gridesourcepermission = bllacctype.GetSearchData("prdSearch", dmnforms);
+                        if (gridesourcepermission.Count > 0)
+                        {
+                            for (int i = 0; i < gridesourcepermission.Count(); i++)
+                            {
+                                if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowCashDrawer) && gridesourcepermission[i].Status == 1)
+                                {
+                                    lbl_staffname.Visible = true;
+                                    txtstaffname.Visible = false;
+                                    lbl_staffname.Text = FrmLogin.EmployeName;
+                                    lbl_desigtnation.Text = FrmLogin.Designation;
+                                    txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
+                                    lbl_staffname_tip.Visible = false;
+                                    flagDrawer = true;
+
+                                }
+                                else if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowDrawerpermissionFullControl) && gridesourcepermission[i].Status == 1)
+                                {
+                                    lbl_staffname.Visible = false;
+                                    txtstaffname.Visible = true;
+                                    lbl_desigtnation.Text = FrmLogin.Designation;
+                                    lbl_staffname_tip.Visible = true;
+                                    flagDrawerF = true;
+                                }
+                            }
+                        }
+                        label15.Text = System.Environment.MachineName;
+                        if (flagDrawer && flagDrawerF)
+                        {
+                            lbl_staffname.Visible = false;
+                            txtstaffname.Visible = true;
+                            lbl_desigtnation.Text = FrmLogin.Designation;
+                            lbl_staffname_tip.Visible = true;
+                        }
+
+                        txtdrops.Visible = false;
+                        txtextraaddamt.Visible = false;
+                        label12.Visible = false;
+                        label12.Visible = false;
+                        label8.Visible = false;
+                        //pnl_Drawer.Size = new Size(346, 314);
+                        pnl_Drawer.Size = new Size(346, 421);
+                        btndrawersave.Location = new Point(116, 350);
+                        pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+                        btndrawersave.Location = new Point(96, 242);
+                        pnl_Drawer.Visible = true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page AssigndrawerCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+#endregion
 
         #region TaskBar Time
         private void timer1_Tick(object sender, EventArgs e)
@@ -3511,7 +3753,8 @@ namespace FoodandBeverage.Forms
                     tlp_op_menu.Controls.Clear();
                     for (int i = 0; i <gridesource.Count(); i++)
                     {
-                        if (this.IsHandleCreated)
+                      
+                       if (this.IsHandleCreated)
                         {
                             this.Invoke(new Action(() =>
                             {                   
@@ -3681,6 +3924,17 @@ namespace FoodandBeverage.Forms
                                     ib_department.Visible = true;
                                 }
                                 #endregion
+                                #region AllowCashDrawer
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesource[i].Status == 1)
+                                {
+                                    AllowCashDrawer = true;
+                                }
+                                #endregion
+
+                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesource[i].Status == 1)
+                                {
+                                    AllowDrawerpermissionFullControl = true; 
+                                }
 
                             }));
                         }
@@ -4323,6 +4577,206 @@ namespace FoodandBeverage.Forms
         {
             tlp_main_sidebar_pnldesktop.Enabled = true;
             pnl_billsetting.Visible = false;
+        }
+
+        private void btnclose_drawer_Click(object sender, EventArgs e)
+        {
+          
+                try
+                {
+                    pnl_Drawer.Visible = false;
+                    
+                }
+                catch (Exception ex)
+                {
+                    clsgen.LogException("Admin page btnclose_drawer_Click_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                    //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+           
+        }
+
+        private void btndrawersave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtdrawerid.Text))
+                    txtdrawerid.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtinitialamt.Text))
+                    txtinitialamt.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtdrops.Text))
+                    txtdrops.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtextraaddamt.Text))
+                    txtextraaddamt.Text = "0";
+
+                /* updation on loan and drops then adding */
+
+                if (string.IsNullOrWhiteSpace(txtdrops_backup.Text))
+                    txtdrops_backup.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtextraaddamt_backup.Text))
+                    txtextraaddamt_backup.Text = "0";
+
+                /* end */
+
+                if (MandatoryCheckDrawer())
+                {
+                    Dmndrawer dmndrawer = new Dmndrawer();
+                    Blldrawer blldrawer = new Blldrawer();
+                    dmndrawer.Id = Convert.ToInt32(txtdrawerid.Text);
+                    dmndrawer.DName = System.Environment.MachineName;
+                    dmndrawer.InitilAmount = Convert.ToDecimal(txtinitialamt.Text);
+                    dmndrawer.EmployeeId = Convert.ToInt32(txtempoyeId.Text);
+                    if (txtextraaddamt.Text != txtextraaddamt_backup.Text)
+                        dmndrawer.LoanAmount = Convert.ToDecimal(txtextraaddamt.Text);
+                    else
+                        dmndrawer.LoanAmount = 0;
+
+                    if (txtdrops.Text != txtdrops_backup.Text)
+                        dmndrawer.Drops = Convert.ToDecimal(txtdrops.Text);
+                    else
+                        dmndrawer.Drops = 0;
+
+                  
+                    dmndrawer.CreatedBy = FrmDashboard.UserId;
+                    dmndrawer.Status = 1;
+                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+
+                    if (InsertStatus != null)
+                    {
+                        if (txtdrawerid.Text == null || txtdrawerid.Text == "0")
+                        {
+                            DrawerId = InsertStatus.Id;
+                            MessageBox.Show("Drawer Assign Completed", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtinitialamt.ReadOnly = true;
+                        }
+                        else
+                        {
+                            DrawerId = Convert.ToInt32(txtdrawerid.Text);
+                            MessageBox.Show("Update Sucessfull", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        pnl_Drawer.Visible = false;
+                    }
+                    else
+                        MessageBox.Show("Assign Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (DrawerId > 0)
+                    {
+                        txtdrawerid.Text = Convert.ToString(DrawerId);
+                        txtextraaddamt_backup.Text = txtextraaddamt.Text;
+                        txtdrops.Text = txtdrops_backup.Text;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page btndrawersave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public bool MandatoryCheckDrawer()
+        {
+            try
+            {
+
+                if (flagDrawerF && string.IsNullOrWhiteSpace(txtstaffname.Text))
+                {
+                    MessageBox.Show("Please select Employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtstaffname.Focus();
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(txtinitialamt.Text) || Convert.ToDecimal(txtinitialamt.Text) == 0)
+                {
+                    MessageBox.Show("Please Enter Initial Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page MandatoryCheckDrawer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private void tmtime_Tick(object sender, EventArgs e)
+        {
+
+            lbl_tmtime.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
+        }
+
+        private void txtstaffname_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtstaffname_Enter(object sender, EventArgs e)
+        {
+
+        }
+        public void StaffPopup()
+        {
+            try
+            {
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "Id,EmployeeCode,EmployeeName,DesignationName,Mobile";
+                _objSearch.Select = "emp.EmployeeId as Id,emp.EmployeeCode as Field1,emp.EmployeeName as Field2,d.DesignationName as Field3,emp.Mobile as Field4";
+                _objSearch.Table = "tblEmployee  emp Left join tblDesignation d on d.DesignationId = emp.DesignationId ";
+                _objSearch.WhereNdGroupBy = "WHERE isnull(emp.Status,0) = 1 and emp.BranchId=" + BranchId;
+                _objSearch.OrderBy = " ORDER BY emp.EmployeeName ASC";
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToString(search._retValue);
+                    }
+                }
+                if (returnValue.ToString() != "")
+                {
+                    int eid = Convert.ToInt32(returnValue);
+                    if (DrawerCheckBranch(eid))
+                    {
+                        MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
+
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "COUNT(*) OVER() AS Field1,emp.EmployeeName as Field2,d.DesignationName as Field3";
+                    objSearch.Table = "tblEmployee  emp Left join tblDesignation d on d.DesignationId = emp.DesignationId";
+                    objSearch.WhereNdGroupBy = "Where emp.status=1 and emp.EmployeeId = " + eid;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        txtstaffname.Text = Convert.ToString(itemSource[0].Field2);
+                        lbl_desigtnation.Text = Convert.ToString(itemSource[0].Field3);
+                        txtempoyeId.Text = Convert.ToString(eid);
+                        lbl_staffname_tip.Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page  StaffPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                ////MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private void txtstaffname_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+
+
+        private void txtstaffname_Leave(object sender, EventArgs e)
+        {
+
         }
 
         private void btn_bill_save_Click(object sender, EventArgs e)
