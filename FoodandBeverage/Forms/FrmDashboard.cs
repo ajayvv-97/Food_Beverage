@@ -47,6 +47,7 @@ namespace FoodandBeverage.Forms
         public FrmDashboard()
         {
             InitializeComponent();
+            Instance = this;
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
@@ -99,6 +100,7 @@ namespace FoodandBeverage.Forms
        
 
         bool flagDrawerF = false, flagDrawer = false;
+        public static FrmDashboard Instance { get; private set; }
 
         private void Menulogout_Click(object sender, EventArgs e)
         {
@@ -135,8 +137,9 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
-            
-            lbluser_designation.Text =Convert.ToString(FrmLogin.EmployeName ) + "\n"+ Convert.ToString(FrmLogin.Designation);
+
+            lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
+            lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
 
             Task.Run(() =>
             {
@@ -196,6 +199,7 @@ namespace FoodandBeverage.Forms
                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                 this.FormBorderStyle = FormBorderStyle.None;
 
                 Menuhome.BackColor = menubuttoncolor;
@@ -408,6 +412,7 @@ namespace FoodandBeverage.Forms
                                 Menutable.BackColor = menubuttoncolor;
 
                                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                                tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                                 pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
 
                                 if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
@@ -488,6 +493,7 @@ namespace FoodandBeverage.Forms
 
                                 pbappcoloepicker.BackColor = colorapp;
                                 tlp_main_sidebar_pnldesktop.BackColor = colorapp;
+                                tlp_taskbar.BackColor = colorapp;
                             }
                         }));
                     }
@@ -729,7 +735,9 @@ namespace FoodandBeverage.Forms
         private void Menuhome_Click(object sender, EventArgs e)
         {
             try
-            {           
+            {
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 if (sender is Button button)
                 {
@@ -903,6 +911,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -970,7 +980,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
+                
                 ButtonID = Convert.ToInt32(Menubutton.Menubilling);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1023,6 +1035,7 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         _instanceCombinedBill.Visible = true;
+                        _instanceCombinedBill.AssignDrawerCheck();
                         //_instanceCombinedBill.AutoTimer.Start();
                         _instanceCombinedBill.Dock = DockStyle.Fill;
                         ResizeForm(_instanceCombinedBill);
@@ -1063,6 +1076,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
+
                 ButtonID = Convert.ToInt32(Menubutton.Menureport);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1724,7 +1740,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                pnl_Drawer.Visible = true;
                 AssigndrawerCheck();
             }
             catch (Exception ex)
@@ -1819,141 +1834,133 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-             
-                if (pnl_Drawer.Visible)
+                pnl_Drawer.Visible = false;
+                BllSearch<DmnGridFields> bllsearchdrawer = new BllSearch<DmnGridFields>();
+                DmnSearch dmnsearckdrawer = new DmnSearch();
+                dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,InitilAmount as Field8,e.EmployeeId as Field9,t.CreatedDateTime Field10";
+                dmnsearckdrawer.Table = "tblDrawerAssign t  left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
+                dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
+                dmnsearckdrawer.OrderBy = "";
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
+                if (gridesource.Count > 0)
                 {
-                    pnl_Drawer.Visible = false;
-                    BllSearch<DmnGridFields> bllsearchdrawer = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnsearckdrawer = new DmnSearch();
-                    dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,InitilAmount as Field8,e.EmployeeId as Field9,t.CreatedDateTime Field10";
-                    dmnsearckdrawer.Table = "tblDrawerAssign t  left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
-                    dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
-                    dmnsearckdrawer.OrderBy = "";
-                    var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
-                    if (gridesource.Count > 0)
+                    pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+
+                    if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId))
                     {
-                        if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId))
-                        {
-                            
-                            txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
-                            txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
-                            txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
-                            txtdrops.Text = Convert.ToString(gridesource[0].Field7);
-                            txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
 
-                            txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
-                            txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
+                        txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
+                        txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
+                        txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
+                        txtdrops.Text = Convert.ToString(gridesource[0].Field7);
+                        txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
 
-                            label15.Text = System.Environment.MachineName;
-                            lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
-                            lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
-                            lbl_staffname.Visible = true;
-                            txtdrops.Visible = true;
-                            txtextraaddamt.Visible = true;
-                            label12.Visible = true;
-                            label12.Visible = true;
-                            label8.Visible = true;
-                            txtstaffname.Visible = false;
-                            lbl_staffname_tip.Visible = false;
-                            pnl_Drawer.Size = new Size(346, 421);
-                            btndrawersave.Location = new Point(116, 350);
-                            btndrawersave.Visible = true;
-                            decimal a = pnl_Drawer.Height;
-                            pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                            pnl_Drawer.Visible = true;
+                        txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
+                        txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
 
-                        }
-                        else
-                        {
+                        label15.Text = System.Environment.MachineName;
+                        lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
+                        lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
+                        lbl_staffname.Visible = true;
+                        txtdrops.Visible = true;
+                        txtextraaddamt.Visible = true;
+                        label12.Visible = true;
+                        label12.Visible = true;
+                        label8.Visible = true;
+                        txtstaffname.Visible = false;
+                        lbl_staffname_tip.Visible = false;
+                        btndrawersave.Visible = true;
+                        pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+                        pnl_Drawer.Visible = true;
 
-                            MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4 + "  DateTime " + gridesource[0].Field10, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
-                            txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
-                            txtinitialamt.ReadOnly = true;
-                            txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
-                            txtdrops.Text = Convert.ToString(gridesource[0].Field7);
-                            txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
-
-                            txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
-                            txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
-
-                            label1.Text = System.Environment.MachineName;
-                            lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
-                            lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
-                            lbl_staffname.Visible = true;
-                            txtdrops.Visible = true;
-                            txtextraaddamt.Visible = true;
-                            label12.Visible = true;
-                            label12.Visible = true;
-                            label8.Visible = true;
-                            txtstaffname.Visible = false;
-                            lbl_staffname_tip.Visible = false;
-                            pnl_Drawer.Size = new Size(346, 421);
-                            btndrawersave.Location = new Point(116, 350);
-                            decimal a = pnl_Drawer.Height;
-                            pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                            pnl_Drawer.Visible = true;
-
-                        }
                     }
                     else
                     {
-                        flagDrawerF = false; flagDrawer = false;
-                        BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
-                        DmnSearch dmnforms = new DmnSearch();
-                        dmnforms.Select = "*";
-                        dmnforms.Table = " tblforms ";
-                        dmnforms.WhereNdGroupBy = " where Form=2 and Status=1 and UserType=" + UserType;
-                        dmnforms.OrderBy = "order by Form";
-                        var gridesourcepermission = bllacctype.GetSearchData("prdSearch", dmnforms);
-                        if (gridesourcepermission.Count > 0)
-                        {
-                            for (int i = 0; i < gridesourcepermission.Count(); i++)
-                            {
-                                if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowCashDrawer) && gridesourcepermission[i].Status == 1)
-                                {
-                                    lbl_staffname.Visible = true;
-                                    txtstaffname.Visible = false;
-                                    lbl_staffname.Text = FrmLogin.EmployeName;
-                                    lbl_desigtnation.Text = FrmLogin.Designation;
-                                    txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
-                                    lbl_staffname_tip.Visible = false;
-                                    flagDrawer = true;
 
-                                }
-                                else if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowDrawerpermissionFullControl) && gridesourcepermission[i].Status == 1)
-                                {
-                                    lbl_staffname.Visible = false;
-                                    txtstaffname.Visible = true;
-                                    lbl_desigtnation.Text = FrmLogin.Designation;
-                                    lbl_staffname_tip.Visible = true;
-                                    flagDrawerF = true;
-                                }
-                            }
-                        }
-                        label15.Text = System.Environment.MachineName;
-                        if (flagDrawer && flagDrawerF)
-                        {
-                            lbl_staffname.Visible = false;
-                            txtstaffname.Visible = true;
-                            lbl_desigtnation.Text = FrmLogin.Designation;
-                            lbl_staffname_tip.Visible = true;
-                        }
+                        MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4 + "  DateTime " + gridesource[0].Field10, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
+                        txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
+                        txtinitialamt.ReadOnly = true;
+                        txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
+                        txtdrops.Text = Convert.ToString(gridesource[0].Field7);
+                        txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
 
-                        txtdrops.Visible = false;
-                        txtextraaddamt.Visible = false;
-                        label12.Visible = false;
-                        label12.Visible = false;
-                        label8.Visible = false;
-                        //pnl_Drawer.Size = new Size(346, 314);
-                        pnl_Drawer.Size = new Size(346, 421);
-                        btndrawersave.Location = new Point(116, 350);
+                        txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
+                        txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
+
+                        label1.Text = System.Environment.MachineName;
+                        lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
+                        lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
+                        lbl_staffname.Visible = true;
+                        txtdrops.Visible = true;
+                        txtextraaddamt.Visible = true;
+                        label12.Visible = true;
+                        label12.Visible = true;
+                        label8.Visible = true;
+                        txtstaffname.Visible = false;
+                        lbl_staffname_tip.Visible = false;
                         pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                        btndrawersave.Location = new Point(96, 242);
                         pnl_Drawer.Visible = true;
-                    }
-                }
 
+                    }
+                    pnl_Drawer.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show("No drawer has been assigned", "Drawer Not Assigned", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #region Small
+                #endregion
+
+                //    flagDrawerF = false; flagDrawer = false;
+                //    BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+                //    DmnSearch dmnforms = new DmnSearch();
+                //    dmnforms.Select = "*";
+                //    dmnforms.Table = " tblforms ";
+                //    dmnforms.WhereNdGroupBy = " where Form=2 and Status=1 and UserType=" + UserType;
+                //    dmnforms.OrderBy = "order by Form";
+                //    var gridesourcepermission = bllacctype.GetSearchData("prdSearch", dmnforms);
+                //    if (gridesourcepermission.Count > 0)
+                //    {
+                //        for (int i = 0; i < gridesourcepermission.Count(); i++)
+                //        {
+                //            if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowCashDrawer) && gridesourcepermission[i].Status == 1)
+                //            {
+                //                lbl_staffname.Visible = true;
+                //                txtstaffname.Visible = false;
+                //                lbl_staffname.Text = FrmLogin.EmployeName;
+                //                lbl_desigtnation.Text = FrmLogin.Designation;
+                //                txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
+                //                lbl_staffname_tip.Visible = false;
+                //                flagDrawer = true;
+
+                //            }
+                //            else if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowDrawerpermissionFullControl) && gridesourcepermission[i].Status == 1)
+                //            {
+                //                lbl_staffname.Visible = false;
+                //                txtstaffname.Visible = true;
+                //                lbl_desigtnation.Text = FrmLogin.Designation;
+                //                lbl_staffname_tip.Visible = true;
+                //                flagDrawerF = true;
+                //            }
+                //        }
+                //    }
+                //    label15.Text = System.Environment.MachineName;
+                //    if (flagDrawer && flagDrawerF)
+                //    {
+                //        lbl_staffname.Visible = false;
+                //        txtstaffname.Visible = true;
+                //        lbl_desigtnation.Text = FrmLogin.Designation;
+                //        lbl_staffname_tip.Visible = true;
+                //    }
+
+                //    txtdrops.Visible = false;
+                //    txtextraaddamt.Visible = false;
+                //    label12.Visible = false;
+                //    label12.Visible = false;
+                //    label8.Visible = false;
+
+                //}
             }
             catch (Exception ex)
             {
@@ -2109,6 +2116,7 @@ namespace FoodandBeverage.Forms
                     Color selectedColor = colorDialog1.Color;
                     pbappcoloepicker.BackColor = selectedColor;
                     tlp_main_sidebar_pnldesktop.BackColor = selectedColor;
+                    tlp_taskbar.BackColor = selectedColor;
 
                     string hexColor = ColorTranslator.ToHtml(selectedColor);
                     if (!hexColor.StartsWith("#"))
@@ -3308,6 +3316,7 @@ namespace FoodandBeverage.Forms
                     Menutable.BackColor = menubuttoncolor;
 
                     tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
+                    tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                     pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
 
                     if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
@@ -3384,6 +3393,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
                 time_syn_lal.Stop();
                 time_syn_lal.Stop();
@@ -4070,6 +4081,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (pnl_Drawer.Visible)
+                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -4581,18 +4594,16 @@ namespace FoodandBeverage.Forms
 
         private void btnclose_drawer_Click(object sender, EventArgs e)
         {
-          
-                try
-                {
-                    pnl_Drawer.Visible = false;
-                    
-                }
-                catch (Exception ex)
-                {
-                    clsgen.LogException("Admin page btnclose_drawer_Click_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                    //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-           
+            try
+            {
+                pnl_Drawer.Visible = false;
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page btnclose_drawer_Click_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btndrawersave_Click(object sender, EventArgs e)
@@ -4702,18 +4713,10 @@ namespace FoodandBeverage.Forms
         private void tmtime_Tick(object sender, EventArgs e)
         {
 
-            lbl_tmtime.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
+            lbl_time.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
         }
 
-        private void txtstaffname_DoubleClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtstaffname_Enter(object sender, EventArgs e)
-        {
-
-        }
+  
         public void StaffPopup()
         {
             try
@@ -4767,16 +4770,20 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        private void txtstaffname_KeyDown(object sender, KeyEventArgs e)
+   
+
+        private void btncancel_Click(object sender, EventArgs e)
         {
+            try
+            {
+                pnl_Drawer.Visible = false;
 
-        }
-
-
-
-        private void txtstaffname_Leave(object sender, EventArgs e)
-        {
-
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page btncancel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btn_bill_save_Click(object sender, EventArgs e)
