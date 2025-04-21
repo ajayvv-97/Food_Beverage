@@ -1958,6 +1958,26 @@ namespace FoodandBeverage.Forms
             timer1.Stop();
         }
 
+        private void yout_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AssignDrawerCheck();
+
+                FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(2, 0);
+                   
+                        frmzout.ShowDialog();              
+                        frmzout.PrintAll();
+                    MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("POSDashboard page btnYOut_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
         private void txtinitialamt_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;

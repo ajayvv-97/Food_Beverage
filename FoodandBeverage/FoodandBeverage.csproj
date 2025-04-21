@@ -696,11 +696,20 @@
       <DependentUpon>CR_TEST.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SaleBill\CR_Zout.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_Zout.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SaleBill\FrmSaleInvoice.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SaleBill\FrmSaleInvoice.Designer.cs">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaleBill\FrmZout.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="SaleBill\SaleBill_Copy.cs">
       <AutoGen>True</AutoGen>
@@ -942,6 +951,10 @@
     <EmbeddedResource Include="SaleBill\CR_TEST.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_TEST.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_Zout.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_Zout.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>

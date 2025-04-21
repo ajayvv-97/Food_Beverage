@@ -170,7 +170,9 @@ namespace FoodandBeverage.Interfaces
         User_Account = 26,
         User_Permission = 27,
         AllowCashDrawer =28,
-        AllowDrawerpermissionFullControl =29
+        AllowDrawerpermissionFullControl =29,
+        YOut = 30,
+        ZOut = 31
     };
     public enum DashboardTableType
     {
@@ -327,7 +329,8 @@ namespace FoodandBeverage.Interfaces
         TableView = 30,
         Report = 31,
         CombinedBillpage = 32,
-        Pickuppage = 33
+        Pickuppage = 33,
+       
     };
     public enum Menubutton
     {
