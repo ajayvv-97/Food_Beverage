@@ -40,8 +40,8 @@ namespace FoodandBeverage.Forms
             this.tlp_mainouterdesign = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pnlloginbox = new System.Windows.Forms.Panel();
-            this.lblappname = new System.Windows.Forms.Label();
             this.btnrfid = new System.Windows.Forms.Button();
+            this.lblappname = new System.Windows.Forms.Label();
             this.tlp_mainouterdesign.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.pnlloginbox.SuspendLayout();
@@ -58,7 +58,7 @@ namespace FoodandBeverage.Forms
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(212, 31);
             this.txtUserName.TabIndex = 0;
-            this.txtUserName.Text = "User Name .....";
+            this.txtUserName.Text = "silpa";
             this.toolTip1.SetToolTip(this.txtUserName, "User Name");
             this.txtUserName.Enter += new System.EventHandler(this.txtusername_Enter);
             this.txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
@@ -106,7 +106,7 @@ namespace FoodandBeverage.Forms
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(212, 31);
             this.txtPwd.TabIndex = 1;
-            this.txtPwd.Text = "Password .....";
+            this.txtPwd.Text = "123";
             this.toolTip1.SetToolTip(this.txtPwd, "Password");
             this.txtPwd.TextChanged += new System.EventHandler(this.txtPwd_TextChanged);
             this.txtPwd.Enter += new System.EventHandler(this.txtPwd_Enter);
@@ -162,20 +162,6 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox.TabIndex = 0;
             this.pnlloginbox.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlloginbox_Paint);
             // 
-            // lblappname
-            // 
-            this.lblappname.AutoSize = true;
-            this.lblappname.BackColor = System.Drawing.Color.Transparent;
-            this.lblappname.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblappname.Font = new System.Drawing.Font("Hobo Std", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblappname.ForeColor = System.Drawing.Color.White;
-            this.lblappname.Location = new System.Drawing.Point(3, 0);
-            this.lblappname.Name = "lblappname";
-            this.lblappname.Size = new System.Drawing.Size(283, 50);
-            this.lblappname.TabIndex = 9;
-            this.lblappname.Text = "Food && Beverage";
-            this.lblappname.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
             // btnrfid
             // 
             this.btnrfid.BackColor = System.Drawing.Color.Transparent;
@@ -189,6 +175,20 @@ namespace FoodandBeverage.Forms
             this.btnrfid.Size = new System.Drawing.Size(28, 30);
             this.btnrfid.TabIndex = 257;
             this.btnrfid.UseVisualStyleBackColor = false;
+            // 
+            // lblappname
+            // 
+            this.lblappname.AutoSize = true;
+            this.lblappname.BackColor = System.Drawing.Color.Transparent;
+            this.lblappname.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblappname.Font = new System.Drawing.Font("Hobo Std", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblappname.ForeColor = System.Drawing.Color.White;
+            this.lblappname.Location = new System.Drawing.Point(3, 0);
+            this.lblappname.Name = "lblappname";
+            this.lblappname.Size = new System.Drawing.Size(283, 50);
+            this.lblappname.TabIndex = 9;
+            this.lblappname.Text = "Food && Beverage";
+            this.lblappname.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // FrmLogin
             // 

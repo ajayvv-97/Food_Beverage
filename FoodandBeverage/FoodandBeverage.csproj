@@ -285,6 +285,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DS_Sale.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DS\DS_YZout.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_YZout.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmAddon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -711,6 +716,12 @@
     <Compile Include="SaleBill\FrmZout.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SaleBill\Frmzyouttest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleBill\Frmzyouttest.Designer.cs">
+      <DependentUpon>Frmzyouttest.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaleBill\SaleBill_Copy.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -959,6 +970,12 @@
     <EmbeddedResource Include="SaleBill\FrmSaleInvoice.resx">
       <DependentUpon>FrmSaleInvoice.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\FrmZout.resx">
+      <DependentUpon>FrmZout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\Frmzyouttest.resx">
+      <DependentUpon>Frmzyouttest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\SaleBill_Copy.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleBill_Copy.cs</LastGenOutput>
@@ -984,6 +1001,17 @@
     </None>
     <None Include="DS\DS_Sale.xss">
       <DependentUpon>DS_Sale.xsd</DependentUpon>
+    </None>
+    <None Include="DS\DS_YZout.xsc">
+      <DependentUpon>DS_YZout.xsd</DependentUpon>
+    </None>
+    <None Include="DS\DS_YZout.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_YZout.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DS\DS_YZout.xss">
+      <DependentUpon>DS_YZout.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

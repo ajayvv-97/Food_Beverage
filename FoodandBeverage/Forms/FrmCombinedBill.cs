@@ -1963,19 +1963,23 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-
-                FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(2, 0);
-                   
-                        frmzout.ShowDialog();              
-                        frmzout.PrintAll();
-                    MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-               
+                using (FoodandBeverage.SaleBill.Frmzyouttest frmzout = new FoodandBeverage.SaleBill.Frmzyouttest())
+                {
+                    frmzout.ShowDialog();
+   
+                } 
+                MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("POSDashboard page btnYOut_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
+        }
+
+        private void zout_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void txtinitialamt_KeyPress(object sender, KeyPressEventArgs e)
