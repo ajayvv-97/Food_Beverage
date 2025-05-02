@@ -23,6 +23,43 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="DT_Header" msprop:Generator_TableClassName="DT_HeaderDataTable" msprop:Generator_TableVarName="tableDT_Header" msprop:Generator_TablePropName="DT_Header" msprop:Generator_RowDeletingName="DT_HeaderRowDeleting" msprop:Generator_RowChangingName="DT_HeaderRowChanging" msprop:Generator_RowEvHandlerName="DT_HeaderRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_HeaderRowDeleted" msprop:Generator_UserTableName="DT_Header" msprop:Generator_RowChangedName="DT_HeaderRowChanged" msprop:Generator_RowEvArgName="DT_HeaderRowChangeEvent" msprop:Generator_RowClassName="DT_HeaderRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Address" msprop:Generator_ColumnVarNameInTable="columnAddress" msprop:Generator_ColumnPropNameInRow="Address" msprop:Generator_ColumnPropNameInTable="AddressColumn" msprop:Generator_UserColumnName="Address" type="xs:string" minOccurs="0" />
+              <xs:element name="Phone" msprop:Generator_ColumnVarNameInTable="columnPhone" msprop:Generator_ColumnPropNameInRow="Phone" msprop:Generator_ColumnPropNameInTable="PhoneColumn" msprop:Generator_UserColumnName="Phone" type="xs:string" minOccurs="0" />
+              <xs:element name="Email" msprop:Generator_ColumnVarNameInTable="columnEmail" msprop:Generator_ColumnPropNameInRow="Email" msprop:Generator_ColumnPropNameInTable="EmailColumn" msprop:Generator_UserColumnName="Email" type="xs:string" minOccurs="0" />
+              <xs:element name="GSTno" msprop:Generator_ColumnVarNameInTable="columnGSTno" msprop:Generator_ColumnPropNameInRow="GSTno" msprop:Generator_ColumnPropNameInTable="GSTnoColumn" msprop:Generator_UserColumnName="GSTno" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DT_Drawer" msprop:Generator_TableClassName="DT_DrawerDataTable" msprop:Generator_TableVarName="tableDT_Drawer" msprop:Generator_RowChangedName="DT_DrawerRowChanged" msprop:Generator_TablePropName="DT_Drawer" msprop:Generator_RowDeletingName="DT_DrawerRowDeleting" msprop:Generator_RowChangingName="DT_DrawerRowChanging" msprop:Generator_RowEvHandlerName="DT_DrawerRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_DrawerRowDeleted" msprop:Generator_RowClassName="DT_DrawerRow" msprop:Generator_UserTableName="DT_Drawer" msprop:Generator_RowEvArgName="DT_DrawerRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InitialAmount" msprop:Generator_ColumnVarNameInTable="columnInitialAmount" msprop:Generator_ColumnPropNameInRow="InitialAmount" msprop:Generator_ColumnPropNameInTable="InitialAmountColumn" msprop:Generator_UserColumnName="InitialAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LoanAmount" msprop:Generator_ColumnVarNameInTable="columnLoanAmount" msprop:Generator_ColumnPropNameInRow="LoanAmount" msprop:Generator_ColumnPropNameInTable="LoanAmountColumn" msprop:Generator_UserColumnName="LoanAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Drops" msprop:Generator_ColumnVarNameInTable="columnDrops" msprop:Generator_ColumnPropNameInRow="Drops" msprop:Generator_ColumnPropNameInTable="DropsColumn" msprop:Generator_UserColumnName="Drops" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalAmount" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DT_Geninfo" msprop:Generator_TableClassName="DT_GeninfoDataTable" msprop:Generator_TableVarName="tableDT_Geninfo" msprop:Generator_TablePropName="DT_Geninfo" msprop:Generator_RowDeletingName="DT_GeninfoRowDeleting" msprop:Generator_RowChangingName="DT_GeninfoRowChanging" msprop:Generator_RowEvHandlerName="DT_GeninfoRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_GeninfoRowDeleted" msprop:Generator_UserTableName="DT_Geninfo" msprop:Generator_RowChangedName="DT_GeninfoRowChanged" msprop:Generator_RowEvArgName="DT_GeninfoRowChangeEvent" msprop:Generator_RowClassName="DT_GeninfoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TotalCreditAmt" msprop:Generator_ColumnVarNameInTable="columnTotalCreditAmt" msprop:Generator_ColumnPropNameInRow="TotalCreditAmt" msprop:Generator_ColumnPropNameInTable="TotalCreditAmtColumn" msprop:Generator_UserColumnName="TotalCreditAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalDebitAmt" msprop:Generator_ColumnVarNameInTable="columnTotalDebitAmt" msprop:Generator_ColumnPropNameInRow="TotalDebitAmt" msprop:Generator_ColumnPropNameInTable="TotalDebitAmtColumn" msprop:Generator_UserColumnName="TotalDebitAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalUPI" msprop:Generator_ColumnVarNameInTable="columnTotalUPI" msprop:Generator_ColumnPropNameInRow="TotalUPI" msprop:Generator_ColumnPropNameInTable="TotalUPIColumn" msprop:Generator_UserColumnName="TotalUPI" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalBankonline" msprop:Generator_ColumnVarNameInTable="columnTotalBankonline" msprop:Generator_ColumnPropNameInRow="TotalBankonline" msprop:Generator_ColumnPropNameInTable="TotalBankonlineColumn" msprop:Generator_UserColumnName="TotalBankonline" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalCash" msprop:Generator_ColumnVarNameInTable="columnTotalCash" msprop:Generator_ColumnPropNameInRow="TotalCash" msprop:Generator_ColumnPropNameInTable="TotalCashColumn" msprop:Generator_UserColumnName="TotalCash" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Others" msprop:Generator_ColumnVarNameInTable="columnOthers" msprop:Generator_ColumnPropNameInRow="Others" msprop:Generator_ColumnPropNameInTable="OthersColumn" msprop:Generator_UserColumnName="Others" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalDiscount" msprop:Generator_ColumnVarNameInTable="columnTotalDiscount" msprop:Generator_ColumnPropNameInRow="TotalDiscount" msprop:Generator_ColumnPropNameInTable="TotalDiscountColumn" msprop:Generator_UserColumnName="TotalDiscount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalQuantity" msprop:Generator_ColumnVarNameInTable="columnTotalQuantity" msprop:Generator_ColumnPropNameInRow="TotalQuantity" msprop:Generator_ColumnPropNameInTable="TotalQuantityColumn" msprop:Generator_UserColumnName="TotalQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Totaltax" msprop:Generator_ColumnVarNameInTable="columnTotaltax" msprop:Generator_ColumnPropNameInRow="Totaltax" msprop:Generator_ColumnPropNameInTable="TotaltaxColumn" msprop:Generator_UserColumnName="Totaltax" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalAmount" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

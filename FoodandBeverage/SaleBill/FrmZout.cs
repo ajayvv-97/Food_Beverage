@@ -14,100 +14,158 @@ using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using System.Linq;
 
-
 namespace FoodandBeverage.SaleBill
 {
     public partial class FrmZout : Form
     {
         public int flag;
-        public int Drstaffid;
-        public FrmZout(int value, int Drawerstaffid)
+        public string RPTPath = Convert.ToString(FrmDashboard.SaleBillPath);
+
+  
+        public FrmZout()
         {
-            flag = value;
-            Drstaffid = Drawerstaffid;
-            
+            InitializeComponent();
         }
         ClsGeneral clsgen = new ClsGeneral();
-        public void PrintAll()
+
+        private void FrmZout_Load(object sender, EventArgs e)
         {
-            try
-            {
-
-                if (flag == 1)
-                {
-                    
-                    
-                }
-                else if (flag == 2)
-                {
-                    PrintYout();
-                   
-                }
-
-                else if (flag == 3)
-                { }
-                   
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("ZOut page FrmZout_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
+            PrintYout();
         }
-        #region Yout
+     
         public void PrintYout()
         {
             try
             {
+
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
 
-                string Drawerassigntime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");           
+                string Drawerassigntime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                string Drawerassignouttime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                // DataTable DT_Cardsale = new DataTable("DT_Cardsale");
+
+                DataTable DT_Header = new DataTable("DT_Header");
                 DataTable DT_Products = new DataTable("DT_Products");
+                DataTable DT_Drawer = new DataTable("DT_Drawer");
+                DataTable DT_Geninfo = new DataTable("DT_Geninfo");
 
-
-       
-
-
+                BllSearch<DmnSaleBillHeaders> bllSearchHeaders = new BllSearch<DmnSaleBillHeaders>();
+                BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
+                BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
+                BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
 
                 #region Drawer Assign time
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 BllSearch<Dmndrawer> bllSearch = new BllSearch<Dmndrawer>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "CreatedDateTime ";
+                dmnSearch.Select = "CreatedDateTime,ModifiedDateTime";
                 dmnSearch.Table = "tblDrawerAssign ";
                 dmnSearch.WhereNdGroupBy = "where DName='" + System.Environment.MachineName + "' and Status=1";
                 var itemsource = bllSearch.GetSearchData("prdsearch", dmnSearch);
                 if (itemsource.Count > 0)
                 {
                     Drawerassigntime = itemsource[0].CreatedDateTime.ToString("yyyy-MM-dd HH:mm");
+                    Drawerassignouttime = itemsource[0].ModifiedDateTime.ToString("yyyy-MM-dd HH:mm");
+                }
+                #endregion
+
+                #region Hotel Header
+                DmnSearch dmnSearchInvoiceHeaders = new DmnSearch();
+                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,GSTNO";
+                dmnSearchInvoiceHeaders.Table = "tblHotelRegistration";
+                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where Branchid=" + FrmDashboard.BranchId;
+                var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
+                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "GSTNo"))
+                {
+                    DT_Header.Load(reader);
                 }
                 #endregion
 
                 #region Products
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, SUM(d.DiscountAmount) AS TotalDiscount, sum(d.NetAmount) TotalAmount,sum(d.TaxAmount) as Totaltax";
-                dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId ";
-                dmnSearchProduct.WhereNdGroupBy = "WHERE m.Status=1 and d.Status= 1 and m.CreatedBy=" + FrmDashboard.UserId + " and m.CreatedDateTime > '" + Drawerassigntime + "' AND m.CreatedDateTime <  SYSDATETIME() GROUP BY d.ItemId, d.ItemName";
-                var ProductSaleResult = bllSearch.GetSearchData("prdSearch", dmnSearchProduct);
-                using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
+                dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1" +
+                " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53 WHERE d.Status= 1 and m.CreatedBy=" + FrmDashboard.UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemId, d.ItemName ,g.Caption";
+                dmnSearchProduct.WhereNdGroupBy = "";
+                var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
+                using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax"))
                 {
                     DT_Products.Load(reader);
                 }
-
-
                 #endregion
 
+                #region Drawer
+                DmnSearch dmnSearchDrawer = new DmnSearch();
+                dmnSearchDrawer.Select = " 0 as InitialAmount,0 as LoanAmount,0 as Drops,sum(NetAmount) as TotalAmount";
+                dmnSearchDrawer.Table = "tblSalesMaster WHERE BranchId = " + FrmDashboard.BranchId + " and PaymentMode = 1 and CreatedBy = " + FrmDashboard.UserId + "and status=1 and CreatedDateTime > '" + Drawerassigntime + "' AND CreatedDateTime < SYSDATETIME() " +
+                    "union select InitilAmount as InitialAmount,LoanAmount,Drops,0 TotalAmount from tblDrawerAssign where status=1 and CreatedBy = " + FrmDashboard.UserId + " and CreatedDateTime > '" + Drawerassigntime + "' AND CreatedDateTime < SYSDATETIME() ";
+                dmnSearchDrawer.WhereNdGroupBy = "";
+                var DrawerResult = bllDrawer.GetSearchData("prdSearch", dmnSearchDrawer);
+                DmnOutDrawer Dresult = DrawerResult
+                    .GroupBy(row => 1)
+                    .Select(group => new DmnOutDrawer
+                    {
+                        InitialAmount = group.Sum(row => row.InitialAmount),
+                        LoanAmount = group.Sum(row => row.LoanAmount),
+                        Drops = group.Sum(row => row.Drops),
+                        TotalAmount = group.Sum(row => row.TotalAmount),
+                        TotalCardCashRefund = group.Sum(row => row.TotalCardCashRefund),
+                        TotalCashRefund = group.Sum(row => row.TotalCashRefund)
+                    })
+                    .FirstOrDefault();
+
+                using (var reader = ObjectReader.Create(new List<DmnOutDrawer> { Dresult }, "InitialAmount", "LoanAmount", "Drops", "TotalAmount"))
+                {
+                    DT_Drawer.Load(reader);
+                }
+                #endregion
+
+                #region General Information
+                DmnSearch dmnSearchGeninfo = new DmnSearch();
+                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity";
+                dmnSearchGeninfo.Table = "(select g.Caption as Caption,Sum(sm.NetAmount) as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + FrmDashboard.BranchId + " and sm.CreatedBy = " + FrmDashboard.UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,sm.NetAmount" +
+                    " Union all Select 'Discount' Caption ,Sum(DiscountAmount) as amount from tblSalesMaster WHERE BranchId = " + FrmDashboard.BranchId + " and Status=1  and CreatedBy = " + FrmDashboard.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
+                    " Union all Select 'TotalTax' Caption ,Sum(TotalTax) as amount  from tblSalesMaster WHERE BranchId = " + FrmDashboard.BranchId + " and Status=1  and CreatedBy = " + FrmDashboard.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
+                    " Union all Select 'TotalQuantity' Caption ,Sum([TotalQuantity]) as totqty  from tblSalesMaster WHERE BranchId = " + FrmDashboard.BranchId + " and Status=1  and CreatedBy = " + FrmDashboard.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +                   
+                  
+                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[Discount],[TotalTax],[NetAmount],[TotalQuantity])) AS pvt  ";
+                dmnSearchGeninfo.WhereNdGroupBy = "";
+                var GenInfoResult = bllGeninfo.GetSearchData("prdSearch", dmnSearchGeninfo);
+                using (var reader = ObjectReader.Create(GenInfoResult, "Others", "TotalCash", "TotalBankonline", "TotalUPI", "TotalDebitAmt", "TotalCreditAmt", "TotalQuantity", "TotalDiscount", "Totaltax", "TotalAmount"))
+                {
+                    DT_Geninfo.Load(reader);
+                }
+                #endregion
+
+                dsReport.Tables.Add(DT_Products);
+                dsReport.Tables.Add(DT_Header);
+                dsReport.Tables.Add(DT_Drawer);
+                dsReport.Tables.Add(DT_Geninfo);
 
 
+                reportDocument.Load(RPTPath + @"\CR_Zout.rpt");
+                reportDocument.SetDataSource(dsReport);
 
+                
+                //reportDocument.SetParameterValue("OutHeading", "Yout");
+
+                crvout.ReuseParameterValuesOnRefresh = true;
+                crvout.RefreshReport();
+                crvout.ReportSource = reportDocument;
+                
+
+                //if (XYDalvalue == false || DalDalvalue == false)
+                reportDocument.PrintToPrinter(1, false, 0, 0);
 
             }
             catch (Exception ex)
             {
-                clsgen.LogException("ZOut Page PrintXout()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("ZOut Page PrintZout()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
                 //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
-        #endregion
+
     }
 }

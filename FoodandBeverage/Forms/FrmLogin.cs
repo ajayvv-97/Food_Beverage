@@ -55,9 +55,9 @@ namespace FoodandBeverage.Forms
         private bool passwordVisible = false;
         public static string DateFormat = "yyyy-MM-dd HH:mm:ss";
 
-        public static string KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
-        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
-        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+        public static string KitchenBillPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
+        public static string ReportPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\Report";
+        public static string SaleBillPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\SaleBill\";
 
         public static int Compid =101;
 
