@@ -100,6 +100,7 @@ namespace FoodandBeverage.Forms
                 if(DrawerID>0 && !CombineBillAutoTimer.Enabled)
                 {
                     tlp_outbtn.Visible = true;
+                   
                     Billcomplete_Fill();
                     cmb_tbl_names.Items.Add("List");
                 }
@@ -141,6 +142,7 @@ namespace FoodandBeverage.Forms
                     }
                     if (flagDrawerF) //full permission 
                     {
+                        tlp_outbtn.Visible = true;
                         tlp_previous_bill.Visible = true;
                         tlp_compl_pre_bill.Visible = true;
                         if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
@@ -155,6 +157,7 @@ namespace FoodandBeverage.Forms
                         if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId)) //assigned employee login  
                         {
                             DrawerID = Convert.ToInt32(gridesource[0].Field5);
+                            tlp_outbtn.Visible = true;
                             tlp_previous_bill.Visible = true;
                             tlp_compl_pre_bill.Visible = true;
                             ShowDrawerEmployee();
@@ -168,6 +171,7 @@ namespace FoodandBeverage.Forms
                                 FrmDashboard.Instance.lbl_drawer.Visible = true;
                                 FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
                             }
+                            tlp_outbtn.Visible = false;
                             tlp_previous_bill.Visible = false;
                             tlp_compl_pre_bill.Visible = false;
                         }
@@ -183,12 +187,14 @@ namespace FoodandBeverage.Forms
 
                         if (FrmDashboard.DrawerId > 0)
                         {
+                            tlp_outbtn.Visible = false;
                             tlp_previous_bill.Visible = false;
                             tlp_compl_pre_bill.Visible = false;
                             ShowDrawerEmployee();
                         }
                         else
                         {
+                            tlp_outbtn.Visible = false;
                             tlp_previous_bill.Visible = false;
                             tlp_compl_pre_bill.Visible = false;
                             if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
@@ -219,11 +225,13 @@ namespace FoodandBeverage.Forms
                             if (FrmDashboard.DrawerId > 0)
                             {
                                 ShowDrawerEmployee();
+                                tlp_outbtn.Visible = true;
                                 tlp_previous_bill.Visible = true;
                                 tlp_compl_pre_bill.Visible = true;
                             }
                             else
                             {
+                                tlp_outbtn.Visible = false;
                                 tlp_previous_bill.Visible = false;
                                 tlp_compl_pre_bill.Visible = false;
                                 if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
@@ -237,6 +245,7 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
+                            tlp_outbtn.Visible = false;
                             tlp_previous_bill.Visible = false;
                             tlp_compl_pre_bill.Visible = false;
                             if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
@@ -1095,7 +1104,107 @@ namespace FoodandBeverage.Forms
         }
         private void btn_select_Clicked(object sender, EventArgs e)
         {
+            try
+            {
+                Button button = (Button)sender;
+                //Convert.ToInt32(DashboardTableType.Reverse_Table)+","+Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) +
+                //"," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                string textvalue = button.AccessibleDescription;
+                string[] parts = textvalue.Split(',');
 
+                int Btype = parts.Length > 0 ? Convert.ToInt32(parts[0]) : 0;
+                int OrderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                string tableCode = parts.Length > 3 ? parts[3] : "";
+                int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+                int pkid = parts.Length > 4 ? Convert.ToInt32(parts[5]) : 0;
+
+                if (button != null)
+                {
+                    CheckCombinedOrNot(OrderMasterId);
+
+                    //cmb_tbl_names.Items.Add("Table List");
+
+                    if (!ListFillFlag)
+                    {
+                        if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Unselect))
+                        {
+                            CheckedtableNames.Add(new DmnNameList
+                            {
+                                Id = tid,
+                                Ordermasterid = OrderMasterId,
+                                Tablecode = tableCode,
+                                BookingMasterid = BmasterId,
+                                pkid = pkid,
+                            });
+                            button.BackgroundImage = Properties.Resources.billselectedicon;
+                            button.Tag = Convert.ToInt32(BillSelect.Selected);
+                            if (pkid > 0)
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{pkid}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
+                            else
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{tableCode}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
+
+
+                        }
+                        else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
+                        {
+                            DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == OrderMasterId);
+                            if (itemToRemove != null)
+                            {
+                                CheckedtableNames.Remove(itemToRemove);
+                                if (pkid > 0)
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{pkid}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
+                                else
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{itemToRemove.Tablecode}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
+                            }
+
+                            button.BackgroundImage = Properties.Resources.Billaddicon;
+                            button.Tag = Convert.ToInt32(BillSelect.Unselect);
+                        }
+
+                        button.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        if (pkid > 0)
+                            lbl_tbl_totalcount.Text = "Pickup Orders : " + Convert.ToString(CheckedtableNames.Count);
+                        else
+                            lbl_tbl_totalcount.Text = "Total Tables : " + Convert.ToString(CheckedtableNames.Count);
+
+                        if (CheckedtableNames.Count > 1)
+                        {
+                            lbl_tbl_totalcount.Visible = true;
+                            cmb_tbl_names.Visible = true;
+                            cmb_tbl_names.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            lbl_tbl_totalcount.Visible = false;
+                            cmb_tbl_names.Visible = false;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("CombinedBill Page btn_select_Clicked", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
         }
         public class CategoryInfo
         {
@@ -1725,6 +1834,7 @@ namespace FoodandBeverage.Forms
                             tlp_outbtn.Visible = true;
                             if (!CombineBillAutoTimer.Enabled)
                             {
+
                                 tlp_previous_bill.Visible = true;
                                 tlp_compl_pre_bill.Visible = true;
                                 Billcomplete_Fill();
@@ -1971,9 +2081,9 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout())
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(2,0))
                 {
-                    frmzout.PrintYout();
+                    frmzout.PrintAll();
                     frmzout.ShowDialog();
                      
                 } 
@@ -1982,13 +2092,89 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("POSDashboard page btnYOut_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException("POSDashboard page yout_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
 
         private void zout_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (DrawerID > 0)
+                {
+                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(1, Drawerassginstaffid))
+                    {
+                        frmzout.PrintAll();
+                        frmzout.ShowDialog();
+                        
+                    }
 
+                    MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    Dmndrawer dmndrawer = new Dmndrawer();
+                    Blldrawer blldrawer = new Blldrawer();
+
+                    if (FrmDashboard.AllowDrawerpermissionFullControl)
+                    {
+                        dmndrawer.Id = Drawerassginid;
+                    }
+                    else
+                    {
+                        if (DrawerID > 0)
+                            dmndrawer.Id = DrawerID;
+                    }
+
+                    dmndrawer.BranchId = FrmDashboard.BranchId;
+                    dmndrawer.CreatedBy = FrmDashboard.UserId;
+                    dmndrawer.Status = 0;
+                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+
+                    DrawerID = 0;
+                    tlp_outbtn.Visible = false;
+                    tlp_previous_bill.Visible = false;
+                    tlp_compl_pre_bill.Visible = false;
+
+                }
+                else
+                {
+                    MessageBox.Show("Zout Cannot be Completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AssignDrawerCheck();
+                }
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("POSDashboard page zout_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        private void normal_rpt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AssignDrawerCheck();
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(3, 0))
+                {
+                    frmzout.PrintAll();
+                    frmzout.ShowDialog();
+
+                }
+                MessageBox.Show("Normal Report Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("POSDashboard page normal_rpt_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        private void detailed_rpt_Click(object sender, EventArgs e)
+        {
+            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(4, 0))
+            {
+                frmzout.PrintDetailsCollection();
+            }
+            MessageBox.Show("Details Collection Report Printing Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void txtinitialamt_KeyPress(object sender, KeyPressEventArgs e)
