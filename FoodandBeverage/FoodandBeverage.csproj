@@ -39,6 +39,9 @@
     <Reference Include="AYJ_CardLib_Ul">
       <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Ul.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
       <HintPath>..\packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
     </Reference>
@@ -80,6 +83,9 @@
     </Reference>
     <Reference Include="Irony, Version=1.0.11.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.NetCore.1.0.11\lib\net461\Irony.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
@@ -284,6 +290,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DS_Sale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DS\DS_YZout.cs">
+      <DependentUpon>DS_YZout.xsd</DependentUpon>
     </Compile>
     <Compile Include="DS\DS_YZout.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -659,7 +668,7 @@
     <Compile Include="RoundedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SaleBill\CR_Bill.cs">
+    <Compile Include="Resources\CR_Bill.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CR_Bill.rpt</DependentUpon>
@@ -716,11 +725,8 @@
     <Compile Include="SaleBill\FrmZout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SaleBill\Frmzyouttest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaleBill\Frmzyouttest.Designer.cs">
-      <DependentUpon>Frmzyouttest.cs</DependentUpon>
+    <Compile Include="SaleBill\FrmZout.Designer.cs">
+      <DependentUpon>FrmZout.cs</DependentUpon>
     </Compile>
     <Compile Include="SaleBill\SaleBill_Copy.cs">
       <AutoGen>True</AutoGen>
@@ -736,9 +742,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboardReport.resx">
       <DependentUpon>FrmDashboardReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDepartment.resx">
       <DependentUpon>FrmDepartment.cs</DependentUpon>
@@ -935,7 +943,7 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_TableOccupancyReport.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill.rpt">
+    <EmbeddedResource Include="Resources\CR_Bill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill.cs</LastGenOutput>
     </EmbeddedResource>
@@ -972,9 +980,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\FrmZout.resx">
       <DependentUpon>FrmZout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\Frmzyouttest.resx">
-      <DependentUpon>Frmzyouttest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\SaleBill_Copy.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

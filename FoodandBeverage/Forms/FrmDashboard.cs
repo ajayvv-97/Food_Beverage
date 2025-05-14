@@ -95,8 +95,8 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         /*permission checking for manager and supervisor*/
-        public static bool AllowCashDrawer = false;
-        public static bool AllowDrawerpermissionFullControl = false;
+       // public static bool AllowCashDrawer = false;
+       //public static bool AllowDrawerpermissionFullControl = false;
        
 
         bool flagDrawerF = false, flagDrawer = false;
@@ -3936,17 +3936,17 @@ namespace FoodandBeverage.Forms
                                 }
                                 #endregion
                                 #region AllowCashDrawer
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesource[i].Status == 1)
-                                {
-                                    AllowCashDrawer = true;
-                                }
+                                //else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesource[i].Status == 1)
+                                //{
+                                //    AllowCashDrawer = true;
+                                //}
+                                
+
+                                //else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesource[i].Status == 1)
+                                //{
+                                //    AllowDrawerpermissionFullControl = true; 
+                                //}
                                 #endregion
-
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesource[i].Status == 1)
-                                {
-                                    AllowDrawerpermissionFullControl = true; 
-                                }
-
                             }));
                         }
                     }

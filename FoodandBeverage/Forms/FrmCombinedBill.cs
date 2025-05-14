@@ -2114,7 +2114,7 @@ namespace FoodandBeverage.Forms
                     Dmndrawer dmndrawer = new Dmndrawer();
                     Blldrawer blldrawer = new Blldrawer();
 
-                    if (FrmDashboard.AllowDrawerpermissionFullControl)
+                    if (flagDrawerF)
                     {
                         dmndrawer.Id = Drawerassginid;
                     }
