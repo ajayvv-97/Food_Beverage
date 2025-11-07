@@ -19,6 +19,8 @@ namespace FoodandBeverage.SaleBill
     public partial class FrmZout : Form
     {
         public int flag;
+        private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
+        private CrystalDecisions.Windows.Forms.CrystalReportViewer crvout;
         public string RPTPath = Convert.ToString(FrmDashboard.SaleBillPath);
 
   
@@ -167,5 +169,42 @@ namespace FoodandBeverage.SaleBill
 
         }
 
+        private void InitializeComponent()
+        {
+            this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.crvout = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.SuspendLayout();
+            // 
+            // crystalReportViewer1
+            // 
+            this.crystalReportViewer1.ActiveViewIndex = -1;
+            this.crystalReportViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crystalReportViewer1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.crystalReportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crystalReportViewer1.Location = new System.Drawing.Point(0, 0);
+            this.crystalReportViewer1.Name = "crystalReportViewer1";
+            this.crystalReportViewer1.Size = new System.Drawing.Size(704, 422);
+            this.crystalReportViewer1.TabIndex = 0;
+            // 
+            // crvout
+            // 
+            this.crvout.ActiveViewIndex = -1;
+            this.crvout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crvout.Cursor = System.Windows.Forms.Cursors.Default;
+            this.crvout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crvout.Location = new System.Drawing.Point(0, 0);
+            this.crvout.Name = "crvout";
+            this.crvout.Size = new System.Drawing.Size(704, 422);
+            this.crvout.TabIndex = 1;
+            // 
+            // FrmZout
+            // 
+            this.ClientSize = new System.Drawing.Size(704, 422);
+            this.Controls.Add(this.crvout);
+            this.Controls.Add(this.crystalReportViewer1);
+            this.Name = "FrmZout";
+            this.ResumeLayout(false);
+
+        }
     }
 }

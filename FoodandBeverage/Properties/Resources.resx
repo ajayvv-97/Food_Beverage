@@ -511,9 +511,6 @@
   <data name="expired_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\expired_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="wifi_card_payment_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wifi-card payment-.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="cancel_icon_wifi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cancel_icon_wifi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -867,5 +864,113 @@
   </data>
   <data name="Noorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Noorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logopbright" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logopbright.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="midas_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\midas logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="backspace_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\backspace_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="backspace_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\backspace_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CLEAR_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLEAR_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clear_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clear_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fdnumber_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fdnumber large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fdnumber_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fdnumber_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="home_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\home_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="home_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\home_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KEYBOARD_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEYBOARD_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keypad_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keypad_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_large1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_large1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_large2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_large2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_smalll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_smalll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RETURN_BUTTON_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RETURN BUTTON_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shift_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shift_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shift_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shift_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shift_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shift_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPACE_BUTTON_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPACE BUTTON_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="space_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\space_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="space_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\space_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UP_BUTTON_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UP BUTTON_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_123_BUTTON_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\123 BUTTON_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_123_BUTTON_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\123 BUTTON_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ok_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ok_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="other_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\other_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Untitled_7_2030" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled-7 2030.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Round_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Round_Close_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wifi_card_payment_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wifi_card_payment_.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logopbleft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logopbleft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Logincancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Logincancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Loginokay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Loginokay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -28,16 +28,6 @@ C:\Users\aljo\Desktop\F and Be\Food_Beverage\Domain\obj\Debug\netstandard2.0\Dom
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.dll
 C:\Users\aljo\Desktop\F and Be\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.pdb
-C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.deps.json
-C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.dll
-C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.pdb
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.AssemblyReference.cache
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfoInputs.cache
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.dll
-C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.pdb
 C:\Users\silpa\Desktop\F_B\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.deps.json
 C:\Users\silpa\Desktop\F_B\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.dll
 C:\Users\silpa\Desktop\F_B\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.pdb
@@ -56,3 +46,13 @@ H:\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
 H:\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
 H:\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.dll
 H:\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.deps.json
+C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.dll
+C:\Users\ajay\Desktop\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfoInputs.cache
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.dll
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.AssemblyReference.cache

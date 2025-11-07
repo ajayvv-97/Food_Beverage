@@ -259,17 +259,28 @@ namespace FoodandBeverage.Forms
                 objSearch.Table = " tblDepartment ";
                 objSearch.WhereNdGroupBy = "";
                 var gridSourceSrlno = bllSearch.GetSearchData("prdSearch", objSearch);
-
-                BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
-                DmnSearch objSearchGn = new DmnSearch();
-                objSearchGn.Select = "GeneralId,GTypeSubValue1";
-                objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
-                objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
-                var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
-                decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
-                decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
-
-                mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
+                if (gridSourceSrlno.Count > 0)
+                {
+                    if (gridSourceSrlno[0].EmployeeSrlNoStart == 0)
+                    {
+                        mtxtEmpSrlNo.Text = "1";
+                    }
+                    else
+                    {
+                        BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
+                        DmnSearch objSearchGn = new DmnSearch();
+                        objSearchGn.Select = "GeneralId,GTypeSubValue1";
+                        objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
+                        objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
+                        var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
+                        if (gridSourceGn.Count> 0)
+                        {
+                            decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
+                            decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
+                            mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
+                        }
+                    }         
+                }
             }
             catch (Exception ex)
             {
@@ -418,7 +429,7 @@ namespace FoodandBeverage.Forms
                         dmnDepartment.Status = 1;
                         if (DepartmentId == 0)
                         {
-                            dmnDepartment.EmployeeSrlNoStart = Convert.ToInt64(mtxtEmpSrlNo.Text);
+                            dmnDepartment.EmployeeSrlNoStart = Convert.ToInt32(mtxtEmpSrlNo.Text);
                             dmnDepartment.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
                             var lstData = bllDepartment.AddData("prdInsertDepartment", dmnDepartment);
                             savestatus = lstData;

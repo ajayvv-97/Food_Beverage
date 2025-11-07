@@ -31,8 +31,8 @@ namespace FoodandBeverage.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEmployeeShort));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tm_card = new System.Windows.Forms.Timer(this.components);
             this.tb_empolyee = new System.Windows.Forms.TabControl();
             this.tp_employee = new System.Windows.Forms.TabPage();
@@ -83,11 +83,6 @@ namespace FoodandBeverage.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.tp_rolereg = new System.Windows.Forms.TabPage();
             this.dgvforms = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.formid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Form = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Write = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_role_regis = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -137,6 +132,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.pbwifi = new System.Windows.Forms.PictureBox();
             this.btnwificancel = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.formid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Form = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Write = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tlp_role_design = new System.Windows.Forms.TableLayoutPanel();
             this.tb_empolyee.SuspendLayout();
             this.tp_employee.SuspendLayout();
             this.tlp_employe_reg_outer.SuspendLayout();
@@ -168,6 +169,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).BeginInit();
+            this.tlp_role_design.SuspendLayout();
             this.SuspendLayout();
             // 
             // tm_card
@@ -184,7 +186,7 @@ namespace FoodandBeverage.Forms
             this.tb_empolyee.Location = new System.Drawing.Point(5, 47);
             this.tb_empolyee.Name = "tb_empolyee";
             this.tb_empolyee.SelectedIndex = 0;
-            this.tb_empolyee.Size = new System.Drawing.Size(903, 385);
+            this.tb_empolyee.Size = new System.Drawing.Size(903, 380);
             this.tb_empolyee.TabIndex = 0;
             this.tb_empolyee.SelectedIndexChanged += new System.EventHandler(this.tb_empolyee_SelectedIndexChanged);
             // 
@@ -196,7 +198,7 @@ namespace FoodandBeverage.Forms
             this.tp_employee.Location = new System.Drawing.Point(4, 27);
             this.tp_employee.Name = "tp_employee";
             this.tp_employee.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
-            this.tp_employee.Size = new System.Drawing.Size(895, 354);
+            this.tp_employee.Size = new System.Drawing.Size(895, 349);
             this.tp_employee.TabIndex = 0;
             this.tp_employee.Text = "Employee Registration";
             // 
@@ -213,7 +215,7 @@ namespace FoodandBeverage.Forms
             this.tlp_employe_reg_outer.Name = "tlp_employe_reg_outer";
             this.tlp_employe_reg_outer.RowCount = 1;
             this.tlp_employe_reg_outer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_employe_reg_outer.Size = new System.Drawing.Size(875, 344);
+            this.tlp_employe_reg_outer.Size = new System.Drawing.Size(875, 339);
             this.tlp_employe_reg_outer.TabIndex = 2;
             // 
             // tlp_camera_main
@@ -231,7 +233,7 @@ namespace FoodandBeverage.Forms
             this.tlp_camera_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_camera_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_camera_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_camera_main.Size = new System.Drawing.Size(169, 338);
+            this.tlp_camera_main.Size = new System.Drawing.Size(169, 333);
             this.tlp_camera_main.TabIndex = 3;
             // 
             // tlp_camera
@@ -401,7 +403,7 @@ namespace FoodandBeverage.Forms
             this.tlp_employe_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_employe_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_employe_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_employe_reg.Size = new System.Drawing.Size(694, 338);
+            this.tlp_employe_reg.Size = new System.Drawing.Size(694, 333);
             this.tlp_employe_reg.TabIndex = 0;
             // 
             // label18
@@ -667,7 +669,7 @@ namespace FoodandBeverage.Forms
             // txtEmpAddress
             // 
             this.txtEmpAddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtEmpAddress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtEmpAddress.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtEmpAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtEmpAddress.Location = new System.Drawing.Point(3, 245);
             this.txtEmpAddress.Multiline = true;
@@ -706,7 +708,7 @@ namespace FoodandBeverage.Forms
             // txtnote
             // 
             this.txtnote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtnote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtnote.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtnote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtnote.Location = new System.Drawing.Point(215, 245);
             this.txtnote.Multiline = true;
@@ -730,7 +732,7 @@ namespace FoodandBeverage.Forms
             this.tlp_checkControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_checkControls.Controls.Add(this.chkactive, 0, 1);
             this.tlp_checkControls.Controls.Add(this.chk_Rfid_Login, 0, 0);
-            this.tlp_checkControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_checkControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlp_checkControls.Location = new System.Drawing.Point(0, 0);
             this.tlp_checkControls.Name = "tlp_checkControls";
             this.tlp_checkControls.RowCount = 2;
@@ -873,12 +875,11 @@ namespace FoodandBeverage.Forms
             // tp_rolereg
             // 
             this.tp_rolereg.BackColor = System.Drawing.Color.AliceBlue;
-            this.tp_rolereg.Controls.Add(this.dgvforms);
-            this.tp_rolereg.Controls.Add(this.tlp_role_regis);
+            this.tp_rolereg.Controls.Add(this.tlp_role_design);
             this.tp_rolereg.Location = new System.Drawing.Point(4, 27);
             this.tp_rolereg.Name = "tp_rolereg";
             this.tp_rolereg.Padding = new System.Windows.Forms.Padding(10);
-            this.tp_rolereg.Size = new System.Drawing.Size(895, 354);
+            this.tp_rolereg.Size = new System.Drawing.Size(895, 349);
             this.tp_rolereg.TabIndex = 1;
             this.tp_rolereg.Text = "Role Registration";
             // 
@@ -886,14 +887,14 @@ namespace FoodandBeverage.Forms
             // 
             this.dgvforms.AllowUserToAddRows = false;
             this.dgvforms.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvforms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvforms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvforms.ColumnHeadersHeight = 48;
             this.dgvforms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvforms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -903,51 +904,17 @@ namespace FoodandBeverage.Forms
             this.Write,
             this.Read});
             this.dgvforms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvforms.Location = new System.Drawing.Point(10, 105);
+            this.dgvforms.Location = new System.Drawing.Point(11, 112);
             this.dgvforms.Name = "dgvforms";
             this.dgvforms.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvforms.RowTemplate.Height = 35;
-            this.dgvforms.Size = new System.Drawing.Size(875, 239);
+            this.dgvforms.Size = new System.Drawing.Size(853, 206);
             this.dgvforms.TabIndex = 0;
             this.dgvforms.Visible = false;
             this.dgvforms.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvforms_CellEndEdit);
             this.dgvforms.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvforms_Scroll);
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.Visible = false;
-            // 
-            // formid
-            // 
-            this.formid.HeaderText = "formid";
-            this.formid.Name = "formid";
-            this.formid.Visible = false;
-            // 
-            // Form
-            // 
-            this.Form.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Form.HeaderText = "Form";
-            this.Form.Name = "Form";
-            // 
-            // Write
-            // 
-            this.Write.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Write.HeaderText = "Write Permission";
-            this.Write.Name = "Write";
-            this.Write.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Write.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // Read
-            // 
-            this.Read.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Read.HeaderText = "Read Permission";
-            this.Read.Name = "Read";
-            this.Read.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Read.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tlp_role_regis
             // 
@@ -961,13 +928,13 @@ namespace FoodandBeverage.Forms
             this.tlp_role_regis.Controls.Add(this.txtUserTypeNote, 1, 1);
             this.tlp_role_regis.Controls.Add(this.cmbUsreAccount, 1, 0);
             this.tlp_role_regis.Controls.Add(this.btnaddusertype, 2, 0);
-            this.tlp_role_regis.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_role_regis.Location = new System.Drawing.Point(10, 10);
+            this.tlp_role_regis.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_role_regis.Location = new System.Drawing.Point(11, 11);
             this.tlp_role_regis.Name = "tlp_role_regis";
             this.tlp_role_regis.RowCount = 2;
             this.tlp_role_regis.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.94737F));
             this.tlp_role_regis.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.05263F));
-            this.tlp_role_regis.Size = new System.Drawing.Size(875, 95);
+            this.tlp_role_regis.Size = new System.Drawing.Size(853, 95);
             this.tlp_role_regis.TabIndex = 225;
             // 
             // label2
@@ -1242,7 +1209,7 @@ namespace FoodandBeverage.Forms
             this.tlp_buttons.Controls.Add(this.btnClose, 4, 0);
             this.tlp_buttons.Controls.Add(this.mbtnList, 3, 0);
             this.tlp_buttons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_buttons.Location = new System.Drawing.Point(5, 440);
+            this.tlp_buttons.Location = new System.Drawing.Point(5, 435);
             this.tlp_buttons.Name = "tlp_buttons";
             this.tlp_buttons.RowCount = 1;
             this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1391,7 +1358,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.Size = new System.Drawing.Size(913, 477);
             this.tlp_main.TabIndex = 276;
@@ -1673,7 +1640,7 @@ namespace FoodandBeverage.Forms
             // pbwifi
             // 
             this.pbwifi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbwifi.Image = global::FoodandBeverage.Properties.Resources.wifi_card_payment_;
+            this.pbwifi.Image = ((System.Drawing.Image)(resources.GetObject("pbwifi.Image")));
             this.pbwifi.Location = new System.Drawing.Point(3, 3);
             this.pbwifi.Name = "pbwifi";
             this.pbwifi.Size = new System.Drawing.Size(256, 183);
@@ -1695,6 +1662,57 @@ namespace FoodandBeverage.Forms
             this.btnwificancel.TabIndex = 1;
             this.btnwificancel.UseVisualStyleBackColor = true;
             this.btnwificancel.Click += new System.EventHandler(this.btnwificancel_Click);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.Visible = false;
+            // 
+            // formid
+            // 
+            this.formid.HeaderText = "formid";
+            this.formid.Name = "formid";
+            this.formid.Visible = false;
+            // 
+            // Form
+            // 
+            this.Form.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Form.HeaderText = "Form";
+            this.Form.Name = "Form";
+            // 
+            // Write
+            // 
+            this.Write.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Write.HeaderText = "Write Permission";
+            this.Write.Name = "Write";
+            this.Write.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Write.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Read
+            // 
+            this.Read.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Read.HeaderText = "Read Permission";
+            this.Read.Name = "Read";
+            this.Read.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Read.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Read.Visible = false;
+            // 
+            // tlp_role_design
+            // 
+            this.tlp_role_design.ColumnCount = 1;
+            this.tlp_role_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_role_design.Controls.Add(this.tlp_role_regis, 0, 0);
+            this.tlp_role_design.Controls.Add(this.dgvforms, 0, 1);
+            this.tlp_role_design.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_role_design.Location = new System.Drawing.Point(10, 10);
+            this.tlp_role_design.Name = "tlp_role_design";
+            this.tlp_role_design.Padding = new System.Windows.Forms.Padding(8);
+            this.tlp_role_design.RowCount = 2;
+            this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_role_design.Size = new System.Drawing.Size(875, 329);
+            this.tlp_role_design.TabIndex = 226;
             // 
             // FrmEmployeeShort
             // 
@@ -1752,6 +1770,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).EndInit();
+            this.tlp_role_design.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1816,11 +1835,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnCapture;
         private System.Windows.Forms.TableLayoutPanel tlp_camera_control;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn formid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Form;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Write;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Read;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tlp_main;
         private System.Windows.Forms.Button button2;
@@ -1861,5 +1875,11 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.PictureBox pbwifi;
         private System.Windows.Forms.Button btnwificancel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn formid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Form;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Write;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Read;
+        private System.Windows.Forms.TableLayoutPanel tlp_role_design;
     }
 }

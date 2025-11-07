@@ -2052,3 +2052,197 @@ User Name: Ajay V V
 Designation: Manager
 FormTypeId: 26
 -------------------------------------------------------------------------
+Date and Time: 11/07/2025 11:14:49 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 11:14:51 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 11:14:54 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 2:48:48 PM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay V V
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 3:27:08 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: test
+Designation: 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 3:27:09 PM
+Page : Department Page  MbtnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 3:27:12 PM
+Page : Department Page  MbtnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: test
+Designation: 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:25:33 PM
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:25:43 PM
+Page : Report page  s_FillReport_MidasCard_PaymetReport()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:25:51 PM
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:27:42 PM
+Page : Report page  Fill_combo_finyear()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:33:02 PM
+Page : Report page  s_FillReport_MidasCard_PaymetReport()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:36:52 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:36:55 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:37:14 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:37:55 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:52:46 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 4:52:47 PM
+Page : Report page  btnserach_Click()
+Exception: String was not recognized as a valid DateTime.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 31
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:11:00 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:11:24 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:13:22 PM
+Page : Department Page  MbtnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:13:34 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:13:40 PM
+Page : Department Page  MbtnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:13:47 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:14:35 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/07/2025 5:14:41 PM
+Page : Department Page  GenerateSrNo()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------

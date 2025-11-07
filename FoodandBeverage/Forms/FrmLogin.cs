@@ -2,17 +2,14 @@
 using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,7 +24,7 @@ namespace FoodandBeverage.Forms
         private LoadingGIF_Timer loadingForm;
 
         #region Declarations
-        //ClsGeneral objGeneral = new ClsGeneral();// for validation
+        ClsGeneral objGeneral = new ClsGeneral();// for validation
         BllEncryption bllEncryption = new BllEncryption();
         //BllUserAccount bllUserAccount = new BllUserAccount();
         byte[] passwordHash;
@@ -55,20 +52,27 @@ namespace FoodandBeverage.Forms
         private bool passwordVisible = false;
         public static string DateFormat = "yyyy-MM-dd HH:mm:ss";
 
-        public static string KitchenBillPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
-        public static string ReportPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\Report";
-        public static string SaleBillPath = @"C:\Users\silpa\Desktop\F_B\Food_Beverage\FoodandBeverage\SaleBill\";
+        public static string KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
+        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
+        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
 
-        public static int Compid =101;
+        public static int Compid =102;
 
         //public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
         //public static string ReportPath = Application.StartupPath + @"\Report";
         //public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
+        public static Size FormSize;
+
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
+            //txtUserName.Text = "User Name .....";
+            //txtPwd.Text = "Password .....";
+            if (FormSize.IsEmpty)
+                FormSize = this.Size;
+
             pnlloginbox.BackColor = Color.FromArgb(150, 250, 250, 250);
             Task.Run(() =>
             {
@@ -80,7 +84,7 @@ namespace FoodandBeverage.Forms
             {
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
-            textb_shape();            
+            //textb_shape();            
         }
 
         #region TexBox Round function
@@ -207,7 +211,8 @@ namespace FoodandBeverage.Forms
 
                             else
                             {
-                                    #region retrieve data after login
+                                FormSize = this.Size;
+                                #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
@@ -256,7 +261,7 @@ namespace FoodandBeverage.Forms
 
                                     #endregion
 
-                                    this.Visible = false;
+                                    this.Opacity = 0;
                                     Forms.FrmDashboard DashBoard = new FrmDashboard();
                                     DashBoard.MdiParent = this.MdiParent;
                                     DashBoard.ShowDialog();
@@ -606,5 +611,144 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void FrmLogin_Shown(object sender, EventArgs e)
+        {
+            FormSize = this.Size;
+        }
+
+        private void txtUserName_Click(object sender, EventArgs e)
+        {
+            if (loginkeyboard)
+            {
+                ShowKeyboard(sender as TextBox);
+            }
+        }
+        public void ShowKeyboard(TextBox activeTextBox)
+        {
+            if (activeTextBox == null) return;
+
+            Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+            int desiredX = 0, desiredY = 0;
+            if (Frmkeyboard.IsOpen)
+            {
+                #region Calculate Position of Keyboard 
+                desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                if (desiredX < screenBounds.Left)
+                    desiredX = screenBounds.Left;
+                else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                    desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                {
+                    desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                    if (desiredY < screenBounds.Top)
+                        desiredY = screenBounds.Top;
+                }
+                #endregion
+            }
+
+            if (Frmkeyboard.IsOpen)
+            {
+                Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                Frmkeyboard.Instance.BringToFront();
+            }
+            else
+            {
+                Frmkeyboard frmKey = new Frmkeyboard(0);
+
+                #region Calculate Position of Keyboard 
+                desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                if (desiredX < screenBounds.Left)
+                    desiredX = screenBounds.Left;
+                else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                    desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                {
+                    desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                    if (desiredY < screenBounds.Top)
+                        desiredY = screenBounds.Top;
+                }
+                Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                #endregion
+
+
+                frmKey.OnKeyPressed += (keyText) =>
+                {
+                    if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                    {
+                        if (activeTextBox.Text.Length > 0)
+                            activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                    }
+                    else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                    {
+                        activeTextBox.Text += " ";
+                    }
+                    else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                    {
+                        activeTextBox.Text = "";
+                    }
+                    else
+                    {
+                        activeTextBox.Text += keyText;
+                    }
+                    activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                    activeTextBox.SelectionLength = 0;
+                };
+
+                frmKey.Show();
+            }
+
+        }
+
+        private void txtPwd_Click(object sender, EventArgs e)
+        {
+            if (loginkeyboard)
+            {
+                ShowKeyboard(sender as TextBox);
+            }
+        }
+
+        private void ToggleWifiPopup(int inp)
+        {
+            if (inp == 1)
+            {
+                Pnl_wifiPopup.Left = (this.ClientSize.Width - Pnl_wifiPopup.Width) / 2;
+                Pnl_wifiPopup.Top = (this.ClientSize.Height - Pnl_wifiPopup.Height) / 2;
+
+                Pnl_wifiPopup.Visible = true;
+            }
+            else
+            {
+                Pnl_wifiPopup.Visible = false;
+            }
+        }
+
+        private void btnrfid_Click_1(object sender, EventArgs e)
+        {
+            ToggleWifiPopup(1);
+            if (!timer1.Enabled)
+                timer1.Start();
+        }
+
+        private void btnwificancel_Click(object sender, EventArgs e)
+        {
+            Pnl_wifiPopup.Visible = false;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            timer1?.Dispose();
+            base.OnFormClosed(e);
+        }
+
+        private void Pnl_wifiPopup_Paint(object sender, PaintEventArgs e)
+        {
+            objGeneral.ApplyRoundedCorners(Pnl_wifiPopup, 10f);
+        }
     }
 }

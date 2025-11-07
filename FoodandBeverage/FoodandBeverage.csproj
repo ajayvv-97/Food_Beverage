@@ -512,6 +512,18 @@
     <Compile Include="Forms\UserControls\FrmDataGridView.Designer.cs">
       <DependentUpon>FrmDataGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserControls\Frmkeyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmkeyboard.Designer.cs">
+      <DependentUpon>Frmkeyboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmnumdiskeypad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmnumdiskeypad.Designer.cs">
+      <DependentUpon>Frmnumdiskeypad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserControls\FrmSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -521,6 +533,11 @@
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Report\Frmreport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -716,12 +733,6 @@
     <Compile Include="SaleBill\FrmZout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SaleBill\Frmzyouttest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaleBill\Frmzyouttest.Designer.cs">
-      <DependentUpon>Frmzyouttest.cs</DependentUpon>
-    </Compile>
     <Compile Include="SaleBill\SaleBill_Copy.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -842,16 +853,17 @@
     <EmbeddedResource Include="Forms\LoadingGIF_Timer.resx">
       <DependentUpon>LoadingGIF_Timer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Frmkeyboard.resx">
+      <DependentUpon>Frmkeyboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Frmnumdiskeypad.resx">
+      <DependentUpon>Frmnumdiskeypad.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Report\Frmreport.resx">
       <DependentUpon>Frmreport.cs</DependentUpon>
     </EmbeddedResource>
@@ -972,9 +984,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\FrmZout.resx">
       <DependentUpon>FrmZout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\Frmzyouttest.resx">
-      <DependentUpon>Frmzyouttest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\SaleBill_Copy.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1517,9 +1526,6 @@
     <None Include="Resources\expired_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\wifi-card payment-.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\cancel_icon_wifi.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1888,6 +1894,44 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Loginokay.png" />
+    <None Include="Resources\Logincancel.png" />
+    <None Include="Resources\logopbleft.png" />
+    <None Include="Resources\Round_Close_2.png" />
+    <None Include="Resources\Round_Close_1.png" />
+    <None Include="Resources\wifi_card_payment_.gif" />
+    <None Include="Resources\wifi-card payment-.gif" />
+    <None Include="Resources\Untitled-7 2030.png" />
+    <None Include="Resources\other_large.png" />
+    <None Include="Resources\cancel_2.png" />
+    <None Include="Resources\Ok_2.png" />
+    <None Include="Resources\backspace_small.png" />
+    <None Include="Resources\backspace_large.png" />
+    <None Include="Resources\key_large2.png" />
+    <None Include="Resources\key_large1.png" />
+    <None Include="Resources\key_large.png" />
+    <None Include="Resources\home_small.png" />
+    <None Include="Resources\home_large.png" />
+    <None Include="Resources\fdnumber_small.png" />
+    <None Include="Resources\fdnumber large.png" />
+    <None Include="Resources\clear_small.png" />
+    <None Include="Resources\CLEAR_large.png" />
+    <None Include="Resources\123 BUTTON_small.png" />
+    <None Include="Resources\123 BUTTON_large.png" />
+    <None Include="Resources\UP BUTTON_small.png" />
+    <None Include="Resources\space_small.png" />
+    <None Include="Resources\space_large.png" />
+    <None Include="Resources\SPACE BUTTON_small.png" />
+    <None Include="Resources\shift_small.png" />
+    <None Include="Resources\shift_pressed.png" />
+    <None Include="Resources\shift_large.png" />
+    <None Include="Resources\RETURN BUTTON_small.png" />
+    <None Include="Resources\keypad_small.png" />
+    <None Include="Resources\keypad large.png" />
+    <None Include="Resources\KEYBOARD_small.png" />
+    <None Include="Resources\key_smalll.png" />
+    <None Include="Resources\midas logo.png" />
+    <None Include="Resources\logopbright.png" />
     <None Include="Resources\Noorder.png" />
     <None Include="Resources\kitchen_order_sound.wav" />
     <None Include="Resources\kitchen_order_sound.mp3" />

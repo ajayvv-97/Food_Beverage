@@ -172,7 +172,8 @@ namespace FoodandBeverage.Interfaces
         AllowCashDrawer =28,
         AllowDrawerpermissionFullControl =29,
         YOut = 30,
-        ZOut = 31
+        ZOut = 31,
+        report=32
     };
     public enum DashboardTableType
     {
@@ -392,6 +393,30 @@ namespace FoodandBeverage.Interfaces
         Revtbl = 3,
         pickup=4
     };
+    public enum KeyType
+    {
+        Alpha = 1,
+        Number = 2,
+        backspace = 3,
+        space = 4,
+        special = 5,
+        backspace_pressed = 6,
+        clear = 7,
+        keyf5 = 8,
+        keyf8 = 9
 
+    }
+    public enum KeyboardType
+    {
+        Normal = 1,
+        FunctionKey = 2
+    }
+    public enum KeypadType
+    {
+        Number = 1,
+        percentage = 2,
+        None = 3
+
+    }
 }
 

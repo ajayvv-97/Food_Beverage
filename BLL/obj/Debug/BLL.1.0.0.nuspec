@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>BLL</id>
+    <version>1.0.0</version>
+    <authors>BLL</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="DAL" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Domain" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="CircularProgressBar" version="2.8.0.16" exclude="Build,Analyzers" />
+        <dependency id="Dapper" version="1.60.6" exclude="Build,Analyzers" />
+        <dependency id="LiveCharts.WinForms" version="0.9.7.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\ajay\Desktop\Food_Beverage\BLL\bin\Debug\netstandard2.0\BLL.dll" target="lib\netstandard2.0\BLL.dll" />
+  </files>
+</package>

@@ -10,7 +10,7 @@ namespace Domain
         public string DepartmentName { get; set; }
         public string DepartmentCode { get; set; }
         public long BranchId { get; set; }
-        public long EmployeeSrlNoStart { get; set; }
+        public int EmployeeSrlNoStart { get; set; }
         public long EmployeeSrlNoCurrent { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }

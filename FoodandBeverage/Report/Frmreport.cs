@@ -90,21 +90,24 @@ namespace FoodandBeverage.Report
                     objSearch.WhereNdGroupBy = "Where status=1 and BranchId=" + BranchId;
                     objSearch.OrderBy = "";
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                    int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
-                    DateTime currentDate = DateTime.Now;
-                    List<DmnComboBox> finYearList = new List<DmnComboBox>();
-                    for (int i = currentDate.Year - startYear; i >= 0; i--)
+                    if (itemSource.Count > 0)
                     {
-                        int year = startYear + i;
-                        DateTime financialYearStart = new DateTime(year, 4, 1);
-                        DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
-                        string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
-                        DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
-                        finYearList.Add(finYear);
+                        int startYear = Convert.ToInt32(itemSource[0].CreatedOn.ToString("yyyy"));
+                        DateTime currentDate = DateTime.Now;
+                        List<DmnComboBox> finYearList = new List<DmnComboBox>();
+                        for (int i = currentDate.Year - startYear; i >= 0; i--)
+                        {
+                            int year = startYear + i;
+                            DateTime financialYearStart = new DateTime(year, 4, 1);
+                            DateTime financialYearEnd = new DateTime(year + 1, 3, 31);
+                            string financialYear = string.Format("{0}-{1}", financialYearStart.ToString("yyyy"), financialYearEnd.ToString("yyyy"));
+                            DmnComboBox finYear = new DmnComboBox { Id = year, Value = financialYear };
+                            finYearList.Add(finYear);
+                        }
+                        cmb_fin_year.DataSource = finYearList;
+                        cmb_fin_year.DisplayMember = "Value";
+                        cmb_fin_year.ValueMember = "Id";
                     }
-                    cmb_fin_year.DataSource = finYearList;
-                    cmb_fin_year.DisplayMember = "Value";
-                    cmb_fin_year.ValueMember = "Id";
                 }
 
             }
@@ -252,15 +255,15 @@ namespace FoodandBeverage.Report
             {
                 if (chk_time.Checked == true)
                 {
-                    fTime = Convert.ToDateTime(dtpfrom.Value.ToString(Dtformat) + " " + dtp_from_time.Value.ToString(Timeformat));
-                    tTime = Convert.ToDateTime(dtpto.Value.ToString(Dtformat) + " " + dtp_to_time.Value.ToString(Timeformat));
+                    // Combine date and time manually using Date + TimeOfDay
+                    fTime = dtpfrom.Value.Date.Add(dtp_from_time.Value.TimeOfDay);
+                    tTime = dtpto.Value.Date.Add(dtp_to_time.Value.TimeOfDay);
                 }
                 else
                 {
-                    string f = dtpfrom.Value.ToString(Dtformat);
-                    string t = dtpto.Value.ToString(Dtformat);
-                    fTime = Convert.ToDateTime(dtpfrom.Value.ToString(Dtformat) + " 00:00:00");
-                    tTime = Convert.ToDateTime(t + " 23:59:59");
+                    // When not using time pickers, take full day range
+                    fTime = dtpfrom.Value.Date; // 00:00:00
+                    tTime = dtpto.Value.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of the same day
                 }
                 switch (Convert.ToInt32(cmbreport.SelectedValue))
                 {

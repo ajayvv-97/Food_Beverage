@@ -8,6 +8,8 @@ using Domain;
 using CustomMessageBox;
 using System.IO;
 using OfficeOpenXml;
+using System.Drawing.Drawing2D;
+using System.Drawing;
 
 namespace FoodandBeverage.Classes
 {
@@ -38,6 +40,39 @@ namespace FoodandBeverage.Classes
                 {
                     SendKeys.Send("{TAB}");
                 }
+        }
+        public void ApplyRoundedCorners(Control control, float bd)
+        {
+            try
+            {
+                float borderRadius = bd + 20;
+
+                if (control == null) return;
+
+                GraphicsPath path = new GraphicsPath();
+                RectangleF rect = new RectangleF(control.ClientRectangle.X, control.ClientRectangle.Y, control.ClientRectangle.Width, control.ClientRectangle.Height);
+
+                path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
+                path.AddLine(rect.X + borderRadius, rect.Y, rect.Right - borderRadius, rect.Y);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
+                path.AddLine(rect.Right, rect.Y + borderRadius, rect.Right, rect.Bottom - borderRadius);
+                path.AddArc(rect.X + rect.Width - borderRadius * 2, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
+                path.AddLine(rect.Right - borderRadius, rect.Bottom, rect.X + borderRadius, rect.Bottom);
+                path.AddArc(rect.X, rect.Y + rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
+                path.AddLine(rect.X, rect.Bottom - borderRadius, rect.X, rect.Y + borderRadius);
+                path.CloseFigure();
+
+                control.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void Memoryrelease()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         //public void LogExceptionExcel(string page, Exception ex, string userName, string designation, int formtypeid)
