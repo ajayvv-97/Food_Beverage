@@ -245,6 +245,7 @@ namespace FoodandBeverage.Forms
             this.zout.TabIndex = 20;
             this.zout.Text = "Z - Out";
             this.zout.UseVisualStyleBackColor = false;
+            this.zout.Click += new System.EventHandler(this.zout_Click);
             // 
             // normal_rpt
             // 
@@ -257,6 +258,7 @@ namespace FoodandBeverage.Forms
             this.normal_rpt.TabIndex = 21;
             this.normal_rpt.Text = "Normal Report";
             this.normal_rpt.UseVisualStyleBackColor = false;
+            this.normal_rpt.Click += new System.EventHandler(this.normal_rpt_Click);
             // 
             // detailed_rpt
             // 
@@ -269,6 +271,7 @@ namespace FoodandBeverage.Forms
             this.detailed_rpt.TabIndex = 22;
             this.detailed_rpt.Text = "Detailed Report";
             this.detailed_rpt.UseVisualStyleBackColor = false;
+            this.detailed_rpt.Click += new System.EventHandler(this.detailed_rpt_Click);
             // 
             // btn_backCompleorder
             // 
@@ -1130,7 +1133,7 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(835, 679);
+            this.ClientSize = new System.Drawing.Size(835, 696);
             this.Controls.Add(this.pnl_Drawer);
             this.Controls.Add(this.pnl_complebill_prevbill);
             this.Controls.Add(this.pnl_previous_bill);

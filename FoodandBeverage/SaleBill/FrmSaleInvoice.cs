@@ -430,10 +430,13 @@ namespace FoodandBeverage.SaleBill
 
                     if (!string.IsNullOrEmpty(reportFileName))
                         reportDocument.Load(Path.Combine(RPTPath, reportFileName));
-
+                    string xy = RPTPath + @"\CR_Bill.rpt";
                     //reportDocument.Load(RPTPath + @"\CR_TEST.rpt");
                 }            
                 else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
+                {
+                    string xy = RPTPath + @"\CR_Bill.rpt";
+                }
                     reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
 
                 reportDocument.SetDataSource(dsReport);
@@ -527,7 +530,8 @@ namespace FoodandBeverage.SaleBill
 
             if (RPTLocalVw == false)
             {
-                fstr1 = Application.StartupPath + "\\SaleBill\\" + RepFName;
+                fstr1 = "C:\\Users\\silpa\\Desktop\\F_B\\Food_Beverage\\FoodandBeverage\\SaleBill\\" + RepFName;
+                //fstr1 = Application.StartupPath + "\\SaleBill\\" + RepFName;
             }
             return fstr1;
         }

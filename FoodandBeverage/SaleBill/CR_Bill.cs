@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FoodandBeverage.SaleBill {
+namespace FoodandBeverage.Resources {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -41,7 +41,7 @@ namespace FoodandBeverage.SaleBill {
         
         public override string FullResourceName {
             get {
-                return "FoodandBeverage.SaleBill.CR_Bill.rpt";
+                return "FoodandBeverage.Resources.CR_Bill.rpt";
             }
             set {
                 // Do nothing

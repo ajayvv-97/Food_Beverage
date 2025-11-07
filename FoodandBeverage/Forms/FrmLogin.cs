@@ -58,9 +58,9 @@ namespace FoodandBeverage.Forms
 
         public static int Compid =102;
 
-        //public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
+       // public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
         //public static string ReportPath = Application.StartupPath + @"\Report";
-        //public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
+       // public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
         public static Size FormSize;
 
