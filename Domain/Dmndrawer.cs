@@ -19,6 +19,6 @@ namespace Domain
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
         public int EmployeeId { get; set; }
-        public TimeSpan openTime { get; set; }
+        public DateTime openTime { get; set; }
     }
 }

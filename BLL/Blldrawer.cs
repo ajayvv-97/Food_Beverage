@@ -13,7 +13,7 @@ namespace BLL
         {
             DAL.DapperRepository<Dmndrawer> dapperRepository = new DAL.DapperRepository<Dmndrawer>();
         DynamicParameters parms = new DynamicParameters();
-        parms.Add("Id", objTestClass.Id);
+            parms.Add("Id", objTestClass.Id);
             parms.Add("DName", objTestClass.DName);
             parms.Add("InitilAmount", objTestClass.InitilAmount);
             parms.Add("LoanAmount", objTestClass.LoanAmount);

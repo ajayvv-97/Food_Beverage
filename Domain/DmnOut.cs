@@ -26,7 +26,9 @@ namespace Domain
         public decimal Drops { get; set; }
         public decimal TotalCardCashRefund { get; set; }
         public decimal TotalCashRefund { get; set; }
+        public decimal TotalAmount { get; set; }
     }
+    
     public class DmnOutGenInfo
     {
         public decimal TotalQuantity { get; set; }

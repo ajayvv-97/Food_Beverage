@@ -15,11 +15,15 @@ using FoodandBeverage.Forms.UserControls;
 using System.Threading.Tasks;
 using System.Threading;
 using FoodandBeverage.Classes;
+using System.Configuration;
+using FoodandBeverage.Forms.UserControl;
+using System.Text.RegularExpressions;
 
 namespace FoodandBeverage.Forms
 {
     public partial class FrmDashboard : Form
     {
+        #region Decalaration
 
         public static int BranchId = 0;
         public static int UserId = 0;
@@ -44,35 +48,13 @@ namespace FoodandBeverage.Forms
         public int Drawerassginstaffid;
 
         public string Drawersystemname;
-        public FrmDashboard()
-        {
-            InitializeComponent();
-            Instance = this;
-            UserId = Convert.ToInt32(FrmLogin.UserId);
-            BranchId = Convert.ToInt32(FrmLogin.BranchId);
-            UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
 
-            KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
-            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
-            ReportPath = Convert.ToString(FrmLogin.ReportPath);
-        }
-
-        // Function to create a rounded rectangle region
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
         #region grid Declarationassign
 
         public int desiredWidth = 0;
         public int desiredHeight = 0;
         public int HdesiredWidth = 0;
-        public int HdesiredHeight = 0;       
+        public int HdesiredHeight = 0;
         #endregion
 
         Color menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -97,11 +79,43 @@ namespace FoodandBeverage.Forms
         /*permission checking for manager and supervisor*/
         public static bool AllowCashDrawer = false;
         public static bool AllowDrawerpermissionFullControl = false;
-       
+
 
         bool flagDrawerF = false, flagDrawer = false;
         public static FrmDashboard Instance { get; private set; }
 
+        public static decimal AutoLogoutIdleTimeoutMinutes = 0;
+
+        #region Keyboard & number Keypad Variable
+        public static bool EnableKeyboard = true;
+        public static bool Enablenumberkeypad = true;
+        #endregion
+
+        #endregion
+
+        public FrmDashboard()
+        {
+            InitializeComponent();
+            Instance = this;
+            UserId = Convert.ToInt32(FrmLogin.UserId);
+            BranchId = Convert.ToInt32(FrmLogin.BranchId);
+            UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
+
+            KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
+            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
+            ReportPath = Convert.ToString(FrmLogin.ReportPath);
+        }
+
+        // Function to create a rounded rectangle region
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -136,8 +150,33 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        private void SetPlaceholder(TextBox txtBox, string placeholder)
+        {
+            if (string.IsNullOrWhiteSpace(txtBox.Text))
+            {
+                txtBox.ForeColor = Color.Gray;
+                txtBox.Text = placeholder;
+                txtBox.GotFocus += (s, e) =>
+                {
+                    if (txtBox.Text == placeholder)
+                    {
+                        txtBox.Text = "";
+                        txtBox.ForeColor = Color.Black;
+                    }
+                };
+                txtBox.LostFocus += (s, e) =>
+                {
+                    if (string.IsNullOrWhiteSpace(txtBox.Text))
+                    {
+                        txtBox.Text = placeholder;
+                        txtBox.ForeColor = Color.Gray;
+                    }
+                };
+            }
+        }
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            SetPlaceholder(txtdefgmail, "Default email for sending Yout/Zout/Detail reports");
 
             lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
@@ -195,7 +234,7 @@ namespace FoodandBeverage.Forms
                 Roundform(30);
                 // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
                 // set color on solidebar header
-                pnl_header.BackColor = menubuttoncolor;
+               // pnl_header.BackColor = menubuttoncolor;
                 pbopbuttoncoloepicker.BackColor = menubuttoncolor;
                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
@@ -203,14 +242,14 @@ namespace FoodandBeverage.Forms
                 tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                 this.FormBorderStyle = FormBorderStyle.None;
 
-                Menuhome.BackColor = menubuttoncolor;
-                Menuoperation.BackColor = menubuttoncolor;
-                Menubilling.BackColor = menubuttoncolor;
-                Menureport.BackColor = menubuttoncolor;
-                Menulogout.BackColor = menubuttoncolor;
-                Menusetting.BackColor = menubuttoncolor;
-                menuEmployee.BackColor = menubuttoncolor;
-                Menutable.BackColor = menubuttoncolor;
+                //Menuhome.BackColor = menubuttoncolor;
+                //Menuoperation.BackColor = menubuttoncolor;
+                //Menubilling.BackColor = menubuttoncolor;
+                //Menureport.BackColor = menubuttoncolor;
+                //Menulogout.BackColor = menubuttoncolor;
+                //Menusetting.BackColor = menubuttoncolor;
+                //menuEmployee.BackColor = menubuttoncolor;
+                //Menutable.BackColor = menubuttoncolor;
 
                 RunMethodInSeparateThread(button_imageset);
                 // flp_menu.BackColor = Color.White;
@@ -254,7 +293,7 @@ namespace FoodandBeverage.Forms
                 ib_Discount_offer.Visible = false;
                 ib_Expence.Visible = false;
                 ib_PromoCode.Visible = false;
-              FormPermissionChecking();
+                FormPermissionChecking();
                 panelDesktop.Visible = false;
                 Loadchart();
                 panelDesktop.Visible = true;
@@ -409,14 +448,14 @@ namespace FoodandBeverage.Forms
 
                                 menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
-                                Menuhome.BackColor = menubuttoncolor;
-                                Menuoperation.BackColor = menubuttoncolor;
-                                Menubilling.BackColor = menubuttoncolor;
-                                Menureport.BackColor = menubuttoncolor;
-                                Menulogout.BackColor = menubuttoncolor;
-                                Menusetting.BackColor = menubuttoncolor;
-                                menuEmployee.BackColor = menubuttoncolor;
-                                Menutable.BackColor = menubuttoncolor;
+                                //Menuhome.BackColor = menubuttoncolor;
+                                //Menuoperation.BackColor = menubuttoncolor;
+                                //Menubilling.BackColor = menubuttoncolor;
+                                //Menureport.BackColor = menubuttoncolor;
+                                //Menulogout.BackColor = menubuttoncolor;
+                                //Menusetting.BackColor = menubuttoncolor;
+                                //menuEmployee.BackColor = menubuttoncolor;
+                                //Menutable.BackColor = menubuttoncolor;
 
                                 tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
                                 tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
@@ -488,14 +527,14 @@ namespace FoodandBeverage.Forms
                                 ib_addon.BackColor = opbuttoncolor;
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
-                                Menuhome.BackColor = menubuttoncolor;
-                                Menuoperation.BackColor = menubuttoncolor;
-                                Menubilling.BackColor = menubuttoncolor;
-                                Menureport.BackColor = menubuttoncolor;
-                                Menulogout.BackColor = menubuttoncolor;
-                                Menusetting.BackColor = menubuttoncolor;
-                                menuEmployee.BackColor = menubuttoncolor;
-                                Menutable.BackColor = menubuttoncolor;
+                                //Menuhome.BackColor = menubuttoncolor;
+                                //Menuoperation.BackColor = menubuttoncolor;
+                                //Menubilling.BackColor = menubuttoncolor;
+                                //Menureport.BackColor = menubuttoncolor;
+                                //Menulogout.BackColor = menubuttoncolor;
+                                //Menusetting.BackColor = menubuttoncolor;
+                                //menuEmployee.BackColor = menubuttoncolor;
+                                //Menutable.BackColor = menubuttoncolor;
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
                                 pbappcoloepicker.BackColor = colorapp;
@@ -745,6 +784,9 @@ namespace FoodandBeverage.Forms
             {
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
+
+                lbl_drawer.Visible = false;
+
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 if (sender is Button button)
                 {
@@ -920,6 +962,9 @@ namespace FoodandBeverage.Forms
             {
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
+
+                lbl_drawer.Visible = false;
+
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -994,8 +1039,7 @@ namespace FoodandBeverage.Forms
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
-                btn_pickup.Visible = false;
-                
+                btn_pickup.Visible = false;                
 
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -1085,6 +1129,8 @@ namespace FoodandBeverage.Forms
             {
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
+
+                lbl_drawer.Visible = false;
 
                 ButtonID = Convert.ToInt32(Menubutton.Menureport);
                 time_syn_lal.Stop();
@@ -1606,6 +1652,10 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+
+                lbl_drawer.Visible = false;
+
+
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -1623,6 +1673,7 @@ namespace FoodandBeverage.Forms
                 int rowIndex = 0;
                 Control control;
                 int columnIndex = 0;
+
                 #region Button App Color
                 Button button_type = new Button();
                 button_type.Text = "Appcolor";
@@ -1705,6 +1756,7 @@ namespace FoodandBeverage.Forms
                 flpcolor.Controls.Add(button_bill);
                 columnIndex++;
                 #endregion
+
                 #region Drawer
                 Button button_drawer = new Button();
                 button_drawer.Text = "Drawer";
@@ -1731,6 +1783,38 @@ namespace FoodandBeverage.Forms
                 flpcolor.Controls.Add(button_drawer);
                 flpcolor.BringToFront();
                 #endregion
+
+                #region General Setting 
+                Button button_generalSetting = new Button();
+                button_generalSetting.Text = "General Setting";
+                button_generalSetting.Name = "GeneralSetting";
+                //button_generalSetting.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_generalSetting.BackgroundImageLayout = ImageLayout.Stretch;
+                button_generalSetting.FlatStyle = FlatStyle.Flat;
+                button_generalSetting.BackColor = opbuttoncolor;
+                button_generalSetting.ForeColor = Color.White;
+                button_generalSetting.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_generalSetting.Width = 350;
+                    button_generalSetting.Height = 120;
+                }
+                else
+                {
+                    button_generalSetting.Width = 212;
+                    button_generalSetting.Height = 89;
+                }
+
+                button_generalSetting.Margin = new Padding(20, 10, 0, 0);
+
+                // Add event handler for the General Setting button
+                button_generalSetting.Click += new EventHandler(GeneralSetting_Click);
+
+                flpcolor.Controls.Add(button_generalSetting);
+                flpcolor.BringToFront();
+                #endregion
+
                 columnIndex++;
 
 
@@ -1743,6 +1827,140 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        #region General Setting 
+        private void GeneralSetting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tlp_main_sidebar_pnldesktop.Enabled = false;
+                SetPlaceholder(txtdefgmail, "Default email for sending Yout/Zout/Detail reports");
+                Generalsettingcheck();
+
+                pnlgenralsetting.Left = (this.ClientSize.Width - pnlgenralsetting.Width) / 2;
+                pnlgenralsetting.Top = (this.ClientSize.Height - pnlgenralsetting.Height) / 2;
+
+                pnlgenralsetting.Visible = true;
+                pnlgenralsetting.BringToFront();
+
+    
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page GeneralSetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        public void Generalsettingcheck()
+        {
+            try
+            {
+                if (btn_previous.Visible)
+                    btn_previous.PerformClick();
+
+                pictureBox13.Visible = false;
+                pictureBox15.Visible = false;
+                int Pagecount = Convert.ToInt32(ConfigurationManager.AppSettings["POSpagescount"]);
+                txtperpagecount.Text = Pagecount.ToString();
+                BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
+                DmnSearch dmnsearckgen = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = $"where BranchId={BranchId} and Status=1",
+                    OrderBy = ""
+                };
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
+                if (gridesource.Count > 0)
+                {
+                    var settings = gridesource[0];
+                    rtb_gen.Checked = settings.printdal;
+                    rtb_zyout.Checked = settings.xyprintdal;
+                    rtb_dlycoll.Checked = settings.dalydal;
+                    txtgenid.Text = Convert.ToString(settings.Gid);
+                    rtbdefgmail.Checked = settings.EnableDefaultGmail;
+                    txtdefgmail.Text = Convert.ToString(settings.DefaultGmail);
+                    AutoPrint.Checked = settings.AutoPrint;
+                    AutoDrawer.Checked = settings.AutoDrawer;
+                    Save_YZout.Checked = settings.Save_YZout;
+                    if (Save_YZout.Checked == true)
+                    {
+                        pictureBox13.Visible = true;
+                    }
+                    Save_Daily.Checked = settings.Save_Daily;
+                    if (Save_Daily.Checked == true)
+                    {
+                        pictureBox15.Visible = true;
+                    }
+                    YZPath.Text = Convert.ToString(settings.YZPath);
+                    DailyPath.Text = Convert.ToString(settings.DailyPath);
+                    rtb_group_payment.Checked = settings.EnableGroupCardInPayment;
+                    rtb_family_payment.Checked = settings.EnableFamilyCardInPayment;
+
+                    rtb_cardnotype_payment.Checked = settings.AllowManualCardInputDuringPayment;
+                    rtb_logouttime.Checked = settings.AutoLogoutWhenIdle;
+                    txtlogouttime.Text = settings.AutoLogoutIdleTimeoutMinutes.ToString();
+                    AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(settings.AutoLogoutIdleTimeoutMinutes);
+
+                   // SetPlaceholder(txtdefgmail, "Default email for sending Yout/Zout/Detail reports");
+
+                    #region Auto Logout
+                    //if (Convert.ToString(settings.LogoutFormscustom) != null)
+                    //{
+                    //    logoutformsno = Convert.ToString(settings.LogoutFormscustom);
+
+                    //    var selectedForms = logoutformsno.Split(',')
+                    //                  .Select(s => int.TryParse(s, out int val) ? val : 0)
+                    //                  .Where(v => v > 0)
+                    //                  .ToList();
+
+                    //    bool IsChecked(int formNo) => selectedForms.Contains(formNo);
+                    //    rjb_logout_admin.Checked = IsChecked((int)LogoutFormList.Admin);
+                    //    //if(!rjb_logout_admin.Checked)
+                    //    //{
+                    //    //    AppSession.UnregisterForm(this);
+                    //    //}
+                    //    rjb_logout_voidsale.Checked = IsChecked((int)LogoutFormList.VoidSale);
+                    //    rjb_logout_tmpanel.Checked = IsChecked((int)LogoutFormList.TMPanel);
+                    //    rjb_logout_ticket.Checked = IsChecked((int)LogoutFormList.Ticket);
+                    //    rjb_logout_thridparty.Checked = IsChecked((int)LogoutFormList.ThirdPartyCardTransfer);
+                    //    rjb_logout_refund.Checked = IsChecked((int)LogoutFormList.Refund);
+                    //    rjb_logout_group.Checked = IsChecked((int)LogoutFormList.GroupSale);
+                    //    rjb_logout_family.Checked = IsChecked((int)LogoutFormList.FamilyCard);
+                    //    rjb_logout_cusreg.Checked = IsChecked((int)LogoutFormList.CustAccount);
+                    //    rjb_logout_clearcard.Checked = IsChecked((int)LogoutFormList.ClearCard);
+                    //    rjb_logout_cardtran.Checked = IsChecked((int)LogoutFormList.CardTransfer);
+                    //    rjb_logout_remption.Checked = IsChecked((int)LogoutFormList.Redemption);
+                    //    rjb_logout_recharge.Checked = IsChecked((int)LogoutFormList.Recharge);
+                    //    rjb_logout_dashboard.Checked = IsChecked((int)LogoutFormList.Dashboard);
+                    //    rjb_logout_profile.Checked = IsChecked((int)LogoutFormList.Profile);
+                    //    rjb_logout_gencofig.Checked = IsChecked((int)LogoutFormList.GeneralConfig);
+                    //    rjb_logout_offer.Checked = IsChecked((int)LogoutFormList.Offer);
+                    //    rjb_logout_cardconsolidation.Checked = IsChecked((int)LogoutFormList.CardConsolidation);
+                    //    rjb_bill_out.Checked = IsChecked((int)LogoutFormList.BillZout);
+
+                    //    rjb_tickall_logout.Checked = selectedForms.Count == 28;
+                    //}
+                    //if (rtb_logouttime.Checked)
+                    //{
+                    //    if (rtb_logouttime.Checked)
+                    //    {
+                    //        AppSession.RegisterForm(this, (int)LogoutFormList.Admin);
+                    //    }
+                    //    btn_adv_idlelogout.Enabled = true;
+                    //}
+                    //else
+                    //    btn_adv_idlelogout.Enabled = false;
+                    #endregion
+
+                    rtb_userpmpt.Checked = settings.EnableUserPrompt;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Home Page  Generalsettingcheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        #endregion
         private void Drawer_Assign(object sender, EventArgs e)
         {
             try
@@ -1751,7 +1969,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Admin page pictureBox7_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("homepage page Drawer_Assign()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
                 //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1766,7 +1984,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  button_messageClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -3402,6 +3619,9 @@ namespace FoodandBeverage.Forms
             {
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
+
+                lbl_drawer.Visible = false;
+
                 ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
                 time_syn_lal.Stop();
                 time_syn_lal.Stop();
@@ -4099,6 +4319,9 @@ namespace FoodandBeverage.Forms
             {
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
+
+                lbl_drawer.Visible = false;
+
                 ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -4613,7 +4836,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 pnl_Drawer.Visible = false;
-
+                tlp_main_sidebar_pnldesktop.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -4802,6 +5025,172 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void btncls_gen_Click(object sender, EventArgs e)
+        {
+            tlp_main_sidebar_pnldesktop.Enabled = true;
+            pnlgenralsetting.Visible = false;
+        }
+
+        private void btnsavegen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtgenid.Text))
+                    txtgenid.Text = "0";
+                if (string.IsNullOrEmpty(txtlogouttime.Text))
+                    txtlogouttime.Text = "0";
+
+                DmnGeneralSetting dmngen = new DmnGeneralSetting();
+                Bllgeneralsetting bllgen = new Bllgeneralsetting();
+
+                dmngen.Gid = Convert.ToInt32(txtgenid.Text);
+                dmngen.printdal = rtb_gen.Checked;
+                dmngen.xyprintdal = rtb_zyout.Checked;
+                dmngen.dalydal = rtb_dlycoll.Checked;
+                dmngen.EmployeeId = Convert.ToInt32(FrmLogin.EmployeeId);
+                dmngen.BranchId = FrmLogin.BranchId;
+                dmngen.CreatedBy = FrmLogin.UserId;
+                dmngen.EnableDefaultGmail = rtbdefgmail.Checked;
+                dmngen.DefaultGmail = txtdefgmail.Text.Trim();
+                dmngen.AutoPrint = AutoPrint.Checked;
+                dmngen.AutoDrawer = AutoDrawer.Checked;
+                dmngen.Save_YZout = Save_YZout.Checked;
+                dmngen.Save_Daily = Save_Daily.Checked;
+                dmngen.YZPath = Convert.ToString(YZPath.Text);
+                dmngen.DailyPath = Convert.ToString(DailyPath.Text);
+
+                dmngen.EnableGroupCardInPayment = rtb_group_payment.Checked;
+                dmngen.EnableFamilyCardInPayment = rtb_family_payment.Checked;
+                dmngen.AllowManualCardInputDuringPayment = rtb_cardnotype_payment.Checked;
+
+                dmngen.AutoLogoutWhenIdle = rtb_logouttime.Checked;
+                dmngen.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
+                //dmngen.LogoutFormscustom = logoutformsno;
+                dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
+                dmngen.Status = 1;
+
+                if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
+                {
+                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (Save_Daily.Checked == true && string.IsNullOrEmpty(DailyPath.Text))
+                {
+                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen);
+                    if (InsertStatus.Gid > 0)
+                    {
+                        MessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Generalsettingcheck();
+                        txtgenid.Text = Convert.ToString(InsertStatus.Gid);
+
+                        AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
+                        Generalsettingcheck();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Saving Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Admin page btnsavegen_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btnclose_gen_Click(object sender, EventArgs e)
+        {
+            tlp_main_sidebar_pnldesktop.Enabled = true;
+            pnlgenralsetting.Visible = false;
+        }
+
+        #region previous and next
+        private void btn_previous_Click(object sender, EventArgs e)
+        {
+            btn_previous.Visible = false;
+            btn_next.Visible = true;
+
+            tlp_Fristpage.Visible = true;
+            tlp_secondpage.Visible = false;
+        }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+            btn_previous.Visible = true;
+            btn_next.Visible = false;
+
+            tlp_Fristpage.Visible = false;
+            tlp_secondpage.Visible = true;
+        }
+
+        #endregion
+
+        private void Save_YZout_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Save_YZout.Checked)
+            {
+                pictureBox13.Visible = true;
+            }
+            else
+            {
+                pictureBox13.Visible = false;
+            }
+
+        }
+
+        private void Save_Daily_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Save_Daily.Checked)
+            {
+                pictureBox15.Visible = true;
+            }
+            else
+            {
+                pictureBox15.Visible = false;
+            }
+        }
+
+        private void pictureBox13_Click(object sender, EventArgs e)
+        {
+            // Let user pick a folder
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                folderDlg.Description = "Select a folder to save PDF";
+
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    string folderPath = folderDlg.SelectedPath;
+                    YZPath.Text = folderPath;
+                }
+            }
+        }
+
+        private void pictureBox15_Click(object sender, EventArgs e)
+        {
+            // Let user pick a folder
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                folderDlg.Description = "Select a folder to save PDF";
+
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    string folderPath = folderDlg.SelectedPath;
+                    DailyPath.Text = folderPath;
+                }
+            }
+        }
+
+        private void txtdefgmail_Click(object sender, EventArgs e)
+        {
+            if (EnableKeyboard)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
         private void btn_bill_save_Click(object sender, EventArgs e)
         {
             try
@@ -4848,6 +5237,122 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void txtperpagecount_Click(object sender, EventArgs e)
+        {
+            if (EnableKeyboard)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtlogouttime_Click(object sender, EventArgs e)
+        {
+            if (EnableKeyboard)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtperpagecount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only digits and control keys (like backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Ignore the key press
+            }
+        }
+
+        private void txtlogouttime_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (char.IsControl(e.KeyChar))
+                return;
+            if (e.KeyChar == '.')
+            {
+
+                if (txt.Text.Contains('.'))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                return;
+            }
+
+            if (!char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (txt.Text.Contains('.'))
+            {
+                int index = txt.Text.IndexOf('.');
+                string afterDecimal = txt.Text.Substring(index + 1);
+                if (txt.SelectionStart > index && afterDecimal.Length >= 2)
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+        }
+
+        private void rtb_logouttime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rtb_logouttime.Checked)
+            {
+                txtlogouttime.Visible = true;
+                btn_adv_idlelogout.Enabled = true;
+                txtlogouttime.Focus();
+            }
+            else
+            {
+                txtlogouttime.Visible = false;
+                btn_adv_idlelogout.Enabled = false;
+                txtlogouttime.Text = "";
+            }
+
+        }
+
+        private void rtbdefgmail_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rtbdefgmail.Checked )
+            {
+                if (string.IsNullOrWhiteSpace(txtdefgmail.Text) && txtdefgmail.Text == "Default email for sending Yout/Zout/Detail reports")
+                {
+                    MessageBox.Show("Please enter a Gmail address.", "Missing Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    rtbdefgmail.Checked = false;
+                    SetPlaceholder(txtdefgmail, "Default email for sending Yout/Zout/Detail reports");
+                    return;
+                }
+
+                string email = txtdefgmail.Text.Trim();
+                bool isValid = IsValidEmail(email);
+
+                if (!isValid || !email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Please enter a valid Gmail address (e.g., example@gmail.com).", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbdefgmail.Checked = false;
+                    return;
+                }
+            }
+
+        }
+
+        static bool IsValidEmail(string email)
+        {
+            try
+            {
+                // Use a regular expression to validate the email address
+                string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+                return Regex.IsMatch(email, pattern);
+            }
+            catch (Exception ex)
+            {
+                // Catch any format exceptions thrown by the regular expression
+                return false;
+            }
+        }
+
         public void StartTimerAndRefreshLabel()
         {
             try
@@ -4886,6 +5391,82 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #region Keyboard
+        public void ShowKeyboard(Control activeControl, int kbtype)
+        {
+            try
+            {
+                if (activeControl == null) return;
+
+                if (activeControl is TextBox activeTextBox)
+                {
+                    Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+                    int desiredX = 0, desiredY = 0;
+                    if (Frmkeyboard.IsOpen)
+                    {
+                        Frmkeyboard.Instance.Close();
+                    }
+
+                    Frmkeyboard frmKey = new Frmkeyboard(kbtype);
+
+                    #region Calculate Position of Keyboard 
+                    desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                    desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                    Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                    if (desiredX < screenBounds.Left)
+                        desiredX = screenBounds.Left;
+                    else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                        desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                    if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                    {
+                        desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                        if (desiredY < screenBounds.Top)
+                            desiredY = screenBounds.Top;
+                    }
+                    Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                    Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                    #endregion
+
+
+                    frmKey.OnKeyPressed += (keyText) =>
+                    {
+                        if (Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                        {
+                            if (activeTextBox.Text.Length > 0)
+                                activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                        }
+                        else if (Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                        {
+                            activeTextBox.Text += " ";
+                        }
+                        else if (Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                        {
+                            activeTextBox.Text = "";
+                        }
+                        else if (Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.keyf8))
+                        {
+                            //if (Convert.ToInt32(activeTextBox.Tag) == 1)
+                            //    StaffPopup();
+                        }
+                        else
+                        {
+                            activeTextBox.Text += keyText;
+                        }
+                        activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                        activeTextBox.SelectionLength = 0;
+                    };
+
+                    frmKey.Show();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage ShowKeyboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+
+        }
+        #endregion
     }
 
 }

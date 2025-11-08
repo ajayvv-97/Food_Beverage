@@ -14,7 +14,8 @@
           "Dapper": "1.60.6",
           "Domain": "1.0.0",
           "LiveCharts.WinForms": "0.9.7.1",
-          "NETStandard.Library": "2.0.3"
+          "NETStandard.Library": "2.0.3",
+          "iTextSharp": "5.5.13.4"
         },
         "runtime": {
           "BLL.dll": {}
@@ -38,6 +39,14 @@
           "lib/netstandard2.0/Dapper.dll": {
             "assemblyVersion": "1.60.0.0",
             "fileVersion": "1.60.6.27094"
+          }
+        }
+      },
+      "iTextSharp/5.5.13.4": {
+        "runtime": {
+          "lib/net461/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.4",
+            "fileVersion": "5.5.13.4"
           }
         }
       },
@@ -281,7 +290,8 @@
           "Dapper": "1.60.6",
           "Domain": "1.0.0",
           "LiveCharts.WinForms": "0.9.7.1",
-          "System.Data.SqlClient": "4.6.1"
+          "System.Data.SqlClient": "4.6.1",
+          "iTextSharp": "5.5.13.4"
         },
         "runtime": {
           "DAL.dll": {}
@@ -290,7 +300,8 @@
       "Domain/1.0.0": {
         "dependencies": {
           "CircularProgressBar": "2.8.0.16",
-          "LiveCharts.WinForms": "0.9.7.1"
+          "LiveCharts.WinForms": "0.9.7.1",
+          "iTextSharp": "5.5.13.4"
         },
         "runtime": {
           "Domain.dll": {}
@@ -317,6 +328,13 @@
       "sha512": "sha512-mmnJNhKMeF2KhvVXDoVQlFxre8aJAo71YBJrKqFlvuqzYC2QiXUq94/GCDBJzU7paq4GqpkV2glw3308TcGibw==",
       "path": "dapper/1.60.6",
       "hashPath": "dapper.1.60.6.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/cvCNv8AJ+XuD99u4NfHSSxkBJKTdvP36wcfQF9V1Cjzi1ycyFSa4vJ64a3DhFVUTKVO60WF8OmAqngQDTHgYA==",
+      "path": "itextsharp/5.5.13.4",
+      "hashPath": "itextsharp.5.5.13.4.nupkg.sha512"
     },
     "LiveCharts/0.9.7": {
       "type": "package",

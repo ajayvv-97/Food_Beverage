@@ -46,8 +46,8 @@
             this.label23 = new System.Windows.Forms.Label();
             this.btnmini = new System.Windows.Forms.Button();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_design = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_buttons = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_design = new System.Windows.Forms.TableLayoutPanel();
             this.dgvDepartment = new System.Windows.Forms.DataGridView();
             this.did = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Departmentcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,8 +56,8 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tlp_header.SuspendLayout();
             this.tlp_main.SuspendLayout();
-            this.tlp_design.SuspendLayout();
             this.tlp_buttons.SuspendLayout();
+            this.tlp_design.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,12 +68,12 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.04167F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.375F));
-            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.mlblName, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.mlblName, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtName, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.metroLabel1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mlblEmpSrlNo, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtCode, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.mtxtEmpSrlNo, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -87,10 +87,10 @@
             // 
             this.mtxtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mtxtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtCode.Location = new System.Drawing.Point(477, 36);
+            this.mtxtCode.Location = new System.Drawing.Point(239, 36);
             this.mtxtCode.Multiline = true;
             this.mtxtCode.Name = "mtxtCode";
-            this.mtxtCode.Size = new System.Drawing.Size(257, 32);
+            this.mtxtCode.Size = new System.Drawing.Size(232, 32);
             this.mtxtCode.TabIndex = 34;
             this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
             // 
@@ -100,9 +100,9 @@
             this.metroLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(477, 0);
+            this.metroLabel1.Location = new System.Drawing.Point(239, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(257, 33);
+            this.metroLabel1.Size = new System.Drawing.Size(232, 33);
             this.metroLabel1.TabIndex = 26;
             this.metroLabel1.Text = "Department Code ";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -113,9 +113,9 @@
             this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(239, 0);
+            this.mlblName.Location = new System.Drawing.Point(3, 0);
             this.mlblName.Name = "mlblName";
-            this.mlblName.Size = new System.Drawing.Size(232, 33);
+            this.mlblName.Size = new System.Drawing.Size(230, 33);
             this.mlblName.TabIndex = 25;
             this.mlblName.Text = "Department ";
             this.mlblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -124,10 +124,10 @@
             // 
             this.mtxtEmpSrlNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mtxtEmpSrlNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(3, 36);
+            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(477, 36);
             this.mtxtEmpSrlNo.Multiline = true;
             this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
-            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(230, 32);
+            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(257, 32);
             this.mtxtEmpSrlNo.TabIndex = 32;
             this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown_1);
             this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtEmpSrlNo_KeyPress_1);
@@ -138,9 +138,9 @@
             this.mlblEmpSrlNo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mlblEmpSrlNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.mlblEmpSrlNo.ForeColor = System.Drawing.Color.Black;
-            this.mlblEmpSrlNo.Location = new System.Drawing.Point(3, 0);
+            this.mlblEmpSrlNo.Location = new System.Drawing.Point(477, 0);
             this.mlblEmpSrlNo.Name = "mlblEmpSrlNo";
-            this.mlblEmpSrlNo.Size = new System.Drawing.Size(230, 33);
+            this.mlblEmpSrlNo.Size = new System.Drawing.Size(257, 33);
             this.mlblEmpSrlNo.TabIndex = 27;
             this.mlblEmpSrlNo.Text = "Employee Code ";
             this.mlblEmpSrlNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -149,10 +149,10 @@
             // 
             this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
             this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtName.Location = new System.Drawing.Point(239, 36);
+            this.mtxtName.Location = new System.Drawing.Point(3, 36);
             this.mtxtName.Multiline = true;
             this.mtxtName.Name = "mtxtName";
-            this.mtxtName.Size = new System.Drawing.Size(232, 32);
+            this.mtxtName.Size = new System.Drawing.Size(230, 32);
             this.mtxtName.TabIndex = 33;
             this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown_1);
             this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave_1);
@@ -293,22 +293,6 @@
             this.tlp_main.Size = new System.Drawing.Size(786, 451);
             this.tlp_main.TabIndex = 31;
             // 
-            // tlp_design
-            // 
-            this.tlp_design.ColumnCount = 3;
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.07843F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
-            this.tlp_design.Controls.Add(this.tableLayoutPanel1, 1, 0);
-            this.tlp_design.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_design.Location = new System.Drawing.Point(6, 47);
-            this.tlp_design.Name = "tlp_design";
-            this.tlp_design.RowCount = 2;
-            this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 98F));
-            this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 2F));
-            this.tlp_design.Size = new System.Drawing.Size(774, 79);
-            this.tlp_design.TabIndex = 31;
-            // 
             // tlp_buttons
             // 
             this.tlp_buttons.ColumnCount = 4;
@@ -326,6 +310,22 @@
             this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_buttons.Size = new System.Drawing.Size(774, 37);
             this.tlp_buttons.TabIndex = 31;
+            // 
+            // tlp_design
+            // 
+            this.tlp_design.ColumnCount = 3;
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.07843F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
+            this.tlp_design.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.tlp_design.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_design.Location = new System.Drawing.Point(6, 47);
+            this.tlp_design.Name = "tlp_design";
+            this.tlp_design.RowCount = 2;
+            this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 98F));
+            this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 2F));
+            this.tlp_design.Size = new System.Drawing.Size(774, 79);
+            this.tlp_design.TabIndex = 31;
             // 
             // dgvDepartment
             // 
@@ -414,8 +414,8 @@
             this.tlp_header.ResumeLayout(false);
             this.tlp_header.PerformLayout();
             this.tlp_main.ResumeLayout(false);
-            this.tlp_design.ResumeLayout(false);
             this.tlp_buttons.ResumeLayout(false);
+            this.tlp_design.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartment)).EndInit();
             this.ResumeLayout(false);
 

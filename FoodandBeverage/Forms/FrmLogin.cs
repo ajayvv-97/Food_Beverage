@@ -29,8 +29,8 @@ namespace FoodandBeverage.Forms
         //BllUserAccount bllUserAccount = new BllUserAccount();
         byte[] passwordHash;
         byte[] passwordSalt;
-        public static long UserId;
-        public static long BranchId;
+        public static int UserId;
+        public static int  BranchId;
 
         public static string EmpCode = "";
         public static string EmployeName = "";
@@ -55,7 +55,8 @@ namespace FoodandBeverage.Forms
         public static string KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
         public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
         public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-
+        public static string XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+        
         public static int Compid =102;
 
        // public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
@@ -237,7 +238,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    BranchId = Convert.ToInt16(userDetails["Field3", 0].Value);
+                                    BranchId = Convert.ToInt32(userDetails["Field3", 0].Value);
                                     if (BranchId > 0)
                                     {
                                         #region Reset Kitchen Number (opening time on hotel registartion)
@@ -249,11 +250,11 @@ namespace FoodandBeverage.Forms
                                     }
 
                                     BookingInterwell = Convert.ToDecimal(userDetails["Field10", 0].Value);
-                                    UserId = Convert.ToInt64(userDetails["Id", 0].Value);
+                                    UserId = Convert.ToInt32(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
                                     EmployeName = Convert.ToString(userDetails["Field8", 0].Value); 
-                                     Designation = Convert.ToString(userDetails["Field9", 0].Value);
+                                    Designation = Convert.ToString(userDetails["Field9", 0].Value);
                                     KitchenDisplayCount  = Convert.ToInt32(userDetails["Field11", 0].Value);
                                     //CompanyId = Convert.ToInt64(userDetails["Field4", 0].Value);
                                     UserAccountTypeId = Convert.ToInt64(userDetails["Field5", 0].Value);
@@ -623,6 +624,8 @@ namespace FoodandBeverage.Forms
                 ShowKeyboard(sender as TextBox);
             }
         }
+
+        #region Keyboard
         public void ShowKeyboard(TextBox activeTextBox)
         {
             if (activeTextBox == null) return;
@@ -704,6 +707,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        #endregion
 
         private void txtPwd_Click(object sender, EventArgs e)
         {

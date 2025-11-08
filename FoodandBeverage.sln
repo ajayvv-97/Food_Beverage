@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox", "CustomM
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "FoodBeverage_Setup", "FoodBeverage_Setup\FoodBeverage_Setup.vdproj", "{48D634F7-7567-4280-AABF-83EA33BA5A1A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RJControls", "RJControls", "{089F2C92-3C2A-4A4A-B16A-0DFD910554CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

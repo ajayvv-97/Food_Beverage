@@ -54,7 +54,7 @@ namespace FoodandBeverage.Forms
         }
         private void ShowEmptyOrderIcon()
         {
-            // Check if flp_pickup_view has any real controls
+            // Check if any real content exists
             bool hasRealContent = flp_pickup_view.Controls.Count > 0;
 
             if (!hasRealContent)
@@ -63,16 +63,11 @@ namespace FoodandBeverage.Forms
                 pbempty.BringToFront();
                 pbempty.SizeMode = PictureBoxSizeMode.Zoom;
                 pbempty.Size = new Size(150, 150);
+                pbempty.Anchor = AnchorStyles.None;
 
-                // Calculate position relative to flp_pickup_view
-                Point panelLocation = flp_pickup_view.PointToScreen(Point.Empty);
-                Point formLocation = this.PointToScreen(Point.Empty);
-                int offsetX = panelLocation.X - formLocation.X;
-                int offsetY = panelLocation.Y - formLocation.Y;
 
-                int x = offsetX + (flp_pickup_view.Width - pbempty.Width) / 2;
-                int y = offsetY + (flp_pickup_view.Height - pbempty.Height) / 2;
-
+                int x = (flp_pickup_view.Width - pbempty.Width) / 2;
+                int y = (flp_pickup_view.Height - pbempty.Height) / 2;
                 pbempty.Location = new Point(x, y);
             }
             else
@@ -80,6 +75,7 @@ namespace FoodandBeverage.Forms
                 pbempty.Visible = false;
             }
         }
+
 
 
 

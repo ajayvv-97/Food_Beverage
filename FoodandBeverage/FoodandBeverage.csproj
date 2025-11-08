@@ -1894,6 +1894,13 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\midaslogo_v.png" />
+    <None Include="Resources\fb_sidemenu.png" />
+    <None Include="Resources\midas logo.png" />
+    <None Include="Resources\nextadmin.png" />
+    <None Include="Resources\previosadmin.png" />
+    <None Include="Resources\msgcancel.png" />
+    <None Include="Resources\msgsend.png" />
     <None Include="Resources\Loginokay.png" />
     <None Include="Resources\Logincancel.png" />
     <None Include="Resources\logopbleft.png" />
@@ -1930,7 +1937,6 @@
     <None Include="Resources\keypad large.png" />
     <None Include="Resources\KEYBOARD_small.png" />
     <None Include="Resources\key_smalll.png" />
-    <None Include="Resources\midas logo.png" />
     <None Include="Resources\logopbright.png" />
     <None Include="Resources\Noorder.png" />
     <None Include="Resources\kitchen_order_sound.wav" />

@@ -2246,3 +2246,151 @@ User Name: Ajay v v
 Designation: Billing 
 FormTypeId: 19
 -------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:28:21 AM
+Page : Department Page  MbtnSave_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 19
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:06 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:15 AM
+Page : Admin page AssigndrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:15 AM
+Page : Admin page AssigndrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:15 AM
+Page : Admin page AssigndrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:16 AM
+Page : Admin page AssigndrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:23 AM
+Page : Admin page AssigndrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:30 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:31 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 9:56:31 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing 
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:01:50 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:01:52 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:01:52 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:04:19 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:04:49 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:04:53 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:04:54 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:04:54 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:05:18 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 10:09:31 AM
+Page : POSDashboard page  AssignDrawerCheck()
+Exception: Invalid object name 'tblDrawerAssign'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 11/08/2025 11:07:24 AM
+Page : ZOut Page PrintZout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 32
+-------------------------------------------------------------------------

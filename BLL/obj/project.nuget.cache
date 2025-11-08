@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "M7WC4ycF+M32YKtzNwnQRSyFOjf4t3xe3vIQ5BCEVZ7O17WmYEhxgf5k9BaeIhun50a1dshDKsmc9iZHpiNTNg==",
+  "dgSpecHash": "ZITujmNQK2f7oHoZtIpg0x6JGohafr7HPihw7+mvb1J7o4JgurGZEgkXUmlUh3Uj/3QuQDLYJIicsFObe759bg==",
   "success": true,
   "projectFilePath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ajay\\.nuget\\packages\\circularprogressbar\\2.8.0.16\\circularprogressbar.2.8.0.16.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\dapper\\1.60.6\\dapper.1.60.6.nupkg.sha512",
+    "C:\\Users\\ajay\\.nuget\\packages\\itextsharp\\5.5.13.4\\itextsharp.5.5.13.4.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\livecharts.winforms\\0.9.7.1\\livecharts.winforms.0.9.7.1.nupkg.sha512",
     "C:\\Users\\ajay\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
@@ -43,6 +44,16 @@
       "warningLevel": 1,
       "message": "Package 'CircularProgressBar 2.8.0.16' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "CircularProgressBar",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'iTextSharp 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "iTextSharp",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
       ]

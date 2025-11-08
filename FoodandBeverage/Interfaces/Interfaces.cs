@@ -331,6 +331,7 @@ namespace FoodandBeverage.Interfaces
         Report = 31,
         CombinedBillpage = 32,
         Pickuppage = 33,
+        YZout=34
        
     };
     public enum Menubutton
@@ -417,6 +418,27 @@ namespace FoodandBeverage.Interfaces
         percentage = 2,
         None = 3
 
+    }
+    public enum AutoPrintToPrinter
+    {
+        Yes = 1,
+        No = 0
+    }
+    public enum Save_Copy_YZout
+    {
+        Yes = 1,
+        No = 0
+    }
+    public enum Save_Copy_DailyRpt
+    {
+        Yes = 1,
+        No = 0
+    }
+    public enum SalePrintbilltype
+    {
+        English = 1,
+        English_Arabic = 2,
+        Arabic = 3
     }
 }
 

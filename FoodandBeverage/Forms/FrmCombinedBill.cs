@@ -18,6 +18,7 @@ using System.Net.NetworkInformation;
 using FoodandBeverage.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
+using FoodandBeverage.Forms.UserControl;
 
 namespace FoodandBeverage.Forms
 {
@@ -28,7 +29,6 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
 
         }
-        
 
         #region Declaration
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
@@ -76,8 +76,6 @@ namespace FoodandBeverage.Forms
         public static int ordermasteridno = 11;
         public bool PrintDalvalue = false, XYDalvalue = false, DalDalvalue = false;
         #endregion
-
-
 
         private void FrmCombinedBill_Load(object sender, EventArgs e)
         {
@@ -128,6 +126,7 @@ namespace FoodandBeverage.Forms
                 dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
                 dmnsearckdrawer.OrderBy = "";
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
+                #region Cash Drawer Assign on Employee
                 if (gridesource.Count > 0)
                 {                    
                     if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId))
@@ -177,37 +176,44 @@ namespace FoodandBeverage.Forms
                         }
                     }
                 }
+                #endregion
+                #region Cash Drawer Not Assigned
                 else //drawer not assign
                 {
                     label15.Text = System.Environment.MachineName;
-                    if (flagDrawerF)
-                    {
-                        pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                        pnl_Drawer.Visible = true;
 
-                        if (FrmDashboard.DrawerId > 0)
-                        {
-                            tlp_outbtn.Visible = false;
-                            tlp_previous_bill.Visible = false;
-                            tlp_compl_pre_bill.Visible = false;
-                            ShowDrawerEmployee();
-                        }
-                        else
-                        {
-                            tlp_outbtn.Visible = false;
-                            tlp_previous_bill.Visible = false;
-                            tlp_compl_pre_bill.Visible = false;
-                            if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
-                            {
-                                FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
-                                FrmDashboard.Instance.lbl_drawer.Visible = true;
-                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
-                            }
+                    #region Full permission 
+                    //if (FrmDashboard.AllowDrawerpermissionFullControl)
+                    //{
+                    //    pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
+                    //    pnl_Drawer.Visible = true;
 
-                        }
+                    //    if (FrmDashboard.DrawerId > 0)
+                    //    {
+                    //        tlp_outbtn.Visible = false;
+                    //        tlp_previous_bill.Visible = false;
+                    //        tlp_compl_pre_bill.Visible = false;
+                    //        ShowDrawerEmployee();
+                    //    }
+                    //    else
+                    //    {
+                    //        tlp_outbtn.Visible = false;
+                    //        tlp_previous_bill.Visible = false;
+                    //        tlp_compl_pre_bill.Visible = false;
+                    //        if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
+                    //        {
+                    //            FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                    //            FrmDashboard.Instance.lbl_drawer.Visible = true;
+                    //            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                    //        }
 
-                    }    
-                    else if (flagDrawer)
+                    //    }
+
+                    //}
+                    #endregion
+
+                    #region only self Assigned 
+                    if (FrmDashboard.AllowCashDrawer)
                     {
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.Visible = true;
@@ -231,6 +237,11 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
+                                tlpemplist.Visible = false;
+
+                                lbl_staffname.Visible = true;
+                                lbl_staffname.Text = FrmLogin.EmployeName;
+
                                 tlp_outbtn.Visible = false;
                                 tlp_previous_bill.Visible = false;
                                 tlp_compl_pre_bill.Visible = false;
@@ -256,16 +267,17 @@ namespace FoodandBeverage.Forms
                             }
                         }
                     }
+                    #endregion
 
-                    if (flagDrawer == false && flagDrawerF == false) //Both permission are false
+                    if (FrmDashboard.AllowCashDrawer == false && FrmDashboard.AllowDrawerpermissionFullControl == false) //Both permission are false
                     {
                         MessageBox.Show("You do not have permission to assign a drawer.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.Visible = true;
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
-
                     }
                 }
+                #endregion
             }
             catch (Exception ex)
             {
@@ -279,40 +291,27 @@ namespace FoodandBeverage.Forms
             try
             {
                 flagDrawerF = false; flagDrawer = false;
-                BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
-                DmnSearch dmnforms = new DmnSearch();
-                dmnforms.Select = "*";
-                dmnforms.Table = " tblforms ";
-                dmnforms.WhereNdGroupBy = " where Status=1 and UserType=" + FrmDashboard.UserType;
-                dmnforms.OrderBy = "order by Form";
-                var gridesourcepermission = bllacctype.GetSearchData("prdSearch", dmnforms);
-                if (gridesourcepermission.Count > 0)
+                if (Convert.ToInt32(FrmDashboard.AllowCashDrawer) == Convert.ToInt32(formsenum.AllowCashDrawer))
                 {
-                    for (int i = 0; i < gridesourcepermission.Count(); i++)
-                    {
-                        if (gridesourcepermission[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesourcepermission[i].Status == 1 && gridesourcepermission[i].Write == 1)
-                        {
-                            lbl_staffname.Visible = true;
-                            tlpemplist.Visible = false;
-                            lbl_staffname.Text = FrmLogin.EmployeName;
-                            lbl_desigtnation.Text = FrmLogin.Designation;
-                            txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
-                            lbl_staffname_tip.Visible = false;
-                            flagDrawer = true;
+                    lbl_staffname.Visible = true;
+                    tlpemplist.Visible = false;
+                    lbl_staffname.Text = FrmLogin.EmployeName;
+                    lbl_desigtnation.Text = FrmLogin.Designation;
+                    txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
+                    lbl_staffname_tip.Visible = false;
+                    flagDrawer = true;
 
-                        }
-                        else if (gridesourcepermission[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesourcepermission[i].Status == 1 && gridesourcepermission[i].Write == 1)
-                        {
-                            lbl_staffname.Visible = false;
-                            tlpemplist.Visible = true;
-                            lbl_desigtnation.Text = FrmLogin.Designation;
-                            lbl_staffname_tip.Visible = true;
-                            flagDrawerF = true;
-                        }
-                    }
+                }
+                else if (Convert.ToInt32(FrmDashboard.AllowDrawerpermissionFullControl) == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl))
+                {
+                    lbl_staffname.Visible = false;
+                    tlpemplist.Visible = true;
+                    lbl_desigtnation.Text = FrmLogin.Designation;
+                    lbl_staffname_tip.Visible = true;
+                    flagDrawerF = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -742,12 +741,20 @@ namespace FoodandBeverage.Forms
                     CombineBillAutoTimer.Start();
                 }
                 else
-                {
-                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    pnl_empty_msg.Dock = DockStyle.Fill;
+                {                    
+                    pnl_empty_msg.BringToFront();
+                    pnl_empty_msg.Anchor = AnchorStyles.None;
+
+                    int x = (this.Width - pnl_empty_msg.Width) / 2;
+                    int y = (this.Height - pnl_empty_msg.Height) / 2;
+                    pnl_empty_msg.Location = new Point(x, y);
                     pnl_empty_msg.Visible = true;
+
+                    //controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
+                    //tlp_compl_pre_bill.Controls.Remove(controlToRemove);
+                    //tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
+                    //pnl_empty_msg.Dock = DockStyle.Fill;
+                    //pnl_empty_msg.Visible = true;
                     btn_prevbill.PerformClick();
                 }
                 this.ResumeLayout();
@@ -1815,7 +1822,7 @@ namespace FoodandBeverage.Forms
                     dmndrawer.Id = Convert.ToInt32(txtdrawerid.Text);
                     dmndrawer.DName = System.Environment.MachineName;
                     dmndrawer.InitilAmount = Convert.ToDecimal(txtinitialamt.Text);
-                    dmndrawer.EmployeeId = Convert.ToInt32(txtempoyeId.Text);
+                    dmndrawer.EmployeeId = FrmLogin.UserId;
                     dmndrawer.LoanAmount = 0;
                     dmndrawer.Drops = 0;
                     dmndrawer.BranchId = FrmDashboard.BranchId;
@@ -1834,7 +1841,6 @@ namespace FoodandBeverage.Forms
                             tlp_outbtn.Visible = true;
                             if (!CombineBillAutoTimer.Enabled)
                             {
-
                                 tlp_previous_bill.Visible = true;
                                 tlp_compl_pre_bill.Visible = true;
                                 Billcomplete_Fill();
@@ -2177,6 +2183,25 @@ namespace FoodandBeverage.Forms
             MessageBox.Show("Details Collection Report Printing Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void txtinitialamt_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enablenumberkeypad)
+            {
+                decimal kdata = 0;
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                {
+                    frm.ShowDialog();
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                    frm.Dispose();
+                }
+                if (sender is TextBox txt)
+                {
+                    txt.Text = kdata.ToString("0.##");
+                }
+
+            }
+        }
+
         private void txtinitialamt_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -2219,7 +2244,89 @@ namespace FoodandBeverage.Forms
             e.Cancel = true;
         }
 
+        #region Keyboard
+        public void ShowKeyboard(TextBox activeTextBox)
+        {
+            if (activeTextBox == null) return;
 
+            Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+            int desiredX = 0, desiredY = 0;
+            if (Frmkeyboard.IsOpen)
+            {
+                #region Calculate Position of Keyboard 
+                desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                if (desiredX < screenBounds.Left)
+                    desiredX = screenBounds.Left;
+                else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                    desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                {
+                    desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                    if (desiredY < screenBounds.Top)
+                        desiredY = screenBounds.Top;
+                }
+                #endregion
+            }
+
+            if (Frmkeyboard.IsOpen)
+            {
+                Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                Frmkeyboard.Instance.BringToFront();
+            }
+            else
+            {
+                Frmkeyboard frmKey = new Frmkeyboard(0);
+
+                #region Calculate Position of Keyboard 
+                desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                if (desiredX < screenBounds.Left)
+                    desiredX = screenBounds.Left;
+                else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                    desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                {
+                    desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                    if (desiredY < screenBounds.Top)
+                        desiredY = screenBounds.Top;
+                }
+                Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                #endregion
+
+
+                frmKey.OnKeyPressed += (keyText) =>
+                {
+                    if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                    {
+                        if (activeTextBox.Text.Length > 0)
+                            activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                    }
+                    else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                    {
+                        activeTextBox.Text += " ";
+                    }
+                    else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                    {
+                        activeTextBox.Text = "";
+                    }
+                    else
+                    {
+                        activeTextBox.Text += keyText;
+                    }
+                    activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                    activeTextBox.SelectionLength = 0;
+                };
+
+                frmKey.Show();
+            }
+
+        }
+        #endregion
     }
 }
 

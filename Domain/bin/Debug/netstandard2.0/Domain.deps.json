@@ -11,7 +11,8 @@
         "dependencies": {
           "CircularProgressBar": "2.8.0.16",
           "LiveCharts.WinForms": "0.9.7.1",
-          "NETStandard.Library": "2.0.3"
+          "NETStandard.Library": "2.0.3",
+          "iTextSharp": "5.5.13.4"
         },
         "runtime": {
           "Domain.dll": {}
@@ -22,6 +23,14 @@
           "lib/net40/CircularProgressBar.dll": {
             "assemblyVersion": "2.8.0.16",
             "fileVersion": "2.8.0.16"
+          }
+        }
+      },
+      "iTextSharp/5.5.13.4": {
+        "runtime": {
+          "lib/net461/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.4",
+            "fileVersion": "5.5.13.4"
           }
         }
       },
@@ -76,6 +85,13 @@
       "sha512": "sha512-P31wJxwTcQ2mA7wB4X+tnc9QlfSNyPzEOyt3qjf2/6cLLi8mERAfEwNcgt3Qv38/Xiyreo/nVYDe2zIVEv4SQw==",
       "path": "circularprogressbar/2.8.0.16",
       "hashPath": "circularprogressbar.2.8.0.16.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/cvCNv8AJ+XuD99u4NfHSSxkBJKTdvP36wcfQF9V1Cjzi1ycyFSa4vJ64a3DhFVUTKVO60WF8OmAqngQDTHgYA==",
+      "path": "itextsharp/5.5.13.4",
+      "hashPath": "itextsharp.5.5.13.4.nupkg.sha512"
     },
     "LiveCharts/0.9.7": {
       "type": "package",

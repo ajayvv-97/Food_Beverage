@@ -24,12 +24,14 @@ namespace FoodandBeverage.Forms
         long DepartmentId = 0;
         ClsGeneral clsgen = new ClsGeneral();
         #endregion
+
         #region grid Declaration 
         public static int dIdno = 0;
         public static int dDepartmentno = 1;
         public static int dDepartmentCodeno = 2;
         public static int dEmployeeSrNo = 3;
         #endregion
+
         #region Functions
         public FrmDepartment()
         {
@@ -249,6 +251,7 @@ namespace FoodandBeverage.Forms
                 return false;
             }
         }
+
         public void GenerateSrNo()
         {
             try
@@ -259,35 +262,25 @@ namespace FoodandBeverage.Forms
                 objSearch.Table = " tblDepartment ";
                 objSearch.WhereNdGroupBy = "";
                 var gridSourceSrlno = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (gridSourceSrlno.Count > 0)
+
+                BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
+                DmnSearch objSearchGn = new DmnSearch();
+                objSearchGn.Select = "GeneralId,GTypeSubValue1";
+                objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
+                objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
+                var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
+                if (gridSourceGn.Count > 0)
                 {
-                    if (gridSourceSrlno[0].EmployeeSrlNoStart == 0)
-                    {
-                        mtxtEmpSrlNo.Text = "1";
-                    }
-                    else
-                    {
-                        BllSearch<DmnGeneralOptions> bllSearchGn = new BllSearch<DmnGeneralOptions>();
-                        DmnSearch objSearchGn = new DmnSearch();
-                        objSearchGn.Select = "GeneralId,GTypeSubValue1";
-                        objSearchGn.Table = " tblGeneralOptions g LEFT JOIN tblGType gt ON g.GTypeId =  gt.GTypeId ";
-                        objSearchGn.WhereNdGroupBy = " Where gt.GType='CODE DIFFERENCE' AND (g.Status = 0 OR g.Status = 2)";
-                        var gridSourceGn = bllSearchGn.GetSearchData("prdSearch", objSearchGn);
-                        if (gridSourceGn.Count> 0)
-                        {
-                            decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
-                            decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
-                            mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
-                        }
-                    }         
+                    decimal difference = Convert.ToDecimal(gridSourceGn[0].GTypeSubValue1);
+                    decimal SrlNoStart = Convert.ToDecimal(gridSourceSrlno[0].EmployeeSrlNoStart + difference);
+                    mtxtEmpSrlNo.Text = Convert.ToString(SrlNoStart.ToString("0"));
                 }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Department Page  GenerateSrNo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
-            }
 
+            }
         }
         public void dgvFrmDepartment()
         {
@@ -323,6 +316,7 @@ namespace FoodandBeverage.Forms
             }
         }
         #endregion
+
         #region Events
         private void FrmDepartment_Load(object sender, EventArgs e)
         {
@@ -712,10 +706,27 @@ namespace FoodandBeverage.Forms
                         GenerateSrNo();
                     }
                 }
+
+                if (mtxtName.Text != "" && DepartmentId == 0)
+                {
+                    BllSearch<DmnDepartment> bllSearch = new BllSearch<DmnDepartment>();
+                    DmnSearch objSearch = new DmnSearch();
+                    objSearch.Select = "DepartmentId,DepartmentName";
+                    objSearch.Table = "tblDepartment";
+                    objSearch.WhereNdGroupBy = "Where status=1 and DepartmentName = '" + mtxtName.Text + "' and BranchId = " + BranchId;
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        MessageBox.Show("Department Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        mtxtName.Text = "";
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MetroMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
                 clsgen.LogException("Department Page  mtxtName_Leave_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Department));
             }
         }
