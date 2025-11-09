@@ -2701,5 +2701,20 @@ namespace FoodandBeverage.Forms
         {
 
         }
+
+        private void FrmDashboardReport_Shown(object sender, EventArgs e)
+        {
+            UIHelper.RoundCorners(panel2, 80, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel3, 80, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel4, 80, ColorTranslator.FromHtml("#AC3CC6"));
+
+            UIHelper.RoundCorners(panel5, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel6, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel7, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel8, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            UIHelper.RoundCorners(panel9, 50, ColorTranslator.FromHtml("#AC3CC6"));
+        }
+
+ 
     }
 }
