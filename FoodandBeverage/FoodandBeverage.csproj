@@ -266,6 +266,8 @@
     <Compile Include="AYTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\AppSession.cs" />
+    <Compile Include="Classes\AutoLogoutManager.cs" />
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\clsGeneral.cs" />
     <Compile Include="Classes\ClsImgComprossor.cs" />

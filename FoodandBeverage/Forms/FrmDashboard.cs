@@ -15,6 +15,7 @@ using FoodandBeverage.Forms.UserControls;
 using System.Threading.Tasks;
 using System.Threading;
 using FoodandBeverage.Classes;
+using System.Diagnostics;
 
 namespace FoodandBeverage.Forms
 {
@@ -102,6 +103,11 @@ namespace FoodandBeverage.Forms
         bool flagDrawerF = false, flagDrawer = false;
         public static FrmDashboard Instance { get; private set; }
         public static bool Enablenumberkeypad = false;
+        public static string logoutformsno = "";
+        public static bool Logout_zout_status = false;
+        public bool isUpdatingAll = false;
+        Dictionary<int, int> logoutSettings = new Dictionary<int, int>();
+        
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -183,11 +189,6 @@ namespace FoodandBeverage.Forms
                     HdesiredHeight = 40;
                 }
 
-                txtname_search.Text = "Food Name .....";
-                txtitemcode_serach.Text = "Item Code .....";
-
-                tlp_main.BackColor = menubuttoncolor;
-                flp_navbar.BackColor = menubuttoncolor;
                 btn_minimium.BackColor = menubuttoncolor;
 
                 // pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
@@ -528,7 +529,7 @@ namespace FoodandBeverage.Forms
                     this.Invoke(new Action(() =>
                     {
                         // Apply rounded corners to text boxes based on the list
-                        foreach (TextBox textBox in new TextBox[] { txtitemcode_serach, txtname_search, txtfooter_msg })
+                        foreach (TextBox textBox in new TextBox[] { txtfooter_msg })
                         {
                             ApplyRoundedTextBox(textBox, 10);
                             textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -921,16 +922,6 @@ namespace FoodandBeverage.Forms
                     desiredHeight = 52;
                     HdesiredWidth = 60;
                     HdesiredHeight = 60;
-                    //foreach (Control control in flp_operations.Controls)
-                    //{
-                    //    if (control is Button buttonm)
-                    //    {
-                    //        buttonm.Size = new Size(300, 120);
-                    //        buttonm.Margin = new Padding(105, 35, 10, 2);
-                    //        buttonm.Font = new Font(buttonm.Font.FontFamily, 16, buttonm.Font.Style);
-                    //    }
-                    //}
-
                 }
                 else
                 {
@@ -938,14 +929,6 @@ namespace FoodandBeverage.Forms
                     desiredHeight = 32;
                     HdesiredWidth = 40;
                     HdesiredHeight = 40;
-
-                    //foreach (Control control in flp_operations.Controls)
-                    //{
-                    //    if (control is Button buttonm)
-                    //    {
-                    //        buttonm.Size = new Size(212, 89);
-                    //    }
-                    //}
                 }
                 panelDesktop.ResumeLayout();
             }
@@ -1680,6 +1663,7 @@ namespace FoodandBeverage.Forms
                 flpcolor.Controls.Add(button_bill);
                 columnIndex++;
                 #endregion
+
                 #region Drawer
                 Button button_drawer = new Button();
                 button_drawer.Text = "Drawer";
@@ -1706,9 +1690,8 @@ namespace FoodandBeverage.Forms
                 flpcolor.Controls.Add(button_drawer);
                 flpcolor.BringToFront();
                 #endregion
+
                 columnIndex++;
-
-
                 panelDesktop.Controls.Add(flpcolor);
             }
             catch (Exception ex)
@@ -1870,7 +1853,6 @@ namespace FoodandBeverage.Forms
                         txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
                         txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
 
-                        label1.Text = System.Environment.MachineName;
                         lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
                         lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
                         lbl_staffname.Visible = true;
@@ -2660,32 +2642,13 @@ namespace FoodandBeverage.Forms
             SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
         }
 
-        private void btn_tableorder_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-                tlp_main.Controls.Remove(controlToRemove);
-                pnl_tableorder.Visible = false;
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Homepage btn_tableorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.Escape:
-                    if (pnl_tableorder.Visible)
-                    {
-                        Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
-                        tlp_main.Controls.Remove(controlToRemove);
-                    }
-                    else if (pnlappcolor.Visible)
+
+                    if (pnlappcolor.Visible)
                     {
                         //tlp_main_sidebar_pnldesktop.Enabled = true;
                         pnlappcolor.Visible = false;
@@ -2828,221 +2791,7 @@ namespace FoodandBeverage.Forms
         }
 
 
-        private void btn_sidebar_toggle_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (pnlsidebar_searchproduct.Visible)
-                {
-                    pnlsidebar_searchproduct.Visible = false;
-                    lblcategory.Visible = false;
-                    textb_shape();
-                }
-                else
-                {
-                    pnlsidebar_searchproduct.Visible = true;
-                    lblcategory.Visible = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Homepage btn_sidebar_toggle_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
-
-        private void txtname_search_Enter(object sender, EventArgs e)
-        {
-            if (txtname_search.Text == "Food Name .....")
-            {
-                txtname_search.Text = "";
-                txtname_search.ForeColor = Color.Black;
-            }
-
-        }
-
-        private void txtitemcode_serach_Enter(object sender, EventArgs e)
-        {
-            if (txtitemcode_serach.Text == "Item Code .....")
-            {
-                txtitemcode_serach.Text = "";
-                txtitemcode_serach.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtname_search_Leave(object sender, EventArgs e)
-        {
-            if (txtname_search.Text == "")
-            {
-                txtname_search.Text = "Food Name .....";
-                txtname_search.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtitemcode_serach_Leave(object sender, EventArgs e)
-        {
-            if (txtitemcode_serach.Text == "")
-            {
-                txtitemcode_serach.Text = "Item Code .....";
-                txtitemcode_serach.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtname_search_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            try
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "*";
-                    dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId = p.ProductId";
-                    dmnSearch.WhereNdGroupBy = " where p.Status = 1 and m.Status = 1 and Product LIKE '%" + txtname_search.Text + "%'";
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    pnl_serachproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                    tlp_searchproduct_dashboard.AutoScroll = true;
-                    if (gridSource.Count > 0)
-                    {
-                        int rowIndex = 1;
-                        int columnIndex = 0;
-                        for (int i = 0; i < gridSource.Count; i++)
-                        {
-                            if (columnIndex == 2)
-                            {
-                                columnIndex = 0;
-                                rowIndex++;
-                            }
-                            // Configure the Button
-                            Button button = new Button();
-                            button.Text = gridSource[i].Product;
-                            button.Name = "btn" + gridSource[i].Product;
-                            button.Tag = gridSource[i].ProductId;
-                            button.Width = 140;
-                            button.Height = 40;
-
-                            // Set the FlatAppearance properties to remove the border
-                            button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                            button.FlatAppearance.BorderColor = button.BackColor;
-                            button.FlatStyle = FlatStyle.Flat;
-                            button.BackColor = product_buttoncolor;
-                            button.ForeColor = Color.White;
-
-                            // Create a circular Region
-                            //System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
-                            //path.AddEllipse(0, 0, button.Width, button.Height);
-                            //button.Region = new Region(path);
-                            button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-
-                            button.Font = new Font(button.Font.FontFamily, 9, FontStyle.Bold);
-                            //button.Dock = DockStyle.Fill;
-                            button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                            tlp_searchproduct_dashboard.Controls.Add(button, columnIndex, rowIndex);
-                            columnIndex++;
-                        }
-                        pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
-                    }
-                    else
-                        CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Homepage txtname_search_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
-        private void txtitemcode_serach_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-
-                if (e.KeyCode == Keys.Enter)
-                {
-                    BllSearch<DmnProducts> bllSearch = new BllSearch<DmnProducts>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "*";
-                    dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId = p.ProductId";
-                    dmnSearch.WhereNdGroupBy = " where p.Status = 1 and m.Status = 1 and ItemCode = '" + txtitemcode_serach.Text + "'";
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    pnl_serachproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Controls.Clear();
-                    tlp_searchproduct_dashboard.Dock = DockStyle.Fill;
-                    tlp_searchproduct_dashboard.AutoScroll = true;
-                    if (gridSource.Count > 0)
-                    {
-                        int rowIndex = 1;
-                        int columnIndex = 0;
-                        for (int i = 0; i < gridSource.Count; i++)
-                        {
-                            if (columnIndex == 2)
-                            {
-                                columnIndex = 0;
-                                rowIndex++;
-                            }
-                            // Configure the Button
-                            Button button = new Button();
-                            button.Text = gridSource[i].Product;
-                            button.Name = "btn" + gridSource[i].Product;
-                            button.Tag = gridSource[i].ProductId;
-                            button.Width = 140;
-                            button.Height = 40;
-
-                            // Set the FlatAppearance properties to remove the border
-                            button.FlatAppearance.BorderSize = 0; // Set border width to 0
-                            button.FlatAppearance.BorderColor = button.BackColor;
-                            button.FlatStyle = FlatStyle.Flat;
-                            button.BackColor = product_buttoncolor;
-                            button.ForeColor = Color.White;
-
-                            // Create a circular Region
-                            button.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 10, 10));
-                            //System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
-                            //path.AddEllipse(0, 0, button.Width, button.Height);
-                            //button.Region = new Region(path);
-
-                            button.Font = new Font(button.Font.FontFamily, 9, FontStyle.Bold);
-                            //button.Dock = DockStyle.Fill;
-                            button.Click += new EventHandler(DashboardButtonClickEventHandler);
-                            tlp_searchproduct_dashboard.Controls.Add(button, columnIndex, rowIndex);
-                            columnIndex++;
-                        }
-                        pnl_serachproduct_dashboard.Controls.Add(tlp_searchproduct_dashboard);
-                    }
-                    else
-                        CMessageBox.Show("No Products", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Homepage txtitemcode_serach_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
-        private void txtname_search_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r') // Check for Enter key
-            {
-                e.Handled = true; // Suppress the Enter key
-            }
-        }
-
-        private void txtitemcode_serach_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r') // Check for Enter key
-            {
-                e.Handled = true; // Suppress the Enter key
-            }
-        }
+ 
 
         private void ib_orderview_MouseLeave(object sender, EventArgs e)
         {
@@ -4086,11 +3835,39 @@ namespace FoodandBeverage.Forms
                 {
                     ChangeButtonBorder(button);
                 }
-                if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "COUNT(*) OVER() AS Field1";
+                objSearch.Table = "tbltable_info";
+                objSearch.WhereNdGroupBy = "Where Status=1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
                 {
-                    FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                    if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
-                        _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                    {
+                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                        if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                            _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        else
+                        {
+                            tlp_tablestatus.SuspendLayout();
+                            btn_rev.Visible = true;
+                            btn_running.Visible = true;
+                            btn_avial.Visible = true;
+                            btntrefresh.Visible = true;
+                            tlp_tablestatus.ResumeLayout();
+
+                            _instanceFrmTableView.Visible = true;
+                            _instanceFrmTableView.AutoTimer.Start();
+                            _instanceFrmTableView.Dock = DockStyle.Fill;
+                            ResizeForm(_instanceFrmTableView);
+                            panelDesktop.Controls.Add(_instanceFrmTableView);
+                            _instanceFrmTableView.Show();
+                            _instanceFrmTableView.BringToFront();
+                        }
+                    }
                     else
                     {
                         tlp_tablestatus.SuspendLayout();
@@ -4100,33 +3877,21 @@ namespace FoodandBeverage.Forms
                         btntrefresh.Visible = true;
                         tlp_tablestatus.ResumeLayout();
 
-                        _instanceFrmTableView.Visible = true;
-                        _instanceFrmTableView.AutoTimer.Start();
-                        _instanceFrmTableView.Dock = DockStyle.Fill;
+                        FrmTableView _instanceFrmTableView = new FrmTableView(0);
                         ResizeForm(_instanceFrmTableView);
+                        _instanceFrmTableView.TopLevel = false;
                         panelDesktop.Controls.Add(_instanceFrmTableView);
                         _instanceFrmTableView.Show();
+                        _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                         _instanceFrmTableView.BringToFront();
+
                     }
                 }
                 else
                 {
-                    tlp_tablestatus.SuspendLayout();
-                    btn_rev.Visible = true;
-                    btn_running.Visible = true;
-                    btn_avial.Visible = true;
-                    btntrefresh.Visible = true;
-                    tlp_tablestatus.ResumeLayout();
-
-                    FrmTableView _instanceFrmTableView = new FrmTableView(0);
-                    ResizeForm(_instanceFrmTableView);
-                    _instanceFrmTableView.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmTableView);
-                    _instanceFrmTableView.Show();
-                    _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmTableView.BringToFront();
-                 
+                    btn_pickup.PerformClick();
                 }
+
                 menutable_click = true;
                 panelDesktop.ResumeLayout();              
             }
@@ -4688,6 +4453,14 @@ namespace FoodandBeverage.Forms
         {
 
             lbl_time.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
+
+            // Get current process memory usage
+            Process currentProcess = Process.GetCurrentProcess();
+            long memoryInBytes = currentProcess.PrivateMemorySize64; // or WorkingSet64
+            double memoryInMB = memoryInBytes / (1024.0 * 1024.0);
+
+            // Display in label (rounded to 2 decimal places)
+            lblmemory.Text = $"Memory: {memoryInMB:F2} MB";
         }
 
   
@@ -4766,6 +4539,90 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(pnl_navbar, 25, ColorTranslator.FromHtml("#AC3CC6"));
             UIHelper.RoundCorners(panelDesktop, 25, ColorTranslator.FromHtml("#AC3CC6"));
             UIHelper.RoundCorners(pnl_footer, 25, ColorTranslator.FromHtml("#AC3CC6"));
+        }
+
+        private void btn_adv_idlelogout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_cle_logoutpages_Click(object sender, EventArgs e)
+        {
+            tlp_logoutforms.Visible = false;
+        }
+
+        private void chk_logoutall_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (sender is CheckBox tickAll)
+                {
+                    isUpdatingAll = true;
+                    bool isChecked = tickAll.Checked;
+
+                    // ✅ Replaced old control references with your new ones
+                    chk_settings.Checked = isChecked;
+                    chk_report.Checked = isChecked;
+                    chk_billing.Checked = isChecked;
+                    chk_emp.Checked = isChecked;
+                    chk_op.Checked = isChecked;
+                    chk_table.Checked = isChecked;
+                    chk_home.Checked = isChecked;
+                    chk_cmnpages.Checked = isChecked;
+
+                    isUpdatingAll = false;
+
+                    // Update settings dictionary
+                    logoutSettings.Clear();
+                    for (int i = 1; i <= 8; i++)
+                    {
+                        logoutSettings[i] = isChecked ? 1 : 0;
+                    }
+
+                    UpdateLogoutFormsNo();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optionally log or display the error
+            }
+        }
+        private void UpdateLogoutFormsNo()
+        {
+            logoutformsno = string.Join(",", logoutSettings.Where(kvp => kvp.Value == 1).Select(kvp => kvp.Key));
+        }
+
+        private void chk_home_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isUpdatingAll) return;
+
+            if (sender is CheckBox rjb)
+            {
+                int value = rjb.Checked ? 1 : 0;
+                if (rjb.Tag != null && int.TryParse(rjb.Tag.ToString(), out int tagKey))
+                {
+                    if (logoutSettings.ContainsKey(tagKey))
+                    {
+                        logoutSettings[tagKey] = value;
+                    }
+                    else
+                    {
+                        logoutSettings.Add(tagKey, value);
+                    }
+
+                }
+                UpdateLogoutFormsNo();
+            }
+        }
+
+        private void btnsavegen_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnclose_gen_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void btn_bill_save_Click(object sender, EventArgs e)

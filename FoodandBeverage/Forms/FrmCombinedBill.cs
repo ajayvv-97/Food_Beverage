@@ -223,6 +223,7 @@ namespace FoodandBeverage.Forms
                         if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
                         {
                             MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
                         }
                         DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                         if (result == DialogResult.OK)

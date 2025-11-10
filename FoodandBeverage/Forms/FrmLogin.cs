@@ -64,7 +64,7 @@ namespace FoodandBeverage.Forms
        // public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
         public static Size FormSize;
-
+        public static int AutoLogoutIdleTimeoutMinutes = 0;
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)

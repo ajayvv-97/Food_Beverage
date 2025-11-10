@@ -1364,6 +1364,16 @@ namespace FoodandBeverage.Forms
                                 lblresno.Text = "0 Orders";
                             else
                                 lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
+
+                            // --- Set chart points only ---
+                            cht_totalsale.Series[0].Points.Clear();
+                            cht_dinetotal.Series[0].Points.Clear();
+                            cht_resve.Series[0].Points.Clear();
+
+                            cht_totalsale.Series[0].Points.AddY(Convert.ToDecimal(gridSource[0].Field2)); // Total Sale
+                            cht_dinetotal.Series[0].Points.AddY(Convert.ToDecimal(gridSource[1].Field2)); // Dine In
+                            cht_resve.Series[0].Points.AddY(Convert.ToDecimal(gridSource[2].Field2));     // Reservation
+
                         }));
                     }
                     else
@@ -1385,6 +1395,16 @@ namespace FoodandBeverage.Forms
                             lblresno.Text = "0 Orders";
                         else
                             lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
+
+                        // --- Set chart points only ---
+                        cht_totalsale.Series[0].Points.Clear();
+                        cht_dinetotal.Series[0].Points.Clear();
+                        cht_resve.Series[0].Points.Clear();
+
+                        cht_totalsale.Series[0].Points.AddY(Convert.ToDecimal(gridSource[0].Field2)); // Total Sale
+                        cht_dinetotal.Series[0].Points.AddY(Convert.ToDecimal(gridSource[1].Field2)); // Dine In
+                        cht_resve.Series[0].Points.AddY(Convert.ToDecimal(gridSource[2].Field2));     // Reservation
+
                     }
 
                 }
