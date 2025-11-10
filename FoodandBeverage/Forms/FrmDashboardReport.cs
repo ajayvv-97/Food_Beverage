@@ -117,7 +117,7 @@ namespace FoodandBeverage.Forms
                 cmbserachvalue.SelectedItem = Convert.ToString(startDate.Date);
 
 
-                lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
+                //lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
                 lbl_discount.Text = "DATE : " + Convert.ToString(startDate.Date);
                 lbl_paymentdetails.Text = "DATE : " + Convert.ToString(startDate.Date);
                 lblexpence.Text = "DATE : " + Convert.ToString(startDate.Date);
@@ -129,7 +129,6 @@ namespace FoodandBeverage.Forms
                     instanceFrmDashboard.StartTimerAndRefreshLabel();
                 }
                 RefreshFlag = true;
-                pnl_dashboard.SuspendLayout();
                 Fill_combo_finyear();
                 SetupChartTwoBar();
                 SetupChart_Revenue();
@@ -150,8 +149,6 @@ namespace FoodandBeverage.Forms
                 }       
 
                 this.Focus();
-                pnl_dashboard.ResumeLayout();
-
                 #region Box Details Grid 
                 //dine active
                 dgv_activedine.BorderStyle = BorderStyle.None;
@@ -238,7 +235,6 @@ namespace FoodandBeverage.Forms
             {
                 if (!FrmLogin.TestUser)
                 {
-                    pnl_dashboard.SuspendLayout();
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                     {
                         FrmDashboard instanceFrmDashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -261,7 +257,6 @@ namespace FoodandBeverage.Forms
                         tcslow_move.SelectedIndex = 1;
 
                     this.Focus();
-                    pnl_dashboard.ResumeLayout();
                 }
             }
             catch (Exception ex)
@@ -2538,7 +2533,7 @@ namespace FoodandBeverage.Forms
                     startDate = new DateTime(currentDate.Year, currentDate.Month, selectedDay);
                     endDate = startDate.AddDays(1).AddSeconds(-1);
 
-                    lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
+                    //lbl_fastslow.Text = "DATE : " + Convert.ToString(startDate.Date);
                     lbl_discount.Text = "DATE : " + Convert.ToString(startDate.Date);
                     lbl_paymentdetails.Text = "DATE : " +  Convert.ToString(startDate.Date);
                     lblexpence.Text = "DATE : " +  Convert.ToString(startDate.Date);
@@ -2551,7 +2546,7 @@ namespace FoodandBeverage.Forms
                     startDate = new DateTime(currentDate.Year, selectedMonthIndex + 1, 1); 
                     endDate = startDate.AddMonths(1).AddSeconds(-1);
 
-                    lbl_fastslow.Text = "MONTH : " + selectedMonthName;
+                    //lbl_fastslow.Text = "MONTH : " + selectedMonthName;
                     lbl_discount.Text = "MONTH : " + selectedMonthName;
                     lbl_paymentdetails.Text = "MONTH : " + selectedMonthName;
                     lblexpence.Text = "MONTH : " + selectedMonthName;
@@ -2563,7 +2558,7 @@ namespace FoodandBeverage.Forms
                     startDate = new DateTime(selectedYear, 1, 1); 
                     endDate = startDate.AddYears(1).AddSeconds(-1);
 
-                    lbl_fastslow.Text = "YEAR : " + Convert.ToString(selectedYear);
+                    //lbl_fastslow.Text = "YEAR : " + Convert.ToString(selectedYear);
                     lbl_discount.Text = "YEAR : " + Convert.ToString(selectedYear);
                     lbl_paymentdetails.Text = "YEAR : " + Convert.ToString(selectedYear);
                     lblexpence.Text = "YEAR : " +  Convert.ToString(selectedYear);
@@ -2704,17 +2699,40 @@ namespace FoodandBeverage.Forms
 
         private void FrmDashboardReport_Shown(object sender, EventArgs e)
         {
-            UIHelper.RoundCorners(panel2, 80, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel3, 80, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel4, 80, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel2, 80, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel3, 80, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel4, 80, ColorTranslator.FromHtml("#AC3CC6"));
 
-            UIHelper.RoundCorners(panel5, 50, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel6, 50, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel7, 50, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel8, 50, ColorTranslator.FromHtml("#AC3CC6"));
-            UIHelper.RoundCorners(panel9, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel5, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel6, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel7, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel8, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel9, 50, ColorTranslator.FromHtml("#AC3CC6"));
+
+            //UIHelper.RoundCorners(tlp_discount, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(tlp_expence, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(tlp_paymentdetailstotal_header, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(tlp_chart_res_dine_sales, 50, ColorTranslator.FromHtml("#AC3CC6"));
+            //UIHelper.RoundCorners(panel10, 50, ColorTranslator.FromHtml("#AC3CC6"));
+
+            UIHelper.RoundCorners(panel2, 80);
+            UIHelper.RoundCorners(panel3, 80);
+            UIHelper.RoundCorners(panel4, 80);
+
+            UIHelper.RoundCorners(panel5, 50);
+            UIHelper.RoundCorners(panel6, 50);
+            UIHelper.RoundCorners(panel7, 50);
+            UIHelper.RoundCorners(panel8, 50);
+            UIHelper.RoundCorners(panel9, 50);
+
+            UIHelper.RoundCorners(tlp_discount, 50);
+            UIHelper.RoundCorners(tlp_expence, 50);
+            UIHelper.RoundCorners(tlp_paymentdetailstotal_header, 50);
+            UIHelper.RoundCorners(tlp_chart_res_dine_sales, 50);
+            UIHelper.RoundCorners(panel10, 50);
+
         }
 
- 
+
     }
 }

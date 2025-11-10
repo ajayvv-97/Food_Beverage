@@ -440,5 +440,12 @@ namespace FoodandBeverage.Interfaces
         English_Arabic = 2,
         Arabic = 3
     }
+    public enum BillCategory
+    {
+        Zout = 1,
+        Yout = 2,
+        Normal = 3,
+        DailyColle =4
+    }
 }
 

@@ -247,7 +247,7 @@ namespace FoodandBeverage.Forms
             this.txtUserName.Size = new System.Drawing.Size(238, 38);
             this.txtUserName.TabIndex = 0;
             this.txtUserName.Tag = "";
-            this.txtUserName.Text = "ajay";
+            this.txtUserName.Text = "admin";
             this.txtUserName.Click += new System.EventHandler(this.txtUserName_Click);
             this.txtUserName.Enter += new System.EventHandler(this.txtusername_Enter);
             this.txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);

@@ -2394,3 +2394,77 @@ User Name: Ajay v v
 Designation: Billing
 FormTypeId: 32
 -------------------------------------------------------------------------
+Date and Time: 11/10/2025 3:32:36 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 3:32:36 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 3:35:39 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 3:35:39 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:02:18 PM
+Page : Pickuppage page  TableStaus()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:22:22 PM
+Page : Pickuppage page  TableStaus()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:26:31 PM
+Page : Pickuppage page  TableStaus()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:26:37 PM
+Page : Pickuppage page  LoadPickupView()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:26:45 PM
+Page : Pickuppage page  LoadPickupView()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------
+Date and Time: 11/10/2025 4:38:15 PM
+Page : Pickuppage page  TableStaus()
+Exception: Unable to cast object of type 'System.Windows.Forms.PictureBox' to type 'System.Windows.Forms.TableLayoutPanel'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 33
+-------------------------------------------------------------------------

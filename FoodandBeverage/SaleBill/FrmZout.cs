@@ -72,7 +72,6 @@ namespace FoodandBeverage.SaleBill
         public String DailyPath = "";
         #endregion
 
-
         #region Printer Default Settings
         [DllImport("winspool.drv", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern bool SetDefaultPrinter(string printerName);
@@ -624,21 +623,15 @@ namespace FoodandBeverage.SaleBill
                 DataSet dsReport = new DataSet();
 
                 string Drawerassigntime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-                // DataTable DT_Cardsale = new DataTable("DT_Cardsale");
                 DataTable DT_Drawer = new DataTable("DT_Drawer");
                 DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                 DataTable DT_Products = new DataTable("DT_Products");
-                DataTable DT_ProductsCal = new DataTable("DT_ProductsCal");
-                DataTable DT_Cardsumm = new DataTable("DT_Card");
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
-                DataTable DT_Return = new DataTable("DT_Return");
 
-                BllSearch<DmnOutCard> bllCard = new BllSearch<DmnOutCard>();
                 BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
                 BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
                 BllSearch<DmnGeneralSetting> bllgeneralsetting = new BllSearch<DmnGeneralSetting>();
-
 
                 #region GeneralSettings
                 DmnSearch dmnGeneralSetting = new DmnSearch();
@@ -690,25 +683,7 @@ namespace FoodandBeverage.SaleBill
                 {
                     DT_Products.Load(reader);
                 }
-                #endregion
-
-       //         #region Products Calculations
-       //         DmnSearch dmnSearchProductCal = new DmnSearch();
-       //         dmnSearchProductCal.Select = "[Card Product] Totaltaxcard,[Food & Beverage] as  TotaltaxFb,GateAccess as  TotaltaxGp,TimePlay as  TotaltaxTimeplay,Trampoline as  TotaltaxTrampoline ,Marchandise as  TotaltaxMarchandise,[Bowling Acessories] as  Totaltaxbowling,[Redemption] as TotaltaxRedemption,[Group Sale] as  TotaltaxGroup,[Family Card] as  TotaltaxFamily," +
-       //             "[NETAMTCard Product] as TotalAmtCard,[NETAMTFood & Beverage] as TotalAmtFb,NETAMTGateAccess as TotalAmtGp,NETAMTTimePlay as TotalAmtTimeplay,NETAMTTrampoline as TotalAmtTrampoline,NETAMTMarchandise as TotalAmtMarchandise,[NETAMTBowling Acessories] as TotalAmtbowling,[NETAMTRedemption] as TotalAmtRedemption,[NETAMTGroup Sale] as TotalAmtGroup,[NETAMTFamily Card] as TotalAmtFamily,[RechargeTaxAmt] TotaltaxReg,RechargeTotalAmt TotalAmtReg ";
-       //         dmnSearchProductCal.Table = "(select g.Caption as ProductType,CAST(sum(d.TaxAmount) AS decimal(18,2)) as ProductTYpeTax from tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.status=1  LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53 WHERE m.BranchId = " + BranchId + " and d.status=1 and m.CreatedBy=" + FrmLogin.UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,d.ProductType " +
-       //             " union all select 'NETAMT'+g.Caption as ProductType,CAST(sum(d.NetAmount) AS decimal(18,2)) as ProductTYpeTax from tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and  m.status = 1 LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53 WHERE m.BranchId =" + BranchId + " and  d.status = 1 and m.CreatedBy=" + FrmLogin.UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,d.ProductType  " +
-       //             " union all Select 'RechargeTaxAmt' ProductType,CAST(sum(TaxAmt) AS decimal(18,2)) ProductTYpeTax from tblCardHistory  WHERE etype=2 and  BranchId = " + BranchId + " and  status = 1 and CreatedBy=" + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-       //             " union all Select 'RechargeTotalAmt' ProductType,CAST(sum(NetAmt-CardPrice) AS decimal(18,2)) ProductTYpeTax from tblCardHistory WHERE etype = 2 and BranchId = " + BranchId + " and  status = 1 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME())PS PIVOT (SUM(ProductTYpeTax) FOR ProductType IN([Card Product],[Food & Beverage],GateAccess,TimePlay,Trampoline,Marchandise,[Bowling Acessories],[Redemption],[Group Sale],[Family Card],[NETAMTCard Product],[NETAMTFood & Beverage],NETAMTGateAccess,NETAMTTimePlay,NETAMTTrampoline,NETAMTMarchandise,[NETAMTBowling Acessories],[NETAMTRedemption],[NETAMTGroup Sale],[NETAMTFamily Card],[RechargeTaxAmt],[RechargeTotalAmt]))AS pvt";
-       //         dmnSearchProductCal.WhereNdGroupBy = "";
-       //         var ProductCalResult = bllProductsCal.GetSearchData("prdSearch", dmnSearchProductCal);
-       //         using (var reader = ObjectReader.Create(ProductCalResult, "TotalAmtFamily", "TotalAmtGroup", "TotalAmtRedemption", "TotalAmtbowling", "TotalAmtMarchandise", "TotalAmtTrampoline", "TotalAmtTimeplay", "TotalAmtGp", "TotalAmtFb", "TotalAmtCard", "TotaltaxFamily",
-       //"TotaltaxGroup", "TotaltaxRedemption", "Totaltaxbowling", "TotaltaxMarchandise", "TotaltaxTrampoline", "TotaltaxTimeplay", "TotaltaxGp", "TotaltaxFb", "Totaltaxcard", "TotaltaxReg", "TotalAmtReg"))
-       //         {
-       //             DT_ProductsCal.Load(reader);
-
-       //         }
-       //         #endregion
+                #endregion       
 
                 #region Drawer
                 DmnSearch dmnSearchDrawer = new DmnSearch();
@@ -769,12 +744,9 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 dsReport.Tables.Add(DT_Products);
-                dsReport.Tables.Add(DT_Cardsumm);
                 dsReport.Tables.Add(DT_Drawer);
                 dsReport.Tables.Add(DT_Geninfo);
-                dsReport.Tables.Add(DT_ProductsCal);
                 dsReport.Tables.Add(dtgeneralsettings);
-                dsReport.Tables.Add(DT_Return);
 
                 if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                 {
@@ -787,6 +759,7 @@ namespace FoodandBeverage.SaleBill
                 else if (PrintBillType == Convert.ToInt32(SalePrintbilltype.Arabic))
                 {
                 }
+
                 reportDocument.SetDataSource(dsReport);
 
                 /* header section*/

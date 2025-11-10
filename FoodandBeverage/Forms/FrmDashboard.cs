@@ -139,7 +139,7 @@ namespace FoodandBeverage.Forms
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
 
-            lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
+            //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
 
             Task.Run(() =>
@@ -198,8 +198,7 @@ namespace FoodandBeverage.Forms
                 pbopbuttoncoloepicker.BackColor = menubuttoncolor;
                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
-                tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-                tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
+
                 this.FormBorderStyle = FormBorderStyle.None;
 
                 //Menuhome.BackColor = menubuttoncolor;
@@ -218,9 +217,6 @@ namespace FoodandBeverage.Forms
                 }
 
                 button_imageset();
-                //ApplyMenuStyle();
-                // flp_menu.BackColor = Color.White;
-                tlp_main_sidebar_pnldesktop.CellPaint += new TableLayoutCellPaintEventHandler(this.tlp_main_CellPaint);
 
                 // operation button color 
                 ib_Category.BackColor = opbuttoncolor;
@@ -425,16 +421,7 @@ namespace FoodandBeverage.Forms
                                 //menuEmployee.BackColor = menubuttoncolor;
                                 //Menutable.BackColor = menubuttoncolor;
 
-                                tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-                                tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                                 pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
-
-                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                    txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                    txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                                if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                    txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
 
                                 Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
                                 if (btnsetting != null)
@@ -506,8 +493,7 @@ namespace FoodandBeverage.Forms
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
 
                                 pbappcoloepicker.BackColor = colorapp;
-                                tlp_main_sidebar_pnldesktop.BackColor = colorapp;
-                                tlp_taskbar.BackColor = colorapp;
+
                             }
                         }));
                     }
@@ -519,12 +505,6 @@ namespace FoodandBeverage.Forms
                         this.Invoke(new Action(() =>
                         {
                             pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
-                            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                            if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                                txtappcolorname.Text = "#" + pbappcoloepicker.BackColor.Name.ToString().Remove(0, 2);
                             txtsid.Text = "0";
                         }));
                     }
@@ -1754,7 +1734,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                tlp_main_sidebar_pnldesktop.Enabled = false;
+                //tlp_main_sidebar_pnldesktop.Enabled = false;
                 panl_msgsettings.Visible = true;
                 panl_msgsettings.Location = new Point(this.ClientSize.Width / 2 - panl_msgsettings.Size.Width / 2, this.ClientSize.Height / 2 - panl_msgsettings.Size.Height / 2);
                 panl_msgsettings.BringToFront();
@@ -1769,7 +1749,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                tlp_main_sidebar_pnldesktop.Enabled = false;
+                //tlp_main_sidebar_pnldesktop.Enabled = false;
                 pnl_billsetting.Visible = true;
                 pnl_billsetting.Location = new Point(this.ClientSize.Width / 2 - pnl_billsetting.Size.Width / 2, this.ClientSize.Height / 2 - pnl_billsetting.Size.Height / 2);
                 pnl_billsetting.BringToFront();
@@ -1785,7 +1765,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                tlp_main_sidebar_pnldesktop.Enabled = false;
+                //tlp_main_sidebar_pnldesktop.Enabled = false;
                 chkdef.Checked = false;
                 AppColorSetting();
                 pnlappcolor.Visible = true;
@@ -2027,7 +2007,7 @@ namespace FoodandBeverage.Forms
 
         private void btnappcolse_Click(object sender, EventArgs e)
         {
-            tlp_main_sidebar_pnldesktop.Enabled = true;
+            //tlp_main_sidebar_pnldesktop.Enabled = true;
             pnlappcolor.Visible = false;
         }
 
@@ -2062,7 +2042,7 @@ namespace FoodandBeverage.Forms
                     AppColorSetting();
                 }
                 pnlappcolor.Visible = false;
-                tlp_main_sidebar_pnldesktop.Enabled = true;
+                //tlp_main_sidebar_pnldesktop.Enabled = true;
 
                 //operation button color 
                 ib_Category.BackColor = opbuttoncolor;
@@ -2117,8 +2097,6 @@ namespace FoodandBeverage.Forms
                 {
                     Color selectedColor = colorDialog1.Color;
                     pbappcoloepicker.BackColor = selectedColor;
-                    tlp_main_sidebar_pnldesktop.BackColor = selectedColor;
-                    tlp_taskbar.BackColor = selectedColor;
 
                     string hexColor = ColorTranslator.ToHtml(selectedColor);
                     if (!hexColor.StartsWith("#"))
@@ -2688,9 +2666,6 @@ namespace FoodandBeverage.Forms
             {
                 Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
                 tlp_main.Controls.Remove(controlToRemove);
-                tlp_main.Controls.Add(tlp_main_sidebar_pnldesktop);
-                tlp_main_sidebar_pnldesktop.Dock = DockStyle.Fill;
-                tlp_main_sidebar_pnldesktop.Visible = true;
                 pnl_tableorder.Visible = false;
             }
             catch (Exception ex)
@@ -2709,23 +2684,20 @@ namespace FoodandBeverage.Forms
                     {
                         Control controlToRemove = tlp_main.GetControlFromPosition(0, 1);
                         tlp_main.Controls.Remove(controlToRemove);
-                        tlp_main.Controls.Add(tlp_main_sidebar_pnldesktop);
-                        tlp_main_sidebar_pnldesktop.Dock = DockStyle.Fill;
-                        tlp_main_sidebar_pnldesktop.Visible = true;
                     }
                     else if (pnlappcolor.Visible)
                     {
-                        tlp_main_sidebar_pnldesktop.Enabled = true;
+                        //tlp_main_sidebar_pnldesktop.Enabled = true;
                         pnlappcolor.Visible = false;
                     }
                     else if (panl_msgsettings.Visible)
                     {
-                        tlp_main_sidebar_pnldesktop.Enabled = true;
+                        //tlp_main_sidebar_pnldesktop.Enabled = true;
                         panl_msgsettings.Visible = false;
                     }
                     else if (pnl_billsetting.Visible)
                     {
-                        tlp_main_sidebar_pnldesktop.Enabled = true;
+                        //tlp_main_sidebar_pnldesktop.Enabled = true;
                         pnl_billsetting.Visible = false;
                     }
                     else
@@ -3317,16 +3289,7 @@ namespace FoodandBeverage.Forms
                     //menuEmployee.BackColor = menubuttoncolor;
                     //Menutable.BackColor = menubuttoncolor;
 
-                    tlp_main_sidebar_pnldesktop.BackColor = Color.FromArgb(34, 46, 80);
-                    tlp_taskbar.BackColor = Color.FromArgb(34, 46, 80);
                     pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
-
-                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                        txtoperbuttoncolorname.Text = "#" + pbopbuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                        txtmenubuttoncolorname.Text = "#" + pbsidebuttoncoloepicker.BackColor.Name.ToString().Remove(0, 2);
-                    if (tlp_main_sidebar_pnldesktop.BackColor.Name.Contains("ff"))
-                        txtappcolorname.Text = "#" + tlp_main_sidebar_pnldesktop.BackColor.Name.ToString().Remove(0, 2);
 
                     Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
                     if (btnsetting != null)
@@ -4072,7 +4035,7 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show(this, "Operation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                tlp_main_sidebar_pnldesktop.Enabled = true;
+                //tlp_main_sidebar_pnldesktop.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -4085,7 +4048,7 @@ namespace FoodandBeverage.Forms
         private void btn_close_msg_Click(object sender, EventArgs e)
         {
             panl_msgsettings.Visible = false;
-            tlp_main_sidebar_pnldesktop.Enabled = true;
+            //tlp_main_sidebar_pnldesktop.Enabled = true;
         }
 
         private void Menutable_Click(object sender, EventArgs e)
@@ -4599,7 +4562,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_billsetting_Click(object sender, EventArgs e)
         {
-            tlp_main_sidebar_pnldesktop.Enabled = true;
+            //tlp_main_sidebar_pnldesktop.Enabled = true;
             pnl_billsetting.Visible = false;
         }
 
@@ -4842,7 +4805,7 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show(this, "Operation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                tlp_main_sidebar_pnldesktop.Enabled = true;
+                //tlp_main_sidebar_pnldesktop.Enabled = true;
             }
             catch (Exception ex)
             {

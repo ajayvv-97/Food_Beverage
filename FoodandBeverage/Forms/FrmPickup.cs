@@ -210,11 +210,12 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner_pkup_fetch.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                         tlp_table_inner_pkup_fetch.Name = "tlpboxpkup_add_" + item.Field3;
                         tlp_table_inner_pkup_fetch.Tag = item.Field3;
-                        tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.Fixed3D;
+                        tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.None;
                         tlp_table_inner_pkup_fetch.Dock = DockStyle.Top;
                         tlp_table_inner_pkup_fetch.Margin = new Padding(15, 10, 15, 10);
                         tlp_table_inner_pkup_fetch.AccessibleDescription = item.Field1;
                         tlp_table_inner_pkup_fetch.Visible = false;
+                        tlp_table_inner_pkup_fetch.BackColor = Color.White;
                         //tlp_table_inner_pkup_fetch.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
                         #endregion
 
@@ -225,7 +226,7 @@ namespace FoodandBeverage.Forms
                         lbltablename_pkup_fetch.Tag = item.Field3;
                         lbltablename_pkup_fetch.Text = "Pick Up \n " + item.Field6;
                         lbltablename_pkup_fetch.ForeColor = Color.Black;
-                        lbltablename_pkup_fetch.BackColor = Color.Transparent;
+                        lbltablename_pkup_fetch.BackColor = Color.White;
                         lbltablename_pkup_fetch.Font = new Font("Arial", 10, FontStyle.Bold);
                         lbltablename_pkup_fetch.Dock = DockStyle.Fill;
                         lbltablename_pkup_fetch.ForeColor = Defaultfontcolor;
@@ -241,7 +242,7 @@ namespace FoodandBeverage.Forms
                         netamountlabel_pkup_fetch.Tag = item.Field3;
                         netamountlabel_pkup_fetch.Text = "\u20B9" + Convert.ToString(item.Field4);
                         netamountlabel_pkup_fetch.ForeColor = Netamountfontcolor;
-                        netamountlabel_pkup_fetch.BackColor = Color.Transparent;
+                        netamountlabel_pkup_fetch.BackColor = Color.White;
                         netamountlabel_pkup_fetch.Font = new Font("Arial", 10, FontStyle.Bold);
                         netamountlabel_pkup_fetch.Dock = DockStyle.Fill;
                         netamountlabel_pkup_fetch.Visible = false;
@@ -304,6 +305,11 @@ namespace FoodandBeverage.Forms
                         {
                             panelsPerRow = (int)Math.Floor((double)this.Width / (tlp_table_inner_pkup_fetch.Width + 30));
                         }
+                        #endregion
+
+                        #region Color 
+                        UIHelper.RoundCorners(tlp_table_inner_pkup_fetch, 25);
+                        //UIHelper.MakePickupBagShape(tlp_table_inner_pkup_fetch, 20,Color.White);
                         #endregion
 
                         tlp_table_inner_pkup_fetch.Controls.Add(lbltablename_pkup_fetch, 0, 0);
@@ -384,6 +390,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 AutoTimer.Stop();
+                ShowEmptyOrderIcon();
                 BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
                 DmnGridFields dmnSearchpickdata = new DmnGridFields();
                 dmnSearchpickdata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
@@ -476,6 +483,7 @@ namespace FoodandBeverage.Forms
                         else // insert new 
                         {
                             flp_pickup_view.SuspendLayout();
+
                             #region Pickup box Fetching Orders  db
 
                             #region  TableLayoutPanel inner pickup
@@ -486,10 +494,12 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner_pkup_fetch.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                             tlp_table_inner_pkup_fetch.Name = "tlpboxpkup_add_" + item.Field3;
                             tlp_table_inner_pkup_fetch.Tag = item.Field3;
-                            tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.Fixed3D;
+                            tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.None;
                             tlp_table_inner_pkup_fetch.Dock = DockStyle.Top;
                             tlp_table_inner_pkup_fetch.Margin = new Padding(15, 10, 15, 10);
+                            tlp_table_inner_pkup_fetch.BackColor = Color.White;
                             tlp_table_inner_pkup_fetch.AccessibleDescription = item.Field1;
+         
                             //tlp_table_inner_pkup_fetch.CellBorderStyle =TableLayoutPanelCellBorderStyle.Single;
                             //tlp_table_inner_pkup_fetch.BorderStyle = BorderStyle.Fixed3D;
                             #endregion
@@ -501,7 +511,7 @@ namespace FoodandBeverage.Forms
                             lbltablename_pkup_fetch.Tag = item.Field3;
                             lbltablename_pkup_fetch.Text = "Pick Up \n " + item.Field6;
                             lbltablename_pkup_fetch.ForeColor = Color.Black;
-                            lbltablename_pkup_fetch.BackColor = Color.Transparent;
+                            lbltablename_pkup_fetch.BackColor = Color.White;
                             lbltablename_pkup_fetch.Font = new Font("Arial", 10, FontStyle.Bold);
                             lbltablename_pkup_fetch.Dock = DockStyle.Fill;
                             lbltablename_pkup_fetch.ForeColor = Defaultfontcolor;
@@ -517,7 +527,7 @@ namespace FoodandBeverage.Forms
                             netamountlabel_pkup_fetch.Tag = item.Field3;
                             netamountlabel_pkup_fetch.Text = "\u20B9" + Convert.ToString(item.Field4);
                             netamountlabel_pkup_fetch.ForeColor = Netamountfontcolor;
-                            netamountlabel_pkup_fetch.BackColor = Color.Transparent;
+                            netamountlabel_pkup_fetch.BackColor = Color.White;
                             netamountlabel_pkup_fetch.Font = new Font("Arial", 10, FontStyle.Bold);
                             netamountlabel_pkup_fetch.Dock = DockStyle.Fill;
                             netamountlabel_pkup_fetch.Visible = false;
@@ -579,9 +589,12 @@ namespace FoodandBeverage.Forms
 
                             #endregion
 
-                            #region Box Color
+                            #region Box Color & shape
                             Color color = ColorTranslator.FromHtml(item.Field1);
-                            tlp_table_inner_pkup_fetch.BackColor = color;
+                            tlp_table_inner_pkup_fetch.BackColor = Color.White;
+                            UIHelper.RoundCorners(tlp_table_inner_pkup_fetch, 25);
+                            //UIHelper.MakePickupBagShape(tlp_table_inner_pkup_fetch, 20,Color.White);
+
                             #endregion
 
                             flp_pickup_view.ResumeLayout();

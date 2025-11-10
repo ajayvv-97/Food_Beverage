@@ -58,6 +58,64 @@ namespace FoodandBeverage.Classes
             }
         }
 
+        public static void MakePickupBagShape(TableLayoutPanel table, int cornerRadius, Color borderColor)
+        {
+            if (table == null) return;
+
+            // Create bag-like path
+            GraphicsPath path = new GraphicsPath();
+
+            int w = table.Width;
+            int h = table.Height;
+
+            int handleHeight = h / 5; // top curve height
+            int handleWidth = w / 3;  // width of the handle gap
+
+            // Start bottom left
+            path.StartFigure();
+
+            // Bottom left corner (rounded)
+            path.AddArc(0, h - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+
+            // Bottom edge
+            path.AddLine(cornerRadius, h, w - cornerRadius, h);
+
+            // Bottom right corner (rounded)
+            path.AddArc(w - cornerRadius, h - cornerRadius, cornerRadius, cornerRadius, 0, 90);
+
+            // Right edge
+            path.AddLine(w, h - cornerRadius, w, handleHeight + cornerRadius);
+
+            // Top-right curve (handle start)
+            path.AddArc(w - handleWidth, handleHeight - cornerRadius / 2, cornerRadius, cornerRadius, 0, -60);
+
+            // Handle top arc
+            path.AddArc((w - handleWidth) / 2, 0, handleWidth, handleHeight, 0, 180);
+
+            // Top-left curve (handle end)
+            path.AddArc(handleWidth - cornerRadius, handleHeight - cornerRadius / 2, cornerRadius, cornerRadius, 240, -60);
+
+            // Left edge
+            path.AddLine(0, handleHeight + cornerRadius, 0, h - cornerRadius);
+
+            path.CloseFigure();
+
+            // Apply the region to make it shaped
+            table.Region = new Region(path);
+
+            // Draw border manually
+            table.Paint += (s, e) =>
+            {
+                using (Pen pen = new Pen(borderColor, 2))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.DrawPath(pen, path);
+                }
+            };
+
+            // Optional background color (white pickup box)
+            table.BackColor = Color.White;
+        }
         public static void MakePanelCircular(Panel panel, Color borderColor, int borderThickness = 2)
         {
             panel.Paint += (s, e) =>

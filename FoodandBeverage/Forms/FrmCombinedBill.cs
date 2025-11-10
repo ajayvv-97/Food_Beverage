@@ -126,6 +126,7 @@ namespace FoodandBeverage.Forms
                 dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
                 dmnsearckdrawer.OrderBy = "";
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
+
                 #region Cash Drawer Assign on Employee
                 if (gridesource.Count > 0)
                 {                    
@@ -177,6 +178,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 #endregion
+
                 #region Cash Drawer Not Assigned
                 else //drawer not assign
                 {
@@ -225,9 +227,10 @@ namespace FoodandBeverage.Forms
                         DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                         if (result == DialogResult.OK)
                         {
+                            pnl_Drawer.BringToFront();
                             pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
                             pnl_Drawer.Visible = true;
-
+                            txtinitialamt.Text = "";
                             if (FrmDashboard.DrawerId > 0)
                             {
                                 ShowDrawerEmployee();
@@ -2087,7 +2090,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(2,0))
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), 0))
                 {
                     frmzout.PrintAll();
                     frmzout.ShowDialog();
@@ -2108,13 +2111,11 @@ namespace FoodandBeverage.Forms
             {
                 if (DrawerID > 0)
                 {
-                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(1, Drawerassginstaffid))
+                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                     {
                         frmzout.PrintAll();
                         frmzout.ShowDialog();
-                        
                     }
-
                     MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Dmndrawer dmndrawer = new Dmndrawer();
@@ -2159,7 +2160,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(3, 0))
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Normal), 0))
                 {
                     frmzout.PrintAll();
                     frmzout.ShowDialog();
@@ -2176,7 +2177,7 @@ namespace FoodandBeverage.Forms
 
         private void detailed_rpt_Click(object sender, EventArgs e)
         {
-            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(4, 0))
+            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.DailyColle), 0))
             {
                 frmzout.PrintDetailsCollection();
             }

@@ -1317,9 +1317,6 @@
     <None Include="Resources\kitchen_order_view.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\empty_orders.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\food category.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1895,8 +1892,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
-    <None Include="Resources\midaslogo_v.png" />
+    <None Include="Resources\empty_orders.png" />
     <None Include="Resources\fb_sidemenu.png" />
+    <None Include="Resources\midaslogo_v.png" />
     <None Include="Resources\midas logo.png" />
     <None Include="Resources\nextadmin.png" />
     <None Include="Resources\previosadmin.png" />
