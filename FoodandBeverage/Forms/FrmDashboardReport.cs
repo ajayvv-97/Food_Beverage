@@ -138,6 +138,7 @@ namespace FoodandBeverage.Forms
                 if(!FrmLogin.TestUser)
                 {
                     RunMethodInSeparateThread(Filldashboard);
+                    RunMethodInSeparateThread(FillDashboardCharts);                    
                     RunMethodInSeparateThread(FillChartTwoBarChart);
                     RunMethodInSeparateThread(FillbarRrevenuChart);
                     RunMethodInSeparateThread(FillChartExpence);
@@ -245,6 +246,7 @@ namespace FoodandBeverage.Forms
                     ShowLoadingdGif();
                     RunMethodInSeparateThread(LoadSlowfastData);
                     RunMethodInSeparateThread(Filldashboard);
+                    RunMethodInSeparateThread(FillDashboardCharts);
                     RunMethodInSeparateThread(FillChartTwoBarChart);
                     RunMethodInSeparateThread(FillCharttotaldiscountChart);
                     RunMethodInSeparateThread(FillBoxdetailed);
@@ -1324,6 +1326,193 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region SALEDETAILS 
+        public void FillDashboardCharts()
+        {
+            try
+            {
+                // --- Thread-safe UI access ---
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        string searchType = Cmbserachtype.SelectedIndex.ToString(); // 1=Day, 2=Month, 3=Year
+                        string searchValue = Cmbserachtype.SelectedItem?.ToString();
+                        DateTime now = DateTime.Now;
+
+                        // Auto-select defaults
+                        if (Cmbserachtype.SelectedIndex <= 0)
+                            Cmbserachtype.SelectedIndex = 1;
+
+                        if (string.IsNullOrEmpty(searchValue))
+                        {
+                            if (Cmbserachtype.SelectedIndex == 1)
+                                searchValue = now.ToString("dd");
+                            else if (Cmbserachtype.SelectedIndex == 2)
+                                searchValue = now.ToString("MMMM");
+                            else if (Cmbserachtype.SelectedIndex == 3)
+                                searchValue = now.Year.ToString();
+                        }
+
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+
+                        if (Cmbserachtype.SelectedIndex == 1)
+                        {
+                            dmnSearch.Select = @"                                                 
+                                                    1 AS Field3,
+                                                    ISNULL(COUNT(*), 0) AS Field1,
+                                                    ISNULL(SUM(netamount), 0) AS Field2,
+                                                    CASE 
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END AS TimeSlot";
+                            dmnSearch.Table = "tblSalesMaster";
+                            dmnSearch.WhereNdGroupBy = @"WHERE Status = 1
+                                                  AND CONVERT(DATE, CreatedDateTime) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + @"' AND '" + endDate.ToString("yyyy-MM-dd") + @"'
+                                                GROUP BY
+                                                    CASE
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END
+                                                ORDER BY TimeSlot";
+                            dmnSearch.OrderBy = "";
+                            var gridSourcetotal = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                            dmnSearch.Select = @"                                                 
+                                                    1 AS Field3,
+                                                    ISNULL(COUNT(*), 0) AS Field1,
+                                                    ISNULL(SUM(netamount), 0) AS Field2,
+                                                    CASE 
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END AS TimeSlot";
+                            dmnSearch.Table = "tblSalesMaster";
+                            dmnSearch.WhereNdGroupBy = @"WHERE Rev_Status = 0  and Status = 1
+                                                  AND CONVERT(DATE, CreatedDateTime) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + @"' AND '" + endDate.ToString("yyyy-MM-dd") + @"'
+                                                GROUP BY
+                                                    CASE
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END
+                                                ORDER BY TimeSlot";
+                            dmnSearch.OrderBy = "";
+                            var gridSourcetotal_dine = bllSearch.GetSearchData("prdSearch", dmnSearch); 
+                            
+                            dmnSearch.Select = @"                                                 
+                                                    1 AS Field3,
+                                                    ISNULL(COUNT(*), 0) AS Field1,
+                                                    ISNULL(SUM(netamount), 0) AS Field2,
+                                                    CASE 
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END AS TimeSlot";
+                            dmnSearch.Table = "tblSalesMaster";
+                            dmnSearch.WhereNdGroupBy = @"WHERE Rev_Status = 1  and Status = 1
+                                                  AND CONVERT(DATE, CreatedDateTime) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + @"' AND '" + endDate.ToString("yyyy-MM-dd") + @"'
+                                                GROUP BY
+                                                    CASE
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 0 AND 3 THEN '00-04'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 4 AND 7 THEN '04-08'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 8 AND 11 THEN '08-12'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 12 AND 15 THEN '12-16'
+                                                        WHEN DATEPART(HOUR, CAST(CreatedDateTime AS DATETIME)) BETWEEN 16 AND 19 THEN '16-20'
+                                                        ELSE '20-24'
+                                                    END
+                                                ORDER BY TimeSlot";
+                            dmnSearch.OrderBy = "";
+                            var gridSourcetotal_res = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                            // Ensure chart areas exist
+                            foreach (var chart in new[] { cht_resve, cht_dinetotal, cht_totalsale })
+                            {
+                                if (chart.ChartAreas.Count == 0)
+                                    chart.ChartAreas.Add(new ChartArea());
+                                chart.Series.Clear();
+                            }
+
+                            // --- RESERVE CHART ---
+                            var seriesRes = new Series("Reserve")
+                            {
+                                ChartType = SeriesChartType.Spline,
+                                BorderWidth = 3,
+                                Color = Color.DodgerBlue
+                            };
+                            foreach (var item in gridSourcetotal_res)
+                                seriesRes.Points.AddY(item.Field2);
+                            cht_resve.Series.Add(seriesRes);
+
+                            // --- DINE CHART ---
+                            var seriesDine = new Series("DineTotal")
+                            {
+                                ChartType = SeriesChartType.Spline,
+                                BorderWidth = 3,
+                                Color = Color.MediumSeaGreen
+                            };
+                            foreach (var item in gridSourcetotal_dine)
+                                seriesDine.Points.AddY(item.Field2);
+                            cht_dinetotal.Series.Add(seriesDine);
+
+                            // --- TOTAL SALE CHART ---
+                            var seriesTotal = new Series("TotalSale")
+                            {
+                                ChartType = SeriesChartType.Spline,
+                                BorderWidth = 3,
+                                Color = Color.OrangeRed
+                            };
+                            foreach (var item in gridSourcetotal)
+                                seriesTotal.Points.AddY(item.Field2);
+                            cht_totalsale.Series.Add(seriesTotal);
+
+                            // Axis styling for wave look
+                            foreach (var chart in new[] { cht_resve, cht_dinetotal, cht_totalsale })
+                            {
+                                chart.Legends.Clear();
+                                chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+                                chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+                                chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                                chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+                                chart.ChartAreas[0].BorderWidth = 0;
+                            }
+
+
+                        }
+
+
+
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Chart Error", MessageBoxButtons.OK);
+                clsgen.LogException("DashboardChart FillDashboardCharts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
+            }
+        }
+
+
+
+
+
+
         public void Filldashboard()
         {
             try
@@ -1415,6 +1604,8 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashboardChart Filldashboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+
+        
         #endregion
 
         #region TWO BAR CHART SALE AND RESVERTION TIME PEROD 24HRS
