@@ -90,16 +90,16 @@ namespace FoodandBeverage.SaleBill
         {
             this.crvout = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.tlp_btns = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.btn_gmail = new System.Windows.Forms.Button();
+            this.btn_whatsup = new System.Windows.Forms.Button();
+            this.btn_cancel = new System.Windows.Forms.Button();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnlgmail = new System.Windows.Forms.Panel();
             this.tlp_gmail_btn = new System.Windows.Forms.TableLayoutPanel();
             this.txt_gmail_report = new System.Windows.Forms.TextBox();
             this.btngmailsend = new System.Windows.Forms.Button();
             this.btngmailcancel = new System.Windows.Forms.Button();
-            this.btn_print = new System.Windows.Forms.Button();
-            this.btn_gmail = new System.Windows.Forms.Button();
-            this.btn_whatsup = new System.Windows.Forms.Button();
-            this.btn_cancel = new System.Windows.Forms.Button();
             this.tlp_btns.SuspendLayout();
             this.tlp_main.SuspendLayout();
             this.pnlgmail.SuspendLayout();
@@ -127,7 +127,7 @@ namespace FoodandBeverage.SaleBill
             this.crvout.ShowRefreshButton = false;
             this.crvout.ShowTextSearchButton = false;
             this.crvout.ShowZoomButton = false;
-            this.crvout.Size = new System.Drawing.Size(557, 474);
+            this.crvout.Size = new System.Drawing.Size(521, 474);
             this.crvout.TabIndex = 54;
             this.crvout.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             this.crvout.ToolPanelWidth = 10;
@@ -151,8 +151,60 @@ namespace FoodandBeverage.SaleBill
             this.tlp_btns.Name = "tlp_btns";
             this.tlp_btns.RowCount = 1;
             this.tlp_btns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_btns.Size = new System.Drawing.Size(559, 48);
+            this.tlp_btns.Size = new System.Drawing.Size(523, 48);
             this.tlp_btns.TabIndex = 500;
+            // 
+            // btn_print
+            // 
+            this.btn_print.BackgroundImage = global::FoodandBeverage.Properties.Resources.printer;
+            this.btn_print.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_print.FlatAppearance.BorderSize = 0;
+            this.btn_print.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_print.Location = new System.Drawing.Point(115, 3);
+            this.btn_print.Name = "btn_print";
+            this.btn_print.Size = new System.Drawing.Size(71, 41);
+            this.btn_print.TabIndex = 54;
+            this.btn_print.UseVisualStyleBackColor = true;
+            this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
+            // 
+            // btn_gmail
+            // 
+            this.btn_gmail.BackgroundImage = global::FoodandBeverage.Properties.Resources.GMAIL;
+            this.btn_gmail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_gmail.FlatAppearance.BorderSize = 0;
+            this.btn_gmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_gmail.Location = new System.Drawing.Point(192, 3);
+            this.btn_gmail.Name = "btn_gmail";
+            this.btn_gmail.Size = new System.Drawing.Size(71, 41);
+            this.btn_gmail.TabIndex = 56;
+            this.btn_gmail.UseVisualStyleBackColor = true;
+            this.btn_gmail.Click += new System.EventHandler(this.btn_gmail_Click);
+            // 
+            // btn_whatsup
+            // 
+            this.btn_whatsup.BackgroundImage = global::FoodandBeverage.Properties.Resources.WhatsApp;
+            this.btn_whatsup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_whatsup.FlatAppearance.BorderSize = 0;
+            this.btn_whatsup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_whatsup.Location = new System.Drawing.Point(269, 3);
+            this.btn_whatsup.Name = "btn_whatsup";
+            this.btn_whatsup.Size = new System.Drawing.Size(71, 41);
+            this.btn_whatsup.TabIndex = 57;
+            this.btn_whatsup.UseVisualStyleBackColor = true;
+            this.btn_whatsup.Click += new System.EventHandler(this.btn_whatsup_Click);
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancel_description;
+            this.btn_cancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cancel.FlatAppearance.BorderSize = 0;
+            this.btn_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cancel.Location = new System.Drawing.Point(346, 3);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(71, 41);
+            this.btn_cancel.TabIndex = 59;
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // tlp_main
             // 
@@ -166,14 +218,14 @@ namespace FoodandBeverage.SaleBill
             this.tlp_main.RowCount = 2;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.32882F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.67118F));
-            this.tlp_main.Size = new System.Drawing.Size(563, 532);
+            this.tlp_main.Size = new System.Drawing.Size(527, 532);
             this.tlp_main.TabIndex = 501;
             // 
             // pnlgmail
             // 
             this.pnlgmail.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pnlgmail.Controls.Add(this.tlp_gmail_btn);
-            this.pnlgmail.Location = new System.Drawing.Point(31, 229);
+            this.pnlgmail.Location = new System.Drawing.Point(11, 229);
             this.pnlgmail.Name = "pnlgmail";
             this.pnlgmail.Padding = new System.Windows.Forms.Padding(8);
             this.pnlgmail.Size = new System.Drawing.Size(500, 59);
@@ -235,64 +287,13 @@ namespace FoodandBeverage.SaleBill
             this.btngmailcancel.UseVisualStyleBackColor = true;
             this.btngmailcancel.Click += new System.EventHandler(this.btngmailcancel_Click);
             // 
-            // btn_print
-            // 
-            this.btn_print.BackgroundImage = global::FoodandBeverage.Properties.Resources.printer;
-            this.btn_print.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_print.FlatAppearance.BorderSize = 0;
-            this.btn_print.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_print.Location = new System.Drawing.Point(134, 3);
-            this.btn_print.Name = "btn_print";
-            this.btn_print.Size = new System.Drawing.Size(71, 41);
-            this.btn_print.TabIndex = 54;
-            this.btn_print.UseVisualStyleBackColor = true;
-            this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
-            // 
-            // btn_gmail
-            // 
-            this.btn_gmail.BackgroundImage = global::FoodandBeverage.Properties.Resources.GMAIL;
-            this.btn_gmail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_gmail.FlatAppearance.BorderSize = 0;
-            this.btn_gmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_gmail.Location = new System.Drawing.Point(211, 3);
-            this.btn_gmail.Name = "btn_gmail";
-            this.btn_gmail.Size = new System.Drawing.Size(71, 41);
-            this.btn_gmail.TabIndex = 56;
-            this.btn_gmail.UseVisualStyleBackColor = true;
-            this.btn_gmail.Click += new System.EventHandler(this.btn_gmail_Click);
-            // 
-            // btn_whatsup
-            // 
-            this.btn_whatsup.BackgroundImage = global::FoodandBeverage.Properties.Resources.WhatsApp;
-            this.btn_whatsup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_whatsup.FlatAppearance.BorderSize = 0;
-            this.btn_whatsup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_whatsup.Location = new System.Drawing.Point(288, 3);
-            this.btn_whatsup.Name = "btn_whatsup";
-            this.btn_whatsup.Size = new System.Drawing.Size(71, 41);
-            this.btn_whatsup.TabIndex = 57;
-            this.btn_whatsup.UseVisualStyleBackColor = true;
-            this.btn_whatsup.Click += new System.EventHandler(this.btn_whatsup_Click);
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancel_description;
-            this.btn_cancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_cancel.FlatAppearance.BorderSize = 0;
-            this.btn_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cancel.Location = new System.Drawing.Point(365, 3);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(71, 41);
-            this.btn_cancel.TabIndex = 59;
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
-            // 
             // FrmZout
             // 
-            this.ClientSize = new System.Drawing.Size(563, 532);
+            this.ClientSize = new System.Drawing.Size(527, 532);
             this.Controls.Add(this.pnlgmail);
             this.Controls.Add(this.tlp_main);
             this.Name = "FrmZout";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmZout_Load);
             this.tlp_btns.ResumeLayout(false);
             this.tlp_main.ResumeLayout(false);
@@ -311,22 +312,45 @@ namespace FoodandBeverage.SaleBill
             txt_gmail_report.Font = new Font(txt_gmail_report.Font.FontFamily, 12);
             txt_gmail_report.BorderStyle = BorderStyle.None;
 
-            Generalsettingcheck();
-            if (flag == 1)
+            folderPath = Path.Combine(Application.StartupPath, "YZOutReport");
+            if (!Directory.Exists(folderPath))
             {
-                PrintZout();
-                if (XYDalvalue == false)
-                    this.Close();
+                Directory.CreateDirectory(folderPath);
             }
-            else if (flag == 2)
+            folderPath = Path.Combine(Application.StartupPath, "SaleBill");
+            if (!Directory.Exists(folderPath))
             {
-                PrintYout();
-                if (DalDalvalue == false)
-                    this.Close();
+                Directory.CreateDirectory(folderPath);
             }
 
-            else if (flag == 3)
-                PrintDetailsCollection();
+            Generalsettingcheck();
+            if (XYDalvalue && DalDalvalue)
+                PrintAll();
+        }
+        public void PrintAll()
+        {
+            try
+            {
+                Generalsettingcheck();
+                if (flag == 1)
+                {
+                    PrintZout();
+                    if (XYDalvalue == false)
+                        this.Close();
+                }
+                else if (flag == 2)
+                {
+                    PrintYout();
+                    if (DalDalvalue == false)
+                        this.Close();
+                }
+
+                else if (flag == 3)
+                    PrintDailyCollection();
+            }
+            catch (Exception ex)
+            {
+            }
         }
         public void Generalsettingcheck()
         {
@@ -346,19 +370,19 @@ namespace FoodandBeverage.SaleBill
                     var settings = gridesource[0];
                     XYDalvalue = settings.xyprintdal;
                     DalDalvalue = settings.dalydal;
-                    //DefaultGmail = settings.DefaultGmail;
-                    //Enabledefgmail = settings.EnableDefaultGmail;
-                    //PrintBillType = settings.PrintBillType;
-                    //BillTaxType = settings.BillTaxType;
-                    //FooterContent = settings.FooterContent;
-                    //CompanyNameOtherLanguage = settings.CompanyNameOtherLanguage;
-                    //CompanyAddressOtherLanguage = settings.CompanyAddressOtherLanguage;
-                    //FooterOtherLanguage = settings.FooterOtherLanguage;
-                    //AutoPrint = settings.AutoPrint;
-                    //Save_YZout = settings.Save_YZout;
-                    //Save_Daily = settings.Save_Daily;
-                    //YZPath = settings.YZPath;
-                    //DailyPath = settings.DailyPath;
+                    DefaultGmail = settings.DefaultGmail;
+                    Enabledefgmail = settings.EnableDefaultGmail;
+                    PrintBillType = settings.PrintBillType;
+                    BillTaxType = settings.BillTaxType;
+                    FooterContent = settings.FooterContent;
+                    CompanyNameOtherLanguage = settings.CompanyNameOtherLanguage;
+                    CompanyAddressOtherLanguage = settings.CompanyAddressOtherLanguage;
+                    FooterOtherLanguage = settings.FooterOtherLanguage;
+                    AutoPrint = settings.AutoPrint;
+                    Save_YZout = settings.Save_YZout;
+                    Save_Daily = settings.Save_Daily;
+                    YZPath = settings.YZPath;
+                    DailyPath = settings.DailyPath;
                 }
 
             }
@@ -367,11 +391,14 @@ namespace FoodandBeverage.SaleBill
                 clsgen.LogException("YZout page Generalsettingcheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
             }
         }
-        public void PrintAll()
+
+        #region PrintDailyCollection
+        public void PrintDailyCollection()
         {
-            PrintYout();
+
         }
-        
+        #endregion
+
         #region Zout
         public void PrintZout()
         {
@@ -641,7 +668,7 @@ namespace FoodandBeverage.SaleBill
                 var generalsett = bllgeneralsetting.GetSearchData("prdSearch", dmnGeneralSetting);
                 if (generalsett.Count > 0)
                 {
-                    if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
+                    if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English))
                     {
                         var BillTaxType = Convert.ToInt32(generalsett[0].BillTaxType);
                         var FooterContent = Convert.ToString(generalsett[0].FooterContent);
@@ -673,11 +700,9 @@ namespace FoodandBeverage.SaleBill
 
                 #region Products
                 DmnSearch dmnSearchProduct = new DmnSearch();
-                dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemCode as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2))  as Totaltax ";
-                dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1" +
-                    " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53 WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy=" + FrmLogin.UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemCode ,g.Caption,d.ProductType" +
-                    " Union all select Count(*)TotalQuantity,'Recharge' Itemname,CAST(sum(Discount) AS decimal(18,2)),CAST(SUm(NetAmt-CardPrice) AS decimal(18,2)) TotalAmount,'Recharge' ProductType,0 ProductId,CAST(Sum(TaxAmt) AS decimal(18,2)) Totaltax from tblCardHistory";
-                dmnSearchProduct.WhereNdGroupBy = "WHERE Etype=2 and BranchId = " + BranchId + "and CreatedBy=" + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <=  SYSDATETIME() and Status=1 ";
+                dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
+                dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy=" + FrmLogin.UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
@@ -687,15 +712,10 @@ namespace FoodandBeverage.SaleBill
 
                 #region Drawer
                 DmnSearch dmnSearchDrawer = new DmnSearch();
-                dmnSearchDrawer.Select = " 0 as InitialAmount,0 as LoanAmount,0 as Drops,sum(NetAmount) as TotalAmount,0 as TotalCardCashRefund,0 as TotalCashRefund";
+                dmnSearchDrawer.Select = "  0 as InitialAmount,0 as LoanAmount,0 as Drops,sum(NetAmount) as TotalAmount";
                 dmnSearchDrawer.Table = "tblSalesMaster WHERE BranchId = " + BranchId + " and PaymentMode = 1 and CreatedBy = " + FrmLogin.UserId + "and status=1 and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() " +
-                    "union all select InitilAmount as InitialAmount,LoanAmount,Drops,0 TotalAmount ,0 as TotalCardCashRefund,0 as TotalCashRefund from tblDrawerAssign where status=1 and  BranchId = " + BranchId + "and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() " +
-                    "union all select 0 as InitialAmount,0 as LoanAmount,0 as Drops,0 as TotalAmount,0 as TotalCardCashRefund,sum(CashRefund) as TotalCashRefund from tblRefund where status=1 and  BranchId = " + BranchId + " and RefundPayType = " + 1 + " and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <=  SYSDATETIME() " +
-                    "union all select 0 as InitialAmount,0 as LoanAmount,0 as Drops,0 as TotalAmount,sum(CashRefund) as TotalCardCashRefund,0 as TotalCashRefund from tblRefund where status=1 and BranchId = " + BranchId + " and RefundPayType = " + 1 + " and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <=  SYSDATETIME() " +
-                    "union all select 0 as InitialAmount,0 as LoanAmount,0 as Drops,SUM(P.paidAmt) AS TotalAmount,0 AS TotalCardCashRefund,0 as TotalCashRefund FROM tblPartPaymentDetails P INNER JOIN tblSalesMaster S ON P.SalesMasterId = S.SalesMasterId where S.BranchId = " + BranchId + "AND S.PaymentMode = 12  AND S.Status = 1 AND P.Paymode = 1 and S.CreatedBy = " + FrmLogin.UserId + " and S.CreatedDateTime >= '" + Drawerassigntime + "' AND S.CreatedDateTime <=  SYSDATETIME() ";
-
-
-                dmnSearchDrawer.WhereNdGroupBy = "";
+                    " union all select InitilAmount as InitialAmount,LoanAmount,Drops,0 TotalAmount  from tblDrawerAssign";
+                dmnSearchDrawer.WhereNdGroupBy = " where status = 1 and BranchId = " + BranchId + "and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() ";
                 var DrawerResult = bllDrawer.GetSearchData("prdSearch", dmnSearchDrawer);
                 DmnOutDrawer Dresult = DrawerResult
                     .GroupBy(row => 1)
@@ -704,13 +724,11 @@ namespace FoodandBeverage.SaleBill
                         InitialAmount = group.Sum(row => row.InitialAmount),
                         LoanAmount = group.Sum(row => row.LoanAmount),
                         Drops = group.Sum(row => row.Drops),
-                        TotalAmount = group.Sum(row => row.TotalAmount),
-                        TotalCardCashRefund = group.Sum(row => row.TotalCardCashRefund),
-                        TotalCashRefund = group.Sum(row => row.TotalCashRefund)
+                        TotalAmount = group.Sum(row => row.TotalAmount)
                     })
                     .FirstOrDefault();
 
-                using (var reader = ObjectReader.Create(new List<DmnOutDrawer> { Dresult }, "InitialAmount", "LoanAmount", "Drops", "TotalAmount", "TotalCashRefund", "TotalCardCashRefund"))
+                using (var reader = ObjectReader.Create(new List<DmnOutDrawer> { Dresult }, "InitialAmount", "LoanAmount", "Drops", "TotalAmount"))
                 {
                     DT_Drawer.Load(reader);
                 }
@@ -718,26 +736,16 @@ namespace FoodandBeverage.SaleBill
 
                 #region General Information
                 DmnSearch dmnSearchGeninfo = new DmnSearch();
-                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,'' as Itemname,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity,[TotalPreTax] as TotalPreTaxAmt,[MIDASCARD] as Totalmidascard";
+                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity";
                 dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + FrmLogin.UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,sm.NetAmount" +
-                    " union all select g.Caption as Caption,CAST(Sum(ch.NetAmt) AS decimal(18,2)) as amount from tblCardHistory ch left join tblGeneralOptions g on g.GTypeSubId =ch.payid and g.GTypeId = 2 where ch.status = 1 and (ch.Etype=2 OR ch.Etype=16 and payid!=12) and ch.BranchId = " + BranchId + "  and ch.CreatedBy = " + FrmLogin.UserId + " and ch.CreatedDateTime >= '" + Drawerassigntime + "' AND ch.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,ch.Amount" +
                     " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    " Union all  Select 'TotalPreTax' Caption ,CAST(Sum(TotalPreTaxAmt) AS decimal(18,2)) as amount  from tblSalesMaster WHERE status= 1 and CreatedBy = " + FrmLogin.UserId + "and  BranchId = " + BranchId + "  and  CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
-                    " Union all Select 'Discount' Caption ,CAST(Sum(Discount) AS decimal(18,2)) as amount from tblCardHistory  WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() " +
-                    " Union all Select 'TotalPreTax' Caption ,CAST(Sum(TotalPreTaxAmt) AS decimal(18,2)) as amount from tblCardHistory WHERE status= 1 and Etype=2 and CreatedBy = " + FrmLogin.UserId + " and BranchId = " + BranchId + "  and  CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and  Payid!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
-                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TaxAmt) AS decimal(18,2)) as amount from tblCardHistory WHERE BranchId = " + BranchId + " and Status=1  and Etype=2 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and payid!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
-                    " Union all  Select 'NetAmount' Caption,CAST(Sum(NetAmt) AS decimal(18,2)) as amount from tblCardHistory WHERE BranchId = " + BranchId + " and Etype=2 and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and payid!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
-                    " Union all Select 'TotalQuantity',Sum(NewCardCount) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() GROUP BY g.Caption" +
-                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblCardHistory c ON p.SalesMasterId =c.Id LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND c.BranchId= " + BranchId + " AND c.payid = 12 AND c.Status = 1 AND c.CreatedBy = " + FrmLogin.UserId + " and c.CreatedDateTime >= '" + Drawerassigntime + "' AND c.CreatedDateTime <= SYSDATETIME() GROUP BY g.Caption" +
-                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId WHERE p.PayMode = 11 AND s.PaymentMode = 12 AND s.BranchId= " + BranchId + " AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + "AND s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME()" +
-                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblCardHistory c ON p.SalesMasterId = c.Id WHERE p.PayMode = 11 AND c.payid = 12 AND c.BranchId = " + BranchId + " AND c.Status = 1 AND c.CreatedBy = " + FrmLogin.UserId + "AND c.CreatedDateTime >= '" + Drawerassigntime + "' AND c.CreatedDateTime <= SYSDATETIME()" +
-                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity],[TotalPreTax],[MIDASCARD])) AS pvt  ";
+                    " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
+                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity])) AS pvt  ";
                 dmnSearchGeninfo.WhereNdGroupBy = "";
                 var GenInfoResult = bllGeninfo.GetSearchData("prdSearch", dmnSearchGeninfo);
-                using (var reader = ObjectReader.Create(GenInfoResult, "TotalCompAmt", "Others", "TotalCash", "TotalBankonline", "TotalUPI", "TotalDebitAmt", "TotalCreditAmt", "TotalQuantity", "Itemname", "TotalDiscount", "Totaltax", "TotalAmount", "TotalPreTaxAmt", "Totalmidascard"))
+                using (var reader = ObjectReader.Create(GenInfoResult, "TotalCompAmt", "Others", "TotalCash", "TotalBankonline", "TotalUPI", "TotalDebitAmt", "TotalCreditAmt", "TotalQuantity", "TotalDiscount", "Totaltax", "TotalAmount"))
                 {
                     DT_Geninfo.Load(reader);
                 }
@@ -750,16 +758,16 @@ namespace FoodandBeverage.SaleBill
 
                 if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                 {
-                    reportDocument.Load(RPTVWFile("\\CR_Zout_English_With_Arabic.rpt"));
+                    reportDocument.Load(RPTVWFile("CR_Zout_English_With_Arabic.rpt"));
                 }
                 else if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English))
                 {
-                    reportDocument.Load(RPTVWFile("\\CR_Zout.rpt"));
+                    reportDocument.Load(RPTVWFile("CR_Zout.rpt"));
                 }
                 else if (PrintBillType == Convert.ToInt32(SalePrintbilltype.Arabic))
                 {
-                }
 
+                }
                 reportDocument.SetDataSource(dsReport);
 
                 /* header section*/
@@ -804,13 +812,13 @@ namespace FoodandBeverage.SaleBill
                     // Export report to PDF
                     reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, reportpdfPath);
                     #endregion
+
                     MessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
                 clsgen.LogException("ZOut Page PrintXout()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1009,7 +1017,7 @@ namespace FoodandBeverage.SaleBill
 
             if (RPTLocalVw == false)
             {
-                fstr1 = Application.StartupPath + "\\SaleBill\\" + RepFName;
+                fstr1 = XYZPath + RepFName;
             }
             else
             {
@@ -1028,8 +1036,8 @@ namespace FoodandBeverage.SaleBill
                 BllSearch<DmnGridFields> bllSearchcompany = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearchcompany = new DmnSearch();
                 dmnSearchcompany.Select = " l.Name as Field1, l.Email as Field2, l.Phone as Field3, l.Address as Field4, l.city as Field5, l.GSTNO as Field6, e.EmployeeName as Field7, d.DesignationName as Field8";
-                dmnSearchcompany.Table = "tblLocationDetails l LEFT JOIN tblUserAccount u ON u.UserAccountId = " + empid + " LEFT JOIN tblEmployee e ON e.EmployeeId = u.EmployeeId LEFT JOIN tblDesignation d ON d.DesignationId = e.DesignationId";
-                dmnSearchcompany.WhereNdGroupBy = " WHERE l.LocId = " + BranchId;
+                dmnSearchcompany.Table = "tblHotelRegistration l LEFT JOIN tblUserAccount u ON u.UserAccountId = " + empid + " LEFT JOIN tblEmployee e ON e.EmployeeId = u.EmployeeId LEFT JOIN tblDesignation d ON d.DesignationId = e.DesignationId";
+                dmnSearchcompany.WhereNdGroupBy = " WHERE l.Id = " + BranchId;
 
                 var Addressdata = bllSearchcompany.GetSearchData("prdSearch", dmnSearchcompany);
                 return Addressdata;

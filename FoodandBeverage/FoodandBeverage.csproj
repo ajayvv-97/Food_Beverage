@@ -271,8 +271,10 @@
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\clsGeneral.cs" />
     <Compile Include="Classes\ClsImgComprossor.cs" />
+    <Compile Include="Classes\CrystalInstaller.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\FilterInfoCollection.cs" />
+    <Compile Include="Classes\FolderPermissionSetter.cs" />
     <Compile Include="Classes\UIHelper.cs" />
     <Compile Include="Classes\VideoCaptureDevice.cs" />
     <Compile Include="DS\DSKitchen.cs">
@@ -526,6 +528,12 @@
     </Compile>
     <Compile Include="Forms\UserControls\Frmnumdiskeypad.Designer.cs">
       <DependentUpon>Frmnumdiskeypad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\FrmProgressBar.Designer.cs">
+      <DependentUpon>FrmProgressBar.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserControls\FrmSearch.cs">
       <SubType>Form</SubType>
@@ -1894,8 +1902,11 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
-    <None Include="Resources\empty_orders.png" />
     <None Include="Resources\fb_sidemenu.png" />
+    <None Include="Resources\fb_Pickup.png" />
+    <None Include="Resources\fb_operationbtn.png" />
+    <None Include="Resources\red_Homebutton.png" />
+    <None Include="Resources\empty_orders.png" />
     <None Include="Resources\midaslogo_v.png" />
     <None Include="Resources\midas logo.png" />
     <None Include="Resources\nextadmin.png" />

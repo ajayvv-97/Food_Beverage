@@ -129,34 +129,34 @@ namespace FoodandBeverage.Classes
             {
                 switch (formNo)
                 {
-                    case (int)LogoutFormList.Dashboard: return "FrmDashboard";
-                    case (int)LogoutFormList.Admin: return "FrmAdmin";
-                    case (int)LogoutFormList.Recharge: return "FrmRecharge";
-                    case (int)LogoutFormList.Redemption: return "FrmRedemption";
-                    case (int)LogoutFormList.CardTransfer: return "FrmCardTransaction";
-                    case (int)LogoutFormList.ClearCard: return "FrmClearCard";
-                    case (int)LogoutFormList.CustAccount: return "FrmCustAccount";
-                    case (int)LogoutFormList.FamilyCard: return "FrmFamilyCard";
-                    case (int)LogoutFormList.GroupSale: return "FrmGroupSale";
-                    case (int)LogoutFormList.Refund: return "FrmRefund";
-                    case (int)LogoutFormList.ThirdPartyCardTransfer: return "FrmThirdPartyCardTransfer";
-                    case (int)LogoutFormList.Ticket: return "FrmTicket";
-                    case (int)LogoutFormList.TMPanel: return "FrmTMpanel";
-                    case (int)LogoutFormList.VoidSale: return "FrmVoidSale";
-                    case (int)LogoutFormList.Profile: return "FrmProfile";
-                    case (int)LogoutFormList.GeneralConfig: return "FrmGeneralConf";
-                    case (int)LogoutFormList.Offer: return "FrmOffer";
-                    case (int)LogoutFormList.CardConsolidation: return "FrmCardConsolidation";
-                    case (int)LogoutFormList.DashboardCusAccount: return "FrmDashboardCusAccount";
-                    case (int)LogoutFormList.DataGridView: return "FrmDataGridView";
-                    case (int)LogoutFormList.ExtraAccessChk: return "FrmExtraAccessChk";
-                    case (int)LogoutFormList.Keyboard: return "FrmKeyboard";
-                    case (int)LogoutFormList.Keypad: return "FrmKeypad";
-                    case (int)LogoutFormList.KeypadDashboard: return "FrmKeypadDashboard";
-                    case (int)LogoutFormList.NumdisKeypad: return "FrmNumdisKeypad";
-                    case (int)LogoutFormList.Search: return "FrmSearch";
-                    case (int)LogoutFormList.Complementary: return "FrmComplementary";
-                    case (int)LogoutFormList.RequestPoint: return "FrmRequestPoint";
+                    //case (int)LogoutFormList.Dashboard: return "FrmDashboard";
+                    //case (int)LogoutFormList.Admin: return "FrmAdmin";
+                    //case (int)LogoutFormList.Recharge: return "FrmRecharge";
+                    //case (int)LogoutFormList.Redemption: return "FrmRedemption";
+                    //case (int)LogoutFormList.CardTransfer: return "FrmCardTransaction";
+                    //case (int)LogoutFormList.ClearCard: return "FrmClearCard";
+                    //case (int)LogoutFormList.CustAccount: return "FrmCustAccount";
+                    //case (int)LogoutFormList.FamilyCard: return "FrmFamilyCard";
+                    //case (int)LogoutFormList.GroupSale: return "FrmGroupSale";
+                    //case (int)LogoutFormList.Refund: return "FrmRefund";
+                    //case (int)LogoutFormList.ThirdPartyCardTransfer: return "FrmThirdPartyCardTransfer";
+                    //case (int)LogoutFormList.Ticket: return "FrmTicket";
+                    //case (int)LogoutFormList.TMPanel: return "FrmTMpanel";
+                    //case (int)LogoutFormList.VoidSale: return "FrmVoidSale";
+                    //case (int)LogoutFormList.Profile: return "FrmProfile";
+                    //case (int)LogoutFormList.GeneralConfig: return "FrmGeneralConf";
+                    //case (int)LogoutFormList.Offer: return "FrmOffer";
+                    //case (int)LogoutFormList.CardConsolidation: return "FrmCardConsolidation";
+                    //case (int)LogoutFormList.DashboardCusAccount: return "FrmDashboardCusAccount";
+                    //case (int)LogoutFormList.DataGridView: return "FrmDataGridView";
+                    //case (int)LogoutFormList.ExtraAccessChk: return "FrmExtraAccessChk";
+                    //case (int)LogoutFormList.Keyboard: return "FrmKeyboard";
+                    //case (int)LogoutFormList.Keypad: return "FrmKeypad";
+                    //case (int)LogoutFormList.KeypadDashboard: return "FrmKeypadDashboard";
+                    //case (int)LogoutFormList.NumdisKeypad: return "FrmNumdisKeypad";
+                    //case (int)LogoutFormList.Search: return "FrmSearch";
+                    //case (int)LogoutFormList.Complementary: return "FrmComplementary";
+                    //case (int)LogoutFormList.RequestPoint: return "FrmRequestPoint";
                     default: return "UnknownForm";
                 }
 
@@ -171,7 +171,7 @@ namespace FoodandBeverage.Classes
         {
             return Enum.TryParse(formName.Replace("Frm", ""), out LogoutFormList value)
                 ? value
-                : LogoutFormList.Dashboard;
+                : LogoutFormList.Home;
         }
 
         public static void Clear()
@@ -191,20 +191,20 @@ namespace FoodandBeverage.Classes
                 bool isDashboardEnabled = FrmDashboard.logoutformsno
                     .Split(',')
                     .Select(x => x.Trim())
-                    .Any(x => x == ((int)LogoutFormList.Dashboard).ToString());
+                    .Any(x => x == ((int)LogoutFormList.Home).ToString());
 
                 FrmDashboard frmDash = Application.OpenForms.OfType<FrmDashboard>().FirstOrDefault();
 
                 if (isDashboardEnabled && frmDash != null && !frmDash.IsDisposed && !FrmDashboard.Logout_zout_status)
                 {
-                    CurrentFormNo = (int)LogoutFormList.Dashboard;
+                    CurrentFormNo = (int)LogoutFormList.Home;
                     CurrentFormName = "FrmDashboard";
                     if (frmDash != null)
                     {
                         frmDash.lblinactivitytme.Text = ((LogoutFormList)CurrentFormNo).ToString();
                     }
-                    activeLogouts[(int)LogoutFormList.Dashboard] = new AutoLogoutManager();
-                    activeLogouts[(int)LogoutFormList.Dashboard].Start(frmDash);
+                    activeLogouts[(int)LogoutFormList.Home] = new AutoLogoutManager();
+                    activeLogouts[(int)LogoutFormList.Home].Start(frmDash);
                 }
             }
             catch (Exception ex)

@@ -32,9 +32,8 @@ namespace Domain
     public class DmnOutGenInfo
     {
         public decimal TotalQuantity { get; set; }
-        public string Itemname { get; set; }
         public decimal TotalDiscount { get; set; }
-        public decimal TotalAmt { get; set; }
+        public decimal TotalAmount { get; set; }
         public decimal TotalCompAmt { get; set; }
         public decimal Others { get; set; }
         public decimal TotalCash { get; set; }

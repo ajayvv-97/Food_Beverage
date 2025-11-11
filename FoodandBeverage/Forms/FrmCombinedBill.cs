@@ -1832,7 +1832,7 @@ namespace FoodandBeverage.Forms
                     dmndrawer.BranchId = FrmDashboard.BranchId;
                     dmndrawer.CreatedBy = FrmDashboard.UserId;
                     dmndrawer.Status = 1;
-                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer); 
 
                     if (InsertStatus != null)
                     {

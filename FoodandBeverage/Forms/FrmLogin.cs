@@ -7,6 +7,7 @@ using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -48,14 +49,19 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
         public static int flag = 0;
         public byte[] encryptPassword;
-        public bool loginkeyboard = false;
+        public static bool loginkeyboard = false;
         private bool passwordVisible = false;
         public static string DateFormat = "yyyy-MM-dd HH:mm:ss";
 
-        public static string KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
-        public static string ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
-        public static string SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-        public static string XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+        int PrintpathValue = Convert.ToInt32(ConfigurationManager.AppSettings["PrintpathValue"]);
+        public static string PostponePath = "";
+        public static string SaleBillPath = "";
+        public static string XYZPath = "";
+        public static string logoPath = "";
+        public static string KitchenBillPath = "";
+        public static string ReportPath = "";
+
+
         
         public static int Compid =102;
 
@@ -64,16 +70,33 @@ namespace FoodandBeverage.Forms
        // public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
         public static Size FormSize;
-        public static int AutoLogoutIdleTimeoutMinutes = 0;
+        public static decimal AutoLogoutIdleTimeoutMinutes = 0;
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
+            if (PrintpathValue == 1)
+            {
+                KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
+                ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
+                SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+            }
+            else
+            {
+                KitchenBillPath = Application.StartupPath + @"\Forms\KitchenBill";
+                ReportPath = Application.StartupPath + @"\Report";
+                SaleBillPath = Application.StartupPath + @"\SaleBill";
+                XYZPath = Application.StartupPath + @"\SaleBill";
+                logoPath = Application.StartupPath + @"\logoFile";
+            }
+
             //txtUserName.Text = "User Name .....";
             //txtPwd.Text = "Password .....";
             if (FormSize.IsEmpty)
                 FormSize = this.Size;
-
+            virtualkeyboardCheck();
             pnlloginbox.BackColor = Color.FromArgb(150, 250, 250, 250);
             Task.Run(() =>
             {
@@ -133,6 +156,35 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
+        public void virtualkeyboardCheck()
+        {
+            try
+            {
+                BllSearch<DmnVirtualKeyBoard> Bllvirtualkeyboard = new BllSearch<DmnVirtualKeyBoard>();
+                DmnSearch dmnsearchvir = new DmnSearch
+                {
+                    Select = @"
+                AllowVirtualKeyboardLoginNumber AS Enb_AllowVirtualKeyboardLogin_Number,
+                AllowVirtualKeyboardLoginKeyboard AS Enb_AllowVirtualKeyboardLogin_Normal,
+                Id",
+                    Table = "tblVirtualKeyBoard",
+                    WhereNdGroupBy = $"WHERE mDeviceIP='{System.Environment.MachineName}' AND BranchId={BranchId} AND Status=1",
+                    OrderBy = ""
+                };
+
+                var gridesource = Bllvirtualkeyboard.GetSearchData("prdSearch", dmnsearchvir);
+                if (gridesource.Count > 0)
+                {
+                    var data = gridesource[0];
+                    //Enb_AllowVirtualKeyboardLogin_Number = data.Enb_AllowVirtualKeyboardLogin_Number;
+                    loginkeyboard = data.Enb_AllowVirtualKeyboardLogin_Normal;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("home page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         private void txtusername_Enter(object sender, EventArgs e)
         {
             try

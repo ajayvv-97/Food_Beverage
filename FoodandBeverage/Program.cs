@@ -5,6 +5,9 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Automation;
+using System.Configuration;
+using FoodandBeverage.Classes;
+using System.Collections.Generic;
 
 namespace FoodandBeverage
 {
@@ -20,6 +23,16 @@ namespace FoodandBeverage
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
+
+                    string crystalValue = "0";
+                    crystalValue = ConfigurationManager.AppSettings["CrystalInstalled"];
+                    if (crystalValue == "0")
+                    {
+                        FolderPermissionSetter.EnsureAppFolderPermissions();
+                        UpdateAppConfig();
+                        FoodandBeverage.Classes.CrystalInstaller.EnsureCrystalInstalled();
+                    }
+
                     Application.Run(new Forms.FrmLogin());
                 }
                 else
@@ -36,6 +49,27 @@ namespace FoodandBeverage
                     }
                 }
             }
+        }
+        public static void UpdateAppConfig()
+        {
+            var updates = new Dictionary<string, string>
+                {
+                    { "CrystalInstalled", "1" },
+                    { "POSpagescount", "15" },
+                    { "PrintpathValue", "2" }
+                };
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            foreach (var item in updates)
+            {
+                if (config.AppSettings.Settings[item.Key] != null)
+                    config.AppSettings.Settings[item.Key].Value = item.Value;
+                else
+                    config.AppSettings.Settings.Add(item.Key, item.Value);
+            }
+
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         private static bool IsApplicationRunning(string processName)

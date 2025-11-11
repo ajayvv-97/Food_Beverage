@@ -69,8 +69,8 @@ namespace BLL
             parms.Add("CompanyAddressOtherLanguage", objTestClass.CompanyAddressOtherLanguage);
             parms.Add("FooterOtherLanguage", objTestClass.FooterOtherLanguage);
 
-            parms.Add("Logofile", objTestClass.BillLogoicon);
-            parms.Add("Logostatus", objTestClass.Logostatus);
+            ////parms.Add("Logofile", objTestClass.BillLogoicon);
+            //parms.Add("Logostatus", objTestClass.Logostatus);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;

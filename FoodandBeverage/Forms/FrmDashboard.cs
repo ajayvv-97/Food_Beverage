@@ -16,12 +16,17 @@ using System.Threading.Tasks;
 using System.Threading;
 using FoodandBeverage.Classes;
 using System.Diagnostics;
+using System.Configuration;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace FoodandBeverage.Forms
 {
     public partial class FrmDashboard : Form
     {
 
+        #region Delcaration
         public static int BranchId = 0;
         public static int UserId = 0;
         public static int UserType = 0;
@@ -57,23 +62,12 @@ namespace FoodandBeverage.Forms
             SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
             ReportPath = Convert.ToString(FrmLogin.ReportPath);
         }
-
-        // Function to create a rounded rectangle region
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
         #region grid Declarationassign
 
         public int desiredWidth = 0;
         public int desiredHeight = 0;
         public int HdesiredWidth = 0;
-        public int HdesiredHeight = 0;       
+        public int HdesiredHeight = 0;
         #endregion
 
         Color menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
@@ -98,7 +92,7 @@ namespace FoodandBeverage.Forms
         /*permission checking for manager and supervisor*/
         public static bool AllowCashDrawer = false;
         public static bool AllowDrawerpermissionFullControl = false;
-        
+
 
         bool flagDrawerF = false, flagDrawer = false;
         public static FrmDashboard Instance { get; private set; }
@@ -107,7 +101,50 @@ namespace FoodandBeverage.Forms
         public static bool Logout_zout_status = false;
         public bool isUpdatingAll = false;
         Dictionary<int, int> logoutSettings = new Dictionary<int, int>();
-        
+
+        #region Keyboard & Number Enable/Disable
+        // === Number Keyboard Access ===
+        public static bool Enb_Home_Number { get; set; } = false;
+        public static bool Enb_AllowVirtualKeyboardLogin_Number { get; set; } = false;
+        public static bool Enb_TablePickUp_Number { get; set; } = false;
+        public static bool Enb_Operation_Number { get; set; } = false;
+        public static bool Enb_Employee_Number { get; set; } = false;
+        public static bool Enb_Billing_Number { get; set; } = false;
+        public static bool Enb_Report_Number { get; set; } = false;
+        public static bool Enb_OrderPage_Number { get; set; } = false;
+        public static bool Enb_KitchenView_Number { get; set; } = false;
+        public static bool Enb_SearchPage_Number { get; set; } = false;
+        public static bool Enb_SaleBill_YZoutPage_Number { get; set; } = false;
+
+        // === Normal Keyboard Access ===
+        public static bool Enb_Home_Normal { get; set; } = false;
+        public static bool Enb_AllowVirtualKeyboardLogin_Normal { get; set; } = false;
+        public static bool Enb_TablePickUp_Normal { get; set; } = false;
+        public static bool Enb_Operation_Normal { get; set; } = false;
+        public static bool Enb_Employee_Normal { get; set; } = false;
+        public static bool Enb_Billing_Normal { get; set; } = false;
+        public static bool Enb_Report_Normal { get; set; } = false;
+        public static bool Enb_OrderPage_Normal { get; set; } = false;
+        public static bool Enb_KitchenView_Normal { get; set; } = false;
+        public static bool Enb_SearchPage_Normal { get; set; } = false;
+        public static bool Enb_SaleBill_YZoutPage_Normal { get; set; } = false;
+        #endregion
+
+        public string Compressedimg = Application.StartupPath + "\\CompressedImg";
+        string logoname = "";
+        #endregion
+
+        // Function to create a rounded rectangle region
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
+
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -216,38 +253,36 @@ namespace FoodandBeverage.Forms
                     UIHelper.StyleMenuButton(btn);
                     UIHelper.AutoAdjustButtonFont(btn); 
                 }
-
+                combofill();
                 button_imageset();
 
                 // operation button color 
-                ib_Category.BackColor = opbuttoncolor;
-                ib_Item.BackColor = opbuttoncolor;
-                ib_ingrediant.BackColor = opbuttoncolor;
-                ib_menu.BackColor = opbuttoncolor;
-                ib_unit.BackColor = opbuttoncolor;
-                ib_table.BackColor = opbuttoncolor;
-                ib_purchase.BackColor = opbuttoncolor;
-                ib_purchasereturn.BackColor = opbuttoncolor;
-                ib_tax.BackColor = opbuttoncolor;
-                ib_vendor.BackColor = opbuttoncolor;
-                ib_Discount_offer.BackColor = opbuttoncolor;
-                ib_Expence.BackColor = opbuttoncolor;
-                ib_orderview.BackColor = opbuttoncolor;
-                ib_kitchenview.BackColor = opbuttoncolor;
-                ib_PromoCode.BackColor = opbuttoncolor;
+                //ib_Category.BackColor = opbuttoncolor;
+                //ib_Item.BackColor = opbuttoncolor;
+                //ib_ingrediant.BackColor = opbuttoncolor;
+                //ib_menu.BackColor = opbuttoncolor;
+                //ib_unit.BackColor = opbuttoncolor;
+                //ib_table.BackColor = opbuttoncolor;
+                //ib_purchase.BackColor = opbuttoncolor;
+                //ib_purchasereturn.BackColor = opbuttoncolor;
+                //ib_tax.BackColor = opbuttoncolor;
+                //ib_vendor.BackColor = opbuttoncolor;
+                //ib_Discount_offer.BackColor = opbuttoncolor;
+                //ib_Expence.BackColor = opbuttoncolor;
+                //ib_orderview.BackColor = opbuttoncolor;
+                //ib_kitchenview.BackColor = opbuttoncolor;
+                //ib_PromoCode.BackColor = opbuttoncolor;
 
-                ib_Company.BackColor = opbuttoncolor;
-                ib_useraccount.BackColor = opbuttoncolor;
-                ib_designation.BackColor = opbuttoncolor;
-                ib_department.BackColor = opbuttoncolor;
-                ib_employee.BackColor = opbuttoncolor;
-                ib_reservation.BackColor = opbuttoncolor;
-                ib_userpermission.BackColor = opbuttoncolor;
-                ib_addon.BackColor = opbuttoncolor;
+                //ib_Company.BackColor = opbuttoncolor;
+                //ib_useraccount.BackColor = opbuttoncolor;
+                //ib_designation.BackColor = opbuttoncolor;
+                //ib_department.BackColor = opbuttoncolor;
+                //ib_employee.BackColor = opbuttoncolor;
+                //ib_reservation.BackColor = opbuttoncolor;
+                //ib_userpermission.BackColor = opbuttoncolor;
+                //ib_addon.BackColor = opbuttoncolor;
 
-                RunMethodInSeparateThread(textb_shape);
                 RunMethodInSeparateThread(AppColorSetting);
-                RunMethodInSeparateThread(BillSetting); 
                 // flpEmployee.Visible = false;
                 // ib_employee.Visible = false;
                 ib_designation.Visible = false;
@@ -387,28 +422,29 @@ namespace FoodandBeverage.Forms
                                 opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
                                 ib_Category.BackColor = opbuttoncolor;
-                                ib_Item.BackColor = opbuttoncolor;
-                                ib_ingrediant.BackColor = opbuttoncolor;
-                                ib_menu.BackColor = opbuttoncolor;
-                                ib_unit.BackColor = opbuttoncolor;
-                                ib_table.BackColor = opbuttoncolor;
-                                ib_purchase.BackColor = opbuttoncolor;
-                                ib_purchasereturn.BackColor = opbuttoncolor;
-                                ib_tax.BackColor = opbuttoncolor;
-                                ib_vendor.BackColor = opbuttoncolor;
-                                ib_Discount_offer.BackColor = opbuttoncolor;
-                                ib_Expence.BackColor = opbuttoncolor;
-                                ib_orderview.BackColor = opbuttoncolor;
-                                ib_kitchenview.BackColor = opbuttoncolor;
-                                ib_PromoCode.BackColor = opbuttoncolor;
-                                ib_Company.BackColor = opbuttoncolor;
-                                ib_useraccount.BackColor = opbuttoncolor;
-                                ib_designation.BackColor = opbuttoncolor;
-                                ib_department.BackColor = opbuttoncolor;
-                                ib_employee.BackColor = opbuttoncolor;
-                                ib_reservation.BackColor = opbuttoncolor;
-                                ib_userpermission.BackColor = opbuttoncolor;
-                                ib_addon.BackColor = opbuttoncolor;
+
+                                //ib_Item.BackColor = opbuttoncolor;
+                                //ib_ingrediant.BackColor = opbuttoncolor;
+                                //ib_menu.BackColor = opbuttoncolor;
+                                //ib_unit.BackColor = opbuttoncolor;
+                                //ib_table.BackColor = opbuttoncolor;
+                                //ib_purchase.BackColor = opbuttoncolor;
+                                //ib_purchasereturn.BackColor = opbuttoncolor;
+                                //ib_tax.BackColor = opbuttoncolor;
+                                //ib_vendor.BackColor = opbuttoncolor;
+                                //ib_Discount_offer.BackColor = opbuttoncolor;
+                                //ib_Expence.BackColor = opbuttoncolor;
+                                //ib_orderview.BackColor = opbuttoncolor;
+                                //ib_kitchenview.BackColor = opbuttoncolor;
+                                //ib_PromoCode.BackColor = opbuttoncolor;
+                                //ib_Company.BackColor = opbuttoncolor;
+                                //ib_useraccount.BackColor = opbuttoncolor;
+                                //ib_designation.BackColor = opbuttoncolor;
+                                //ib_department.BackColor = opbuttoncolor;
+                                //ib_employee.BackColor = opbuttoncolor;
+                                //ib_reservation.BackColor = opbuttoncolor;
+                                //ib_userpermission.BackColor = opbuttoncolor;
+                                //ib_addon.BackColor = opbuttoncolor;
 
                                 menubuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbsidebuttoncoloepicker.BackColor = menubuttoncolor;
@@ -459,28 +495,30 @@ namespace FoodandBeverage.Forms
                                 txtsid.Text = Convert.ToString(gridSource[0].SId);
 
                                 ib_Category.BackColor = opbuttoncolor;
-                                ib_Item.BackColor = opbuttoncolor;
-                                ib_ingrediant.BackColor = opbuttoncolor;
-                                ib_menu.BackColor = opbuttoncolor;
-                                ib_unit.BackColor = opbuttoncolor;
-                                ib_table.BackColor = opbuttoncolor;
-                                ib_purchase.BackColor = opbuttoncolor;
-                                ib_purchasereturn.BackColor = opbuttoncolor;
-                                ib_tax.BackColor = opbuttoncolor;
-                                ib_vendor.BackColor = opbuttoncolor;
-                                ib_Discount_offer.BackColor = opbuttoncolor;
-                                ib_Expence.BackColor = opbuttoncolor;
-                                ib_orderview.BackColor = opbuttoncolor;
-                                ib_kitchenview.BackColor = opbuttoncolor;
-                                ib_PromoCode.BackColor = opbuttoncolor;
-                                ib_Company.BackColor = opbuttoncolor;
-                                ib_useraccount.BackColor = opbuttoncolor;
-                                ib_designation.BackColor = opbuttoncolor;
-                                ib_department.BackColor = opbuttoncolor;
-                                ib_employee.BackColor = opbuttoncolor;
-                                ib_reservation.BackColor = opbuttoncolor;
-                                ib_userpermission.BackColor = opbuttoncolor;
-                                ib_addon.BackColor = opbuttoncolor;
+
+                                //ib_Item.BackColor = opbuttoncolor;
+                                //ib_ingrediant.BackColor = opbuttoncolor;
+                                //ib_menu.BackColor = opbuttoncolor;
+                                //ib_unit.BackColor = opbuttoncolor;
+                                //ib_table.BackColor = opbuttoncolor;
+                                //ib_purchase.BackColor = opbuttoncolor;
+                                //ib_purchasereturn.BackColor = opbuttoncolor;
+                                //ib_tax.BackColor = opbuttoncolor;
+                                //ib_vendor.BackColor = opbuttoncolor;
+                                //ib_Discount_offer.BackColor = opbuttoncolor;
+                                //ib_Expence.BackColor = opbuttoncolor;
+                                //ib_orderview.BackColor = opbuttoncolor;
+                                //ib_kitchenview.BackColor = opbuttoncolor;
+                                //ib_PromoCode.BackColor = opbuttoncolor;
+                                //ib_Company.BackColor = opbuttoncolor;
+                                //ib_useraccount.BackColor = opbuttoncolor;
+                                //ib_designation.BackColor = opbuttoncolor;
+                                //ib_department.BackColor = opbuttoncolor;
+                                //ib_employee.BackColor = opbuttoncolor;
+                                //ib_reservation.BackColor = opbuttoncolor;
+                                //ib_userpermission.BackColor = opbuttoncolor;
+                                //ib_addon.BackColor = opbuttoncolor;
+
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
 
                                 //Menuhome.BackColor = menubuttoncolor;
@@ -520,31 +558,6 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region TexBox Round function
-        public void textb_shape()
-        {
-            try
-            {
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        // Apply rounded corners to text boxes based on the list
-                        foreach (TextBox textBox in new TextBox[] { txtfooter_msg })
-                        {
-                            ApplyRoundedTextBox(textBox, 10);
-                            textBox.Font = new Font(textBox.Font.FontFamily, 12);
-                            textBox.BorderStyle = BorderStyle.None;
-                        }
-                    }));
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("homepage Page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
         {
             try
@@ -570,51 +583,7 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
-        public void BillSetting()
-        {
-            try
-            {
-                BllSearch<DmnSetting> bllSearch = new BllSearch<DmnSetting>();
-                DmnSearch dmnSearch = new DmnSearch
-                {
-                    Select = "*",
-                    Table = "tblsettings",
-                    WhereNdGroupBy = " where Status=1 ",
-                    OrderBy = ""
-                };
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            txtsid.Text =Convert.ToString(gridSource[0].SId);
-                            chk_Qr.Checked= Convert.ToBoolean(gridSource[0].QRcode);
-                            chk_logo.Checked = Convert.ToBoolean(gridSource[0].Logostatus);
-                            chk_ucsdetails.Checked = Convert.ToBoolean(gridSource[0].Customer_Status); 
-                            txtfooter_msg.Text= Convert.ToString(gridSource[0].Footermsg);
 
-                        }));
-                    }
-                }
-                else
-                {
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-
-                        }));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page BillSetting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
 
         private void ApplyMenuStyle()
         {
@@ -1554,8 +1523,6 @@ namespace FoodandBeverage.Forms
 
             }
         }
-
-
         private void Menusetting_Click(object sender, EventArgs e)
         {
             try
@@ -1691,6 +1658,68 @@ namespace FoodandBeverage.Forms
                 flpcolor.BringToFront();
                 #endregion
 
+                #region General Setting
+                Button button_generalSetting = new Button();
+                button_generalSetting.Text = "General Setting";
+                button_generalSetting.Name = "btnGeneralSetting";
+                //button_generalSetting.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_generalSetting.BackgroundImageLayout = ImageLayout.Stretch;
+                button_generalSetting.FlatStyle = FlatStyle.Flat;
+                button_generalSetting.BackColor = opbuttoncolor;
+                button_generalSetting.ForeColor = System.Drawing.Color.White;
+                button_generalSetting.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_generalSetting.Width = 350;
+                    button_generalSetting.Height = 120;
+                }
+                else
+                {
+                    button_generalSetting.Width = 212;
+                    button_generalSetting.Height = 89;
+                }
+
+                button_generalSetting.Margin = new Padding(20, 10, 0, 0);
+
+                // Add the event handler for the button
+                button_generalSetting.Click += new EventHandler(GeneralSetting_Click);
+
+                flpcolor.Controls.Add(button_generalSetting);
+                flpcolor.BringToFront();
+                #endregion
+
+                #region Virtual Keyboard
+                Button button_virtualKeyboard = new Button();
+                button_virtualKeyboard.Text = "Virtual Keyboard";
+                button_virtualKeyboard.Name = "btnVirtualKeyboard";
+                //button_virtualKeyboard.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+                //button_virtualKeyboard.BackgroundImageLayout = ImageLayout.Stretch;
+                button_virtualKeyboard.FlatStyle = FlatStyle.Flat;
+                button_virtualKeyboard.BackColor = opbuttoncolor;
+                button_virtualKeyboard.ForeColor = System.Drawing.Color.White;
+                button_virtualKeyboard.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+
+                if (screenWidth > 1367 && screenHeight > 769)
+                {
+                    button_virtualKeyboard.Width = 350;
+                    button_virtualKeyboard.Height = 120;
+                }
+                else
+                {
+                    button_virtualKeyboard.Width = 212;
+                    button_virtualKeyboard.Height = 89;
+                }
+
+                button_virtualKeyboard.Margin = new Padding(20, 10, 0, 0);
+
+                // Add the event handler for the button
+                button_virtualKeyboard.Click += new EventHandler(VirtualKeyboard_Click);
+
+                flpcolor.Controls.Add(button_virtualKeyboard);
+                flpcolor.BringToFront();
+                #endregion
+
                 columnIndex++;
                 panelDesktop.Controls.Add(flpcolor);
             }
@@ -1701,6 +1730,38 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        private void VirtualKeyboard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_virtualkeyboard.Left = (this.ClientSize.Width - pnl_virtualkeyboard.Width) / 2;
+                pnl_virtualkeyboard.Top = (this.ClientSize.Height - pnl_virtualkeyboard.Height) / 2;
+
+                pnl_virtualkeyboard.Visible = true;
+                pnl_virtualkeyboard.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page VirtualKeyboard_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void GeneralSetting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Generalsettingcheck();
+                pnlgenralsetting.Left = (this.ClientSize.Width - pnlgenralsetting.Width) / 2;
+                pnlgenralsetting.Top = (this.ClientSize.Height - pnlgenralsetting.Height) / 2;
+                pnlgenralsetting.Visible = true;
+                pnlgenralsetting.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page GeneralSetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
         private void Drawer_Assign(object sender, EventArgs e)
         {
             try
@@ -1709,7 +1770,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Admin page pictureBox7_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("homepage page Drawer_Assign()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
                 //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1732,6 +1793,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                FetchBillDetails();
                 //tlp_main_sidebar_pnldesktop.Enabled = false;
                 pnl_billsetting.Visible = true;
                 pnl_billsetting.Location = new Point(this.ClientSize.Width / 2 - pnl_billsetting.Size.Width / 2, this.ClientSize.Height / 2 - pnl_billsetting.Size.Height / 2);
@@ -4543,12 +4605,15 @@ namespace FoodandBeverage.Forms
 
         private void btn_adv_idlelogout_Click(object sender, EventArgs e)
         {
-
+            tlp_timoutforms.Visible = true;
+            btn_cle_logoutpages.Visible = true;
+            btn_previous.Visible = false;
+            tlp_timoutforms.BringToFront();
         }
 
         private void btn_cle_logoutpages_Click(object sender, EventArgs e)
         {
-            tlp_logoutforms.Visible = false;
+            tlp_timoutforms.Visible = false;
         }
 
         private void chk_logoutall_CheckedChanged(object sender, EventArgs e)
@@ -4560,7 +4625,6 @@ namespace FoodandBeverage.Forms
                     isUpdatingAll = true;
                     bool isChecked = tickAll.Checked;
 
-                    // ✅ Replaced old control references with your new ones
                     chk_settings.Checked = isChecked;
                     chk_report.Checked = isChecked;
                     chk_billing.Checked = isChecked;
@@ -4569,12 +4633,13 @@ namespace FoodandBeverage.Forms
                     chk_table.Checked = isChecked;
                     chk_home.Checked = isChecked;
                     chk_cmnpages.Checked = isChecked;
+                    chk_salebill.Checked = isChecked;
+                    chk_yzdailycollle.Checked = isChecked;
 
                     isUpdatingAll = false;
 
-                    // Update settings dictionary
                     logoutSettings.Clear();
-                    for (int i = 1; i <= 8; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
                         logoutSettings[i] = isChecked ? 1 : 0;
                     }
@@ -4617,58 +4682,892 @@ namespace FoodandBeverage.Forms
 
         private void btnsavegen_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(txtgenid.Text))
+                    txtgenid.Text = "0";
 
+                if (string.IsNullOrEmpty(txtlogouttime.Text))
+                    txtlogouttime.Text = "0";
+
+                DmnGeneralSetting dmngen = new DmnGeneralSetting();
+                Bllgeneralsetting bllgen = new Bllgeneralsetting();
+                dmngen.Gid = Convert.ToInt32(txtgenid.Text);
+                dmngen.printdal = rtb_gen.Checked;
+                dmngen.xyprintdal = rtb_zyout.Checked;
+                dmngen.dalydal = rtb_dlycoll.Checked;
+                dmngen.EmployeeId = Convert.ToInt32(FrmLogin.EmployeeId);
+                dmngen.BranchId = FrmDashboard.BranchId;
+                dmngen.CreatedBy = FrmDashboard.UserId;
+
+                dmngen.EnableDefaultGmail = rtbdefgmail.Checked;
+                dmngen.DefaultGmail = txtdefgmail.Text.Trim();
+                dmngen.AutoPrint = AutoPrint.Checked;
+                dmngen.AutoDrawer = AutoDrawer.Checked;
+                dmngen.Save_YZout = Save_YZout.Checked;
+                dmngen.Save_Daily = Save_Daily.Checked;
+                dmngen.YZPath = Convert.ToString(YZPath.Text);
+                dmngen.DailyPath = Convert.ToString(DailyPath.Text);
+
+                dmngen.EnableGroupCardInPayment = rtb_group_payment.Checked;
+                dmngen.EnableFamilyCardInPayment = rtb_family_payment.Checked;
+
+                dmngen.AllowManualCardInputDuringPayment = rtb_cardnotype_payment.Checked;
+
+                dmngen.AutoLogoutWhenIdle = rtb_logouttime.Checked;
+                dmngen.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
+                dmngen.LogoutFormscustom = logoutformsno;
+                dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
+
+                dmngen.Status = 1;
+                if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
+                {
+                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (Save_Daily.Checked == true && string.IsNullOrEmpty(DailyPath.Text))
+                {
+                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen);
+                    if (InsertStatus.Gid > 0)
+                    {
+                        MessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Generalsettingcheck();
+                        txtgenid.Text = Convert.ToString(InsertStatus.Gid);
+                        FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Saving Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btnsavegen_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
         }
+        public void Generalsettingcheck()
+        {
+            try
+            {
+                tlp_timoutforms.Visible = false;
+                btn_cle_logoutpages.PerformClick();
 
+                previouspage();
+
+                btn_cle_logoutpages.Visible = false;
+
+                pictureBox13.Visible = false;
+                pictureBox15.Visible = false;
+                int Pagecount = Convert.ToInt32(ConfigurationManager.AppSettings["POSpagescount"]);
+                txtperpagecount.Text = Pagecount.ToString();
+                BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
+                DmnSearch dmnsearckgen = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = $"where BranchId={BranchId} and Status=1",
+                    OrderBy = ""
+                };
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
+                if (gridesource.Count > 0)
+                {
+                    var settings = gridesource[0];
+                    rtb_gen.Checked = settings.printdal;
+                    rtb_zyout.Checked = settings.xyprintdal;
+                    rtb_dlycoll.Checked = settings.dalydal;
+
+                    txtgenid.Text = Convert.ToString(settings.Gid);
+                    rtbdefgmail.Checked = settings.EnableDefaultGmail;
+                    txtdefgmail.Text = Convert.ToString(settings.DefaultGmail);
+                    AutoPrint.Checked = settings.AutoPrint;
+                    AutoDrawer.Checked = settings.AutoDrawer;
+                    Save_YZout.Checked = settings.Save_YZout;
+                    if (Save_YZout.Checked == true)
+                    {
+                        pictureBox13.Visible = true;
+                    }
+                    Save_Daily.Checked = settings.Save_Daily;
+                    if (Save_Daily.Checked == true)
+                    {
+                        pictureBox15.Visible = true;
+                    }
+                    YZPath.Text = Convert.ToString(settings.YZPath);
+                    DailyPath.Text = Convert.ToString(settings.DailyPath);
+                    rtb_group_payment.Checked = settings.EnableGroupCardInPayment;
+                    rtb_family_payment.Checked = settings.EnableFamilyCardInPayment;
+
+                    rtb_cardnotype_payment.Checked = settings.AllowManualCardInputDuringPayment;
+                    rtb_logouttime.Checked = settings.AutoLogoutWhenIdle;
+                    txtlogouttime.Text = settings.AutoLogoutIdleTimeoutMinutes.ToString();
+                    FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(settings.AutoLogoutIdleTimeoutMinutes);
+                    if (Convert.ToString(settings.LogoutFormscustom) != null)
+                    {
+                        logoutformsno = Convert.ToString(settings.LogoutFormscustom);
+
+                        var selectedForms = logoutformsno.Split(',')
+                                      .Select(s => int.TryParse(s, out int val) ? val : 0)
+                                      .Where(v => v > 0)
+                                      .ToList();
+
+                        bool IsChecked(int formNo) => selectedForms.Contains(formNo);
+
+                        chk_home.Checked = IsChecked((int)LogoutFormList.Home);
+                        chk_table.Checked = IsChecked((int)LogoutFormList.tablepickup);
+                        chk_op.Checked = IsChecked((int)LogoutFormList.operation);
+                        chk_report.Checked = IsChecked((int)LogoutFormList.report);
+                        chk_billing.Checked = IsChecked((int)LogoutFormList.billing);
+                        chk_emp.Checked = IsChecked((int)LogoutFormList.employee);
+                        chk_settings.Checked = IsChecked((int)LogoutFormList.settings);
+
+                        chk_cmnpages.Checked = IsChecked((int)LogoutFormList.coomonpage);
+                        chk_salebill.Checked = IsChecked((int)LogoutFormList.Salebill);
+                        chk_yzdailycollle.Checked = IsChecked((int)LogoutFormList.yzout);
+
+                        chk_logoutall.Checked = selectedForms.Count == 10;
+                    }
+                    if (rtb_logouttime.Checked)
+                    {
+                        if (rtb_logouttime.Checked)
+                        {
+                            AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                        }
+                        btn_adv_idlelogout.Enabled = true;
+                    }
+                    else
+                        btn_adv_idlelogout.Enabled = false;
+
+                    rtb_userpmpt.Checked = settings.EnableUserPrompt;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage Generalsettingcheck", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         private void btnclose_gen_Click(object sender, EventArgs e)
         {
-
+            pnlgenralsetting.Visible = false;
         }
 
+        private void rtb_logouttime_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (rtb_logouttime.Checked)
+            {
+                txtlogouttime.Visible = true;
+                btn_adv_idlelogout.Enabled = true;
+                txtlogouttime.Focus();
+            }
+            else
+            {
+                txtlogouttime.Visible = false;
+                btn_adv_idlelogout.Enabled = false;
+                txtlogouttime.Text = "";
+            }
+        }
+
+        private void txtlogouttime_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow only digits and one decimal point
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only one decimal point
+            if (e.KeyChar == '.' && txt.Text.Contains('.'))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txtlogouttime_Leave(object sender, EventArgs e)
+        {
+            if (rtb_logouttime.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(txtlogouttime.Text) || txtlogouttime.Text.Trim() == "0")
+                {
+                    MessageBox.Show("Please enter a valid timeout value.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    rtb_logouttime.Checked = false;
+                }
+            }
+        }
+
+        private void txtlogouttime_Click(object sender, EventArgs e)
+        {
+            if (Enb_Home_Number)
+            {
+                decimal kdata = 0;
+                using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                {
+                    frm.ShowDialog();
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                    frm.Dispose();
+                }
+                if (sender is TextBox txt)
+                {
+                    txt.Text = kdata.ToString("0.##");
+                }
+            }
+        }
+
+        private void btn_close_vir_Click(object sender, EventArgs e)
+        {
+            pnl_virtualkeyboard.Visible = false;
+        }
+
+        private void btn_vir_cls_Click(object sender, EventArgs e)
+        {
+            pnl_virtualkeyboard.Visible = false;
+        }
+
+        private void btn_vir_save_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtvirId.Text))
+                    txtvirId.Text = "0";
+
+                DmnVirtualKeyBoard dmnVirtual = new DmnVirtualKeyBoard();
+                BllVirtualkeyBorad bllVirtual = new BllVirtualkeyBorad();
+                dmnVirtual.Id = Convert.ToInt32(txtvirId.Text);
+
+                // === Home ===
+                dmnVirtual.Enb_Home_Normal = chk_home_normal.Checked;
+                dmnVirtual.Enb_Home_Number = chk_home_number.Checked;
+
+                // === Allow Virtual Keyboard Login ===
+                dmnVirtual.Enb_AllowVirtualKeyboardLogin_Normal = chk_login_normal.Checked;
+                dmnVirtual.Enb_AllowVirtualKeyboardLogin_Number = chk_login_number.Checked;
+
+                // === Table Pick Up ===
+                dmnVirtual.Enb_TablePickUp_Normal = chk_tablep_normal.Checked;
+                dmnVirtual.Enb_TablePickUp_Number = chk_tablep_number.Checked;
+
+                // === Operation ===
+                dmnVirtual.Enb_Operation_Normal = chk_oper_normal.Checked;
+                dmnVirtual.Enb_Operation_Number = chk_oper_number.Checked;
+
+                // === Employee ===
+                dmnVirtual.Enb_Employee_Normal = chk_emp_normal.Checked;
+                dmnVirtual.Enb_Employee_Number = chk_emp_number.Checked;
+
+                // === Billing ===
+                dmnVirtual.Enb_Billing_Normal = chk_billing_normal.Checked;
+                dmnVirtual.Enb_Billing_Number = chk_billing_number.Checked;
+
+                // === Report ===
+                dmnVirtual.Enb_Report_Normal = chk_report_normal.Checked;
+                dmnVirtual.Enb_Report_Number = chk_report_number.Checked;
+
+                // === Order Page ===
+                dmnVirtual.Enb_OrderPage_Normal = chk_order_normal.Checked;
+                dmnVirtual.Enb_OrderPage_Number = chk_order_number.Checked;
+
+                // === Kitchen View ===
+                dmnVirtual.Enb_KitchenView_Normal = chk_kitchen_normal.Checked;
+                dmnVirtual.Enb_KitchenView_Number = chk_kitchen_number.Checked;
+
+                // === Search Page ===
+                dmnVirtual.Enb_SearchPage_Normal = chk_serach_normal.Checked;
+                dmnVirtual.Enb_SearchPage_Number = chk_serach_number.Checked;
+
+                // === Sale Bill / Y-Z Out Page ===
+                dmnVirtual.Enb_SaleBill_YZoutPage_Normal = chk_billyz_normal.Checked;
+                dmnVirtual.Enb_SaleBill_YZoutPage_Number = chk_billyz_number.Checked;
+
+                // === System Fields ===
+                //dmnVirtual.mDeviceIP = System.Environment.MachineName;
+                dmnVirtual.BranchId = FrmDashboard.BranchId;
+                dmnVirtual.CreatedBy = FrmDashboard.UserId; 
+                dmnVirtual.Status = 1;
+
+                var InsertStatus = bllVirtual.AddEditDataVirtualkeyboard("prdInsertVirtualKeyboard", dmnVirtual);
+
+                if (InsertStatus.Id > 0)
+                {
+                    txtvirId.Text = Convert.ToString(InsertStatus.Id);
+                    virtualkeyboardCheck();
+                    pnl_virtualkeyboard.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page btnsavevirtual_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+
+        }
+        public void virtualkeyboardCheck()
+        {
+            try
+            {
+                BllSearch<DmnVirtualKeyBoard> Bllvirtualkeyboard = new BllSearch<DmnVirtualKeyBoard>();
+                DmnSearch dmnsearchvir = new DmnSearch
+                {
+                    Select = @"
+                HomeNumberKeyboard AS Enb_Home_Number,
+                AllowVirtualKeyboardLoginNumber AS Enb_AllowVirtualKeyboardLogin_Number,
+                TablePickUpNumberKeyboard AS Enb_TablePickUp_Number,
+                OperationNumberKeyboard AS Enb_Operation_Number,
+                EmployeeNumberKeyboard AS Enb_Employee_Number,
+                BillingNumberKeyboard AS Enb_Billing_Number,
+                ReportNumberKeyboard AS Enb_Report_Number,
+                OrderPageNumberKeyboard AS Enb_OrderPage_Number,
+                KitchenViewNumberKeyboard AS Enb_KitchenView_Number,
+                SearchPageNumberKeyboard AS Enb_SearchPage_Number,
+                SaleBillYZoutPageNumberKeyboard AS Enb_SaleBill_YZoutPage_Number,
+
+                HomeKeyboard AS Enb_Home_Normal,
+                AllowVirtualKeyboardLoginKeyboard AS Enb_AllowVirtualKeyboardLogin_Normal,
+                TablePickUpKeyboard AS Enb_TablePickUp_Normal,
+                OperationKeyboard AS Enb_Operation_Normal,
+                EmployeeKeyboard AS Enb_Employee_Normal,
+                BillingKeyboard AS Enb_Billing_Normal,
+                ReportKeyboard AS Enb_Report_Normal,
+                OrderPageKeyboard AS Enb_OrderPage_Normal,
+                KitchenViewKeyboard AS Enb_KitchenView_Normal,
+                SearchPageKeyboard AS Enb_SearchPage_Normal,
+                SaleBillYZoutPageKeyboard AS Enb_SaleBill_YZoutPage_Normal,
+                Id",
+                    Table = "tblVirtualKeyBoard",
+                    WhereNdGroupBy = $"WHERE mDeviceIP='{System.Environment.MachineName}' AND BranchId={BranchId} AND Status=1",
+                    OrderBy = ""
+                };
+
+                var gridesource = Bllvirtualkeyboard.GetSearchData("prdSearch", dmnsearchvir);
+                if (gridesource.Count > 0)
+                {
+                    var data = gridesource[0];
+
+                    // === Set Number Keyboard CheckBoxes ===
+                    chk_billyz_number.Checked = data.Enb_SaleBill_YZoutPage_Number;
+                    chk_serach_number.Checked = data.Enb_SearchPage_Number;
+                    chk_kitchen_number.Checked = data.Enb_KitchenView_Number;
+                    chk_order_number.Checked = data.Enb_OrderPage_Number;
+                    chk_report_number.Checked = data.Enb_Report_Number;
+                    chk_billing_number.Checked = data.Enb_Billing_Number;
+                    chk_emp_number.Checked = data.Enb_Employee_Number;
+                    chk_oper_number.Checked = data.Enb_Operation_Number;
+                    chk_home_number.Checked = data.Enb_Home_Number;
+                    chk_login_number.Checked = data.Enb_AllowVirtualKeyboardLogin_Number;
+                    chk_tablep_number.Checked = data.Enb_TablePickUp_Number;
+
+                    // === Set Normal Keyboard CheckBoxes ===
+                    chk_billyz_normal.Checked = data.Enb_SaleBill_YZoutPage_Normal;
+                    chk_serach_normal.Checked = data.Enb_SearchPage_Normal;
+                    chk_kitchen_normal.Checked = data.Enb_KitchenView_Normal;
+                    chk_order_normal.Checked = data.Enb_OrderPage_Normal;
+                    chk_report_normal.Checked = data.Enb_Report_Normal;
+                    chk_billing_normal.Checked = data.Enb_Billing_Normal;
+                    chk_emp_normal.Checked = data.Enb_Employee_Normal;
+                    chk_oper_normal.Checked = data.Enb_Operation_Normal;
+                    chk_home_normal.Checked = data.Enb_Home_Normal;
+                    chk_login_normal.Checked = data.Enb_AllowVirtualKeyboardLogin_Normal;
+                    chk_tablep_normal.Checked = data.Enb_TablePickUp_Normal;
+
+                    // === Assign Data to Variables ===
+                    Enb_SaleBill_YZoutPage_Number = data.Enb_SaleBill_YZoutPage_Number;
+                    Enb_SearchPage_Number = data.Enb_SearchPage_Number;
+                    Enb_KitchenView_Number = data.Enb_KitchenView_Number;
+                    Enb_OrderPage_Number = data.Enb_OrderPage_Number;
+                    Enb_Report_Number = data.Enb_Report_Number;
+                    Enb_Billing_Number = data.Enb_Billing_Number;
+                    Enb_Employee_Number = data.Enb_Employee_Number;
+                    Enb_Operation_Number = data.Enb_Operation_Number;
+                    Enb_Home_Number = data.Enb_Home_Number;
+                    FrmLogin.loginkeyboard = data.Enb_AllowVirtualKeyboardLogin_Number;
+                    Enb_TablePickUp_Number = data.Enb_TablePickUp_Number;
+
+                    Enb_SaleBill_YZoutPage_Normal = data.Enb_SaleBill_YZoutPage_Normal;
+                    Enb_SearchPage_Normal = data.Enb_SearchPage_Normal;
+                    Enb_KitchenView_Normal = data.Enb_KitchenView_Normal;
+                    Enb_OrderPage_Normal = data.Enb_OrderPage_Normal;
+                    Enb_Report_Normal = data.Enb_Report_Normal;
+                    Enb_Billing_Normal = data.Enb_Billing_Normal;
+                    Enb_Employee_Normal = data.Enb_Employee_Normal;
+                    Enb_Operation_Normal = data.Enb_Operation_Normal;
+                    Enb_Home_Normal = data.Enb_Home_Normal;
+                    Enb_AllowVirtualKeyboardLogin_Normal = data.Enb_AllowVirtualKeyboardLogin_Normal;
+                    Enb_TablePickUp_Normal = data.Enb_TablePickUp_Normal;
+
+                    txtvirId.Text = Convert.ToString(data.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("home page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        private void chk_number_all_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bool isChecked = chk_number_all.Checked;
+
+                // === Set all Number Keyboard checkboxes ===
+                chk_tablep_number.Checked = isChecked;
+                chk_login_number.Checked = isChecked;
+                chk_home_number.Checked = isChecked;
+
+                chk_billyz_number.Checked = isChecked;
+                chk_serach_number.Checked = isChecked;
+                chk_kitchen_number.Checked = isChecked;
+                chk_order_number.Checked = isChecked;
+                chk_report_number.Checked = isChecked;
+                chk_billing_number.Checked = isChecked;
+                chk_emp_number.Checked = isChecked;
+                chk_oper_number.Checked = isChecked;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page chk_number_all_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void chk_normal_all_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bool isChecked = chk_normal_all.Checked;
+
+                // === Set all Normal Keyboard checkboxes ===
+                chk_tablep_normal.Checked = isChecked;
+                chk_login_normal.Checked = isChecked;
+                chk_home_normal.Checked = isChecked;
+
+                chk_billyz_normal.Checked = isChecked;
+                chk_serach_normal.Checked = isChecked;
+                chk_kitchen_normal.Checked = isChecked;
+                chk_order_normal.Checked = isChecked;
+                chk_report_normal.Checked = isChecked;
+                chk_billing_normal.Checked = isChecked;
+                chk_emp_normal.Checked = isChecked;
+                chk_oper_normal.Checked = isChecked;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page chk_normal_all_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void txtperpagecount_Click(object sender, EventArgs e)
+        {
+            if (Enb_Home_Number)
+            {
+                decimal kdata = 0;
+                using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                {
+                    frm.ShowDialog();
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                    frm.Dispose();
+                }
+                if (sender is TextBox txt)
+                {
+                    txt.Text = kdata.ToString("0.##");
+                }
+            }
+        }
+
+        #region previous and next
+        private void btn_previous_Click(object sender, EventArgs e)
+        {
+            previouspage();
+        }
+
+        public void previouspage()
+        {
+            btn_previous.Visible = false;
+            btn_next.Visible = true;
+
+            tlp_Fristpage.Visible = true;
+            tlp_secondpage.Visible = false;
+        }
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+            btn_previous.Visible = true;
+            btn_next.Visible = false;
+
+            tlp_Fristpage.Visible = false;
+            tlp_secondpage.Visible = true;
+        }
+
+        #endregion
+
+        public bool MandatoryCheck()
+        {
+            try
+            {
+                if (Convert.ToInt32(cmb_bill_lang_type.SelectedIndex) == Convert.ToInt32(SalePrintbilltype.English_Arabic))
+                {
+                    if (Convert.ToInt32(cmb_taxcate.SelectedIndex) == -1)
+                    {
+
+                        MessageBox.Show("Please Select GST or TRN and all red color fields are mandatory",
+                                        "Mandatory Field",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return false;
+
+                    }
+
+                    //if (string.IsNullOrWhiteSpace(txt_cmpname.Text))
+                    //{
+                    //    MessageBox.Show("Enter Company Name and all red color fields are mandatory",
+                    //                    "Mandatory Field",
+                    //                    MessageBoxButtons.OK,
+                    //                    MessageBoxIcon.Warning);
+                    //    txt_cmpname.Focus();
+                    //    return false;
+                    //}
+
+                    //if (string.IsNullOrWhiteSpace(txt_cmpaddress.Text))
+                    //{
+                    //    MessageBox.Show("Enter Company Address and all red color fields are mandatory",
+                    //                    "Mandatory Field",
+                    //                    MessageBoxButtons.OK,
+                    //                    MessageBoxIcon.Warning);
+                    //    txt_cmpaddress.Focus();
+                    //    return false;
+                    //}
+
+                    //if (string.IsNullOrWhiteSpace(txt_footer_lang.Text))
+                    //{
+                    //    MessageBox.Show("Enter Footer Language and all red color fields are mandatory",
+                    //                    "Mandatory Field",
+                    //                    MessageBoxButtons.OK,
+                    //                    MessageBoxIcon.Warning);
+                    //    txt_footer_lang.Focus();
+                    //    return false;
+                    //}
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                return false;
+            }
+        }
         private void btn_bill_save_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtsid.Text))
-                    txtsid.Text = "0";
-
-                DmnSetting dmnmsg = new DmnSetting();
-                BllSettins bllmessage = new BllSettins();
-
-                dmnmsg.SId = Convert.ToInt32(txtsid.Text);
-                dmnmsg.QRcode = chk_Qr.Checked;
-                dmnmsg.Logostatus = chk_logo.Checked;
-                dmnmsg.Logopath = "";
-                dmnmsg.Footermsg = txtfooter_msg.Text;
-                dmnmsg.Customer_Status = chk_ucsdetails.Checked;
-                dmnmsg.BranchId = FrmDashboard.BranchId;
-                dmnmsg.CreatedBy = FrmDashboard.UserId;
-                dmnmsg.Status = 1;
-
-                var InsertStatus = bllmessage.AddEditDataSetting_bill("prdInsertBill", dmnmsg);
-
-                if (InsertStatus.SId > 0)
+                if (MandatoryCheck())
                 {
-                    if (Convert.ToInt32(txtsid.Text) > 0)
-                        CMessageBox.Show(this, "Update successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DmnGeneralSetting dmngen = new DmnGeneralSetting();
+                    Bllgeneralsetting bllgen = new Bllgeneralsetting();
+                    if (string.IsNullOrWhiteSpace(txtgid.Text))
+                        txtgid.Text = "0";
+
+                    dmngen.Gid = Convert.ToInt32(txtgid.Text);
+                    dmngen.PrintBillType = Convert.ToInt32(cmb_bill_lang_type.SelectedIndex);
+                    dmngen.BillTaxType = Convert.ToInt32(cmb_taxcate.SelectedValue);
+
+                    #region Upload logo DB
+                    if (pblogobrowse.Image != null)
+                    {
+                        if (!System.IO.Directory.Exists(Compressedimg))
+                        {
+                            System.IO.Directory.CreateDirectory(Compressedimg);
+                            System.IO.DirectoryInfo dInfo = new System.IO.DirectoryInfo(Compressedimg);
+                            System.Security.AccessControl.DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                            dSecurity.AddAccessRule(new System.Security.AccessControl.FileSystemAccessRule(new System.Security.Principal.SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                            dInfo.SetAccessControl(dSecurity);
+                        }
+                        else
+                        {
+                            foreach (string file in Directory.GetFiles(Compressedimg))
+                            {
+                                System.GC.Collect();
+                                System.GC.WaitForPendingFinalizers();
+                                File.Delete(file);
+                            }
+                        }
+                        if (!string.IsNullOrWhiteSpace(txtimgpath.Text) && File.Exists(txtimgpath.Text))
+                        {
+                            dmngen.Logostatus = 1;
+                            if (!Directory.Exists(FrmLogin.logoPath))
+                            {
+                                Directory.CreateDirectory(FrmLogin.logoPath);
+                            }
+
+                            string savePath = Path.Combine(FrmLogin.logoPath, "sblogo.png");
+                            if (File.Exists(savePath))
+                            {
+                                File.Delete(savePath);
+                            }
+                            pblogobrowse.Image.Save(savePath, System.Drawing.Imaging.ImageFormat.Png);
+
+                            ClsImgComprossor.CompressImage(txtimgpath.Text, Compressedimg, 30);
+                            Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
+
+                            byte[] imageData;
+                            using (var ms = new MemoryStream())
+                            {
+                                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                imageData = ms.ToArray();
+                            }
+                            dmngen.BillLogoicon = imageData.ToArray();
+                            dmngen.Logostatus = 1;
+                        }
+                        else
+                        {
+
+                            dmngen.Logostatus = 0;
+
+                            using (Bitmap bitmap = new Bitmap(pblogobrowse.Image))
+                            {
+                                byte[] imageData;
+                                using (var ms = new MemoryStream())
+                                {
+                                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                    imageData = ms.ToArray();
+                                }
+                                dmngen.BillLogoicon = imageData;
+                            }
+                        }
+
+                    }
                     else
                     {
-                        CMessageBox.Show(this, "Insert successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtsid.Text = Convert.ToString(InsertStatus.SId);
+                        // No logo selected – send null to SQL
+                        dmngen.Logostatus = 0;
+                        dmngen.BillLogoicon = null;
                     }
-                    pnl_billsetting.Visible = false;
+                    //else
+                    //{
+                    //    MessageBox.Show("Please select a logo image before uploading.", "No Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //}
+
+                    #endregion
+
+                    dmngen.FooterContent = txt_footer.Text;
+                    dmngen.PhoneNoLength = Convert.ToInt32(txt_phno.Text);
+                    dmngen.ZipCodeLength = Convert.ToInt32(txt_zip.Text);
+
+                    dmngen.BranchId = FrmDashboard.BranchId;
+                    dmngen.CreatedBy = FrmDashboard.UserId;
+                    dmngen.EmployeeId = FrmDashboard.UserId;
+                    dmngen.Status = 1;
+
+                    dmngen.FooterOtherLanguage = txt_footer_lang.Text.Trim();
+                    dmngen.CompanyAddressOtherLanguage = txt_cmpaddress.Text.Trim();
+                    dmngen.CompanyNameOtherLanguage = txt_cmpname.Text.Trim();
+
+                    var InsertStatus = bllgen.AddEditDataGenConf("prdInsertUpdateGenConf", dmngen);
+                    if (InsertStatus.Gid > 0)
+                    {
+                        MessageBox.Show("General settings saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        FetchBillDetails();
+                    }
+
+                    if (!System.IO.Directory.Exists(FrmLogin.logoPath))
+                    {
+                        System.IO.Directory.CreateDirectory(FrmLogin.logoPath);
+                    }
+                    string targetFile = System.IO.Path.Combine(FrmLogin.logoPath, "companylogo.png");
+                    //System.IO.File.Copy(logoname, targetFile, true);
                 }
-                else
-                {
-                    CMessageBox.Show(this, "Operation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                //tlp_main_sidebar_pnldesktop.Enabled = true;
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("homepage btn_save_msg_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("homepage btnGen_conf_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
+        }
+
+        private void btn_billsett_cls_Click(object sender, EventArgs e)
+        {
+            pnl_billsetting.Visible = false;
+        }
+        public void combofill()
+        {
+            try
+            {
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = " GTypeId  as Id,Caption as Value";
+                objSearch.Table = "tblGeneralOptions";
+                objSearch.WhereNdGroupBy = " where status=1 and GTypeId=69";
+                objSearch.OrderBy = "order by Id desc";
+                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
+                cmb_bill_lang_type.DataSource = gridSource;
+                cmb_bill_lang_type.ValueMember = "Id";
+                cmb_bill_lang_type.DisplayMember = "Value";
+                cmb_bill_lang_type.SelectedIndex = -1;
+
+                objSearch.Select = " GTypeSubId  as Id,Caption as Value";
+                objSearch.Table = "tblGeneralOptions";
+                objSearch.WhereNdGroupBy = " where status=1 and GTypeId=70";
+                objSearch.OrderBy = "order by Id ";
+                var gridSourcetax = bllSearch.GetSearchData("prdComboFill", objSearch);
+                cmb_taxcate.DataSource = gridSourcetax;
+                cmb_taxcate.ValueMember = "Id";
+                cmb_taxcate.DisplayMember = "Value";
+                cmb_taxcate.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage combofill", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void txt_phno_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only digits and control keys (like Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_zip_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only digits and control keys
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void cmb_bill_lang_type_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(cmb_bill_lang_type.SelectedIndex) == Convert.ToInt32(SalePrintbilltype.English_Arabic))
+            {
+                tbl_Sub.Visible = true;
+            }
+            else if (Convert.ToInt32(cmb_bill_lang_type.SelectedIndex) == Convert.ToInt32(SalePrintbilltype.English))
+            {
+                tbl_Sub.Visible = false;
+            }
+        }
+
+        private void pblogobrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Select Logo Image";
+                    ofd.Filter = "PNG Files (*.png)|*.png";  // Only PNG
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        FileInfo fileInfo = new FileInfo(ofd.FileName);
+                        long expectedSize = 431 * 1024;
+                        long tolerance = 5 * 1024;
+                        using (Image img = Image.FromFile(ofd.FileName))
+                        {
+                            if (Convert.ToInt32(cmb_bill_lang_type.SelectedIndex) == 1)
+                            {
+                                pblogobrowse.Image = new Bitmap(img);
+                                pblogobrowse.SizeMode = PictureBoxSizeMode.StretchImage;
+                                logoname = ofd.FileName;
+                                txtimgpath.Text = ofd.FileName;
+                            }
+                            else
+                            {
+                                if (img.Width == 2938 && img.Height == 2463 &&
+                                fileInfo.Length >= (expectedSize - tolerance) &&
+                                fileInfo.Length <= (expectedSize + tolerance))
+                                {
+                                    pblogobrowse.Image = new Bitmap(img);
+                                    pblogobrowse.SizeMode = PictureBoxSizeMode.StretchImage;
+                                    logoname = ofd.FileName;
+                                    txtimgpath.Text = ofd.FileName;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid image! Please select a PNG image with:\n" +
+                                        "• Dimensions: 2498 × 2463 pixels\n" +
+                                        "• Size: ~430 KB",
+                                        "Invalid Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage pblogobrowse_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        public void FetchBillDetails()
+        {
+            try
+            {
+
+                BllSearch<DmnGeneralSetting> bllSearch = new BllSearch<DmnGeneralSetting>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblGeneralSetting";
+                objSearch.WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId + " AND Status = 1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    txtgid.Text = Convert.ToString(itemSource[0].Gid);
+                    if (Convert.ToInt32(itemSource[0].PrintBillType) == Convert.ToInt32(SalePrintbilltype.English_Arabic))
+                    {
+                        tbl_Sub.Visible = true;
+                    }
+
+                    cmb_bill_lang_type.SelectedIndex = Convert.ToInt32(itemSource[0].PrintBillType);
+                    cmb_taxcate.SelectedValue = Convert.ToInt64(itemSource[0].BillTaxType);
+
+                    txt_footer.Text = Convert.ToString(itemSource[0].FooterContent);
+                    txt_phno.Text = Convert.ToString(itemSource[0].PhoneNoLength);
+                    txt_zip.Text = Convert.ToString(itemSource[0].ZipCodeLength);
+
+                    txt_footer_lang.Text = Convert.ToString(itemSource[0].FooterOtherLanguage);
+                    txt_cmpname.Text = Convert.ToString(itemSource[0].CompanyNameOtherLanguage);
+                    txt_cmpaddress.Text = Convert.ToString(itemSource[0].CompanyAddressOtherLanguage);
+
+                    if (itemSource[0].BillLogoicon != null && itemSource[0].BillLogoicon.Length > 0)
+                    {
+                        Bitmap bitmap = null;
+                        byte[] logoData = itemSource[0].BillLogoicon;
+                        var mStream = new MemoryStream(logoData);
+                        bitmap = new Bitmap(mStream);
+                        pblogobrowse.Image = bitmap;
+                        pblogobrowse.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                    else
+                    {
+                       // pblogobrowse.Image = Properties.Resources.logobrowse;
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage FetchBillDetails", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+
         }
 
         public void StartTimerAndRefreshLabel()

@@ -1013,6 +1013,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fb_operationbtn {
+            get {
+                object obj = ResourceManager.GetObject("fb_operationbtn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fb_Pickup {
+            get {
+                object obj = ResourceManager.GetObject("fb_Pickup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fb_sidemenu {
             get {
                 object obj = ResourceManager.GetObject("fb_sidemenu", resourceCulture);
@@ -1186,6 +1206,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap home_small {
             get {
                 object obj = ResourceManager.GetObject("home_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Homebutton {
+            get {
+                object obj = ResourceManager.GetObject("Homebutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

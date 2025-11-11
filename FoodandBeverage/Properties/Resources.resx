@@ -991,4 +991,13 @@
   <data name="midaslogo_v" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\midaslogo_v.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Homebutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red_Homebutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fb_operationbtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_operationbtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fb_Pickup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_Pickup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

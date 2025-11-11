@@ -449,43 +449,16 @@ namespace FoodandBeverage.Interfaces
     }
     public enum LogoutFormList
     {
-        Dashboard = 1,
-        Admin = 2,
-        Recharge = 3,
-        Redemption = 4,
-        CardTransfer = 5,
-        ClearCard = 6,
-        CustAccount = 7,
-        FamilyCard = 8,
-        GroupSale = 9,
-        Refund = 10,
-        ThirdPartyCardTransfer = 11,
-        Ticket = 12,
-        TMPanel = 13,
-        VoidSale = 14,
-        Profile = 15,
-        GeneralConfig = 16,
-        Offer = 17,
-        CardConsolidation = 18,
-
-        DashboardCusAccount = 19,
-        DataGridView = 20,
-        ExtraAccessChk = 21,
-        Keyboard = 22,
-        Keypad = 23,
-        KeypadDashboard = 24,
-        NumdisKeypad = 25,
-        Search = 26,
-
-        saleBill = 27,
-        BillZout = 28,
-        Commonpage = 29,
-
-        Complementary = 30,
-        RequestPoint = 31,
-        Login = 32,
-        Billpage = 33,
-
+       Home = 1,
+       tablepickup=2,
+       operation=3,
+       employee=4,
+       billing=5,
+       report=6,
+       settings=7,
+       Salebill=8,
+       yzout=9,
+       coomonpage=10
     }
 }
 

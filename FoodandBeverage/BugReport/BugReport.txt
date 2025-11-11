@@ -2468,3 +2468,682 @@ User Name: Ajay v v
 Designation: Billing
 FormTypeId: 33
 -------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:21:56 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:24:25 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:25:43 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:48:03 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:49:20 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 11:55:53 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:01:29 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:09:19 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:20:06 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:33:30 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:35:15 PM
+Page : homepage page btnsavevirtual_Click()
+Exception: Method not found: 'System.String Domain.DmnVirtualKeyBoard.get_mDeviceIP()'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:35:24 PM
+Page : homepage page btnsavevirtual_Click()
+Exception: Method not found: 'System.String Domain.DmnVirtualKeyBoard.get_mDeviceIP()'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:35:49 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:36:49 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'HomeNumberKeyboard'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'TablePickUpNumberKeyboard'.
+Invalid column name 'OperationNumberKeyboard'.
+Invalid column name 'EmployeeNumberKeyboard'.
+Invalid column name 'BillingNumberKeyboard'.
+Invalid column name 'ReportNumberKeyboard'.
+Invalid column name 'OrderPageNumberKeyboard'.
+Invalid column name 'KitchenViewNumberKeyboard'.
+Invalid column name 'SearchPageNumberKeyboard'.
+Invalid column name 'SaleBillYZoutPageNumberKeyboard'.
+Invalid column name 'HomeKeyboard'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+Invalid column name 'TablePickUpKeyboard'.
+Invalid column name 'OperationKeyboard'.
+Invalid column name 'EmployeeKeyboard'.
+Invalid column name 'BillingKeyboard'.
+Invalid column name 'ReportKeyboard'.
+Invalid column name 'OrderPageKeyboard'.
+Invalid column name 'KitchenViewKeyboard'.
+Invalid column name 'SearchPageKeyboard'.
+Invalid column name 'SaleBillYZoutPageKeyboard'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:37:14 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'HomeNumberKeyboard'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'TablePickUpNumberKeyboard'.
+Invalid column name 'OperationNumberKeyboard'.
+Invalid column name 'EmployeeNumberKeyboard'.
+Invalid column name 'BillingNumberKeyboard'.
+Invalid column name 'ReportNumberKeyboard'.
+Invalid column name 'OrderPageNumberKeyboard'.
+Invalid column name 'KitchenViewNumberKeyboard'.
+Invalid column name 'SearchPageNumberKeyboard'.
+Invalid column name 'SaleBillYZoutPageNumberKeyboard'.
+Invalid column name 'HomeKeyboard'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+Invalid column name 'TablePickUpKeyboard'.
+Invalid column name 'OperationKeyboard'.
+Invalid column name 'EmployeeKeyboard'.
+Invalid column name 'BillingKeyboard'.
+Invalid column name 'ReportKeyboard'.
+Invalid column name 'OrderPageKeyboard'.
+Invalid column name 'KitchenViewKeyboard'.
+Invalid column name 'SearchPageKeyboard'.
+Invalid column name 'SaleBillYZoutPageKeyboard'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:40:36 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:41:39 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:41:39 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:42:33 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:46:33 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 12:56:39 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 1:00:27 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 1:05:40 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid column name 'ItemCode'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 1:05:43 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid object name 'tblRefund'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 1:52:34 PM
+Page : ZOut Page PrintXout()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:00:29 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid object name 'tblCardHistory'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:05:25 PM
+Page : ZOut Page PrintXout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:06:34 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:10:31 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:15:01 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:17:07 PM
+Page : ZOut Page PrintXout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:18:45 PM
+Page : ZOut Page PrintXout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:18:51 PM
+Page : ZOut Page PrintXout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:26:03 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:26:53 PM
+Page : ZOut Page PrintXout()
+Exception: Specified argument was out of the range of valid values.
+Parameter name: name
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 2:30:29 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:08:02 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:12:16 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:15:58 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:26:43 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:26:44 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:27:11 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:30:18 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:31:28 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:31:35 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:31:46 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:31:46 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:32:06 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:33:25 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:34:12 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:35:21 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:36:09 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:44:54 PM
+Page : homepage btnGen_conf_Click
+Exception: Implicit conversion from data type nvarchar to varbinary(max) is not allowed. Use the CONVERT function to run this query.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:46:23 PM
+Page : homepage btnGen_conf_Click
+Exception: Procedure or function prdInsertUpdateGenConf has too many arguments specified.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:46:44 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:47:41 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:49:41 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid report file path.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:50:06 PM
+Page : ZOut Page PrintXout()
+Exception: Load report failed.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:54:22 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 3:59:46 PM
+Page : ZOut Page PrintXout()
+Exception: Load report failed.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:14:26 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:15:25 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:15:43 PM
+Page : ZOut Page Get_CompantDetails()
+Exception: Invalid object name 'tblLocationDetails'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:15:43 PM
+Page : ZOut Page PrintXout()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:15:46 PM
+Page : ZOut Page Get_CompantDetails()
+Exception: Invalid object name 'tblLocationDetails'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:15:46 PM
+Page : ZOut Page PrintXout()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:18:57 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:20:29 PM
+Page : ZOut Page Get_CompantDetails()
+Exception: Invalid object name 'tblLocationDetails'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:21:39 PM
+Page : ZOut Page PrintXout()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:39:05 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid index. (Exception from HRESULT: 0x8002000B (DISP_E_BADINDEX))
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:40:12 PM
+Page : ZOut Page PrintXout()
+Exception: Invalid index. (Exception from HRESULT: 0x8002000B (DISP_E_BADINDEX))
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:44:04 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:44:36 PM
+Page : ZOut Page PrintXout()
+Exception: Error in File CR_Zout 14208_37172_{C39D72E0-47CA-4C9B-9445-A02CB48D997C}.rpt:
+Error in formula  drawer_total: 
+'{DT_Drawer.TotalNetAmount}+{DT_Drawer.InitialAmount}+{DT_Drawer.Drops}-{DT_Drawer.LoanAmount}'
+This field name is not known.
+Details: errorKind
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 4:45:06 PM
+Page : ZOut Page PrintXout()
+Exception: Error in File CR_Zout 14208_37172_{C39D72E0-47CA-4C9B-9445-A02CB48D997C}.rpt:
+Error in formula  drawer_total: 
+'{DT_Drawer.TotalNetAmount}+{DT_Drawer.InitialAmount}+{DT_Drawer.Drops}-{DT_Drawer.LoanAmount}'
+This field name is not known.
+Details: errorKind
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 5:14:35 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 5:14:48 PM
+Page : ZOut Page PrintXout()
+Exception: Error in File CR_Zout 31140_25376_{62E9FC7B-2ECD-4226-BB76-9EDAD7129DCD}.rpt:
+Error in formula  drawer_total: 
+'{DT_Drawer.TotalNetAmount}+{DT_Drawer.InitialAmount}+{DT_Drawer.Drops}-{DT_Drawer.LoanAmount}'
+This field name is not known.
+Details: errorKind
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 5:14:50 PM
+Page : ZOut Page PrintXout()
+Exception: Error in File CR_Zout 31140_25376_{62E9FC7B-2ECD-4226-BB76-9EDAD7129DCD}.rpt:
+Error in formula  drawer_total: 
+'{DT_Drawer.TotalNetAmount}+{DT_Drawer.InitialAmount}+{DT_Drawer.Drops}-{DT_Drawer.LoanAmount}'
+This field name is not known.
+Details: errorKind
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 34
+-------------------------------------------------------------------------
+Date and Time: 11/11/2025 5:18:35 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
