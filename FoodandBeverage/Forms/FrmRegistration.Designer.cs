@@ -1646,7 +1646,9 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmRegistration";
+            this.Tag = "16";
             this.Text = "FrmRegistration";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmRegistration_FormClosing);
             this.Load += new System.EventHandler(this.FrmRegistration_Load);
             this.Resize += new System.EventHandler(this.FrmRegistration_Resize);
             this.tlp_header_nav.ResumeLayout(false);

@@ -1043,7 +1043,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.tlp_rw3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.54072F));
             this.tlp_rw3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.54515F));
             this.tlp_rw3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.37793F));
-            this.tlp_rw3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.tlp_rw3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
             this.tlp_rw3.Controls.Add(this.btn_f8, 8, 0);
             this.tlp_rw3.Controls.Add(this.btn_f5, 7, 0);
             this.tlp_rw3.Controls.Add(this.btn_ques, 4, 0);
@@ -1072,7 +1072,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_f8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_f8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_f8.ForeColor = System.Drawing.Color.White;
-            this.btn_f8.Location = new System.Drawing.Point(489, 3);
+            this.btn_f8.Location = new System.Drawing.Point(484, 3);
             this.btn_f8.Name = "btn_f8";
             this.btn_f8.Size = new System.Drawing.Size(67, 49);
             this.btn_f8.TabIndex = 5;
@@ -1092,7 +1092,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_f5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_f5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_f5.ForeColor = System.Drawing.Color.White;
-            this.btn_f5.Location = new System.Drawing.Point(415, 3);
+            this.btn_f5.Location = new System.Drawing.Point(410, 3);
             this.btn_f5.Name = "btn_f5";
             this.btn_f5.Size = new System.Drawing.Size(68, 49);
             this.btn_f5.TabIndex = 4;
@@ -1114,9 +1114,9 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_ques.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ques.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_ques.ForeColor = System.Drawing.Color.White;
-            this.btn_ques.Location = new System.Drawing.Point(222, 3);
+            this.btn_ques.Location = new System.Drawing.Point(220, 3);
             this.btn_ques.Name = "btn_ques";
-            this.btn_ques.Size = new System.Drawing.Size(56, 51);
+            this.btn_ques.Size = new System.Drawing.Size(55, 51);
             this.btn_ques.TabIndex = 3;
             this.btn_ques.Text = "?";
             this.btn_ques.UseVisualStyleBackColor = true;
@@ -1134,9 +1134,9 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_coma.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_coma.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_coma.ForeColor = System.Drawing.Color.White;
-            this.btn_coma.Location = new System.Drawing.Point(160, 3);
+            this.btn_coma.Location = new System.Drawing.Point(159, 3);
             this.btn_coma.Name = "btn_coma";
-            this.btn_coma.Size = new System.Drawing.Size(56, 51);
+            this.btn_coma.Size = new System.Drawing.Size(55, 51);
             this.btn_coma.TabIndex = 2;
             this.btn_coma.Text = ",";
             this.btn_coma.UseVisualStyleBackColor = true;
@@ -1156,7 +1156,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.btndot.ForeColor = System.Drawing.Color.White;
             this.btndot.Location = new System.Drawing.Point(98, 3);
             this.btndot.Name = "btndot";
-            this.btndot.Size = new System.Drawing.Size(56, 51);
+            this.btndot.Size = new System.Drawing.Size(55, 51);
             this.btndot.TabIndex = 1;
             this.btndot.Text = ".";
             this.btndot.UseVisualStyleBackColor = true;
@@ -1194,7 +1194,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_sinque.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_sinque.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_sinque.ForeColor = System.Drawing.Color.White;
-            this.btn_sinque.Location = new System.Drawing.Point(346, 3);
+            this.btn_sinque.Location = new System.Drawing.Point(342, 3);
             this.btn_sinque.Name = "btn_sinque";
             this.btn_sinque.Size = new System.Drawing.Size(60, 51);
             this.btn_sinque.TabIndex = 4;
@@ -1214,9 +1214,9 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_exclamation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_exclamation.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_exclamation.ForeColor = System.Drawing.Color.White;
-            this.btn_exclamation.Location = new System.Drawing.Point(284, 3);
+            this.btn_exclamation.Location = new System.Drawing.Point(281, 3);
             this.btn_exclamation.Name = "btn_exclamation";
-            this.btn_exclamation.Size = new System.Drawing.Size(56, 51);
+            this.btn_exclamation.Size = new System.Drawing.Size(55, 51);
             this.btn_exclamation.TabIndex = 5;
             this.btn_exclamation.Text = "!";
             this.btn_exclamation.UseVisualStyleBackColor = true;
@@ -1233,7 +1233,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.btn_backspace2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_backspace2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_backspace2.ForeColor = System.Drawing.Color.White;
-            this.btn_backspace2.Location = new System.Drawing.Point(562, 3);
+            this.btn_backspace2.Location = new System.Drawing.Point(557, 3);
             this.btn_backspace2.Name = "btn_backspace2";
             this.btn_backspace2.Size = new System.Drawing.Size(77, 51);
             this.btn_backspace2.TabIndex = 8;
@@ -1736,7 +1736,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Frmkeyboard";
             this.Padding = new System.Windows.Forms.Padding(15);
-            this.Tag = "22";
+            this.Tag = "36";
             this.Text = "Frmkeyboard";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frmkeyboard_FormClosing);
             this.Load += new System.EventHandler(this.Frmkeyboard_Load);

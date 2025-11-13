@@ -770,7 +770,9 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.txtvid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmExpence";
+            this.Tag = "14";
             this.Text = "Frmwithdrawal";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmExpence_FormClosing);
             this.Load += new System.EventHandler(this.FrmExpence_Load);
             this.tlp_navbar.ResumeLayout(false);
             this.tlp_navbar.PerformLayout();

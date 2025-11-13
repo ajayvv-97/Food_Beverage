@@ -57,6 +57,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+                }
+
                 ActiveControl = txtname;
                 txtname.Focus();
                 FillCombo();
@@ -1435,5 +1440,12 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void FrmRegistration_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
     }
 }

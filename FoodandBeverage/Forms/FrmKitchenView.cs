@@ -1390,6 +1390,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                }
                 dgv_viewmore.BorderStyle = BorderStyle.None;
                 dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -3480,6 +3484,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.UnregisterForm(this);
+                }
                 refreshtimer.Stop();
                 this.Dispose();
             }

@@ -57,7 +57,31 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+        public static void ApplyRoundedCorners(Form form, int borderRadius)
+        {
+            try
+            {
+                if (form == null || borderRadius <= 0)
+                    return;
 
+                Rectangle bounds = new Rectangle(0, 0, form.Width, form.Height);
+
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    path.AddArc(bounds.Left, bounds.Top, borderRadius, borderRadius, 180, 90);
+                    path.AddArc(bounds.Right - borderRadius, bounds.Top, borderRadius, borderRadius, 270, 90);
+                    path.AddArc(bounds.Right - borderRadius, bounds.Bottom - borderRadius, borderRadius, borderRadius, 0, 90);
+                    path.AddArc(bounds.Left, bounds.Bottom - borderRadius, borderRadius, borderRadius, 90, 90);
+                    path.CloseFigure();
+
+                    form.Region = new Region(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Rounded corner error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public static void MakePickupBagShape(TableLayoutPanel table, int cornerRadius, Color borderColor)
         {
             if (table == null) return;

@@ -48,8 +48,13 @@ namespace FoodandBeverage.Report
             this.lblsublist = new System.Windows.Forms.Label();
             this.cmbSublist = new System.Windows.Forms.ComboBox();
             this.tblReportCategory = new System.Windows.Forms.TableLayoutPanel();
+            this.btnYealy = new System.Windows.Forms.Button();
+            this.btnWeekEnd = new System.Windows.Forms.Button();
+            this.btnMonthly = new System.Windows.Forms.Button();
+            this.btnWeekly = new System.Windows.Forms.Button();
             this.btnpickcolor = new System.Windows.Forms.Button();
             this.labheaderboxcolor = new System.Windows.Forms.Label();
+            this.btnserach = new System.Windows.Forms.Button();
             this.crv_report = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.dtp_to_time = new System.Windows.Forms.DateTimePicker();
             this.dtpto = new System.Windows.Forms.DateTimePicker();
@@ -57,11 +62,6 @@ namespace FoodandBeverage.Report
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
             this.dtpfrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnYealy = new System.Windows.Forms.Button();
-            this.btnWeekEnd = new System.Windows.Forms.Button();
-            this.btnMonthly = new System.Windows.Forms.Button();
-            this.btnWeekly = new System.Windows.Forms.Button();
-            this.btnserach = new System.Windows.Forms.Button();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
             this.tlp_top_row.SuspendLayout();
@@ -342,112 +342,6 @@ namespace FoodandBeverage.Report
             this.tblReportCategory.Size = new System.Drawing.Size(377, 40);
             this.tblReportCategory.TabIndex = 45;
             // 
-            // btnpickcolor
-            // 
-            this.btnpickcolor.BackgroundImage = global::FoodandBeverage.Properties.Resources.colorpicker_report;
-            this.btnpickcolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnpickcolor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnpickcolor.FlatAppearance.BorderSize = 0;
-            this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
-            this.btnpickcolor.Name = "btnpickcolor";
-            this.btnpickcolor.Size = new System.Drawing.Size(47, 40);
-            this.btnpickcolor.TabIndex = 47;
-            this.btnpickcolor.UseVisualStyleBackColor = true;
-            this.btnpickcolor.Click += new System.EventHandler(this.btnpickcolor_Click);
-            // 
-            // labheaderboxcolor
-            // 
-            this.labheaderboxcolor.AutoSize = true;
-            this.labheaderboxcolor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labheaderboxcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.labheaderboxcolor.Location = new System.Drawing.Point(419, 0);
-            this.labheaderboxcolor.Name = "labheaderboxcolor";
-            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 46);
-            this.labheaderboxcolor.TabIndex = 46;
-            this.labheaderboxcolor.Text = "Header color";
-            this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // crv_report
-            // 
-            this.crv_report.ActiveViewIndex = -1;
-            this.crv_report.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.crv_report.Cursor = System.Windows.Forms.Cursors.Default;
-            this.crv_report.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.crv_report.Location = new System.Drawing.Point(3, 117);
-            this.crv_report.Name = "crv_report";
-            this.crv_report.ShowCloseButton = false;
-            this.crv_report.ShowCopyButton = false;
-            this.crv_report.ShowGotoPageButton = false;
-            this.crv_report.ShowGroupTreeButton = false;
-            this.crv_report.ShowLogo = false;
-            this.crv_report.ShowParameterPanelButton = false;
-            this.crv_report.ShowPrintButton = false;
-            this.crv_report.ShowRefreshButton = false;
-            this.crv_report.ShowTextSearchButton = false;
-            this.crv_report.ShowZoomButton = false;
-            this.crv_report.Size = new System.Drawing.Size(897, 417);
-            this.crv_report.TabIndex = 2;
-            this.crv_report.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
-            // 
-            // dtp_to_time
-            // 
-            this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_to_time.Location = new System.Drawing.Point(37, 19);
-            this.dtp_to_time.Name = "dtp_to_time";
-            this.dtp_to_time.Size = new System.Drawing.Size(111, 26);
-            this.dtp_to_time.TabIndex = 32;
-            this.dtp_to_time.Visible = false;
-            // 
-            // dtpto
-            // 
-            this.dtpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpto.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpto.Location = new System.Drawing.Point(35, 21);
-            this.dtpto.Name = "dtpto";
-            this.dtpto.Size = new System.Drawing.Size(103, 26);
-            this.dtpto.TabIndex = 29;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 18);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "To :";
-            // 
-            // dtp_from_time
-            // 
-            this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_from_time.Location = new System.Drawing.Point(30, 19);
-            this.dtp_from_time.Name = "dtp_from_time";
-            this.dtp_from_time.Size = new System.Drawing.Size(111, 26);
-            this.dtp_from_time.TabIndex = 31;
-            this.dtp_from_time.Visible = false;
-            // 
-            // dtpfrom
-            // 
-            this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpfrom.Location = new System.Drawing.Point(36, 21);
-            this.dtpfrom.Name = "dtpfrom";
-            this.dtpfrom.Size = new System.Drawing.Size(103, 26);
-            this.dtpfrom.TabIndex = 28;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(0, 24);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 18);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "From :";
-            // 
             // btnYealy
             // 
             this.btnYealy.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnYealy.BackgroundImage")));
@@ -516,6 +410,32 @@ namespace FoodandBeverage.Report
             this.btnWeekly.UseVisualStyleBackColor = true;
             this.btnWeekly.Click += new System.EventHandler(this.btnWeekly_Click);
             // 
+            // btnpickcolor
+            // 
+            this.btnpickcolor.BackgroundImage = global::FoodandBeverage.Properties.Resources.colorpicker_report;
+            this.btnpickcolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnpickcolor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnpickcolor.FlatAppearance.BorderSize = 0;
+            this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
+            this.btnpickcolor.Name = "btnpickcolor";
+            this.btnpickcolor.Size = new System.Drawing.Size(47, 40);
+            this.btnpickcolor.TabIndex = 47;
+            this.btnpickcolor.UseVisualStyleBackColor = true;
+            this.btnpickcolor.Click += new System.EventHandler(this.btnpickcolor_Click);
+            // 
+            // labheaderboxcolor
+            // 
+            this.labheaderboxcolor.AutoSize = true;
+            this.labheaderboxcolor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labheaderboxcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.labheaderboxcolor.Location = new System.Drawing.Point(419, 0);
+            this.labheaderboxcolor.Name = "labheaderboxcolor";
+            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 46);
+            this.labheaderboxcolor.TabIndex = 46;
+            this.labheaderboxcolor.Text = "Header color";
+            this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnserach
             // 
             this.btnserach.BackgroundImage = global::FoodandBeverage.Properties.Resources.search_report;
@@ -529,6 +449,87 @@ namespace FoodandBeverage.Report
             this.btnserach.TabIndex = 48;
             this.btnserach.UseVisualStyleBackColor = true;
             this.btnserach.Click += new System.EventHandler(this.btnserach_Click);
+            // 
+            // crv_report
+            // 
+            this.crv_report.ActiveViewIndex = -1;
+            this.crv_report.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crv_report.Cursor = System.Windows.Forms.Cursors.Default;
+            this.crv_report.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crv_report.Location = new System.Drawing.Point(3, 117);
+            this.crv_report.Name = "crv_report";
+            this.crv_report.ShowCloseButton = false;
+            this.crv_report.ShowCopyButton = false;
+            this.crv_report.ShowGotoPageButton = false;
+            this.crv_report.ShowGroupTreeButton = false;
+            this.crv_report.ShowLogo = false;
+            this.crv_report.ShowParameterPanelButton = false;
+            this.crv_report.ShowPrintButton = false;
+            this.crv_report.ShowRefreshButton = false;
+            this.crv_report.ShowTextSearchButton = false;
+            this.crv_report.ShowZoomButton = false;
+            this.crv_report.Size = new System.Drawing.Size(897, 417);
+            this.crv_report.TabIndex = 2;
+            this.crv_report.Tag = "31";
+            this.crv_report.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
+            // 
+            // dtp_to_time
+            // 
+            this.dtp_to_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtp_to_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_to_time.Location = new System.Drawing.Point(37, 19);
+            this.dtp_to_time.Name = "dtp_to_time";
+            this.dtp_to_time.Size = new System.Drawing.Size(111, 26);
+            this.dtp_to_time.TabIndex = 32;
+            this.dtp_to_time.Visible = false;
+            // 
+            // dtpto
+            // 
+            this.dtpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpto.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpto.Location = new System.Drawing.Point(35, 21);
+            this.dtpto.Name = "dtpto";
+            this.dtpto.Size = new System.Drawing.Size(103, 26);
+            this.dtpto.TabIndex = 29;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 18);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "To :";
+            // 
+            // dtp_from_time
+            // 
+            this.dtp_from_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtp_from_time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_from_time.Location = new System.Drawing.Point(30, 19);
+            this.dtp_from_time.Name = "dtp_from_time";
+            this.dtp_from_time.Size = new System.Drawing.Size(111, 26);
+            this.dtp_from_time.TabIndex = 31;
+            this.dtp_from_time.Visible = false;
+            // 
+            // dtpfrom
+            // 
+            this.dtpfrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpfrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpfrom.Location = new System.Drawing.Point(36, 21);
+            this.dtpfrom.Name = "dtpfrom";
+            this.dtpfrom.Size = new System.Drawing.Size(103, 26);
+            this.dtpfrom.TabIndex = 28;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(0, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 18);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "From :";
             // 
             // Frmreport
             // 

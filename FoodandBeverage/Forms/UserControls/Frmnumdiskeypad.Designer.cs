@@ -907,7 +907,7 @@ namespace FoodandBeverage.Forms.UserControl
             this.Name = "Frmnumdiskeypad";
             this.Padding = new System.Windows.Forms.Padding(20);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Tag = "25";
+            this.Tag = "37";
             this.Text = "Frmdiskeypad";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frmnumdiskeypad_FormClosing);
             this.Load += new System.EventHandler(this.Frmnumdiskeypad_Load);

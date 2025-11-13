@@ -39,6 +39,9 @@
     <Reference Include="AYJ_CardLib_Ul">
       <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Ul.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
       <HintPath>..\packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
     </Reference>
@@ -80,6 +83,9 @@
     </Reference>
     <Reference Include="Irony, Version=1.0.11.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.NetCore.1.0.11\lib\net461\Irony.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
@@ -266,6 +272,7 @@
     <Compile Include="AYTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\AppFonts.cs" />
     <Compile Include="Classes\AppSession.cs" />
     <Compile Include="Classes\AutoLogoutManager.cs" />
     <Compile Include="Classes\ClsDocument.cs" />
@@ -864,11 +871,17 @@
     <EmbeddedResource Include="Forms\LoadingGIF_Timer.resx">
       <DependentUpon>LoadingGIF_Timer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\FrmDataGridView.resx">
+      <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\Frmkeyboard.resx">
       <DependentUpon>Frmkeyboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\Frmnumdiskeypad.resx">
       <DependentUpon>Frmnumdiskeypad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\FrmSearch.resx">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1108,9 +1121,6 @@
     <None Include="Resources\table.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\item.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\add_row.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1177,21 +1187,6 @@
     <None Include="Resources\Search_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\operation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\report.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\logout.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\setting.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bill.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\restaurant1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1201,22 +1196,10 @@
     <None Include="Resources\Purchase.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\tax.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\unit.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\category.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Item_reg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Product.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\searchbutton_gif.gif" />
@@ -1235,9 +1218,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\refresh_Button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SaveButton.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SearchButton.png" />
@@ -1262,9 +1242,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\withdraw.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\discount.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\offer_Add_button.png" />
@@ -1324,9 +1301,6 @@
     <None Include="Resources\button_complete_order.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\kitchen_order_view.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\food category.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1340,9 +1314,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\dish_remarks_notes.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\promo_code.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\offer_button_percentage.png" />
@@ -1387,25 +1358,13 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\comapny.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\add_des_dep_user.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Employee.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Profilepicmale.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Profilepicfemale.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\reserved.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\userpermisson.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\billcomplete_GIF.gif" />
@@ -1489,9 +1448,6 @@
     <None Include="Resources\DEACTIVIATE.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\menutable.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\rupee-indian.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1535,12 +1491,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\cancel_icon_wifi.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\addon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Closebutton.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ok button.png" />
@@ -1726,9 +1676,6 @@
     <None Include="Resources\refresh_dashboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\usericon_dashboard.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\combchossebutton.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1902,9 +1849,40 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Designation icon.png" />
+    <None Include="Resources\User account.png" />
+    <None Include="Resources\Permission icon.png" />
+    <None Include="Resources\Department icon.png" />
+    <None Include="Resources\userpermisson.png" />
+    <None Include="Resources\operation.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\setting.png" />
+    <None Include="Resources\menutable.png" />
+    <None Include="Resources\bill.png" />
+    <None Include="Resources\Employee.png" />
+    <None Include="Resources\logout.png" />
+    <None Include="Resources\Home icon.png" />
+    <None Include="Resources\minimize_button1.png" />
+    <None Include="Resources\minimize_button.png" />
+    <None Include="Resources\Closebutton.png" />
+    <None Include="Resources\menu.png" />
+    <None Include="Resources\kitchen_order_view.png" />
+    <None Include="Resources\item.png" />
+    <None Include="Resources\discount.png" />
+    <None Include="Resources\comapny.png" />
+    <None Include="Resources\category.png" />
+    <None Include="Resources\addon.png" />
+    <None Include="Resources\vendericon.png" />
+    <None Include="Resources\tax.png" />
+    <None Include="Resources\reserved.png" />
+    <None Include="Resources\Purchase_return.png" />
+    <None Include="Resources\promo_code.png" />
+    <None Include="Resources\Product.png" />
+    <None Include="Resources\usericon_dashboard.png" />
+    <None Include="Resources\SaveButton.png" />
+    <None Include="Resources\fb_operationbtn.png" />
     <None Include="Resources\fb_sidemenu.png" />
     <None Include="Resources\fb_Pickup.png" />
-    <None Include="Resources\fb_operationbtn.png" />
     <None Include="Resources\red_Homebutton.png" />
     <None Include="Resources\empty_orders.png" />
     <None Include="Resources\midaslogo_v.png" />

@@ -537,6 +537,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pd
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Mi.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\AYJ_CardLib_Ul.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BouncyCastle.Cryptography.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ClosedXML.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
@@ -554,6 +555,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ExcelNumberFormat.
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FastMember.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FontAwesome.Sharp.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Irony.dll
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\itextsharp.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.WinForms.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.Wpf.dll
@@ -607,6 +609,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\stdole.dll
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\BouncyCastle.Cryptography.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ClosedXML.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
@@ -614,6 +617,7 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.e
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DocumentFormat.OpenXml.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\EPPlus.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ExcelNumberFormat.xml
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\itextsharp.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.WinForms.pdb
@@ -693,3 +697,5 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.UserControls.FrmDataGridView.resources
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.UserControls.FrmSearch.resources

@@ -585,6 +585,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+                }
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -873,6 +877,14 @@ namespace FoodandBeverage.Forms
             if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void FrmTaxSetting_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
             }
         }
     }

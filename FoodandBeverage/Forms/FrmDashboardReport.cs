@@ -111,6 +111,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                }
                 startDate = DateTime.Today;
                 endDate = DateTime.Today.AddHours(23);
                 Cmbserachtype.SelectedIndex = Convert.ToInt32(DMY.DAY);
@@ -2944,6 +2948,12 @@ namespace FoodandBeverage.Forms
 
         }
 
-
+        private void FrmDashboardReport_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
     }
 }

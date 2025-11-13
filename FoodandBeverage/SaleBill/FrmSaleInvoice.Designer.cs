@@ -211,6 +211,7 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ShowZoomButton = false;
             this.crvSalesBill.Size = new System.Drawing.Size(379, 652);
             this.crvSalesBill.TabIndex = 67;
+            this.crvSalesBill.Tag = "39";
             this.crvSalesBill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
             // tlp_main_bill

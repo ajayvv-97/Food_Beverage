@@ -441,7 +441,9 @@ namespace FoodandBeverage.Forms.UserAccount
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmUserAccount";
+            this.Tag = "21";
             this.Text = "FrmUserAccount";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmUserAccount_FormClosing);
             this.Load += new System.EventHandler(this.FrmUserAccount_Load);
             this.Resize += new System.EventHandler(this.FrmUserAccount_Resize);
             this.tlp_header.ResumeLayout(false);

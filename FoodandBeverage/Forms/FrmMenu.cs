@@ -547,6 +547,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+                }
+
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -1844,6 +1849,14 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page chk_seleall_pro_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
+            }
+        }
+
+        private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
             }
         }
     }

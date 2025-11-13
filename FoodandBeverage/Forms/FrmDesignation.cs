@@ -380,6 +380,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.employee);
+                }
                 dgvDesignation.BorderStyle = BorderStyle.None;
                 dgvDesignation.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvDesignation.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -719,6 +723,14 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void FrmDesignation_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
         }
     }
 }

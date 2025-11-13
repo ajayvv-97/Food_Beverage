@@ -45,6 +45,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmTableView_Load(object sender, EventArgs e)
         {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+            }
             LoadTableStaus(tabletype);
         }
 
@@ -992,6 +996,12 @@ namespace FoodandBeverage.Forms
             TableStaus(0);
         }
 
-
+        private void FrmTableView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
     }
 }

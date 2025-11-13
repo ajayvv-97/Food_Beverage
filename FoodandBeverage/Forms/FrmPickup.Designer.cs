@@ -176,7 +176,9 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPickup";
+            this.Tag = "33";
             this.Text = "FrmPickup";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPickup_FormClosing);
             this.Load += new System.EventHandler(this.FrmPickup_Load);
             this.Resize += new System.EventHandler(this.FrmPickup_Resize);
             this.tlp_main.ResumeLayout(false);

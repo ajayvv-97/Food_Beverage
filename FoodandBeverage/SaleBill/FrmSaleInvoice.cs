@@ -410,24 +410,25 @@ namespace FoodandBeverage.SaleBill
                     //    reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo_QR_CUS.rpt.rpt");
 
                     string reportFileName = "";
-                    if (Logo_Status && QR_Status && Customer_Status)
-                        reportFileName = "CR_Bill.rpt";
-                    else if (Logo_Status && !QR_Status && Customer_Status)
-                        reportFileName = "CR_Bill_Without_QR.rpt";
-                    else if (!Logo_Status && QR_Status && Customer_Status)
-                        reportFileName = "CR_Bill_Without_Logo.rpt";
-                    else if (Logo_Status && QR_Status && !Customer_Status)
-                        reportFileName = "CR_Bill_Without_CUS.rpt";
+                    //if (Logo_Status && QR_Status && Customer_Status)
+                    //    reportFileName = "CR_Bill.rpt";
+                    //else if (Logo_Status && !QR_Status && Customer_Status)
+                    //    reportFileName = "CR_Bill_Without_QR.rpt";
+                    //else if (!Logo_Status && QR_Status && Customer_Status)
+                    //    reportFileName = "CR_Bill_Without_Logo.rpt";
+                    //else if (Logo_Status && QR_Status && !Customer_Status)
+                    //    reportFileName = "CR_Bill_Without_CUS.rpt";
 
-                    else if (!Logo_Status && !QR_Status && Customer_Status)
-                        reportFileName = "CR_Bill_withoutQR_Logo.rpt";
-                    else if (!Logo_Status && QR_Status && !Customer_Status)
-                        reportFileName = "CR_Bill_withoutLogo_CUS.rpt";
-                    else if (Logo_Status && !QR_Status && !Customer_Status)
-                        reportFileName = "CR_Bill_withoutQR_CUS.rpt";
-                    else if (!Logo_Status && !QR_Status && !Customer_Status)
-                        reportFileName = "CR_Bill_withoutQR_Logo_CUS.rpt";
+                    //else if (!Logo_Status && !QR_Status && Customer_Status)
+                    //    reportFileName = "CR_Bill_withoutQR_Logo.rpt";
+                    //else if (!Logo_Status && QR_Status && !Customer_Status)
+                    //    reportFileName = "CR_Bill_withoutLogo_CUS.rpt";
+                    //else if (Logo_Status && !QR_Status && !Customer_Status)
+                    //    reportFileName = "CR_Bill_withoutQR_CUS.rpt";
+                    //else if (!Logo_Status && !QR_Status && !Customer_Status)
+                    //    reportFileName = "CR_Bill_withoutQR_Logo_CUS.rpt";
 
+                    reportFileName = "CR_Bill.rpt";
                     if (!string.IsNullOrEmpty(reportFileName))
                         reportDocument.Load(Path.Combine(RPTPath, reportFileName));
                     string xy = RPTPath + @"\CR_Bill.rpt";
@@ -445,7 +446,6 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("cashamount",cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
-
                 reportDocument.SetParameterValue("footermsg", FooterMsg);
 
                 if (invoiceBillMasters[0].Rev_Status==1)

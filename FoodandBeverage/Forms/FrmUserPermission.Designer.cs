@@ -721,7 +721,9 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmUserPermission";
+            this.Tag = "22";
             this.Text = "FrmUserPermission";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmUserPermission_FormClosing);
             this.Load += new System.EventHandler(this.FrmUserPermission_Load);
             this.Resize += new System.EventHandler(this.FrmUserPermission_Resize);
             this.tlp_header.ResumeLayout(false);

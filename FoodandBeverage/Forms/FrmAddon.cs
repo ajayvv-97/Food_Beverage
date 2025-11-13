@@ -37,6 +37,14 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
+                //UIHelper.RoundCorners(tlp_navbar, 25, ColorTranslator.FromHtml("#6550b9"));
+
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                }
+
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -62,6 +70,8 @@ namespace FoodandBeverage.Forms
                 dgv_addon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
                 dgv_addon.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_addon.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                UIHelper.ApplyRoundedCorners(this, 30);
             }
             catch (Exception ex)
             {
@@ -637,6 +647,14 @@ namespace FoodandBeverage.Forms
         private void btnclose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmAddon_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
         }
     }
 }

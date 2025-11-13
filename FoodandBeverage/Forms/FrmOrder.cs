@@ -240,6 +240,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                }
+
                 tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
                 lbltablecode_header.Text = "TABLE CODE ";
 
@@ -12168,6 +12173,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmOrder_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
             if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 GC.Collect();

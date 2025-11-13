@@ -538,6 +538,7 @@
             this.KeyPreview = true;
             this.Name = "FrmSearch";
             this.Resizable = false;
+            this.Tag = "38";
             this.Load += new System.EventHandler(this.FrmSelect_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FrmSearch_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGeneral)).EndInit();

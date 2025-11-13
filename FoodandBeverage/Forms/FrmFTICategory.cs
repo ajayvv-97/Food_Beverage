@@ -337,6 +337,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+                }
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmexpence = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -607,5 +611,12 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void FrmFTICategory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
     }
 }

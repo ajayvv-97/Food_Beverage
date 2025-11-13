@@ -46,6 +46,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmPickup_Load(object sender, System.EventArgs e)
         {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+            }
             LoadPickupView(Searchmode);
             ShowEmptyOrderIcon();
             textb_shape();
@@ -1001,8 +1005,13 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-     
+        private void FrmPickup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
     }
 
 }

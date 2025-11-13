@@ -394,7 +394,7 @@ namespace FoodandBeverage.Forms
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.29758F));
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.434783F));
             this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.086957F));
-            this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tlp_next_prev.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
             this.tlp_next_prev.Controls.Add(this.btnnext, 3, 0);
             this.tlp_next_prev.Controls.Add(this.btnprevious, 1, 0);
             this.tlp_next_prev.Controls.Add(this.lblorderheading, 0, 0);
@@ -414,7 +414,7 @@ namespace FoodandBeverage.Forms
             this.btnnext.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnnext.FlatAppearance.BorderSize = 0;
             this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnnext.Location = new System.Drawing.Point(705, 3);
+            this.btnnext.Location = new System.Drawing.Point(703, 3);
             this.btnnext.Name = "btnnext";
             this.btnnext.Size = new System.Drawing.Size(34, 27);
             this.btnnext.TabIndex = 1;
@@ -428,7 +428,7 @@ namespace FoodandBeverage.Forms
             this.btnprevious.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnprevious.FlatAppearance.BorderSize = 0;
             this.btnprevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnprevious.Location = new System.Drawing.Point(660, 3);
+            this.btnprevious.Location = new System.Drawing.Point(658, 3);
             this.btnprevious.Name = "btnprevious";
             this.btnprevious.Size = new System.Drawing.Size(32, 27);
             this.btnprevious.TabIndex = 0;
@@ -442,7 +442,7 @@ namespace FoodandBeverage.Forms
             this.lblorderheading.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblorderheading.Location = new System.Drawing.Point(3, 0);
             this.lblorderheading.Name = "lblorderheading";
-            this.lblorderheading.Size = new System.Drawing.Size(651, 33);
+            this.lblorderheading.Size = new System.Drawing.Size(649, 33);
             this.lblorderheading.TabIndex = 2;
             this.lblorderheading.Text = "label1";
             this.lblorderheading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1009,8 +1009,10 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmOrderView";
+            this.Tag = "23";
             this.Text = "FrmOrderView";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmOrderView_FormClosing);
             this.Load += new System.EventHandler(this.FrmOrderView_Load);
             this.tlp_main.ResumeLayout(false);
             this.tlp_navbar.ResumeLayout(false);

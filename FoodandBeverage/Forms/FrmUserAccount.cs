@@ -12,6 +12,7 @@ using ClsGeneral = FoodandBeverage.Classes.ClsGeneral;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using CustomMessageBox;
+using FoodandBeverage.Classes;
 
 namespace FoodandBeverage.Forms.UserAccount
 {
@@ -43,6 +44,11 @@ namespace FoodandBeverage.Forms.UserAccount
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.employee);
+                }
+
                 clear();
                 FrmDashboard frmDash = new FrmDashboard();
                 if (frmDash.ChkWritePermission(Convert.ToInt32(formsenum.User_Account)))
@@ -509,6 +515,14 @@ namespace FoodandBeverage.Forms.UserAccount
         private void btncolse_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmUserAccount_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
         }
 
         private void txtemp_Leave(object sender, EventArgs e)

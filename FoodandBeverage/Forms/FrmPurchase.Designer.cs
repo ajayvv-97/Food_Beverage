@@ -2031,7 +2031,7 @@ namespace FoodandBeverage.Forms
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.72131F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.27869F));
             this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 231F));
-            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 293F));
+            this.tlp_productpop_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 296F));
             this.tlp_productpop_header.Controls.Add(this.cmb_pcategory, 2, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_item, 0, 0);
             this.tlp_productpop_header.Controls.Add(this.rd_ingrediant, 1, 0);
@@ -2057,7 +2057,7 @@ namespace FoodandBeverage.Forms
             "Item Category",
             "Expence Reasons",
             "Addon Category"});
-            this.cmb_pcategory.Location = new System.Drawing.Point(215, 3);
+            this.cmb_pcategory.Location = new System.Drawing.Point(212, 3);
             this.cmb_pcategory.Name = "cmb_pcategory";
             this.cmb_pcategory.Size = new System.Drawing.Size(225, 28);
             this.cmb_pcategory.TabIndex = 2;
@@ -2070,7 +2070,7 @@ namespace FoodandBeverage.Forms
             this.rd_item.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rd_item.Location = new System.Drawing.Point(3, 3);
             this.rd_item.Name = "rd_item";
-            this.rd_item.Size = new System.Drawing.Size(93, 24);
+            this.rd_item.Size = new System.Drawing.Size(92, 24);
             this.rd_item.TabIndex = 0;
             this.rd_item.TabStop = true;
             this.rd_item.Text = "Sale Product";
@@ -2082,9 +2082,9 @@ namespace FoodandBeverage.Forms
             this.rd_ingrediant.AutoSize = true;
             this.rd_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rd_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rd_ingrediant.Location = new System.Drawing.Point(102, 3);
+            this.rd_ingrediant.Location = new System.Drawing.Point(101, 3);
             this.rd_ingrediant.Name = "rd_ingrediant";
-            this.rd_ingrediant.Size = new System.Drawing.Size(107, 24);
+            this.rd_ingrediant.Size = new System.Drawing.Size(105, 24);
             this.rd_ingrediant.TabIndex = 1;
             this.rd_ingrediant.TabStop = true;
             this.rd_ingrediant.Text = "Non Sale Product";
@@ -2155,7 +2155,9 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPurchase";
+            this.Tag = "9";
             this.Text = "FrmPurchase";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPurchase_FormClosing);
             this.Load += new System.EventHandler(this.FrmPurchase_Load);
             this.Resize += new System.EventHandler(this.FrmPurchase_Resize);
             this.tlp_navbar.ResumeLayout(false);

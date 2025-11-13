@@ -444,21 +444,65 @@ namespace FoodandBeverage.Interfaces
     {
         Zout = 1,
         Yout = 2,
-        Normal = 3,
-        DailyColle =4
+        DailyCollection = 3,
+        DetailedCollection =4
     }
     public enum LogoutFormList
     {
-       Home = 1,
-       tablepickup=2,
-       operation=3,
-       employee=4,
-       billing=5,
-       report=6,
-       settings=7,
-       Salebill=8,
-       yzout=9,
-       coomonpage=10
+        Home = 1,
+        tablepickup = 2,
+        operation = 3,
+        employee = 4,
+        billing = 5,
+        report = 6,
+        settings = 7,
+        Salebill = 8,
+        yzout = 9,
+        coomonpage = 10
     }
+    public enum LogoutFormNameuse
+    {
+        Order = 1,
+        Kitchen_View = 2,
+        Category = 3,
+        Item = 4,
+        Product = 5,
+        Menu = 6,
+        Unit = 7,
+        Table = 8,
+        Purchase = 9,
+        Purchase_Return = 10,
+        Tax = 11,
+        Vendor = 12,
+        Discount_And_Offer = 13,
+        Expence = 14,
+        PromoCode = 15,
+        Company = 16,
+        Reservation = 17,
+        Employee = 18,
+        Department = 19,
+        Designation = 20,
+        User_Account = 21,
+        User_Permission = 22,
+        OrderView = 23,
+        Addon = 24,
+        Login = 25,
+        homepage = 26,
+        company = 27,
+        Keypad = 28,
+        DashboardChart = 29,
+        TableView = 30,
+        Report = 31,
+        CombinedBillpage = 32,
+        Pickuppage = 33,
+        YZout = 34,
+
+        DataGridView = 35,
+        Keyboard = 36,
+        NumdisKeypad = 37,
+        Search = 38,
+        SaleBill=39
+    }
+
 }
 

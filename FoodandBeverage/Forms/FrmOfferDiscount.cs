@@ -174,6 +174,10 @@ namespace FoodandBeverage.Forms
 
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+                }
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
                 {
                     FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
@@ -6470,6 +6474,14 @@ namespace FoodandBeverage.Forms
         private void cmbtax_Leave(object sender, EventArgs e)
         {
             ClacTaxAmt_combo();
+        }
+
+        private void FrmOfferDiscount_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
         }
 
         //private void dgv_sigle_product_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

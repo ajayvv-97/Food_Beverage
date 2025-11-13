@@ -75,8 +75,8 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_main = new System.Windows.Forms.Panel();
-            this.txtPromoMId = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtPromoMId = new System.Windows.Forms.TextBox();
             this.tlp_navbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProCode)).BeginInit();
             this.tlp_reg.SuspendLayout();
@@ -680,19 +680,6 @@ namespace FoodandBeverage.Forms
             this.pnl_main.Size = new System.Drawing.Size(613, 538);
             this.pnl_main.TabIndex = 43;
             // 
-            // txtPromoMId
-            // 
-            this.txtPromoMId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txtPromoMId.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPromoMId.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txtPromoMId.Location = new System.Drawing.Point(8, 272);
-            this.txtPromoMId.Multiline = true;
-            this.txtPromoMId.Name = "txtPromoMId";
-            this.txtPromoMId.Size = new System.Drawing.Size(38, 27);
-            this.txtPromoMId.TabIndex = 2;
-            this.txtPromoMId.Text = "0";
-            this.txtPromoMId.Visible = false;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -709,6 +696,19 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Size = new System.Drawing.Size(609, 534);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
+            // txtPromoMId
+            // 
+            this.txtPromoMId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txtPromoMId.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPromoMId.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txtPromoMId.Location = new System.Drawing.Point(8, 272);
+            this.txtPromoMId.Multiline = true;
+            this.txtPromoMId.Name = "txtPromoMId";
+            this.txtPromoMId.Size = new System.Drawing.Size(38, 27);
+            this.txtPromoMId.TabIndex = 2;
+            this.txtPromoMId.Text = "0";
+            this.txtPromoMId.Visible = false;
+            // 
             // FrmPromo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -720,6 +720,8 @@ namespace FoodandBeverage.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPromo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "15";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPromo_FormClosing);
             this.Load += new System.EventHandler(this.FrmPromo_Load);
             this.Resize += new System.EventHandler(this.FrmPromo_Resize);
             this.tlp_navbar.ResumeLayout(false);

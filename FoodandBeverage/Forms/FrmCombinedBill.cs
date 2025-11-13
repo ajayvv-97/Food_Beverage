@@ -5,19 +5,11 @@ using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Net.NetworkInformation;
-using FoodandBeverage.Forms;
-using System.IO;
-using System.Runtime.InteropServices;
 using FoodandBeverage.Forms.UserControl;
 
 namespace FoodandBeverage.Forms
@@ -74,13 +66,17 @@ namespace FoodandBeverage.Forms
         public static int paytypename = 9;
         public static int statusno = 10;
         public static int ordermasteridno = 11;
-        public bool PrintDalvalue = false, XYDalvalue = false, DalDalvalue = false;
+
         #endregion
 
         private void FrmCombinedBill_Load(object sender, EventArgs e)
         {
             try
             {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.billing);
+                }
                 dgvorderview.BorderStyle = BorderStyle.None;
                 dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -149,7 +145,7 @@ namespace FoodandBeverage.Forms
                         {
                             FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
                             FrmDashboard.Instance.lbl_drawer.Visible = true;
-                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Green;
                         }
                     }
                     else// only self assign permission 
@@ -169,7 +165,7 @@ namespace FoodandBeverage.Forms
                             {
                                 FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
                                 FrmDashboard.Instance.lbl_drawer.Visible = true;
-                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Green;
                             }
                             tlp_outbtn.Visible = false;
                             tlp_previous_bill.Visible = false;
@@ -338,7 +334,7 @@ namespace FoodandBeverage.Forms
                     {
                         FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource1[0].Field3 + " , " + gridesource1[0].Field4;
                         FrmDashboard.Instance.lbl_drawer.Visible = true;
-                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Green;
                     }
 
                 }
@@ -1881,6 +1877,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmCombinedBill_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
             if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
             {
                 FrmDashboard.Instance.lbl_drawer.Visible = false;
@@ -2091,12 +2091,13 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), 0))
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                 {
-                    frmzout.PrintAll();
-                    frmzout.ShowDialog();
-                     
-                } 
+                    if (FrmDashboard.XYDalvalue)
+                        frmzout.ShowDialog();
+                    else
+                        frmzout.PrintAll();
+                }
                 MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -2112,11 +2113,26 @@ namespace FoodandBeverage.Forms
             {
                 if (DrawerID > 0)
                 {
-                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
+                    var confirmResult = MessageBox.Show(
+                     "This will print the Z-Out report and sign you out.\n\n" +
+                     "Make sure all transactions are completed.\n\n" +
+                     "Do you want to proceed and end your shift?",
+                     "Confirm Z-Out and Sign Out",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Question
+                 );
+
+                    if (confirmResult != DialogResult.Yes)
+                        return;
+
+                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Zout), Drawerassginstaffid))
                     {
-                        frmzout.PrintAll();
-                        frmzout.ShowDialog();
+                        if (FrmDashboard.XYDalvalue)
+                            frmzout.ShowDialog();
+                        else
+                            frmzout.PrintAll();
                     }
+
                     MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Dmndrawer dmndrawer = new Dmndrawer();
@@ -2136,11 +2152,16 @@ namespace FoodandBeverage.Forms
                     dmndrawer.CreatedBy = FrmDashboard.UserId;
                     dmndrawer.Status = 0;
                     var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+                    if (InsertStatus.Id > 0)
+                    {
 
-                    DrawerID = 0;
-                    tlp_outbtn.Visible = false;
-                    tlp_previous_bill.Visible = false;
-                    tlp_compl_pre_bill.Visible = false;
+                        DrawerID = 0;
+                        tlp_outbtn.Visible = false;
+                        tlp_previous_bill.Visible = false;
+                        tlp_compl_pre_bill.Visible = false;
+                        FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                    }
 
                 }
                 else
@@ -2151,7 +2172,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("POSDashboard page zout_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -2161,11 +2181,12 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Normal), 0))
+                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.DailyCollection), Drawerassginstaffid))
                 {
-                    frmzout.PrintAll();
-                    frmzout.ShowDialog();
-
+                    if (FrmDashboard.XYDalvalue)
+                        frmzout.ShowDialog();
+                    else
+                        frmzout.PrintAll();
                 }
                 MessageBox.Show("Normal Report Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -2178,7 +2199,7 @@ namespace FoodandBeverage.Forms
 
         private void detailed_rpt_Click(object sender, EventArgs e)
         {
-            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.DailyColle), 0))
+            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.DetailedCollection), 0))
             {
                 frmzout.PrintDetailsCollection();
             }
@@ -2329,7 +2350,9 @@ namespace FoodandBeverage.Forms
 
         }
         #endregion
+
+        #endregion
+
     }
 }
 
-#endregion

@@ -134,6 +134,35 @@ namespace FoodandBeverage.Forms
             this.btn_previous = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
             this.pnl_gen_main = new System.Windows.Forms.Panel();
+            this.tlp_Fristpage = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.Save_Daily = new System.Windows.Forms.CheckBox();
+            this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label83 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
+            this.Save_YZout = new System.Windows.Forms.CheckBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_dlycoll = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_zyout = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.rtb_gen = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtbdefgmail = new System.Windows.Forms.CheckBox();
+            this.txtdefgmail = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.AutoDrawer = new System.Windows.Forms.CheckBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
+            this.AutoPrint = new System.Windows.Forms.CheckBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.tlp_timoutforms = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel28 = new System.Windows.Forms.TableLayoutPanel();
             this.chk_settings = new System.Windows.Forms.CheckBox();
@@ -191,35 +220,6 @@ namespace FoodandBeverage.Forms
             this.rtb_group_payment = new System.Windows.Forms.CheckBox();
             this.label62 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
-            this.tlp_Fristpage = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
-            this.Save_Daily = new System.Windows.Forms.CheckBox();
-            this.pictureBox15 = new System.Windows.Forms.PictureBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label83 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
-            this.Save_YZout = new System.Windows.Forms.CheckBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.pictureBox13 = new System.Windows.Forms.PictureBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_dlycoll = new System.Windows.Forms.CheckBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_zyout = new System.Windows.Forms.CheckBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.label22 = new System.Windows.Forms.Label();
-            this.rtb_gen = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtbdefgmail = new System.Windows.Forms.CheckBox();
-            this.txtdefgmail = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.AutoDrawer = new System.Windows.Forms.CheckBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
-            this.AutoPrint = new System.Windows.Forms.CheckBox();
-            this.label52 = new System.Windows.Forms.Label();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
             this.btnsavegen = new System.Windows.Forms.Button();
             this.btnclose_gen = new System.Windows.Forms.Button();
@@ -230,8 +230,6 @@ namespace FoodandBeverage.Forms
             this.btnclosegen = new System.Windows.Forms.Button();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.btncls_gen = new System.Windows.Forms.Button();
-            this.tlp_empl_menu = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_op_menu = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_tablestatus = new System.Windows.Forms.TableLayoutPanel();
             this.btntrefresh = new System.Windows.Forms.Button();
             this.btn_avial = new System.Windows.Forms.Button();
@@ -244,6 +242,35 @@ namespace FoodandBeverage.Forms
             this.lbl_empname = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ib_addon = new FontAwesome.Sharp.IconButton();
+            this.ib_reservation = new FontAwesome.Sharp.IconButton();
+            this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
+            this.ib_Expence = new FontAwesome.Sharp.IconButton();
+            this.ib_Discount_offer = new FontAwesome.Sharp.IconButton();
+            this.ib_vendor = new FontAwesome.Sharp.IconButton();
+            this.ib_tax = new FontAwesome.Sharp.IconButton();
+            this.ib_purchasereturn = new FontAwesome.Sharp.IconButton();
+            this.ib_purchase = new FontAwesome.Sharp.IconButton();
+            this.ib_table = new FontAwesome.Sharp.IconButton();
+            this.ib_unit = new FontAwesome.Sharp.IconButton();
+            this.ib_menu = new FontAwesome.Sharp.IconButton();
+            this.ib_ingrediant = new FontAwesome.Sharp.IconButton();
+            this.ib_Item = new FontAwesome.Sharp.IconButton();
+            this.ib_Category = new FontAwesome.Sharp.IconButton();
+            this.ib_Company = new FontAwesome.Sharp.IconButton();
+            this.ib_orderview = new FontAwesome.Sharp.IconButton();
+            this.ib_kitchenview = new FontAwesome.Sharp.IconButton();
+            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
+            this.ib_designation = new FontAwesome.Sharp.IconButton();
+            this.ib_department = new FontAwesome.Sharp.IconButton();
+            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
+            this.ib_employee = new FontAwesome.Sharp.IconButton();
+            this.ib_drawer = new FontAwesome.Sharp.IconButton();
+            this.ib_appcolor = new FontAwesome.Sharp.IconButton();
+            this.ib_billsetting = new FontAwesome.Sharp.IconButton();
+            this.ib_gensetting = new FontAwesome.Sharp.IconButton();
+            this.ib_virtualkeybpard = new FontAwesome.Sharp.IconButton();
+            this.ib_msgsetting = new FontAwesome.Sharp.IconButton();
             this.Menuhome = new FontAwesome.Sharp.IconButton();
             this.Menutable = new FontAwesome.Sharp.IconButton();
             this.Menuoperation = new FontAwesome.Sharp.IconButton();
@@ -252,29 +279,6 @@ namespace FoodandBeverage.Forms
             this.Menureport = new FontAwesome.Sharp.IconButton();
             this.Menusetting = new FontAwesome.Sharp.IconButton();
             this.Menulogout = new FontAwesome.Sharp.IconButton();
-            this.ib_addon = new FontAwesome.Sharp.IconButton();
-            this.ib_kitchenview = new FontAwesome.Sharp.IconButton();
-            this.ib_orderview = new FontAwesome.Sharp.IconButton();
-            this.ib_Company = new FontAwesome.Sharp.IconButton();
-            this.ib_Category = new FontAwesome.Sharp.IconButton();
-            this.ib_Item = new FontAwesome.Sharp.IconButton();
-            this.ib_ingrediant = new FontAwesome.Sharp.IconButton();
-            this.ib_menu = new FontAwesome.Sharp.IconButton();
-            this.ib_unit = new FontAwesome.Sharp.IconButton();
-            this.ib_table = new FontAwesome.Sharp.IconButton();
-            this.ib_purchase = new FontAwesome.Sharp.IconButton();
-            this.ib_purchasereturn = new FontAwesome.Sharp.IconButton();
-            this.ib_tax = new FontAwesome.Sharp.IconButton();
-            this.ib_vendor = new FontAwesome.Sharp.IconButton();
-            this.ib_Discount_offer = new FontAwesome.Sharp.IconButton();
-            this.ib_Expence = new FontAwesome.Sharp.IconButton();
-            this.ib_PromoCode = new FontAwesome.Sharp.IconButton();
-            this.ib_reservation = new FontAwesome.Sharp.IconButton();
-            this.ib_employee = new FontAwesome.Sharp.IconButton();
-            this.ib_useraccount = new FontAwesome.Sharp.IconButton();
-            this.ib_department = new FontAwesome.Sharp.IconButton();
-            this.ib_designation = new FontAwesome.Sharp.IconButton();
-            this.ib_userpermission = new FontAwesome.Sharp.IconButton();
             this.pnl_empty_msg = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblmsg = new System.Windows.Forms.Label();
@@ -286,9 +290,10 @@ namespace FoodandBeverage.Forms
             this.btn_minimium = new System.Windows.Forms.Button();
             this.pbusericon = new System.Windows.Forms.PictureBox();
             this.pnl_footer = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel38 = new System.Windows.Forms.TableLayoutPanel();
             this.lblinact_timer = new System.Windows.Forms.Label();
-            this.lblinactivitytme = new System.Windows.Forms.Label();
             this.lblmemory = new System.Windows.Forms.Label();
+            this.lblinactivitytme = new System.Windows.Forms.Label();
             this.flp_sidemenu = new System.Windows.Forms.FlowLayoutPanel();
             this.pnl_virtualkeyboard = new System.Windows.Forms.Panel();
             this.tableLayoutPanel33 = new System.Windows.Forms.TableLayoutPanel();
@@ -343,6 +348,9 @@ namespace FoodandBeverage.Forms
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
+            this.flp_operabuttons = new System.Windows.Forms.FlowLayoutPanel();
+            this.flp_empbuttons = new System.Windows.Forms.FlowLayoutPanel();
+            this.flp_settingbtn = new System.Windows.Forms.FlowLayoutPanel();
             this.pnl_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
             this.pnl_hidecntrl.SuspendLayout();
@@ -380,6 +388,17 @@ namespace FoodandBeverage.Forms
             this.tlp_gen_main.SuspendLayout();
             this.tlp_pager.SuspendLayout();
             this.pnl_gen_main.SuspendLayout();
+            this.tlp_Fristpage.SuspendLayout();
+            this.tableLayoutPanel19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
+            this.tableLayoutPanel18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
+            this.tableLayoutPanel12.SuspendLayout();
+            this.tableLayoutPanel13.SuspendLayout();
+            this.tableLayoutPanel14.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
+            this.tableLayoutPanel16.SuspendLayout();
+            this.tableLayoutPanel23.SuspendLayout();
             this.tlp_timoutforms.SuspendLayout();
             this.tableLayoutPanel28.SuspendLayout();
             this.tableLayoutPanel27.SuspendLayout();
@@ -400,17 +419,6 @@ namespace FoodandBeverage.Forms
             this.tlp_paymode_FG_enable.SuspendLayout();
             this.tableLayoutPanel22.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
-            this.tlp_Fristpage.SuspendLayout();
-            this.tableLayoutPanel19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
-            this.tableLayoutPanel18.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
-            this.tableLayoutPanel12.SuspendLayout();
-            this.tableLayoutPanel13.SuspendLayout();
-            this.tableLayoutPanel14.SuspendLayout();
-            this.tableLayoutPanel15.SuspendLayout();
-            this.tableLayoutPanel16.SuspendLayout();
-            this.tableLayoutPanel23.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tlp_tablestatus.SuspendLayout();
@@ -420,6 +428,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbusericon)).BeginInit();
             this.pnl_footer.SuspendLayout();
+            this.tableLayoutPanel38.SuspendLayout();
             this.flp_sidemenu.SuspendLayout();
             this.pnl_virtualkeyboard.SuspendLayout();
             this.tableLayoutPanel33.SuspendLayout();
@@ -428,6 +437,9 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel37.SuspendLayout();
             this.tableLayoutPanel34.SuspendLayout();
             this.tableLayoutPanel35.SuspendLayout();
+            this.flp_operabuttons.SuspendLayout();
+            this.flp_empbuttons.SuspendLayout();
+            this.flp_settingbtn.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_header
@@ -883,7 +895,7 @@ namespace FoodandBeverage.Forms
             // 
             this.pnl_billsetting.BackColor = System.Drawing.SystemColors.Control;
             this.pnl_billsetting.Controls.Add(this.tableLayoutPanel4);
-            this.pnl_billsetting.Location = new System.Drawing.Point(377, 11);
+            this.pnl_billsetting.Location = new System.Drawing.Point(377, 85);
             this.pnl_billsetting.Name = "pnl_billsetting";
             this.pnl_billsetting.Padding = new System.Windows.Forms.Padding(3);
             this.pnl_billsetting.Size = new System.Drawing.Size(582, 504);
@@ -947,7 +959,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -969,7 +981,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(523, 47);
+            this.txtgid.Location = new System.Drawing.Point(496, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -978,7 +990,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(523, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(496, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -992,7 +1004,7 @@ namespace FoodandBeverage.Forms
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.Location = new System.Drawing.Point(27, 88);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(196, 44);
+            this.label46.Size = new System.Drawing.Size(185, 44);
             this.label46.TabIndex = 260;
             this.label46.Text = "Bill Footer Content (Arabic)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1004,7 +1016,7 @@ namespace FoodandBeverage.Forms
             this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label47.Location = new System.Drawing.Point(27, 44);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(196, 44);
+            this.label47.Size = new System.Drawing.Size(185, 44);
             this.label47.TabIndex = 258;
             this.label47.Text = "Company Address (Arabic)";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1016,7 +1028,7 @@ namespace FoodandBeverage.Forms
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(27, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(196, 44);
+            this.label48.Size = new System.Drawing.Size(185, 44);
             this.label48.TabIndex = 0;
             this.label48.Text = "Company Name (Arabic)";
             this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1025,30 +1037,30 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpname.Location = new System.Drawing.Point(229, 3);
+            this.txt_cmpname.Location = new System.Drawing.Point(218, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
-            this.txt_cmpname.Size = new System.Drawing.Size(288, 38);
+            this.txt_cmpname.Size = new System.Drawing.Size(272, 38);
             this.txt_cmpname.TabIndex = 262;
             // 
             // txt_cmpaddress
             // 
             this.txt_cmpaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpaddress.Location = new System.Drawing.Point(229, 47);
+            this.txt_cmpaddress.Location = new System.Drawing.Point(218, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
-            this.txt_cmpaddress.Size = new System.Drawing.Size(288, 38);
+            this.txt_cmpaddress.Size = new System.Drawing.Size(272, 38);
             this.txt_cmpaddress.TabIndex = 263;
             // 
             // txt_footer_lang
             // 
             this.txt_footer_lang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_footer_lang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_footer_lang.Location = new System.Drawing.Point(229, 91);
+            this.txt_footer_lang.Location = new System.Drawing.Point(218, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
-            this.txt_footer_lang.Size = new System.Drawing.Size(288, 38);
+            this.txt_footer_lang.Size = new System.Drawing.Size(272, 38);
             this.txt_footer_lang.TabIndex = 264;
             // 
             // tbl_contrl
@@ -1698,7 +1710,7 @@ namespace FoodandBeverage.Forms
             // 
             this.pnlgenralsetting.BackColor = System.Drawing.SystemColors.Control;
             this.pnlgenralsetting.Controls.Add(this.tableLayoutPanel8);
-            this.pnlgenralsetting.Location = new System.Drawing.Point(304, 107);
+            this.pnlgenralsetting.Location = new System.Drawing.Point(304, -6);
             this.pnlgenralsetting.Name = "pnlgenralsetting";
             this.pnlgenralsetting.Padding = new System.Windows.Forms.Padding(3);
             this.pnlgenralsetting.Size = new System.Drawing.Size(505, 597);
@@ -1804,14 +1816,404 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_gen_main
             // 
+            this.pnl_gen_main.Controls.Add(this.tlp_Fristpage);
             this.pnl_gen_main.Controls.Add(this.tlp_timoutforms);
             this.pnl_gen_main.Controls.Add(this.tlp_secondpage);
-            this.pnl_gen_main.Controls.Add(this.tlp_Fristpage);
             this.pnl_gen_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_gen_main.Location = new System.Drawing.Point(3, 3);
             this.pnl_gen_main.Name = "pnl_gen_main";
             this.pnl_gen_main.Size = new System.Drawing.Size(483, 462);
             this.pnl_gen_main.TabIndex = 1;
+            // 
+            // tlp_Fristpage
+            // 
+            this.tlp_Fristpage.AutoScroll = true;
+            this.tlp_Fristpage.BackColor = System.Drawing.SystemColors.Control;
+            this.tlp_Fristpage.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlp_Fristpage.ColumnCount = 1;
+            this.tlp_Fristpage.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel19, 0, 4);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel18, 0, 3);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel12, 0, 2);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel13, 0, 1);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel14, 0, 0);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel15, 0, 7);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel16, 0, 6);
+            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel23, 0, 5);
+            this.tlp_Fristpage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_Fristpage.Location = new System.Drawing.Point(0, 0);
+            this.tlp_Fristpage.Margin = new System.Windows.Forms.Padding(0);
+            this.tlp_Fristpage.Name = "tlp_Fristpage";
+            this.tlp_Fristpage.RowCount = 9;
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.403361F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.60504F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.07563F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.983193F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.403361F));
+            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.932773F));
+            this.tlp_Fristpage.Size = new System.Drawing.Size(483, 462);
+            this.tlp_Fristpage.TabIndex = 21;
+            // 
+            // tableLayoutPanel19
+            // 
+            this.tableLayoutPanel19.ColumnCount = 3;
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel19.Controls.Add(this.Save_Daily, 2, 0);
+            this.tableLayoutPanel19.Controls.Add(this.pictureBox15, 0, 0);
+            this.tableLayoutPanel19.Controls.Add(this.label29, 0, 0);
+            this.tableLayoutPanel19.Controls.Add(this.label83, 0, 1);
+            this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel19.Location = new System.Drawing.Point(4, 207);
+            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
+            this.tableLayoutPanel19.RowCount = 2;
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel19.Size = new System.Drawing.Size(475, 73);
+            this.tableLayoutPanel19.TabIndex = 33;
+            // 
+            // Save_Daily
+            // 
+            this.Save_Daily.AutoSize = true;
+            this.Save_Daily.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Save_Daily.Location = new System.Drawing.Point(408, 3);
+            this.Save_Daily.Name = "Save_Daily";
+            this.Save_Daily.Size = new System.Drawing.Size(64, 38);
+            this.Save_Daily.TabIndex = 9;
+            this.Save_Daily.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox15
+            // 
+            this.pictureBox15.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox15.BackgroundImage")));
+            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox15.Location = new System.Drawing.Point(368, 3);
+            this.pictureBox15.Name = "pictureBox15";
+            this.pictureBox15.Size = new System.Drawing.Size(34, 35);
+            this.pictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox15.TabIndex = 10;
+            this.pictureBox15.TabStop = false;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(3, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(359, 44);
+            this.label29.TabIndex = 7;
+            this.label29.Text = "Save Copy Daily Collection Print";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label83.Location = new System.Drawing.Point(3, 44);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(359, 29);
+            this.label83.TabIndex = 11;
+            this.label83.Text = "C:\\Program Files\\Anikayaj";
+            this.label83.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel18
+            // 
+            this.tableLayoutPanel18.ColumnCount = 3;
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel18.Controls.Add(this.Save_YZout, 2, 0);
+            this.tableLayoutPanel18.Controls.Add(this.label26, 0, 0);
+            this.tableLayoutPanel18.Controls.Add(this.pictureBox13, 1, 0);
+            this.tableLayoutPanel18.Controls.Add(this.label84, 0, 1);
+            this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel18.Location = new System.Drawing.Point(4, 136);
+            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
+            this.tableLayoutPanel18.RowCount = 2;
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel18.Size = new System.Drawing.Size(475, 64);
+            this.tableLayoutPanel18.TabIndex = 32;
+            // 
+            // Save_YZout
+            // 
+            this.Save_YZout.AutoSize = true;
+            this.Save_YZout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Save_YZout.Location = new System.Drawing.Point(408, 3);
+            this.Save_YZout.Name = "Save_YZout";
+            this.Save_YZout.Size = new System.Drawing.Size(64, 35);
+            this.Save_YZout.TabIndex = 11;
+            this.Save_YZout.UseVisualStyleBackColor = true;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(3, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(359, 41);
+            this.label26.TabIndex = 7;
+            this.label26.Text = "Save Copy Zout Yout Print";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox13
+            // 
+            this.pictureBox13.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox13.BackgroundImage")));
+            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox13.Location = new System.Drawing.Point(368, 3);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(34, 33);
+            this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox13.TabIndex = 9;
+            this.pictureBox13.TabStop = false;
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label84.Location = new System.Drawing.Point(3, 41);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(359, 23);
+            this.label84.TabIndex = 10;
+            this.label84.Text = "C:\\Program Files\\Anikayaj";
+            this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel12
+            // 
+            this.tableLayoutPanel12.ColumnCount = 2;
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel12.Controls.Add(this.rtb_dlycoll, 1, 0);
+            this.tableLayoutPanel12.Controls.Add(this.label25, 0, 0);
+            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(4, 88);
+            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+            this.tableLayoutPanel12.RowCount = 1;
+            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(475, 41);
+            this.tableLayoutPanel12.TabIndex = 24;
+            // 
+            // rtb_dlycoll
+            // 
+            this.rtb_dlycoll.AutoSize = true;
+            this.rtb_dlycoll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_dlycoll.Location = new System.Drawing.Point(408, 3);
+            this.rtb_dlycoll.Name = "rtb_dlycoll";
+            this.rtb_dlycoll.Size = new System.Drawing.Size(64, 35);
+            this.rtb_dlycoll.TabIndex = 9;
+            this.rtb_dlycoll.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(3, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(399, 41);
+            this.label25.TabIndex = 7;
+            this.label25.Text = "Daily Collection Print Dialoge Box";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel13
+            // 
+            this.tableLayoutPanel13.ColumnCount = 2;
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel13.Controls.Add(this.rtb_zyout, 1, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label24, 0, 0);
+            this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(4, 46);
+            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+            this.tableLayoutPanel13.RowCount = 1;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(475, 35);
+            this.tableLayoutPanel13.TabIndex = 23;
+            // 
+            // rtb_zyout
+            // 
+            this.rtb_zyout.AutoSize = true;
+            this.rtb_zyout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_zyout.Location = new System.Drawing.Point(408, 3);
+            this.rtb_zyout.Name = "rtb_zyout";
+            this.rtb_zyout.Size = new System.Drawing.Size(64, 29);
+            this.rtb_zyout.TabIndex = 9;
+            this.rtb_zyout.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(3, 0);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(399, 35);
+            this.label24.TabIndex = 7;
+            this.label24.Text = "Zout  Yout Print Dialoge Box";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.ColumnCount = 2;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel14.Controls.Add(this.label22, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.rtb_gen, 1, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 1;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(475, 35);
+            this.tableLayoutPanel14.TabIndex = 22;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(3, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(399, 35);
+            this.label22.TabIndex = 7;
+            this.label22.Text = "Print Dialoge Box";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // rtb_gen
+            // 
+            this.rtb_gen.AutoSize = true;
+            this.rtb_gen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_gen.Location = new System.Drawing.Point(408, 3);
+            this.rtb_gen.Name = "rtb_gen";
+            this.rtb_gen.Size = new System.Drawing.Size(64, 29);
+            this.rtb_gen.TabIndex = 8;
+            this.rtb_gen.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.ColumnCount = 2;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel15.Controls.Add(this.rtbdefgmail, 1, 0);
+            this.tableLayoutPanel15.Controls.Add(this.txtdefgmail, 0, 0);
+            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(4, 374);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 1;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(475, 41);
+            this.tableLayoutPanel15.TabIndex = 25;
+            // 
+            // rtbdefgmail
+            // 
+            this.rtbdefgmail.AutoSize = true;
+            this.rtbdefgmail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbdefgmail.Location = new System.Drawing.Point(408, 3);
+            this.rtbdefgmail.Name = "rtbdefgmail";
+            this.rtbdefgmail.Size = new System.Drawing.Size(64, 35);
+            this.rtbdefgmail.TabIndex = 9;
+            this.rtbdefgmail.UseVisualStyleBackColor = true;
+            // 
+            // txtdefgmail
+            // 
+            this.txtdefgmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtdefgmail.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtdefgmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtdefgmail.Location = new System.Drawing.Point(3, 3);
+            this.txtdefgmail.Multiline = true;
+            this.txtdefgmail.Name = "txtdefgmail";
+            this.txtdefgmail.Size = new System.Drawing.Size(399, 29);
+            this.txtdefgmail.TabIndex = 9;
+            this.txtdefgmail.Text = "Default email for sending Yout/Zout/Detail reports";
+            this.txtdefgmail.Click += new System.EventHandler(this.txtdefgmail_Click);
+            // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.ColumnCount = 2;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel16.Controls.Add(this.AutoDrawer, 1, 0);
+            this.tableLayoutPanel16.Controls.Add(this.label55, 0, 0);
+            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(4, 332);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(475, 35);
+            this.tableLayoutPanel16.TabIndex = 31;
+            // 
+            // AutoDrawer
+            // 
+            this.AutoDrawer.AutoSize = true;
+            this.AutoDrawer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AutoDrawer.Location = new System.Drawing.Point(408, 3);
+            this.AutoDrawer.Name = "AutoDrawer";
+            this.AutoDrawer.Size = new System.Drawing.Size(64, 29);
+            this.AutoDrawer.TabIndex = 9;
+            this.AutoDrawer.UseVisualStyleBackColor = true;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label55.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label55.Location = new System.Drawing.Point(3, 0);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(399, 35);
+            this.label55.TabIndex = 7;
+            this.label55.Text = "Open Auto Drawer";
+            this.label55.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel23
+            // 
+            this.tableLayoutPanel23.ColumnCount = 2;
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel23.Controls.Add(this.AutoPrint, 1, 0);
+            this.tableLayoutPanel23.Controls.Add(this.label52, 0, 0);
+            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel23.Location = new System.Drawing.Point(4, 287);
+            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
+            this.tableLayoutPanel23.RowCount = 1;
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(475, 38);
+            this.tableLayoutPanel23.TabIndex = 25;
+            // 
+            // AutoPrint
+            // 
+            this.AutoPrint.AutoSize = true;
+            this.AutoPrint.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AutoPrint.Location = new System.Drawing.Point(408, 3);
+            this.AutoPrint.Name = "AutoPrint";
+            this.AutoPrint.Size = new System.Drawing.Size(64, 32);
+            this.AutoPrint.TabIndex = 10;
+            this.AutoPrint.UseVisualStyleBackColor = true;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label52.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label52.Location = new System.Drawing.Point(3, 0);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(399, 38);
+            this.label52.TabIndex = 7;
+            this.label52.Text = "Auto Print  Bill";
+            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_timoutforms
             // 
@@ -2337,7 +2739,7 @@ namespace FoodandBeverage.Forms
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tlp_autologout.Controls.Add(this.label56, 0, 0);
             this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
             this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
@@ -2357,7 +2759,7 @@ namespace FoodandBeverage.Forms
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label56.Location = new System.Drawing.Point(3, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(255, 38);
+            this.label56.Size = new System.Drawing.Size(227, 38);
             this.label56.TabIndex = 7;
             this.label56.Text = "Auto Logout When Idle";
             this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2366,9 +2768,9 @@ namespace FoodandBeverage.Forms
             // 
             this.rtb_logouttime.AutoSize = true;
             this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(264, 3);
+            this.rtb_logouttime.Location = new System.Drawing.Point(236, 3);
             this.rtb_logouttime.Name = "rtb_logouttime";
-            this.rtb_logouttime.Size = new System.Drawing.Size(40, 32);
+            this.rtb_logouttime.Size = new System.Drawing.Size(35, 32);
             this.rtb_logouttime.TabIndex = 0;
             this.rtb_logouttime.UseVisualStyleBackColor = true;
             this.rtb_logouttime.CheckedChanged += new System.EventHandler(this.rtb_logouttime_CheckedChanged);
@@ -2376,10 +2778,10 @@ namespace FoodandBeverage.Forms
             // txtlogouttime
             // 
             this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(310, 3);
+            this.txtlogouttime.Location = new System.Drawing.Point(277, 3);
             this.txtlogouttime.Multiline = true;
             this.txtlogouttime.Name = "txtlogouttime";
-            this.txtlogouttime.Size = new System.Drawing.Size(42, 20);
+            this.txtlogouttime.Size = new System.Drawing.Size(39, 20);
             this.txtlogouttime.TabIndex = 9;
             this.txtlogouttime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtlogouttime.Visible = false;
@@ -2395,7 +2797,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(360, 3);
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(322, 3);
             this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
             this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
             this.btn_adv_idlelogout.TabIndex = 10;
@@ -2582,395 +2984,6 @@ namespace FoodandBeverage.Forms
             this.label59.Text = "Enable Family & Group Card in Payment";
             this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tlp_Fristpage
-            // 
-            this.tlp_Fristpage.AutoScroll = true;
-            this.tlp_Fristpage.BackColor = System.Drawing.SystemColors.Control;
-            this.tlp_Fristpage.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tlp_Fristpage.ColumnCount = 1;
-            this.tlp_Fristpage.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel19, 0, 4);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel18, 0, 3);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel12, 0, 2);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel13, 0, 1);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel14, 0, 0);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel15, 0, 7);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel16, 0, 6);
-            this.tlp_Fristpage.Controls.Add(this.tableLayoutPanel23, 0, 5);
-            this.tlp_Fristpage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_Fristpage.Location = new System.Drawing.Point(0, 0);
-            this.tlp_Fristpage.Margin = new System.Windows.Forms.Padding(0);
-            this.tlp_Fristpage.Name = "tlp_Fristpage";
-            this.tlp_Fristpage.RowCount = 9;
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.403361F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.60504F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.07563F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.983193F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.352941F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.403361F));
-            this.tlp_Fristpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.932773F));
-            this.tlp_Fristpage.Size = new System.Drawing.Size(483, 462);
-            this.tlp_Fristpage.TabIndex = 21;
-            // 
-            // tableLayoutPanel19
-            // 
-            this.tableLayoutPanel19.ColumnCount = 3;
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel19.Controls.Add(this.Save_Daily, 2, 0);
-            this.tableLayoutPanel19.Controls.Add(this.pictureBox15, 0, 0);
-            this.tableLayoutPanel19.Controls.Add(this.label29, 0, 0);
-            this.tableLayoutPanel19.Controls.Add(this.label83, 0, 1);
-            this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel19.Location = new System.Drawing.Point(4, 207);
-            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
-            this.tableLayoutPanel19.RowCount = 2;
-            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel19.Size = new System.Drawing.Size(475, 73);
-            this.tableLayoutPanel19.TabIndex = 33;
-            // 
-            // Save_Daily
-            // 
-            this.Save_Daily.AutoSize = true;
-            this.Save_Daily.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Save_Daily.Location = new System.Drawing.Point(408, 3);
-            this.Save_Daily.Name = "Save_Daily";
-            this.Save_Daily.Size = new System.Drawing.Size(64, 38);
-            this.Save_Daily.TabIndex = 9;
-            this.Save_Daily.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox15
-            // 
-            this.pictureBox15.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox15.BackgroundImage")));
-            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox15.Location = new System.Drawing.Point(368, 3);
-            this.pictureBox15.Name = "pictureBox15";
-            this.pictureBox15.Size = new System.Drawing.Size(34, 35);
-            this.pictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox15.TabIndex = 10;
-            this.pictureBox15.TabStop = false;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(3, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(359, 44);
-            this.label29.TabIndex = 7;
-            this.label29.Text = "Save Copy Daily Collection Print";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label83
-            // 
-            this.label83.AutoSize = true;
-            this.label83.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label83.Location = new System.Drawing.Point(3, 44);
-            this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(359, 29);
-            this.label83.TabIndex = 11;
-            this.label83.Text = "C:\\Program Files\\Anikayaj";
-            this.label83.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel18
-            // 
-            this.tableLayoutPanel18.ColumnCount = 3;
-            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel18.Controls.Add(this.Save_YZout, 2, 0);
-            this.tableLayoutPanel18.Controls.Add(this.label26, 0, 0);
-            this.tableLayoutPanel18.Controls.Add(this.pictureBox13, 1, 0);
-            this.tableLayoutPanel18.Controls.Add(this.label84, 0, 1);
-            this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel18.Location = new System.Drawing.Point(4, 136);
-            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
-            this.tableLayoutPanel18.RowCount = 2;
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel18.Size = new System.Drawing.Size(475, 64);
-            this.tableLayoutPanel18.TabIndex = 32;
-            // 
-            // Save_YZout
-            // 
-            this.Save_YZout.AutoSize = true;
-            this.Save_YZout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Save_YZout.Location = new System.Drawing.Point(408, 3);
-            this.Save_YZout.Name = "Save_YZout";
-            this.Save_YZout.Size = new System.Drawing.Size(64, 35);
-            this.Save_YZout.TabIndex = 11;
-            this.Save_YZout.UseVisualStyleBackColor = true;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(3, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(359, 41);
-            this.label26.TabIndex = 7;
-            this.label26.Text = "Save Copy Zout Yout Print";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // pictureBox13
-            // 
-            this.pictureBox13.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox13.BackgroundImage")));
-            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox13.Location = new System.Drawing.Point(368, 3);
-            this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(34, 33);
-            this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox13.TabIndex = 9;
-            this.pictureBox13.TabStop = false;
-            // 
-            // label84
-            // 
-            this.label84.AutoSize = true;
-            this.label84.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label84.Location = new System.Drawing.Point(3, 41);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(359, 23);
-            this.label84.TabIndex = 10;
-            this.label84.Text = "C:\\Program Files\\Anikayaj";
-            this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel12
-            // 
-            this.tableLayoutPanel12.ColumnCount = 2;
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel12.Controls.Add(this.rtb_dlycoll, 1, 0);
-            this.tableLayoutPanel12.Controls.Add(this.label25, 0, 0);
-            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel12.Location = new System.Drawing.Point(4, 88);
-            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
-            this.tableLayoutPanel12.RowCount = 1;
-            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(475, 41);
-            this.tableLayoutPanel12.TabIndex = 24;
-            // 
-            // rtb_dlycoll
-            // 
-            this.rtb_dlycoll.AutoSize = true;
-            this.rtb_dlycoll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_dlycoll.Location = new System.Drawing.Point(408, 3);
-            this.rtb_dlycoll.Name = "rtb_dlycoll";
-            this.rtb_dlycoll.Size = new System.Drawing.Size(64, 35);
-            this.rtb_dlycoll.TabIndex = 9;
-            this.rtb_dlycoll.UseVisualStyleBackColor = true;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(3, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(399, 41);
-            this.label25.TabIndex = 7;
-            this.label25.Text = "Daily Collection Print Dialoge Box";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel13
-            // 
-            this.tableLayoutPanel13.ColumnCount = 2;
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel13.Controls.Add(this.rtb_zyout, 1, 0);
-            this.tableLayoutPanel13.Controls.Add(this.label24, 0, 0);
-            this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel13.Location = new System.Drawing.Point(4, 46);
-            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
-            this.tableLayoutPanel13.RowCount = 1;
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(475, 35);
-            this.tableLayoutPanel13.TabIndex = 23;
-            // 
-            // rtb_zyout
-            // 
-            this.rtb_zyout.AutoSize = true;
-            this.rtb_zyout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_zyout.Location = new System.Drawing.Point(408, 3);
-            this.rtb_zyout.Name = "rtb_zyout";
-            this.rtb_zyout.Size = new System.Drawing.Size(64, 29);
-            this.rtb_zyout.TabIndex = 9;
-            this.rtb_zyout.UseVisualStyleBackColor = true;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(3, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(399, 35);
-            this.label24.TabIndex = 7;
-            this.label24.Text = "Zout  Yout Print Dialoge Box";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel14
-            // 
-            this.tableLayoutPanel14.ColumnCount = 2;
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel14.Controls.Add(this.label22, 0, 0);
-            this.tableLayoutPanel14.Controls.Add(this.rtb_gen, 1, 0);
-            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel14.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
-            this.tableLayoutPanel14.RowCount = 1;
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(475, 35);
-            this.tableLayoutPanel14.TabIndex = 22;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(3, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(399, 35);
-            this.label22.TabIndex = 7;
-            this.label22.Text = "Print Dialoge Box";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // rtb_gen
-            // 
-            this.rtb_gen.AutoSize = true;
-            this.rtb_gen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_gen.Location = new System.Drawing.Point(408, 3);
-            this.rtb_gen.Name = "rtb_gen";
-            this.rtb_gen.Size = new System.Drawing.Size(64, 29);
-            this.rtb_gen.TabIndex = 8;
-            this.rtb_gen.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel15
-            // 
-            this.tableLayoutPanel15.ColumnCount = 2;
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel15.Controls.Add(this.rtbdefgmail, 1, 0);
-            this.tableLayoutPanel15.Controls.Add(this.txtdefgmail, 0, 0);
-            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel15.Location = new System.Drawing.Point(4, 374);
-            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
-            this.tableLayoutPanel15.RowCount = 1;
-            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(475, 41);
-            this.tableLayoutPanel15.TabIndex = 25;
-            // 
-            // rtbdefgmail
-            // 
-            this.rtbdefgmail.AutoSize = true;
-            this.rtbdefgmail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbdefgmail.Location = new System.Drawing.Point(408, 3);
-            this.rtbdefgmail.Name = "rtbdefgmail";
-            this.rtbdefgmail.Size = new System.Drawing.Size(64, 35);
-            this.rtbdefgmail.TabIndex = 9;
-            this.rtbdefgmail.UseVisualStyleBackColor = true;
-            // 
-            // txtdefgmail
-            // 
-            this.txtdefgmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtdefgmail.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtdefgmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtdefgmail.Location = new System.Drawing.Point(3, 3);
-            this.txtdefgmail.Multiline = true;
-            this.txtdefgmail.Name = "txtdefgmail";
-            this.txtdefgmail.Size = new System.Drawing.Size(399, 29);
-            this.txtdefgmail.TabIndex = 9;
-            this.txtdefgmail.Text = "Default email for sending Yout/Zout/Detail reports";
-            // 
-            // tableLayoutPanel16
-            // 
-            this.tableLayoutPanel16.ColumnCount = 2;
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel16.Controls.Add(this.AutoDrawer, 1, 0);
-            this.tableLayoutPanel16.Controls.Add(this.label55, 0, 0);
-            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel16.Location = new System.Drawing.Point(4, 332);
-            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
-            this.tableLayoutPanel16.RowCount = 1;
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(475, 35);
-            this.tableLayoutPanel16.TabIndex = 31;
-            // 
-            // AutoDrawer
-            // 
-            this.AutoDrawer.AutoSize = true;
-            this.AutoDrawer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AutoDrawer.Location = new System.Drawing.Point(408, 3);
-            this.AutoDrawer.Name = "AutoDrawer";
-            this.AutoDrawer.Size = new System.Drawing.Size(64, 29);
-            this.AutoDrawer.TabIndex = 9;
-            this.AutoDrawer.UseVisualStyleBackColor = true;
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label55.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label55.Location = new System.Drawing.Point(3, 0);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(399, 35);
-            this.label55.TabIndex = 7;
-            this.label55.Text = "Open Auto Drawer";
-            this.label55.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel23
-            // 
-            this.tableLayoutPanel23.ColumnCount = 2;
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel23.Controls.Add(this.AutoPrint, 1, 0);
-            this.tableLayoutPanel23.Controls.Add(this.label52, 0, 0);
-            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel23.Location = new System.Drawing.Point(4, 287);
-            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
-            this.tableLayoutPanel23.RowCount = 1;
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(475, 38);
-            this.tableLayoutPanel23.TabIndex = 25;
-            // 
-            // AutoPrint
-            // 
-            this.AutoPrint.AutoSize = true;
-            this.AutoPrint.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AutoPrint.Location = new System.Drawing.Point(408, 3);
-            this.AutoPrint.Name = "AutoPrint";
-            this.AutoPrint.Size = new System.Drawing.Size(64, 32);
-            this.AutoPrint.TabIndex = 10;
-            this.AutoPrint.UseVisualStyleBackColor = true;
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label52.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label52.Location = new System.Drawing.Point(3, 0);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(399, 38);
-            this.label52.TabIndex = 7;
-            this.label52.Text = "Auto Print  Bill";
-            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // tableLayoutPanel24
             // 
             this.tableLayoutPanel24.ColumnCount = 3;
@@ -3106,47 +3119,7 @@ namespace FoodandBeverage.Forms
             this.btncls_gen.TabIndex = 10;
             this.btncls_gen.Text = "X";
             this.btncls_gen.UseVisualStyleBackColor = false;
-            // 
-            // tlp_empl_menu
-            // 
-            this.tlp_empl_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.tlp_empl_menu.ColumnCount = 3;
-            this.tlp_empl_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_empl_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tlp_empl_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_empl_menu.Location = new System.Drawing.Point(784, 321);
-            this.tlp_empl_menu.Name = "tlp_empl_menu";
-            this.tlp_empl_menu.RowCount = 6;
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_empl_menu.Size = new System.Drawing.Size(210, 180);
-            this.tlp_empl_menu.TabIndex = 23;
-            this.tlp_empl_menu.Visible = false;
-            // 
-            // tlp_op_menu
-            // 
-            this.tlp_op_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.tlp_op_menu.ColumnCount = 3;
-            this.tlp_op_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_op_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tlp_op_menu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_op_menu.Location = new System.Drawing.Point(784, 101);
-            this.tlp_op_menu.Name = "tlp_op_menu";
-            this.tlp_op_menu.Padding = new System.Windows.Forms.Padding(10);
-            this.tlp_op_menu.RowCount = 6;
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_op_menu.Size = new System.Drawing.Size(210, 180);
-            this.tlp_op_menu.TabIndex = 21;
-            this.tlp_op_menu.Visible = false;
+            this.btncls_gen.Click += new System.EventHandler(this.btncls_gen_Click);
             // 
             // tlp_tablestatus
             // 
@@ -3264,48 +3237,915 @@ namespace FoodandBeverage.Forms
             // 
             // lbl_time
             // 
-            this.lbl_time.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_time.AutoSize = true;
+            this.lbl_time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_time.ForeColor = System.Drawing.Color.Black;
-            this.lbl_time.Location = new System.Drawing.Point(794, 7);
+            this.lbl_time.Location = new System.Drawing.Point(759, 0);
             this.lbl_time.Name = "lbl_time";
-            this.lbl_time.Size = new System.Drawing.Size(47, 20);
+            this.lbl_time.Size = new System.Drawing.Size(127, 35);
             this.lbl_time.TabIndex = 2;
             this.lbl_time.Text = "Time";
-            this.lbl_time.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_drawer
             // 
-            this.lbl_drawer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_drawer.AutoSize = true;
             this.lbl_drawer.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_drawer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_drawer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_drawer.ForeColor = System.Drawing.Color.Black;
-            this.lbl_drawer.Location = new System.Drawing.Point(241, 7);
+            this.lbl_drawer.Location = new System.Drawing.Point(147, 0);
             this.lbl_drawer.Name = "lbl_drawer";
-            this.lbl_drawer.Size = new System.Drawing.Size(66, 20);
+            this.lbl_drawer.Size = new System.Drawing.Size(198, 35);
             this.lbl_drawer.TabIndex = 1;
             this.lbl_drawer.Text = "Drawer";
-            this.lbl_drawer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_drawer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_drawer.Visible = false;
             // 
             // lbl_empname
             // 
-            this.lbl_empname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_empname.AutoSize = true;
             this.lbl_empname.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_empname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_empname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_empname.ForeColor = System.Drawing.Color.Black;
-            this.lbl_empname.Location = new System.Drawing.Point(40, 7);
+            this.lbl_empname.Location = new System.Drawing.Point(23, 0);
             this.lbl_empname.Name = "lbl_empname";
-            this.lbl_empname.Size = new System.Drawing.Size(77, 20);
+            this.lbl_empname.Size = new System.Drawing.Size(118, 35);
             this.lbl_empname.TabIndex = 3;
             this.lbl_empname.Text = "Employe";
-            this.lbl_empname.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_empname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ib_addon
+            // 
+            this.ib_addon.BackColor = System.Drawing.Color.Transparent;
+            this.ib_addon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_addon.BackgroundImage")));
+            this.ib_addon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_addon.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_addon.FlatAppearance.BorderSize = 0;
+            this.ib_addon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_addon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_addon.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_addon.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_addon.IconColor = System.Drawing.Color.White;
+            this.ib_addon.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_addon.IconSize = 30;
+            this.ib_addon.Location = new System.Drawing.Point(30, 10);
+            this.ib_addon.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_addon.Name = "ib_addon";
+            this.ib_addon.Size = new System.Drawing.Size(139, 56);
+            this.ib_addon.TabIndex = 21;
+            this.ib_addon.Tag = "Addon";
+            this.ib_addon.Text = "Addon";
+            this.ib_addon.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_addon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_addon, "Addon Registartion");
+            this.ib_addon.UseVisualStyleBackColor = false;
+            this.ib_addon.Visible = false;
+            this.ib_addon.Click += new System.EventHandler(this.ib_addon_Click);
+            this.ib_addon.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_addon.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_reservation
+            // 
+            this.ib_reservation.BackColor = System.Drawing.Color.Transparent;
+            this.ib_reservation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_reservation.BackgroundImage")));
+            this.ib_reservation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_reservation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_reservation.FlatAppearance.BorderSize = 0;
+            this.ib_reservation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_reservation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_reservation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_reservation.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_reservation.IconColor = System.Drawing.Color.White;
+            this.ib_reservation.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_reservation.IconSize = 30;
+            this.ib_reservation.Location = new System.Drawing.Point(229, 10);
+            this.ib_reservation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_reservation.Name = "ib_reservation";
+            this.ib_reservation.Size = new System.Drawing.Size(139, 56);
+            this.ib_reservation.TabIndex = 20;
+            this.ib_reservation.Tag = "Reservation";
+            this.ib_reservation.Text = "Reservation";
+            this.ib_reservation.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_reservation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_reservation, "Reservation Registartion");
+            this.ib_reservation.UseVisualStyleBackColor = false;
+            this.ib_reservation.Visible = false;
+            this.ib_reservation.Click += new System.EventHandler(this.ib_reservation_Click);
+            this.ib_reservation.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_reservation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_PromoCode
+            // 
+            this.ib_PromoCode.BackColor = System.Drawing.Color.Transparent;
+            this.ib_PromoCode.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_PromoCode.BackgroundImage")));
+            this.ib_PromoCode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_PromoCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_PromoCode.FlatAppearance.BorderSize = 0;
+            this.ib_PromoCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_PromoCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_PromoCode.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_PromoCode.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_PromoCode.IconColor = System.Drawing.Color.White;
+            this.ib_PromoCode.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_PromoCode.IconSize = 30;
+            this.ib_PromoCode.Location = new System.Drawing.Point(428, 10);
+            this.ib_PromoCode.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_PromoCode.Name = "ib_PromoCode";
+            this.ib_PromoCode.Size = new System.Drawing.Size(139, 56);
+            this.ib_PromoCode.TabIndex = 18;
+            this.ib_PromoCode.Tag = "PromoCode";
+            this.ib_PromoCode.Text = "PromoCode";
+            this.ib_PromoCode.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_PromoCode.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_PromoCode, "PromoCode");
+            this.ib_PromoCode.UseVisualStyleBackColor = false;
+            this.ib_PromoCode.Visible = false;
+            this.ib_PromoCode.Click += new System.EventHandler(this.ib_PromoCode_Click);
+            this.ib_PromoCode.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_PromoCode.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Expence
+            // 
+            this.ib_Expence.BackColor = System.Drawing.Color.Transparent;
+            this.ib_Expence.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Expence.BackgroundImage")));
+            this.ib_Expence.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_Expence.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Expence.FlatAppearance.BorderSize = 0;
+            this.ib_Expence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Expence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Expence.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Expence.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Expence.IconColor = System.Drawing.Color.White;
+            this.ib_Expence.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Expence.IconSize = 30;
+            this.ib_Expence.Location = new System.Drawing.Point(30, 86);
+            this.ib_Expence.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Expence.Name = "ib_Expence";
+            this.ib_Expence.Size = new System.Drawing.Size(139, 56);
+            this.ib_Expence.TabIndex = 15;
+            this.ib_Expence.Tag = "Expense";
+            this.ib_Expence.Text = "Expense";
+            this.ib_Expence.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_Expence.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Expence, "Expense");
+            this.ib_Expence.UseVisualStyleBackColor = false;
+            this.ib_Expence.Visible = false;
+            this.ib_Expence.Click += new System.EventHandler(this.ib_withdrawal_Click);
+            this.ib_Expence.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_Expence.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Discount_offer
+            // 
+            this.ib_Discount_offer.BackColor = System.Drawing.Color.Transparent;
+            this.ib_Discount_offer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Discount_offer.BackgroundImage")));
+            this.ib_Discount_offer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_Discount_offer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Discount_offer.FlatAppearance.BorderSize = 0;
+            this.ib_Discount_offer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Discount_offer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Discount_offer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Discount_offer.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Discount_offer.IconColor = System.Drawing.Color.White;
+            this.ib_Discount_offer.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Discount_offer.IconSize = 30;
+            this.ib_Discount_offer.Location = new System.Drawing.Point(229, 86);
+            this.ib_Discount_offer.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Discount_offer.Name = "ib_Discount_offer";
+            this.ib_Discount_offer.Size = new System.Drawing.Size(139, 56);
+            this.ib_Discount_offer.TabIndex = 14;
+            this.ib_Discount_offer.Tag = "Discount && Offer";
+            this.ib_Discount_offer.Text = "Discount && Offer";
+            this.ib_Discount_offer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_Discount_offer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Discount_offer, "Discount And Offer");
+            this.ib_Discount_offer.UseVisualStyleBackColor = false;
+            this.ib_Discount_offer.Visible = false;
+            this.ib_Discount_offer.Click += new System.EventHandler(this.ib_Discount_Click);
+            this.ib_Discount_offer.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_Discount_offer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_vendor
+            // 
+            this.ib_vendor.BackColor = System.Drawing.Color.Transparent;
+            this.ib_vendor.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_vendor.BackgroundImage")));
+            this.ib_vendor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_vendor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_vendor.FlatAppearance.BorderSize = 0;
+            this.ib_vendor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_vendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_vendor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_vendor.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_vendor.IconColor = System.Drawing.Color.White;
+            this.ib_vendor.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_vendor.IconSize = 30;
+            this.ib_vendor.Location = new System.Drawing.Point(428, 86);
+            this.ib_vendor.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_vendor.Name = "ib_vendor";
+            this.ib_vendor.Size = new System.Drawing.Size(139, 56);
+            this.ib_vendor.TabIndex = 13;
+            this.ib_vendor.Tag = "Vendor";
+            this.ib_vendor.Text = "Vendor";
+            this.ib_vendor.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_vendor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_vendor, "Vendor Registartion");
+            this.ib_vendor.UseVisualStyleBackColor = false;
+            this.ib_vendor.Visible = false;
+            this.ib_vendor.Click += new System.EventHandler(this.ib_vendor_Click);
+            this.ib_vendor.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_vendor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_tax
+            // 
+            this.ib_tax.BackColor = System.Drawing.Color.Transparent;
+            this.ib_tax.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_tax.BackgroundImage")));
+            this.ib_tax.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_tax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_tax.FlatAppearance.BorderSize = 0;
+            this.ib_tax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_tax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_tax.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_tax.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_tax.IconColor = System.Drawing.Color.White;
+            this.ib_tax.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_tax.IconSize = 30;
+            this.ib_tax.Location = new System.Drawing.Point(30, 162);
+            this.ib_tax.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_tax.Name = "ib_tax";
+            this.ib_tax.Size = new System.Drawing.Size(139, 56);
+            this.ib_tax.TabIndex = 12;
+            this.ib_tax.Tag = "Tax";
+            this.ib_tax.Text = "Tax";
+            this.ib_tax.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_tax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_tax, "Tax Registartion");
+            this.ib_tax.UseVisualStyleBackColor = false;
+            this.ib_tax.Visible = false;
+            this.ib_tax.Click += new System.EventHandler(this.ib_tax_Click);
+            this.ib_tax.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_tax.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_purchasereturn
+            // 
+            this.ib_purchasereturn.BackColor = System.Drawing.Color.Transparent;
+            this.ib_purchasereturn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_purchasereturn.BackgroundImage")));
+            this.ib_purchasereturn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_purchasereturn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_purchasereturn.FlatAppearance.BorderSize = 0;
+            this.ib_purchasereturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_purchasereturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_purchasereturn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_purchasereturn.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_purchasereturn.IconColor = System.Drawing.Color.White;
+            this.ib_purchasereturn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_purchasereturn.IconSize = 30;
+            this.ib_purchasereturn.Location = new System.Drawing.Point(229, 162);
+            this.ib_purchasereturn.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_purchasereturn.Name = "ib_purchasereturn";
+            this.ib_purchasereturn.Size = new System.Drawing.Size(139, 56);
+            this.ib_purchasereturn.TabIndex = 11;
+            this.ib_purchasereturn.Tag = "Purchase Return";
+            this.ib_purchasereturn.Text = "Purchase Return";
+            this.ib_purchasereturn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_purchasereturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_purchasereturn, "Purchase Return Registartion");
+            this.ib_purchasereturn.UseVisualStyleBackColor = false;
+            this.ib_purchasereturn.Visible = false;
+            this.ib_purchasereturn.Click += new System.EventHandler(this.ib_purchasereturn_Click);
+            this.ib_purchasereturn.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_purchasereturn.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_purchase
+            // 
+            this.ib_purchase.BackColor = System.Drawing.Color.Transparent;
+            this.ib_purchase.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_purchase.BackgroundImage")));
+            this.ib_purchase.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_purchase.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_purchase.FlatAppearance.BorderSize = 0;
+            this.ib_purchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_purchase.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_purchase.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_purchase.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_purchase.IconColor = System.Drawing.Color.White;
+            this.ib_purchase.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_purchase.IconSize = 30;
+            this.ib_purchase.Location = new System.Drawing.Point(428, 162);
+            this.ib_purchase.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_purchase.Name = "ib_purchase";
+            this.ib_purchase.Size = new System.Drawing.Size(139, 56);
+            this.ib_purchase.TabIndex = 10;
+            this.ib_purchase.Tag = "Purchase";
+            this.ib_purchase.Text = "Purchase";
+            this.ib_purchase.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_purchase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_purchase, "Purchase Registartion");
+            this.ib_purchase.UseVisualStyleBackColor = false;
+            this.ib_purchase.Visible = false;
+            this.ib_purchase.Click += new System.EventHandler(this.ib_purchase_Click);
+            this.ib_purchase.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_purchase.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_table
+            // 
+            this.ib_table.BackColor = System.Drawing.Color.Transparent;
+            this.ib_table.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_table.BackgroundImage")));
+            this.ib_table.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_table.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_table.FlatAppearance.BorderSize = 0;
+            this.ib_table.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_table.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_table.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_table.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_table.IconColor = System.Drawing.Color.White;
+            this.ib_table.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_table.IconSize = 30;
+            this.ib_table.Location = new System.Drawing.Point(30, 238);
+            this.ib_table.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_table.Name = "ib_table";
+            this.ib_table.Size = new System.Drawing.Size(139, 56);
+            this.ib_table.TabIndex = 9;
+            this.ib_table.Tag = "Table";
+            this.ib_table.Text = "Table";
+            this.ib_table.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_table.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_table, "Table Registartion");
+            this.ib_table.UseVisualStyleBackColor = false;
+            this.ib_table.Visible = false;
+            this.ib_table.Click += new System.EventHandler(this.ib_table_Click);
+            this.ib_table.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_table.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_unit
+            // 
+            this.ib_unit.BackColor = System.Drawing.Color.Transparent;
+            this.ib_unit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_unit.BackgroundImage")));
+            this.ib_unit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_unit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_unit.FlatAppearance.BorderSize = 0;
+            this.ib_unit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_unit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_unit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_unit.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_unit.IconColor = System.Drawing.Color.White;
+            this.ib_unit.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_unit.IconSize = 30;
+            this.ib_unit.Location = new System.Drawing.Point(229, 238);
+            this.ib_unit.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_unit.Name = "ib_unit";
+            this.ib_unit.Size = new System.Drawing.Size(139, 56);
+            this.ib_unit.TabIndex = 8;
+            this.ib_unit.Tag = "Unit";
+            this.ib_unit.Text = "Unit";
+            this.ib_unit.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_unit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_unit, "Unit Registartion");
+            this.ib_unit.UseVisualStyleBackColor = false;
+            this.ib_unit.Visible = false;
+            this.ib_unit.Click += new System.EventHandler(this.ib_unit_Click);
+            this.ib_unit.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_unit.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_menu
+            // 
+            this.ib_menu.BackColor = System.Drawing.Color.Transparent;
+            this.ib_menu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_menu.BackgroundImage")));
+            this.ib_menu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_menu.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_menu.FlatAppearance.BorderSize = 0;
+            this.ib_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_menu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_menu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_menu.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_menu.IconColor = System.Drawing.Color.White;
+            this.ib_menu.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_menu.IconSize = 30;
+            this.ib_menu.Location = new System.Drawing.Point(428, 238);
+            this.ib_menu.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_menu.Name = "ib_menu";
+            this.ib_menu.Size = new System.Drawing.Size(139, 56);
+            this.ib_menu.TabIndex = 7;
+            this.ib_menu.Tag = "Menu";
+            this.ib_menu.Text = "Menu";
+            this.ib_menu.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_menu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_menu, "Menu Registartion");
+            this.ib_menu.UseVisualStyleBackColor = false;
+            this.ib_menu.Visible = false;
+            this.ib_menu.Click += new System.EventHandler(this.ib_menu_Click);
+            this.ib_menu.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_menu.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_ingrediant
+            // 
+            this.ib_ingrediant.BackColor = System.Drawing.Color.Transparent;
+            this.ib_ingrediant.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_ingrediant.BackgroundImage")));
+            this.ib_ingrediant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_ingrediant.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_ingrediant.FlatAppearance.BorderSize = 0;
+            this.ib_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_ingrediant.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_ingrediant.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_ingrediant.IconColor = System.Drawing.Color.White;
+            this.ib_ingrediant.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_ingrediant.IconSize = 30;
+            this.ib_ingrediant.Location = new System.Drawing.Point(30, 314);
+            this.ib_ingrediant.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_ingrediant.Name = "ib_ingrediant";
+            this.ib_ingrediant.Size = new System.Drawing.Size(139, 56);
+            this.ib_ingrediant.TabIndex = 6;
+            this.ib_ingrediant.Tag = "Product";
+            this.ib_ingrediant.Text = "Product";
+            this.ib_ingrediant.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_ingrediant.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_ingrediant, "Product Registartion");
+            this.ib_ingrediant.UseVisualStyleBackColor = false;
+            this.ib_ingrediant.Visible = false;
+            this.ib_ingrediant.Click += new System.EventHandler(this.ib_ingrediant_Click);
+            this.ib_ingrediant.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_ingrediant.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Item
+            // 
+            this.ib_Item.BackColor = System.Drawing.Color.Transparent;
+            this.ib_Item.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Item.BackgroundImage")));
+            this.ib_Item.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_Item.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Item.FlatAppearance.BorderSize = 0;
+            this.ib_Item.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Item.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_Item.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Item.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Item.IconColor = System.Drawing.Color.White;
+            this.ib_Item.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Item.IconSize = 30;
+            this.ib_Item.Location = new System.Drawing.Point(229, 314);
+            this.ib_Item.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Item.Name = "ib_Item";
+            this.ib_Item.Size = new System.Drawing.Size(139, 56);
+            this.ib_Item.TabIndex = 5;
+            this.ib_Item.Tag = "Item";
+            this.ib_Item.Text = "Item";
+            this.ib_Item.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_Item.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Item, "Item Registartion");
+            this.ib_Item.UseVisualStyleBackColor = false;
+            this.ib_Item.Visible = false;
+            this.ib_Item.Click += new System.EventHandler(this.ib_Item_Click);
+            this.ib_Item.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_Item.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Category
+            // 
+            this.ib_Category.BackColor = System.Drawing.Color.Transparent;
+            this.ib_Category.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Category.BackgroundImage")));
+            this.ib_Category.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_Category.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Category.FlatAppearance.BorderSize = 0;
+            this.ib_Category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Category.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_Category.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Category.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Category.IconColor = System.Drawing.Color.White;
+            this.ib_Category.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Category.IconSize = 30;
+            this.ib_Category.Location = new System.Drawing.Point(428, 314);
+            this.ib_Category.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Category.Name = "ib_Category";
+            this.ib_Category.Size = new System.Drawing.Size(139, 56);
+            this.ib_Category.TabIndex = 4;
+            this.ib_Category.Tag = "Category";
+            this.ib_Category.Text = "Category";
+            this.ib_Category.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_Category.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Category, "Category Registartion");
+            this.ib_Category.UseVisualStyleBackColor = false;
+            this.ib_Category.Visible = false;
+            this.ib_Category.Click += new System.EventHandler(this.ib_Category_Click);
+            this.ib_Category.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_Category.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_Company
+            // 
+            this.ib_Company.BackColor = System.Drawing.Color.Transparent;
+            this.ib_Company.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Company.BackgroundImage")));
+            this.ib_Company.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_Company.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_Company.FlatAppearance.BorderSize = 0;
+            this.ib_Company.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_Company.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ib_Company.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_Company.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_Company.IconColor = System.Drawing.Color.White;
+            this.ib_Company.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_Company.IconSize = 30;
+            this.ib_Company.Location = new System.Drawing.Point(30, 390);
+            this.ib_Company.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_Company.Name = "ib_Company";
+            this.ib_Company.Size = new System.Drawing.Size(139, 56);
+            this.ib_Company.TabIndex = 19;
+            this.ib_Company.Tag = "Company";
+            this.ib_Company.Text = "Company";
+            this.ib_Company.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_Company.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_Company, "Company Registartion");
+            this.ib_Company.UseVisualStyleBackColor = false;
+            this.ib_Company.Visible = false;
+            this.ib_Company.Click += new System.EventHandler(this.ib_Company_Click);
+            this.ib_Company.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_Company.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_orderview
+            // 
+            this.ib_orderview.BackColor = System.Drawing.Color.Transparent;
+            this.ib_orderview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_orderview.BackgroundImage")));
+            this.ib_orderview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_orderview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_orderview.FlatAppearance.BorderSize = 0;
+            this.ib_orderview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_orderview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_orderview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_orderview.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_orderview.IconColor = System.Drawing.Color.White;
+            this.ib_orderview.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_orderview.IconSize = 30;
+            this.ib_orderview.Location = new System.Drawing.Point(229, 390);
+            this.ib_orderview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_orderview.Name = "ib_orderview";
+            this.ib_orderview.Size = new System.Drawing.Size(139, 56);
+            this.ib_orderview.TabIndex = 16;
+            this.ib_orderview.Tag = "Order";
+            this.ib_orderview.Text = "Order";
+            this.ib_orderview.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_orderview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_orderview, "New Order");
+            this.ib_orderview.UseVisualStyleBackColor = false;
+            this.ib_orderview.Visible = false;
+            this.ib_orderview.Click += new System.EventHandler(this.ib_orderview_Click);
+            this.ib_orderview.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_orderview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_kitchenview
+            // 
+            this.ib_kitchenview.BackColor = System.Drawing.Color.Transparent;
+            this.ib_kitchenview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_kitchenview.BackgroundImage")));
+            this.ib_kitchenview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_kitchenview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_kitchenview.FlatAppearance.BorderSize = 0;
+            this.ib_kitchenview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_kitchenview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_kitchenview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_kitchenview.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_kitchenview.IconColor = System.Drawing.Color.White;
+            this.ib_kitchenview.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_kitchenview.IconSize = 30;
+            this.ib_kitchenview.Location = new System.Drawing.Point(428, 390);
+            this.ib_kitchenview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_kitchenview.Name = "ib_kitchenview";
+            this.ib_kitchenview.Size = new System.Drawing.Size(139, 56);
+            this.ib_kitchenview.TabIndex = 17;
+            this.ib_kitchenview.Tag = "Kitchen View";
+            this.ib_kitchenview.Text = "Kitchen View";
+            this.ib_kitchenview.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_kitchenview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_kitchenview, "Kitchen View");
+            this.ib_kitchenview.UseVisualStyleBackColor = false;
+            this.ib_kitchenview.Visible = false;
+            this.ib_kitchenview.Click += new System.EventHandler(this.ib_kitchenview_Click);
+            this.ib_kitchenview.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_kitchenview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_userpermission
+            // 
+            this.ib_userpermission.BackColor = System.Drawing.Color.Transparent;
+            this.ib_userpermission.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_userpermission.BackgroundImage")));
+            this.ib_userpermission.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_userpermission.FlatAppearance.BorderSize = 0;
+            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_userpermission.IconColor = System.Drawing.Color.White;
+            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_userpermission.IconSize = 30;
+            this.ib_userpermission.Location = new System.Drawing.Point(30, 10);
+            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_userpermission.Name = "ib_userpermission";
+            this.ib_userpermission.Size = new System.Drawing.Size(139, 56);
+            this.ib_userpermission.TabIndex = 22;
+            this.ib_userpermission.Tag = "User Permission";
+            this.ib_userpermission.Text = "User Permission";
+            this.ib_userpermission.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
+            this.ib_userpermission.UseVisualStyleBackColor = false;
+            this.ib_userpermission.Visible = false;
+            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
+            this.ib_userpermission.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_designation
+            // 
+            this.ib_designation.BackColor = System.Drawing.Color.Transparent;
+            this.ib_designation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_designation.BackgroundImage")));
+            this.ib_designation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_designation.FlatAppearance.BorderSize = 0;
+            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_designation.IconColor = System.Drawing.Color.White;
+            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_designation.IconSize = 30;
+            this.ib_designation.Location = new System.Drawing.Point(30, 86);
+            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_designation.Name = "ib_designation";
+            this.ib_designation.Size = new System.Drawing.Size(139, 56);
+            this.ib_designation.TabIndex = 20;
+            this.ib_designation.Tag = "Designation ";
+            this.ib_designation.Text = "Designation ";
+            this.ib_designation.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
+            this.ib_designation.UseVisualStyleBackColor = false;
+            this.ib_designation.Visible = false;
+            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
+            this.ib_designation.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_department
+            // 
+            this.ib_department.BackColor = System.Drawing.Color.Transparent;
+            this.ib_department.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_department.BackgroundImage")));
+            this.ib_department.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_department.FlatAppearance.BorderSize = 0;
+            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_department.IconColor = System.Drawing.Color.White;
+            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_department.IconSize = 30;
+            this.ib_department.Location = new System.Drawing.Point(30, 162);
+            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_department.Name = "ib_department";
+            this.ib_department.Size = new System.Drawing.Size(139, 56);
+            this.ib_department.TabIndex = 19;
+            this.ib_department.Tag = "Department";
+            this.ib_department.Text = "Department";
+            this.ib_department.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
+            this.ib_department.UseVisualStyleBackColor = false;
+            this.ib_department.Visible = false;
+            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
+            this.ib_department.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_useraccount
+            // 
+            this.ib_useraccount.BackColor = System.Drawing.Color.Transparent;
+            this.ib_useraccount.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_useraccount.BackgroundImage")));
+            this.ib_useraccount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_useraccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_useraccount.FlatAppearance.BorderSize = 0;
+            this.ib_useraccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_useraccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_useraccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_useraccount.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_useraccount.IconColor = System.Drawing.Color.White;
+            this.ib_useraccount.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_useraccount.IconSize = 30;
+            this.ib_useraccount.Location = new System.Drawing.Point(30, 238);
+            this.ib_useraccount.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_useraccount.Name = "ib_useraccount";
+            this.ib_useraccount.Size = new System.Drawing.Size(139, 56);
+            this.ib_useraccount.TabIndex = 21;
+            this.ib_useraccount.Tag = "User Account";
+            this.ib_useraccount.Text = "User Account";
+            this.ib_useraccount.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_useraccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_useraccount, "User Account Registartion");
+            this.ib_useraccount.UseVisualStyleBackColor = false;
+            this.ib_useraccount.Visible = false;
+            this.ib_useraccount.Click += new System.EventHandler(this.ib_useraccount_Click);
+            this.ib_useraccount.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_useraccount.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_employee
+            // 
+            this.ib_employee.BackColor = System.Drawing.Color.Transparent;
+            this.ib_employee.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_employee.BackgroundImage")));
+            this.ib_employee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_employee.FlatAppearance.BorderSize = 0;
+            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_employee.IconColor = System.Drawing.Color.White;
+            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_employee.IconSize = 30;
+            this.ib_employee.Location = new System.Drawing.Point(30, 314);
+            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_employee.Name = "ib_employee";
+            this.ib_employee.Size = new System.Drawing.Size(139, 56);
+            this.ib_employee.TabIndex = 18;
+            this.ib_employee.Tag = "Employee";
+            this.ib_employee.Text = "Employee";
+            this.ib_employee.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
+            this.ib_employee.UseVisualStyleBackColor = false;
+            this.ib_employee.Visible = false;
+            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
+            this.ib_employee.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_drawer
+            // 
+            this.ib_drawer.BackColor = System.Drawing.Color.Transparent;
+            this.ib_drawer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_drawer.BackgroundImage")));
+            this.ib_drawer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_drawer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_drawer.FlatAppearance.BorderSize = 0;
+            this.ib_drawer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_drawer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_drawer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_drawer.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_drawer.IconColor = System.Drawing.Color.White;
+            this.ib_drawer.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_drawer.IconSize = 30;
+            this.ib_drawer.Location = new System.Drawing.Point(30, 10);
+            this.ib_drawer.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_drawer.Name = "ib_drawer";
+            this.ib_drawer.Size = new System.Drawing.Size(139, 56);
+            this.ib_drawer.TabIndex = 22;
+            this.ib_drawer.Tag = "Drawer";
+            this.ib_drawer.Text = "Drawer";
+            this.ib_drawer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_drawer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_drawer, "Drawer");
+            this.ib_drawer.UseVisualStyleBackColor = false;
+            this.ib_drawer.Visible = false;
+            this.ib_drawer.Click += new System.EventHandler(this.ib_drawer_Click);
+            this.ib_drawer.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_drawer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_appcolor
+            // 
+            this.ib_appcolor.BackColor = System.Drawing.Color.Transparent;
+            this.ib_appcolor.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_appcolor.BackgroundImage")));
+            this.ib_appcolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_appcolor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_appcolor.FlatAppearance.BorderSize = 0;
+            this.ib_appcolor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_appcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_appcolor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_appcolor.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_appcolor.IconColor = System.Drawing.Color.White;
+            this.ib_appcolor.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_appcolor.IconSize = 30;
+            this.ib_appcolor.Location = new System.Drawing.Point(30, 86);
+            this.ib_appcolor.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_appcolor.Name = "ib_appcolor";
+            this.ib_appcolor.Size = new System.Drawing.Size(139, 56);
+            this.ib_appcolor.TabIndex = 20;
+            this.ib_appcolor.Tag = "App Color";
+            this.ib_appcolor.Text = "App Color";
+            this.ib_appcolor.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_appcolor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_appcolor, "App Color");
+            this.ib_appcolor.UseVisualStyleBackColor = false;
+            this.ib_appcolor.Visible = false;
+            this.ib_appcolor.Click += new System.EventHandler(this.ib_appcolor_Click);
+            this.ib_appcolor.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_appcolor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_billsetting
+            // 
+            this.ib_billsetting.BackColor = System.Drawing.Color.Transparent;
+            this.ib_billsetting.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_billsetting.BackgroundImage")));
+            this.ib_billsetting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_billsetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_billsetting.FlatAppearance.BorderSize = 0;
+            this.ib_billsetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_billsetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_billsetting.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_billsetting.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_billsetting.IconColor = System.Drawing.Color.White;
+            this.ib_billsetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_billsetting.IconSize = 30;
+            this.ib_billsetting.Location = new System.Drawing.Point(30, 162);
+            this.ib_billsetting.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_billsetting.Name = "ib_billsetting";
+            this.ib_billsetting.Size = new System.Drawing.Size(139, 56);
+            this.ib_billsetting.TabIndex = 19;
+            this.ib_billsetting.Tag = "Bill Setting";
+            this.ib_billsetting.Text = "Bill Setting";
+            this.ib_billsetting.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_billsetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_billsetting, "Bill Setting");
+            this.ib_billsetting.UseVisualStyleBackColor = false;
+            this.ib_billsetting.Visible = false;
+            this.ib_billsetting.Click += new System.EventHandler(this.ib_billsetting_Click);
+            this.ib_billsetting.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_billsetting.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_gensetting
+            // 
+            this.ib_gensetting.BackColor = System.Drawing.Color.Transparent;
+            this.ib_gensetting.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_gensetting.BackgroundImage")));
+            this.ib_gensetting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_gensetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_gensetting.FlatAppearance.BorderSize = 0;
+            this.ib_gensetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_gensetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_gensetting.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_gensetting.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_gensetting.IconColor = System.Drawing.Color.White;
+            this.ib_gensetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_gensetting.IconSize = 30;
+            this.ib_gensetting.Location = new System.Drawing.Point(30, 238);
+            this.ib_gensetting.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_gensetting.Name = "ib_gensetting";
+            this.ib_gensetting.Size = new System.Drawing.Size(139, 56);
+            this.ib_gensetting.TabIndex = 21;
+            this.ib_gensetting.Tag = "General Setting";
+            this.ib_gensetting.Text = "General Setting";
+            this.ib_gensetting.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_gensetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_gensetting, "General Setting");
+            this.ib_gensetting.UseVisualStyleBackColor = false;
+            this.ib_gensetting.Visible = false;
+            this.ib_gensetting.Click += new System.EventHandler(this.ib_gensetting_Click);
+            this.ib_gensetting.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_gensetting.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_virtualkeybpard
+            // 
+            this.ib_virtualkeybpard.BackColor = System.Drawing.Color.Transparent;
+            this.ib_virtualkeybpard.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_virtualkeybpard.BackgroundImage")));
+            this.ib_virtualkeybpard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_virtualkeybpard.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_virtualkeybpard.FlatAppearance.BorderSize = 0;
+            this.ib_virtualkeybpard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_virtualkeybpard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_virtualkeybpard.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_virtualkeybpard.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_virtualkeybpard.IconColor = System.Drawing.Color.White;
+            this.ib_virtualkeybpard.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_virtualkeybpard.IconSize = 30;
+            this.ib_virtualkeybpard.Location = new System.Drawing.Point(30, 314);
+            this.ib_virtualkeybpard.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_virtualkeybpard.Name = "ib_virtualkeybpard";
+            this.ib_virtualkeybpard.Size = new System.Drawing.Size(139, 56);
+            this.ib_virtualkeybpard.TabIndex = 18;
+            this.ib_virtualkeybpard.Tag = "Virtual Keyboard";
+            this.ib_virtualkeybpard.Text = "Virtual Keyboard";
+            this.ib_virtualkeybpard.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_virtualkeybpard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_virtualkeybpard, "Virtual Keyboard");
+            this.ib_virtualkeybpard.UseVisualStyleBackColor = false;
+            this.ib_virtualkeybpard.Visible = false;
+            this.ib_virtualkeybpard.Click += new System.EventHandler(this.ib_virtualkeybpard_Click);
+            this.ib_virtualkeybpard.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_virtualkeybpard.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
+            // 
+            // ib_msgsetting
+            // 
+            this.ib_msgsetting.BackColor = System.Drawing.Color.Transparent;
+            this.ib_msgsetting.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_msgsetting.BackgroundImage")));
+            this.ib_msgsetting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ib_msgsetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.ib_msgsetting.FlatAppearance.BorderSize = 0;
+            this.ib_msgsetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ib_msgsetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.ib_msgsetting.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ib_msgsetting.IconChar = FontAwesome.Sharp.IconChar.XRay;
+            this.ib_msgsetting.IconColor = System.Drawing.Color.White;
+            this.ib_msgsetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.ib_msgsetting.IconSize = 30;
+            this.ib_msgsetting.Location = new System.Drawing.Point(30, 390);
+            this.ib_msgsetting.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.ib_msgsetting.Name = "ib_msgsetting";
+            this.ib_msgsetting.Size = new System.Drawing.Size(139, 56);
+            this.ib_msgsetting.TabIndex = 23;
+            this.ib_msgsetting.Tag = "Msg Setting";
+            this.ib_msgsetting.Text = "Msg Setting";
+            this.ib_msgsetting.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ib_msgsetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.ib_msgsetting, "Msg Setting");
+            this.ib_msgsetting.UseVisualStyleBackColor = false;
+            this.ib_msgsetting.Visible = false;
+            this.ib_msgsetting.Click += new System.EventHandler(this.ib_msgsetting_Click);
+            this.ib_msgsetting.MouseLeave += new System.EventHandler(this.OPButton_MouseLeftEffect);
+            this.ib_msgsetting.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
             // 
             // Menuhome
             // 
@@ -3530,677 +4370,6 @@ namespace FoodandBeverage.Forms
             this.Menulogout.UseVisualStyleBackColor = false;
             this.Menulogout.Click += new System.EventHandler(this.Menulogout_Click);
             // 
-            // ib_addon
-            // 
-            this.ib_addon.BackColor = System.Drawing.Color.Transparent;
-            this.ib_addon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_addon.BackgroundImage")));
-            this.ib_addon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_addon.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_addon.FlatAppearance.BorderSize = 0;
-            this.ib_addon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_addon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_addon.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_addon.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_addon.IconColor = System.Drawing.Color.White;
-            this.ib_addon.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_addon.IconSize = 30;
-            this.ib_addon.Location = new System.Drawing.Point(828, 11);
-            this.ib_addon.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_addon.Name = "ib_addon";
-            this.ib_addon.Size = new System.Drawing.Size(139, 56);
-            this.ib_addon.TabIndex = 21;
-            this.ib_addon.Tag = "Addon";
-            this.ib_addon.Text = "Addon";
-            this.ib_addon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_addon, "Addon Registartion");
-            this.ib_addon.UseVisualStyleBackColor = false;
-            this.ib_addon.Visible = false;
-            this.ib_addon.Click += new System.EventHandler(this.ib_addon_Click);
-            this.ib_addon.MouseLeave += new System.EventHandler(this.ib_addon_MouseLeave);
-            // 
-            // ib_kitchenview
-            // 
-            this.ib_kitchenview.BackColor = System.Drawing.Color.Transparent;
-            this.ib_kitchenview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_kitchenview.BackgroundImage")));
-            this.ib_kitchenview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_kitchenview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_kitchenview.FlatAppearance.BorderSize = 0;
-            this.ib_kitchenview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_kitchenview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_kitchenview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_kitchenview.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_kitchenview.IconColor = System.Drawing.Color.White;
-            this.ib_kitchenview.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_kitchenview.IconSize = 30;
-            this.ib_kitchenview.Location = new System.Drawing.Point(828, 13);
-            this.ib_kitchenview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_kitchenview.Name = "ib_kitchenview";
-            this.ib_kitchenview.Size = new System.Drawing.Size(138, 52);
-            this.ib_kitchenview.TabIndex = 17;
-            this.ib_kitchenview.Tag = "Kitchen View";
-            this.ib_kitchenview.Text = "Kitchen View";
-            this.ib_kitchenview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_kitchenview, "Kitchen View");
-            this.ib_kitchenview.UseVisualStyleBackColor = false;
-            this.ib_kitchenview.Visible = false;
-            this.ib_kitchenview.Click += new System.EventHandler(this.ib_kitchenview_Click);
-            this.ib_kitchenview.MouseLeave += new System.EventHandler(this.ib_kitchenview_MouseLeave);
-            this.ib_kitchenview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_orderview
-            // 
-            this.ib_orderview.BackColor = System.Drawing.Color.Transparent;
-            this.ib_orderview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_orderview.BackgroundImage")));
-            this.ib_orderview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_orderview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_orderview.FlatAppearance.BorderSize = 0;
-            this.ib_orderview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_orderview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_orderview.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_orderview.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_orderview.IconColor = System.Drawing.Color.White;
-            this.ib_orderview.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_orderview.IconSize = 30;
-            this.ib_orderview.Location = new System.Drawing.Point(828, 13);
-            this.ib_orderview.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_orderview.Name = "ib_orderview";
-            this.ib_orderview.Size = new System.Drawing.Size(139, 52);
-            this.ib_orderview.TabIndex = 16;
-            this.ib_orderview.Tag = "Order";
-            this.ib_orderview.Text = "Order";
-            this.ib_orderview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_orderview, "Tax Registartion");
-            this.ib_orderview.UseVisualStyleBackColor = false;
-            this.ib_orderview.Visible = false;
-            this.ib_orderview.Click += new System.EventHandler(this.ib_orderview_Click);
-            this.ib_orderview.MouseLeave += new System.EventHandler(this.ib_orderview_MouseLeave);
-            this.ib_orderview.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Company
-            // 
-            this.ib_Company.BackColor = System.Drawing.Color.Transparent;
-            this.ib_Company.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Company.BackgroundImage")));
-            this.ib_Company.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_Company.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Company.FlatAppearance.BorderSize = 0;
-            this.ib_Company.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Company.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Company.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Company.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Company.IconColor = System.Drawing.Color.White;
-            this.ib_Company.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Company.IconSize = 30;
-            this.ib_Company.Location = new System.Drawing.Point(829, 13);
-            this.ib_Company.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Company.Name = "ib_Company";
-            this.ib_Company.Size = new System.Drawing.Size(137, 52);
-            this.ib_Company.TabIndex = 19;
-            this.ib_Company.Tag = "Company";
-            this.ib_Company.Text = "Company";
-            this.ib_Company.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Company, "Table Registartion");
-            this.ib_Company.UseVisualStyleBackColor = false;
-            this.ib_Company.Visible = false;
-            this.ib_Company.Click += new System.EventHandler(this.ib_Company_Click);
-            this.ib_Company.MouseLeave += new System.EventHandler(this.ib_Company_MouseLeave);
-            this.ib_Company.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Category
-            // 
-            this.ib_Category.BackColor = System.Drawing.Color.Transparent;
-            this.ib_Category.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Category.BackgroundImage")));
-            this.ib_Category.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_Category.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Category.FlatAppearance.BorderSize = 0;
-            this.ib_Category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Category.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_Category.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Category.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Category.IconColor = System.Drawing.Color.White;
-            this.ib_Category.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Category.IconSize = 30;
-            this.ib_Category.Location = new System.Drawing.Point(829, 13);
-            this.ib_Category.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Category.Name = "ib_Category";
-            this.ib_Category.Size = new System.Drawing.Size(137, 52);
-            this.ib_Category.TabIndex = 4;
-            this.ib_Category.Tag = "Category";
-            this.ib_Category.Text = "Category";
-            this.ib_Category.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Category, "Category Registartion");
-            this.ib_Category.UseVisualStyleBackColor = false;
-            this.ib_Category.Visible = false;
-            this.ib_Category.Click += new System.EventHandler(this.ib_Category_Click);
-            this.ib_Category.MouseLeave += new System.EventHandler(this.ib_Category_MouseLeave);
-            this.ib_Category.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Item
-            // 
-            this.ib_Item.BackColor = System.Drawing.Color.Transparent;
-            this.ib_Item.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Item.BackgroundImage")));
-            this.ib_Item.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_Item.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Item.FlatAppearance.BorderSize = 0;
-            this.ib_Item.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Item.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_Item.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Item.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Item.IconColor = System.Drawing.Color.White;
-            this.ib_Item.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Item.IconSize = 30;
-            this.ib_Item.Location = new System.Drawing.Point(829, 11);
-            this.ib_Item.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Item.Name = "ib_Item";
-            this.ib_Item.Size = new System.Drawing.Size(137, 56);
-            this.ib_Item.TabIndex = 5;
-            this.ib_Item.Tag = "Item";
-            this.ib_Item.Text = "Item";
-            this.ib_Item.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Item, "Item Registartion");
-            this.ib_Item.UseVisualStyleBackColor = false;
-            this.ib_Item.Visible = false;
-            this.ib_Item.Click += new System.EventHandler(this.ib_Item_Click);
-            this.ib_Item.MouseLeave += new System.EventHandler(this.ib_Item_MouseLeave);
-            this.ib_Item.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_ingrediant
-            // 
-            this.ib_ingrediant.BackColor = System.Drawing.Color.Transparent;
-            this.ib_ingrediant.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_ingrediant.BackgroundImage")));
-            this.ib_ingrediant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_ingrediant.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_ingrediant.FlatAppearance.BorderSize = 0;
-            this.ib_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_ingrediant.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_ingrediant.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_ingrediant.IconColor = System.Drawing.Color.White;
-            this.ib_ingrediant.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_ingrediant.IconSize = 30;
-            this.ib_ingrediant.Location = new System.Drawing.Point(828, 13);
-            this.ib_ingrediant.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_ingrediant.Name = "ib_ingrediant";
-            this.ib_ingrediant.Size = new System.Drawing.Size(138, 52);
-            this.ib_ingrediant.TabIndex = 6;
-            this.ib_ingrediant.Tag = "Product";
-            this.ib_ingrediant.Text = "Product";
-            this.ib_ingrediant.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_ingrediant, "Product Registartion");
-            this.ib_ingrediant.UseVisualStyleBackColor = false;
-            this.ib_ingrediant.Visible = false;
-            this.ib_ingrediant.Click += new System.EventHandler(this.ib_ingrediant_Click);
-            this.ib_ingrediant.MouseLeave += new System.EventHandler(this.ib_ingrediant_MouseLeave);
-            this.ib_ingrediant.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_menu
-            // 
-            this.ib_menu.BackColor = System.Drawing.Color.Transparent;
-            this.ib_menu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_menu.BackgroundImage")));
-            this.ib_menu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_menu.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_menu.FlatAppearance.BorderSize = 0;
-            this.ib_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_menu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_menu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_menu.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_menu.IconColor = System.Drawing.Color.White;
-            this.ib_menu.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_menu.IconSize = 30;
-            this.ib_menu.Location = new System.Drawing.Point(828, 13);
-            this.ib_menu.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_menu.Name = "ib_menu";
-            this.ib_menu.Size = new System.Drawing.Size(139, 52);
-            this.ib_menu.TabIndex = 7;
-            this.ib_menu.Tag = "Menu";
-            this.ib_menu.Text = "Menu";
-            this.ib_menu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_menu, "Menu Registartion");
-            this.ib_menu.UseVisualStyleBackColor = false;
-            this.ib_menu.Visible = false;
-            this.ib_menu.Click += new System.EventHandler(this.ib_menu_Click);
-            this.ib_menu.MouseLeave += new System.EventHandler(this.ib_menu_MouseLeave);
-            this.ib_menu.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_unit
-            // 
-            this.ib_unit.BackColor = System.Drawing.Color.Transparent;
-            this.ib_unit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_unit.BackgroundImage")));
-            this.ib_unit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_unit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_unit.FlatAppearance.BorderSize = 0;
-            this.ib_unit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_unit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_unit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_unit.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_unit.IconColor = System.Drawing.Color.White;
-            this.ib_unit.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_unit.IconSize = 30;
-            this.ib_unit.Location = new System.Drawing.Point(829, 13);
-            this.ib_unit.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_unit.Name = "ib_unit";
-            this.ib_unit.Size = new System.Drawing.Size(137, 52);
-            this.ib_unit.TabIndex = 8;
-            this.ib_unit.Tag = "Unit";
-            this.ib_unit.Text = "Unit";
-            this.ib_unit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_unit, "Unit Registartion");
-            this.ib_unit.UseVisualStyleBackColor = false;
-            this.ib_unit.Visible = false;
-            this.ib_unit.Click += new System.EventHandler(this.ib_unit_Click);
-            this.ib_unit.MouseLeave += new System.EventHandler(this.ib_unit_MouseLeave);
-            this.ib_unit.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_table
-            // 
-            this.ib_table.BackColor = System.Drawing.Color.Transparent;
-            this.ib_table.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_table.BackgroundImage")));
-            this.ib_table.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_table.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_table.FlatAppearance.BorderSize = 0;
-            this.ib_table.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_table.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_table.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_table.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_table.IconColor = System.Drawing.Color.White;
-            this.ib_table.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_table.IconSize = 30;
-            this.ib_table.Location = new System.Drawing.Point(828, 13);
-            this.ib_table.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_table.Name = "ib_table";
-            this.ib_table.Size = new System.Drawing.Size(138, 52);
-            this.ib_table.TabIndex = 9;
-            this.ib_table.Tag = "Table";
-            this.ib_table.Text = "Table";
-            this.ib_table.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_table, "Table Registartion");
-            this.ib_table.UseVisualStyleBackColor = false;
-            this.ib_table.Visible = false;
-            this.ib_table.Click += new System.EventHandler(this.ib_table_Click);
-            this.ib_table.MouseLeave += new System.EventHandler(this.ib_table_MouseLeave);
-            this.ib_table.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_purchase
-            // 
-            this.ib_purchase.BackColor = System.Drawing.Color.Transparent;
-            this.ib_purchase.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_purchase.BackgroundImage")));
-            this.ib_purchase.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_purchase.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_purchase.FlatAppearance.BorderSize = 0;
-            this.ib_purchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_purchase.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_purchase.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_purchase.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_purchase.IconColor = System.Drawing.Color.White;
-            this.ib_purchase.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_purchase.IconSize = 30;
-            this.ib_purchase.Location = new System.Drawing.Point(828, 13);
-            this.ib_purchase.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_purchase.Name = "ib_purchase";
-            this.ib_purchase.Size = new System.Drawing.Size(139, 52);
-            this.ib_purchase.TabIndex = 10;
-            this.ib_purchase.Tag = "Purchase";
-            this.ib_purchase.Text = "Purchase";
-            this.ib_purchase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_purchase, "Purchase Registartion");
-            this.ib_purchase.UseVisualStyleBackColor = false;
-            this.ib_purchase.Visible = false;
-            this.ib_purchase.Click += new System.EventHandler(this.ib_purchase_Click);
-            this.ib_purchase.MouseLeave += new System.EventHandler(this.ib_purchase_MouseLeave);
-            this.ib_purchase.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_purchasereturn
-            // 
-            this.ib_purchasereturn.BackColor = System.Drawing.Color.Transparent;
-            this.ib_purchasereturn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_purchasereturn.BackgroundImage")));
-            this.ib_purchasereturn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_purchasereturn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_purchasereturn.FlatAppearance.BorderSize = 0;
-            this.ib_purchasereturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_purchasereturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_purchasereturn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_purchasereturn.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_purchasereturn.IconColor = System.Drawing.Color.White;
-            this.ib_purchasereturn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_purchasereturn.IconSize = 30;
-            this.ib_purchasereturn.Location = new System.Drawing.Point(829, 13);
-            this.ib_purchasereturn.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_purchasereturn.Name = "ib_purchasereturn";
-            this.ib_purchasereturn.Size = new System.Drawing.Size(137, 52);
-            this.ib_purchasereturn.TabIndex = 11;
-            this.ib_purchasereturn.Tag = "Purchase Return";
-            this.ib_purchasereturn.Text = "Purchase Return";
-            this.ib_purchasereturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_purchasereturn, "Purchase Return Registartion");
-            this.ib_purchasereturn.UseVisualStyleBackColor = false;
-            this.ib_purchasereturn.Visible = false;
-            this.ib_purchasereturn.Click += new System.EventHandler(this.ib_purchasereturn_Click);
-            this.ib_purchasereturn.MouseLeave += new System.EventHandler(this.ib_purchasereturn_MouseLeave);
-            this.ib_purchasereturn.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_tax
-            // 
-            this.ib_tax.BackColor = System.Drawing.Color.Transparent;
-            this.ib_tax.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_tax.BackgroundImage")));
-            this.ib_tax.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_tax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_tax.FlatAppearance.BorderSize = 0;
-            this.ib_tax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_tax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_tax.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_tax.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_tax.IconColor = System.Drawing.Color.White;
-            this.ib_tax.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_tax.IconSize = 30;
-            this.ib_tax.Location = new System.Drawing.Point(828, 13);
-            this.ib_tax.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_tax.Name = "ib_tax";
-            this.ib_tax.Size = new System.Drawing.Size(138, 52);
-            this.ib_tax.TabIndex = 12;
-            this.ib_tax.Tag = "Tax";
-            this.ib_tax.Text = "Tax";
-            this.ib_tax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_tax, "Tax Registartion");
-            this.ib_tax.UseVisualStyleBackColor = false;
-            this.ib_tax.Visible = false;
-            this.ib_tax.Click += new System.EventHandler(this.ib_tax_Click);
-            this.ib_tax.MouseLeave += new System.EventHandler(this.ib_tax_MouseLeave);
-            this.ib_tax.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_vendor
-            // 
-            this.ib_vendor.BackColor = System.Drawing.Color.Transparent;
-            this.ib_vendor.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_vendor.BackgroundImage")));
-            this.ib_vendor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_vendor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_vendor.FlatAppearance.BorderSize = 0;
-            this.ib_vendor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_vendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_vendor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_vendor.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_vendor.IconColor = System.Drawing.Color.White;
-            this.ib_vendor.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_vendor.IconSize = 30;
-            this.ib_vendor.Location = new System.Drawing.Point(828, 13);
-            this.ib_vendor.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_vendor.Name = "ib_vendor";
-            this.ib_vendor.Size = new System.Drawing.Size(139, 52);
-            this.ib_vendor.TabIndex = 13;
-            this.ib_vendor.Tag = "Vendor";
-            this.ib_vendor.Text = "Vendor";
-            this.ib_vendor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_vendor, "Tax Registartion");
-            this.ib_vendor.UseVisualStyleBackColor = false;
-            this.ib_vendor.Visible = false;
-            this.ib_vendor.Click += new System.EventHandler(this.ib_vendor_Click);
-            this.ib_vendor.MouseLeave += new System.EventHandler(this.ib_vendor_MouseLeave);
-            this.ib_vendor.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Discount_offer
-            // 
-            this.ib_Discount_offer.BackColor = System.Drawing.Color.Transparent;
-            this.ib_Discount_offer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Discount_offer.BackgroundImage")));
-            this.ib_Discount_offer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_Discount_offer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Discount_offer.FlatAppearance.BorderSize = 0;
-            this.ib_Discount_offer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Discount_offer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Discount_offer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Discount_offer.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Discount_offer.IconColor = System.Drawing.Color.White;
-            this.ib_Discount_offer.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Discount_offer.IconSize = 30;
-            this.ib_Discount_offer.Location = new System.Drawing.Point(829, 13);
-            this.ib_Discount_offer.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Discount_offer.Name = "ib_Discount_offer";
-            this.ib_Discount_offer.Size = new System.Drawing.Size(137, 52);
-            this.ib_Discount_offer.TabIndex = 14;
-            this.ib_Discount_offer.Tag = "Discount And Offer";
-            this.ib_Discount_offer.Text = "Discount And Offer";
-            this.ib_Discount_offer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Discount_offer, "Tax Registartion");
-            this.ib_Discount_offer.UseVisualStyleBackColor = false;
-            this.ib_Discount_offer.Visible = false;
-            this.ib_Discount_offer.Click += new System.EventHandler(this.ib_Discount_Click);
-            this.ib_Discount_offer.MouseLeave += new System.EventHandler(this.ib_Discount_MouseLeave);
-            this.ib_Discount_offer.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_Expence
-            // 
-            this.ib_Expence.BackColor = System.Drawing.Color.Transparent;
-            this.ib_Expence.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_Expence.BackgroundImage")));
-            this.ib_Expence.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_Expence.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_Expence.FlatAppearance.BorderSize = 0;
-            this.ib_Expence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_Expence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_Expence.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_Expence.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_Expence.IconColor = System.Drawing.Color.White;
-            this.ib_Expence.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_Expence.IconSize = 30;
-            this.ib_Expence.Location = new System.Drawing.Point(828, 13);
-            this.ib_Expence.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_Expence.Name = "ib_Expence";
-            this.ib_Expence.Size = new System.Drawing.Size(138, 52);
-            this.ib_Expence.TabIndex = 15;
-            this.ib_Expence.Tag = "Expence";
-            this.ib_Expence.Text = "Expence";
-            this.ib_Expence.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_Expence, "Expence");
-            this.ib_Expence.UseVisualStyleBackColor = false;
-            this.ib_Expence.Visible = false;
-            this.ib_Expence.Click += new System.EventHandler(this.ib_withdrawal_Click);
-            this.ib_Expence.MouseLeave += new System.EventHandler(this.ib_withdrawal_MouseLeave);
-            this.ib_Expence.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_PromoCode
-            // 
-            this.ib_PromoCode.BackColor = System.Drawing.Color.Transparent;
-            this.ib_PromoCode.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_PromoCode.BackgroundImage")));
-            this.ib_PromoCode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_PromoCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_PromoCode.FlatAppearance.BorderSize = 0;
-            this.ib_PromoCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_PromoCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_PromoCode.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_PromoCode.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_PromoCode.IconColor = System.Drawing.Color.White;
-            this.ib_PromoCode.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_PromoCode.IconSize = 30;
-            this.ib_PromoCode.Location = new System.Drawing.Point(828, 13);
-            this.ib_PromoCode.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_PromoCode.Name = "ib_PromoCode";
-            this.ib_PromoCode.Size = new System.Drawing.Size(139, 52);
-            this.ib_PromoCode.TabIndex = 18;
-            this.ib_PromoCode.Tag = "PromoCode";
-            this.ib_PromoCode.Text = "PromoCode";
-            this.ib_PromoCode.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_PromoCode, "Table Registartion");
-            this.ib_PromoCode.UseVisualStyleBackColor = false;
-            this.ib_PromoCode.Visible = false;
-            this.ib_PromoCode.Click += new System.EventHandler(this.ib_PromoCode_Click);
-            this.ib_PromoCode.MouseLeave += new System.EventHandler(this.ib_PromoCode_MouseLeave);
-            this.ib_PromoCode.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_reservation
-            // 
-            this.ib_reservation.BackColor = System.Drawing.Color.Transparent;
-            this.ib_reservation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_reservation.BackgroundImage")));
-            this.ib_reservation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_reservation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_reservation.FlatAppearance.BorderSize = 0;
-            this.ib_reservation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_reservation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ib_reservation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_reservation.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_reservation.IconColor = System.Drawing.Color.White;
-            this.ib_reservation.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_reservation.IconSize = 30;
-            this.ib_reservation.Location = new System.Drawing.Point(828, 11);
-            this.ib_reservation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_reservation.Name = "ib_reservation";
-            this.ib_reservation.Size = new System.Drawing.Size(138, 56);
-            this.ib_reservation.TabIndex = 20;
-            this.ib_reservation.Tag = "Reservation";
-            this.ib_reservation.Text = "Reservation";
-            this.ib_reservation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_reservation, "Reservation Registartion");
-            this.ib_reservation.UseVisualStyleBackColor = false;
-            this.ib_reservation.Visible = false;
-            this.ib_reservation.Click += new System.EventHandler(this.ib_reservation_Click);
-            this.ib_reservation.MouseLeave += new System.EventHandler(this.ib_reservation_MouseLeave);
-            this.ib_reservation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_employee
-            // 
-            this.ib_employee.BackColor = System.Drawing.Color.Transparent;
-            this.ib_employee.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_employee.BackgroundImage")));
-            this.ib_employee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_employee.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_employee.FlatAppearance.BorderSize = 0;
-            this.ib_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_employee.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_employee.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_employee.IconColor = System.Drawing.Color.White;
-            this.ib_employee.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_employee.IconSize = 30;
-            this.ib_employee.Location = new System.Drawing.Point(886, 20);
-            this.ib_employee.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_employee.Name = "ib_employee";
-            this.ib_employee.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_employee.Size = new System.Drawing.Size(23, 39);
-            this.ib_employee.TabIndex = 18;
-            this.ib_employee.Tag = "Employee";
-            this.ib_employee.Text = "Employee";
-            this.ib_employee.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_employee, "Employee Registartion");
-            this.ib_employee.UseVisualStyleBackColor = false;
-            this.ib_employee.Visible = false;
-            this.ib_employee.Click += new System.EventHandler(this.ib_employee_Click);
-            this.ib_employee.MouseLeave += new System.EventHandler(this.ib_employee_MouseLeave);
-            this.ib_employee.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_useraccount
-            // 
-            this.ib_useraccount.BackColor = System.Drawing.Color.Transparent;
-            this.ib_useraccount.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_useraccount.BackgroundImage")));
-            this.ib_useraccount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_useraccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_useraccount.FlatAppearance.BorderSize = 0;
-            this.ib_useraccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_useraccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_useraccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_useraccount.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_useraccount.IconColor = System.Drawing.Color.White;
-            this.ib_useraccount.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_useraccount.IconSize = 30;
-            this.ib_useraccount.Location = new System.Drawing.Point(885, 20);
-            this.ib_useraccount.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_useraccount.Name = "ib_useraccount";
-            this.ib_useraccount.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_useraccount.Size = new System.Drawing.Size(25, 39);
-            this.ib_useraccount.TabIndex = 21;
-            this.ib_useraccount.Tag = "User Account";
-            this.ib_useraccount.Text = "User Account";
-            this.ib_useraccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_useraccount, "User Account Registartion");
-            this.ib_useraccount.UseVisualStyleBackColor = false;
-            this.ib_useraccount.Visible = false;
-            this.ib_useraccount.Click += new System.EventHandler(this.ib_useraccount_Click);
-            this.ib_useraccount.MouseLeave += new System.EventHandler(this.ib_useraccount_MouseLeave);
-            this.ib_useraccount.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_department
-            // 
-            this.ib_department.BackColor = System.Drawing.Color.Transparent;
-            this.ib_department.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_department.BackgroundImage")));
-            this.ib_department.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_department.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_department.FlatAppearance.BorderSize = 0;
-            this.ib_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_department.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_department.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_department.IconColor = System.Drawing.Color.White;
-            this.ib_department.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_department.IconSize = 30;
-            this.ib_department.Location = new System.Drawing.Point(886, 20);
-            this.ib_department.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_department.Name = "ib_department";
-            this.ib_department.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_department.Size = new System.Drawing.Size(23, 39);
-            this.ib_department.TabIndex = 19;
-            this.ib_department.Tag = "Department";
-            this.ib_department.Text = "Department";
-            this.ib_department.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_department, "Department Registartion");
-            this.ib_department.UseVisualStyleBackColor = false;
-            this.ib_department.Visible = false;
-            this.ib_department.Click += new System.EventHandler(this.ib_department_Click);
-            this.ib_department.MouseLeave += new System.EventHandler(this.ib_department_MouseLeave);
-            this.ib_department.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_designation
-            // 
-            this.ib_designation.BackColor = System.Drawing.Color.Transparent;
-            this.ib_designation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_designation.BackgroundImage")));
-            this.ib_designation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_designation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_designation.FlatAppearance.BorderSize = 0;
-            this.ib_designation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_designation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_designation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_designation.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_designation.IconColor = System.Drawing.Color.White;
-            this.ib_designation.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_designation.IconSize = 30;
-            this.ib_designation.Location = new System.Drawing.Point(886, 20);
-            this.ib_designation.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_designation.Name = "ib_designation";
-            this.ib_designation.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_designation.Size = new System.Drawing.Size(23, 39);
-            this.ib_designation.TabIndex = 20;
-            this.ib_designation.Tag = "Designation ";
-            this.ib_designation.Text = "Designation ";
-            this.ib_designation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_designation, "Designation Registartion");
-            this.ib_designation.UseVisualStyleBackColor = false;
-            this.ib_designation.Visible = false;
-            this.ib_designation.Click += new System.EventHandler(this.ib_designation_Click);
-            this.ib_designation.MouseLeave += new System.EventHandler(this.ib_designation_MouseLeave);
-            this.ib_designation.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
-            // ib_userpermission
-            // 
-            this.ib_userpermission.BackColor = System.Drawing.Color.Transparent;
-            this.ib_userpermission.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ib_userpermission.BackgroundImage")));
-            this.ib_userpermission.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ib_userpermission.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ib_userpermission.FlatAppearance.BorderSize = 0;
-            this.ib_userpermission.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ib_userpermission.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.ib_userpermission.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ib_userpermission.IconChar = FontAwesome.Sharp.IconChar.XRay;
-            this.ib_userpermission.IconColor = System.Drawing.Color.White;
-            this.ib_userpermission.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ib_userpermission.IconSize = 30;
-            this.ib_userpermission.Location = new System.Drawing.Point(872, 16);
-            this.ib_userpermission.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ib_userpermission.Name = "ib_userpermission";
-            this.ib_userpermission.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.ib_userpermission.Size = new System.Drawing.Size(51, 47);
-            this.ib_userpermission.TabIndex = 22;
-            this.ib_userpermission.Tag = "User Permission";
-            this.ib_userpermission.Text = "User Permission";
-            this.ib_userpermission.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolTip1.SetToolTip(this.ib_userpermission, "User Permission Setting");
-            this.ib_userpermission.UseVisualStyleBackColor = false;
-            this.ib_userpermission.Visible = false;
-            this.ib_userpermission.Click += new System.EventHandler(this.ib_userpermission_Click);
-            this.ib_userpermission.MouseLeave += new System.EventHandler(this.ib_userpermission_MouseLeave);
-            this.ib_userpermission.MouseHover += new System.EventHandler(this.ib_Category_MouseHover);
-            // 
             // pnl_empty_msg
             // 
             this.pnl_empty_msg.Controls.Add(this.pictureBox1);
@@ -4254,7 +4423,7 @@ namespace FoodandBeverage.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_navbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.pnl_navbar.Controls.Add(this.tableLayoutPanel9);
-            this.pnl_navbar.Location = new System.Drawing.Point(282, 11);
+            this.pnl_navbar.Location = new System.Drawing.Point(281, 11);
             this.pnl_navbar.Margin = new System.Windows.Forms.Padding(2);
             this.pnl_navbar.Name = "pnl_navbar";
             this.pnl_navbar.Padding = new System.Windows.Forms.Padding(6);
@@ -4265,8 +4434,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.35955F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.303371F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.268704F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.536857F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.119611F));
             this.tableLayoutPanel9.Controls.Add(this.tlp_tablestatus, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.btn_minimium, 2, 0);
             this.tableLayoutPanel9.Controls.Add(this.pbusericon, 1, 0);
@@ -4282,16 +4451,16 @@ namespace FoodandBeverage.Forms
             // btn_minimium
             // 
             this.btn_minimium.BackColor = System.Drawing.Color.Transparent;
-            this.btn_minimium.BackgroundImage = global::FoodandBeverage.Properties.Resources.minimize_button;
+            this.btn_minimium.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_minimium.BackgroundImage")));
             this.btn_minimium.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_minimium.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_minimium.FlatAppearance.BorderSize = 0;
             this.btn_minimium.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_minimium.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_minimium.ForeColor = System.Drawing.Color.Transparent;
-            this.btn_minimium.Location = new System.Drawing.Point(683, 3);
+            this.btn_minimium.Location = new System.Drawing.Point(677, 3);
             this.btn_minimium.Name = "btn_minimium";
-            this.btn_minimium.Size = new System.Drawing.Size(33, 38);
+            this.btn_minimium.Size = new System.Drawing.Size(39, 38);
             this.btn_minimium.TabIndex = 0;
             this.btn_minimium.UseVisualStyleBackColor = false;
             this.btn_minimium.Click += new System.EventHandler(this.btn_minimium_Click);
@@ -4303,7 +4472,7 @@ namespace FoodandBeverage.Forms
             this.pbusericon.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbusericon.Location = new System.Drawing.Point(631, 3);
             this.pbusericon.Name = "pbusericon";
-            this.pbusericon.Size = new System.Drawing.Size(46, 38);
+            this.pbusericon.Size = new System.Drawing.Size(40, 38);
             this.pbusericon.TabIndex = 4;
             this.pbusericon.TabStop = false;
             // 
@@ -4312,59 +4481,77 @@ namespace FoodandBeverage.Forms
             this.pnl_footer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_footer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.pnl_footer.Controls.Add(this.lblinact_timer);
-            this.pnl_footer.Controls.Add(this.lblinactivitytme);
-            this.pnl_footer.Controls.Add(this.lblmemory);
-            this.pnl_footer.Controls.Add(this.lbl_empname);
-            this.pnl_footer.Controls.Add(this.lbl_drawer);
-            this.pnl_footer.Controls.Add(this.lbl_time);
+            this.pnl_footer.Controls.Add(this.tableLayoutPanel38);
             this.pnl_footer.Location = new System.Drawing.Point(9, 598);
             this.pnl_footer.Margin = new System.Windows.Forms.Padding(2);
             this.pnl_footer.Name = "pnl_footer";
             this.pnl_footer.Size = new System.Drawing.Size(1003, 35);
             this.pnl_footer.TabIndex = 30;
             // 
+            // tableLayoutPanel38
+            // 
+            this.tableLayoutPanel38.ColumnCount = 9;
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.35766F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.213764F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.24296F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.32847F));
+            this.tableLayoutPanel38.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tableLayoutPanel38.Controls.Add(this.lbl_time, 7, 0);
+            this.tableLayoutPanel38.Controls.Add(this.lbl_empname, 1, 0);
+            this.tableLayoutPanel38.Controls.Add(this.lblinact_timer, 4, 0);
+            this.tableLayoutPanel38.Controls.Add(this.lblmemory, 6, 0);
+            this.tableLayoutPanel38.Controls.Add(this.lblinactivitytme, 5, 0);
+            this.tableLayoutPanel38.Controls.Add(this.lbl_drawer, 2, 0);
+            this.tableLayoutPanel38.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel38.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel38.Name = "tableLayoutPanel38";
+            this.tableLayoutPanel38.RowCount = 1;
+            this.tableLayoutPanel38.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel38.Size = new System.Drawing.Size(1003, 35);
+            this.tableLayoutPanel38.TabIndex = 7;
+            // 
             // lblinact_timer
             // 
-            this.lblinact_timer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblinact_timer.AutoSize = true;
+            this.lblinact_timer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblinact_timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblinact_timer.ForeColor = System.Drawing.Color.Black;
-            this.lblinact_timer.Location = new System.Drawing.Point(400, 11);
+            this.lblinact_timer.Location = new System.Drawing.Point(396, 0);
             this.lblinact_timer.Name = "lblinact_timer";
-            this.lblinact_timer.Size = new System.Drawing.Size(99, 20);
+            this.lblinact_timer.Size = new System.Drawing.Size(118, 35);
             this.lblinact_timer.TabIndex = 6;
             this.lblinact_timer.Text = "Countdown";
-            this.lblinact_timer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblinactivitytme
-            // 
-            this.lblinactivitytme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblinactivitytme.AutoSize = true;
-            this.lblinactivitytme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblinactivitytme.ForeColor = System.Drawing.Color.Black;
-            this.lblinactivitytme.Location = new System.Drawing.Point(499, 11);
-            this.lblinactivitytme.Name = "lblinactivitytme";
-            this.lblinactivitytme.Size = new System.Drawing.Size(78, 20);
-            this.lblinactivitytme.TabIndex = 5;
-            this.lblinactivitytme.Text = "inactivity";
-            this.lblinactivitytme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblinact_timer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblmemory
             // 
-            this.lblmemory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblmemory.AutoSize = true;
+            this.lblmemory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblmemory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblmemory.ForeColor = System.Drawing.Color.Black;
-            this.lblmemory.Location = new System.Drawing.Point(725, 7);
+            this.lblmemory.Location = new System.Drawing.Point(644, 0);
             this.lblmemory.Name = "lblmemory";
-            this.lblmemory.Size = new System.Drawing.Size(71, 20);
+            this.lblmemory.Size = new System.Drawing.Size(109, 35);
             this.lblmemory.TabIndex = 4;
             this.lblmemory.Text = "Memory";
-            this.lblmemory.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblmemory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblinactivitytme
+            // 
+            this.lblinactivitytme.AutoSize = true;
+            this.lblinactivitytme.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblinactivitytme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblinactivitytme.ForeColor = System.Drawing.Color.Black;
+            this.lblinactivitytme.Location = new System.Drawing.Point(520, 0);
+            this.lblinactivitytme.Name = "lblinactivitytme";
+            this.lblinactivitytme.Size = new System.Drawing.Size(118, 35);
+            this.lblinactivitytme.TabIndex = 5;
+            this.lblinactivitytme.Text = "inactivity";
+            this.lblinactivitytme.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // flp_sidemenu
             // 
@@ -4396,7 +4583,7 @@ namespace FoodandBeverage.Forms
             this.pnl_virtualkeyboard.Controls.Add(this.textBox6);
             this.pnl_virtualkeyboard.Controls.Add(this.textBox7);
             this.pnl_virtualkeyboard.Controls.Add(this.textBox8);
-            this.pnl_virtualkeyboard.Location = new System.Drawing.Point(293, 120);
+            this.pnl_virtualkeyboard.Location = new System.Drawing.Point(293, 63);
             this.pnl_virtualkeyboard.Name = "pnl_virtualkeyboard";
             this.pnl_virtualkeyboard.Padding = new System.Windows.Forms.Padding(6);
             this.pnl_virtualkeyboard.Size = new System.Drawing.Size(714, 544);
@@ -5018,14 +5205,73 @@ namespace FoodandBeverage.Forms
             this.textBox8.TabIndex = 10;
             this.textBox8.Visible = false;
             // 
+            // flp_operabuttons
+            // 
+            this.flp_operabuttons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.flp_operabuttons.Controls.Add(this.ib_addon);
+            this.flp_operabuttons.Controls.Add(this.ib_reservation);
+            this.flp_operabuttons.Controls.Add(this.ib_PromoCode);
+            this.flp_operabuttons.Controls.Add(this.ib_Expence);
+            this.flp_operabuttons.Controls.Add(this.ib_Discount_offer);
+            this.flp_operabuttons.Controls.Add(this.ib_vendor);
+            this.flp_operabuttons.Controls.Add(this.ib_tax);
+            this.flp_operabuttons.Controls.Add(this.ib_purchasereturn);
+            this.flp_operabuttons.Controls.Add(this.ib_purchase);
+            this.flp_operabuttons.Controls.Add(this.ib_table);
+            this.flp_operabuttons.Controls.Add(this.ib_unit);
+            this.flp_operabuttons.Controls.Add(this.ib_menu);
+            this.flp_operabuttons.Controls.Add(this.ib_ingrediant);
+            this.flp_operabuttons.Controls.Add(this.ib_Item);
+            this.flp_operabuttons.Controls.Add(this.ib_Category);
+            this.flp_operabuttons.Controls.Add(this.ib_Company);
+            this.flp_operabuttons.Controls.Add(this.ib_orderview);
+            this.flp_operabuttons.Controls.Add(this.ib_kitchenview);
+            this.flp_operabuttons.Location = new System.Drawing.Point(302, 256);
+            this.flp_operabuttons.Name = "flp_operabuttons";
+            this.flp_operabuttons.Size = new System.Drawing.Size(607, 199);
+            this.flp_operabuttons.TabIndex = 33;
+            this.flp_operabuttons.Visible = false;
+            // 
+            // flp_empbuttons
+            // 
+            this.flp_empbuttons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.flp_empbuttons.Controls.Add(this.ib_userpermission);
+            this.flp_empbuttons.Controls.Add(this.ib_designation);
+            this.flp_empbuttons.Controls.Add(this.ib_department);
+            this.flp_empbuttons.Controls.Add(this.ib_useraccount);
+            this.flp_empbuttons.Controls.Add(this.ib_employee);
+            this.flp_empbuttons.Location = new System.Drawing.Point(302, 54);
+            this.flp_empbuttons.Name = "flp_empbuttons";
+            this.flp_empbuttons.Size = new System.Drawing.Size(277, 199);
+            this.flp_empbuttons.TabIndex = 34;
+            this.flp_empbuttons.Visible = false;
+            // 
+            // flp_settingbtn
+            // 
+            this.flp_settingbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.flp_settingbtn.Controls.Add(this.ib_drawer);
+            this.flp_settingbtn.Controls.Add(this.ib_appcolor);
+            this.flp_settingbtn.Controls.Add(this.ib_billsetting);
+            this.flp_settingbtn.Controls.Add(this.ib_gensetting);
+            this.flp_settingbtn.Controls.Add(this.ib_virtualkeybpard);
+            this.flp_settingbtn.Controls.Add(this.ib_msgsetting);
+            this.flp_settingbtn.Location = new System.Drawing.Point(302, 194);
+            this.flp_settingbtn.Name = "flp_settingbtn";
+            this.flp_settingbtn.Size = new System.Drawing.Size(277, 199);
+            this.flp_settingbtn.TabIndex = 35;
+            this.flp_settingbtn.Visible = false;
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 640);
-            this.Controls.Add(this.pnl_billsetting);
-            this.Controls.Add(this.pnl_virtualkeyboard);
+            this.Controls.Add(this.flp_operabuttons);
+            this.Controls.Add(this.flp_empbuttons);
+            this.Controls.Add(this.flp_settingbtn);
             this.Controls.Add(this.pnlgenralsetting);
+            this.Controls.Add(this.pnl_virtualkeyboard);
+            this.Controls.Add(this.pnl_billsetting);
             this.Controls.Add(this.pnl_Drawer);
             this.Controls.Add(this.pnl_hidecntrl);
             this.Controls.Add(this.panelDesktop);
@@ -5034,31 +5280,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.flp_sidemenu);
             this.Controls.Add(this.pnl_footer);
             this.Controls.Add(this.pnl_navbar);
-            this.Controls.Add(this.tlp_empl_menu);
-            this.Controls.Add(this.tlp_op_menu);
-            this.Controls.Add(this.ib_addon);
-            this.Controls.Add(this.ib_kitchenview);
-            this.Controls.Add(this.ib_orderview);
-            this.Controls.Add(this.ib_Company);
-            this.Controls.Add(this.ib_Category);
-            this.Controls.Add(this.ib_Item);
-            this.Controls.Add(this.ib_ingrediant);
-            this.Controls.Add(this.ib_menu);
-            this.Controls.Add(this.ib_unit);
-            this.Controls.Add(this.ib_table);
-            this.Controls.Add(this.ib_purchase);
-            this.Controls.Add(this.ib_purchasereturn);
-            this.Controls.Add(this.ib_tax);
-            this.Controls.Add(this.ib_vendor);
-            this.Controls.Add(this.ib_Discount_offer);
-            this.Controls.Add(this.ib_Expence);
-            this.Controls.Add(this.ib_PromoCode);
-            this.Controls.Add(this.ib_reservation);
-            this.Controls.Add(this.ib_employee);
-            this.Controls.Add(this.ib_useraccount);
-            this.Controls.Add(this.ib_department);
-            this.Controls.Add(this.ib_designation);
-            this.Controls.Add(this.ib_userpermission);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmDashboard";
@@ -5066,6 +5287,7 @@ namespace FoodandBeverage.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmDashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDashboard_FormClosing);
             this.Load += new System.EventHandler(this.FrmDashboard_Load);
             this.Shown += new System.EventHandler(this.FrmDashboard_Shown);
             this.Resize += new System.EventHandler(this.FrmDashboard_Resize);
@@ -5116,6 +5338,25 @@ namespace FoodandBeverage.Forms
             this.tlp_gen_main.ResumeLayout(false);
             this.tlp_pager.ResumeLayout(false);
             this.pnl_gen_main.ResumeLayout(false);
+            this.tlp_Fristpage.ResumeLayout(false);
+            this.tableLayoutPanel19.ResumeLayout(false);
+            this.tableLayoutPanel19.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
+            this.tableLayoutPanel18.ResumeLayout(false);
+            this.tableLayoutPanel18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
+            this.tableLayoutPanel12.ResumeLayout(false);
+            this.tableLayoutPanel12.PerformLayout();
+            this.tableLayoutPanel13.ResumeLayout(false);
+            this.tableLayoutPanel13.PerformLayout();
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel15.PerformLayout();
+            this.tableLayoutPanel16.ResumeLayout(false);
+            this.tableLayoutPanel16.PerformLayout();
+            this.tableLayoutPanel23.ResumeLayout(false);
+            this.tableLayoutPanel23.PerformLayout();
             this.tlp_timoutforms.ResumeLayout(false);
             this.tableLayoutPanel28.ResumeLayout(false);
             this.tableLayoutPanel28.PerformLayout();
@@ -5154,25 +5395,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel22.PerformLayout();
             this.tableLayoutPanel20.ResumeLayout(false);
             this.tableLayoutPanel20.PerformLayout();
-            this.tlp_Fristpage.ResumeLayout(false);
-            this.tableLayoutPanel19.ResumeLayout(false);
-            this.tableLayoutPanel19.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
-            this.tableLayoutPanel18.ResumeLayout(false);
-            this.tableLayoutPanel18.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
-            this.tableLayoutPanel12.ResumeLayout(false);
-            this.tableLayoutPanel12.PerformLayout();
-            this.tableLayoutPanel13.ResumeLayout(false);
-            this.tableLayoutPanel13.PerformLayout();
-            this.tableLayoutPanel14.ResumeLayout(false);
-            this.tableLayoutPanel14.PerformLayout();
-            this.tableLayoutPanel15.ResumeLayout(false);
-            this.tableLayoutPanel15.PerformLayout();
-            this.tableLayoutPanel16.ResumeLayout(false);
-            this.tableLayoutPanel16.PerformLayout();
-            this.tableLayoutPanel23.ResumeLayout(false);
-            this.tableLayoutPanel23.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tlp_tablestatus.ResumeLayout(false);
@@ -5184,7 +5406,8 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbusericon)).EndInit();
             this.pnl_footer.ResumeLayout(false);
-            this.pnl_footer.PerformLayout();
+            this.tableLayoutPanel38.ResumeLayout(false);
+            this.tableLayoutPanel38.PerformLayout();
             this.flp_sidemenu.ResumeLayout(false);
             this.pnl_virtualkeyboard.ResumeLayout(false);
             this.pnl_virtualkeyboard.PerformLayout();
@@ -5198,6 +5421,9 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel34.ResumeLayout(false);
             this.tableLayoutPanel34.PerformLayout();
             this.tableLayoutPanel35.ResumeLayout(false);
+            this.flp_operabuttons.ResumeLayout(false);
+            this.flp_empbuttons.ResumeLayout(false);
+            this.flp_settingbtn.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -5269,8 +5495,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblmsg;
         private FontAwesome.Sharp.IconButton Menutable;
-        private System.Windows.Forms.TableLayoutPanel tlp_op_menu;
-        private System.Windows.Forms.TableLayoutPanel tlp_empl_menu;
         private FontAwesome.Sharp.IconButton ib_addon;
         private System.Windows.Forms.TableLayoutPanel tlp_tablestatus;
         private System.Windows.Forms.Button btntrefresh;
@@ -5515,5 +5739,15 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_bill_save;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button btn_billsett_cls;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel38;
+        private System.Windows.Forms.FlowLayoutPanel flp_operabuttons;
+        private System.Windows.Forms.FlowLayoutPanel flp_empbuttons;
+        private System.Windows.Forms.FlowLayoutPanel flp_settingbtn;
+        private FontAwesome.Sharp.IconButton ib_drawer;
+        private FontAwesome.Sharp.IconButton ib_appcolor;
+        private FontAwesome.Sharp.IconButton ib_billsetting;
+        private FontAwesome.Sharp.IconButton ib_gensetting;
+        private FontAwesome.Sharp.IconButton ib_virtualkeybpard;
+        private FontAwesome.Sharp.IconButton ib_msgsetting;
     }
 }

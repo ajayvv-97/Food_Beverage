@@ -132,6 +132,12 @@ namespace FoodandBeverage.Forms
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         string logoname = "";
+        public static bool PrintDalvalue = false, XYDalvalue = false, DalDalvalue = false;
+        public static bool AutoLogoutWhenIdle = false;
+        public static bool UserSavePrompt = false;
+        private bool isMenuCollapsed = false;
+        private int originalMenuWidth;
+
         #endregion
 
         // Function to create a rounded rectangle region
@@ -181,10 +187,10 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
-
+            originalMenuWidth = flp_sidemenu.Width;
             //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
-
+            AdjustButtonsToPanel();
             Task.Run(() =>
             {
                 loadingForm = new LoadingGIF_Timer();
@@ -202,9 +208,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // panelDesktop.Controls.Add(tlp_op_menu);
-                // tlp_op_menu.Dock = DockStyle.Fill;
-                // tlp_op_menu.Visible = true;
+                // panelDesktop.Controls.Add(flp_operationbtn);
+                // flp_operationbtn.Dock = DockStyle.Fill;
+                // flp_operationbtn.Visible = true;
+
 
                 int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                 int screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -226,7 +233,7 @@ namespace FoodandBeverage.Forms
                     HdesiredHeight = 40;
                 }
 
-                btn_minimium.BackColor = menubuttoncolor;
+                //btn_minimium.BackColor = menubuttoncolor;
 
                 // pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
                 Roundform(30);
@@ -283,6 +290,7 @@ namespace FoodandBeverage.Forms
                 //ib_addon.BackColor = opbuttoncolor;
 
                 RunMethodInSeparateThread(AppColorSetting);
+                GeneralsettingFetching();
                 // flpEmployee.Visible = false;
                 // ib_employee.Visible = false;
                 ib_designation.Visible = false;
@@ -292,7 +300,7 @@ namespace FoodandBeverage.Forms
                 ib_Discount_offer.Visible = false;
                 ib_Expence.Visible = false;
                 ib_PromoCode.Visible = false;
-              FormPermissionChecking();
+                FormPermissionChecking();
                 panelDesktop.Visible = false;
                 Loadchart();
                 panelDesktop.Visible = true;
@@ -301,13 +309,8 @@ namespace FoodandBeverage.Forms
                 {
                     Emp_RowCount = 0; Emp_ColCount = 0;
                     OP_RowCount = 0; OP_ColCount = 0;
-                    tlp_empl_menu.Controls.Clear();
-                    tlp_op_menu.Controls.Clear();
-
                     Menuoperation.Visible = true;
-                    AddOperationButtons(tlp_op_menu, ib_Company);
                     ib_Company.Visible = true;
-                    AddOperationButtons(tlp_op_menu, ib_employee);
                     ib_employee.Visible = true;
                 }
 
@@ -582,9 +585,6 @@ namespace FoodandBeverage.Forms
 
         }
         #endregion
-
-
-
         private void ApplyMenuStyle()
         {
             int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -606,14 +606,37 @@ namespace FoodandBeverage.Forms
         {
             if (img == null || btn == null) return;
 
-            btn.ImageAlign = ContentAlignment.MiddleLeft;
-            btn.TextAlign = ContentAlignment.MiddleRight;
+            btn.ImageAlign = ContentAlignment.TopCenter;
+            btn.TextAlign = ContentAlignment.BottomCenter;
 
-            // Create resized copy
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int pd = screenWidth > 1366 ? 20 : 5;
+            btn.Padding = new Padding(0, pd, 0, 0);
             btn.Image = new Bitmap(img, new Size(width, height));
+            btn.Font = AppFonts.GetFont(12);
+            btn.ForeColor = Color.White;  
         }
+        private void SetButtonImage_mainmenu(Button btn, Image img, int width, int height)
+        {
+            if (img == null || btn == null) return;
 
+            btn.ImageAlign = ContentAlignment.MiddleLeft;
+            btn.TextAlign = ContentAlignment.MiddleCenter;
+            btn.Image = new Bitmap(img, new Size(width, height));
+            btn.Padding = new Padding(30, 0, 0, 0);
+            btn.ForeColor = Color.White;
+            btn.Font = AppFonts.GetFont(12F);
 
+        }
+        private void ApplyGlobalFont(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                ctrl.Font = AppFonts.DefaultFont;
+                if (ctrl.HasChildren)
+                    ApplyGlobalFont(ctrl);
+            }
+        }
         public void button_imageset()
         {
             try
@@ -622,8 +645,6 @@ namespace FoodandBeverage.Forms
                 {
                     this.Invoke(new Action(() =>
                     {
-
-
                         UIHelper.AutoResizeSideMenuButtons(flp_sidemenu);
                         foreach (Button btn in flp_sidemenu.Controls.OfType<Button>())
                         {
@@ -631,28 +652,28 @@ namespace FoodandBeverage.Forms
                             switch (btn.Name)
                             {
                                 case "Menuhome":
-                                    SetButtonImage(btn, Properties.Resources.icons8_home_50, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.Home_icon, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menuoperation":
-                                    SetButtonImage(btn, Properties.Resources.operation, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.operation, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menubilling":
-                                    SetButtonImage(btn, Properties.Resources.bill, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.bill, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menureport":
-                                    SetButtonImage(btn, Properties.Resources.report, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.report, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menusetting":
-                                    SetButtonImage(btn, Properties.Resources.setting, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.setting, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menulogout":
-                                    SetButtonImage(btn, Properties.Resources.logout, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.logout, iconSize.Width, iconSize.Height);
                                     break;
                                 case "menuEmployee":
-                                    SetButtonImage(btn, Properties.Resources.Employee, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.Employee, iconSize.Width, iconSize.Height);
                                     break;
                                 case "Menutable":
-                                    SetButtonImage(btn, Properties.Resources.menutable, iconSize.Width, iconSize.Height);
+                                    SetButtonImage_mainmenu(btn, Properties.Resources.menutable, iconSize.Width, iconSize.Height);
                                     break;
                             }
                         }
@@ -674,14 +695,23 @@ namespace FoodandBeverage.Forms
                         SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
                         SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
                         SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
 
                         SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.Department_icon, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_designation, FoodandBeverage.Properties.Resources.Designation_icon, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_useraccount, FoodandBeverage.Properties.Resources.User_account, desiredWidth, desiredHeight);
                         SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
+
+
+                        SetButtonImage(ib_virtualkeybpard, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_msgsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_gensetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_billsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_appcolor, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_drawer, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+
                     }));
                 }
                 // SetRoundedButton(ib_Category, 70);
@@ -719,32 +749,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ChangeButtonBorder(Button button)
-        {
-            try
-            {
-                tlp_empl_menu.Visible = false;
-                //foreach (Button menuButton in flp_menu.Controls.OfType<Button>())
-                //{
-                //    menuButton.FlatAppearance.BorderColor = Color.White;
-                //    menuButton.FlatAppearance.BorderSize = 0;
-                //    menuButton.BackColor = Color.White;
-                //    menuButton.ForeColor = Color.Black;
-                //    menuButton.BackColor = menubuttoncolor;
-                //    menuButton.ForeColor = Color.White;
-                //}
-                //button.BackColor = Color.White;
-                //button.ForeColor = Color.Black;
-                //button.FlatAppearance.BorderColor = Color.Black;
-                //button.FlatAppearance.BorderSize = 1;
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page ChangeButtonBorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
 
         private void Menuhome_Click(object sender, EventArgs e)
         {
@@ -753,10 +757,6 @@ namespace FoodandBeverage.Forms
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
                 panelDesktop.Controls.Clear();
                 btn_pickup.Visible = false;
                 if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
@@ -815,12 +815,11 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Home Page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
-
-        private void CollapseMenu()
+        private void ToggleSideMenu()
         {
             try
             {
-                CloseTableViewPage();             
+                CloseTableViewPage();
                 if (ButtonID == Convert.ToInt32(Menubutton.Menutable))
                 {
                     tlp_tablestatus.SuspendLayout();
@@ -851,18 +850,60 @@ namespace FoodandBeverage.Forms
 
                 }
 
+                // If collapsing
+                if (!isMenuCollapsed)
+                {
+                    // Store original width
+                    originalMenuWidth = flp_sidemenu.Width;
+
+                    // Collapse animation (optional)
+                    flp_sidemenu.Width = 60;
+
+                    // Loop through menu buttons and show only icons
+                    foreach (Control ctrl in flp_sidemenu.Controls)
+                    {
+                        if (ctrl is Button btn)
+                        {
+                            btn.Tag = btn.Text; // store text for restore
+                            btn.Text = string.Empty;
+                            btn.TextAlign = ContentAlignment.MiddleCenter;
+                            btn.ImageAlign = ContentAlignment.MiddleCenter;
+                        }
+                    }
+
+                    isMenuCollapsed = true;
+                }
+                else // Expand
+                {
+                    flp_sidemenu.Width = originalMenuWidth;
+
+                    foreach (Control ctrl in flp_sidemenu.Controls)
+                    {
+                        if (ctrl is Button btn && btn.Tag != null)
+                        {
+                            btn.Text = btn.Tag.ToString();
+                            btn.TextAlign = ContentAlignment.MiddleLeft;
+                            btn.ImageAlign = ContentAlignment.MiddleLeft;
+                        }
+                    }
+
+                    isMenuCollapsed = false;
+                }
+                UIHelper.RoundCorners(flp_sidemenu, 25, ColorTranslator.FromHtml("#AC3CC6"));
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  CollapseMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("FrmDashboard ToggleSideMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+
+   
 
         private void Menuoperation_Click(object sender, EventArgs e)
         {
             try
             {
+                AdjustButtonsToPanel();
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
@@ -875,14 +916,10 @@ namespace FoodandBeverage.Forms
                     CloseTableViewPage();
                 }
                 panelDesktop.Controls.Clear();
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
-                panelDesktop.Controls.Add(tlp_op_menu);
-                tlp_op_menu.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(flp_operabuttons);
+                flp_operabuttons.Dock = DockStyle.Fill;
 
-                tlp_op_menu.Visible = true;
+                flp_operabuttons.Visible = true;
                 btn_pickup.Visible = false;
 
                 if (screenWidth > 1367 && screenHeight > 769)
@@ -937,13 +974,8 @@ namespace FoodandBeverage.Forms
                 }
                 panelDesktop.SuspendLayout();
 
-                if (tlp_op_menu.Visible)
-                    tlp_op_menu.Visible = false;
-
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
 
                 if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
                 {
@@ -1023,11 +1055,6 @@ namespace FoodandBeverage.Forms
                 if (menutable_click)
                 {
                     CloseTableViewPage();
-                }
-
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
                 }
 
                 float largerFontSize = 12;
@@ -1531,197 +1558,15 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+                panelDesktop.Controls.Clear();
                 if (menutable_click)
                 {
                     CloseTableViewPage();
                 }
-
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
-                panelDesktop.Controls.Clear();
-                flpcolor.Controls.Clear();
-                flpcolor.Dock = DockStyle.Fill;
-                flpcolor.AutoScroll = true;
-
-                int rowIndex = 0;
-                Control control;
-                int columnIndex = 0;
-                #region Button App Color
-                Button button_type = new Button();
-                button_type.Text = "Appcolor";
-                button_type.Name = "Appcolor";
-                //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_type.BackgroundImageLayout = ImageLayout.Stretch;
-                button_type.FlatStyle = FlatStyle.Flat;
-                button_type.BackColor = opbuttoncolor;
-                button_type.ForeColor = System.Drawing.Color.White;
-                button_type.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_type.Width = 350;
-                    button_type.Height = 120;
-                }
-                else
-                {
-                    button_type.Width = 212;
-                    button_type.Height = 89;
-                }
-                button_type.Margin = new Padding(20, 10, 0, 0);
-                // Add the event handler for the button
-                button_type.Click += new EventHandler(BgClickEventHandler);
-                flpcolor.Controls.Add(button_type);
-                flpcolor.BringToFront();
-                #endregion
-
-                columnIndex++;
-
-                #region Button Message Setting
-                Button button_message = new Button();
-                button_message.Text = "Message";
-                button_message.Name = "btn_Message";
-                //button_message.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_message.BackgroundImageLayout = ImageLayout.Stretch;
-                button_message.FlatStyle = FlatStyle.Flat;
-                button_message.BackColor = opbuttoncolor;
-                button_message.ForeColor = System.Drawing.Color.White;
-                button_message.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_message.Width = 350;
-                    button_message.Height = 120;
-                }
-                else
-                {
-                    button_message.Width = 212;
-                    button_message.Height = 89;
-                }
-                button_message.Margin = new Padding(20, 10, 0, 0);
-                // Add the event handler for the button
-                button_message.Click += new EventHandler(button_messageClickEventHandler);
-                flpcolor.Controls.Add(button_message);
-                columnIndex++;
-                #endregion
-
-                #region Button Bill Setting
-                Button button_bill = new Button();
-                button_bill.Text = "Bill Configuration";
-                button_bill.Name = "btn_Bill";
-                //button_bill.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_bill.BackgroundImageLayout = ImageLayout.Stretch;
-                button_bill.FlatStyle = FlatStyle.Flat;
-                button_bill.BackColor = opbuttoncolor;
-                button_bill.ForeColor = System.Drawing.Color.White;
-                button_bill.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_bill.Width = 350;
-                    button_bill.Height = 120;
-                }
-                else
-                {
-                    button_bill.Width = 212;
-                    button_bill.Height = 89;
-                }
-                button_bill.Margin = new Padding(20, 10, 0, 0);
-                // Add the event handler for the button
-                button_bill.Click += new EventHandler(button_billClickEventHandler);
-                flpcolor.Controls.Add(button_bill);
-                columnIndex++;
-                #endregion
-
-                #region Drawer
-                Button button_drawer = new Button();
-                button_drawer.Text = "Drawer";
-                button_drawer.Name = "Drawer";
-                //button_type.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_type.BackgroundImageLayout = ImageLayout.Stretch;
-                button_drawer.FlatStyle = FlatStyle.Flat;
-                button_drawer.BackColor = opbuttoncolor;
-                button_drawer.ForeColor = System.Drawing.Color.White;
-                button_drawer.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_drawer.Width = 350;
-                    button_drawer.Height = 120;
-                }
-                else
-                {
-                    button_drawer.Width = 212;
-                    button_drawer.Height = 89;
-                }
-                button_drawer.Margin = new Padding(20, 10, 0, 0);
-                // Add the event handler for the button
-                button_drawer.Click += new EventHandler(Drawer_Assign);
-                flpcolor.Controls.Add(button_drawer);
-                flpcolor.BringToFront();
-                #endregion
-
-                #region General Setting
-                Button button_generalSetting = new Button();
-                button_generalSetting.Text = "General Setting";
-                button_generalSetting.Name = "btnGeneralSetting";
-                //button_generalSetting.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_generalSetting.BackgroundImageLayout = ImageLayout.Stretch;
-                button_generalSetting.FlatStyle = FlatStyle.Flat;
-                button_generalSetting.BackColor = opbuttoncolor;
-                button_generalSetting.ForeColor = System.Drawing.Color.White;
-                button_generalSetting.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_generalSetting.Width = 350;
-                    button_generalSetting.Height = 120;
-                }
-                else
-                {
-                    button_generalSetting.Width = 212;
-                    button_generalSetting.Height = 89;
-                }
-
-                button_generalSetting.Margin = new Padding(20, 10, 0, 0);
-
-                // Add the event handler for the button
-                button_generalSetting.Click += new EventHandler(GeneralSetting_Click);
-
-                flpcolor.Controls.Add(button_generalSetting);
-                flpcolor.BringToFront();
-                #endregion
-
-                #region Virtual Keyboard
-                Button button_virtualKeyboard = new Button();
-                button_virtualKeyboard.Text = "Virtual Keyboard";
-                button_virtualKeyboard.Name = "btnVirtualKeyboard";
-                //button_virtualKeyboard.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-                //button_virtualKeyboard.BackgroundImageLayout = ImageLayout.Stretch;
-                button_virtualKeyboard.FlatStyle = FlatStyle.Flat;
-                button_virtualKeyboard.BackColor = opbuttoncolor;
-                button_virtualKeyboard.ForeColor = System.Drawing.Color.White;
-                button_virtualKeyboard.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-
-                if (screenWidth > 1367 && screenHeight > 769)
-                {
-                    button_virtualKeyboard.Width = 350;
-                    button_virtualKeyboard.Height = 120;
-                }
-                else
-                {
-                    button_virtualKeyboard.Width = 212;
-                    button_virtualKeyboard.Height = 89;
-                }
-
-                button_virtualKeyboard.Margin = new Padding(20, 10, 0, 0);
-
-                // Add the event handler for the button
-                button_virtualKeyboard.Click += new EventHandler(VirtualKeyboard_Click);
-
-                flpcolor.Controls.Add(button_virtualKeyboard);
-                flpcolor.BringToFront();
-                #endregion
-
-                columnIndex++;
-                panelDesktop.Controls.Add(flpcolor);
+                panelDesktop.Controls.Add(flp_settingbtn);
+                flp_settingbtn.Dock = DockStyle.Fill;
+                flp_settingbtn.BringToFront();
+                flp_settingbtn.Visible = true;
             }
             catch (Exception ex)
             {
@@ -1730,104 +1575,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
-        private void VirtualKeyboard_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                pnl_virtualkeyboard.Left = (this.ClientSize.Width - pnl_virtualkeyboard.Width) / 2;
-                pnl_virtualkeyboard.Top = (this.ClientSize.Height - pnl_virtualkeyboard.Height) / 2;
 
-                pnl_virtualkeyboard.Visible = true;
-                pnl_virtualkeyboard.BringToFront();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("homepage page VirtualKeyboard_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
-        private void GeneralSetting_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Generalsettingcheck();
-                pnlgenralsetting.Left = (this.ClientSize.Width - pnlgenralsetting.Width) / 2;
-                pnlgenralsetting.Top = (this.ClientSize.Height - pnlgenralsetting.Height) / 2;
-                pnlgenralsetting.Visible = true;
-                pnlgenralsetting.BringToFront();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("homepage page GeneralSetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-
-        private void Drawer_Assign(object sender, EventArgs e)
-        {
-            try
-            {
-                AssigndrawerCheck();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("homepage page Drawer_Assign()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void button_messageClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                //tlp_main_sidebar_pnldesktop.Enabled = false;
-                panl_msgsettings.Visible = true;
-                panl_msgsettings.Location = new Point(this.ClientSize.Width / 2 - panl_msgsettings.Size.Width / 2, this.ClientSize.Height / 2 - panl_msgsettings.Size.Height / 2);
-                panl_msgsettings.BringToFront();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  button_messageClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-        private void button_billClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                FetchBillDetails();
-                //tlp_main_sidebar_pnldesktop.Enabled = false;
-                pnl_billsetting.Visible = true;
-                pnl_billsetting.Location = new Point(this.ClientSize.Width / 2 - pnl_billsetting.Size.Width / 2, this.ClientSize.Height / 2 - pnl_billsetting.Size.Height / 2);
-                pnl_billsetting.BringToFront();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  button_billClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-        
-        private void BgClickEventHandler(object sender, EventArgs e)
-        {
-            try
-            {
-                //tlp_main_sidebar_pnldesktop.Enabled = false;
-                chkdef.Checked = false;
-                AppColorSetting();
-                pnlappcolor.Visible = true;
-                pnlappcolor.Location = new Point(this.ClientSize.Width / 2 - pnlappcolor.Size.Width / 2, this.ClientSize.Height / 2 - pnlappcolor.Size.Height / 2);
-                pnlappcolor.BringToFront();
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("HomePage  BgClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-        private void btnclose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-       
 
         public bool DrawerCheckBranch(int empid)
         {
@@ -2501,157 +2249,108 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-
-        private void ib_Category_MouseLeave(object sender, EventArgs e)
-        {
-            SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
-            ib_Category.Text = Convert.ToString(ib_Category.Tag);
-
-        }
-        private void ib_Item_MouseLeave(object sender, EventArgs e)
-        {
-            ib_Item.Text = Convert.ToString(ib_Item.Tag);
-            SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
-
-        }
-        private void ib_ingrediant_MouseLeave(object sender, EventArgs e)
-        {
-            ib_ingrediant.Text = Convert.ToString(ib_ingrediant.Tag);
-            SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
-
-        }
-        private void ib_menu_MouseLeave(object sender, EventArgs e)
-        {
-            ib_menu.Text = Convert.ToString(ib_menu.Tag);
-            SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
-
-        }
-        private void ib_unit_MouseLeave(object sender, EventArgs e)
-        {
-            ib_unit.Text = Convert.ToString(ib_unit.Tag);
-            SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
-
-        }
-        private void ib_table_MouseLeave(object sender, EventArgs e)
-        {
-            ib_table.Text = Convert.ToString(ib_table.Tag);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
-
-        }
-        private void ib_purchase_MouseLeave(object sender, EventArgs e)
-        {
-            ib_purchase.Text = Convert.ToString(ib_purchase.Tag);
-            SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
-
-        }
-        private void ib_purchasereturn_MouseLeave(object sender, EventArgs e)
-        {
-            ib_purchasereturn.Text = Convert.ToString(ib_purchasereturn.Tag);
-            SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
-        }
-        private void ib_tax_MouseLeave(object sender, EventArgs e)
-        {
-            ib_tax.Text = Convert.ToString(ib_tax.Tag);
-            SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
-        }
-
         private void ib_Category_MouseHover(object sender, EventArgs e)
         {
             try
             {
-                Button button = (Button)sender;
+                Button button = sender as Button;
+                if (button == null) return;
+
                 button.Text = string.Empty;
-                Image originalImage = null;
-                switch (button.Name)
-                {
-                    case "ib_Category":
-                        originalImage = FoodandBeverage.Properties.Resources.category;
-                        break;
+                button.ImageAlign = ContentAlignment.MiddleCenter;
 
-                    case "ib_Item":
-                        originalImage = FoodandBeverage.Properties.Resources.item;
-                        break;
+                //Button button = (Button)sender;
+                //button.Text = string.Empty;
+                //Image originalImage = null;
+                //switch (button.Name)
+                //{
+                //    case "ib_Category":
+                //        originalImage = FoodandBeverage.Properties.Resources.category;
+                //        break;
 
-                    case "ib_Ingredient":
-                        originalImage = FoodandBeverage.Properties.Resources.Product;
-                        break;
+                //    case "ib_Item":
+                //        originalImage = FoodandBeverage.Properties.Resources.item;
+                //        break;
 
-                    case "ib_menu":
-                        originalImage = FoodandBeverage.Properties.Resources.menu;
-                        break;
+                //    case "ib_Ingredient":
+                //        originalImage = FoodandBeverage.Properties.Resources.Product;
+                //        break;
 
-                    case "ib_unit":
-                        originalImage = FoodandBeverage.Properties.Resources.unit;
-                        break;
+                //    case "ib_menu":
+                //        originalImage = FoodandBeverage.Properties.Resources.menu;
+                //        break;
 
-                    case "ib_table":
-                        originalImage = FoodandBeverage.Properties.Resources.table_reg;
-                        break;
+                //    case "ib_unit":
+                //        originalImage = FoodandBeverage.Properties.Resources.unit;
+                //        break;
 
-                    case "ib_purchase":
-                        originalImage = FoodandBeverage.Properties.Resources.Purchase;
-                        break;
+                //    case "ib_table":
+                //        originalImage = FoodandBeverage.Properties.Resources.table_reg;
+                //        break;
 
-                    case "ib_purchasereturn":
-                        originalImage = FoodandBeverage.Properties.Resources.Purchase_return;
-                        break;
+                //    case "ib_purchase":
+                //        originalImage = FoodandBeverage.Properties.Resources.Purchase;
+                //        break;
 
-                    case "ib_tax":
-                        originalImage = FoodandBeverage.Properties.Resources.tax;
-                        break;
-                    case "ib_vendor":
-                        originalImage = FoodandBeverage.Properties.Resources.vendericon;
-                        break;
-                    case "ib_withdrawal":
-                        originalImage = FoodandBeverage.Properties.Resources.withdraw;
-                        break;
-                    case "ib_Discount":
-                        originalImage = FoodandBeverage.Properties.Resources.discount;
-                        break;
-                    case "ib_orderview":
-                        originalImage = FoodandBeverage.Properties.Resources.orderview;
-                        break;
-                    case "ib_kitchenview":
-                        originalImage = FoodandBeverage.Properties.Resources.kitchen_order_view;
-                        break;
-                    case "ib_PromoCode":
-                        originalImage = FoodandBeverage.Properties.Resources.promo_code;
-                        break;
-                    case "ib_Company":
-                        originalImage = FoodandBeverage.Properties.Resources.comapny;
-                        break;
-                    case "ib_useraccount":
-                        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
-                        break;
-                    case "ib_designation":
-                        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
-                        break;
-                    case "ib_department":
-                        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
-                        break;
-                    case "ib_employee":
-                        originalImage = FoodandBeverage.Properties.Resources.Employee;
-                        break;
-                    case "ib_reservation":
-                        originalImage = FoodandBeverage.Properties.Resources.reserved;
-                        break;
-                    case "ib_userpermission":
-                        originalImage = FoodandBeverage.Properties.Resources.userpermisson;
-                        break;
-                    case "ib_addon":
-                        originalImage = FoodandBeverage.Properties.Resources.addon;
-                        break;
-                }
+                //    case "ib_purchasereturn":
+                //        originalImage = FoodandBeverage.Properties.Resources.Purchase_return;
+                //        break;
+
+                //    case "ib_tax":
+                //        originalImage = FoodandBeverage.Properties.Resources.tax;
+                //        break;
+                //    case "ib_vendor":
+                //        originalImage = FoodandBeverage.Properties.Resources.vendericon;
+                //        break;
+                //    case "ib_withdrawal":
+                //        originalImage = FoodandBeverage.Properties.Resources.withdraw;
+                //        break;
+                //    case "ib_Discount":
+                //        originalImage = FoodandBeverage.Properties.Resources.discount;
+                //        break;
+                //    case "ib_orderview":
+                //        originalImage = FoodandBeverage.Properties.Resources.orderview;
+                //        break;
+                //    case "ib_kitchenview":
+                //        originalImage = FoodandBeverage.Properties.Resources.kitchen_order_view;
+                //        break;
+                //    case "ib_PromoCode":
+                //        originalImage = FoodandBeverage.Properties.Resources.promo_code;
+                //        break;
+                //    case "ib_Company":
+                //        originalImage = FoodandBeverage.Properties.Resources.comapny;
+                //        break;
+                //    case "ib_useraccount":
+                //        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
+                //        break;
+                //    case "ib_designation":
+                //        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
+                //        break;
+                //    case "ib_department":
+                //        originalImage = FoodandBeverage.Properties.Resources.add_des_dep_user;
+                //        break;
+                //    case "ib_employee":
+                //        originalImage = FoodandBeverage.Properties.Resources.Employee;
+                //        break;
+                //    case "ib_reservation":
+                //        originalImage = FoodandBeverage.Properties.Resources.reserved;
+                //        break;
+                //    case "ib_userpermission":
+                //        originalImage = FoodandBeverage.Properties.Resources.userpermisson;
+                //        break;
+                //    case "ib_addon":
+                //        originalImage = FoodandBeverage.Properties.Resources.addon;
+                //        break;
+                //}
 
 
-                if (originalImage != null)
-                {
-                    button.BackgroundImage = null;
-                    Image resizedImage = new Bitmap(originalImage, new Size(HdesiredWidth, HdesiredHeight));
-                    button.Image = resizedImage;
-                    //button.Image = ImageLayout.Center;
-                }
+                //if (originalImage != null)
+                //{
+                //    button.BackgroundImage = null;
+                //    Image resizedImage = new Bitmap(originalImage, new Size(HdesiredWidth, HdesiredHeight));
+                //    button.Image = resizedImage;
+                //    //button.Image = ImageLayout.Center;
+                //}
             }
             catch (Exception ex)
             {
@@ -2660,6 +2359,29 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        private void OPButton_MouseLeftEffect(object sender, EventArgs e)
+        {
+            try
+            {
+                Button button = sender as Button;
+                if (button == null) return;
+
+                if (button.Tag != null)
+                    button.Text = button.Tag.ToString();
+                else
+                    button.Text = string.Empty;
+
+                button.TextAlign = ContentAlignment.BottomCenter;
+                button.ImageAlign = ContentAlignment.TopCenter;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Homepage OPButton_MouseLeftEffect()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+
 
         private void ib_vendor_Click(object sender, EventArgs e)
         {
@@ -2697,12 +2419,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-        private void ib_vendor_MouseLeave(object sender, EventArgs e)
-        {
-            ib_vendor.Text = Convert.ToString(ib_vendor.Tag);
-            SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
-        }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -2768,16 +2484,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_Discount_MouseLeave(object sender, EventArgs e)
-        {
-            ib_Discount_offer.Text = Convert.ToString(ib_Discount_offer.Tag);
-            SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
-        }
-        private void ib_withdrawal_MouseLeave(object sender, EventArgs e)
-        {
-            ib_Expence.Text = Convert.ToString(ib_Expence.Tag);
-            SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
-        }
 
         private void ib_Discount_Click(object sender, EventArgs e)
         {
@@ -2852,15 +2558,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
- 
-
-        private void ib_orderview_MouseLeave(object sender, EventArgs e)
-        {
-            ib_orderview.Text = Convert.ToString(ib_orderview.Tag);
-            SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
-        }
-
         private void ib_orderview_Click(object sender, EventArgs e)
         {
             try
@@ -2898,12 +2595,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Homepage ib_orderview_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
-        }
-
-        private void ib_kitchenview_MouseLeave(object sender, EventArgs e)
-        {
-            ib_kitchenview.Text = Convert.ToString(ib_kitchenview.Tag);
-            SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
         }
 
         private void ib_kitchenview_Click(object sender, EventArgs e)
@@ -2973,12 +2664,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Homepage ib_PromoCode_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
-        }
-
-        private void ib_PromoCode_MouseLeave(object sender, EventArgs e)
-        {
-            ib_PromoCode.Text = Convert.ToString(ib_PromoCode.Tag);
-            SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
         }
 
         private void pbopbuttoncoloepicker_Click(object sender, EventArgs e)
@@ -3160,11 +2845,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_Company_MouseLeave(object sender, EventArgs e)
-        {
-            ib_Company.Text = Convert.ToString(ib_Company.Tag);
-            SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
-        }
         private void menuEmployee_Click(object sender, EventArgs e)
         {
             try
@@ -3182,9 +2862,9 @@ namespace FoodandBeverage.Forms
                 }
 
                 panelDesktop.Controls.Clear();
-                tlp_empl_menu.Dock = DockStyle.Fill;
-                panelDesktop.Controls.Add(tlp_empl_menu);
-                tlp_empl_menu.Visible = true;
+                flp_empbuttons.Dock = DockStyle.Fill;
+                panelDesktop.Controls.Add(flp_empbuttons);
+                flp_empbuttons.Visible = true;
                 btn_pickup.Visible = false;
 
                 //if (screenWidth > 1367 && screenHeight > 769)
@@ -3367,30 +3047,6 @@ namespace FoodandBeverage.Forms
 
         }
 
-        private void ib_employee_MouseLeave(object sender, EventArgs e)
-        {
-            ib_employee.Text = Convert.ToString(ib_employee.Tag);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-        }
-
-        private void ib_department_MouseLeave(object sender, EventArgs e)
-        {
-            ib_department.Text = Convert.ToString(ib_department.Tag);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-        }
-
-        private void ib_designation_MouseLeave(object sender, EventArgs e)
-        {
-            ib_designation.Text = Convert.ToString(ib_designation.Tag);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-        }
-
-        private void ib_useraccount_MouseLeave(object sender, EventArgs e)
-        {
-            ib_useraccount.Text = Convert.ToString(ib_useraccount.Tag);
-            SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-        }
-
         private void ib_reservation_Click(object sender, EventArgs e)
         {
             try
@@ -3429,11 +3085,7 @@ namespace FoodandBeverage.Forms
 
         }
 
-        private void ib_reservation_MouseLeave(object sender, EventArgs e)
-        {
-            ib_reservation.Text = Convert.ToString(ib_reservation.Tag);
-            SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-        }
+
 
         private void ib_userpermission_Click(object sender, EventArgs e)
         {
@@ -3473,51 +3125,80 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_userpermission_MouseLeave(object sender, EventArgs e)
-        {
-            ib_userpermission.Text = Convert.ToString(ib_userpermission.Tag);
-            SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
-        }
-
         private void pb_appicon_Click(object sender, EventArgs e)
         {
-            CollapseMenu();
+            //ToggleSideMenu();
         }
 
         private void FrmDashboard_Resize(object sender, EventArgs e)
         {
             try
             {
+                AdjustButtonsToPanel();
                 int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                 int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
-                int marginLeft, marginTop, marginRight, marginBottom;
-
-                if (screenWidth >= 1366 && screenHeight >= 768)
-                {
-                    marginLeft = 43;
-                    marginTop = 35;
-                    marginRight = 10;
-                    marginBottom = 2;
-                }
-                else
-                {
-                    marginLeft = 30;
-                    marginTop = 35;
-                    marginRight = 10;
-                    marginBottom = 2;
-                }
-
-                // Apply margin to controls in tlp_empl_menu
-                //foreach (Control control in tlp_empl_menu.Controls)
-                //{
-                //    control.Margin = new Padding(marginLeft, marginTop, marginRight, marginBottom);
-                //}
+                //UIHelper.RoundCorners(flp_sidemenu, 25, ColorTranslator.FromHtml("#AC3CC6"));
+                //UIHelper.RoundCorners(pnl_navbar, 25, ColorTranslator.FromHtml("#AC3CC6"));
+                //UIHelper.RoundCorners(panelDesktop, 25, ColorTranslator.FromHtml("#AC3CC6"));
+                //UIHelper.RoundCorners(pnl_footer, 25, ColorTranslator.FromHtml("#AC3CC6"));
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage FrmDashboard_Resize", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void AdjustButtonsToPanel()
+        {
+            if (panelDesktop == null || panelDesktop.Width == 0)
+                return;
+
+            int panelWidth = panelDesktop.ClientSize.Width;
+            int columns = 4;
+            int marginLeftRight = 40;
+            int marginTopBottom = 12;
+
+            int totalHorizontalMargin = (marginLeftRight * 2 * columns);
+            int availableWidth = panelWidth - totalHorizontalMargin;
+
+            columns = screenWidth > 1366 ? 3 : 4;
+            lblinact_timer.Text = columns+" "+ screenWidth.ToString();
+            int buttonWidth = availableWidth / columns;  ;
+
+            //int buttonHeight = (int)(buttonWidth * 0.35);
+            int buttonHeight = (int)(Menuhome.Height * 0.92);
+
+            ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
+            ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
+            ResizeButtonsInFlow(flp_settingbtn, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
+
+        }
+
+        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int width, int height, int marginX, int marginY)
+        {
+            if (flow == null) return;
+
+            flow.WrapContents = true;
+            flow.AutoSize = false;
+            flow.FlowDirection = FlowDirection.LeftToRight;
+            flow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            foreach (Control ctrl in flow.Controls)
+            {
+                if (ctrl is Button btn)
+                {
+                    btn.Width = width;
+                    btn.Height = height;
+
+                    // Margins
+                    btn.Margin = new Padding(marginX, marginY, marginX, marginY);
+
+                    // Adjust font size to match smaller height
+                    float fontSize = Math.Max(9f, width / 18f);
+                    btn.Font = AppFonts.GetFont(12);
+                }
             }
         }
 
@@ -3534,207 +3215,176 @@ namespace FoodandBeverage.Forms
                 var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
                 if (gridesource.Count > 0)
                 {
-                    Emp_RowCount = 0; Emp_ColCount = 0;
-                    OP_RowCount = 0; OP_ColCount = 0;
-                    tlp_empl_menu.Controls.Clear();
-                    tlp_op_menu.Controls.Clear();
-                    for (int i = 0; i <gridesource.Count(); i++)
+                    for (int i = 0; i < gridesource.Count(); i++)
                     {
-                      
-                       //if (this.IsHandleCreated)
-                       // {
-                       //     this.Invoke(new Action(() =>
-                       //     {                   
-                                #region Order Table
-                                if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Write == 1)
-                                {
-                                    Menutable.Visible = true;
-                                }
-                                #endregion
+                        #region Order Table
+                        if (gridesource[i].Form == Convert.ToInt32(formsenum.Order) && gridesource[i].Write == 1)
+                        {
+                            Menutable.Visible = true;
+                        }
+                        #endregion
 
-                                #region Operation Buttons
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Write == 1)
-                                {
-                                    ib_kitchenview.Visible = true;
-                                    Menuoperation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_kitchenview);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Write == 1)
-                                {
-                                    ib_Category.Visible = true;
-                                    Menuoperation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_Category);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Write == 1)
-                                {
-                                    ib_Item.Visible = true;
-                                    Menuoperation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_Item);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_ingrediant.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_ingrediant);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_menu.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_menu);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_unit.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_unit);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_table.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_table);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_purchase.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_purchase);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_purchasereturn.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_purchasereturn);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_tax.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_tax);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_vendor.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_vendor);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_Discount_offer.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_Discount_offer);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_Expence.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_Expence);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_PromoCode.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_PromoCode);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_Company.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_Company);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Write == 1)
-                                {
-                                    Menuoperation.Visible = true;
-                                    ib_reservation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_reservation);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Write == 1)
-                                {
-                                    ib_orderview.Visible = true;
-                                    Menuoperation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_orderview);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Write == 1)
-                                {
-                                    ib_addon.Visible = true;
-                                    Menuoperation.Visible = true;
-                                    AddOperationButtons(tlp_op_menu, ib_addon);
-                                }
-                                #endregion
+                        #region Operation Buttons
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Kitchen_View) && gridesource[i].Write == 1)
+                        {
+                            ib_kitchenview.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Category) && gridesource[i].Write == 1)
+                        {
+                            ib_Category.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Item) && gridesource[i].Write == 1)
+                        {
+                            ib_Item.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Product) && gridesource[i].Write == 1)
+                        {
+                            ib_ingrediant.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Menu) && gridesource[i].Write == 1)
+                        {
+                            ib_menu.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Write == 1)
+                        {
+                            ib_unit.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Write == 1)
+                        {
+                            ib_table.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase) && gridesource[i].Write == 1)
+                        {
+                            ib_purchase.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Purchase_Return) && gridesource[i].Write == 1)
+                        {
+                            ib_purchasereturn.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Tax) && gridesource[i].Write == 1)
+                        {
+                            ib_tax.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Vendor) && gridesource[i].Write == 1)
+                        {
+                            ib_vendor.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Discount_And_Offer) && gridesource[i].Write == 1)
+                        {
+                            ib_Discount_offer.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Expence) && gridesource[i].Write == 1)
+                        {
+                            ib_Expence.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.PromoCode) && gridesource[i].Write == 1)
+                        {
+                            ib_PromoCode.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Company) && gridesource[i].Write == 1)
+                        {
+                            ib_Company.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Write == 1)
+                        {
+                            ib_reservation.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Write == 1)
+                        {
+                            ib_orderview.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Write == 1)
+                        {
+                            ib_addon.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        #endregion
 
-                                #region Employee Buttons
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Write == 1)
-                                {
-                                    menuEmployee.Visible = true;
-                                    ib_userpermission.Visible = true;
-                                    AddEmployeeButtons(tlp_empl_menu, ib_userpermission);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Write == 1)
-                                {
-                                    menuEmployee.Visible = true;
-                                    ib_useraccount.Visible = true;
-                                    AddEmployeeButtons(tlp_empl_menu, ib_useraccount);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Write == 1)
-                                {
-                                    menuEmployee.Visible = true;
-                                    ib_designation.Visible = true;
-                                    AddEmployeeButtons(tlp_empl_menu, ib_designation);
-                                }
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Write == 1)
-                                {
-                                    menuEmployee.Visible = true;
-                                    ib_department.Visible = true;
-                                    AddEmployeeButtons(tlp_empl_menu, ib_department);
-                                }
-                              
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Write == 1)
-                                {
-                                    menuEmployee.Visible = true;
-                                    ib_employee.Visible = true;
-                                    AddEmployeeButtons(tlp_empl_menu, ib_employee);
-                                }
-                                #endregion
+                        #region Employee Buttons
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Permission) && gridesource[i].Write == 1)
+                        {
+                            menuEmployee.Visible = true;
+                            ib_userpermission.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.User_Account) && gridesource[i].Write == 1)
+                        {
+                            menuEmployee.Visible = true;
+                            ib_useraccount.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Designation) && gridesource[i].Write == 1)
+                        {
+                            menuEmployee.Visible = true;
+                            ib_designation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Department) && gridesource[i].Write == 1)
+                        {
+                            menuEmployee.Visible = true;
+                            ib_department.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Employee) && gridesource[i].Write == 1)
+                        {
+                            menuEmployee.Visible = true;
+                            ib_employee.Visible = true;
+                        }
+                        #endregion
 
-                                #region Billing
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Billing) && gridesource[i].Write == 1)
-                                {
-                                    Menubilling.Visible = true;     
-                                }
-                                #endregion
+                        #region Billing
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Billing) && gridesource[i].Write == 1)
+                        {
+                            Menubilling.Visible = true;
+                        }
+                        #endregion
 
-                                #region Setting
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.Settings) && gridesource[i].Write == 1)
-                                {
-                                    Menusetting.Visible = true;
-                                    ib_department.Visible = true;
-                                }
-                                #endregion
+                        #region Setting
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Settings) && gridesource[i].Write == 1)
+                        {
+                            Menusetting.Visible = true;
 
-                                #region AllowCashDrawer
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesource[i].Write == 1)
-                                {
-                                    AllowCashDrawer = true;
-                                }
-                            
+                            ib_msgsetting.Visible = true;
+                            ib_virtualkeybpard.Visible = true;
+                            ib_gensetting.Visible = true;
+                            ib_billsetting.Visible = true;
+                            ib_appcolor.Visible = true;
+                            ib_drawer.Visible = true;
+                        }
+                        #endregion
 
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesource[i].Write == 1)
-                                {
-                                    AllowDrawerpermissionFullControl = true; 
-                                }
-                                #endregion
+                        #region AllowCashDrawer
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowCashDrawer) && gridesource[i].Write == 1)
+                        {
+                            AllowCashDrawer = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.AllowDrawerpermissionFullControl) && gridesource[i].Write == 1)
+                        {
+                            AllowDrawerpermissionFullControl = true;
+                        }
+                        #endregion
 
-                                #region Report
-                                else if (gridesource[i].Form == Convert.ToInt32(formsenum.report) && gridesource[i].Write == 1)
-                                {
-                                    Menureport.Visible = true;
-                                }
-                                #endregion
-
-                        //    }));
-                        //}
+                        #region Report
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.report) && gridesource[i].Write == 1)
+                        {
+                            Menureport.Visible = true;
+                        }
+                        #endregion
                     }
+
                 }
             }
             catch (Exception ex)
@@ -3743,44 +3393,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage FormPermissionChecking", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
-        private void AddEmployeeButtons(TableLayoutPanel tableLayoutPanel, Control control)
-        {
-            try
-            {
-                if (Emp_ColCount == 3)
-                {
-                    Emp_ColCount = 0;
-                    Emp_RowCount = Emp_RowCount + 1;
-                }
-                control.Dock = DockStyle.Fill;
-                tableLayoutPanel.Controls.Add(control, Emp_ColCount, Emp_RowCount);
-                Emp_ColCount = Emp_ColCount + 1;
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("homepage AddEmployeeButtons", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
-        private void AddOperationButtons(TableLayoutPanel tableLayoutPanel, Control control)
-        {
-            try
-            {
-                if (OP_ColCount == 3)
-                {
-                    OP_ColCount = 0;
-                    OP_RowCount = OP_RowCount + 1;
-                }
-                control.Dock = DockStyle.Fill;
-                tableLayoutPanel.Controls.Add(control, OP_ColCount, OP_RowCount);
-                OP_ColCount = OP_ColCount + 1;
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("homepage AddOperationButtons", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-        }
+
 
         public bool ChkWritePermission(int formid)
         {
@@ -3888,15 +3501,10 @@ namespace FoodandBeverage.Forms
 
                 panelDesktop.SuspendLayout();
 
-                if (tlp_op_menu.Visible)
-                    tlp_op_menu.Visible = false;
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
 
                 btn_pickup.Visible = true;
-
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
 
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
@@ -3965,16 +3573,13 @@ namespace FoodandBeverage.Forms
 
         }
 
-        private void ib_addon_MouseLeave(object sender, EventArgs e)
-        {
-            ib_addon.Text = Convert.ToString(ib_addon.Tag);
-            SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
-        }
+
 
         private void ib_addon_Click(object sender, EventArgs e)
         {
             try
             {
+                panelDesktop.BackColor = SystemColors.Control;
                 if (System.Windows.Forms.Application.OpenForms["FrmAddon"] != null)
                 {
                     FrmAddon _instanceFrmAddon = Application.OpenForms["FrmAddon"] as FrmAddon;
@@ -4005,6 +3610,7 @@ namespace FoodandBeverage.Forms
                     _instanceFrmAddon.Show();
                     _instanceFrmAddon.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmAddon.BringToFront();
+                    UIHelper.ApplyRoundedCorners(_instanceFrmAddon,30);
                 }
             }
             catch (Exception ex)
@@ -4325,13 +3931,8 @@ namespace FoodandBeverage.Forms
 
                 panelDesktop.SuspendLayout();
 
-                if (tlp_op_menu.Visible)
-                    tlp_op_menu.Visible = false;
-
-                if (sender is Button button)
-                {
-                    ChangeButtonBorder(button);
-                }
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
 
                 if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
                 {
@@ -4752,6 +4353,38 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage btnsavegen_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+        public void GeneralsettingFetching()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
+                DmnSearch dmnsearckgen = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = $"where BranchId={BranchId} and Status=1",
+                    OrderBy = ""
+                };
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
+                if (gridesource != null && gridesource.Count > 0)
+                {
+                    var settings = gridesource[0];
+                    PrintDalvalue = settings.printdal;
+                    XYDalvalue = settings.xyprintdal;
+                    DalDalvalue = settings.dalydal;
+
+                    AutoLogoutWhenIdle = settings.AutoLogoutWhenIdle;
+                    FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(settings.AutoLogoutIdleTimeoutMinutes);
+
+                    logoutformsno = settings.LogoutFormscustom;
+                    UserSavePrompt = settings.EnableUserPrompt;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage Page GeneralsettingFetching()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         public void Generalsettingcheck()
         {
             try
@@ -4779,6 +4412,7 @@ namespace FoodandBeverage.Forms
                 if (gridesource.Count > 0)
                 {
                     var settings = gridesource[0];
+
                     rtb_gen.Checked = settings.printdal;
                     rtb_zyout.Checked = settings.xyprintdal;
                     rtb_dlycoll.Checked = settings.dalydal;
@@ -5514,6 +5148,108 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void txtdefgmail_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Home_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void ib_drawer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AssigndrawerCheck();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page ib_drawer_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ib_appcolor_Click(object sender, EventArgs e)
+        {
+            chkdef.Checked = false;
+            AppColorSetting();
+            pnlappcolor.Visible = true;
+            pnlappcolor.Location = new Point(this.ClientSize.Width / 2 - pnlappcolor.Size.Width / 2, this.ClientSize.Height / 2 - pnlappcolor.Size.Height / 2);
+            pnlappcolor.BringToFront();
+        }
+
+        private void ib_billsetting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FetchBillDetails();
+                //tlp_main_sidebar_pnldesktop.Enabled = false;
+                pnl_billsetting.Visible = true;
+                pnl_billsetting.Location = new Point(this.ClientSize.Width / 2 - pnl_billsetting.Size.Width / 2, this.ClientSize.Height / 2 - pnl_billsetting.Size.Height / 2);
+                pnl_billsetting.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Home Page  ib_billsetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ib_gensetting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Generalsettingcheck();
+                pnlgenralsetting.Left = (this.ClientSize.Width - pnlgenralsetting.Width) / 2;
+                pnlgenralsetting.Top = (this.ClientSize.Height - pnlgenralsetting.Height) / 2;
+                pnlgenralsetting.Visible = true;
+                pnlgenralsetting.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page ib_gensetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ib_virtualkeybpard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_virtualkeyboard.Left = (this.ClientSize.Width - pnl_virtualkeyboard.Width) / 2;
+                pnl_virtualkeyboard.Top = (this.ClientSize.Height - pnl_virtualkeyboard.Height) / 2;
+
+                pnl_virtualkeyboard.Visible = true;
+                pnl_virtualkeyboard.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page ib_virtualkeybpard_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ib_msgsetting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //tlp_main_sidebar_pnldesktop.Enabled = false;
+                panl_msgsettings.Visible = true;
+                panl_msgsettings.Location = new Point(this.ClientSize.Width / 2 - panl_msgsettings.Size.Width / 2, this.ClientSize.Height / 2 - panl_msgsettings.Size.Height / 2);
+                panl_msgsettings.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Home Page  ib_msgsetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void FrmDashboard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FrmDashboard.AutoLogoutWhenIdle)
+            {
+                AppSession.UnregisterForm(this);
+            }
+        }
+
         public void FetchBillDetails()
         {
             try
@@ -5570,6 +5306,11 @@ namespace FoodandBeverage.Forms
 
         }
 
+        private void btncls_gen_Click(object sender, EventArgs e)
+        {
+            pnlgenralsetting.Visible = false;
+        }
+
         public void StartTimerAndRefreshLabel()
         {
             try
@@ -5607,7 +5348,82 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage reset_sync_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+        #region Keyboard
+        public void ShowKeyboard(Control activeControl, int kbtype)
+        {
+            try
+            {
+                if (activeControl == null) return;
 
+                if (activeControl is TextBox activeTextBox)
+                {
+                    Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+                    int desiredX = 0, desiredY = 0;
+                    if (UserControl.Frmkeyboard.IsOpen)
+                    {
+                        UserControl.Frmkeyboard.Instance.Close();
+                    }
+
+                    UserControl.Frmkeyboard frmKey = new UserControl.Frmkeyboard(kbtype);
+
+                    #region Calculate Position of Keyboard 
+                    desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (UserControl.Frmkeyboard.Instance.Width / 2);
+                    desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                    Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                    if (desiredX < screenBounds.Left)
+                        desiredX = screenBounds.Left;
+                    else if (desiredX + UserControl.Frmkeyboard.Instance.Width > screenBounds.Right)
+                        desiredX = screenBounds.Right - UserControl.Frmkeyboard.Instance.Width;
+                    if (desiredY + UserControl.Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                    {
+                        desiredY = textBoxScreenLocation.Y - UserControl.Frmkeyboard.Instance.Height - 5;
+                        if (desiredY < screenBounds.Top)
+                            desiredY = screenBounds.Top;
+                    }
+                    UserControl.Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                    UserControl.Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                    #endregion
+
+
+                    frmKey.OnKeyPressed += (keyText) =>
+                    {
+                        if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                        {
+                            if (activeTextBox.Text.Length > 0)
+                                activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                        {
+                            activeTextBox.Text += " ";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                        {
+                            activeTextBox.Text = "";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.keyf8))
+                        {
+                            //if (Convert.ToInt32(activeTextBox.Tag) == 1)
+                            //    StaffPopup();
+                        }
+                        else
+                        {
+                            activeTextBox.Text += keyText;
+                        }
+                        activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                        activeTextBox.SelectionLength = 0;
+                    };
+
+                    frmKey.Show();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage ShowKeyboard", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+
+        }
+        #endregion
 
 
     }

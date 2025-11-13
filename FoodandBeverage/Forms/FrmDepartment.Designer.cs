@@ -32,12 +32,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.mtxtCode = new System.Windows.Forms.TextBox();
-            this.metroLabel1 = new System.Windows.Forms.Label();
             this.mlblName = new System.Windows.Forms.Label();
-            this.mtxtEmpSrlNo = new System.Windows.Forms.TextBox();
-            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
             this.mtxtName = new System.Windows.Forms.TextBox();
+            this.metroLabel1 = new System.Windows.Forms.Label();
+            this.mlblEmpSrlNo = new System.Windows.Forms.Label();
+            this.mtxtCode = new System.Windows.Forms.TextBox();
+            this.mtxtEmpSrlNo = new System.Windows.Forms.TextBox();
             this.mbtnSave = new System.Windows.Forms.Button();
             this.mbtnRefresh = new System.Windows.Forms.Button();
             this.mbtnClose = new System.Windows.Forms.Button();
@@ -83,16 +83,30 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(737, 71);
             this.tableLayoutPanel1.TabIndex = 30;
             // 
-            // mtxtCode
+            // mlblName
             // 
-            this.mtxtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.mtxtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtCode.Location = new System.Drawing.Point(239, 36);
-            this.mtxtCode.Multiline = true;
-            this.mtxtCode.Name = "mtxtCode";
-            this.mtxtCode.Size = new System.Drawing.Size(232, 32);
-            this.mtxtCode.TabIndex = 34;
-            this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
+            this.mlblName.AutoSize = true;
+            this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.mlblName.ForeColor = System.Drawing.Color.Black;
+            this.mlblName.Location = new System.Drawing.Point(3, 0);
+            this.mlblName.Name = "mlblName";
+            this.mlblName.Size = new System.Drawing.Size(230, 33);
+            this.mlblName.TabIndex = 25;
+            this.mlblName.Text = "Department ";
+            this.mlblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // mtxtName
+            // 
+            this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mtxtName.Location = new System.Drawing.Point(3, 36);
+            this.mtxtName.Multiline = true;
+            this.mtxtName.Name = "mtxtName";
+            this.mtxtName.Size = new System.Drawing.Size(230, 32);
+            this.mtxtName.TabIndex = 33;
+            this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown_1);
+            this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave_1);
             // 
             // metroLabel1
             // 
@@ -107,31 +121,6 @@
             this.metroLabel1.Text = "Department Code ";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // mlblName
-            // 
-            this.mlblName.AutoSize = true;
-            this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(3, 0);
-            this.mlblName.Name = "mlblName";
-            this.mlblName.Size = new System.Drawing.Size(230, 33);
-            this.mlblName.TabIndex = 25;
-            this.mlblName.Text = "Department ";
-            this.mlblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // mtxtEmpSrlNo
-            // 
-            this.mtxtEmpSrlNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.mtxtEmpSrlNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(477, 36);
-            this.mtxtEmpSrlNo.Multiline = true;
-            this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
-            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(257, 32);
-            this.mtxtEmpSrlNo.TabIndex = 32;
-            this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown_1);
-            this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtEmpSrlNo_KeyPress_1);
-            // 
             // mlblEmpSrlNo
             // 
             this.mlblEmpSrlNo.AutoSize = true;
@@ -145,17 +134,28 @@
             this.mlblEmpSrlNo.Text = "Employee Code ";
             this.mlblEmpSrlNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // mtxtName
+            // mtxtCode
             // 
-            this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtName.Location = new System.Drawing.Point(3, 36);
-            this.mtxtName.Multiline = true;
-            this.mtxtName.Name = "mtxtName";
-            this.mtxtName.Size = new System.Drawing.Size(230, 32);
-            this.mtxtName.TabIndex = 33;
-            this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown_1);
-            this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave_1);
+            this.mtxtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mtxtCode.Location = new System.Drawing.Point(239, 36);
+            this.mtxtCode.Multiline = true;
+            this.mtxtCode.Name = "mtxtCode";
+            this.mtxtCode.Size = new System.Drawing.Size(232, 32);
+            this.mtxtCode.TabIndex = 34;
+            this.mtxtCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCode_KeyDown);
+            // 
+            // mtxtEmpSrlNo
+            // 
+            this.mtxtEmpSrlNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtEmpSrlNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mtxtEmpSrlNo.Location = new System.Drawing.Point(477, 36);
+            this.mtxtEmpSrlNo.Multiline = true;
+            this.mtxtEmpSrlNo.Name = "mtxtEmpSrlNo";
+            this.mtxtEmpSrlNo.Size = new System.Drawing.Size(257, 32);
+            this.mtxtEmpSrlNo.TabIndex = 32;
+            this.mtxtEmpSrlNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtEmpSrlNo_KeyDown_1);
+            this.mtxtEmpSrlNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtEmpSrlNo_KeyPress_1);
             // 
             // mbtnSave
             // 
@@ -405,6 +405,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmDepartment";
+            this.Tag = "19";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDepartment_FormClosing);
             this.Load += new System.EventHandler(this.FrmDepartment_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmDepartment_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FrmDepartment_KeyUp);

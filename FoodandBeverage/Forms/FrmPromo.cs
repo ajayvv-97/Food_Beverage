@@ -31,6 +31,11 @@ namespace FoodandBeverage.Forms
 
 		private void FrmPromo_Load(object sender, EventArgs e)
 		{
+			if (FrmDashboard.AutoLogoutWhenIdle)
+			{
+				AppSession.RegisterForm(this, (int)LogoutFormList.operation);
+			}
+
 			Clear();
 
 			///dtpfrom.Format = DateTimePickerFormat.Custom;
@@ -506,6 +511,14 @@ namespace FoodandBeverage.Forms
         private void btnmini_Click(object sender, EventArgs e)
         {
 			this.WindowState = FormWindowState.Minimized;
+		}
+
+        private void FrmPromo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+			if (FrmDashboard.AutoLogoutWhenIdle)
+			{
+				AppSession.UnregisterForm(this);
+			}
 		}
     }
 }

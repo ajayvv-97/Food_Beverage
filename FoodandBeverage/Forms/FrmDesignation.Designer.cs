@@ -440,6 +440,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmDesignation";
+            this.Tag = "20";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDesignation_FormClosing);
             this.Load += new System.EventHandler(this.FrmDesignation_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmDesignation_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FrmDesignation_KeyUp);
