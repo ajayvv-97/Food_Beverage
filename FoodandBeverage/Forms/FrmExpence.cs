@@ -135,6 +135,7 @@ namespace FoodandBeverage.Forms
             tlp_main.Enabled = false;
             pnl_serachBox.Visible = true;
             AdjustSearchBoxPanelSize();
+            UIHelper.RoundCorners(tableLayoutPanel1, 25, null);
         }
         private void AdjustSearchBoxPanelSize()
         {
@@ -1029,6 +1030,14 @@ namespace FoodandBeverage.Forms
             {
                 AppSession.UnregisterForm(this);
             }
+        }
+
+        private void FrmExpence_Resize(object sender, EventArgs e)
+        {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(dgv_expense, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null); 
+            #endregion
         }
     }
 }

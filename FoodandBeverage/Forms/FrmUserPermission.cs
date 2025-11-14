@@ -542,6 +542,11 @@ namespace FoodandBeverage.Forms
 
         private void FrmUserPermission_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_two_box, 25, null);
+            UIHelper.RoundCorners(dgvforms, 10, null);
+            #endregion
+
             textb_shape();
         }
 

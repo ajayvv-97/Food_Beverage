@@ -509,6 +509,11 @@ namespace FoodandBeverage.Forms.UserAccount
         }
         private void FrmUserAccount_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_reg, 25, null);
+            UIHelper.RoundCorners(tlp_header, 10, null);
+            #endregion
+
             textb_shape();
         }
 

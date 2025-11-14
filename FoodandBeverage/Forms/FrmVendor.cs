@@ -494,6 +494,13 @@ namespace FoodandBeverage.Forms
 
         private void FrmVendor_Resize(object sender, EventArgs e)
         {
+
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_registration, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            UIHelper.RoundCorners(dgv_vendor, 25, null);
+            #endregion
+
             textb_shape();
             clsgen.GrideAutoSize(dgv_vendor);
         }

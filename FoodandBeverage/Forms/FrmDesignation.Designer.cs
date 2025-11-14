@@ -85,7 +85,7 @@
             this.dgvDesignation.AllowUserToResizeColumns = false;
             this.dgvDesignation.AllowUserToResizeRows = false;
             this.dgvDesignation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDesignation.BackgroundColor = System.Drawing.Color.AliceBlue;
+            this.dgvDesignation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.dgvDesignation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvDesignation.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -113,7 +113,7 @@
             this.dgvDesignation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDesignation.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvDesignation.EnableHeadersVisualStyles = false;
-            this.dgvDesignation.Location = new System.Drawing.Point(5, 196);
+            this.dgvDesignation.Location = new System.Drawing.Point(8, 193);
             this.dgvDesignation.MultiSelect = false;
             this.dgvDesignation.Name = "dgvDesignation";
             this.dgvDesignation.ReadOnly = true;
@@ -136,7 +136,7 @@
             this.dgvDesignation.ShowCellErrors = false;
             this.dgvDesignation.ShowCellToolTips = false;
             this.dgvDesignation.ShowEditingIcon = false;
-            this.dgvDesignation.Size = new System.Drawing.Size(776, 280);
+            this.dgvDesignation.Size = new System.Drawing.Size(770, 280);
             this.dgvDesignation.TabIndex = 4;
             this.dgvDesignation.TabStop = false;
             this.dgvDesignation.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDesignation_CellDoubleClick);
@@ -186,13 +186,13 @@
             this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(739, 86);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(764, 86);
             this.tableLayoutPanel1.TabIndex = 21;
             // 
             // metroLabel1
@@ -210,7 +210,7 @@
             // 
             // mcmbDepartment
             // 
-            this.mcmbDepartment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mcmbDepartment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.mcmbDepartment.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mcmbDepartment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcmbDepartment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -238,7 +238,7 @@
             // mtxtName
             // 
             this.mtxtName.AcceptsReturn = true;
-            this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.mtxtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mtxtName.Location = new System.Drawing.Point(272, 21);
@@ -258,7 +258,7 @@
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(535, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(201, 18);
+            this.label4.Size = new System.Drawing.Size(226, 18);
             this.label4.TabIndex = 15;
             this.label4.Text = "Working Hours ";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -270,7 +270,7 @@
             this.mbtnSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnSave.FlatAppearance.BorderSize = 0;
             this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(569, 3);
+            this.mbtnSave.Location = new System.Drawing.Point(563, 3);
             this.mbtnSave.Name = "mbtnSave";
             this.mbtnSave.Size = new System.Drawing.Size(64, 35);
             this.mbtnSave.TabIndex = 16;
@@ -286,7 +286,7 @@
             this.mbtnRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(639, 3);
+            this.mbtnRefresh.Location = new System.Drawing.Point(633, 3);
             this.mbtnRefresh.Name = "mbtnRefresh";
             this.mbtnRefresh.Size = new System.Drawing.Size(64, 35);
             this.mbtnRefresh.TabIndex = 17;
@@ -302,7 +302,7 @@
             this.mbtnClose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnClose.FlatAppearance.BorderSize = 0;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(709, 3);
+            this.mbtnClose.Location = new System.Drawing.Point(703, 3);
             this.mbtnClose.Name = "mbtnClose";
             this.mbtnClose.Size = new System.Drawing.Size(64, 35);
             this.mbtnClose.TabIndex = 18;
@@ -323,11 +323,11 @@
             this.tableLayoutPanel4.Controls.Add(this.btnmini, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(5, 5);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(8, 8);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(776, 32);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(770, 32);
             this.tableLayoutPanel4.TabIndex = 22;
             // 
             // btncolse
@@ -338,7 +338,7 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(741, 3);
+            this.btncolse.Location = new System.Drawing.Point(735, 3);
             this.btncolse.Name = "btncolse";
             this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
@@ -354,7 +354,7 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(711, 3);
+            this.btnmini.Location = new System.Drawing.Point(705, 3);
             this.btnmini.Name = "btnmini";
             this.btnmini.Size = new System.Drawing.Size(23, 25);
             this.btnmini.TabIndex = 10;
@@ -370,14 +370,13 @@
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(702, 32);
+            this.label23.Size = new System.Drawing.Size(696, 32);
             this.label23.TabIndex = 277;
             this.label23.Text = "Designation";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_main
             // 
-            this.tlp_main.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tlp_main.ColumnCount = 1;
             this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main.Controls.Add(this.tableLayoutPanel4, 0, 0);
@@ -387,6 +386,7 @@
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -397,18 +397,18 @@
             // 
             // tlp_design
             // 
-            this.tlp_design.ColumnCount = 3;
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.07843F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
-            this.tlp_design.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.tlp_design.ColumnCount = 1;
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_design.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.tlp_design.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_design.Location = new System.Drawing.Point(5, 45);
+            this.tlp_design.Location = new System.Drawing.Point(8, 46);
             this.tlp_design.Name = "tlp_design";
             this.tlp_design.RowCount = 2;
             this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 98F));
             this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 2F));
-            this.tlp_design.Size = new System.Drawing.Size(776, 94);
+            this.tlp_design.Size = new System.Drawing.Size(770, 94);
             this.tlp_design.TabIndex = 23;
             // 
             // tlp_buttons
@@ -422,17 +422,18 @@
             this.tlp_buttons.Controls.Add(this.mbtnClose, 3, 0);
             this.tlp_buttons.Controls.Add(this.mbtnRefresh, 2, 0);
             this.tlp_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_buttons.Location = new System.Drawing.Point(5, 147);
+            this.tlp_buttons.Location = new System.Drawing.Point(8, 146);
             this.tlp_buttons.Name = "tlp_buttons";
             this.tlp_buttons.RowCount = 1;
             this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_buttons.Size = new System.Drawing.Size(776, 41);
+            this.tlp_buttons.Size = new System.Drawing.Size(770, 41);
             this.tlp_buttons.TabIndex = 24;
             // 
             // FrmDesignation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(786, 481);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

@@ -3346,7 +3346,16 @@ namespace FoodandBeverage.Forms
         private void FrmReservation_Resize(object sender, EventArgs e)
         {
             try
+
             {
+                #region setting Corner Round 
+                UIHelper.RoundCorners(tlp_calc_labels, 25, null);
+                UIHelper.RoundCorners(tlp_textboxes, 25, null);
+
+                UIHelper.RoundCorners(tlp_reg_form, 25, null);
+                UIHelper.RoundCorners(tlp_header, 10, null);
+                #endregion
+                
                 textb_shape();
                 ClsGeneral.GrideAutoSize(dgvforms);
                 ClsGeneral.GrideAutoSize(dgvmenu);
@@ -5886,6 +5895,8 @@ namespace FoodandBeverage.Forms
                 AppSession.UnregisterForm(this);
             }
         }
+
+
 
         public void Movefocus(int keytype)
         {

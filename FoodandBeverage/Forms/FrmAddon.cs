@@ -369,6 +369,12 @@ namespace FoodandBeverage.Forms
 
         private void FrmAddon_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(dgv_addon, 25, null);
+            UIHelper.RoundCorners(tlp_registration, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+
             textb_shape();
         }
 

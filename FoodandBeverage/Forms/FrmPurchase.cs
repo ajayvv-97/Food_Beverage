@@ -657,6 +657,10 @@ namespace FoodandBeverage.Forms
                 tlp_textboxes.Dock = DockStyle.Fill;
                 dgvProduct.Focus();
                 dgvProduct.CurrentCell = dgvProduct[0, 0];
+
+                UIHelper.RoundCorners(tlp_textboxes, 25, null);
+                UIHelper.RoundCorners(dgvProduct, 25, null);
+
             }
             catch (Exception ex)
             {
@@ -844,7 +848,7 @@ namespace FoodandBeverage.Forms
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
                     textBox.BorderStyle = BorderStyle.None;
-                    textBox.BackColor = Color.FromArgb(196, 223, 223);
+                    //textBox.BackColor = Color.FromArgb(196, 223, 223);
                 }
 
             }
@@ -2360,6 +2364,12 @@ namespace FoodandBeverage.Forms
 
         private void FrmPurchase_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_textboxes, 25, null);
+            UIHelper.RoundCorners(tlp_registration, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+
             textb_shape();
         }
 

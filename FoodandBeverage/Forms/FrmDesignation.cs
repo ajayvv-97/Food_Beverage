@@ -688,6 +688,12 @@ namespace FoodandBeverage.Forms
 
         private void mtxtName_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            //UIHelper.RoundCorners(dgvDepartment, 25, null);
+            UIHelper.RoundCorners(tableLayoutPanel1, 25, null);
+            //UIHelper.RoundCorners(tlp_header, 10, null);
+            #endregion
+
             textb_shape();
         }
 
@@ -695,17 +701,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                #region setting Corner Round 
+                UIHelper.RoundCorners(dgvDesignation, 25, null);
+                UIHelper.RoundCorners(tableLayoutPanel1, 25, null);
+                UIHelper.RoundCorners(tableLayoutPanel4, 10, null);
+                #endregion
 
-            
-            objGeneral.GrideAutoSize(dgvDesignation);
-            textb_shape();
-        }
+                objGeneral.GrideAutoSize(dgvDesignation);
+                textb_shape();
+            }
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  FrmDesignation_Resize()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
                 CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-}
+        }
 
         private void mcmbDepartment_SelectionChangeCommitted(object sender, EventArgs e)
         {

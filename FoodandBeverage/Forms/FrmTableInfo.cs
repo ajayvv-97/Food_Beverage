@@ -692,6 +692,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmTableInfo_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_registration, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
             textb_shape();
         }
 

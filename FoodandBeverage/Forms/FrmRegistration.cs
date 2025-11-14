@@ -1113,6 +1113,10 @@ namespace FoodandBeverage.Forms
 
         private void FrmRegistration_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_reg, 25, null);
+            UIHelper.RoundCorners(tlp_header_nav, 10, null);
+            #endregion
             textb_shape();
         }
 

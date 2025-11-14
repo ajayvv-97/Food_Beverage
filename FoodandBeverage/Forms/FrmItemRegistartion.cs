@@ -476,7 +476,8 @@ namespace FoodandBeverage.Forms
             {
                 rb_item.Checked = false;
                 rb_notsale.Checked = false;
-                dgv_item.CurrentCell = dgv_item[0, 0];
+                if(dgv_item.RowCount>0)
+                    dgv_item.CurrentCell = dgv_item[0, 0];
                 tlp_registration.Visible = false;
                 tlp_grid.Visible = true;
                 Control controlToRemove = tlp_main.GetControlFromPosition(1, 0);
@@ -485,6 +486,8 @@ namespace FoodandBeverage.Forms
                 tlp_grid.Dock = DockStyle.Fill;
                 Fillitem();
                 dgv_item.Focus();
+                UIHelper.RoundCorners(dgv_item, 25, null);
+                UIHelper.RoundCorners(tableLayoutPanel2, 25, null);
             }
             catch (Exception ex)
             {
@@ -1383,6 +1386,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmItemRegistartion_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_registration, 25, null);
+            UIHelper.RoundCorners(dgv_item, 25, null);
+            UIHelper.RoundCorners(tableLayoutPanel2, 25, null);
+
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+            
             textb_shape();
         }
 

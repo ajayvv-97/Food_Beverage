@@ -1859,5 +1859,14 @@ namespace FoodandBeverage.Forms
                 AppSession.UnregisterForm(this);
             }
         }
+
+        private void FrmMenu_Resize(object sender, EventArgs e)
+        {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(dgv_menu, 25, null);
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+            
+        }
     }
 }

@@ -5261,6 +5261,14 @@ namespace FoodandBeverage.Forms
 
         private void FrmOfferDiscount_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_comboproduct_view, 25, null);
+            UIHelper.RoundCorners(tlp_single, 25, null);
+            UIHelper.RoundCorners(dgv_sigle_product, 25, null);
+            
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+
             textb_shape();
             if (ProductPage)
             {

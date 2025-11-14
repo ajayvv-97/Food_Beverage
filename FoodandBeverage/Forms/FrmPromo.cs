@@ -51,76 +51,7 @@ namespace FoodandBeverage.Forms
 			//dgvProCode.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
 			//dgvProCode.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 		}
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				dtfrom = dtpfrom.Value.ToString("yyyy-MM-dd") + " " + dtpfromtime.Value.ToString("HH:mm:ss");
-				dtto = dtpto.Value.ToString("yyyy-MM-dd") + " " + dtptotime.Value.ToString("HH:mm:ss");
-				if (MandatoryCheck())
-				{
-					bool flage = true;
-					DmnPromoMaster dmnProMaster = new DmnPromoMaster();
-					BllPromoMaster bllPromo = new BllPromoMaster();
-					dmnProMaster.PromoMId = Convert.ToInt32(txtPromoMId.Text);
-					dmnProMaster.Caption = txtprocap.Text;
-					dmnProMaster.Description = txtprodesc.Text;
-					dmnProMaster.StartDate = Convert.ToDateTime(dtfrom);
-					dmnProMaster.EndDate = Convert.ToDateTime(dtto);
-					dmnProMaster.MinBillAmt = Convert.ToDecimal(txtgrt.Text);
-					dmnProMaster.MaxDiscount = Convert.ToDecimal(txtmaxdis.Text);
-					dmnProMaster.DiscountPer = Convert.ToDecimal(txtdiscper.Text);
-					dmnProMaster.PromoLabel = txtproLbl.Text;
-					dmnProMaster.TotalPromo = Convert.ToInt32(txttotPro.Text);
-					dmnProMaster.Status = 1;
-					dmnProMaster.CreatedBy = FrmDashboard.UserId;
-					var data = bllPromo.AddPromo("prdInsertPromoMaster", dmnProMaster);
-					if (data.PromoMId != 0)
-					{
-						DmnPromoDetails dmnPromoDetails = new DmnPromoDetails();
-						dmnPromoDetails.PromoMId = data.PromoMId;
-						for (int i = 0; i < dgvProCode.Rows.Count; i++)
-						{
-							if (dgvProCode.Rows[i].Cells[2].Value != "" && dgvProCode.Rows[i].Cells[2].Value != null)
-							{
-								dmnPromoDetails.Code = Convert.ToString(dgvProCode.Rows[i].Cells[2].Value);
-								dmnPromoDetails.Status = 1;
-								dmnPromoDetails.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
-								bool details = bllPromo.AddPromoDetails("PrdInsertUpdPromoDetails", dmnPromoDetails);
-								if (details == false)
-								{
-									flage = false;
-									break;
-								}
-							}
-						}
-						if (flage == true)
-						{
-							CMessageBox.Show("Promo Details Saved Successfuly", "Save Success", MessageBoxButtons.OK);
-							Clear();
-						}
-						else
-						{
-							CMessageBox.Show("Promo Details Save Failed", "Save Failed", MessageBoxButtons.OK);
-						}
-					}
-					else
-					{
-						CMessageBox.Show("Promo Details Save Failed", "Save Failed", MessageBoxButtons.OK);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				clsgen.LogException("PromoCode page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
-			}
-		}
 
-		private void btnrefresh_Click(object sender, EventArgs e)
-		{
-			Clear();
-		}
 		private void btngen_Click(object sender, EventArgs e)
 		{
 			try
@@ -474,6 +405,11 @@ namespace FoodandBeverage.Forms
 
 		private void FrmPromo_Resize(object sender, EventArgs e)
 		{
+			#region setting Corner Round 
+			UIHelper.RoundCorners(tlp_reg, 25, null);
+			UIHelper.RoundCorners(tlp_navbar, 10, null);
+			#endregion
+
 			textb_shape();
 		}
 
@@ -520,5 +456,81 @@ namespace FoodandBeverage.Forms
 				AppSession.UnregisterForm(this);
 			}
 		}
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+			try
+			{
+				dtfrom = dtpfrom.Value.ToString("yyyy-MM-dd") + " " + dtpfromtime.Value.ToString("HH:mm:ss");
+				dtto = dtpto.Value.ToString("yyyy-MM-dd") + " " + dtptotime.Value.ToString("HH:mm:ss");
+				if (MandatoryCheck())
+				{
+					bool flage = true;
+					DmnPromoMaster dmnProMaster = new DmnPromoMaster();
+					BllPromoMaster bllPromo = new BllPromoMaster();
+					dmnProMaster.PromoMId = Convert.ToInt32(txtPromoMId.Text);
+					dmnProMaster.Caption = txtprocap.Text;
+					dmnProMaster.Description = txtprodesc.Text;
+					dmnProMaster.StartDate = Convert.ToDateTime(dtfrom);
+					dmnProMaster.EndDate = Convert.ToDateTime(dtto);
+					dmnProMaster.MinBillAmt = Convert.ToDecimal(txtgrt.Text);
+					dmnProMaster.MaxDiscount = Convert.ToDecimal(txtmaxdis.Text);
+					dmnProMaster.DiscountPer = Convert.ToDecimal(txtdiscper.Text);
+					dmnProMaster.PromoLabel = txtproLbl.Text;
+					dmnProMaster.TotalPromo = Convert.ToInt32(txttotPro.Text);
+					dmnProMaster.Status = 1;
+					dmnProMaster.CreatedBy = FrmDashboard.UserId;
+					var data = bllPromo.AddPromo("prdInsertPromoMaster", dmnProMaster);
+					if (data.PromoMId != 0)
+					{
+						DmnPromoDetails dmnPromoDetails = new DmnPromoDetails();
+						dmnPromoDetails.PromoMId = data.PromoMId;
+						for (int i = 0; i < dgvProCode.Rows.Count; i++)
+						{
+							if (dgvProCode.Rows[i].Cells[2].Value != "" && dgvProCode.Rows[i].Cells[2].Value != null)
+							{
+								dmnPromoDetails.Code = Convert.ToString(dgvProCode.Rows[i].Cells[2].Value);
+								dmnPromoDetails.Status = 1;
+								dmnPromoDetails.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
+								bool details = bllPromo.AddPromoDetails("PrdInsertUpdPromoDetails", dmnPromoDetails);
+								if (details == false)
+								{
+									flage = false;
+									break;
+								}
+							}
+						}
+						if (flage == true)
+						{
+							CMessageBox.Show("Promo Details Saved Successfuly", "Save Success", MessageBoxButtons.OK);
+							Clear();
+						}
+						else
+						{
+							CMessageBox.Show("Promo Details Save Failed", "Save Failed", MessageBoxButtons.OK);
+						}
+					}
+					else
+					{
+						CMessageBox.Show("Promo Details Save Failed", "Save Failed", MessageBoxButtons.OK);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				clsgen.LogException("PromoCode page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
+			}
+		}
+
+        private void btnrefresh_Click(object sender, EventArgs e)
+        {
+			Clear();
+        }
+
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+			this.Close();
+        }
     }
 }

@@ -1985,6 +1985,16 @@ namespace FoodandBeverage.Forms
 
         private void FrmEmployeeShort_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+
+            UIHelper.RoundCorners(tlp_user_reg, 25, null);
+            UIHelper.RoundCorners(tlp_role_design, 10, null);
+            UIHelper.RoundCorners(tp_employee, 25, null);
+            UIHelper.RoundCorners(tlp_employe_header, 10, null);
+            UIHelper.RoundCorners(dgvforms, 25, null);
+
+            #endregion
+
             textb_shape();
             if (tb_empolyee.SelectedIndex == 1)
             {

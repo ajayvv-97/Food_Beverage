@@ -738,6 +738,12 @@ namespace FoodandBeverage.Forms
 
         private void FrmDepartment_Resize(object sender, EventArgs e)
         {
+            #region setting Corner Round 
+            UIHelper.RoundCorners(dgvDepartment, 25, null);
+            UIHelper.RoundCorners(tableLayoutPanel1, 25, null);
+            UIHelper.RoundCorners(tlp_header, 10, null);
+            #endregion
+
             textb_shape();
             objGeneral.GrideAutoSize(dgvDepartment);
         }

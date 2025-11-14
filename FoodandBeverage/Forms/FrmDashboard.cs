@@ -138,6 +138,10 @@ namespace FoodandBeverage.Forms
         private bool isMenuCollapsed = false;
         private int originalMenuWidth;
 
+        public static Color DefaultBGcolor = ColorTranslator.FromHtml("#ecdcf4");
+        public static Color PageheaderBGcolor = ColorTranslator.FromHtml("#6550b9");
+        public static Color ContrlBGcolor = ColorTranslator.FromHtml("#ced1ea");
+
         #endregion
 
         // Function to create a rounded rectangle region
@@ -610,7 +614,7 @@ namespace FoodandBeverage.Forms
             btn.TextAlign = ContentAlignment.BottomCenter;
 
             int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int pd = screenWidth > 1366 ? 20 : 5;
+            int pd = screenWidth > 1366 ? 10 : 5;
             btn.Padding = new Padding(0, pd, 0, 0);
             btn.Image = new Bitmap(img, new Size(width, height));
             btn.Font = AppFonts.GetFont(12);
@@ -1554,6 +1558,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AdjustButtonsToPanel();
                 ButtonID = Convert.ToInt32(Menubutton.Menusetting);
                 reset_sync.Stop();
                 lblsync.Visible = false;
@@ -2849,6 +2854,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AdjustButtonsToPanel();
+
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
@@ -2940,6 +2947,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                panelDesktop.BackColor = SystemColors.Control;
                 if (System.Windows.Forms.Application.OpenForms["FrmDepartment"] != null)
                 {
                     FrmDepartment _instanceFrmDep = Application.OpenForms["FrmDepartment"] as FrmDepartment;
@@ -2952,6 +2960,7 @@ namespace FoodandBeverage.Forms
                         panelDesktop.Controls.Add(_instanceFrmDep);
                         _instanceFrmDep.Show();
                         _instanceFrmDep.BringToFront();
+                        UIHelper.ApplyRoundedCorners(_instanceFrmDep, 30);
                     }
                 }
                 else
@@ -2963,6 +2972,7 @@ namespace FoodandBeverage.Forms
                     _instanceFrmDep.Show();
                     _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     _instanceFrmDep.BringToFront();
+                    UIHelper.ApplyRoundedCorners(_instanceFrmDep, 30);
                 }
             }
             catch (Exception ex)
@@ -3163,7 +3173,7 @@ namespace FoodandBeverage.Forms
             int totalHorizontalMargin = (marginLeftRight * 2 * columns);
             int availableWidth = panelWidth - totalHorizontalMargin;
 
-            columns = screenWidth > 1366 ? 3 : 4;
+            columns = screenWidth > 1366 ? 4 : 3;
             lblinact_timer.Text = columns+" "+ screenWidth.ToString();
             int buttonWidth = availableWidth / columns;  ;
 
