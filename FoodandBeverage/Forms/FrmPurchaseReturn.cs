@@ -116,6 +116,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                bool flag = screenWidth > 1366 ? true : false;
+                if (flag)
+                {
+                    tlp_grid_registartion.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                }
+                else
+                {
+                    tlp_grid_registartion.RowStyles[0] = new RowStyle(SizeType.AutoSize);
+                }
+
                 MainPage = false;
                 DetailsPage = true;
                 tlp_grid_registartion.Visible = true;
