@@ -57,6 +57,36 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+        /// <summary>
+        /// Centers a control on the parent form, resizes it based on percentage,
+        /// makes it visible and brings it to front.
+        /// </summary>
+        /// <param name="ctrl">Control to modify</param>
+        /// <param name="widthPercent">Width percentage (0–100)</param>
+        /// <param name="heightPercent">Height percentage (0–100)</param>
+        public static void CenterAndResize(Control ctrl, int widthPercent = 80, int heightPercent = 80)
+        {
+            if (ctrl?.Parent == null)
+                return;
+
+            Control parent = ctrl.Parent;
+
+            // --- Calculate new size ---
+            int newWidth = (parent.Width * widthPercent) / 100;
+            int newHeight = (parent.Height * heightPercent) / 100;
+
+            ctrl.Size = new Size(newWidth, newHeight);
+
+            // --- Center the control ---
+            int x = (parent.Width - ctrl.Width) / 2;
+            int y = (parent.Height - ctrl.Height) / 2;
+
+            ctrl.Location = new Point(x, y);
+
+            // --- Make visible and front ---
+            ctrl.Visible = true;
+            ctrl.BringToFront();
+        }
         public static void ApplyRoundedCorners(Form form, int borderRadius)
         {
             try

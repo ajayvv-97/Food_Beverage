@@ -148,7 +148,7 @@ namespace FoodandBeverage.Forms
 
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
-        TableLayoutPanel tlp_searchproduct_sidebar = new TableLayoutPanel();
+
         TableLayoutPanel tlp_searchproduct_dashboard = new TableLayoutPanel();
         TableLayoutPanel tlp_price_list = new TableLayoutPanel();
         FlowLayoutPanel Flp_serachproname = new FlowLayoutPanel();
@@ -368,138 +368,7 @@ namespace FoodandBeverage.Forms
                 txtdis_descr.ForeColor = Color.DarkGray;
                 #endregion
 
-                #region Side Bar Buttons
 
-                pnlsidebar_searchproduct.Controls.Clear();
-                tlp_searchproduct_sidebar.Controls.Clear();
-                tlp_searchproduct_sidebar.Dock = DockStyle.Fill;
-                tlp_searchproduct_sidebar.AutoScroll = true;
-                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "*";
-                dmnSearch.Table = "tblCategory_FTI";
-                dmnSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
-                dmnSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    int rowIndex = 0;
-                    ToolTip tooltip = new ToolTip();
-
-                    #region Fav Button
-                    // Configure the Button
-                    Button buttonfav = new Button();
-                    buttonfav.Text = "Favourite Item";
-                    buttonfav.Name = "btn_fav";
-                    buttonfav.Tag = 0;
-                    buttonfav.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    {
-                        buttonfav.Height = 50;
-                    }
-                    else
-                        buttonfav.Height = 80;
-                    buttonfav.Dock = DockStyle.Top;
-                    tooltip.SetToolTip(buttonfav, "Favourite Item");
-                    ApplyRoundedCornersToButton(buttonfav);
-                    buttonfav.FlatStyle = FlatStyle.Flat;
-                    buttonfav.FlatAppearance.BorderSize = 0;
-
-                    buttonfav.Font = new Font(buttonfav.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonfav.Click += new EventHandler(SidebuttonfavClickEventHandler);
-                    tlp_searchproduct_sidebar.Controls.Add(buttonfav, 0, rowIndex);
-                    rowIndex++;
-                    #endregion
-
-                    #region offer Button
-                    // Configure the Button
-                    Button buttonOffer = new Button();
-                    buttonOffer.Text = "Special Offer";
-                    buttonOffer.Name = "btn_offer";
-                    tooltip.SetToolTip(buttonOffer, "Special Offer");
-                    buttonOffer.Tag = 0;
-                    buttonOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    {
-                        buttonOffer.Height = 50;
-                    }
-                    else
-                        buttonOffer.Height = 80;
-                    buttonOffer.Dock = DockStyle.Top;
-                    ApplyRoundedCornersToButton(buttonOffer);
-                    buttonOffer.FlatStyle = FlatStyle.Flat;
-                    buttonOffer.FlatAppearance.BorderSize = 0;
-
-                    buttonOffer.Font = new Font(buttonOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonOffer.Click += new EventHandler(SidebuttonOfferClickEventHandler);
-                    tlp_searchproduct_sidebar.Controls.Add(buttonOffer, 0, rowIndex);
-                    rowIndex++;
-                    #endregion
-
-                    #region Combo Offer Button
-                    // Configure the Button
-                    Button buttonComboOffer = new Button();
-                    buttonComboOffer.Text = "Combo Offer";
-                    buttonComboOffer.Name = "btn_combo_offer";
-                    tooltip.SetToolTip(buttonComboOffer, "Combo Offer");
-                    buttonComboOffer.Tag = 0;
-                    buttonComboOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    {
-                        buttonComboOffer.Height = 50;
-                    }
-                    else
-                        buttonComboOffer.Height = 80;
-
-                    buttonComboOffer.Dock = DockStyle.Top;
-                    ApplyRoundedCornersToButton(buttonComboOffer);
-                    buttonComboOffer.FlatStyle = FlatStyle.Flat;
-                    buttonComboOffer.FlatAppearance.BorderSize = 0;
-
-                    buttonComboOffer.Font = new Font(buttonComboOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonComboOffer.Click += new EventHandler(SidebuttonComboOfferClickEventHandler);
-                    tlp_searchproduct_sidebar.Controls.Add(buttonComboOffer, 0, rowIndex);
-                    rowIndex++;
-                    #endregion
-
-                    #region Category Button
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        // Configure the Button
-                        Button button = new Button();
-                        button.Text = gridSource[i].CategoryName;
-                        button.Name = "btn" + gridSource[i].CategoryName;
-                        button.Tag = gridSource[i].Fcid;
-                        if (Convert.ToString(gridSource[i].ColorCode) == null || Convert.ToString(gridSource[i].ColorCode) == "")
-                            button.BackColor = Color.SteelBlue;
-                        else
-                            button.BackColor = ColorTranslator.FromHtml(gridSource[i].ColorCode);
-
-                        tooltip.SetToolTip(button, gridSource[i].CategoryName);
-                        button.ForeColor = Color.White;
-                        button.FlatStyle = FlatStyle.Flat;
-                        button.FlatAppearance.BorderSize = 0;
-                        if (R_screenWidth > 1365 && R_screenHeight > 767)
-                        {
-                            button.Height = 50;
-                        }
-                        else
-                            button.Height = 80;
-                        button.Dock = DockStyle.Top;
-                        button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
-                        button.Click += new EventHandler(SidebuttonClickEventHandler);
-                        ApplyRoundedCornersToButton(button);
-                        tlp_searchproduct_sidebar.Controls.Add(button, 0, rowIndex);
-                        rowIndex++;
-                    }
-                    #endregion
-
-                    pnlsidebar_searchproduct.Controls.Add(tlp_searchproduct_sidebar);
-
-                    pnl_toggle_btn.Dock = DockStyle.Fill;
-                    btn_sidebar_toggle.Location = new Point(pnl_toggle_btn.Width / 2 - btn_sidebar_toggle.Size.Width / 2, pnl_toggle_btn.Height / 2 - btn_sidebar_toggle.Size.Height / 2);
-                }
-                #endregion Main 
 
                 textb_shape();
                 ShowLoadingdGif();
@@ -608,7 +477,7 @@ namespace FoodandBeverage.Forms
 
                     if (checkedtableNames[k].pkid > 0)
                     {
-                        cmb_tblcode.Items.Add("PICKUP NO "+Convert.ToString(checkedtableNames[k].pkid));
+                        cmb_tblcode.Items.Add("PICKUP NO " + Convert.ToString(checkedtableNames[k].pkid));
                         txtpkchrge_amt.Visible = true;
                         lblpkchrge_amt.Visible = true;
                         isPkidConditionMet = true;
@@ -8316,7 +8185,7 @@ namespace FoodandBeverage.Forms
                                     var duration = DateTime.Now - OrderDateTime;
                                     int min = duration.Seconds;
                                     CombinedOrderBill.TimeDuration = min;
-                                    var InsertStatus_cbill = bllCombinedOrderBill.AddCombinedOrderBill("prdInsert_CombinedOrderBill", CombinedOrderBill); 
+                                    var InsertStatus_cbill = bllCombinedOrderBill.AddCombinedOrderBill("prdInsert_CombinedOrderBill", CombinedOrderBill);
                                 }
                                 #endregion
 
@@ -10511,7 +10380,7 @@ namespace FoodandBeverage.Forms
 
                         dmnordermaster.PkId = Convert.ToInt32(InsertStatuspkup.PkId);
                         dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.Pickuporder);
-                        GBL_pkid= Convert.ToInt32(InsertStatuspkup.PkId);
+                        GBL_pkid = Convert.ToInt32(InsertStatuspkup.PkId);
                     }
                     else
                         dmnordermaster.PickupOrderFlag = Convert.ToInt32(PickupOrderOrNot.None);
@@ -11538,7 +11407,7 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                         }
-            
+
 
                         int mainrowno = 0;
                         r1 = Dgv_Selected_Item.RowCount - 1;
@@ -12962,6 +12831,200 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page txtpaidamount_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
+        private void FrmOrder_Resize(object sender, EventArgs e)
+        {
+            UIHelper.RoundCorners(pnl_product_calc, 25, null);
+            UIHelper.RoundCorners(pnl_product_grid, 25, null);
+            UIHelper.RoundCorners(pnl_productview, 25, null);
+            UIHelper.RoundCorners(pnl_categorymenu, 25, null);
+        }
+
+        #region side menu
+        private void btn_showmenu_Click(object sender, EventArgs e)
+        {
+            flp_sidemenu.Visible = !flp_sidemenu.Visible;
+
+            if (!flp_sidemenu.Visible)
+                return;
+
+            flp_sidemenu.Width = btn_showmenu.Width;
+            Point btnScreen = btn_showmenu.PointToScreen(Point.Empty);
+            int desiredX = 0, desiredY = 0;
+            desiredX = btnScreen.X + (btn_showmenu.Width / 2) - (flp_sidemenu.Width / 2);
+            desiredY = btnScreen.Y + btn_showmenu.Height + 20;  // 10px gap
+
+            Rectangle screenBounds = Screen.FromControl(btn_showmenu).WorkingArea;
+            if (desiredX < screenBounds.Left)
+                desiredX = screenBounds.Left;
+            else if (desiredX + flp_sidemenu.Width > screenBounds.Right)
+                desiredX = screenBounds.Right - flp_sidemenu.Width;
+            if (desiredY + flp_sidemenu.Height > screenBounds.Bottom)
+            {
+                desiredY = btnScreen.Y - flp_sidemenu.Height - 10;
+                if (desiredY < screenBounds.Top)
+                    desiredY = screenBounds.Top;
+            }
+            Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
+            flp_sidemenu.Location = clientPos;
+            GenerateSidemenu();
+            flp_sidemenu.BringToFront();
+        }
+
+
+
+        public void GenerateSidemenu()
+        {
+            try
+            {
+                #region Side Bar Buttons
+                flp_sidemenu.Controls.Clear();
+                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblCategory_FTI";
+                dmnSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    int rowIndex = 0;
+                    ToolTip tooltip = new ToolTip();
+
+                    #region Fav Button
+                    // Configure the Button
+                    Button buttonfav = new Button();
+                    buttonfav.Text = "Favourite Item";
+                    buttonfav.Name = "btn_fav";
+                    buttonfav.Tag = 0;
+                    //buttonfav.BackColor = ColorTranslator.FromHtml("#ffbd03");
+                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    //{
+                    //    buttonfav.Height = 50;
+                    //}
+                    //else
+                    //    buttonfav.Height = 80;
+                    buttonfav.Height = btn_showmenu.Height;
+                    buttonfav.Width = btn_showmenu.Width;
+                    buttonfav.Dock = DockStyle.Top;
+                    tooltip.SetToolTip(buttonfav, "Favourite Item");
+                    //ApplyRoundedCornersToButton(buttonfav);
+                    buttonfav.FlatStyle = FlatStyle.Flat;
+                    buttonfav.FlatAppearance.BorderSize = 0;
+                    buttonfav.BackgroundImage = Properties.Resources.fb_sidemenu;
+                    buttonfav.BackgroundImageLayout = ImageLayout.Stretch;
+
+                    buttonfav.Font = new Font(buttonfav.Font.FontFamily, 8, FontStyle.Bold);
+                    buttonfav.Click += new EventHandler(SidebuttonfavClickEventHandler);
+                    flp_sidemenu.Controls.Add(buttonfav);
+                    rowIndex++;
+                    #endregion
+
+                    #region offer Button
+                    // Configure the Button
+                    Button buttonOffer = new Button();
+                    buttonOffer.Text = "Special Offer";
+                    buttonOffer.Name = "btn_offer";
+                    tooltip.SetToolTip(buttonOffer, "Special Offer");
+                    buttonOffer.Tag = 0;
+                    // buttonOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
+                    buttonOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
+                    buttonOffer.BackgroundImageLayout = ImageLayout.Stretch;
+                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    //{
+                    //    buttonOffer.Height = 50;
+                    //}
+                    //else
+                    //    buttonOffer.Height = 80;
+                    buttonOffer.Height = btn_showmenu.Height;
+                    buttonOffer.Width = btn_showmenu.Width;
+                    buttonOffer.Dock = DockStyle.Top;
+                   // ApplyRoundedCornersToButton(buttonOffer);
+                    buttonOffer.FlatStyle = FlatStyle.Flat;
+                    buttonOffer.FlatAppearance.BorderSize = 0;
+
+                    buttonOffer.Font = new Font(buttonOffer.Font.FontFamily, 8, FontStyle.Bold);
+                    buttonOffer.Click += new EventHandler(SidebuttonOfferClickEventHandler);
+                    flp_sidemenu.Controls.Add(buttonOffer);
+                    rowIndex++;
+                    #endregion
+
+                    #region Combo Offer Button
+                    // Configure the Button
+                    Button buttonComboOffer = new Button();
+                    buttonComboOffer.Text = "Combo Offer";
+                    buttonComboOffer.Name = "btn_combo_offer";
+                    tooltip.SetToolTip(buttonComboOffer, "Combo Offer");
+                    buttonComboOffer.Tag = 0;
+                    //buttonComboOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
+                    buttonComboOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
+                    buttonComboOffer.BackgroundImageLayout = ImageLayout.Stretch;
+                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
+                    //{
+                    //    buttonComboOffer.Height = 50;
+                    //}
+                    //else
+                    //    buttonComboOffer.Height = 80;
+
+                    buttonComboOffer.Dock = DockStyle.Top;
+                    buttonComboOffer.Height = btn_showmenu.Height;
+                    buttonComboOffer.Width = btn_showmenu.Width;
+                    //ApplyRoundedCornersToButton(buttonComboOffer);
+                    buttonComboOffer.FlatStyle = FlatStyle.Flat;
+                    buttonComboOffer.FlatAppearance.BorderSize = 0;
+
+                    buttonComboOffer.Font = new Font(buttonComboOffer.Font.FontFamily, 8, FontStyle.Bold);
+                    buttonComboOffer.Click += new EventHandler(SidebuttonComboOfferClickEventHandler);
+                    flp_sidemenu.Controls.Add(buttonComboOffer);
+                    rowIndex++;
+                    #endregion
+
+                    #region Category Button
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        // Configure the Button
+                        Button button = new Button();
+                        button.Text = gridSource[i].CategoryName;
+                        button.Name = "btn" + gridSource[i].CategoryName;
+                        button.Tag = gridSource[i].Fcid;
+                        //if (Convert.ToString(gridSource[i].ColorCode) == null || Convert.ToString(gridSource[i].ColorCode) == "")
+                        //    button.BackColor = Color.SteelBlue;
+                        //else
+                        //    button.BackColor = ColorTranslator.FromHtml(gridSource[i].ColorCode);
+
+                        button.BackgroundImage = Properties.Resources.fb_sidemenu;
+                        button.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        tooltip.SetToolTip(button, gridSource[i].CategoryName);
+                        button.ForeColor = Color.White;
+                        button.FlatStyle = FlatStyle.Flat;
+                        button.FlatAppearance.BorderSize = 0;
+                        //if (R_screenWidth > 1365 && R_screenHeight > 767)
+                        //{
+                        //    button.Height = 50;
+                        //}
+                        //else
+                        //    button.Height = 80;
+
+                        button.Height = btn_showmenu.Height;
+                        button.Width = btn_showmenu.Width;
+                        button.Dock = DockStyle.Top;
+                        button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
+                        button.Click += new EventHandler(SidebuttonClickEventHandler);
+                        //ApplyRoundedCornersToButton(button);
+                        flp_sidemenu.Controls.Add(button);
+                        rowIndex++;
+                    }
+                    #endregion
+                }
+                #endregion  
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page GenerateSidemenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        #endregion
 
         private void AdjustRowStyles()
         {
