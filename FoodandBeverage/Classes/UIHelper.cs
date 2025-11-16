@@ -87,6 +87,20 @@ namespace FoodandBeverage.Classes
             ctrl.Visible = true;
             ctrl.BringToFront();
         }
+        public static void ResizeOnly(Control ctrl, int widthPercent = 80, int heightPercent = 80)
+        {
+            if (ctrl?.Parent == null)
+                return;
+
+            Control parent = ctrl.Parent;
+
+            // --- Calculate new size only ---
+            int newWidth = (parent.Width * widthPercent) / 100;
+            int newHeight = (parent.Height * heightPercent) / 100;
+
+            ctrl.Size = new Size(newWidth, newHeight);
+        }
+
         public static void ApplyRoundedCorners(Form form, int borderRadius)
         {
             try

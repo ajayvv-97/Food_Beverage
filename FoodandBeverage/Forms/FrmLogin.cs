@@ -36,11 +36,12 @@ namespace FoodandBeverage.Forms
         public static string EmpCode = "";
         public static string EmployeName = "";
         public static string Designation = "";
+        public static string departmentname = "";
         public static int KitchenDisplayCount = 15; 
         public static long EmployeeId;
         public static decimal BookingInterwell;
         public static bool TestUser = false;
-
+        
         int UserStatus;
         public string txtbox = "";
         public static long UserAccountTypeId;
@@ -270,14 +271,15 @@ namespace FoodandBeverage.Forms
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
 
-                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell,KitchenDisplayCount";
+                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell,KitchenDisplayCount,departmentname";
                                 objSearch.Select = " ua.UserAccountId as Id,ua.[Status] as Field1,emp.EmployeeId as Field2,ua.BranchId as Field3," +
-                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ,h.KitchenDisplayCount  Field11 ";
+                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ,h.KitchenDisplayCount  Field11 ,dt.departmentname Field12";
                                 objSearch.Table = " tblUserAccount ua " +
                                     "Left join  tblEmployee emp on emp.EmployeeId = ua.EmployeeId " +
                                     " Left join tblForms f on f.UserType = ua.UserAccountTypeId and f.Status = 1 " +
                                     "Left join tblDesignation d on d.DesignationId = emp.DesignationId "+
-                                    "Left join tblHotelRegistration h on h.BranchId=ua.BranchID";//f.Form = " + Convert.ToInt32(PosForm.AllLocationAccess) + "and
+                                    "Left join tblHotelRegistration h on h.BranchId=ua.BranchID"+
+                                    " Left join tbldepartment dt on dt.departmentid=emp.departmentid";//f.Form = " + Convert.ToInt32(PosForm.AllLocationAccess) + "and
 
                                 objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'";
                                 var userDetails = frmGridSearch.GetSearchGrid(objSearch);
@@ -305,7 +307,9 @@ namespace FoodandBeverage.Forms
                                     UserId = Convert.ToInt32(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
                                     EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
-                                    EmployeName = Convert.ToString(userDetails["Field8", 0].Value); 
+                                    EmployeName = Convert.ToString(userDetails["Field8", 0].Value);
+                                    departmentname = Convert.ToString(userDetails["Field12", 0].Value);
+                                    
                                     Designation = Convert.ToString(userDetails["Field9", 0].Value);
                                     KitchenDisplayCount  = Convert.ToInt32(userDetails["Field11", 0].Value);
                                     //CompanyId = Convert.ToInt64(userDetails["Field4", 0].Value);

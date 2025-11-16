@@ -12847,183 +12847,157 @@ namespace FoodandBeverage.Forms
 
             if (!flp_sidemenu.Visible)
                 return;
+            flp_sidemenu.FlowDirection = FlowDirection.LeftToRight;
+            flp_sidemenu.Width = btn_showmenu.Width + (btn_showmenu.Width / 4);
+            flp_sidemenu.Height = pnl_product_grid.Height;
+            flp_sidemenu.AutoScroll = true;
+            flp_sidemenu.HorizontalScroll.Enabled = true;
+            flp_sidemenu.HorizontalScroll.Visible = true;
+            flp_sidemenu.VerticalScroll.Enabled = false;
+            flp_sidemenu.VerticalScroll.Visible = false;
 
-            flp_sidemenu.Width = btn_showmenu.Width;
+
             Point btnScreen = btn_showmenu.PointToScreen(Point.Empty);
-            int desiredX = 0, desiredY = 0;
-            desiredX = btnScreen.X + (btn_showmenu.Width / 2) - (flp_sidemenu.Width / 2);
-            desiredY = btnScreen.Y + btn_showmenu.Height + 20;  // 10px gap
+            int desiredX = btnScreen.X + (btn_showmenu.Width / 2) - (flp_sidemenu.Width / 2);
+            int desiredY = btnScreen.Y + btn_showmenu.Height + 20;
 
             Rectangle screenBounds = Screen.FromControl(btn_showmenu).WorkingArea;
+
             if (desiredX < screenBounds.Left)
                 desiredX = screenBounds.Left;
             else if (desiredX + flp_sidemenu.Width > screenBounds.Right)
                 desiredX = screenBounds.Right - flp_sidemenu.Width;
+
             if (desiredY + flp_sidemenu.Height > screenBounds.Bottom)
             {
                 desiredY = btnScreen.Y - flp_sidemenu.Height - 10;
                 if (desiredY < screenBounds.Top)
                     desiredY = screenBounds.Top;
             }
+
             Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
             flp_sidemenu.Location = clientPos;
             GenerateSidemenu();
+            foreach (Control item in flp_sidemenu.Controls)
+            {
+                item.Margin = new Padding((flp_sidemenu.Width - item.Width) / 2, 5, 0, 5);
+            }
+
             flp_sidemenu.BringToFront();
         }
-
-
-
-        public void GenerateSidemenu()
+        private void GenerateSidemenu()
         {
             try
             {
-                #region Side Bar Buttons
-                flp_sidemenu.Controls.Clear();
+                int bheight = btn_showmenu.Height + (btn_showmenu.Height / 2);
+                int bWidth = btn_showmenu.Width;
+
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "*";
                 dmnSearch.Table = "tblCategory_FTI";
-                dmnSearch.WhereNdGroupBy = "where Status=1 and CategoryType=0";
+                dmnSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 0";
                 dmnSearch.OrderBy = "";
+
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
+                int expectedCount = 3 + gridSource.Count;
+                if (flp_sidemenu.Controls.Count  == expectedCount)
+                    return;
+
+                flp_sidemenu.SuspendLayout();
+                flp_sidemenu.Controls.Clear();
+
+                ToolTip tooltip = new ToolTip();
+
+                #region Favorite Button
+                Button buttonfav = new Button();
+                buttonfav.Text = "Favourite Item";
+                buttonfav.Name = "btn_fav";
+                buttonfav.Tag = 0;
+                buttonfav.ForeColor = Color.White;
+                buttonfav.Height = bheight;
+                buttonfav.Width = bWidth;
+                buttonfav.Dock = DockStyle.Top;
+                buttonfav.BackgroundImage = Properties.Resources.fb_sidemenu;
+                buttonfav.BackgroundImageLayout = ImageLayout.Stretch;
+                buttonfav.FlatStyle = FlatStyle.Flat;
+                buttonfav.FlatAppearance.BorderSize = 0;
+                buttonfav.Font = AppFonts.GetFont(10);
+                buttonfav.Click += SidebuttonfavClickEventHandler;
+                tooltip.SetToolTip(buttonfav, "Favourite Item");
+                flp_sidemenu.Controls.Add(buttonfav);
+                #endregion
+
+                #region Offer Button
+                Button buttonOffer = new Button();
+                buttonOffer.Text = "Special Offer";
+                buttonOffer.Name = "btn_offer";
+                buttonOffer.Tag = 0;
+                buttonOffer.ForeColor = Color.White;
+                buttonOffer.Height = bheight;
+                buttonOffer.Width = bWidth;
+                buttonOffer.Dock = DockStyle.Top;
+                buttonOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
+                buttonOffer.BackgroundImageLayout = ImageLayout.Stretch;
+                buttonOffer.FlatStyle = FlatStyle.Flat;
+                buttonOffer.FlatAppearance.BorderSize = 0;
+                buttonOffer.Font = AppFonts.GetFont(10);
+                buttonOffer.Click += SidebuttonOfferClickEventHandler;
+                tooltip.SetToolTip(buttonOffer, "Special Offer");
+                flp_sidemenu.Controls.Add(buttonOffer);
+                #endregion
+
+                #region Combo Offer Button
+                Button buttonComboOffer = new Button();
+                buttonComboOffer.Text = "Combo Offer";
+                buttonComboOffer.Name = "btn_combo_offer";
+                buttonComboOffer.Tag = 0;
+                buttonComboOffer.ForeColor = Color.White;
+                buttonComboOffer.Height = bheight;
+                buttonComboOffer.Width = bWidth;
+                buttonComboOffer.Dock = DockStyle.Top;
+                buttonComboOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
+                buttonComboOffer.BackgroundImageLayout = ImageLayout.Stretch;
+                buttonComboOffer.FlatStyle = FlatStyle.Flat;
+                buttonComboOffer.FlatAppearance.BorderSize = 0;
+                buttonComboOffer.Font = AppFonts.GetFont(10);
+                buttonComboOffer.Click += SidebuttonComboOfferClickEventHandler;
+                tooltip.SetToolTip(buttonComboOffer, "Combo Offer");
+                flp_sidemenu.Controls.Add(buttonComboOffer);
+                #endregion
+
+                #region Category Buttons
+                foreach (var cat in gridSource)
                 {
-                    int rowIndex = 0;
-                    ToolTip tooltip = new ToolTip();
+                    Button button = new Button();
+                    button.Text = cat.CategoryName;
+                    button.Name = "btn" + cat.CategoryName;
+                    button.Tag = cat.Fcid;
+                    button.ForeColor = Color.White;
+                    button.Height = bheight;
+                    button.Width = bWidth;
+                    button.Dock = DockStyle.Top;
+                    button.BackgroundImage = Properties.Resources.fb_sidemenu;
+                    button.BackgroundImageLayout = ImageLayout.Stretch;
+                    button.FlatStyle = FlatStyle.Flat;
+                    button.FlatAppearance.BorderSize = 0;
+                    button.Font = AppFonts.GetFont(9);
+                    button.Click += SidebuttonClickEventHandler;
+                    tooltip.SetToolTip(button, cat.CategoryName);
 
-                    #region Fav Button
-                    // Configure the Button
-                    Button buttonfav = new Button();
-                    buttonfav.Text = "Favourite Item";
-                    buttonfav.Name = "btn_fav";
-                    buttonfav.Tag = 0;
-                    //buttonfav.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    //{
-                    //    buttonfav.Height = 50;
-                    //}
-                    //else
-                    //    buttonfav.Height = 80;
-                    buttonfav.Height = btn_showmenu.Height;
-                    buttonfav.Width = btn_showmenu.Width;
-                    buttonfav.Dock = DockStyle.Top;
-                    tooltip.SetToolTip(buttonfav, "Favourite Item");
-                    //ApplyRoundedCornersToButton(buttonfav);
-                    buttonfav.FlatStyle = FlatStyle.Flat;
-                    buttonfav.FlatAppearance.BorderSize = 0;
-                    buttonfav.BackgroundImage = Properties.Resources.fb_sidemenu;
-                    buttonfav.BackgroundImageLayout = ImageLayout.Stretch;
-
-                    buttonfav.Font = new Font(buttonfav.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonfav.Click += new EventHandler(SidebuttonfavClickEventHandler);
-                    flp_sidemenu.Controls.Add(buttonfav);
-                    rowIndex++;
-                    #endregion
-
-                    #region offer Button
-                    // Configure the Button
-                    Button buttonOffer = new Button();
-                    buttonOffer.Text = "Special Offer";
-                    buttonOffer.Name = "btn_offer";
-                    tooltip.SetToolTip(buttonOffer, "Special Offer");
-                    buttonOffer.Tag = 0;
-                    // buttonOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    buttonOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
-                    buttonOffer.BackgroundImageLayout = ImageLayout.Stretch;
-                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    //{
-                    //    buttonOffer.Height = 50;
-                    //}
-                    //else
-                    //    buttonOffer.Height = 80;
-                    buttonOffer.Height = btn_showmenu.Height;
-                    buttonOffer.Width = btn_showmenu.Width;
-                    buttonOffer.Dock = DockStyle.Top;
-                   // ApplyRoundedCornersToButton(buttonOffer);
-                    buttonOffer.FlatStyle = FlatStyle.Flat;
-                    buttonOffer.FlatAppearance.BorderSize = 0;
-
-                    buttonOffer.Font = new Font(buttonOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonOffer.Click += new EventHandler(SidebuttonOfferClickEventHandler);
-                    flp_sidemenu.Controls.Add(buttonOffer);
-                    rowIndex++;
-                    #endregion
-
-                    #region Combo Offer Button
-                    // Configure the Button
-                    Button buttonComboOffer = new Button();
-                    buttonComboOffer.Text = "Combo Offer";
-                    buttonComboOffer.Name = "btn_combo_offer";
-                    tooltip.SetToolTip(buttonComboOffer, "Combo Offer");
-                    buttonComboOffer.Tag = 0;
-                    //buttonComboOffer.BackColor = ColorTranslator.FromHtml("#ffbd03");
-                    buttonComboOffer.BackgroundImage = Properties.Resources.fb_sidemenu;
-                    buttonComboOffer.BackgroundImageLayout = ImageLayout.Stretch;
-                    //if (R_screenWidth > 1365 && R_screenHeight > 767)
-                    //{
-                    //    buttonComboOffer.Height = 50;
-                    //}
-                    //else
-                    //    buttonComboOffer.Height = 80;
-
-                    buttonComboOffer.Dock = DockStyle.Top;
-                    buttonComboOffer.Height = btn_showmenu.Height;
-                    buttonComboOffer.Width = btn_showmenu.Width;
-                    //ApplyRoundedCornersToButton(buttonComboOffer);
-                    buttonComboOffer.FlatStyle = FlatStyle.Flat;
-                    buttonComboOffer.FlatAppearance.BorderSize = 0;
-
-                    buttonComboOffer.Font = new Font(buttonComboOffer.Font.FontFamily, 8, FontStyle.Bold);
-                    buttonComboOffer.Click += new EventHandler(SidebuttonComboOfferClickEventHandler);
-                    flp_sidemenu.Controls.Add(buttonComboOffer);
-                    rowIndex++;
-                    #endregion
-
-                    #region Category Button
-                    for (int i = 0; i < gridSource.Count; i++)
-                    {
-                        // Configure the Button
-                        Button button = new Button();
-                        button.Text = gridSource[i].CategoryName;
-                        button.Name = "btn" + gridSource[i].CategoryName;
-                        button.Tag = gridSource[i].Fcid;
-                        //if (Convert.ToString(gridSource[i].ColorCode) == null || Convert.ToString(gridSource[i].ColorCode) == "")
-                        //    button.BackColor = Color.SteelBlue;
-                        //else
-                        //    button.BackColor = ColorTranslator.FromHtml(gridSource[i].ColorCode);
-
-                        button.BackgroundImage = Properties.Resources.fb_sidemenu;
-                        button.BackgroundImageLayout = ImageLayout.Stretch;
-
-                        tooltip.SetToolTip(button, gridSource[i].CategoryName);
-                        button.ForeColor = Color.White;
-                        button.FlatStyle = FlatStyle.Flat;
-                        button.FlatAppearance.BorderSize = 0;
-                        //if (R_screenWidth > 1365 && R_screenHeight > 767)
-                        //{
-                        //    button.Height = 50;
-                        //}
-                        //else
-                        //    button.Height = 80;
-
-                        button.Height = btn_showmenu.Height;
-                        button.Width = btn_showmenu.Width;
-                        button.Dock = DockStyle.Top;
-                        button.Font = new Font(button.Font.FontFamily, 8, FontStyle.Bold);
-                        button.Click += new EventHandler(SidebuttonClickEventHandler);
-                        //ApplyRoundedCornersToButton(button);
-                        flp_sidemenu.Controls.Add(button);
-                        rowIndex++;
-                    }
-                    #endregion
+                    flp_sidemenu.Controls.Add(button);
                 }
-                #endregion  
+                #endregion
+
+                flp_sidemenu.ResumeLayout();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page GenerateSidemenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page GenerateSidemenu()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
         #endregion
 
         private void AdjustRowStyles()

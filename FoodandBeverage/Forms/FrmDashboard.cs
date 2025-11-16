@@ -5260,6 +5260,70 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
+        private void pbusericon_Click(object sender, EventArgs e)
+        {
+            pnl_userdetails.Visible = !pnl_userdetails.Visible;
+
+            lbl_empname.Text = FrmLogin.EmployeName;
+            lbl_edesign.Text = FrmLogin.Designation;
+            lbl_edepart.Text = FrmLogin.departmentname;
+
+            lbl_empname.Font = AppFonts.GetFont(10);
+            lbl_edesign.Font = AppFonts.GetFont(10);
+            lbl_edepart.Font = AppFonts.GetFont(10);
+
+            UIHelper.ResizeOnly(pnl_userdetails,15,20);
+            UIHelper.RoundCorners(pnl_userdetails, 25, ColorTranslator.FromHtml("#AC3CC6"));
+
+            // Get screen position of the button (or icon)
+            Point iconScreen = pbusericon.PointToScreen(Point.Empty);
+
+            // Calculate dropdown position
+            int desiredX = iconScreen.X + (pbusericon.Width / 2) - (pnl_userdetails.Width / 2);
+            int desiredY = iconScreen.Y + pbusericon.Height + 10;
+
+            // Screen bounds
+            Rectangle screenBounds = Screen.FromControl(pbusericon).WorkingArea;
+
+            // Adjust X position if going outside screen
+            if (desiredX < screenBounds.Left)
+                desiredX = screenBounds.Left;
+            else if (desiredX + pnl_userdetails.Width > screenBounds.Right)
+                desiredX = screenBounds.Right - pnl_userdetails.Width;
+
+            // Adjust Y if dropdown goes below screen
+            if (desiredY + pnl_userdetails.Height > screenBounds.Bottom)
+            {
+                desiredY = iconScreen.Y - pnl_userdetails.Height - 10;
+
+                // Prevent going above top screen boundary
+                if (desiredY < screenBounds.Top)
+                    desiredY = screenBounds.Top;
+            }
+
+            // Convert screen → form coordinate
+            Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
+
+            // Set final location
+            pnl_userdetails.Location = clientPos;
+        }
+
+        private void btn_elogout_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 0;
+            this.Close();
+
+            if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
+            {
+                FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
+                _instanceFrmLogin.Show();
+                _instanceFrmLogin.BringToFront();
+                _instanceFrmLogin.Visible = true;
+                _instanceFrmLogin.Opacity = 100;
+            }
+        }
+
         public void FetchBillDetails()
         {
             try
