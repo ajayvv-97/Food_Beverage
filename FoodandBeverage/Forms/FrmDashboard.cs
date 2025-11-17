@@ -141,7 +141,8 @@ namespace FoodandBeverage.Forms
         public static Color DefaultBGcolor = ColorTranslator.FromHtml("#ecdcf4");
         public static Color PageheaderBGcolor = ColorTranslator.FromHtml("#6550b9");
         public static Color ContrlBGcolor = ColorTranslator.FromHtml("#ced1ea");
-
+        public static int downloadServiceValue = Convert.ToInt32(ConfigurationManager.AppSettings["ImageDownloadService"]);
+        ClsDocument clsDocument = new ClsDocument();
         #endregion
 
         // Function to create a rounded rectangle region
@@ -177,7 +178,35 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage Page Menulogout_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
-
+        public void ProfilPIC_update()
+        {
+            try
+            {
+                bool imageExist, brLogoExist;
+                string imageName = Convert.ToString(FrmLogin.EmployeeId) + ".jpeg";
+                if (downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
+                {
+                    imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                    if (imageExist)
+                    {
+                        pbusericon.Image = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                    }
+                }
+                else if (downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                {
+                    if (FrmLogin.EphId > 0)
+                    {
+                        int ins_type = Convert.ToInt32(Inseration_Type.Employee_Photo);
+                        pbusericon.Image = null;
+                        pbusericon.Image = clsDocument.DownloadImageDatabase(ins_type, FrmLogin.EphId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage Page ProfilPIC_update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
 
         #region please wait loading
         private void ShowLoadingdGif()
@@ -191,6 +220,8 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            UIHelper.RoundControl(pbusericon, 20);
+            ProfilPIC_update();
             originalMenuWidth = flp_sidemenu.Width;
             //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
@@ -758,6 +789,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ProfilPIC_update();
                 if (pnl_Drawer.Visible)
                     pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
@@ -5265,47 +5297,37 @@ namespace FoodandBeverage.Forms
         {
             pnl_userdetails.Visible = !pnl_userdetails.Visible;
 
-            lbl_empname.Text = FrmLogin.EmployeName;
+            if (!pnl_userdetails.Visible)
+                return;
+
+            lbl_ename.Text = FrmLogin.EmployeName;
             lbl_edesign.Text = FrmLogin.Designation;
             lbl_edepart.Text = FrmLogin.departmentname;
 
-            lbl_empname.Font = AppFonts.GetFont(10);
+            lbl_ename.Font = AppFonts.GetFont(10);
             lbl_edesign.Font = AppFonts.GetFont(10);
             lbl_edepart.Font = AppFonts.GetFont(10);
 
-            UIHelper.ResizeOnly(pnl_userdetails,15,20);
+            btn_elogout.Font = AppFonts.GetFont(10);
+            btn_lock.Font = AppFonts.GetFont(10);
+
+            UIHelper.ResizeOnly(pnl_userdetails,15,25);
             UIHelper.RoundCorners(pnl_userdetails, 25, ColorTranslator.FromHtml("#AC3CC6"));
-
-            // Get screen position of the button (or icon)
             Point iconScreen = pbusericon.PointToScreen(Point.Empty);
-
-            // Calculate dropdown position
             int desiredX = iconScreen.X + (pbusericon.Width / 2) - (pnl_userdetails.Width / 2);
             int desiredY = iconScreen.Y + pbusericon.Height + 10;
-
-            // Screen bounds
             Rectangle screenBounds = Screen.FromControl(pbusericon).WorkingArea;
-
-            // Adjust X position if going outside screen
             if (desiredX < screenBounds.Left)
                 desiredX = screenBounds.Left;
             else if (desiredX + pnl_userdetails.Width > screenBounds.Right)
                 desiredX = screenBounds.Right - pnl_userdetails.Width;
-
-            // Adjust Y if dropdown goes below screen
             if (desiredY + pnl_userdetails.Height > screenBounds.Bottom)
             {
                 desiredY = iconScreen.Y - pnl_userdetails.Height - 10;
-
-                // Prevent going above top screen boundary
                 if (desiredY < screenBounds.Top)
                     desiredY = screenBounds.Top;
             }
-
-            // Convert screen → form coordinate
             Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
-
-            // Set final location
             pnl_userdetails.Location = clientPos;
         }
 

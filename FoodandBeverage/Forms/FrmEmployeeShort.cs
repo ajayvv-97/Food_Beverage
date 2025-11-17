@@ -30,7 +30,7 @@ namespace FoodandBeverage.Forms
         public static int Allaccess = 0;
         public static int ReportLevelID = 0;
         long DepartmentId = 0;
-        public static long EmployeeId = 0, AccountId = 0;
+        public  int EmployeeId = 0, AccountId = 0;
         string EmployeeCode = "";
         public static string empImgExt = "";
         long UserAccountId = 0;
@@ -424,7 +424,7 @@ namespace FoodandBeverage.Forms
                     txtemail.Text = gridSource[0].Email;
                     txtnote.Text = gridSource[0].Remarks;
                     txtempcode.Text = gridSource[0].EmployeeCode;
-                    EmployeeId = gridSource[0].EmployeeId;
+                    EmployeeId =Convert.ToInt32( gridSource[0].EmployeeId);
                     UserAccountId = gridSource[0].UserAccountId;
                     BranchId = FrmDashboard.BranchId;
                     if (gridSource[0].Status == 1)
@@ -951,29 +951,35 @@ namespace FoodandBeverage.Forms
                 txtICardNo1.Text = "";
                 txtnote.Text = "";
                 txtutypeid.Text = "0";
-                pbCust.BackgroundImage = null;
+                txtepid.Text = "0";
+
+                if (pbCust.Image != null)
+                {
+                    pbCust.Image.Dispose();
+                    pbCust.Image = null;
+                }
                 pbCust.Image = FoodandBeverage.Properties.Resources.employee_common_pic;
-                pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
+
                 fillcmbcame();
                 FillCombo();
                 FillComboUserType();
-                if (!Directory.Exists(Compressedimg))
-                {
-                    Directory.CreateDirectory(Compressedimg);
-                    DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
-                    DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    dInfo.SetAccessControl(dSecurity);
-                }
-                else
-                {
-                    foreach (string file in Directory.GetFiles(Compressedimg))
-                    {
-                        System.GC.Collect();
-                        System.GC.WaitForPendingFinalizers();
-                        File.Delete(file);
-                    }
-                }
+                //if (!Directory.Exists(Compressedimg))
+                //{
+                //    Directory.CreateDirectory(Compressedimg);
+                //    DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                //    DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                //    dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                //    dInfo.SetAccessControl(dSecurity);
+                //}
+                //else
+                //{
+                //    foreach (string file in Directory.GetFiles(Compressedimg))
+                //    {
+                //        System.GC.Collect();
+                //        System.GC.WaitForPendingFinalizers();
+                //        File.Delete(file);
+                //    }
+                //}
                 cmbUsreAccount.SelectedIndex = 0;
                 txtUserTypeNote.Text = "";
                 dgvforms.Rows.Clear();
@@ -1101,7 +1107,6 @@ namespace FoodandBeverage.Forms
                     //dmnEmployee.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                     if (empImgExt != "")
                     {
-
                         if (!Directory.Exists(Compressedimg))
                         {
                             Directory.CreateDirectory(Compressedimg);
@@ -1120,17 +1125,19 @@ namespace FoodandBeverage.Forms
                             }
                         }
                         ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+
+
                     }
                     if (EmployeeId == 0)
                     {
                         var saveStatus = bllEmployee.AddData("prdInsertEmployee", dmnEmployee);
-                        EmployeeId = saveStatus.EmployeeId;
+                        EmployeeId =Convert.ToInt32(saveStatus.EmployeeId);
                         BllDepartment bllDepartment = new BllDepartment();
                         DmnDepartment dmnDepartment = new DmnDepartment();
                         dmnDepartment.DepartmentId = Convert.ToInt64(mcmbDepartmentId.SelectedValue);
                         var lstDataSrlno = bllDepartment.UpdateSrl("prdUpdateDepartEmpSrl", dmnDepartment);
 
-                        if (pbCust.BackgroundImage != null)
+                        if (pbCust.Image != null)
                         {
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
@@ -1143,19 +1150,59 @@ namespace FoodandBeverage.Forms
                     {
                         bool saveStatus = bllEmployee.UpdateData("prdUpdateEmployee", dmnEmployee);
                         // 
-                        if (pbCust.BackgroundImage != null)
+                        if (pbCust.Image != null)
                         {
-                            bitmap = new Bitmap(pbCust.BackgroundImage);
-                            bool imageExist = clsDocument.FileExistOrNot(dmnEmployee.EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
-                            if (imageExist)
+                            if (!Directory.Exists(Compressedimg))
                             {
-                                clsDocument.DeleteImage(dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
+                                Directory.CreateDirectory(Compressedimg);
+                                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                                dInfo.SetAccessControl(dSecurity);
                             }
-                            bitmap.Save(Compressedimg + "\\Image.jpeg");
-                            bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
-                            if (status == false)
+                            else
                             {
-                                CMessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                foreach (string file in Directory.GetFiles(Compressedimg))
+                                {
+                                    System.GC.Collect();
+                                    System.GC.WaitForPendingFinalizers();
+                                    File.Delete(file);
+                                }
+                            }
+                            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+
+                            if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                            {
+                                #region  Employee photo upload in Database
+                                if (pbCust.Image != null)
+                                {
+                                    Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
+                                    int ePid = Convert.ToInt32(txtepid.Text);
+                                    int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                    int Upstatus = Convert.ToInt32(1);
+                                    int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                    int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Employee_Photo);
+                                    clsDocument.UploadImage_Database(bitmap, ePid, ins_type, EmployeeId, Emp_branchid, Upstatus, Emp_userid);
+                                    FrmDashboard.Instance.ProfilPIC_update();
+                                }
+
+                                #endregion
+                            }
+                            else
+                            {
+                                bitmap = new Bitmap(pbCust.BackgroundImage);
+                                bool imageExist = clsDocument.FileExistOrNot(dmnEmployee.EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
+                                if (imageExist)
+                                {
+                                    clsDocument.DeleteImage(dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
+                                }
+                                bitmap.Save(Compressedimg + "\\Image.jpeg");
+
+                                bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
+                                if (status == false)
+                                {
+                                    CMessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                }
                             }
                         }
                         else
@@ -1284,7 +1331,6 @@ namespace FoodandBeverage.Forms
 
                     EmployeeId = 0; UserAccountId = 0;
                     CMessageBox.Show("Successfully Saved " + txtEmpName.Text, "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     clear();
                 }
             }
@@ -1368,12 +1414,26 @@ namespace FoodandBeverage.Forms
                         else
                             chk_Rfid_Login.Checked = false;
 
-                        bool imageExist = clsDocument.FileExistOrNot(gridSource[0].EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
-                        if (imageExist)
+                       txtepid.Text = Convert.ToString(gridSource[0].Epid);
+
+                        if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
                         {
-                            pbCust.BackgroundImage = clsDocument.DownloadImage(gridSource[0].EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
-                            pbCust.BackgroundImageLayout = ImageLayout.Stretch;
-                            pbCust.Image = null;
+                            if (Convert.ToInt32(txtepid.Text) > 0)
+                            {
+                                int pPid = Convert.ToInt32(txtepid.Text);
+                                int ins_type = Convert.ToInt32(Inseration_Type.Employee_Photo);
+                                pbCust.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
+                            }
+                        }
+                        else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
+                        {
+                            bool imageExist = clsDocument.FileExistOrNot(gridSource[0].EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
+                            if (imageExist)
+                            {
+                                pbCust.BackgroundImage = clsDocument.DownloadImage(gridSource[0].EmployeeCode + ".jpeg", DocumentType.EmployeePhoto);
+                                pbCust.BackgroundImageLayout = ImageLayout.Stretch;
+                                pbCust.Image = null;
+                            }
                         }
 
                         if (gridSource[0].UserAccountTypeId != null)
@@ -2030,9 +2090,9 @@ namespace FoodandBeverage.Forms
                 {
                     // empImgExt = Path.GetExtension(openFileDialog.FileName);
                     empImgExt = openFileDialog.FileName;
-                    pbCust.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                    pbCust.BackgroundImageLayout = ImageLayout.Stretch;
-                    pbCust.Image = null;
+                    pbCust.Image = Image.FromFile(openFileDialog.FileName);
+                    pbCust.SizeMode = PictureBoxSizeMode.StretchImage;
+
                     Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
                     bitmap.Save(Compressedimg + "\\Image.jpeg");
                 }

@@ -33,9 +33,7 @@ namespace Domain
 
 		public int menustatus { get; set; }
 		public string Name { get; set; }
-		
 
-
-
+		public int Ppid { get; set; }
 	}
 }

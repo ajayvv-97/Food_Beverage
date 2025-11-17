@@ -415,5 +415,92 @@ namespace FoodandBeverage.Classes
 
             }
         }
+
+        public void UploadImage_Database(Bitmap bitmap, int pPid, int inseration_type, int pId, int Emp_branchid, int status, int Emp_userid)
+        {
+            try
+            {
+                #region Convert Employee photo to binary
+                byte[] imageData;
+                using (var ms = new MemoryStream())
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    imageData = ms.ToArray();
+                }
+                BllImageUpload bllimg = new BllImageUpload();
+                DmnImageUpload dmnpupload = new DmnImageUpload();
+                dmnpupload.PpId = pPid;
+                dmnpupload.ProductId = pId;
+                dmnpupload.BranchId = Emp_branchid;
+                dmnpupload.Status = status;
+                dmnpupload.CreatedBy = Emp_userid;
+                dmnpupload.Photo = imageData;
+                // dmnEmployeeph.Photo = rgb565Bytes.ToArray();
+                dmnpupload.Inseration_Type = inseration_type;
+                var resph = bllimg.UploadPhoto("prdInsert_Upd_Photo", dmnpupload);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public Bitmap DownloadImageDatabase(int inseration_type, int pPid)
+        {
+            Bitmap bitmap = null;
+            BllSearch<DmnImageUpload> bllSearchph = new BllSearch<DmnImageUpload>();
+            DmnSearch objSearchph = new DmnSearch();
+
+            switch (inseration_type)
+            {
+                case 1:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "FoodBevMediaDB.dbo.Employee_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Epid = " + pPid;
+                    var gridSourceph = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourceph.Count > 0 && gridSourceph[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourceph[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+                case 2:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "FoodBevMediaDB.dbo.tblCustomer_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Cpid = " + pPid;
+                    var gridSourcecp = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcecp.Count > 0 && gridSourcecp[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourcecp[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+                case 3:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "FoodBevMediaDB.dbo.tblProduct_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and ppid = " + pPid;
+                    var gridSourcepp = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcepp.Count > 0 && gridSourcepp[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourcepp[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+
+            }
+            return bitmap;
+        }
     }
 }

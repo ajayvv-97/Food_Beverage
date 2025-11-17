@@ -212,13 +212,50 @@ namespace FoodandBeverage.Forms
                     {
                         if (pb_view_pic.BackgroundImage != null)
                         {
-                            if (File.Exists(Compressedimg + "\\Image.jpeg"))
+                            if (!Directory.Exists(Compressedimg))
                             {
-                                bool statuspic = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
-                                //if (status == false)
-                                //{
-                                //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-                                //}
+                                Directory.CreateDirectory(Compressedimg);
+                                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                                dInfo.SetAccessControl(dSecurity);
+                            }
+                            else
+                            {
+                                foreach (string file in Directory.GetFiles(Compressedimg))
+                                {
+                                    System.GC.Collect();
+                                    System.GC.WaitForPendingFinalizers();
+                                    File.Delete(file);
+                                }
+                            }
+                            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+
+                            if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                            {
+                                #region  Employee photo upload in Database
+                                if (pb_view_pic.BackgroundImage != null)
+                                {
+                                    Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
+                                    int pPid = Convert.ToInt32(txtPpid.Text);
+                                    int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                    int Upstatus = Convert.ToInt32(1);
+                                    int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                    int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Product_Photo);
+                                    clsDocument.UploadImage_Database(bitmap, pPid, ins_type, Convert.ToInt32(prostatus.ProductId), Emp_branchid, Upstatus, Emp_userid);
+                                }
+                                #endregion
+                            }                            
+                            else
+                            {
+                                if (File.Exists(Compressedimg + "\\Image.jpeg"))
+                                {
+                                    bool statuspic = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
+                                    //if (status == false)
+                                    //{
+                                    //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                    //}
+                                }
                             }
                         }
                         else
@@ -228,6 +265,7 @@ namespace FoodandBeverage.Forms
                             {
                                 clsDocument.DeleteImage(Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
                             }
+
                         }
                         if (Convert.ToUInt32(txtpid.Text) > 0)
                             CMessageBox.Show("Update Successfully saved");
@@ -254,8 +292,12 @@ namespace FoodandBeverage.Forms
             {
                 txtsearch.Text = "Food Name.....";
                 txtsearch.ForeColor = Color.Gray;
+
                 pb_view_pic.BackgroundImage = null;
-                pb_view_pic.Image = null;
+
+                pb_menupic.BackgroundImage = null;
+                pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
+
                 empImgExt = "";
                 txtqty.Text = "";
                 txtitemcode.Text = "";
@@ -306,6 +348,7 @@ namespace FoodandBeverage.Forms
                 txtprice.Enabled = true;
                 tlp_registration.Focus();
                 txtproductname.Focus();
+                txtPpid.Text = "0";
             }
             catch(Exception ex)
             {
@@ -735,17 +778,29 @@ namespace FoodandBeverage.Forms
                     txtdes.Text = Convert.ToString(gridSource[0].Description);
                     txtitemcode.Text = Convert.ToString(gridSource[0].ItemCode);
 
+                    txtPpid.Text = Convert.ToString(gridSource[0].Ppid);
+
                     string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
                     bool imageExist, brLogoExist;
                     if (imageName != "" && imageName != null)
                     {
-                        imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
-                        if (imageExist)
+                        if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
                         {
-                            pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
-                            pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                            pb_view_pic.Image = null;
-                            empImgExt = imageName;
+                            imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                            if (imageExist)
+                            {
+                                pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                                pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+                                pb_view_pic.Image = null;
+                                empImgExt = imageName;
+                            }
+                        }
+                        else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                        {
+                            int pPid = Convert.ToInt32(txtPpid.Text);
+                            int ins_type = Convert.ToInt32(Inseration_Type.Product_Photo);
+                            pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type,pPid);
+                            pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
                         }
 
                     }
@@ -1265,7 +1320,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (empImgExt != "" && empImgExt != null)
+                if ( (empImgExt != "" && empImgExt != null ) || Convert.ToInt32(txtPpid.Text)>0)
                 {
                     pnl_menupic.Visible = true;
                     pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);
@@ -1280,9 +1335,12 @@ namespace FoodandBeverage.Forms
                         empImgExt = openFileDialog.FileName;
                         pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
                         pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                        pb_menupic.BackgroundImageLayout = ImageLayout.Stretch;
+                        pb_menupic.Image = null;
+
                         pb_view_pic.Image = null;
-                        Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
-                        bitmap.Save(Compressedimg + "\\Image.jpeg");
                     }
                 }
             }
@@ -1320,7 +1378,6 @@ namespace FoodandBeverage.Forms
                 DialogResult dialogResult = openFileDialog.ShowDialog();
                 if (openFileDialog.FileName != "")
                 {
-                    Compressedimg = Application.StartupPath + "\\CompressedImg";
                     empImgExt = openFileDialog.FileName;
                     pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
                     pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
@@ -1452,7 +1509,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Product page GalleryView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
 
@@ -3384,6 +3440,111 @@ namespace FoodandBeverage.Forms
         private void btn_addon_submit_Click(object sender, EventArgs e)
         {
             pnl_addon.Visible = false;
+        }
+        
+        public void UploadImage_Database(Bitmap bitmap, int Pid, int inseration_type, int Id, int Emp_branchid, int status, int Emp_userid)
+        {
+            try
+            {
+                #region Convert Employee photo to binary
+                byte[] imageData;
+                using (var ms = new MemoryStream())
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    imageData = ms.ToArray();
+                }
+
+                //List<byte> rgb565Bytes = new List<byte>();
+
+                //for (int y = 0; y < bitmap.Height; y++)
+                //{
+                //    for (int x = 0; x < bitmap.Width; x++)
+                //    {
+                //        Color color = bitmap.GetPixel(x, y);
+                //        ushort rgb565 = (ushort)(((color.R & 0xF8) << 8) |
+                //                                 ((color.G & 0xFC) << 3) |
+                //                                 ((color.B & 0xF8) >> 3));
+                //        rgb565Bytes.Add((byte)(rgb565 >> 8)); // High byte
+                //        rgb565Bytes.Add((byte)(rgb565 & 0xFF)); // Low byte
+                //    }
+                //}
+                //rgb565Bytes.ToArray();
+
+
+                BllImageUpload bllimg = new BllImageUpload();
+                DmnImageUpload dmnEmployeeph = new DmnImageUpload();
+                dmnEmployeeph.PpId = Pid;
+                dmnEmployeeph.ProductId = Id;
+                dmnEmployeeph.BranchId = Emp_branchid;
+                dmnEmployeeph.Status = status;
+                dmnEmployeeph.CreatedBy = Emp_userid;
+                dmnEmployeeph.Photo = imageData;
+                // dmnEmployeeph.Photo = rgb565Bytes.ToArray();
+                dmnEmployeeph.Inseration_Type = inseration_type;
+                var resph = bllimg.UploadPhoto("prdInsert_Upd_Photo", dmnEmployeeph);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    
+        public Bitmap DownloadImageDatabase(int inseration_type, int Pid)
+        {
+            Bitmap bitmap = null;
+            BllSearch<DmnImageUpload> bllSearchph = new BllSearch<DmnImageUpload>();
+            DmnSearch objSearchph = new DmnSearch();
+
+            switch (inseration_type)
+            {
+                case 1:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "Midas_Eikona.dbo.Employee_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Epid = " + Pid;
+                    var gridSourceph = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourceph.Count > 0 && gridSourceph[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourceph[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+                case 2:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "Midas_Eikona.dbo.tblGame_photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and GameId = " + Pid;
+                    var gridSourcegp = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcegp.Count > 0 && gridSourcegp[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourcegp[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+                case 3:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "Midas_Eikona.dbo.tblCustomer_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Cpid = " + Pid;
+                    var gridSourcecp = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcecp.Count > 0 && gridSourcecp[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourcecp[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+
+            }
+            return bitmap;
         }
     }
 }

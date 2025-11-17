@@ -40,58 +40,7 @@ namespace FoodandBeverage.Interfaces
         HotelRegistrationProofPics,
         DocumentType
     };
-    public enum ItemTaxMode
-    {
-        Exclusive = 0,
-        Inclusive = 1
-    };
 
-    public enum ButtonConfig
-    {
-        NoStartbutton = 0,
-        Startbutton = 1
-    };
-    public enum CurrencyDecimalConfig
-    {
-        NoDecimal = 0,
-        TwoDecimal = 2,
-        ThreeDecimal = 3
-    };
-    public enum DebitOrder
-    {
-        CashFirst = 0,
-        CashBonusFirst = 1
-    };
-    public enum ReaderModel
-    {
-        Version1 = 0,
-        Version2 = 1
-    };
-    public enum TicketDispenser
-    {
-        Enable = 0,
-        Disable = 1
-    };
-    public enum TicketDispenserMechine
-    {
-        DL_1245 = 0,
-        DL_4_p_s = 1
-    };
-    public enum EnablePulse
-    {
-        HighPulse = 0,
-        LowPulse = 1
-    };
-    public enum EnableTicketPulse
-    {
-        HighPulse = 0,
-        LowPulse = 1
-    };
-    public enum DisplaySettings
-    {
-        ShowTotal = 0,
-        ShowSessionTotal = 1
-    };
     public enum TapType
     {
         In = 1,
@@ -105,14 +54,6 @@ namespace FoodandBeverage.Interfaces
         FandBPayment = 8
     };
 
-    public enum RedererDisplayTabs
-    {
-        Idle = 0,
-        CardSwipe = 1,
-        PayOut = 2,
-        HappyHour = 3,
-        OutOfService = 4
-    };
     public enum PaymentType
     {
         CASH = 1,
@@ -503,6 +444,20 @@ namespace FoodandBeverage.Interfaces
         Search = 38,
         SaleBill=39
     }
-
+    public enum  CategoryType
+    {
+        Menu_Category=0,
+    }
+    public enum DownloadService_Type
+    {
+        FTP = 1,
+        DB = 2
+    };
+    public enum Inseration_Type
+    {
+        Employee_Photo = 1,
+        Customer_Photo = 2,
+        Product_Photo=3
+    };
 }
 

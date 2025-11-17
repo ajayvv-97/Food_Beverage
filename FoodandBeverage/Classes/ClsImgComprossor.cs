@@ -15,7 +15,7 @@ namespace FoodandBeverage.Classes
         public static string CompressImage(string SoucePath, string DestPath, int quality)
         {
             var FileName = Path.GetFileName(SoucePath);
-            DestPath = DestPath + "\\" + FileName;
+            DestPath = DestPath + "\\Image.jpeg";
 
             using (Bitmap bmp1 = new Bitmap(SoucePath))
             {
@@ -33,9 +33,6 @@ namespace FoodandBeverage.Classes
                 return DestPath;
 
             }
-
-
-
         }
         private static ImageCodecInfo GetEncoder(ImageFormat format)
         {

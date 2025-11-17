@@ -57,6 +57,49 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+        public static void RoundControl(Control ctrl, int radius, Color? borderColor = null, int borderWidth = 2)
+        {
+            if (ctrl == null || radius <= 0)
+                return;
+
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
+            int diameter = radius * 2;
+            Rectangle arc = new Rectangle(rect.Location, new Size(diameter, diameter));
+
+            // Top-left
+            path.AddArc(arc, 180, 90);
+
+            // Top-right
+            arc.X = rect.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // Bottom-right
+            arc.Y = rect.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // Bottom-left
+            arc.X = rect.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+
+            ctrl.Region = new Region(path);
+
+            if (borderColor.HasValue)
+            {
+                ctrl.Paint += (s, e) =>
+                {
+                    using (Pen pen = new Pen(borderColor.Value, borderWidth))
+                    {
+                        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                        e.Graphics.DrawPath(pen, path);
+                    }
+                };
+                ctrl.Invalidate();
+            }
+        }
+
         /// <summary>
         /// Centers a control on the parent form, resizes it based on percentage,
         /// makes it visible and brings it to front.

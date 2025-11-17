@@ -66,5 +66,7 @@ namespace Domain
         public string Photo { get; set; }
         public string Remarks { get; set; }
         public string ICardNo { get; set; }
+        public int Epid { get; set; }
+        
     }
 }
