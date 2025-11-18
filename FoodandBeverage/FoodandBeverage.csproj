@@ -284,6 +284,7 @@
     <Compile Include="Classes\FolderPermissionSetter.cs" />
     <Compile Include="Classes\UIHelper.cs" />
     <Compile Include="Classes\VideoCaptureDevice.cs" />
+    <Compile Include="Classes\ZoomAnimator.cs" />
     <Compile Include="DS\DSKitchen.cs">
       <DependentUpon>DSKitchen.xsd</DependentUpon>
     </Compile>
@@ -765,6 +766,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboardReport.resx">
       <DependentUpon>FrmDashboardReport.cs</DependentUpon>
@@ -1849,6 +1851,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\fav_disable.png" />
+    <None Include="Resources\fav_enable.png" />
     <None Include="Resources\Designation icon.png" />
     <None Include="Resources\User account.png" />
     <None Include="Resources\Permission icon.png" />

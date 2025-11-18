@@ -51,6 +51,8 @@ namespace FoodandBeverage.Forms
                 cmbTaxType.Text = "GST";
                 deleteclcik = false;
                 btn_del_tax.Visible = false;
+                chb_active.Checked = true;
+                ch_default.Checked = false;
             }
             catch (Exception ex)
             {
@@ -217,14 +219,14 @@ namespace FoodandBeverage.Forms
                         bool savestatus;
                         dmnTaxSettings.TaxSettingsId = Convert.ToInt32(TaxSettingsId);
                         dmnTaxSettings.TaxType = Convert.ToString(cmbTaxType.Text);
-                        if (txtIgstPrcnt.Text != "")
+                        if (cmbTaxType.Text == "GST")
                         {
                             dmnTaxSettings.IgstPrcnt = Convert.ToDecimal(txtIgstPrcnt.Text);
                             dmnTaxSettings.CgstPrcnt = Convert.ToDecimal(txtCgstPrcnt.Text);
                             dmnTaxSettings.SgstPrcnt = Convert.ToDecimal(txtSgstPrcnt.Text);
                             dmnTaxSettings.VatPrcnt = Convert.ToDecimal("0.00");
                         }
-                        if (txtVatPrcnt.Text != "")
+                        else if (cmbTaxType.Text == "VAT")
                         {
                             dmnTaxSettings.VatPrcnt = Convert.ToDecimal(txtVatPrcnt.Text);
                             dmnTaxSettings.IgstPrcnt = Convert.ToDecimal("0.00");
@@ -237,6 +239,7 @@ namespace FoodandBeverage.Forms
                             dmnTaxSettings.Status = 0;
                         dmnTaxSettings.BranchId = FrmDashboard.BranchId;
                         dmnTaxSettings.CreatedBy = FrmDashboard.UserId;
+                        dmnTaxSettings.TDeafult = ch_default.Checked;
 
                         var lstData = bllTaxSettings.AddData("prdInsert_Upd_TaxSettings", dmnTaxSettings);
                         savestatus = lstData;
@@ -304,7 +307,8 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lblcgst, 0, 2);
                     //row 4
                     tlp_registration.Controls.Add(txtCgstPrcnt, 0, 3);
-                    tlp_registration.Controls.Add(btn_del_tax, 1, 3);
+                    tlp_registration.Controls.Add(ch_default, 1, 3);
+                    tlp_registration.Controls.Add(btn_del_tax, 2, 3);
 
                 }
                 else if (cmbTaxType.Text == "VAT")
@@ -327,7 +331,9 @@ namespace FoodandBeverage.Forms
                     //row2
                     tlp_registration.Controls.Add(cmbTaxType, 0, 1);
                     tlp_registration.Controls.Add(txtVatPrcnt, 1, 1);
-                    tlp_registration.Controls.Add(btn_del_tax, 2, 1);
+
+                    tlp_registration.Controls.Add(ch_default, 2, 1);
+                    tlp_registration.Controls.Add(btn_del_tax, 3, 1);
 
                 }
             }
@@ -557,6 +563,12 @@ namespace FoodandBeverage.Forms
                         txtIgstPrcnt.Visible = true;
                         txtVatPrcnt.Visible = false;
                     }
+                    chb_active.Checked = true;
+
+                    if (Convert.ToBoolean(itemSource[0].TDeafult))
+                        ch_default.Checked = true;
+                    else
+                        ch_default.Checked = false;
                 }
 
             }
@@ -571,6 +583,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                Clearall();
                 int taxid = Convert.ToInt32(dgvTaxSettings.Rows[e.RowIndex].Cells[ttidno].Value);
                 filldetails(taxid);
             }
@@ -676,6 +689,8 @@ namespace FoodandBeverage.Forms
                 txtIgstPrcnt.Text = "";
                 txtCgstPrcnt.Text = "";
                 txtVatPrcnt.Text = "";
+                chb_active.Checked = true;
+                ch_default.Checked = false;
             }
             catch (Exception ex)
             {
@@ -683,7 +698,26 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Tax page btnrefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Tax));
             }
         }
-
+        public void Clearall()
+        {
+            try
+            {
+                filltax();
+                TaxSettingsId = 0;
+                cmbTaxType.SelectedIndex = 0;
+                txtSgstPrcnt.Text = "";
+                txtIgstPrcnt.Text = "";
+                txtCgstPrcnt.Text = "";
+                txtVatPrcnt.Text = "";
+                chb_active.Checked = true;
+                ch_default.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Tax page Clearall()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Tax));
+            }
+        }
         private void btnSearch_Click(object sender, EventArgs e)
         {
             try
@@ -743,7 +777,7 @@ namespace FoodandBeverage.Forms
                                 txtIgstPrcnt.Visible = false;
                                 txtVatPrcnt.Visible = true;
                             }
-                            if (cmbTaxType.Text == "GST")
+                            else if (cmbTaxType.Text == "GST")
                             {
                                 lblcgst.Visible = true;
                                 lblcgst.Visible = true;
@@ -754,6 +788,14 @@ namespace FoodandBeverage.Forms
                                 txtIgstPrcnt.Visible = true;
                                 txtVatPrcnt.Visible = false;
                             }
+
+                            chb_active.Checked = true;
+
+                            if (Convert.ToBoolean(itemSource[0].TDeafult))
+                                ch_default.Checked = true;
+                            else
+                                ch_default.Checked = false;
+
                         }
                     }
                 }

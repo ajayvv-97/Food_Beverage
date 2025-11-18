@@ -5564,3 +5564,514 @@ User Name:
 Designation: 
 FormTypeId: 26
 -------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:42:47 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:43:42 AM
+Page : Order page SidebuttonClickEventHandler()
+Exception: Invalid column name 'Price'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:43:44 AM
+Page : Order page SidebuttonClickEventHandler()
+Exception: Invalid column name 'Price'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:43:44 AM
+Page : Order page SidebuttonClickEventHandler()
+Exception: Invalid column name 'Price'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:43:45 AM
+Page : Order page SidebuttonClickEventHandler()
+Exception: Invalid column name 'Price'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:46:15 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:46:19 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:46:21 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:48:48 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:49:32 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:49:35 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 9:53:42 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:39:35 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:43:19 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:46:25 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:46:46 AM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:48:13 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 10:50:19 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 11:21:18 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 11:26:55 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 11:29:34 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 11:30:22 AM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:07:00 PM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:16:56 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:18:42 PM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:19:39 PM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:20:05 PM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:25:40 PM
+Page : Order page  buttonfavClickEventHandler()
+Exception: Key specified was either empty or null.
+Parameter name: key
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:40:17 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:44:31 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 12:47:53 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:09:31 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:14:54 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:19:32 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:27:19 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:29:57 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:32:25 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:41:30 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 2:45:35 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 3:09:28 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 3:21:10 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 3:30:29 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 3:37:27 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:16:28 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:16:39 PM
+Page : Discount_And_Offer page FrmOfferDiscount_Load()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:16:46 PM
+Page : Discount_And_Offer page FrmOfferDiscount_Load()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:21:24 PM
+Page : Discount_And_Offer page FrmOfferDiscount_Load()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:50 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:51 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:52 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:52 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:54 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:22:55 PM
+Page : Discount_And_Offer page pb_menupic_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:25:29 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:27:30 PM
+Page : Discount_And_Offer page btnSearch_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:32:35 PM
+Page : Discount_And_Offer page btnSearch_Click()
+Exception: Input string was not in a correct format.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 4:46:21 PM
+Page : Discount_And_Offer page btnSearch_Click()
+Exception: Invalid column name 'ppid'.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 13
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 5:06:01 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 5:09:24 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 5:15:49 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 5:23:57 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 11/18/2025 5:36:42 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'mDeviceIP'.
+Invalid column name 'AllowVirtualKeyboardLoginNumber'.
+Invalid column name 'AllowVirtualKeyboardLoginKeyboard'.
+User Name: 
+Designation: 
+FormTypeId: 26
+-------------------------------------------------------------------------

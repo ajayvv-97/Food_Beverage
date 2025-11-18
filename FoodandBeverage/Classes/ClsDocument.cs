@@ -498,6 +498,21 @@ namespace FoodandBeverage.Classes
                         }
                     }
                     break;
+                case 4:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "FoodBevMediaDB.dbo.tblComboProduct_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Cppid = " + pPid;
+                    var gridSourcecmp = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcecmp.Count > 0 && gridSourcecmp[0].Photo != null)
+                    {
+                        byte[] photoData = gridSourcecmp[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
 
             }
             return bitmap;

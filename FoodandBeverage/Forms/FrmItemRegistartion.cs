@@ -450,6 +450,19 @@ namespace FoodandBeverage.Forms
                 clearall();
                 combofill();
                 Taxfill();
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+
                 Fillcombo(2);
             }
             catch (Exception ex)
@@ -551,6 +564,18 @@ namespace FoodandBeverage.Forms
                 Fillitem();
                 combofill();
                 Taxfill();
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
 
                 dgv_item.BorderStyle = BorderStyle.None;
                 cmbTaxType.SelectedIndex = 0;

@@ -1024,4 +1024,10 @@
   <data name="User_account" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\User account.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fav_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fav_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fav_enable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fav_enable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

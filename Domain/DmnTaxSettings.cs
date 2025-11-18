@@ -18,6 +18,7 @@ namespace Domain
         public int Status { get; set; }
         public int ModifiedBy { get; set; }
         public DateTime ModifiedDateTime { get; set; } = DateTime.Now;
-
+        public bool TDeafult { get; set; }
     }
+    
 }

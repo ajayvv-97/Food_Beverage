@@ -349,6 +349,18 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Focus();
                 txtproductname.Focus();
                 txtPpid.Text = "0";
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -457,6 +469,18 @@ namespace FoodandBeverage.Forms
                 rearrange_slno();
                 textb_shape();
 
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
                 dgv_registartion.BorderStyle = BorderStyle.None;
                 dgv_registartion.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgv_registartion.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -1320,7 +1344,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if ( (empImgExt != "" && empImgExt != null ) || Convert.ToInt32(txtPpid.Text)>0)
+                if ((empImgExt != "" && empImgExt != null) || Convert.ToInt32(txtPpid.Text) > 0)
                 {
                     pnl_menupic.Visible = true;
                     pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);

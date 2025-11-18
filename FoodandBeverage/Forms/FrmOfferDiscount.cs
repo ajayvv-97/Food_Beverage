@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using System.Collections.Generic;
 using FoodandBeverage.Classes;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace FoodandBeverage.Forms
 {
@@ -112,6 +115,10 @@ namespace FoodandBeverage.Forms
         public int StatusValue = 1;
         private List<(int productId, int saleType)> selectedProducts = new List<(int productId, int saleType)>();
         public int maxLength_variation = 3;
+
+        public string Compressedimg = Application.StartupPath + "\\CompressedImg";
+        public string empImgExt = "";
+        ClsDocument clsDocument = new ClsDocument();
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -301,7 +308,7 @@ namespace FoodandBeverage.Forms
                 cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                 tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
-                tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+
             }
             catch (Exception ex)
             {
@@ -623,11 +630,16 @@ namespace FoodandBeverage.Forms
                     btn_combo_gridview.Visible = false;
                     dgv_sele_cmb_products.Rows.Clear();
                     tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
-                    tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
 
                     textb_shape();
                     chk_combo_status.Checked = true;
+                    txtcmophid.Text = "0";
 
+                    pb_view_pic.BackgroundImage = null;
+
+                    pb_menupic.BackgroundImage = null;
+                    pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
+                    empImgExt = "";
                 }
                 else if (tlp_single_main.Visible)
                 {
@@ -942,6 +954,65 @@ namespace FoodandBeverage.Forms
                             }
                             if (insflag == 1)
                             {
+                                if (pb_view_pic.BackgroundImage != null)
+                                {
+                                    if (!Directory.Exists(Compressedimg))
+                                    {
+                                        Directory.CreateDirectory(Compressedimg);
+                                        DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                                        DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                                        dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                                        dInfo.SetAccessControl(dSecurity);
+                                    }
+                                    else
+                                    {
+                                        foreach (string file in Directory.GetFiles(Compressedimg))
+                                        {
+                                            System.GC.Collect();
+                                            System.GC.WaitForPendingFinalizers();
+                                            File.Delete(file);
+                                        }
+                                    }
+                                    ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+
+                                    if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                                    {
+                                        #region  Employee photo upload in Database
+                                        if (pb_view_pic.BackgroundImage != null)
+                                        {
+                                            Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
+                                            int pPid = Convert.ToInt32(txtcmophid.Text);
+                                            int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                            int Upstatus = Convert.ToInt32(1);
+                                            int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                            int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.ComboProduct_photo);
+                                            clsDocument.UploadImage_Database(bitmap, pPid, ins_type, Convert.ToInt32(txtcombo_omid.Text), Emp_branchid, Upstatus, Emp_userid);
+                                        }
+                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        if (File.Exists(Compressedimg + "\\Image.jpeg"))
+                                        {
+                                            bool statuspic = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToInt32(txtcombo_omid.Text) + ".jpeg", DocumentType.FoodPhoto);
+                                            //if (status == false)
+                                            //{
+                                            //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                            //}
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    bool imageExist = clsDocument.FileExistOrNot(Convert.ToString(Convert.ToInt32(txtcombo_omid.Text)) + ".jpeg", DocumentType.FoodPhoto);
+                                    if (imageExist)
+                                    {
+                                        clsDocument.DeleteImage(Convert.ToString(Convert.ToInt32(txtcombo_omid.Text)) + ".jpeg", DocumentType.FoodPhoto);
+                                    }
+
+                                }
+
+
                                 if (Convert.ToInt32(txtcombo_omid.Text) > 0)
                                     CMessageBox.Show("Update Successfuly", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 else
@@ -951,6 +1022,9 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+
+
+
                     }
                 }
             }
@@ -1210,7 +1284,7 @@ namespace FoodandBeverage.Forms
                             int omid = Convert.ToInt32(returnValue);
                             BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                             DmnSearch objSearch = new DmnSearch();
-                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,od.Description as Field10,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19,om.TaxType as Field20,od.AV_id as Field21,od.AddonStatus as Field22,od.Addoncount as Field23,od.Pavid as Field24,od.Price as Field25,od.Quantity as Field26,od.VariatiionName Field27";
+                            objSearch.Select = "om.Omid as Field1,od.odid as Field2,od.ProductId as Field3,OfferName as Field4,om.Discountper as Field5,om.DiscountAmt as Field6,om.FinalPrice as Field7,od.Description as Field10,om.TotalPrice as Field13,od.Quantity as Field14,od.Status as Field15,om.OfferstartDatetime as StartDate,om.OfferEndDatetime as EndDate,od.Prid Field16,od.productname as Field17,om.TaxSettingsId as Field18,om.Tax as Field19,om.TaxType as Field20,od.AV_id as Field21,od.AddonStatus as Field22,od.Addoncount as Field23,od.Pavid as Field24,od.Price as Field25,od.Quantity as Field26,od.VariatiionName Field27,cmphid Field28 ";
                             objSearch.Table = "tblOfferMaster om left join tblOfferDetails od on od.Omid=om.Omid and od.Status=1 ";
                             objSearch.WhereNdGroupBy = "where om.Status = 1 and om.Omid=" + omid;
                             objSearch.OrderBy = " ORDER BY OfferName";
@@ -1218,7 +1292,6 @@ namespace FoodandBeverage.Forms
                             if (itemSource.Count > 0)
                             {
                                 tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
-                                tlp_desc_del.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 20);
                                 btn_del_combo.Visible = true;
 
                                 btn_combo_gridview.Visible = true;
@@ -1232,6 +1305,7 @@ namespace FoodandBeverage.Forms
                                 txtcmbo_offername.Text = Convert.ToString(itemSource[0].Field4);
                                 txtcombo_totalprice.Text = Convert.ToString(itemSource[0].Field13);
                                 txtcombodes.Text = Convert.ToString(itemSource[0].Field10);
+                                txtcmophid.Text = Convert.ToString(itemSource[0].Field28);
 
                                 btn_del_combo.Visible = true;
 
@@ -1284,6 +1358,37 @@ namespace FoodandBeverage.Forms
                                 Control controlToRemove2 = tlp_comboproduct_view.GetControlFromPosition(2, 3);
                                 tlp_comboproduct_view.Controls.Remove(controlToRemove2);
                                 txttaxamt.Dock = DockStyle.Fill;
+                                if (string.IsNullOrWhiteSpace(txtcmophid.Text))
+                                    txtcmophid.Text = "0";
+
+                                string imageName = Convert.ToString(gridSource[0].Field1) + ".jpeg";
+                                bool imageExist, brLogoExist;
+                                if (imageName != "" && imageName != null)
+                                {
+                                    if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
+                                    {
+                                        imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                                        if (imageExist)
+                                        {
+                                            pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                                            pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+                                            pb_view_pic.Image = null;
+                                            empImgExt = imageName;
+                                        }
+                                    }
+                                    else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                                    {
+                                        int pPid = Convert.ToInt32(txtcmophid.Text);
+                                        if (pPid > 0)
+                                        {
+                                            int ins_type = Convert.ToInt32(Inseration_Type.ComboProduct_photo);
+                                            pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
+                                            pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
+                                        }
+                                    }
+
+                                }
+
 
                                 #region Tax fill
                                 if (cmbtaxtype.Text == "GST")
@@ -6484,6 +6589,48 @@ namespace FoodandBeverage.Forms
             ClacTaxAmt_combo();
         }
 
+        private void btn_change_pic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                    pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+
+                    pb_menupic.BackgroundImage = null;
+                    pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                    pb_view_pic.Image = null;
+                    Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
+                    bitmap.Save(Compressedimg + "\\Image.jpeg");
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page btn_change_pic_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
+            }
+        }
+
+        private void btn_clear_pic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                empImgExt = "";
+                pb_view_pic.BackgroundImage = null;
+                pb_view_pic.Image = FoodandBeverage.Properties.Resources.no_pictures;
+                pb_view_pic.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Product page btn_clear_pic_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
+            }
+        }
+
         private void FrmOfferDiscount_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (FrmDashboard.AutoLogoutWhenIdle)
@@ -6491,6 +6638,46 @@ namespace FoodandBeverage.Forms
                 AppSession.UnregisterForm(this);
             }
         }
+
+        private void pb_menupic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if ((empImgExt != "" && empImgExt != null) || Convert.ToInt32(txtcmophid.Text) > 0)
+                {
+                    pnl_menupic.Visible = true;
+                    pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);
+                }
+                else
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                    DialogResult dialogResult = openFileDialog.ShowDialog();
+                    if (openFileDialog.FileName != "")
+                    {
+                        empImgExt = openFileDialog.FileName;
+                        pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                        pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                        pb_menupic.BackgroundImageLayout = ImageLayout.Stretch;
+                        pb_menupic.Image = null;
+
+                        pb_view_pic.Image = null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Discount_And_Offer page pb_menupic_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
+            }
+        }
+
+        private void btn_close_pic_Click(object sender, EventArgs e)
+        {
+            pnl_menupic.Visible = false;
+        }
+
 
         //private void dgv_sigle_product_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         //{

@@ -29,8 +29,8 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -65,6 +65,7 @@ namespace FoodandBeverage.Forms
             this.txtVatPrcnt = new System.Windows.Forms.TextBox();
             this.lblcgst = new System.Windows.Forms.Label();
             this.pnl_all_controls = new System.Windows.Forms.Panel();
+            this.ch_default = new System.Windows.Forms.CheckBox();
             this.chb_active = new System.Windows.Forms.CheckBox();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
@@ -174,14 +175,14 @@ namespace FoodandBeverage.Forms
             this.dgvTaxSettings.AllowUserToDeleteRows = false;
             this.dgvTaxSettings.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTaxSettings.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTaxSettings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTaxSettings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvTaxSettings.ColumnHeadersHeight = 46;
             this.dgvTaxSettings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.no,
@@ -198,8 +199,8 @@ namespace FoodandBeverage.Forms
             this.dgvTaxSettings.Name = "dgvTaxSettings";
             this.dgvTaxSettings.ReadOnly = true;
             this.dgvTaxSettings.RowHeadersVisible = false;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgvTaxSettings.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgvTaxSettings.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTaxSettings.RowTemplate.Height = 30;
             this.dgvTaxSettings.Size = new System.Drawing.Size(778, 302);
             this.dgvTaxSettings.TabIndex = 12;
@@ -413,7 +414,7 @@ namespace FoodandBeverage.Forms
             this.txtSgstPrcnt.Location = new System.Drawing.Point(0, 0);
             this.txtSgstPrcnt.Multiline = true;
             this.txtSgstPrcnt.Name = "txtSgstPrcnt";
-            this.txtSgstPrcnt.Size = new System.Drawing.Size(76, 107);
+            this.txtSgstPrcnt.Size = new System.Drawing.Size(84, 107);
             this.txtSgstPrcnt.TabIndex = 259;
             this.txtSgstPrcnt.TextChanged += new System.EventHandler(this.txtSgstPrcnt_TextChanged);
             this.txtSgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
@@ -426,7 +427,7 @@ namespace FoodandBeverage.Forms
             this.txtCgstPrcnt.Location = new System.Drawing.Point(0, 107);
             this.txtCgstPrcnt.Multiline = true;
             this.txtCgstPrcnt.Name = "txtCgstPrcnt";
-            this.txtCgstPrcnt.Size = new System.Drawing.Size(76, 28);
+            this.txtCgstPrcnt.Size = new System.Drawing.Size(84, 28);
             this.txtCgstPrcnt.TabIndex = 258;
             this.txtCgstPrcnt.TextChanged += new System.EventHandler(this.txtCgstPrcnt_TextChanged);
             this.txtCgstPrcnt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSgstPrcnt_KeyPress);
@@ -504,7 +505,7 @@ namespace FoodandBeverage.Forms
             "VAT"});
             this.cmbTaxType.Location = new System.Drawing.Point(0, 0);
             this.cmbTaxType.Name = "cmbTaxType";
-            this.cmbTaxType.Size = new System.Drawing.Size(76, 28);
+            this.cmbTaxType.Size = new System.Drawing.Size(84, 28);
             this.cmbTaxType.TabIndex = 10;
             this.cmbTaxType.SelectedIndexChanged += new System.EventHandler(this.cmbTaxType_SelectedIndexChanged);
             // 
@@ -535,6 +536,7 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_all_controls
             // 
+            this.pnl_all_controls.Controls.Add(this.ch_default);
             this.pnl_all_controls.Controls.Add(this.txtCgstPrcnt);
             this.pnl_all_controls.Controls.Add(this.txtSgstPrcnt);
             this.pnl_all_controls.Controls.Add(this.lbltaxtype);
@@ -547,9 +549,21 @@ namespace FoodandBeverage.Forms
             this.pnl_all_controls.Controls.Add(this.lblsgst);
             this.pnl_all_controls.Location = new System.Drawing.Point(0, 0);
             this.pnl_all_controls.Name = "pnl_all_controls";
-            this.pnl_all_controls.Size = new System.Drawing.Size(76, 42);
+            this.pnl_all_controls.Size = new System.Drawing.Size(84, 68);
             this.pnl_all_controls.TabIndex = 260;
             this.pnl_all_controls.Visible = false;
+            // 
+            // ch_default
+            // 
+            this.ch_default.AutoSize = true;
+            this.ch_default.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ch_default.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ch_default.Location = new System.Drawing.Point(0, 135);
+            this.ch_default.Name = "ch_default";
+            this.ch_default.Size = new System.Drawing.Size(84, 0);
+            this.ch_default.TabIndex = 260;
+            this.ch_default.Text = "Default";
+            this.ch_default.UseVisualStyleBackColor = true;
             // 
             // chb_active
             // 
@@ -630,5 +644,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Panel pnl_all_controls;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chb_active;
+        private System.Windows.Forms.CheckBox ch_default;
     }
 }

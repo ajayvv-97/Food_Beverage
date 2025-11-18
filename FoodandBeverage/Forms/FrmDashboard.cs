@@ -143,6 +143,9 @@ namespace FoodandBeverage.Forms
         public static Color ContrlBGcolor = ColorTranslator.FromHtml("#ced1ea");
         public static int downloadServiceValue = Convert.ToInt32(ConfigurationManager.AppSettings["ImageDownloadService"]);
         ClsDocument clsDocument = new ClsDocument();
+
+        public static int DefaultTaxsettingid = 0;
+        public static string DefaultTaxType = "";
         #endregion
 
         // Function to create a rounded rectangle region
@@ -272,6 +275,7 @@ namespace FoodandBeverage.Forms
 
                 // pbappcoloepicker.BackColor = Color.FromArgb(34, 46, 80);
                 Roundform(30);
+                TaxDeafult();
                 // tlp_main.BackColor = Color.FromArgb(152, 193, 217);
                 // set color on solidebar header
                 //pnl_header.BackColor = menubuttoncolor;
@@ -5442,6 +5446,29 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage reset_sync_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        public void TaxDeafult()
+        {
+            try
+            {
+                BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch = new DmnSearch();
+                objSearch.Select = "TaxSettingsId,TaxType,IgstPrcnt,CgstPrcnt,SgstPrcnt,VatPrcnt";
+                objSearch.Table = " tblTaxSettings";
+                objSearch.WhereNdGroupBy = " Where Status = 1 and TDeafult = 1";
+                objSearch.OrderBy = "Order By TaxSettingsId ASC ";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (gridSource.Count > 0)
+                {
+                    DefaultTaxType = gridSource[0].TaxType;
+                    DefaultTaxsettingid = gridSource[0].TaxSettingsId;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage TaxDeafult", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         #region Keyboard
