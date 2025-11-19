@@ -254,7 +254,6 @@ namespace FoodandBeverage.Forms
                     //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
                 }
 
-                tlp_seletedItem_main.BackColor = ColorTranslator.FromHtml("#FFFDF8");
                 lbltablecode_header.Text = "TABLE CODE ";
 
                 #region ChkWritePermission
@@ -2679,6 +2678,7 @@ namespace FoodandBeverage.Forms
                                 txtGrandTotal.Text = Convert.ToString(totalamt);
                                 txtnetamount.Text = Convert.ToString(totalamt);
                                 #endregion
+
                                 netAmount();
 
                                 // Configure the TableLayoutPanel
@@ -2696,31 +2696,49 @@ namespace FoodandBeverage.Forms
                                 tlp_seletedItem_col.Tag = clickedControl.Tag;
                                 tlp_seletedItem_col.AccessibleDescription = "1";
                                 tlp_seletedItem_col.Dock = DockStyle.Top;
-                                tlp_seletedItem_col.BackColor = Color.LightBlue;
+                                tlp_seletedItem_col.BackColor = Color.White;
                                 tlp_seletedItem_col.Height = 45;
-                                tlp_seletedItem_col.Margin = new Padding(0, 2, 10, 0);
+                                tlp_seletedItem_col.Margin = new Padding(0, 10, 10, 0);
+                                tlp_seletedItem_col.Paint += (s, tp) =>
+                                {
+                                    UIHelper.RoundCorners(tlp_seletedItem_col, 15);
+                                };
 
-                                // Configure the Button for Item name
-                                Button buttonitemname = new Button();
-                                buttonitemname.Text = gridSource[0].Field2;
-                                buttonitemname.Name = "buttonitemname_" + gridSource[0].Field2 + "_" + Convert.ToInt32(Tabletype.Product);
-                                buttonitemname.AccessibleDescription = "1";
-                                buttonitemname.Tag = gridSource[0].Field5; ;
-                                buttonitemname.BackColor = Color.Beige;
-                                buttonitemname.Height = 40;
-                                buttonitemname.Font = new Font(buttonitemname.Font.FontFamily, 8, FontStyle.Bold);
-                                buttonitemname.Click += new EventHandler(buttonitemnameClickEventHandler);
+
+                                // Configure the Label for Item name
+                                Label labelItemName = new Label();
+                                labelItemName.Text = gridSource[0].Field2;
+                                labelItemName.Name = "labelitemname_" + gridSource[0].Field2 + "_" + Convert.ToInt32(Tabletype.Product);
+                                labelItemName.AccessibleDescription = "1";
+                                labelItemName.Tag = gridSource[0].Field5;
+                                labelItemName.BackColor = Color.Transparent;
+                                labelItemName.Height = 40;
+                                labelItemName.Font = new Font(labelItemName.Font.FontFamily, 8, FontStyle.Bold);
+
+                                // To make the label look like a button:
+                                labelItemName.TextAlign = ContentAlignment.MiddleCenter;
+                                labelItemName.BorderStyle = BorderStyle.None;
+                                labelItemName.AutoSize = false;
+
+                                // Add Click event (same handler as button)
+                                labelItemName.Click += new EventHandler(buttonitemnameClickEventHandler);
+
 
                                 // Configure the Button for add Qty
                                 Button buttonAdd = new Button();
-                                buttonAdd.Text = "+";
+                                //buttonAdd.Text = "+";
                                 buttonAdd.Name = "buttonAdd_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
                                 buttonAdd.Tag = gridSource[0].Field5;
                                 buttonAdd.AccessibleDescription = "1";
                                 buttonAdd.BackColor = Color.Beige;
                                 buttonAdd.Margin = new Padding(0, 14, 0, 0);
-                                buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
+                                //buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
                                 buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+                                buttonAdd.FlatStyle = FlatStyle.Flat;
+                                buttonAdd.FlatAppearance.BorderSize = 0;
+                                buttonAdd.BackColor = Color.Transparent;
+                                buttonAdd.BackgroundImageLayout = ImageLayout.Stretch;
+                                buttonAdd.BackgroundImage = Properties.Resources._3dpuls;
 
                                 // Configure the textbox enter QTY
                                 TextBox txtqty = new TextBox();
@@ -2736,13 +2754,18 @@ namespace FoodandBeverage.Forms
 
                                 // Configure the textbox enter QTY
                                 Button buttonRemove = new Button();
-                                buttonRemove.Text = "-";
+                                //buttonRemove.Text = "-";
                                 buttonRemove.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
                                 buttonRemove.Tag = gridSource[0].Field5;
                                 buttonRemove.AccessibleDescription = "1";
                                 buttonRemove.BackColor = Color.Beige;
                                 buttonRemove.Margin = new Padding(0, 14, 0, 0);
-                                buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
+                                //buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
+                                buttonRemove.FlatStyle = FlatStyle.Flat;
+                                buttonRemove.FlatAppearance.BorderSize = 0;
+                                buttonRemove.BackColor = Color.Transparent;
+                                buttonRemove.BackgroundImageLayout = ImageLayout.Stretch;
+                                buttonRemove.BackgroundImage = Properties.Resources._3dremove;
                                 buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
 
                                 // Configure the textbox Price
@@ -2769,40 +2792,41 @@ namespace FoodandBeverage.Forms
                                 pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
                                 pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch    
 
-                                //Dock Setting
+                                ////Dock Setting
                                 tlp_seletedItem_col.Dock = DockStyle.Top;
-                                buttonitemname.Dock = DockStyle.Top;
+                                labelItemName.Dock = DockStyle.Top;
                                 buttonAdd.Dock = DockStyle.Top;
                                 txtqty.Dock = DockStyle.Fill;
                                 buttonRemove.Dock = DockStyle.Top;
                                 txtprice.Dock = DockStyle.Fill;
 
+
+
                                 // Get the current row count
                                 currentRowCount = tlp_seletedItem_col.RowCount;
 
-                                // Add controls to TableLayoutPanel at the next row
-                                tlp_seletedItem_col.Controls.Add(buttonitemname, 0, currentRowCount);
+                                tlp_seletedItem_col.Controls.Add(labelItemName, 0, currentRowCount);
                                 tlp_seletedItem_col.Controls.Add(buttonAdd, 1, currentRowCount);
                                 tlp_seletedItem_col.Controls.Add(txtqty, 2, currentRowCount);
                                 tlp_seletedItem_col.Controls.Add(buttonRemove, 3, currentRowCount);
                                 tlp_seletedItem_col.Controls.Add(txtprice, 4, currentRowCount);
                                 tlp_seletedItem_col.Controls.Add(pb_item_delete, 5, currentRowCount);
 
-                                // Increment the row count
                                 tlp_seletedItem_col.RowCount = currentRowCount + 1;
-                                // Add the new TableLayoutPanel to tlp_seletedItem_main
                                 tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
+                            
                                 tlp_seletedItem_col.Focus();
                                 tlp_seletedItem_col.Visible = true;
                                 tlp_seletedItem_col.ResumeLayout();
-                                checksave_refresh();
+                                //checksave_refresh();
+                                //UIHelper.RoundCorners(tlp_seletedItem_col, 15);
                             }
 
                             tlp_seletedItem_main.ResumeLayout();
                         }
                     }
                 }
-                checksave_refresh();
+                //checksave_refresh();
                 if (Focused_tlpname != "")
                 {
                     TableLayoutPanel tlp_sele_f = this.Controls.Find(Focused_tlpname, true).FirstOrDefault() as TableLayoutPanel;
@@ -13521,6 +13545,7 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(pnl_product_grid, 25, null);
             UIHelper.RoundCorners(pnl_productview, 25, null);
             UIHelper.RoundCorners(pnl_categorymenu, 25, null);
+            UIHelper.RoundCorners(pnl_product_haeder, 25, null);
         }
 
         #region side menu
