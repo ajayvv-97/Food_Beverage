@@ -57,6 +57,35 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+        public static void AutoResizeFont(Label label)
+        {
+            if (string.IsNullOrEmpty(label.Text))
+                return;
+
+            int maxHeight = label.Height;
+            int maxWidth = label.Width;
+
+            using (Graphics g = label.CreateGraphics())
+            {
+                float fontSize = label.Font.Size;
+
+                // reduce until it fits
+                while (fontSize > 5)
+                {
+                    SizeF size = g.MeasureString(
+                        label.Text,
+                        new Font(label.Font.FontFamily, fontSize, label.Font.Style)
+                    );
+
+                    if (size.Width <= maxWidth && size.Height <= maxHeight)
+                        break;
+
+                    fontSize -= 0.5f;
+                }
+                label.Font = new Font(label.Font.FontFamily, fontSize, label.Font.Style);
+            }
+        }
+
         public static void RoundControl(Control ctrl, int radius, Color? borderColor = null, int borderWidth = 2)
         {
             if (ctrl == null || radius <= 0)

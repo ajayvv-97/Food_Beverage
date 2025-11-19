@@ -331,8 +331,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-
         private void FrmFTICategory_Load(object sender, EventArgs e)
         {
             try
