@@ -61,92 +61,104 @@ namespace FoodandBeverage.Forms
 
         #region Grid Declaration 
         // Registration Grid
-        public static int islno = 0;
-        public static int ibarcode = 1;
-        public static int iproducttypeno = 2;
-        public static int iname = 3;
-        public static int iunit = 4;
-        public static int israte = 5;
-        public static int iqty = 6;
-        public static int iprate = 7;
-        public static int iamount = 8;
-        public static int idisper = 9;
-        public static int idisamt = 10;
-        public static int itaxper = 11;
-        public static int itaxamt = 12;
-        public static int itotal = 13;
-        public static int iitemid = 14;
-        public static int itax = 15;
-        public static int itaxtype = 16;
-        public static int imrp = 17;
-        public static int itype = 18;
-        public static int ibarcode2 = 19;
-        public static int itaxsettingid = 20;
-        public static int iunitid = 21;
-        public static int ipridno = 22;
-        public static int iprodesno = 23;
-        public static int istatusno = 24;
-        public static int iigstamtno = 25;
-        public static int ivatamtno = 26;
-        public static int iorderdetailsidno = 27;
-        public static int isubofferstatus = 28;
-        public static int ioriginalprice = 29;
-        public static int isubofferid = 30;
-        public static int itabletype = 31;
-        public static int iorderdescno = 32;
-        public static int ioriginalqty = 33;
-        public static int iavid = 34;
-        public static int ivaraiationstatusno = 35;
-        public static int ipavidno = 36;
-        public static int iMainProductStatusno = 37;
-        public static int iAddoncountno = 38;
-        public static int ividno = 39;
-        public static int iComboTaxamtno = 40;
-        public static int iccodeno = 41;
-        public static int iVariatiionNameno = 42;
-
-        public static int Cbarcode = 0;
-        public static int vname = 1;
-        public static int ciunit = 2;
-        public static int cqty = 3;
-        public static int cdisper = 4;
-        public static int cdisamt = 5;
-        public static int ctaxper = 6;
-        public static int ctaxamt = 7;
-        public static int camount = 8;
-        public static int ctotal = 9;
-        public static int citemid = 10;
-        public static int cpridno = 11;
-        public static int ctax = 12;
-        public static int ctaxtype = 13;
-        public static int Csrate = 14;
-        public static int Cmrp = 15;
-        public static int Comproducttypeno = 16;
-        public static int cigstamt = 17;
-        public static int CCgstamt = 18;
-        public static int cSgstamt = 19;
-        public static int cvatamt = 20;
-        public static int cmarketprice = 21;
-        public static int Ctabletype = 22;
-        public static int CPavid = 23;
-        public static int CAddonStatus = 24;
-        public static int CAV_id = 25;
-        public static int CAddoncount = 26;
-        public static int Cstatusno = 27;
-        public static int CVariatiionNameno = 28;
-        public static int CSalesMasterIdno = 29;
-        public static int CSalesDetailsIdno = 30;
-        public static int COrderDetailsIdno = 31;
+        public int iaction = 0;
+        public int islno = 1;
+        public int ibarcode = 2;
+        public int iproducttypeno = 3;
+        public int iname = 4;
+        public int iunit = 5;
+        public int israte = 6;
+        public int iqty = 7;
+        public int iprate = 8;
+        public int iamount = 9;
+        public int idisper = 10;
+        public int idisamt = 11;
+        public int itaxper = 12;
+        public int itaxamt = 13;
+        public int itotal = 14;
+        public int iitemid = 15;
+        public int itax = 16;
+        public int itaxtype = 17;
+        public int imrp = 18;
+        public int itype = 19;
+        public int ibarcode2 = 20;
+        public int itaxsettingid = 21;
+        public int iunitid = 22;
+        public int ipridno = 23;
+        public int iprodesno = 24;
+        public int istatusno = 25;
+        public int iigstamtno = 26;
+        public int ivatamtno = 27;
+        public int iorderdetailsidno = 28;
+        public int isubofferstatus = 29;
+        public int ioriginalprice = 30;
+        public int isubofferid = 31;
+        public int itabletype = 32;
+        public int iorderdescno = 33;
+        public int ioriginalqty = 34;
+        public int iavid = 35;
+        public int ivaraiationstatusno = 36;
+        public int ipavidno = 37;
+        public int iMainProductStatusno = 38;
+        public int iAddoncountno = 39;
+        public int ividno = 40;
+        public int iComboTaxamtno = 41;
+        public int iccodeno = 42;
+        public int iVariatiionNameno = 43;
 
 
-        public static int tslno = 0;
-        public static int ttablenameno = 1;
-        public static int ttablecategno = 2;
-        public static int ttablechargeno = 3;
-        public static int tactionno = 4;
-        public static int tbookingdetailsid = 5;
-        public static int tbookingmasteridno = 6;
-        public static int ttidno = 7;
+        public int Cbarcode = 0;
+        public int vname = 1;
+        public int ciunit = 2;
+        public int cqty = 3;
+        public int cdisper = 4;
+        public int cdisamt = 5;
+        public int ctaxper = 6;
+        public int ctaxamt = 7;
+        public int camount = 8;
+        public int ctotal = 9;
+        public int citemid = 10;
+        public int cpridno = 11;
+        public int ctax = 12;
+        public int ctaxtype = 13;
+        public int Csrate = 14;
+        public int Cmrp = 15;
+        public int Comproducttypeno = 16;
+        public int cigstamt = 17;
+        public int CCgstamt = 18;
+        public int cSgstamt = 19;
+        public int cvatamt = 20;
+        public int cmarketprice = 21;
+        public int Ctabletype = 22;
+        public int CPavid = 23;
+        public int CAddonStatus = 24;
+        public int CAV_id = 25;
+        public int CAddoncount = 26;
+        public int Cstatusno = 27;
+        public int CVariatiionNameno = 28;
+        public int CSalesMasterIdno = 29;
+        public int CSalesDetailsIdno = 30;
+        public int COrderDetailsIdno = 31;
+
+        public int tslno = 0;
+        public int ttablenameno = 1;
+        public int ttablecategno = 2;
+        public int ttablechargeno = 3;
+        public int tactionno = 4;
+        public int tbookingdetailsid = 5;
+        public int tbookingmasteridno = 6;
+        public int ttidno = 7;
+
+        public int pvAction = 0;
+        public int pvSlNo = 1;
+        public int pvName = 2;
+        public int pvQty = 3;
+        public int pvSrate = 4;
+        public int pvAmount = 5;
+        public int pvProductType = 6;
+        public int pvPid = 7;
+
+
         #endregion
 
         TableLayoutPanel tlp_table_dashboard_main = new TableLayoutPanel();
@@ -232,6 +244,8 @@ namespace FoodandBeverage.Forms
 
         public int columncount_offer = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow_Offer"]);
         private bool isCategoryExpanded = false;
+
+        public bool ExistingProduct = false;
         #endregion
 
         #region please wait loading
@@ -2105,7 +2119,13 @@ namespace FoodandBeverage.Forms
                     decimal price = Convert.ToDecimal(item.Field3);
                     int favStatus = Convert.ToInt32(item.Field4);
 
-                    #region Design Product
+                    //// Hover Zoom Animation
+                    //ZoomAnimator zoom = new ZoomAnimator(picProduct);
+                    //picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
+                    //picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
+
+                    #region Design Product (One Panel + One TLP + 3 Rows)
+
                     Panel tile = new Panel();
                     tile.Width = tileW;
                     tile.Height = tileH;
@@ -2116,10 +2136,23 @@ namespace FoodandBeverage.Forms
 
                     MakeRounded(tile, 18);
 
+                    TableLayoutPanel tlpMain = new TableLayoutPanel();
+                    tlpMain.Parent = tile;
+                    tlpMain.RowCount = 3;
+                    tlpMain.ColumnCount = 1;
+                    tlpMain.Dock = DockStyle.Fill;
+                    tlpMain.BackColor = Color.White;
+                    tlpMain.AutoSize = false;
+                    tlpMain.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
+
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                    tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+
                     PictureBox picProduct = new PictureBox();
-                    picProduct.Width = imgW;
-                    picProduct.Height = imgH;
-                    picProduct.Location = new Point((tileW - imgW) / 2, 5);
+                    picProduct.Dock = DockStyle.Fill;
+                    picProduct.Margin = new Padding(8, 5, 8, 0);
                     picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                     picProduct.BackColor = Color.White;
                     picProduct.Image = Properties.Resources.Deafult_food_pic;
@@ -2127,59 +2160,54 @@ namespace FoodandBeverage.Forms
                     picProduct.Tag = item.Field2;
                     picProduct.AccessibleDescription = item.Field3;
 
-                    ZoomAnimator zoom = new ZoomAnimator(picProduct);
-                    picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
-                    picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
                     int insType = (int)Interfaces.Inseration_Type.Product_Photo;
                     _ = LoadImageAsync(picProduct, insType, productId);
+
                     picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
-                    int infoTop = picProduct.Bottom + 3;
-                    TableLayoutPanel tblInfo = new TableLayoutPanel();
-                    tblInfo.ColumnCount = 1;
-                    tblInfo.RowCount = 2;
-                    tblInfo.Width = tileW - 10;
-                    tblInfo.Location = new Point(5, infoTop);
-                    tblInfo.BackColor = Color.Transparent;
-                    tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                    tblInfo.AutoSize = true;
-                    tblInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                    tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                    tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 80));
-                    tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                    tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                    tlpMain.Controls.Add(picProduct, 0, 0);
 
                     Label lblName = new Label();
                     lblName.Text = productName;
-                    lblName.MaximumSize = new Size(tileW - 10, 0);
-                    lblName.AutoSize = true;
-                    lblName.Font = AppFonts.GetFont(9);
+                    lblName.TextAlign = ContentAlignment.MiddleCenter;
+                    lblName.AutoSize = false;
+                    lblName.Dock = DockStyle.Fill;
+                    lblName.Padding = new Padding(3);
                     lblName.ForeColor = Color.Black;
                     lblName.BackColor = Color.Transparent;
-                    lblName.TextAlign = ContentAlignment.MiddleCenter;
-                    lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(2);
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, lblName.Font);
-                    bool isSingleLine = textSize.Width <= (tileW - 10);
 
-                    if (isSingleLine)
-                        lblName.Font = AppFonts.GetFont(11);
+                    Size textSize = TextRenderer.MeasureText(lblName.Text, AppFonts.GetFont(11));
+                    lblName.Font = (textSize.Width <= tileW - 10)
+                        ? AppFonts.GetFont(11)
+                        : AppFonts.GetFont(9);
+
+                    tlpMain.Controls.Add(lblName, 0, 1);
+
+                    int nameWidth = TextRenderer.MeasureText(lblName.Text, lblName.Font).Width;
+
+                    if (nameWidth > (tileW - 20))
+                    {
+                        tlpMain.RowStyles[0].Height = 50f;
+                        tlpMain.RowStyles[1].Height = 35f;
+                        tlpMain.RowStyles[2].Height = 15f;
+                    }
                     else
-                        lblName.Font = AppFonts.GetFont(9);
+                    {
+                        tlpMain.RowStyles[0].Height = 60f;
+                        tlpMain.RowStyles[1].Height = 25f;
+                        tlpMain.RowStyles[2].Height = 15f;
+                    }
 
                     Label lblPrice = new Label();
                     lblPrice.Text = "₹ " + price.ToString("0.00");
                     lblPrice.AutoSize = false;
-                    lblPrice.Width = tileW - 10;
-                    lblPrice.Height = 24;
+                    lblPrice.Dock = DockStyle.Fill;
+                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
                     lblPrice.Font = AppFonts.GetFont(10);
                     lblPrice.ForeColor = Color.Green;
                     lblPrice.BackColor = Color.Transparent;
-                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                    lblPrice.Dock = DockStyle.Fill;
 
-                    tblInfo.Controls.Add(lblName, 0, 0);
-                    tblInfo.Controls.Add(lblPrice, 0, 1);
+                    tlpMain.Controls.Add(lblPrice, 0, 2);
 
                     PictureBox picFav = new PictureBox();
                     picFav.Name = "picFav" + item.Field2;
@@ -2187,9 +2215,9 @@ namespace FoodandBeverage.Forms
                     picFav.AccessibleDescription = item.Field3;
                     picFav.Width = 22;
                     picFav.Height = 22;
-                    picFav.Location = new Point(tileW - 30, 8);
-                    picFav.SizeMode = PictureBoxSizeMode.StretchImage;
                     picFav.BackColor = Color.White;
+                    picFav.SizeMode = PictureBoxSizeMode.StretchImage;
+                    picFav.Location = new Point(tileW - 30, 8);
 
                     picFav.Image = (favStatus == 1)
                         ? Properties.Resources.fav_enable
@@ -2197,13 +2225,14 @@ namespace FoodandBeverage.Forms
 
                     picFav.Click += new EventHandler(buttonfavClickEventHandler);
 
-                    tile.Controls.Add(picProduct);
-                    tile.Controls.Add(tblInfo);
                     tile.Controls.Add(picFav);
-
                     picFav.BringToFront();
+
                     flp_productview.Controls.Add(tile);
+
                     #endregion
+
+
 
                 }
             }
@@ -2525,19 +2554,9 @@ namespace FoodandBeverage.Forms
                         {
                             tlp_seletedItem_main.SuspendLayout();
 
-                            string tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
-                            TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                            if (tlp_sele != null)
-                            {
-                                string txtname = "txtqty_" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
-                                TextBox qty = this.Controls.Find(txtname, true).FirstOrDefault() as TextBox;
-                                int cur_qty = Convert.ToInt32(qty.Text) + 1;
-                                qty.Text = Convert.ToString(cur_qty);
-                                CalcTotalAmt_Add(Convert.ToInt32(tlp_sele.Tag), 1);
-                                tlp_sele.Focus();
-                                netAmount();
-                            }
-                            else
+                            CalcTotalAmt_Add(Convert.ToInt32(clickedControl.Tag), 1);
+                            netAmount();
+                            if(!ExistingProduct)
                             {
                                 if (Booking_Status == false)
                                 {
@@ -2545,7 +2564,7 @@ namespace FoodandBeverage.Forms
                                         txtGrandTotal.Text = "0";
                                 }
 
-                                #region Grid Inseration
+                                #region main Grid Inseration
                                 int exit_orderdetailid = 0;
                                 if (gridSourcemaster.Count > 0)
                                 {
@@ -2563,6 +2582,13 @@ namespace FoodandBeverage.Forms
 
                                 r1 = Dgv_Selected_Item.RowCount - 1;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
+
+                                Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Properties.Resources.close_price_change;
+                                Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                                Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
+                                Dgv_Selected_Item.Rows[r1].Height = 40;
+                                ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                                 Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);
                                 Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = Convert.ToString(gridSource[0].Field1);
@@ -2599,142 +2625,11 @@ namespace FoodandBeverage.Forms
                                 #endregion
 
                                 netAmount();
-
-                                // Configure the TableLayoutPanel
-                                TableLayoutPanel tlp_seletedItem_col = new TableLayoutPanel();
-                                tlp_seletedItem_col.SuspendLayout();
-                                tlp_seletedItem_col.Visible = false;
-                                float[] columnPercentages = { 44.82f, 6.27f, 14.94f, 6.02f, 19.04f, 8.92f };
-                                for (int i = 0; i < columnPercentages.Length; i++)
-                                {
-                                    tlp_seletedItem_col.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, columnPercentages[i]));
-                                }
-
-                                tlp_seletedItem_col.Name = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
-                                Focused_tlpname = "tlp_seletedItem_col" + clickedControl.Tag + "_" + Convert.ToInt32(Tabletype.Product);
-                                tlp_seletedItem_col.Tag = clickedControl.Tag;
-                                tlp_seletedItem_col.AccessibleDescription = "1";
-                                tlp_seletedItem_col.Dock = DockStyle.Top;
-                                tlp_seletedItem_col.BackColor = Color.White;
-                                tlp_seletedItem_col.Height = 45;
-                                tlp_seletedItem_col.Margin = new Padding(0, 10, 10, 0);
-                                tlp_seletedItem_col.Paint += (s, tp) =>
-                                {
-                                    UIHelper.RoundCorners(tlp_seletedItem_col, 15);
-                                };
-
-
-                                // Configure the Label for Item name
-                                Label labelproductmName = new Label();
-                                labelproductmName.Text = gridSource[0].Field2;
-                                labelproductmName.Name = "labelproductmName_" + gridSource[0].Field2 + "_" + Convert.ToInt32(Tabletype.Product);
-                                labelproductmName.AccessibleDescription = "1";
-                                labelproductmName.Tag = gridSource[0].Field5;
-                                labelproductmName.BackColor = Color.Transparent;
-                                labelproductmName.Height = 40;
-                                labelproductmName.Font = AppFonts.GetFont(8);
-                                labelproductmName.TextAlign = ContentAlignment.MiddleCenter;
-                                labelproductmName.BorderStyle = BorderStyle.None;
-                                labelproductmName.AutoSize = false;
-                                labelproductmName.Click += new EventHandler(buttonitemnameClickEventHandler);
-
-
-                                // Configure the Button for add Qty
-                                Button buttonAdd = new Button();
-                                //buttonAdd.Text = "+";
-                                buttonAdd.Name = "buttonAdd_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
-                                buttonAdd.Tag = gridSource[0].Field5;
-                                buttonAdd.AccessibleDescription = "1";
-                                buttonAdd.BackColor = Color.Beige;
-                                buttonAdd.Margin = new Padding(0, 14, 0, 0);
-                                //buttonAdd.Font = new Font(buttonAdd.Font.FontFamily, 8, FontStyle.Bold);
-                                buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
-                                buttonAdd.FlatStyle = FlatStyle.Flat;
-                                buttonAdd.FlatAppearance.BorderSize = 0;
-                                buttonAdd.BackColor = Color.Transparent;
-                                buttonAdd.BackgroundImageLayout = ImageLayout.Stretch;
-                                buttonAdd.BackgroundImage = Properties.Resources._3dpuls;
-
-                                // Configure the textbox enter QTY
-                                TextBox txtqty = new TextBox();
-                                txtqty.Text = "1";
-                                txtqty.Name = "txtqty_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
-                                txtqty.Tag = gridSource[0].Field5;
-                                txtqty.AccessibleDescription = "1";
-                                txtqty.BackColor = Color.Beige;
-                                txtqty.TextAlign = HorizontalAlignment.Center;
-                                txtqty.Margin = new Padding(0, 14, 0, 0);
-                                txtqty.Font = AppFonts.GetFont(8);
-                                txtqty.Enabled = false;
-
-                                // Configure the textbox enter QTY
-                                Button buttonRemove = new Button();
-                                //buttonRemove.Text = "-";
-                                buttonRemove.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
-                                buttonRemove.Tag = gridSource[0].Field5;
-                                buttonRemove.AccessibleDescription = "1";
-                                buttonRemove.BackColor = Color.Beige;
-                                buttonRemove.Margin = new Padding(0, 14, 0, 0);
-                                //buttonRemove.Font = new Font(buttonRemove.Font.FontFamily, 8, FontStyle.Bold);
-                                buttonRemove.FlatStyle = FlatStyle.Flat;
-                                buttonRemove.FlatAppearance.BorderSize = 0;
-                                buttonRemove.BackColor = Color.Transparent;
-                                buttonRemove.BackgroundImageLayout = ImageLayout.Stretch;
-                                buttonRemove.BackgroundImage = Properties.Resources._3dremove;
-                                buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
-
-                                // Configure the textbox Price
-                                TextBox txtprice = new TextBox();
-                                decimal F_price = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
-                                txtprice.Text = Convert.ToString(F_price);
-                                txtprice.Name = "txtprice_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
-                                txtprice.Tag = gridSource[0].Field5;
-                                txtprice.BackColor = Color.Beige;
-                                txtprice.TextAlign = HorizontalAlignment.Center;
-                                txtprice.Margin = new Padding(0, 14, 0, 0);
-                                txtprice.Font = new Font(txtprice.Font.FontFamily, 8, FontStyle.Bold);
-                                txtprice.Enabled = false;
-
-                                // Configure Item Delete Button
-                                PictureBox pb_item_delete = new PictureBox();
-                                pb_item_delete.Name = "btn_remove_" + gridSource[0].Field5 + "_" + Convert.ToInt32(Tabletype.Product);
-                                pb_item_delete.AccessibleDescription = "1";
-                                pb_item_delete.Tag = gridSource[0].Field5;
-                                pb_item_delete.BackColor = Color.Transparent;
-                                pb_item_delete.Dock = DockStyle.Top;
-                                pb_item_delete.Height = 40;
-                                pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
-                                pb_item_delete.BackgroundImage = FoodandBeverage.Properties.Resources.Delete_Grid;
-                                pb_item_delete.BackgroundImageLayout = ImageLayout.Zoom; // Change to Zoom instead of Stretch    
-
-                                ////Dock Setting
-                                tlp_seletedItem_col.Dock = DockStyle.Top;
-                                labelproductmName.Dock = DockStyle.Top;
-                                buttonAdd.Dock = DockStyle.Top;
-                                txtqty.Dock = DockStyle.Fill;
-                                buttonRemove.Dock = DockStyle.Top;
-                                txtprice.Dock = DockStyle.Fill;
-
-
-
-                                // Get the current row count
-                                currentRowCount = tlp_seletedItem_col.RowCount;
-
-                                tlp_seletedItem_col.Controls.Add(labelproductmName, 0, currentRowCount);
-                                tlp_seletedItem_col.Controls.Add(buttonAdd, 1, currentRowCount);
-                                tlp_seletedItem_col.Controls.Add(txtqty, 2, currentRowCount);
-                                tlp_seletedItem_col.Controls.Add(buttonRemove, 3, currentRowCount);
-                                tlp_seletedItem_col.Controls.Add(txtprice, 4, currentRowCount);
-                                tlp_seletedItem_col.Controls.Add(pb_item_delete, 5, currentRowCount);
-
-                                tlp_seletedItem_col.RowCount = currentRowCount + 1;
-                                tlp_seletedItem_main.Controls.Add(tlp_seletedItem_col);
-                            
-                                tlp_seletedItem_col.Focus();
-                                tlp_seletedItem_col.Visible = true;
-                                tlp_seletedItem_col.ResumeLayout();
-                                //checksave_refresh();
-                                //UIHelper.RoundCorners(tlp_seletedItem_col, 15);
+                                
+                                //labelproductmName.Click += new EventHandler(buttonitemnameClickEventHandler);
+                                //buttonAdd.Click += new EventHandler(ButtonbuttonAddClickEventHandler);
+                                //buttonRemove.Click += new EventHandler(ButtonRemoveClickEventHandler);
+                                //pb_item_delete.Click += new EventHandler(pb_item_deleteClickEventHandler);
                             }
 
                             tlp_seletedItem_main.ResumeLayout();
@@ -2755,6 +2650,10 @@ namespace FoodandBeverage.Forms
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Order page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+            finally
+            {
+                ExistingProduct = false;
             }
         }
         public void GridSlno_Refresh()
@@ -4423,12 +4322,14 @@ namespace FoodandBeverage.Forms
                     {
                         if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product))
                         {
+                            ExistingProduct = true;
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
                             rowno = i;
                             break;
                         }
                     }
+
                     decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
                     txtGrandTotal.Text = Convert.ToString(totalamt);
                     txtnetamount.Text = Convert.ToString(totalamt);
@@ -4461,17 +4362,15 @@ namespace FoodandBeverage.Forms
                         if (string.IsNullOrEmpty(txtGrandTotal.Text))
                             txtGrandTotal.Text = "0";
                     }
-
+                    qty=qty - 1;
                     if (qty == 0)
                     {
-                        string txtqty = "txtqty_" + pid + "_" + Convert.ToInt32(Tabletype.Product);
-                        TextBox totalqty = this.Controls.Find(txtqty, true).FirstOrDefault() as TextBox;
 
                         for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product))
                             {
-                                decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToDecimal(totalqty.Text);
+                                decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
                                 decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                                 txtGrandTotal.Text = Convert.ToString(totalamt);
                                 txtnetamount.Text = Convert.ToString(totalamt);
@@ -4492,7 +4391,6 @@ namespace FoodandBeverage.Forms
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1)
                             {
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) - 1;
-                                //Dgv_Selected_Item.Rows[i].Cells[istatusno].Value = 0;
                                 totalcellamount(i);
                                 rowno = i;
                                 break;
@@ -4561,6 +4459,7 @@ namespace FoodandBeverage.Forms
                     string totalPrice = item.Field5;
 
                     #region Design Product
+
                     Panel tile = new Panel();
                     tile.Width = tileW;
                     tile.Height = tileH;
@@ -4571,69 +4470,70 @@ namespace FoodandBeverage.Forms
                     tile.AccessibleDescription = item.Field3;
                     MakeRounded(tile, 18);
 
+                    TableLayoutPanel tblMain = new TableLayoutPanel();
+                    tblMain.Parent = tile;
+                    tblMain.Dock = DockStyle.Fill;
+                    tblMain.BackColor = Color.Transparent;
+                    tblMain.RowCount = 3;
+                    tblMain.ColumnCount = 1;
+                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
+                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                    tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+
                     PictureBox picProduct = new PictureBox();
-                    picProduct.Width = imgW;
-                    picProduct.Height = imgH;
-                    picProduct.Location = new Point((tileW - imgW) / 2, 5);
-                    picProduct.SizeMode = PictureBoxSizeMode.Zoom;
+                    picProduct.Dock = DockStyle.Fill;
                     picProduct.BackColor = Color.White;
+                    picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                     picProduct.Image = Properties.Resources.Deafult_food_pic;
                     picProduct.Name = "picProduct" + item.Field2;
                     picProduct.Tag = item.Field2;
                     picProduct.AccessibleDescription = item.Field3;
-
-                    ZoomAnimator zoom = new ZoomAnimator(picProduct);
-                    picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
-                    picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
                     int insType = (int)Interfaces.Inseration_Type.Product_Photo;
                     _ = LoadImageAsync(picProduct, insType, cmphid);
                     picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+                    tblMain.Controls.Add(picProduct, 0, 0);
 
-                    int infoTop = picProduct.Bottom + 3;
-                    TableLayoutPanel tblInfo = new TableLayoutPanel();
-                    tblInfo.ColumnCount = 1;
-                    tblInfo.RowCount = 2;
-                    tblInfo.Width = tileW - 10;
-                    tblInfo.Location = new Point(5, infoTop);
-                    tblInfo.BackColor = Color.Transparent;
-                    tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                    tblInfo.AutoSize = true;
-                    tblInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                    tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                    tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 80));
-                    tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                    tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                    Label lblProductName = new Label();
+                    lblProductName.Text = offerName;
+                    lblProductName.ForeColor = Color.Black;
+                    lblProductName.BackColor = Color.Transparent;
+                    lblProductName.Dock = DockStyle.Fill;
+                    lblProductName.TextAlign = ContentAlignment.MiddleCenter;
+                    lblProductName.Padding = new Padding(2);
+                    lblProductName.MaximumSize = new Size(tileW - 10, 0);
 
-                    Label lblName = new Label();
-                    lblName.Text = offerName;
-                    lblName.MaximumSize = new Size(tileW - 10, 0);
-                    lblName.AutoSize = true;
-                    lblName.Font = AppFonts.GetFont(9);
-                    lblName.ForeColor = Color.Black;
-                    lblName.BackColor = Color.Transparent;
-                    lblName.TextAlign = ContentAlignment.MiddleCenter;
-                    lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(2);
-                    lblName.AccessibleDescription = item.Field3;
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, lblName.Font);
-                    bool isSingleLine = textSize.Width <= (tileW - 10);
+                    Size textSize = TextRenderer.MeasureText(lblProductName.Text, AppFonts.GetFont(11));
+                    lblProductName.Font = (textSize.Width <= tileW - 10)
+                                            ? AppFonts.GetFont(11)
+                                            : AppFonts.GetFont(9);
 
-                    if (isSingleLine)
-                        lblName.Font = AppFonts.GetFont(11);
+                    tblMain.Controls.Add(lblProductName, 0, 1);
+
+                    int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
+
+                    if (nameWidth > (tileW - 20))
+                    {
+                        tblMain.RowStyles[0].Height = 50f;
+                        tblMain.RowStyles[1].Height = 35f;
+                        tblMain.RowStyles[2].Height = 15f;
+                    }
                     else
-                        lblName.Font = AppFonts.GetFont(9);
+                    {
+                        tblMain.RowStyles[0].Height = 60f;
+                        tblMain.RowStyles[1].Height = 25f;
+                        tblMain.RowStyles[2].Height = 15f;
+                    }
 
                     Label lblPrice = new Label();
                     lblPrice.Text = "₹ " + Convert.ToDecimal(totalPrice).ToString("0.00");
-                    lblPrice.AutoSize = false;
-                    lblPrice.Width = tileW - 10;
-                    lblPrice.Height = 24;
-                    lblPrice.Font = AppFonts.GetFont(10);
                     lblPrice.ForeColor = Color.Green;
                     lblPrice.BackColor = Color.Transparent;
-                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+                    lblPrice.Font = AppFonts.GetFont(10);
                     lblPrice.Dock = DockStyle.Fill;
+                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
                     lblPrice.AccessibleDescription = item.Field3;
+                    tblMain.Controls.Add(lblPrice, 0, 2);
 
                     PictureBox picMore = new PictureBox();
                     picMore.Name = "picMore" + item.Field2;
@@ -4644,20 +4544,15 @@ namespace FoodandBeverage.Forms
                     picMore.Location = new Point(tileW - 30, 8);
                     picMore.SizeMode = PictureBoxSizeMode.StretchImage;
                     picMore.BackColor = Color.White;
-                    picMore.Image= Properties.Resources.orderpage_more_button;
+                    picMore.Image = Properties.Resources.orderpage_more_button;
                     picMore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
-
-
-                    tblInfo.Controls.Add(lblName, 0, 0);
-                    tblInfo.Controls.Add(lblPrice, 0, 1);
-
-                    tile.Controls.Add(picProduct);
-                    tile.Controls.Add(tblInfo);
                     tile.Controls.Add(picMore);
                     picMore.BringToFront();
 
                     flp_productview.Controls.Add(tile);
+
                     #endregion
+
                 }
             }
             catch (Exception ex)
@@ -5050,9 +4945,8 @@ namespace FoodandBeverage.Forms
                         int productId = Convert.ToInt32(item.Field2);
                         string offerText = item.Field4 + "%";
                         decimal price = Convert.ToDecimal(item.Field3);
-
-
                         #region Design Product
+
                         Panel tile = new Panel();
                         tile.Width = tileW;
                         tile.Height = tileH;
@@ -5062,10 +4956,21 @@ namespace FoodandBeverage.Forms
                         tile.BorderStyle = BorderStyle.None;
                         MakeRounded(tile, 18);
 
+                        TableLayoutPanel tlpMain = new TableLayoutPanel();
+                        tlpMain.Parent = tile;
+                        tlpMain.Dock = DockStyle.Fill;
+                        tlpMain.RowCount = 3;
+                        tlpMain.ColumnCount = 1;
+                        tlpMain.BackColor = Color.White;
+                        tlpMain.Margin = new Padding(0);
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+
                         PictureBox picProduct = new PictureBox();
-                        picProduct.Width = imgW;
-                        picProduct.Height = imgH;
-                        picProduct.Location = new Point((tileW - imgW) / 2, 5);
+                        picProduct.Dock = DockStyle.Fill;
+                        picProduct.Margin = new Padding(8, 5, 8, 0);
                         picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                         picProduct.BackColor = Color.White;
                         picProduct.Image = Properties.Resources.Deafult_food_pic;
@@ -5073,82 +4978,78 @@ namespace FoodandBeverage.Forms
                         picProduct.Tag = item.Field2;
                         picProduct.AccessibleDescription = item.Field3;
 
-                        ZoomAnimator zoom = new ZoomAnimator(picProduct);
-                        picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
-                        picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, productId);
+                        _ = LoadImageAsync(picProduct, (int)Interfaces.Inseration_Type.Product_Photo, productId);
+
                         picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
-                        int infoTop = picProduct.Bottom + 3;
-                        TableLayoutPanel tblInfo = new TableLayoutPanel();
-                        tblInfo.ColumnCount = 1;
-                        tblInfo.RowCount = 2;
-                        tblInfo.Width = tileW - 10;
-                        tblInfo.Location = new Point(5, infoTop);
-                        tblInfo.BackColor = Color.Transparent;
-                        tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                        tblInfo.AutoSize = true;
-                        tblInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                        tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                        tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 80));
-                        tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                        tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                        tlpMain.Controls.Add(picProduct, 0, 0);
 
-                        Label lblName = new Label();
-                        lblName.Text = productName;
-                        lblName.MaximumSize = new Size(tileW - 10, 0);
-                        lblName.AutoSize = true;
-                        lblName.Font = AppFonts.GetFont(9);
-                        lblName.ForeColor = Color.Black;
-                        lblName.BackColor = Color.Transparent;
-                        lblName.TextAlign = ContentAlignment.MiddleCenter;
-                        lblName.Dock = DockStyle.Fill;
-                        lblName.Padding = new Padding(2);
-                        Size textSize = TextRenderer.MeasureText(lblName.Text, lblName.Font);
-                        bool isSingleLine = textSize.Width <= (tileW - 10);
+                        Label lblProductName = new Label();
+                        lblProductName.Text = productName;
+                        lblProductName.Dock = DockStyle.Fill;
+                        lblProductName.TextAlign = ContentAlignment.MiddleCenter;
+                        lblProductName.ForeColor = Color.Black;
+                        lblProductName.BackColor = Color.Transparent;
+                        lblProductName.Padding = new Padding(3);
+                        lblProductName.AutoSize = false;
 
-                        if (isSingleLine)
-                            lblName.Font = AppFonts.GetFont(11);
+                        Size textSize = TextRenderer.MeasureText(lblProductName.Text, AppFonts.GetFont(11));
+                        lblProductName.Font = (textSize.Width <= tileW - 10)
+                            ? AppFonts.GetFont(11)
+                            : AppFonts.GetFont(9);
+
+                        tlpMain.Controls.Add(lblProductName, 0, 1);
+
+                        int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
+
+                        if (nameWidth > tileW - 20)
+                        {
+                            tlpMain.RowStyles[0].Height = 50f;
+                            tlpMain.RowStyles[1].Height = 35f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
                         else
-                            lblName.Font = AppFonts.GetFont(9);
+                        {
+                            tlpMain.RowStyles[0].Height = 60f;
+                            tlpMain.RowStyles[1].Height = 25f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
 
                         decimal originalPrice = Convert.ToDecimal(item.Field6);
                         decimal discountPercent = Convert.ToDecimal(item.Field4);
                         decimal discountPrice = originalPrice - (originalPrice * discountPercent / 100);
 
                         Label lblPrice = new Label();
+                        lblPrice.Dock = DockStyle.Fill;
                         lblPrice.AutoSize = false;
-                        lblPrice.Width = tileW - 10;
-                        lblPrice.Height = 24;
-                        lblPrice.Font = AppFonts.GetFont(10);
                         lblPrice.ForeColor = Color.Green;
                         lblPrice.BackColor = Color.Transparent;
                         lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblPrice.Dock = DockStyle.Fill;
+                        lblPrice.Font = AppFonts.GetFont(10);
+
                         lblPrice.Paint += (s, l) =>
                         {
                             string oldP = "₹ " + originalPrice.ToString("0.00");
                             string newP = "₹ " + discountPrice.ToString("0.00");
+
                             Font fOld = new Font(AppFonts.GetFont(10), FontStyle.Strikeout);
                             Font fNew = new Font(AppFonts.GetFont(10), FontStyle.Bold);
+
                             SizeF oldSize = l.Graphics.MeasureString(oldP, fOld);
                             SizeF newSize = l.Graphics.MeasureString(newP, fNew);
 
                             float totalWidth = oldSize.Width + 10 + newSize.Width;
                             float startX = (lblPrice.Width - totalWidth) / 2;
+
                             l.Graphics.DrawString(oldP, fOld, Brushes.Gray, startX, 4);
                             l.Graphics.DrawString(newP, fNew, Brushes.Green, startX + oldSize.Width + 10, 4);
                         };
 
-                        tblInfo.Controls.Add(lblName, 0, 0);
-                        tblInfo.Controls.Add(lblPrice, 0, 1);
-                        tile.Controls.Add(picProduct);
-                        tile.Controls.Add(tblInfo);
+                        tlpMain.Controls.Add(lblPrice, 0, 2);
 
                         flp_productview.Controls.Add(tile);
-                        #endregion
 
+                        #endregion
 
                     }
                 }
@@ -5309,89 +5210,117 @@ namespace FoodandBeverage.Forms
 
                     gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
-                    foreach (var g in gridSource)
+                    foreach (var item in gridSource)
                     {
-                        //---------------------------------------------------------
-                        // TILE
-                        //---------------------------------------------------------
+                        string productName = item.Field1;
+                        int productId = Convert.ToInt32(item.Field2);
+                        string offerText = item.Field4 + "%";
+                        decimal price = Convert.ToDecimal(item.Field3);
+                        #region Design Product
+
                         Panel tile = new Panel();
                         tile.Width = tileW;
                         tile.Height = tileH;
                         tile.BackColor = Color.White;
                         tile.Margin = new Padding(spacing);
-                        tile.Tag = g.Field2;
-
+                        tile.Tag = productId;
+                        tile.BorderStyle = BorderStyle.None;
                         MakeRounded(tile, 18);
 
-                        //---------------------------------------------------------
-                        // PRODUCT IMAGE
-                        //---------------------------------------------------------
+                        TableLayoutPanel tlpMain = new TableLayoutPanel();
+                        tlpMain.Parent = tile;
+                        tlpMain.Dock = DockStyle.Fill;
+                        tlpMain.RowCount = 3;
+                        tlpMain.ColumnCount = 1;
+                        tlpMain.BackColor = Color.White;
+                        tlpMain.Margin = new Padding(0);
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+
                         PictureBox picProduct = new PictureBox();
-                        picProduct.Width = imgW;
-                        picProduct.Height = imgH;
-                        picProduct.Location = new Point((tileW - imgW) / 2, 10);
+                        picProduct.Dock = DockStyle.Fill;
+                        picProduct.Margin = new Padding(8, 5, 8, 0);
                         picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                         picProduct.BackColor = Color.White;
                         picProduct.Image = Properties.Resources.Deafult_food_pic;
+                        picProduct.Name = "picProduct" + item.Field2;
+                        picProduct.Tag = item.Field2;
+                        picProduct.AccessibleDescription = item.Field3;
 
-                        picProduct.Name = "picProduct" + g.Field2;
-                        picProduct.Tag = g.Field2;
-                        picProduct.AccessibleDescription = g.Field3;
-
-                        ZoomAnimator zoom = new ZoomAnimator(picProduct);
-                        picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
-                        picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
-
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, Convert.ToInt32(g.Field2));
+                        _ = LoadImageAsync(picProduct, (int)Interfaces.Inseration_Type.Product_Photo, productId);
 
                         picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
-                        //---------------------------------------------------------
-                        // PRODUCT NAME
-                        //---------------------------------------------------------
-                        Label lblName = new Label();
-                        lblName.Text = g.Field1;
-                        lblName.Width = tileW - 10;
-                        lblName.Height = 22;
-                        lblName.Location = new Point(5, imgH + 25);
-                        lblName.Font = AppFonts.GetFont(9);
-                        lblName.ForeColor = Color.Black;
-                        lblName.BackColor = Color.White;
-                        lblName.TextAlign = ContentAlignment.MiddleCenter;
+                        tlpMain.Controls.Add(picProduct, 0, 0);
 
-                        decimal originalPrice = Convert.ToDecimal(g.Field6);
-                        decimal discountPercent = Convert.ToDecimal(g.Field4);
+                        Label lblProductName = new Label();
+                        lblProductName.Text = productName;
+                        lblProductName.Dock = DockStyle.Fill;
+                        lblProductName.TextAlign = ContentAlignment.MiddleCenter;
+                        lblProductName.ForeColor = Color.Black;
+                        lblProductName.BackColor = Color.Transparent;
+                        lblProductName.Padding = new Padding(3);
+                        lblProductName.AutoSize = false;
+
+                        Size textSize = TextRenderer.MeasureText(lblProductName.Text, AppFonts.GetFont(11));
+                        lblProductName.Font = (textSize.Width <= tileW - 10)
+                            ? AppFonts.GetFont(11)
+                            : AppFonts.GetFont(9);
+
+                        tlpMain.Controls.Add(lblProductName, 0, 1);
+
+                        int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
+
+                        if (nameWidth > tileW - 20)
+                        {
+                            tlpMain.RowStyles[0].Height = 50f;
+                            tlpMain.RowStyles[1].Height = 35f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
+                        else
+                        {
+                            tlpMain.RowStyles[0].Height = 60f;
+                            tlpMain.RowStyles[1].Height = 25f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
+
+                        decimal originalPrice = Convert.ToDecimal(item.Field6);
+                        decimal discountPercent = Convert.ToDecimal(item.Field4);
                         decimal discountPrice = originalPrice - (originalPrice * discountPercent / 100);
 
-                        Label lblOriginalPrice = new Label();
-                        lblOriginalPrice.Text = "₹ " + originalPrice.ToString("0.00");
-                        lblOriginalPrice.Width = tileW - 10;
-                        lblOriginalPrice.Height = 20;
-                        lblOriginalPrice.Location = new Point(5, imgH + 45);
-                        lblOriginalPrice.Font = new Font("Arial", 8, FontStyle.Strikeout);
-                        lblOriginalPrice.ForeColor = Color.Gray;
-                        lblOriginalPrice.BackColor = Color.White;
-                        lblOriginalPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblOriginalPrice.Font = AppFonts.GetFont((int)(tileH * 0.45), FontStyle.Strikeout);
+                        Label lblPrice = new Label();
+                        lblPrice.Dock = DockStyle.Fill;
+                        lblPrice.AutoSize = false;
+                        lblPrice.ForeColor = Color.Green;
+                        lblPrice.BackColor = Color.Transparent;
+                        lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+                        lblPrice.Font = AppFonts.GetFont(10);
 
-                        Label lblDiscountPrice = new Label();
-                        lblDiscountPrice.Text = "₹ " + discountPrice.ToString("0.00");
-                        lblDiscountPrice.Width = tileW - 10;
-                        lblDiscountPrice.Height = 22;
-                        lblDiscountPrice.Location = new Point(5, imgH + 65);
-                        lblDiscountPrice.Font = new Font("Arial", 10, FontStyle.Bold);
-                        lblDiscountPrice.ForeColor = Color.Green;
-                        lblDiscountPrice.BackColor = Color.White;
-                        lblDiscountPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblDiscountPrice.Font = AppFonts.GetFont((int)(tileH * 0.65));
+                        lblPrice.Paint += (s, l) =>
+                        {
+                            string oldP = "₹ " + originalPrice.ToString("0.00");
+                            string newP = "₹ " + discountPrice.ToString("0.00");
 
-                        tile.Controls.Add(picProduct);
-                        tile.Controls.Add(lblName);
-                        tile.Controls.Add(lblOriginalPrice);
-                        tile.Controls.Add(lblDiscountPrice);
+                            Font fOld = new Font(AppFonts.GetFont(10), FontStyle.Strikeout);
+                            Font fNew = new Font(AppFonts.GetFont(10), FontStyle.Bold);
+
+                            SizeF oldSize = l.Graphics.MeasureString(oldP, fOld);
+                            SizeF newSize = l.Graphics.MeasureString(newP, fNew);
+
+                            float totalWidth = oldSize.Width + 10 + newSize.Width;
+                            float startX = (lblPrice.Width - totalWidth) / 2;
+
+                            l.Graphics.DrawString(oldP, fOld, Brushes.Gray, startX, 4);
+                            l.Graphics.DrawString(newP, fNew, Brushes.Green, startX + oldSize.Width + 10, 4);
+                        };
+
+                        tlpMain.Controls.Add(lblPrice, 0, 2);
 
                         flp_productview.Controls.Add(tile);
+
+                        #endregion
                     }
                 }
             }
@@ -5713,6 +5642,7 @@ namespace FoodandBeverage.Forms
                         int favStatus = Convert.ToInt32(item.Field4);
 
                         #region Design Product
+
                         Panel tile = new Panel();
                         tile.Width = tileW;
                         tile.Height = tileH;
@@ -5722,70 +5652,72 @@ namespace FoodandBeverage.Forms
                         tile.BorderStyle = BorderStyle.None;
                         MakeRounded(tile, 18);
 
+                        TableLayoutPanel tlpMain = new TableLayoutPanel();
+                        tlpMain.Parent = tile;
+                        tlpMain.Dock = DockStyle.Fill;
+                        tlpMain.RowCount = 3;
+                        tlpMain.ColumnCount = 1;
+                        tlpMain.BackColor = Color.White;
+                        tlpMain.Margin = new Padding(0);
+                        tlpMain.Padding = new Padding(5);
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+
                         PictureBox picProduct = new PictureBox();
-                        picProduct.Width = imgW;
-                        picProduct.Height = imgH;
-                        picProduct.Location = new Point((tileW - imgW) / 2, 5);
+                        picProduct.Dock = DockStyle.Fill;
+                        picProduct.Margin = new Padding(5);
                         picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                         picProduct.BackColor = Color.White;
                         picProduct.Image = Properties.Resources.Deafult_food_pic;
                         picProduct.Name = "picProduct" + item.Field2;
                         picProduct.Tag = item.Field2;
                         picProduct.AccessibleDescription = item.Field3;
-
-                        ZoomAnimator zoom = new ZoomAnimator(picProduct);
-                        picProduct.MouseEnter += (s, ev) => zoom.StartZoom(true);
-                        picProduct.MouseLeave += (s, ev) => zoom.StartZoom(false);
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, productId);
+                        _ = LoadImageAsync(picProduct, (int)Interfaces.Inseration_Type.Product_Photo, productId);
                         picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+                        tlpMain.Controls.Add(picProduct, 0, 0);
 
-                        int infoTop = picProduct.Bottom + 3;
-                        TableLayoutPanel tblInfo = new TableLayoutPanel();
-                        tblInfo.ColumnCount = 1;
-                        tblInfo.RowCount = 2;
-                        tblInfo.Width = tileW - 10;
-                        tblInfo.Location = new Point(5, infoTop);
-                        tblInfo.BackColor = Color.Transparent;
-                        tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                        tblInfo.AutoSize = true;
-                        tblInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                        tblInfo.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                        tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 80));
-                        tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                        tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                        Label lblProductName = new Label();
+                        lblProductName.Text = productName;
+                        lblProductName.Dock = DockStyle.Fill;
+                        lblProductName.TextAlign = ContentAlignment.MiddleCenter;
+                        lblProductName.ForeColor = Color.Black;
+                        lblProductName.BackColor = Color.Transparent;
+                        lblProductName.Padding = new Padding(3);
+                        lblProductName.AutoSize = false;
 
-                        Label lblName = new Label();
-                        lblName.Text = productName;
-                        lblName.MaximumSize = new Size(tileW - 10, 0);
-                        lblName.AutoSize = true;
-                        lblName.Font = AppFonts.GetFont(9);
-                        lblName.ForeColor = Color.Black;
-                        lblName.BackColor = Color.Transparent;
-                        lblName.TextAlign = ContentAlignment.MiddleCenter;
-                        lblName.Dock = DockStyle.Fill;
-                        lblName.Padding = new Padding(2);
-                        Size textSize = TextRenderer.MeasureText(lblName.Text, lblName.Font);
-                        bool isSingleLine = textSize.Width <= (tileW - 10);
+                        Size textSize = TextRenderer.MeasureText(lblProductName.Text, AppFonts.GetFont(11));
+                        lblProductName.Font = (textSize.Width <= tileW - 10)
+                            ? AppFonts.GetFont(11)
+                            : AppFonts.GetFont(9);
 
-                        if (isSingleLine)
-                            lblName.Font = AppFonts.GetFont(11);
+                        tlpMain.Controls.Add(lblProductName, 0, 1);
+
+                        int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
+
+                        if (nameWidth > (tileW - 20))
+                        {
+                            tlpMain.RowStyles[0].Height = 50f;
+                            tlpMain.RowStyles[1].Height = 35f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
                         else
-                            lblName.Font = AppFonts.GetFont(9);
+                        {
+                            tlpMain.RowStyles[0].Height = 60f;
+                            tlpMain.RowStyles[1].Height = 25f;
+                            tlpMain.RowStyles[2].Height = 15f;
+                        }
 
                         Label lblPrice = new Label();
                         lblPrice.Text = "₹ " + price.ToString("0.00");
-                        lblPrice.AutoSize = false;
-                        lblPrice.Width = tileW - 10;
-                        lblPrice.Height = 24;
+                        lblPrice.Dock = DockStyle.Fill;
+                        lblPrice.TextAlign = ContentAlignment.MiddleCenter;
                         lblPrice.Font = AppFonts.GetFont(10);
                         lblPrice.ForeColor = Color.Green;
                         lblPrice.BackColor = Color.Transparent;
-                        lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblPrice.Dock = DockStyle.Fill;
-
-                        tblInfo.Controls.Add(lblName, 0, 0);
-                        tblInfo.Controls.Add(lblPrice, 0, 1);
+                        lblPrice.AutoSize = false;
+                        tlpMain.Controls.Add(lblPrice, 0, 2);
 
                         PictureBox picFav = new PictureBox();
                         picFav.Name = "picFav" + item.Field2;
@@ -5793,23 +5725,19 @@ namespace FoodandBeverage.Forms
                         picFav.AccessibleDescription = item.Field3;
                         picFav.Width = 22;
                         picFav.Height = 22;
-                        picFav.Location = new Point(tileW - 30, 8);
-                        picFav.SizeMode = PictureBoxSizeMode.StretchImage;
                         picFav.BackColor = Color.White;
-
-                        picFav.Image = (favStatus == 1)
-                            ? Properties.Resources.fav_enable
-                            : Properties.Resources.fav_disable;
-
+                        picFav.SizeMode = PictureBoxSizeMode.StretchImage;
+                        picFav.Location = new Point(tileW - 30, 8);
+                        picFav.Image = (favStatus == 1) ? Properties.Resources.fav_enable : Properties.Resources.fav_disable;
                         picFav.Click += new EventHandler(buttonfavClickEventHandler);
 
-                        tile.Controls.Add(picProduct);
-                        tile.Controls.Add(tblInfo);
                         tile.Controls.Add(picFav);
-
                         picFav.BringToFront();
+
                         flp_productview.Controls.Add(tile);
+
                         #endregion
+
                     }
                 }
             }
@@ -13027,6 +12955,42 @@ namespace FoodandBeverage.Forms
         {
             pnl_order_desc.Visible = false;
         }
+
+        private void Dgv_Selected_Item_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.ColumnIndex == iaction)   // delete icon column
+            {
+                // Get values directly from the clicked row
+                int rowType = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
+                int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
+                int qty = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iqty].Value);
+
+                // Call correct remove function based on type
+                if (rowType == Convert.ToInt32(Tabletype.DirectSale))
+                    CalcTotalAmt_remove_Prid(pid, qty);
+
+                else if (rowType == Convert.ToInt32(Tabletype.ComboProduct))
+                    CalcTotalAmt_remove_Combo(pid, qty);
+
+                else if (rowType == Convert.ToInt32(Tabletype.Product))
+                    CalcTotalAmt_remove(pid, qty);
+
+                else if (rowType == Convert.ToInt32(Tabletype.Variation_Addon))
+                    CalcTotalAmt_Variation_Addon_remove(pid.ToString(), qty);
+
+                // Remove row
+                Dgv_Selected_Item.Rows.RemoveAt(e.RowIndex);
+
+                netAmount();
+
+                // Refresh SL NO
+                GridSlno_Refresh();
+               
+            }
+        }
+
 
         private void btn_orderdes_cls_Click(object sender, EventArgs e)
         {

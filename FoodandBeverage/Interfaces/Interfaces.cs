@@ -130,7 +130,6 @@ namespace FoodandBeverage.Interfaces
         DirectSale = 2,
         ComboProduct = 3,
         Variation_Addon = 4
-
     };
     public enum Food_Status
     {

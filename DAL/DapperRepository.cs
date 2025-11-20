@@ -300,9 +300,10 @@ namespace DAL
         /// <returns></returns
         public static IDbConnection OpenConnection()
         {
-          IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=Food_Beverage_TEST;Persist Security Info=True;User ID=sa;Password=,rhsm098");//Food_Beverage_DEBUG
+          //IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=Food_Beverage_TEST;Persist Security Info=True;User ID=sa;Password=,rhsm098");//Food_Beverage_DEBUG
            //IDbConnection connection = new SqlConnection("Data Source=192.168.0.159;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=,rhsm098");
-         // IDbConnection connection = new SqlConnection("Data Source=OFFICE\\SQLEXPRESS;Initial Catalog=Food_Beverage_TEST;Integrated Security=True");
+         
+            IDbConnection connection = new SqlConnection("Data Source=OFFICE\\SQLEXPRESS;Initial Catalog=Food_Beverage_TEST;Integrated Security=True");
             connection.Open();
             return connection; 
         }
