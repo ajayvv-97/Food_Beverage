@@ -166,7 +166,6 @@ namespace FoodandBeverage.Classes
 
             Control parent = ctrl.Parent;
 
-            // --- Calculate new size only ---
             int newWidth = (parent.Width * widthPercent) / 100;
             int newHeight = (parent.Height * heightPercent) / 100;
 

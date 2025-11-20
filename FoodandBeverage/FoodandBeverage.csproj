@@ -1851,6 +1851,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\categ_back.png" />
+    <None Include="Resources\categ_next.png" />
     <None Include="Resources\3dpuls.png" />
     <None Include="Resources\3dremove.png" />
     <None Include="Resources\fav_disable.png" />
