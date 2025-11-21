@@ -193,6 +193,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addon_comb_item {
+            get {
+                object obj = ResourceManager.GetObject("addon_comb_item", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap addonbutton {
             get {
                 object obj = ResourceManager.GetObject("addonbutton", resourceCulture);
