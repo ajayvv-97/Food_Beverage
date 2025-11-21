@@ -98,18 +98,18 @@ namespace FoodandBeverage.Forms
             //txtPwd.Text = "Password .....";
             if (FormSize.IsEmpty)
                 FormSize = this.Size;
-            virtualkeyboardCheck();
+            //virtualkeyboardCheck();
             pnlloginbox.BackColor = Color.FromArgb(150, 250, 250, 250);
-            Task.Run(() =>
-            {
-                FrmSplash loadingForm = new FrmSplash();
-                loadingForm.StartPosition = FormStartPosition.CenterScreen;
-                Application.Run(loadingForm);
-            });
-            if (loadingForm != null && !loadingForm.IsDisposed)
-            {
-                loadingForm.Invoke(new Action(() => loadingForm.Close()));
-            }
+            //Task.Run(() =>
+            //{
+            //    FrmSplash loadingForm = new FrmSplash();
+            //    loadingForm.StartPosition = FormStartPosition.CenterScreen;
+            //    Application.Run(loadingForm);
+            //});
+            //if (loadingForm != null && !loadingForm.IsDisposed)
+            //{
+            //    loadingForm.Invoke(new Action(() => loadingForm.Close()));
+            //}
             //textb_shape();            
         }
 

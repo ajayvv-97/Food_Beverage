@@ -80,9 +80,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-
-
         #region TexBox Round function
         public void textb_shape()
         {
@@ -257,7 +254,7 @@ namespace FoodandBeverage.Forms
                         BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                         dmnSearch.Select = "COUNT(*) Field1";
                         dmnSearch.Table = "tblOrderDetails";
-                        dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + item.Field3;
+                        dmnSearch.WhereNdGroupBy = "WHERE status= 3 and AddonStatus in(1,0) and OrderMasterId = " + item.Field3;
                         dmnSearch.OrderBy = "";
                         var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
