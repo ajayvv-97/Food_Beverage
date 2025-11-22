@@ -47,6 +47,14 @@ namespace FoodandBeverage.Forms.UserControl
                     btnper.Dock = DockStyle.None;
                     btnper.Visible = false;
                 }
+                if (Ktype == Convert.ToInt32(KeypadType.NoDecimal))
+                {
+                    tlp_reason.Visible = false;
+                    btnclear.Dock = DockStyle.None;
+                    btnper.Dock = DockStyle.None;
+                    btnper.Visible = false;
+                    btndecimal.Visible = false;
+                }
                 else
                 {
                     btnclear.Dock = DockStyle.Fill;

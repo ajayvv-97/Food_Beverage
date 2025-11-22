@@ -6974,3 +6974,288 @@ User Name:
 Designation: 
 FormTypeId: 26
 -------------------------------------------------------------------------
+Date and Time: 11/22/2025 9:36:34 AM
+Page : Order page  CheckRe_Pickuporder()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 9:36:40 AM
+Page : Order page  CheckRe_Pickuporder()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 9:37:41 AM
+Page : Order page  CheckRe_Pickuporder()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 1:08:11 PM
+Page : Order page  CheckRe_order()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 1:08:29 PM
+Page : Order page  CheckRe_order()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 1:08:59 PM
+Page : Order page  CheckRe_order()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 2:09:36 PM
+Page : Order page  CheckRe_order()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 3:14:20 PM
+Page : Order page  Combined_Table_Bill()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 3:15:22 PM
+Page : Order page  Combined_Table_Bill()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 3:15:55 PM
+Page : Order page  Combined_Table_Bill()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 3:16:59 PM
+Page : Order page  Combined_Table_Bill()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 3:17:54 PM
+Page : Order page  Combined_Table_Bill()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:22 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:25 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:27 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:28 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:29 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:31 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:02:32 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:19:52 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:07 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:08 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:09 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:27 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:29 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:30 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:53 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:20:55 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:21:14 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:21:15 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:21:56 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:22:08 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:23:33 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:23:58 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:24:11 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:25:39 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:31:32 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:31:40 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/22/2025 5:33:16 PM
+Page : Order page  DashboardButtonClickEventHandler()
+Exception: Incorrect syntax near '='.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------

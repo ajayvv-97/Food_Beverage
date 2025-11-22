@@ -27,7 +27,7 @@ namespace FoodandBeverage.Forms
 
         public Color DefaultColor = Color.White;
         public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
-        public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#A4DBE8");
         public Color ReservationColor  = Color.YellowGreen;
         public Color ExpiredColor = Color.Red;
 
@@ -189,19 +189,20 @@ namespace FoodandBeverage.Forms
                                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                                     tlp_table_inner.Name = "tlpbox" + gridSource[i].Field4;
                                     tlp_table_inner.Tag = gridSource[i].Field3;
-                                    tlp_table_inner.BorderStyle = BorderStyle.Fixed3D;
+                                    tlp_table_inner.BorderStyle = BorderStyle.None;
                                     tlp_table_inner.Dock = DockStyle.Left;
                                     tlp_table_inner.Margin = new Padding(15, 10, 15, 10);
-                                    //tlp_table_inner.BackgroundImage = FoodandBeverage.Properties.Resources.bgdashboard_tiltlbar; ;
-                                    //tlp_table_inner.BackgroundImageLayout = ImageLayout.Stretch;
-                                    //tlp_table_inner.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
-                                    //tlp_table_inner.Width = 100;
-                                    //tlp_table_inner.Height = 65;
-                                    #endregion
+                                    
+                                //tlp_table_inner.BackgroundImage = FoodandBeverage.Properties.Resources.bgdashboard_tiltlbar; ;
+                                //tlp_table_inner.BackgroundImageLayout = ImageLayout.Stretch;
+                                //tlp_table_inner.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
+                                //tlp_table_inner.Width = 100;
+                                //tlp_table_inner.Height = 65;
+                                #endregion
 
                                     #region  tablename  for table inside tablelayoutpanel inner
-                                    // Configure the Label
-                                    Label lbltablename = new Label();
+                                // Configure the Label
+                                Label lbltablename = new Label();
                                     lbltablename.Name = "lbtablename" + gridSource[i].Field4;
                                     lbltablename.Tag = gridSource[i].Field3;
                                     lbltablename.Text = gridSource[i].Field4;
@@ -395,7 +396,10 @@ namespace FoodandBeverage.Forms
                                     #endregion
 
                                     tlp_category.Controls.Add(tlp_table_inner, columnIndex, rowIndex);
-                                    columnIndex++;
+                                UIHelper.MakeDashboardTile(tlp_table_inner, 25, Color.White, Color.Gray, 2);
+
+                                //UIHelper.RoundCorners(tlp_table_inner, 25);
+                                columnIndex++;
                                 }
                             }
 

@@ -356,7 +356,8 @@ namespace FoodandBeverage.Interfaces
     {
         Number = 1,
         percentage = 2,
-        None = 3
+        None = 3,
+        NoDecimal=4
 
     }
     public enum AutoPrintToPrinter

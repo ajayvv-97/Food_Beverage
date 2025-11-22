@@ -57,6 +57,45 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+        public static void MakeDashboardTile(Control ctrl,
+                                     int radius = 20,
+                                     Color backColor = default,
+                                     Color borderColor = default,
+                                     int borderSize = 2)
+        {
+            if (backColor == default) backColor = Color.White;
+            if (borderColor == default) borderColor = Color.FromArgb(200, 200, 200);
+
+            ctrl.Paint += (s, e) =>
+            {
+                Rectangle r = new Rectangle(0, 0, ctrl.Width - 1, ctrl.Height - 1);
+                using (GraphicsPath path = GetRoundRectangle(r, radius))
+                using (SolidBrush brush = new SolidBrush(backColor))
+                using (Pen pen = new Pen(borderColor, borderSize))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.FillPath(brush, path);
+                    e.Graphics.DrawPath(pen, path);
+                }
+            };
+
+            ctrl.Resize += (s, e) => ctrl.Invalidate();
+        }
+        private static GraphicsPath GetRoundRectangle(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            float r = radius * 2F;
+
+            path.AddArc(rect.X, rect.Y, r, r, 180, 90);
+            path.AddArc(rect.Right - r, rect.Y, r, r, 270, 90);
+            path.AddArc(rect.Right - r, rect.Bottom - r, r, r, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - r, r, r, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
+
         public static void AutoResizeFont(Label label)
         {
             if (string.IsNullOrEmpty(label.Text))
