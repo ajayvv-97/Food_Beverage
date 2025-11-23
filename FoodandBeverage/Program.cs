@@ -33,7 +33,7 @@ namespace FoodandBeverage
                         FoodandBeverage.Classes.CrystalInstaller.EnsureCrystalInstalled();
                     }
 
-                    Application.Run(new Forms.FrmLogin());
+                    Application.Run(new Forms.FrmloginTablet());
                 }
                 else
                 {

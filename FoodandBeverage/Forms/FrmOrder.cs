@@ -43,6 +43,10 @@ namespace FoodandBeverage.Forms
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
             InitializeComponent();
+
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96F, 96F);
+            this.WindowState = FormWindowState.Maximized;
         }
 
         // Function to create a rounded rectangle region

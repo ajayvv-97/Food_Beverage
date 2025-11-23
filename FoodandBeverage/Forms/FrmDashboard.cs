@@ -53,6 +53,11 @@ namespace FoodandBeverage.Forms
         public FrmDashboard()
         {
             InitializeComponent();
+
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96F, 96F);
+            this.WindowState = FormWindowState.Maximized;
+
             Instance = this;
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
