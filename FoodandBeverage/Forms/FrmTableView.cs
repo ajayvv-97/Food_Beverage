@@ -15,6 +15,9 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmTableView : Form
     {
+
+        #region Declaration
+        private ToolTip _toolTip = new ToolTip();
         //public Timer AutoTimer;
         TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
@@ -36,10 +39,15 @@ namespace FoodandBeverage.Forms
         public Color Netamountfontcolor = Color.Green;
 
         ClsGeneral clsgen = new ClsGeneral();
+        #endregion
 
-    public FrmTableView(int type)
+        public FrmTableView(int type)
         {
             InitializeComponent();
+            _toolTip.AutoPopDelay = 5000;    // Time the tooltip stays visible (ms)
+            _toolTip.InitialDelay = 500;     // Delay before showing tooltip (ms)
+            _toolTip.ReshowDelay = 100;      // Delay for subsequent tooltips (ms)
+            _toolTip.ShowAlways = true;
             tabletype = type;
         }
 
@@ -52,44 +60,35 @@ namespace FoodandBeverage.Forms
             LoadTableStaus(tabletype);
         }
 
+        #region Table Creation & Updation
         public void LoadTableStaus(int serachmode)
         {
             try
             {
+                clsgen.Memoryrelease();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                int pkrowIndex = 0, pkcolumnIndex = 0;
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
+
                 switch (serachmode)
                 {
-                    case 0:
-                        dmnSearchtabledata.Field29 = "0";
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                        break;
-                    case 1:
-                        dmnSearchtabledata.Field29 = "1";
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1";
-                        break;
-                    case 2:
-                        dmnSearchtabledata.Field29 = "2";
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1 and ti.OrderMasterId >0";
-                        break;
-                    case 3:
-                        dmnSearchtabledata.Field29 = "3";
-                        dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0";
-                        break;
+                    case 0: dmnSearchtabledata.Field29 = "0"; dmnSearch.WhereNdGroupBy = "where ti.Status=1"; break;
+                    case 1: dmnSearchtabledata.Field29 = "1"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1"; break;
+                    case 2: dmnSearchtabledata.Field29 = "2"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1 and ti.OrderMasterId >0"; break;
+                    case 3: dmnSearchtabledata.Field29 = "3"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0"; break;
                 }
+
                 var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+
                 bool flag = false;
                 for (int j = 0; j < gridSource.Count; j++)
                 {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1 && Convert.ToInt32(gridSource[j].Field10) ==0) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
+                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null &&
+                        Convert.ToInt32(gridSource[j].Field7) > 1 && Convert.ToInt32(gridSource[j].Field10) == 0)
                     {
-                        DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                        DateTime afterAddMinutes = gridSource[j].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0)//&& DateTime.Now > afterAddMinutes
+                        if (Convert.ToInt32(gridSource[j].Field7) > 0)
                         {
                             CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
                             flag = true;
@@ -97,581 +96,245 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 if (flag)
-                     gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
- 
+                    gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = new List<CategoryInfo>();
                 foreach (var fcid in distinctCategories)
                 {
-                  string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
-                        if (categoryName != null)
-                        {
-                            categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
-                        }                       
+                    string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
+                    if (categoryName != null)
+                        categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
                 }
-                
-                int rowIndex_cate = 0;
+
+                // **Suspend layout before adding multiple controls**
+                tlp_table_dashboard.SuspendLayout();
                 tlp_table_dashboard.Controls.Clear();
-                if (gridSource.Count > 0)
+                tlp_table_dashboard.AutoScroll = true;
+                tlp_table_dashboard.BackColor = Color.Transparent;
+
+                int rowIndex_cate = 0;
+
+                foreach (var category in categoryList)
                 {
-                    tlp_table_dashboard.Visible = false;             
-                    tlp_table_dashboard.AutoScroll = true;
-                    tlp_table_dashboard.BackColor = Color.Transparent;       
-                    foreach (var category in categoryList)
+                    // Category Label
+                    Label lblcategory_head = new Label
                     {
-                        #region Normal or Reservation Order
-        
-                            int countcateitem = 0;
-                            TableLayoutPanel tlp_category = new TableLayoutPanel();
+                        Name = "lbcate_head_" + category.CategoryName,
+                        Tag = category.Fcid,
+                        Text = category.CategoryName,
+                        ForeColor = Color.Black,
+                        BackColor = Color.Transparent,
+                        Dock = DockStyle.Top,
+                        Font = new Font("Arial", 12, FontStyle.Bold) 
+                    };
 
-                            #region main heading tablelayoutpanel and label  Category
-                            tlp_category.Name = "tlp_category_" + category.CategoryName;
-                            tlp_category.Tag = category.CategoryName;
-                            tlp_category.Dock = DockStyle.Top;
-                            tlp_category.Controls.Clear();
-                            //tlp_category.AutoScroll = true;
-                            tlp_category.AutoSize = true;
-                            tlp_category.BackColor = Color.Transparent;
-                            //tlp_category.BorderStyle = BorderStyle.FixedSingle;
-                            ///tlp_category.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
-                            //tlp_category.MouseHover += tlp_category_MouseHover;
-                            //tlp_category.MouseLeave += tlp_category_MouseLeave;
 
-                            //Frist Row Cateory Heading
-                            // Configure the Label
-                            Label lblcategory_head = new Label();
-                            lblcategory_head.Name = "lbcate_head_" + category.CategoryName;
-                            lblcategory_head.Tag = category.Fcid;
-                            lblcategory_head.Text = category.CategoryName;
-                            lblcategory_head.ForeColor = Color.Black;
-                            lblcategory_head.BackColor = Color.Transparent;
-                            lblcategory_head.Dock = DockStyle.Top;
-                            lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
-                            #endregion
+                    // Category TableLayoutPanel
+                    TableLayoutPanel tlp_category = new TableLayoutPanel
+                    {
+                        Name = "tlp_category_" + category.CategoryName,
+                        Tag = category.CategoryName,
+                        Dock = DockStyle.Top,
+                        AutoSize = true,
+                        BackColor = Color.Transparent
+                    };
 
-                            int rowIndex = 1;
-                            int columnIndex = 0;
+                    int rowIndex = 1;
+                    int columnIndex = 0;
 
-                            for (int i = 0; i < gridSource.Count; i++)
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
+                        {
+                            // Inner table panel
+                            TableLayoutPanel tlp_table_inner = new TableLayoutPanel
                             {
-                                if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
-                                {
-                                    int panelWidth = 0;
-                                    int panelHeight = 0;
+                                RowCount = 2,
+                                Name = "tlpbox" + gridSource[i].Field4,
+                                Tag = gridSource[i].Field3,
+                                BorderStyle = BorderStyle.None,
+                                Dock = DockStyle.Left,
+                                Margin = new Padding(15, 10, 15, 10),
+                                AccessibleDescription = "0"
+                            };
+                            tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                            tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-                                    #region  TableLayoutPanel inner 
-                                    // Configure the TableLayoutPanel
-                                    TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
-                                    tlp_table_inner.RowCount = 2;
-                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                    tlp_table_inner.Name = "tlpbox" + gridSource[i].Field4;
-                                    tlp_table_inner.Tag = gridSource[i].Field3;
-                                    tlp_table_inner.BorderStyle = BorderStyle.None;
-                                    tlp_table_inner.Dock = DockStyle.Left;
-                                    tlp_table_inner.Margin = new Padding(15, 10, 15, 10);
-                                    
-                                //tlp_table_inner.BackgroundImage = FoodandBeverage.Properties.Resources.bgdashboard_tiltlbar; ;
-                                //tlp_table_inner.BackgroundImageLayout = ImageLayout.Stretch;
-                                //tlp_table_inner.CellBorderStyle =TableLayoutPanelCellBorderStyle.InsetDouble;
-                                //tlp_table_inner.Width = 100;
-                                //tlp_table_inner.Height = 65;
-                                #endregion
+                            // Table Name Label
+                            Label lbltablename = new Label
+                            {
+                                Name = "lbtablename" + gridSource[i].Field4,
+                                Tag = gridSource[i].Field3,
+                                Text = gridSource[i].Field4,
+                                BackColor = Color.Transparent,
+                                Font = new Font("Arial", 10, FontStyle.Bold),
+                                Dock = DockStyle.Fill,
+                                TextAlign = ContentAlignment.MiddleCenter,
+                                ForeColor = Convert.ToInt32(gridSource[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
+                                AccessibleDescription = "0"
+                            };
 
-                                    #region  tablename  for table inside tablelayoutpanel inner
-                                // Configure the Label
-                                Label lbltablename = new Label();
-                                    lbltablename.Name = "lbtablename" + gridSource[i].Field4;
-                                    lbltablename.Tag = gridSource[i].Field3;
-                                    lbltablename.Text = gridSource[i].Field4;
-                                    lbltablename.ForeColor = Color.Black;
-                                    lbltablename.BackColor = Color.Transparent;
-                                    lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                                    if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                        lbltablename.ForeColor = Ordertablefontcolor;
-                                    else
-                                        lbltablename.ForeColor = Defaultfontcolor;
-                                    #endregion
+                            // Net Amount Label
+                            Label netamountlabel = new Label
+                            {
+                                Name = "lb_netamount" + gridSource[i].Field4,
+                                Text = "\u20B9" + Convert.ToString(gridSource[i].Field8),
+                                Tag = gridSource[i].Field3,
+                                ForeColor = Netamountfontcolor,
+                                BackColor = Color.Transparent,
+                                Font = new Font("Arial", 10, FontStyle.Bold),
+                                Dock = DockStyle.Fill,
+                                TextAlign = ContentAlignment.MiddleCenter,
+                                Visible = false,
+                                AccessibleDescription = "0"
+                            };
 
-                                    #region Net Amount
-                                    // Configure the Label
-                                    Label netamountlabel = new Label();
-                                    netamountlabel.Name = "lb_netamount" + gridSource[i].Field4;
-                                    netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                    netamountlabel.Tag = gridSource[i].Field3;
-                                    netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource[i].Field8);
-                                    netamountlabel.ForeColor = Netamountfontcolor;
-                                    netamountlabel.BackColor = Color.Transparent;
-                                    netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
-                                    netamountlabel.Dock = DockStyle.Fill;
-                                    netamountlabel.Visible = false;
-                                    #endregion         
+                            // Size settings
+                            if (screenWidth > 1366) { tlp_table_inner.Width = 300; tlp_table_inner.Height = 100; }
+                            else if (screenWidth >= 1024) { tlp_table_inner.Width = 120; tlp_table_inner.Height = 80; }
 
-                                    #region size setting
-                                    if (screenWidth > 1366)
-                                    {
-                                        tlp_table_inner.Width = 300;
-                                        tlp_table_inner.Height = 100;
-                                    }
-                                    else if (screenWidth >= 1024 && screenWidth <= 1366)
-                                    {
-                                        tlp_table_inner.Width = 120;
-                                        tlp_table_inner.Height = 80;
-                                    }
+                            if (columnIndex == panelsPerRow) { columnIndex = 0; rowIndex++; }
 
-                                    if (screenWidth > 1366)
-                                    {
-                                        panelsPerRow = (int)Math.Floor((double)this.Width / (tlp_table_inner.Width + 30));
-                                    }
-                                    else if (screenWidth >= 1024 && screenWidth <= 1366)
-                                    {
-                                        panelsPerRow = (int)Math.Floor((double)this.Width / (tlp_table_inner.Width + 30));
-                                    }
+                            // Add controls
+                            tlp_table_inner.Controls.Add(lbltablename, 0, 0);
+                            tlp_table_inner.Controls.Add(netamountlabel, 0, 1);
 
-                                    if (columnIndex == panelsPerRow)
-                                    {
-                                        columnIndex = 0;
-                                        rowIndex++;
-                                    }
-                                    #endregion
+                            lbltablename.Click += tableClickEventHandler;
+                            tlp_table_inner.Click += tableClickEventHandler;
+                            netamountlabel.Click += tableClickEventHandler;
 
-                                    tlp_table_inner.Controls.Add(lbltablename, 0, 0);
-                                    tlp_table_inner.Controls.Add(netamountlabel, 0, 1);
-
-                                    tlp_table_inner.AccessibleDescription = "0";
-                                    lbltablename.AccessibleDescription = "0";
-                                    netamountlabel.AccessibleDescription = "0";
-
-                                    lbltablename.Click += new EventHandler(tableClickEventHandler);
-                                    tlp_table_inner.Click += new EventHandler(tableClickEventHandler);
-                                    netamountlabel.Click += new EventHandler(tableClickEventHandler);
-
-                                    #region Normal Order 
-                                    if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
-                                    {
-                                        BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                        dmnSearch.Select = "COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
-                                        dmnSearch.Table = "tblOrderDetails";
-                                        dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
-                                        dmnSearch.OrderBy = "";
-                                        var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-
-                                        if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
-                                        {
-                                            netamountlabel.Visible = true;
-                                            tlp_table_inner.BackColor = BillingColor;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                            netamountlabel.Dock = DockStyle.Fill;
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                            netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                        }
-                                        else
-                                        {
-
-                                            netamountlabel.Visible = false;
-                                            tlp_table_inner.BackColor = OrderColor;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                        }
-                                    }
-                                    #endregion
-
-                                    #region Rservation Bokking Order
-                                    else//reservation booking order
-                                    {
-                                        if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
-                                        {
-                                            #region order sent to kitchen ( running or complete )
-                                            if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
-                                            {
-                                                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                                dmnSearch.Select = "COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
-                                                dmnSearch.Table = "tblOrderDetails";
-                                                dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
-                                                dmnSearch.OrderBy = "";
-                                                 var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-
-                                                if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
-                                                {
-                                                    netamountlabel.Visible = true;
-                                                    tlp_table_inner.BackColor = BillingColor;
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                                    netamountlabel.Dock = DockStyle.Fill;
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                    netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                                }
-                                                else
-                                                {
-                                                    netamountlabel.Visible = false;
-                                                    tlp_table_inner.BackColor = OrderColor;
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                }
-
-                                                lbltablename.ForeColor = Ordertablefontcolor;
-                                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                            }
-                                            #endregion
-
-                                            #region order not  sent to kitchen reservation or overtime 
-                                            else //order not  sent to kitchen reservation or overtime 
-                                            {
-                                                DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                                                DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
-                                                DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                                                DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
-                                                if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
-                                                {
-
-                                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                    tlp_table_inner.BackColor = ReservationColor;
-
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
-                                                }
-                                                else if (ExpdateNow > Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
-                                                {
-                                                    tlp_table_inner.BackColor = ExpiredColor;
-                                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-                                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
-                                                }
-                                            }
-                                            #endregion
-
-                                        }
-                                        else
-                                        {
-                                            netamountlabel.Visible = false;
-                                            tlp_table_inner.BackColor = DefaultColor;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                            tlp_table_inner.AccessibleDescription = "0";
-                                            lbltablename.AccessibleDescription = "0";
-                                            netamountlabel.AccessibleDescription = "0";
-                                        }
-                                    }
-                                    #endregion
-
-                                    tlp_category.Controls.Add(tlp_table_inner, columnIndex, rowIndex);
-                                UIHelper.MakeDashboardTile(tlp_table_inner, 25, Color.White, Color.Gray, 2);
-
-                                //UIHelper.RoundCorners(tlp_table_inner, 25);
-                                columnIndex++;
-                                }
-                            }
-
-                            tlp_table_dashboard.Controls.Add(lblcategory_head, 0, rowIndex_cate);
-                            rowIndex_cate++;
-                            tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
-                            rowIndex_cate++;
-                        
-                        #endregion
+                            tlp_category.Controls.Add(tlp_table_inner, columnIndex, rowIndex);
+                            columnIndex++;
+                        }
                     }
-                   //tlp_table_dashboard.BorderStyle = BorderStyle.FixedSingle;
-                    this.Controls.Add(tlp_table_dashboard);
-                    tlp_table_dashboard.Visible = true;
-                    tlp_table_dashboard.Dock = DockStyle.Fill;
-                    tlp_table_dashboard.Focus();
 
-                    initTimer();
+                    tlp_table_dashboard.Controls.Add(lblcategory_head, 0, rowIndex_cate++);
+                    tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate++);
                 }
-                else                
-                    CMessageBox.Show("No Records", "Information", MessageBoxButtons.OK);
 
+                this.Controls.Add(tlp_table_dashboard);
+                tlp_table_dashboard.Dock = DockStyle.Fill;
+                tlp_table_dashboard.ResumeLayout(); 
+
+                tlp_table_dashboard.Focus();
+                initTimer();
             }
             catch (Exception ex)
             {
                 clsgen.LogException("TableView page  LoadTableStaus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
         }
-
         public void TableStaus(int serachmode)
         {
             try
             {
+                clsgen.Memoryrelease();
                 AutoTimer.Stop();
                 tlp_table_dashboard.SuspendLayout();
+
                 DmnSearch dmnSearch = new DmnSearch();
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
-
-                #region For checking query (no use )
-                /* c.Fcid as Field1,c.CategoryName as Field2,ti.Tid Field3, ti.TableCode Field4,
-     ti.OrderStatus Field5, ti.OrderMasterId Field6,
-     (select top(1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -@BookingInterwell, BookingDateTime) and MTID = ti.tid and rid = 0  order by bm.BookingDateTime desc) Field7,
-     (select top(1) bm.BookingDateTime from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId  where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE, -@BookingInterwell, BookingDateTime) and MTID = ti.tid and rid = 0  order by bm.BookingDateTime desc)  EndDate,
-     (select NetAmount from tblOrderMaster where OrderMasterId = ti.OrderMasterId and Status in(1, 2, 3)) Field8*/
-                #endregion
-
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-                switch (serachmode)
-                {
-                    case 0:
-                        dmnSearchtabledata.Field29 = "0";
-                        break;
-                    case 1:
-                        dmnSearchtabledata.Field29 = "1";
-                        break;
-                    case 2:
-                        dmnSearchtabledata.Field29 = "2";
-                        break;
-                    case 3:
-                        dmnSearchtabledata.Field29 = "3";
-                        break;
-                }
+                dmnSearchtabledata.Field29 = serachmode.ToString();
+
                 var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
-                if (gridSource.Count > 0)
+                if (gridSource.Count == 0) { tlp_table_dashboard.ResumeLayout(); return; }
+
+                var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
+                List<CategoryInfo> categoryList = distinctCategories.Select(fcid =>
                 {
-                    bool flag = false;
-                    for (int j = 0; j < gridSource.Count; j++)
+                    var name = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
+                    return name != null ? new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = name } : null;
+                }).Where(x => x != null).ToList();
+
+                foreach (var category in categoryList)
+                {
+                    for (int i = 0; i < gridSource.Count; i++)
                     {
-                        if (gridSource[j].EndDate != null && gridSource[j].Field7 != null && Convert.ToInt32(gridSource[j].Field7) > 1 && Convert.ToInt32(gridSource[j].Field10) == 0) //gridSource[j].Field7 bookinmasterid gridSource[j].Field7 ordermasterid 
+                        if (Convert.ToInt32(gridSource[i].Field1) != category.Fcid) continue;
+
+                        TableLayoutPanel tlp_table_inner = this.Controls.Find("tlpbox" + gridSource[i].Field4, true).FirstOrDefault() as TableLayoutPanel;
+                        Label lbltablename = this.Controls.Find("lbtablename" + gridSource[i].Field4, true).FirstOrDefault() as Label;
+                        Label netamountlabel = this.Controls.Find("lb_netamount" + gridSource[i].Field4, true).FirstOrDefault() as Label;
+
+                        if (tlp_table_inner == null) continue;
+
+                        lbltablename.ForeColor = Convert.ToInt32(gridSource[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor;
+                        tlp_table_inner.AccessibleDescription = "0";
+                        lbltablename.AccessibleDescription = "0";
+
+                        // Update NetAmount & color logic for normal/reservation orders
+                        if (Convert.ToInt32(gridSource[i].Field5) == 1)
                         {
-                            DateTime beforeAddMinutes = gridSource[j].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                            DateTime afterAddMinutes = gridSource[j].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                            if (Convert.ToInt32(gridSource[j].Field7) > 0)//
+                            // Normal Order logic
+                            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                            dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1,(select NetAmount from tblOrderMaster where Status!=0 and OrderMasterId =" + gridSource[i].Field6 + ") Field2";
+                            dmnSearch.Table = "tblOrderDetails";
+                            dmnSearch.WhereNdGroupBy = "WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
+                            dmnSearch.OrderBy = "";
+                            var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
+
+                            if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
                             {
-                                CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
-                                flag = true;
+                                netamountlabel.Visible = false;
+                                tlp_table_inner.BackColor = OrderColor;
+                                netamountlabel.Text = "";
+                            }
+                            else
+                            {
+                                netamountlabel.Visible = true;
+                                tlp_table_inner.BackColor = BillingColor;
+                                netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource_order[0].Field2);
                             }
                         }
-                    }
-                    if (flag)
-                        gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
-
-                    var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
-                    List<CategoryInfo> categoryList = new List<CategoryInfo>();
-                    foreach (var fcid in distinctCategories)
-                    {
-                        string categoryName = gridSource.FirstOrDefault(item => item.Field1 == fcid)?.Field2;
-
-                        if (categoryName != null)
+                        else
                         {
-                            categoryList.Add(new CategoryInfo { Fcid = Convert.ToInt32(fcid), CategoryName = categoryName });
+                            // Reservation Order logic
+                            DateTime now = DateTime.Now;
+                            DateTime end = Convert.ToDateTime(gridSource[i].EndDate);
+                            DateTime before = end.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+
+                            if (now >= before && now <= end) tlp_table_inner.BackColor = ReservationColor;
+                            else if (now > end) tlp_table_inner.BackColor = ExpiredColor;
+                            else tlp_table_inner.BackColor = DefaultColor;
                         }
-                    }
-                    foreach (var category in categoryList)
-                    {
-                         #region Normal or Reservation Order 
-             
-                        for (int i = 0; i < gridSource.Count; i++)
-                        {                             
-                                string tlpboxname = "tlpbox" + gridSource[i].Field4;
-                                string lbtable = "lbtablename" + gridSource[i].Field4;
-                                string lblnetamountname = "lb_netamount" + gridSource[i].Field4;
-
-                                TableLayoutPanel tlp_table_inner = this.Controls.Find(tlpboxname, true).FirstOrDefault() as TableLayoutPanel;
-                                Label lbltablename = this.Controls.Find(lbtable, true).FirstOrDefault() as Label;
-                                Label netamountlabel = this.Controls.Find(lblnetamountname, true).FirstOrDefault() as Label;
-                                if (tlp_table_inner == null)
-                                {
-                                    AutoTimer.Stop();
-                                    return;
-                                }
-
-                                if (Convert.ToInt32(gridSource[i].Field1) == category.Fcid)
-                                {
-                                    if (Convert.ToInt32(gridSource[i].Field5) == 1)
-                                        lbltablename.ForeColor = Ordertablefontcolor;
-                                    else
-                                        lbltablename.ForeColor = Defaultfontcolor;
-
-                                    tlp_table_inner.AccessibleDescription = "0";
-                                    lbltablename.AccessibleDescription = "0";
-
-                                    #region Normal Order -- not reservation order 
-                                    if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
-                                    {
-                                        BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                        dmnSearch.Select = "CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1,(select NetAmount from tblOrderMaster where Status!=0 and OrderMasterId =" + gridSource[i].Field6 + ") Field2";
-                                        dmnSearch.Table = "tblOrderDetails";
-                                        dmnSearch.WhereNdGroupBy = "WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
-                                        dmnSearch.OrderBy = "";
-                                        var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-
-                                        if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
-                                        {
-                                            netamountlabel.Visible = false;
-                                            tlp_table_inner.BackColor = OrderColor;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                            netamountlabel.Text = "";
-                                        }
-                                        else
-                                        {
-                                            netamountlabel.Visible = true;
-                                            tlp_table_inner.BackColor = BillingColor;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                            netamountlabel.Dock = DockStyle.Fill;
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource_order[0].Field2);
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                            netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                        }
-                                    }
-                                    #endregion
-
-                                    #region Rservation Bokking Order
-                                    else if (Convert.ToInt32(gridSource[i].Field5) == 0 && (Convert.ToInt32(gridSource[i].Field7) > 0))//reservation booking order
-                                    {
-                                        if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
-                                        {
-                                            #region order sent to kitchen ( running or complete )
-                                            if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
-                                            {
-                                                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                                                dmnSearch.Select = " COUNT(*)  Field1";//= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
-                                                dmnSearch.Table = "tblOrderDetails";
-                                                dmnSearch.WhereNdGroupBy = "WHERE status=3 and OrderMasterId = " + gridSource[i].Field6;
-                                                dmnSearch.OrderBy = "";
-                                                var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                                                if (gridSource_order.Count > 0)
-                                                {
-                                                    if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
-                                                    {
-                                                        netamountlabel.Visible = true;
-                                                        tlp_table_inner.BackColor = BillingColor;
-                                                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
-                                                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
-                                                        netamountlabel.Dock = DockStyle.Fill;
-                                                        lbltablename.Dock = DockStyle.Fill;
-                                                        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                                                        netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource[i].Field8);
-                                                    }
-                                                    else
-                                                    {
-                                                        netamountlabel.Visible = false;
-                                                        tlp_table_inner.BackColor = OrderColor;
-                                                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                        lbltablename.Dock = DockStyle.Fill;
-                                                        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                    }
-
-                                                    lbltablename.ForeColor = Ordertablefontcolor;
-                                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                    netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                }
-                                            }
-                                            #endregion
-
-                                            #region order not  sent to kitchen reservation or overtime 
-                                            else //order not  sent to kitchen reservation or overtime 
-                                            {
-                                                DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                                                DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell));
-                                                DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                                                DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
-                                                if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
-                                                {
-                                                    tlp_table_inner.BackColor = ReservationColor;
-                                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
-                                                }
-                                                else if (ExpdateNow >= Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
-                                                {
-
-                                                    tlp_table_inner.BackColor = ExpiredColor;
-                                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-                                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-                                                    tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                                    tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                                    lbltablename.Dock = DockStyle.Fill;
-                                                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                                                }
-                                            }
-                                            #endregion
-                                        }
-                                        else
-                                        {
-                                            tlp_table_inner.BackColor = DefaultColor;
-                                            tlp_table_inner.AccessibleDescription = "0";
-                                            lbltablename.AccessibleDescription = "0";
-
-                                            netamountlabel.Text = "";
-                                            netamountlabel.Visible = false;
-                                            tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                            tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                            lbltablename.Dock = DockStyle.Fill;
-                                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
-                                            tlp_table_inner.AccessibleDescription = "0";
-                                            lbltablename.AccessibleDescription = "0";
-
-                                        }
-                                    }
-                                    #endregion
-
-                                    else
-                                    {
-                                        netamountlabel.Text = "";
-                                        netamountlabel.Visible = false;
-
-                                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                                        lbltablename.Dock = DockStyle.Fill;
-                                        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
-                                        tlp_table_inner.BackColor = DefaultColor;
-                                        tlp_table_inner.AccessibleDescription = "0";
-                                        lbltablename.AccessibleDescription = "0";
-                                    }
-                                }
-                            }
-                        
-                        #endregion                   
                     }
                 }
-                tlp_table_dashboard.ResumeLayout();
+
+                tlp_table_dashboard.ResumeLayout(); // Resume after updates
                 tlp_table_dashboard.Dock = DockStyle.Fill;
                 initTimer();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("TableView page  TableStaus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
-
         }
+        #endregion
 
-        public class CategoryInfo
+        private void DisposeControlRecursive(Control ctrl)
         {
-            public int Fcid { get; set; }
-            public string CategoryName { get; set; }
-        }
+            foreach (Control child in ctrl.Controls)
+            {
+                DisposeControlRecursive(child);
+            }
 
+            if (ctrl is PictureBox pb && pb.Image != null)
+            {
+                pb.Image.Dispose();
+                pb.Image = null;
+            }
+
+            ctrl.Dispose();
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            AutoTimer?.Stop();
+            AutoTimer?.Dispose();
+            base.OnFormClosing(e);
+        }
         public void CheckexpireTable(int tid, int Bmid)
         {
             try
@@ -690,7 +353,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("TableView page  CheckexpireTable()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
         }
@@ -698,7 +360,6 @@ namespace FoodandBeverage.Forms
         {
             AutoTimer.Start();
         }
-
         private void tableClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -737,7 +398,6 @@ namespace FoodandBeverage.Forms
                                 //this.Visible = false;
                                 _instanceFrmOrder.ShowDialog();
                                 _instanceFrmOrder.BringToFront();
-
                             }
                         }
                         else
@@ -811,28 +471,27 @@ namespace FoodandBeverage.Forms
                         _instanceFrmOrder.BringToFront();
                     }
                 }
-
+                clsgen.Memoryrelease();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("TableView page  tableClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
         }
+
+
+        #region No Refrence
         private void tlp_category_MouseHover(object sender, EventArgs e)
         {
             try
             {
-                ToolTip toolTip1 = new ToolTip();
                 TableLayoutPanel tlpcate = sender as TableLayoutPanel;
                 string tlpName = "tlp_category_com_" + tlpcate.Tag;
-                // Find the TableLayoutPanel control by name
                 TableLayoutPanel tlp = this.Controls.Find(tlpName, true).FirstOrDefault() as TableLayoutPanel;
                 if (tlp != null)
                 {
                     tlp.BackColor = Color.LightBlue;
-                    // Show tooltip with the item name
-                    toolTip1.SetToolTip(tlp, tlpcate.Tag.ToString());
+                    _toolTip.SetToolTip(tlp, tlpcate.Tag.ToString());
                 }
             }
             catch (Exception ex)
@@ -840,7 +499,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("TableView page  tlp_category_MouseHover()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
-
         }
         private void tlp_category_MouseLeave(object sender, EventArgs e)
         {
@@ -964,7 +622,13 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("TableView page  FillTabelData()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
         }
+        #endregion
 
+        public class CategoryInfo
+        {
+            public int Fcid { get; set; }
+            public string CategoryName { get; set; }
+        }
         private static void RunMethodInSeparateThread(Action action)
         {
             var thread = new Thread(new ThreadStart(action));
@@ -973,12 +637,12 @@ namespace FoodandBeverage.Forms
 
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
-            //RunMethodInSeparateThread(() => TableStaus(0));
             TableStaus(0);
         }
 
         private void FrmTableView_FormClosing(object sender, FormClosingEventArgs e)
         {
+            clsgen.Memoryrelease();
             if (FrmDashboard.AutoLogoutWhenIdle)
             {
                 AppSession.UnregisterForm(this);

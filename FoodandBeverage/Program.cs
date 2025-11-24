@@ -8,9 +8,12 @@ using System.Windows.Automation;
 using System.Configuration;
 using FoodandBeverage.Classes;
 using System.Collections.Generic;
+using FoodandBeverage.Interfaces;
+using Domain;
 
 namespace FoodandBeverage
 {
+
     static class Program
     {
         [STAThread]
@@ -33,7 +36,8 @@ namespace FoodandBeverage
                         FoodandBeverage.Classes.CrystalInstaller.EnsureCrystalInstalled();
                     }
 
-                    Application.Run(new Forms.FrmloginTablet());
+                   // Application.Run(new Forms.FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, null, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage)));
+                    Application.Run(new Forms.FrmLogin());
                 }
                 else
                 {

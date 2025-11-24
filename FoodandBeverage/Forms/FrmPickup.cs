@@ -153,11 +153,10 @@ namespace FoodandBeverage.Forms
                     _instanceFrmOrder.ShowDialog();
                     _instanceFrmOrder.BringToFront();
                 }
-
+                clsgen.Memoryrelease();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("TableView page  Button_pickupClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
             }
         }

@@ -7259,3 +7259,548 @@ User Name: Ajay v v
 Designation: Billing
 FormTypeId: 1
 -------------------------------------------------------------------------
+Date and Time: 11/24/2025 10:51:49 AM
+Page : Order page SidebuttonClickEventHandler()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 12:46:35 PM
+Page : Order page SidebuttonfavClickEventHandler()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 1:41:35 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 1:41:37 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 1:41:38 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 1:41:39 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 1:41:39 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:26:29 PM
+Page : Order page  txtname_search_KeyDown()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:27:59 PM
+Page : Order page  ProductItemcodeSearch()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:28:02 PM
+Page : Order page  ProductItemcodeSearch()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:28:04 PM
+Page : Order page  ProductItemcodeSearch()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:28:04 PM
+Page : Order page  ProductItemcodeSearch()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 2:28:57 PM
+Page : Order page  ProductItemcodeSearch()
+Exception: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 4:56:34 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 4:57:05 PM
+Page : TableView page  tableClickEventHandler()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 4:57:12 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:00:02 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:01:44 PM
+Page : TableView page  tableClickEventHandler()
+Exception: Object reference not set to an instance of an object.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:01:51 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:02:06 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:02:26 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:02:33 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:02:39 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:03:33 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:03:42 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:03:46 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:03:51 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:03:56 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:04:01 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:05:09 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:05:16 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:05:37 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:05:49 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:05:59 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:06:12 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:06:36 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:06:46 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:06:54 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:11 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:17 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:24 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:27 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:33 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:07:43 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:08:18 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:08:23 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:08:28 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:08:36 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:09:42 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:09:52 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:10:29 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:10:48 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:11:09 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:24:43 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:24:52 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:25:00 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:25:05 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:25:09 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:27:12 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:27:17 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:27:22 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:27:25 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:28:02 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:28:11 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:30:28 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:30:37 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:30:49 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:31:38 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:31:46 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------
+Date and Time: 11/24/2025 5:32:01 PM
+Page : TableView page  TableStaus()
+Exception: The added or subtracted value results in an un-representable DateTime.
+Parameter name: value
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 30
+-------------------------------------------------------------------------

@@ -3844,6 +3844,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                clsgen.Memoryrelease();
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -4029,12 +4030,13 @@ namespace FoodandBeverage.Forms
 
                 }
 
+                clsgen.Memoryrelease();
+
                 menutable_click = true;
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage btn_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }

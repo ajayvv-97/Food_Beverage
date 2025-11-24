@@ -10,6 +10,7 @@ using System.IO;
 using OfficeOpenXml;
 using System.Drawing.Drawing2D;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace FoodandBeverage.Classes
 {
@@ -41,6 +42,36 @@ namespace FoodandBeverage.Classes
                     SendKeys.Send("{TAB}");
                 }
         }
+        public static void ReleaseMemory()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+        private void DisposeTableLayoutPanel(TableLayoutPanel tlp)
+        {
+            if (tlp == null) return;
+
+            foreach (Control ctrl in tlp.Controls)
+            {
+                if (ctrl is PictureBox pb)
+                    pb.Image?.Dispose();
+
+                ctrl.Dispose();
+            }
+
+            tlp.Controls.Clear();
+            tlp.Dispose();
+        }
+
+        private void ClearList<T>(List<T> list)
+        {
+            if (list == null) return;
+            foreach (var item in list)
+                if (item is IDisposable disposable)
+                    disposable.Dispose();
+            list.Clear();
+        }
+
         public void ApplyRoundedCorners(Control control, float bd)
         {
             try
