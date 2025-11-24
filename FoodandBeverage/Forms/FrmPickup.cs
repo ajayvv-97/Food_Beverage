@@ -146,12 +146,16 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmOrder _instanceFrmOrder = new FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage));
-                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmOrder.Opacity = 0;
-                    _instanceFrmOrder.Visible = false;
-                    _instanceFrmOrder.ShowDialog();
-                    _instanceFrmOrder.BringToFront();
+                    using (FrmOrder frm = new FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0,
+                                   CheckedtableNames, Convert.ToInt32(PageType.Billpage),
+                                   0, Convert.ToInt32(SourcepageType.Pickuppage)))
+                    {
+                        frm.Opacity = 0;
+                        frm.Visible = false;
+                        frm.WindowState = FormWindowState.Maximized;
+                        frm.ShowDialog();
+                    }
+
                 }
                 clsgen.Memoryrelease();
             }
@@ -363,12 +367,14 @@ namespace FoodandBeverage.Forms
                     {
                         if (clickedControl.Tag != null)
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage));
-                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            _instanceFrmOrder.Opacity = 0;
-                            _instanceFrmOrder.Visible = false;
-                            _instanceFrmOrder.ShowDialog();
-                            _instanceFrmOrder.BringToFront();
+                            using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage)))
+                            {
+                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                _instanceFrmOrder.Opacity = 0;
+                                _instanceFrmOrder.Visible = false;
+                                _instanceFrmOrder.ShowDialog();
+                                _instanceFrmOrder.BringToFront();
+                            }
                         }
                     }
                 }

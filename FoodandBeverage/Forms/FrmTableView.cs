@@ -407,12 +407,14 @@ namespace FoodandBeverage.Forms
                             {
                                 //this.Visible = false;
                                 //this.Hide();
-                                FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder),0,CheckedtableNames, Convert.ToInt32(PageType.OrderPage),0, Convert.ToInt32(SourcepageType.Tableviewpage));
-                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                _instanceFrmOrder.Opacity = 0;
-                                _instanceFrmOrder.Visible = false;
-                                _instanceFrmOrder.ShowDialog();
-                                _instanceFrmOrder.BringToFront();
+                                using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                                {
+                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                    _instanceFrmOrder.Opacity = 0;
+                                    _instanceFrmOrder.Visible = false;
+                                    _instanceFrmOrder.ShowDialog();
+                                    _instanceFrmOrder.BringToFront();
+                                }
                             }
                         }
 
@@ -452,23 +454,27 @@ namespace FoodandBeverage.Forms
                         }
                         else if (result == DialogResult.No)
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames, Convert.ToInt32(PageType.OrderPage),0, Convert.ToInt32(SourcepageType.Tableviewpage));
-                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            _instanceFrmOrder.Opacity = 0;
-                            _instanceFrmOrder.Visible = false;
-                            _instanceFrmOrder.Show();
-                            _instanceFrmOrder.BringToFront();
+                            using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                            {
+                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                _instanceFrmOrder.Opacity = 0;
+                                _instanceFrmOrder.Visible = false;
+                                _instanceFrmOrder.ShowDialog();
+                                _instanceFrmOrder.BringToFront();
+                            }
 
                         }
                     }
                     else if (Btype == Convert.ToInt32(DashboardTableType.Reverse_Table))
                     {
-                        FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid),CheckedtableNames, Convert.ToInt32(PageType.OrderPage),0, Convert.ToInt32(SourcepageType.Tableviewpage));
-                        _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        _instanceFrmOrder.Opacity = 0;
-                        _instanceFrmOrder.Visible = false;
-                        _instanceFrmOrder.Show();
-                        _instanceFrmOrder.BringToFront();
+                        using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                        {
+                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                            _instanceFrmOrder.Opacity = 0;
+                            _instanceFrmOrder.Visible = false;
+                            _instanceFrmOrder.ShowDialog();
+                            _instanceFrmOrder.BringToFront();
+                        }
                     }
                 }
                 clsgen.Memoryrelease();

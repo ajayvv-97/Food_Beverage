@@ -151,6 +151,8 @@ namespace FoodandBeverage.Forms
 
         public static int DefaultTaxsettingid = 0;
         public static string DefaultTaxType = "";
+
+        private FrmOrder _instanceFrmTableView;
         #endregion
 
         // Function to create a rounded rectangle region
@@ -3612,6 +3614,30 @@ namespace FoodandBeverage.Forms
                 {
                     btn_pickup.PerformClick();
                 }
+
+                //        _instanceFrmTableView = new FrmOrder(
+                //    0,
+                //     Convert.ToInt32(DashboardTableType.PickupOrder),
+                //     0,
+                //     null,
+                //     Convert.ToInt32(PageType.Billpage),
+                //     0,
+                //     Convert.ToInt32(SourcepageType.Pickuppage)
+                // );
+
+                //        ResizeForm(_instanceFrmTableView);
+
+                //        _instanceFrmTableView.TopLevel = false;
+                //_instanceFrmTableView.FormBorderStyle = FormBorderStyle.None;
+
+                //panelDesktop.Controls.Add(_instanceFrmTableView);
+
+                //_instanceFrmTableView.Show();
+                //_instanceFrmTableView.WindowState = FormWindowState.Maximized;
+                //_instanceFrmTableView.BringToFront();
+
+
+
 
                 menutable_click = true;
                 panelDesktop.ResumeLayout();              

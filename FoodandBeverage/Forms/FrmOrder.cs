@@ -334,58 +334,58 @@ namespace FoodandBeverage.Forms
 
                 #endregion
 
-                //#region Grid color setting
-                //Dgv_Selected_Item.Rows.Add(1);
-                //Dgv_Selected_Item.BorderStyle = BorderStyle.None;
-                //Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                //Dgv_Selected_Item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                //Dgv_Selected_Item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                //Dgv_Selected_Item.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                //Dgv_Selected_Item.BackgroundColor = Color.White;
+                #region Grid color setting
+                Dgv_Selected_Item.Rows.Add(1);
+                Dgv_Selected_Item.BorderStyle = BorderStyle.None;
+                Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                Dgv_Selected_Item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                Dgv_Selected_Item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                Dgv_Selected_Item.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                Dgv_Selected_Item.BackgroundColor = Color.White;
 
-                //Dgv_Selected_Item.EnableHeadersVisualStyles = false;
-                //Dgv_Selected_Item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                //Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                //Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Dgv_Selected_Item.EnableHeadersVisualStyles = false;
+                Dgv_Selected_Item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                //dgv_viewmore.Rows.Add(1);
-                //dgv_viewmore.BorderStyle = BorderStyle.None;
-                //dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                //dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                //dgv_viewmore.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                //dgv_viewmore.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                //dgv_viewmore.BackgroundColor = Color.White;
+                dgv_viewmore.Rows.Add(1);
+                dgv_viewmore.BorderStyle = BorderStyle.None;
+                dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_viewmore.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_viewmore.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_viewmore.BackgroundColor = Color.White;
 
-                //dgv_viewmore.EnableHeadersVisualStyles = false;
-                //dgv_viewmore.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                //dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                //dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_viewmore.EnableHeadersVisualStyles = false;
+                dgv_viewmore.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                //dgv_split.BorderStyle = BorderStyle.None;
-                //dgv_split.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                //dgv_split.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                //dgv_split.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                //dgv_split.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                //dgv_split.BackgroundColor = Color.White;
+                dgv_split.BorderStyle = BorderStyle.None;
+                dgv_split.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_split.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_split.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_split.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_split.BackgroundColor = Color.White;
 
-                //dgv_split.EnableHeadersVisualStyles = false;
-                //dgv_split.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                //dgv_split.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                //dgv_split.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgv_split.EnableHeadersVisualStyles = false;
+                dgv_split.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_split.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_split.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
 
-                //dgv_tableprice.BorderStyle = BorderStyle.None;
-                //dgv_tableprice.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                //dgv_tableprice.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                //dgv_tableprice.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                //dgv_tableprice.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                //dgv_tableprice.BackgroundColor = Color.White;
+                dgv_tableprice.BorderStyle = BorderStyle.None;
+                dgv_tableprice.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgv_tableprice.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgv_tableprice.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgv_tableprice.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgv_tableprice.BackgroundColor = Color.White;
 
-                //dgv_tableprice.EnableHeadersVisualStyles = false;
-                //dgv_tableprice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                //dgv_tableprice.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                //dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-                //#endregion
+                dgv_tableprice.EnableHeadersVisualStyles = false;
+                dgv_tableprice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgv_tableprice.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgv_tableprice.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                #endregion
 
                 #region Palce Holder  Textboxes setting
                 txtname_search.Text = "Food Name .....";
@@ -412,7 +412,7 @@ namespace FoodandBeverage.Forms
                 tlp_netalc_buttons.Controls.Add(tlp_calculation_total, 0, 0);
                 tlp_calculation_total.Dock = DockStyle.Fill;
 
-                textb_shape_paymnet();
+               textb_shape_paymnet();
             }
             catch (Exception ex)
             {
@@ -10717,19 +10717,39 @@ namespace FoodandBeverage.Forms
         }
         private void FrmOrder_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DisposeControls(flp_addons);
-            DisposeControls(flp_variation);
-
-            if (FrmDashboard.AutoLogoutWhenIdle)
-                AppSession.UnregisterForm(this);
-
-            if (Application.OpenForms["FrmTableView"] != null)
+            try
             {
-                var frm = Application.OpenForms["FrmTableView"] as FrmTableView;
-                frm.BringToFront();
-                frm.Dock = DockStyle.Fill;
+                DisposeControls(flp_addons);
+                DisposeControls(flp_variation);
+
+                DisposeTimer(tm_memory);
+                DisposeTimer(blinkTimer);
+                DisposeTimer(wificard_timer);
+
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                    AppSession.UnregisterForm(this);
+
+                if (Application.OpenForms["FrmTableView"] != null)
+                {
+                    var frm = Application.OpenForms["FrmTableView"] as FrmTableView;
+                    frm.BringToFront();
+                    frm.Dock = DockStyle.Fill;
+                }
+            }
+            catch
+            { 
+
             }
         }
+        private void DisposeTimer(System.Windows.Forms.Timer timer)
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
+        }
+
         private void txtcardrecamt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r') // Check for Enter key
