@@ -478,7 +478,8 @@ namespace FoodandBeverage.Forms
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
                     btn_PrintCopy.Visible = false;
-                    btndirectpaybill.Visible = true;
+                    if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                        btndirectpaybill.Visible = true;
                 }
                 else if (typeno == 2)
                 {

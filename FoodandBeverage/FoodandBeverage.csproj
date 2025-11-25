@@ -1869,6 +1869,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\table_view.png" />
     <None Include="Resources\payment_hide_show.png" />
     <None Include="Resources\backspace2.png" />
     <None Include="Resources\addon_comb_item.png" />
