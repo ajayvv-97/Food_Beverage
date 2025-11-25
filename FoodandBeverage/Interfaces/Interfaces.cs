@@ -324,7 +324,8 @@ namespace FoodandBeverage.Interfaces
     {
         Booking_NormalOrder = 0,
         PickupOrder = 1,
-        Combined_pick_normal_Order=2
+        Combined_pick_normal_Order=2,
+        Pickup_DirectSale = 3,
     }
     public enum ButtonType
     {

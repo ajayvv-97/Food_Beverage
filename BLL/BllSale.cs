@@ -66,6 +66,8 @@ namespace BLL
             parms.Add("PkId", objTestClass.PkId);
             parms.Add("OrderType", objTestClass.OrderType);
             parms.Add("PkChargeAmount", objTestClass.PkChargeAmount);
+            parms.Add("IsDirectSale", objTestClass.IsDirectSale);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

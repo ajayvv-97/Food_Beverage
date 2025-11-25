@@ -109,6 +109,8 @@ namespace Domain
         public int OrderType { get; set; }
         public int PkId { get; set; }
         public decimal PkChargeAmount { get; set; }
+        public bool IsDirectSale { get; set; }
     }
     
+
 }
