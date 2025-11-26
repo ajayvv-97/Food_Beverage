@@ -45,7 +45,7 @@ namespace FoodandBeverage.Forms
             this.panelMain.Controls.Add(this.btnLogin);
             this.panelMain.Controls.Add(this.btnCancel);
             this.panelMain.Location = new System.Drawing.Point(62, 62);
-            this.panelMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelMain.Margin = new System.Windows.Forms.Padding(4);
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(562, 600);
             this.panelMain.TabIndex = 0;
@@ -54,7 +54,7 @@ namespace FoodandBeverage.Forms
             // 
             this.pictureLogo.Image = global::FoodandBeverage.Properties.Resources.midas_logo;
             this.pictureLogo.Location = new System.Drawing.Point(188, 25);
-            this.pictureLogo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pictureLogo.Name = "pictureLogo";
             this.pictureLogo.Size = new System.Drawing.Size(188, 188);
             this.pictureLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -65,10 +65,11 @@ namespace FoodandBeverage.Forms
             // 
             this.txtUser.Font = new System.Drawing.Font("Segoe UI", 14F);
             this.txtUser.Location = new System.Drawing.Point(75, 250);
-            this.txtUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUser.Margin = new System.Windows.Forms.Padding(4);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(412, 39);
             this.txtUser.TabIndex = 1;
+            this.txtUser.Text = "admin";
             this.txtUser.Enter += new System.EventHandler(this.txtUser_Enter);
             this.txtUser.Leave += new System.EventHandler(this.txtUser_Leave);
             // 
@@ -76,10 +77,11 @@ namespace FoodandBeverage.Forms
             // 
             this.txtPass.Font = new System.Drawing.Font("Segoe UI", 14F);
             this.txtPass.Location = new System.Drawing.Point(75, 325);
-            this.txtPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPass.Margin = new System.Windows.Forms.Padding(4);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(412, 39);
             this.txtPass.TabIndex = 2;
+            this.txtPass.Text = "123";
             this.txtPass.Enter += new System.EventHandler(this.txtPass_Enter);
             this.txtPass.Leave += new System.EventHandler(this.txtPass_Leave);
             // 
@@ -89,7 +91,7 @@ namespace FoodandBeverage.Forms
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Location = new System.Drawing.Point(75, 412);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(412, 56);
             this.btnLogin.TabIndex = 3;
@@ -101,7 +103,7 @@ namespace FoodandBeverage.Forms
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.btnCancel.Location = new System.Drawing.Point(75, 488);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(412, 50);
             this.btnCancel.TabIndex = 4;
@@ -116,7 +118,7 @@ namespace FoodandBeverage.Forms
             this.ClientSize = new System.Drawing.Size(1600, 1000);
             this.Controls.Add(this.panelMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmloginTablet";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmloginTablet_Load);

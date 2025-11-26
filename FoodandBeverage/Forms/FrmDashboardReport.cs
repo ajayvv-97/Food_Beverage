@@ -1343,9 +1343,9 @@ namespace FoodandBeverage.Forms
                         string searchValue = Cmbserachtype.SelectedItem?.ToString();
                         DateTime now = DateTime.Now;
 
-                        // Auto-select defaults
-                        if (Cmbserachtype.SelectedIndex <= 0)
-                            Cmbserachtype.SelectedIndex = 1;
+                        //// Auto-select defaults
+                        //if (Cmbserachtype.SelectedIndex <= 0)
+                        //    Cmbserachtype.SelectedIndex = 1;
 
                         if (string.IsNullOrEmpty(searchValue))
                         {
@@ -1360,7 +1360,7 @@ namespace FoodandBeverage.Forms
                         BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                         DmnSearch dmnSearch = new DmnSearch();
 
-                        if (Cmbserachtype.SelectedIndex == 1)
+                        if (Cmbserachtype.SelectedIndex == 0)
                         {
                             dmnSearch.Select = @"                                                 
                                                     1 AS Field3,
@@ -1415,8 +1415,8 @@ namespace FoodandBeverage.Forms
                                                     END
                                                 ORDER BY TimeSlot";
                             dmnSearch.OrderBy = "";
-                            var gridSourcetotal_dine = bllSearch.GetSearchData("prdSearch", dmnSearch); 
-                            
+                            var gridSourcetotal_dine = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
                             dmnSearch.Select = @"                                                 
                                                     1 AS Field3,
                                                     ISNULL(COUNT(*), 0) AS Field1,
@@ -1445,62 +1445,120 @@ namespace FoodandBeverage.Forms
                             dmnSearch.OrderBy = "";
                             var gridSourcetotal_res = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
-                            // Ensure chart areas exist
-                            foreach (var chart in new[] { cht_resve, cht_dinetotal, cht_totalsale })
+                            //---------------------------------------------
+                            // TOTAL SALE CHART
+                            //---------------------------------------------
+                            cht_totalsale.Series.Clear();
+                            cht_totalsale.ChartAreas.Clear();
+
+                            ChartArea area1 = new ChartArea("Area1");
+                            cht_totalsale.ChartAreas.Add(area1);
+
+                            // Hide axis/grid for minimal design
+                            area1.AxisX.MajorGrid.Enabled = false;
+                            area1.AxisY.MajorGrid.Enabled = false;
+                            area1.AxisX.LabelStyle.Enabled = false;
+                            area1.AxisY.LabelStyle.Enabled = false;
+                            area1.AxisX.LineWidth = 0;
+                            area1.AxisY.LineWidth = 0;
+                            area1.AxisX.MajorTickMark.Enabled = false;
+                            area1.AxisY.MajorTickMark.Enabled = false;
+
+                            // Line series
+                            Series ser1 = new Series("SalesLine")
                             {
-                                if (chart.ChartAreas.Count == 0)
-                                    chart.ChartAreas.Add(new ChartArea());
-                                chart.Series.Clear();
+                                ChartType = SeriesChartType.Line,
+                                BorderWidth = 3,
+                                Color = Color.FromArgb(0, 150, 255),
+                                MarkerStyle = MarkerStyle.None,
+                                IsVisibleInLegend = false
+                            };
+
+                            // Add points
+                            foreach (var r in gridSourcetotal)
+                            {
+                                ser1.Points.AddY(Convert.ToDouble(r.Field2));
                             }
 
-                            // --- RESERVE CHART ---
-                            var seriesRes = new Series("Reserve")
-                            {
-                                ChartType = SeriesChartType.Spline,
-                                BorderWidth = 3,
-                                Color = Color.DodgerBlue
-                            };
-                            foreach (var item in gridSourcetotal_res)
-                                seriesRes.Points.AddY(item.Field2);
-                            cht_resve.Series.Add(seriesRes);
+                            cht_totalsale.Series.Add(ser1);
 
-                            // --- DINE CHART ---
-                            var seriesDine = new Series("DineTotal")
-                            {
-                                ChartType = SeriesChartType.Spline,
-                                BorderWidth = 3,
-                                Color = Color.MediumSeaGreen
-                            };
-                            foreach (var item in gridSourcetotal_dine)
-                                seriesDine.Points.AddY(item.Field2);
-                            cht_dinetotal.Series.Add(seriesDine);
 
-                            // --- TOTAL SALE CHART ---
-                            var seriesTotal = new Series("TotalSale")
-                            {
-                                ChartType = SeriesChartType.Spline,
-                                BorderWidth = 3,
-                                Color = Color.OrangeRed
-                            };
-                            foreach (var item in gridSourcetotal)
-                                seriesTotal.Points.AddY(item.Field2);
-                            cht_totalsale.Series.Add(seriesTotal);
+                            //---------------------------------------------
+                            // RESERVATION CHART
+                            //---------------------------------------------
+                            cht_resve.Series.Clear();
+                            cht_resve.ChartAreas.Clear();
 
-                            // Axis styling for wave look
-                            foreach (var chart in new[] { cht_resve, cht_dinetotal, cht_totalsale })
+                            ChartArea area2 = new ChartArea("Area2");
+                            cht_resve.ChartAreas.Add(area2);
+
+                            // Hide axis/grid
+                            area2.AxisX.MajorGrid.Enabled = false;
+                            area2.AxisY.MajorGrid.Enabled = false;
+                            area2.AxisX.LabelStyle.Enabled = false;
+                            area2.AxisY.LabelStyle.Enabled = false;
+                            area2.AxisX.LineWidth = 0;
+                            area2.AxisY.LineWidth = 0;
+                            area2.AxisX.MajorTickMark.Enabled = false;
+                            area2.AxisY.MajorTickMark.Enabled = false;
+
+                            // Line series
+                            Series ser2 = new Series("ReserveLine")
                             {
-                                chart.Legends.Clear();
-                                chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
-                                chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
-                                chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-                                chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-                                chart.ChartAreas[0].BorderWidth = 0;
+                                ChartType = SeriesChartType.Line,
+                                BorderWidth = 3,
+                                Color = Color.FromArgb(255, 128, 0),  // Orange default
+                                MarkerStyle = MarkerStyle.None,
+                                IsVisibleInLegend = false
+                            };
+
+                            foreach (var r in gridSourcetotal_res)
+                            {
+                                ser2.Points.AddY(Convert.ToDouble(r.Field2));
                             }
+
+                            cht_resve.Series.Add(ser2);
+
+
+                            //---------------------------------------------
+                            // DINE TOTAL CHART
+                            //---------------------------------------------
+                            cht_dinetotal.Series.Clear();
+                            cht_dinetotal.ChartAreas.Clear();
+
+                            ChartArea area3 = new ChartArea("Area3");
+                            cht_dinetotal.ChartAreas.Add(area3);
+
+                            // Hide axis/grid
+                            area3.AxisX.MajorGrid.Enabled = false;
+                            area3.AxisY.MajorGrid.Enabled = false;
+                            area3.AxisX.LabelStyle.Enabled = false;
+                            area3.AxisY.LabelStyle.Enabled = false;
+                            area3.AxisX.LineWidth = 0;
+                            area3.AxisY.LineWidth = 0;
+                            area3.AxisX.MajorTickMark.Enabled = false;
+                            area3.AxisY.MajorTickMark.Enabled = false;
+
+                            // Line series
+                            Series ser3 = new Series("DineLine")
+                            {
+                                ChartType = SeriesChartType.Line,
+                                BorderWidth = 3,
+                                Color = Color.FromArgb(0, 200, 100), // Greenish
+                                MarkerStyle = MarkerStyle.None,
+                                IsVisibleInLegend = false
+                            };
+
+                            foreach (var r in gridSourcetotal_dine)
+                            {
+                                ser3.Points.AddY(Convert.ToDouble(r.Field2));
+                            }
+
+                            cht_dinetotal.Series.Add(ser3);
+
 
 
                         }
-
-
 
                     }));
                 }
@@ -1511,6 +1569,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashboardChart FillDashboardCharts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.DashboardChart));
             }
         }
+        
 
 
 
@@ -1558,15 +1617,6 @@ namespace FoodandBeverage.Forms
                             else
                                 lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
 
-                            // --- Set chart points only ---
-                            cht_totalsale.Series[0].Points.Clear();
-                            cht_dinetotal.Series[0].Points.Clear();
-                            cht_resve.Series[0].Points.Clear();
-
-                            cht_totalsale.Series[0].Points.AddY(Convert.ToDecimal(gridSource[0].Field2)); // Total Sale
-                            cht_dinetotal.Series[0].Points.AddY(Convert.ToDecimal(gridSource[1].Field2)); // Dine In
-                            cht_resve.Series[0].Points.AddY(Convert.ToDecimal(gridSource[2].Field2));     // Reservation
-
                         }));
                     }
                     else
@@ -1588,15 +1638,6 @@ namespace FoodandBeverage.Forms
                             lblresno.Text = "0 Orders";
                         else
                             lblresno.Text = Convert.ToString(gridSource[2].Field1) + " Orders";
-
-                        // --- Set chart points only ---
-                        cht_totalsale.Series[0].Points.Clear();
-                        cht_dinetotal.Series[0].Points.Clear();
-                        cht_resve.Series[0].Points.Clear();
-
-                        cht_totalsale.Series[0].Points.AddY(Convert.ToDecimal(gridSource[0].Field2)); // Total Sale
-                        cht_dinetotal.Series[0].Points.AddY(Convert.ToDecimal(gridSource[1].Field2)); // Dine In
-                        cht_resve.Series[0].Points.AddY(Convert.ToDecimal(gridSource[2].Field2));     // Reservation
 
                     }
 
