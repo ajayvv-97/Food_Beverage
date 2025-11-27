@@ -2900,7 +2900,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "ofm.omid id , ofm.OfferName Field1 ,ofm.Discountper Field2, ofm.tax Field3 ,ofm.taxtype Field4,ofm.TaxSettingsId Field5,ofm.FinalPrice Field6,ofd.Productname Field7,ofd.ProductId Field8,ofd.Prid Field9,ofd.Quantity Field10,ofm.TaxPer Field11,ofm.TaxAmount Field12";
-                dmnSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofd.Omid=ofm.Omid ";
+                dmnSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofd.Omid=ofm.Omid and ofd.status=1 ";
                 dmnSearch.WhereNdGroupBy = "where ofm.Status=1 and ofd.Omid = " + id;
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -11307,11 +11307,11 @@ namespace FoodandBeverage.Forms
             tileW = (int)(((containerWidth - ((maxColumns + 1) * spacing)) / maxColumns) * Productwidth);
             tileH = (int)(tileW * Productheight);
 
-            //UIHelper.RoundCorners(pnl_product_calc, 25, null);
-            //UIHelper.RoundCorners(tlp_footer, 25, null);
-            //UIHelper.RoundCorners(pnl_productview, 25, null);
-            //UIHelper.RoundCorners(pnl_categorymenu, 25, null);
-            //UIHelper.RoundCorners(tlp_product_haeder_main, 25, null);
+            UIHelper.RoundCorners(pnl_product_calc, 25, null);
+            UIHelper.RoundCorners(tlp_footer, 25, null);
+            UIHelper.RoundCorners(pnl_productview, 25, null);
+            UIHelper.RoundCorners(pnl_categorymenu, 25, null);
+            UIHelper.RoundCorners(tlp_product_haeder_main, 25, null);
         }
         private void tm_memory_Tick(object sender, EventArgs e)
         {
@@ -12026,51 +12026,28 @@ namespace FoodandBeverage.Forms
         private void btn_cancle_pickup_Click(object sender, EventArgs e)
         {
             try
-            {            
-            ttxdesc_cancelorder.Text = "Reason Type Here ...";
-            ttxdesc_cancelorder.ForeColor = Color.Gray;
-
-            UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
-            UIHelper.RoundCorners(tlp_cancelorder, 25);
-            UIHelper.RoundCorners(pnl_cancelorder, 25);
-            UIHelper.RoundCorners(tlpnav_cancelorder, 25);
-
-            if (ttxdesc_cancelorder.Text.Trim() == "" ||
-                ttxdesc_cancelorder.Text == "Reason Type Here ...")
             {
-                MessageBox.Show("Please enter a reason for cancelling the order!",
-                                "Reason Required",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                DialogResult dr = MessageBox.Show(
+                    "Are you sure you want to cancel this order?",
+                    "Confirm Cancel",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
 
-                ttxdesc_cancelorder.Focus();
-                return;
-            }
-            int smid = 0;
-            string reason = ttxdesc_cancelorder.Text.Trim();
-            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-            DmnSearch dmnSearch = new DmnSearch();
-            dmnSearch.Select = "SalesMasterId Field1";
-            dmnSearch.Table = "tblSalesMaster";
-            dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
-            dmnSearch.OrderBy = "";
-            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-            if (gridSource.Count > 0)
-            {
-                smid = Convert.ToInt32(gridSource[0].Field1);
-            }
-            DmnCancelOrder cancelod = new DmnCancelOrder();
-            BllCancelOrder bllcancelod = new BllCancelOrder();
-            cancelod.SalesMasterId = smid;
-            cancelod.OrderMasterid = tableId;
-            cancelod.BranchId = FrmDashboard.BranchId;
-            cancelod.CreatedBy = FrmDashboard.UserId;
-            cancelod.CancelReason = reason;
-            var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
-                if(InsertStatusP.SalesMasterId>0)
-                    MessageBox.Show("Order cancelled successfully!", "Cancelled");
-            clsgen.Memoryrelease();
-            this.Close();
+                if (dr != DialogResult.Yes)
+                {
+                    return;  
+                }
+
+                lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
+
+                ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                ttxdesc_cancelorder.ForeColor = Color.Gray;
+
+                UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
+                UIHelper.RoundCorners(tlp_cancelorder, 25);
+                UIHelper.RoundCorners(pnl_cancelorder, 25);
+                UIHelper.RoundCorners(tlpnav_cancelorder, 25);
             }
             catch (Exception ex)
             {
@@ -12078,6 +12055,7 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
 
         private void ttxdesc_cancelorder_Leave(object sender, EventArgs e)
         {
@@ -12100,6 +12078,63 @@ namespace FoodandBeverage.Forms
         #endregion
 
 
+
+        private void btnsub_cancelorder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                if (ttxdesc_cancelorder.Text.Trim() == "" ||
+        ttxdesc_cancelorder.Text == "Reason Type Here ...")
+                {
+                    MessageBox.Show("Please enter a reason for cancelling the order!",
+                                    "Reason Required",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+
+                    ttxdesc_cancelorder.Focus();
+                    return;
+                }
+                pnl_cancelorder.Visible = false;
+                int smid = 0;
+                string reason = ttxdesc_cancelorder.Text.Trim();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "SalesMasterId Field1";
+                dmnSearch.Table = "tblSalesMaster";
+                dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    smid = Convert.ToInt32(gridSource[0].Field1);
+                }
+                DmnCancelOrder cancelod = new DmnCancelOrder();
+                BllCancelOrder bllcancelod = new BllCancelOrder();
+                cancelod.SalesMasterId = smid;
+                cancelod.OrderMasterid = tableId;
+                cancelod.BranchId = FrmDashboard.BranchId;
+                cancelod.CreatedBy = FrmDashboard.UserId;
+                cancelod.CancelReason = reason;
+                var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
+                if (InsertStatusP.SalesMasterId > 0)
+                    MessageBox.Show("Order cancelled successfully!", "Cancelled");
+                clsgen.Memoryrelease();
+
+                if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                    ResetTableViewPage();
+                else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                    ResetPickupViewPage();
+
+                ResetBillpage();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page  btnsub_cancelorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
 
         public void discountPer()
         {

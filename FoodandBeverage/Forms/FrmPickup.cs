@@ -370,6 +370,7 @@ namespace FoodandBeverage.Forms
                             lblTable = new Label
                             {
                                 Name = lbName,
+                                Tag = item.Field3,
                                 Text = "Pick Up\n" + item.Field6,
                                 Dock = DockStyle.Fill,
                                 TextAlign = ContentAlignment.MiddleCenter,
@@ -383,6 +384,7 @@ namespace FoodandBeverage.Forms
                             {
                                 Name = amtName,
                                 Text = "₹" + item.Field4,
+                                Tag = item.Field3,
                                 Dock = DockStyle.Fill,
                                 TextAlign = ContentAlignment.MiddleCenter,
                                 BackColor = Color.White,
