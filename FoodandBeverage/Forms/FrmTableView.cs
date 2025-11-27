@@ -28,7 +28,7 @@ namespace FoodandBeverage.Forms
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
 
-        public Color DefaultColor = Color.Transparent;
+        public Color DefaultColor = Color.White;
         public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#ADD8E6");
         public Color BillingColor  = System.Drawing.ColorTranslator.FromHtml("#ADD8E6");
         public Color ReservationColor  = Color.YellowGreen;
@@ -158,9 +158,9 @@ namespace FoodandBeverage.Forms
                                 Dock = DockStyle.Left,
                                 Margin = new Padding(15, 10, 15, 10),
                                 AccessibleDescription = "0",
-                                //BackColor=Color.White
+                                BackColor=Color.White
                             };
-                            tlp_table_inner.BackgroundImage = Properties.Resources.table_view;
+                           // tlp_table_inner.BackgroundImage = Properties.Resources.table_view;
                             tlp_table_inner.BackgroundImageLayout = ImageLayout.Zoom;
                             tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                             tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.AutoSize));

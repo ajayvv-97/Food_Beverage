@@ -743,6 +743,12 @@
       <DependentUpon>CR_Bill_Without_QR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SaleBill\CR_PickupBill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_PickupBill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SaleBill\CR_TEST.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1014,6 +1020,10 @@
     <EmbeddedResource Include="SaleBill\CR_Bill_Without_QR.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill_Without_QR.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_PickupBill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_PickupBill.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_TEST.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

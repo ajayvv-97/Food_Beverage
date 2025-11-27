@@ -39,6 +39,7 @@ namespace Domain
         public decimal PkChargeAmount { get; set; }
         public int Rev_Status { get; set; }
         public int OrderType { get; set; }
+        public int PkId { get; set; }
 
     }
     

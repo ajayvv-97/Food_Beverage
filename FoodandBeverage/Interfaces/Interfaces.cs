@@ -290,6 +290,7 @@ namespace FoodandBeverage.Interfaces
     {
         NormalBill = 1,
         BillCopy = 2,
+        PickupBill=3
     }
     public enum PageType
     {

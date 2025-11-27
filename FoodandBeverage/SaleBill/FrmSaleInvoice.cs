@@ -173,7 +173,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
                                               " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
                                               " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
-                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal,s.PkChargeAmount,s.Rev_Status,s.OrderType";
+                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal,s.PkChargeAmount,s.Rev_Status,s.OrderType,S.PkId";
                 dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
@@ -385,7 +385,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType"))
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId"))
                 {
                     dtSalesMaster.Load(reader);
                 }               
@@ -396,6 +396,7 @@ namespace FoodandBeverage.SaleBill
 
                 if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
                 {
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
                     //if (Logo_Status && QR_Status)
                     //    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
                     //else if (!Logo_Status)
@@ -429,16 +430,14 @@ namespace FoodandBeverage.SaleBill
                     //    reportFileName = "CR_Bill_withoutQR_Logo_CUS.rpt";
 
                     reportFileName = "CR_Bill.rpt";
-                    if (!string.IsNullOrEmpty(reportFileName))
-                        reportDocument.Load(Path.Combine(RPTPath, reportFileName));
-                    string xy = RPTPath + @"\CR_Bill.rpt";
-                    //reportDocument.Load(RPTPath + @"\CR_TEST.rpt");
-                }            
-                else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
-                {
                     string xy = RPTPath + @"\CR_Bill.rpt";
                 }
-                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); //reportDocument.Load(RPTPath + @"\SaleBill_Copy.rpt");
+                else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
+                {
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                }
+                else if (BillTypeData == Convert.ToInt32(BillType.PickupBill))
+                    reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt"); 
 
                 reportDocument.SetDataSource(dsReport);
 

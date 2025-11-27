@@ -203,34 +203,37 @@ namespace FoodandBeverage.Forms
 
                     #region Order Complete Check - Show Amount
                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                    dmnSearch.Select = "COUNT(*) Field1";
+                    dmnSearch.Select = "Status Field1";
                     dmnSearch.Table = "tblOrderDetails";
-                    dmnSearch.WhereNdGroupBy = "WHERE status=3 AND AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
+                    dmnSearch.WhereNdGroupBy = "WHERE  AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
                     dmnSearch.OrderBy = "";
                     var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                    bool isCompleted = Convert.ToInt32(gridSource_order[0].Field1) > 0;
-                    if (isCompleted)
+                    int status = Convert.ToInt32(gridSource_order[0].Field1);
+                    bool hasCompleted = status != 1;
+                    if (hasCompleted)
                     {
                         lblAmount.Visible = true;
-                        tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 60);
-                        tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 40);
+                        tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
+                        tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
 
                         lblAmount.Dock = DockStyle.Fill;
                         lblAmount.TextAlign = ContentAlignment.MiddleCenter;
-                        lblAmount.Text = "\u20B9" + Convert.ToString(item.Field4);
+                        lblAmount.Text = "Paid " + Environment.NewLine + " cooking started"; 
+                        //lblAmount.Text = "\u20B9" + Convert.ToString(item.Field4);
                         lblName.TextAlign = ContentAlignment.MiddleCenter;
                         lblName.Dock = DockStyle.Fill;
              
                     }
                     else
                     {
-                        lblAmount.Visible = false;
-                        tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                        tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                        lblAmount.Visible = true;
+                        tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
+                        tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
 
                         lblName.Dock = DockStyle.Fill;
                         lblName.TextAlign = ContentAlignment.MiddleCenter;
-                        lblAmount.Text = "";
+                        //lblAmount.Text = "";
+                        lblAmount.Text = "Paid " + Environment.NewLine + " Order Sent";
                     }
                     #endregion
 
@@ -243,7 +246,7 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         tlp.Width = 120;
-                        tlp.Height = 80;
+                        tlp.Height = 100;
                     }
                     #endregion
 
@@ -359,6 +362,7 @@ namespace FoodandBeverage.Forms
                                 Margin = new Padding(15, 10, 15, 10),
                                 Dock = DockStyle.Top,
                                 BorderStyle = BorderStyle.None,
+                                AccessibleDescription = item.Field1
                             };
                             tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
                             tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 0));
@@ -371,7 +375,8 @@ namespace FoodandBeverage.Forms
                                 TextAlign = ContentAlignment.MiddleCenter,
                                 BackColor = Color.White,
                                 ForeColor = Defaultfontcolor,
-                                Font = SharedFonts.Bold10
+                                Font = SharedFonts.Bold10,
+                                AccessibleDescription = item.Field1
                             };
 
                             lblAmount = new Label
@@ -383,7 +388,8 @@ namespace FoodandBeverage.Forms
                                 BackColor = Color.White,
                                 ForeColor = Netamountfontcolor,
                                 Font = SharedFonts.Bold10,
-                                Visible = false
+                                Visible = false,
+                                AccessibleDescription = item.Field1
                             };
 
                             tlp.Controls.Add(lblTable, 0, 0);
@@ -392,8 +398,6 @@ namespace FoodandBeverage.Forms
                             lblTable.Click += PickupboxClickEventHandler;
                             lblAmount.Click += PickupboxClickEventHandler;
                             tlp.Click += PickupboxClickEventHandler;
-
-                 
 
                             // Add to flow panel
                             flp_pickup_view.Controls.Add(tlp);
@@ -407,7 +411,7 @@ namespace FoodandBeverage.Forms
                             else
                             {
                                 tlp.Width = 120;
-                                tlp.Height = 80;
+                                tlp.Height = 100;
                             }
 
                             #region Rounded Corners (Safe, No Leak)
@@ -434,30 +438,35 @@ namespace FoodandBeverage.Forms
         }
         private void UpdateNetAmount(DmnGridFields item, TableLayoutPanel tlp, Label lblTable, Label lblAmount)
         {
-            // Query count
+            //// Query count
             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-            dmnSearch.Select = "COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
+            dmnSearch.Select = "status Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
             dmnSearch.Table = "tblOrderDetails";
-            dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + item.Field3;
+            dmnSearch.WhereNdGroupBy = "WHERE AddonStatus in(1,0) and OrderMasterId = " + item.Field3;
             dmnSearch.OrderBy = "";
             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
-            bool hasCompleted = Convert.ToInt32(gridSource_order[0].Field1) > 0;
+            int status = Convert.ToInt32(gridSource_order[0].Field1);
+            bool hasCompleted = status != 1;
 
             if (hasCompleted)
             {
                 lblAmount.Visible = true;
-                lblAmount.Text = "₹" + item.Field4;
+                //lblAmount.Text = "₹" + item.Field4;
+                lblAmount.Text = "Paid " + Environment.NewLine + " cooking started";
 
-                tlp.RowStyles[0].Height = 60;
-                tlp.RowStyles[1].Height = 40;
+                tlp.RowStyles[0].Height = 50;
+                tlp.RowStyles[1].Height = 50;
             }
             else
             {
-                lblAmount.Visible = false;
-
-                tlp.RowStyles[0].Height = 100;
-                tlp.RowStyles[1].Height = 0;
+                //lblAmount.Visible = false;
+                lblAmount.Visible = true;
+                lblAmount.Text = "Paid " + Environment.NewLine + " Order Sent";
+                //tlp.RowStyles[0].Height = 100;
+                //tlp.RowStyles[1].Height = 0;
+                tlp.RowStyles[0].Height = 50;
+                tlp.RowStyles[1].Height = 50;
             }
         }
 
@@ -732,7 +741,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Pickuppage page  PickupboxClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }

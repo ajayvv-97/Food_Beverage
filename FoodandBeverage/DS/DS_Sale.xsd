@@ -60,6 +60,7 @@
               <xs:element name="PkChargeAmount" msprop:Generator_ColumnVarNameInTable="columnPkChargeAmount" msprop:Generator_ColumnPropNameInRow="PkChargeAmount" msprop:Generator_ColumnPropNameInTable="PkChargeAmountColumn" msprop:Generator_UserColumnName="PkChargeAmount" type="xs:decimal" minOccurs="0" />
               <xs:element name="Rev_Status" msprop:Generator_ColumnVarNameInTable="columnRev_Status" msprop:Generator_ColumnPropNameInRow="Rev_Status" msprop:Generator_ColumnPropNameInTable="Rev_StatusColumn" msprop:Generator_UserColumnName="Rev_Status" type="xs:int" minOccurs="0" />
               <xs:element name="OrderType" msprop:Generator_ColumnVarNameInTable="columnOrderType" msprop:Generator_ColumnPropNameInRow="OrderType" msprop:Generator_ColumnPropNameInTable="OrderTypeColumn" msprop:Generator_UserColumnName="OrderType" type="xs:int" minOccurs="0" />
+              <xs:element name="PkId" msprop:Generator_ColumnVarNameInTable="columnPkId" msprop:Generator_ColumnPropNameInRow="PkId" msprop:Generator_ColumnPropNameInTable="PkIdColumn" msprop:Generator_UserColumnName="PkId" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
