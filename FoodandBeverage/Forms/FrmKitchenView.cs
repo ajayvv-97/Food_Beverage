@@ -692,7 +692,7 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Controls.Add(dgv_product_details, 0, 1);
                                 dgv_product_details.Dock = DockStyle.Fill;
 
-                                clsgen.GrideAutoSize(dgv_product_details);
+                                clsgen.GridAutoSizeSmart(dgv_product_details);
                                 #endregion
 
                                 #region Description
