@@ -1035,6 +1035,7 @@ namespace FoodandBeverage.Forms
             {
                 dgvforms.Visible = true;
                 FillForms(Convert.ToInt32(cmbUsreAccount.SelectedValue));
+                UIHelper.RoundCorners(dgvforms, 10, null);
             }
         }
 
@@ -1169,12 +1170,13 @@ namespace FoodandBeverage.Forms
                                     File.Delete(file);
                                 }
                             }
-                            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+                            if(empImgExt != null && empImgExt != "")
+                                ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
 
                             if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
                             {
                                 #region  Employee photo upload in Database
-                                if (pbCust.Image != null)
+                                if (pbCust.Image != null && (empImgExt != null && empImgExt != "")) 
                                 {
                                     Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
                                     int ePid = Convert.ToInt32(txtepid.Text);
@@ -2051,7 +2053,7 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(tlp_role_design, 10, null);
             UIHelper.RoundCorners(tp_employee, 25, null);
             UIHelper.RoundCorners(tlp_employe_header, 10, null);
-            UIHelper.RoundCorners(dgvforms, 25, null);
+            UIHelper.RoundCorners(dgvforms, 25, null); 
 
             #endregion
 
@@ -2394,7 +2396,8 @@ namespace FoodandBeverage.Forms
             {
                 checkboxreset();
             }
-
+            UIHelper.RoundCorners(tlp_role_design, 10, null);
+            UIHelper.RoundCorners(dgvforms, 10, null);
         }
 
         private void FrmEmployeeShort_FormClosing(object sender, FormClosingEventArgs e)

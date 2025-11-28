@@ -32,6 +32,8 @@ namespace FoodandBeverage.DS {
         
         private DT_GeninfoDataTable tableDT_Geninfo;
         
+        private DT_ReturnDataTable tableDT_Return;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -71,6 +73,9 @@ namespace FoodandBeverage.DS {
                 }
                 if ((ds.Tables["DT_Geninfo"] != null)) {
                     base.Tables.Add(new DT_GeninfoDataTable(ds.Tables["DT_Geninfo"]));
+                }
+                if ((ds.Tables["DT_Return"] != null)) {
+                    base.Tables.Add(new DT_ReturnDataTable(ds.Tables["DT_Return"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -127,6 +132,16 @@ namespace FoodandBeverage.DS {
         public DT_GeninfoDataTable DT_Geninfo {
             get {
                 return this.tableDT_Geninfo;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public DT_ReturnDataTable DT_Return {
+            get {
+                return this.tableDT_Return;
             }
         }
         
@@ -209,6 +224,9 @@ namespace FoodandBeverage.DS {
                 if ((ds.Tables["DT_Geninfo"] != null)) {
                     base.Tables.Add(new DT_GeninfoDataTable(ds.Tables["DT_Geninfo"]));
                 }
+                if ((ds.Tables["DT_Return"] != null)) {
+                    base.Tables.Add(new DT_ReturnDataTable(ds.Tables["DT_Return"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -266,6 +284,12 @@ namespace FoodandBeverage.DS {
                     this.tableDT_Geninfo.InitVars();
                 }
             }
+            this.tableDT_Return = ((DT_ReturnDataTable)(base.Tables["DT_Return"]));
+            if ((initTable == true)) {
+                if ((this.tableDT_Return != null)) {
+                    this.tableDT_Return.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -284,6 +308,8 @@ namespace FoodandBeverage.DS {
             base.Tables.Add(this.tableDT_Drawer);
             this.tableDT_Geninfo = new DT_GeninfoDataTable();
             base.Tables.Add(this.tableDT_Geninfo);
+            this.tableDT_Return = new DT_ReturnDataTable();
+            base.Tables.Add(this.tableDT_Return);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -307,6 +333,12 @@ namespace FoodandBeverage.DS {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private bool ShouldSerializeDT_Geninfo() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializeDT_Return() {
             return false;
         }
         
@@ -376,6 +408,9 @@ namespace FoodandBeverage.DS {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void DT_GeninfoRowChangeEventHandler(object sender, DT_GeninfoRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void DT_ReturnRowChangeEventHandler(object sender, DT_ReturnRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1688,6 +1723,323 @@ namespace FoodandBeverage.DS {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class DT_ReturnDataTable : global::System.Data.TypedTableBase<DT_ReturnRow> {
+            
+            private global::System.Data.DataColumn columnTotalRtnCash;
+            
+            private global::System.Data.DataColumn columnTotalRtnCard;
+            
+            private global::System.Data.DataColumn columnTotalRtnQty;
+            
+            private global::System.Data.DataColumn columnTotalRtnAmt;
+            
+            private global::System.Data.DataColumn columnTotalFooddamageQty;
+            
+            private global::System.Data.DataColumn columnTotalFoodDamageAmt;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnDataTable() {
+                this.TableName = "DT_Return";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal DT_ReturnDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected DT_ReturnDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalRtnCashColumn {
+                get {
+                    return this.columnTotalRtnCash;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalRtnCardColumn {
+                get {
+                    return this.columnTotalRtnCard;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalRtnQtyColumn {
+                get {
+                    return this.columnTotalRtnQty;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalRtnAmtColumn {
+                get {
+                    return this.columnTotalRtnAmt;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalFooddamageQtyColumn {
+                get {
+                    return this.columnTotalFooddamageQty;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalFoodDamageAmtColumn {
+                get {
+                    return this.columnTotalFoodDamageAmt;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnRow this[int index] {
+                get {
+                    return ((DT_ReturnRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event DT_ReturnRowChangeEventHandler DT_ReturnRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event DT_ReturnRowChangeEventHandler DT_ReturnRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event DT_ReturnRowChangeEventHandler DT_ReturnRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event DT_ReturnRowChangeEventHandler DT_ReturnRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AddDT_ReturnRow(DT_ReturnRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnRow AddDT_ReturnRow(decimal TotalRtnCash, decimal TotalRtnCard, int TotalRtnQty, decimal TotalRtnAmt, int TotalFooddamageQty, decimal TotalFoodDamageAmt) {
+                DT_ReturnRow rowDT_ReturnRow = ((DT_ReturnRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        TotalRtnCash,
+                        TotalRtnCard,
+                        TotalRtnQty,
+                        TotalRtnAmt,
+                        TotalFooddamageQty,
+                        TotalFoodDamageAmt};
+                rowDT_ReturnRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowDT_ReturnRow);
+                return rowDT_ReturnRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                DT_ReturnDataTable cln = ((DT_ReturnDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new DT_ReturnDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnTotalRtnCash = base.Columns["TotalRtnCash"];
+                this.columnTotalRtnCard = base.Columns["TotalRtnCard"];
+                this.columnTotalRtnQty = base.Columns["TotalRtnQty"];
+                this.columnTotalRtnAmt = base.Columns["TotalRtnAmt"];
+                this.columnTotalFooddamageQty = base.Columns["TotalFooddamageQty"];
+                this.columnTotalFoodDamageAmt = base.Columns["TotalFoodDamageAmt"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnTotalRtnCash = new global::System.Data.DataColumn("TotalRtnCash", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalRtnCash);
+                this.columnTotalRtnCard = new global::System.Data.DataColumn("TotalRtnCard", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalRtnCard);
+                this.columnTotalRtnQty = new global::System.Data.DataColumn("TotalRtnQty", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalRtnQty);
+                this.columnTotalRtnAmt = new global::System.Data.DataColumn("TotalRtnAmt", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalRtnAmt);
+                this.columnTotalFooddamageQty = new global::System.Data.DataColumn("TotalFooddamageQty", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalFooddamageQty);
+                this.columnTotalFoodDamageAmt = new global::System.Data.DataColumn("TotalFoodDamageAmt", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalFoodDamageAmt);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnRow NewDT_ReturnRow() {
+                return ((DT_ReturnRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new DT_ReturnRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(DT_ReturnRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.DT_ReturnRowChanged != null)) {
+                    this.DT_ReturnRowChanged(this, new DT_ReturnRowChangeEvent(((DT_ReturnRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.DT_ReturnRowChanging != null)) {
+                    this.DT_ReturnRowChanging(this, new DT_ReturnRowChangeEvent(((DT_ReturnRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.DT_ReturnRowDeleted != null)) {
+                    this.DT_ReturnRowDeleted(this, new DT_ReturnRowChangeEvent(((DT_ReturnRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.DT_ReturnRowDeleting != null)) {
+                    this.DT_ReturnRowDeleting(this, new DT_ReturnRowChangeEvent(((DT_ReturnRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemoveDT_ReturnRow(DT_ReturnRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DS_YZout ds = new DS_YZout();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "DT_ReturnDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class DT_ProductsRow : global::System.Data.DataRow {
@@ -2504,6 +2856,189 @@ namespace FoodandBeverage.DS {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class DT_ReturnRow : global::System.Data.DataRow {
+            
+            private DT_ReturnDataTable tableDT_Return;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal DT_ReturnRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableDT_Return = ((DT_ReturnDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalRtnCash {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalRtnCashColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalRtnCash\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalRtnCashColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalRtnCard {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalRtnCardColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalRtnCard\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalRtnCardColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int TotalRtnQty {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_Return.TotalRtnQtyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalRtnQty\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalRtnQtyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalRtnAmt {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalRtnAmtColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalRtnAmt\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalRtnAmtColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int TotalFooddamageQty {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_Return.TotalFooddamageQtyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalFooddamageQty\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalFooddamageQtyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalFoodDamageAmt {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalFoodDamageAmtColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalFoodDamageAmt\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalFoodDamageAmtColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalRtnCashNull() {
+                return this.IsNull(this.tableDT_Return.TotalRtnCashColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalRtnCashNull() {
+                this[this.tableDT_Return.TotalRtnCashColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalRtnCardNull() {
+                return this.IsNull(this.tableDT_Return.TotalRtnCardColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalRtnCardNull() {
+                this[this.tableDT_Return.TotalRtnCardColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalRtnQtyNull() {
+                return this.IsNull(this.tableDT_Return.TotalRtnQtyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalRtnQtyNull() {
+                this[this.tableDT_Return.TotalRtnQtyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalRtnAmtNull() {
+                return this.IsNull(this.tableDT_Return.TotalRtnAmtColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalRtnAmtNull() {
+                this[this.tableDT_Return.TotalRtnAmtColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalFooddamageQtyNull() {
+                return this.IsNull(this.tableDT_Return.TotalFooddamageQtyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalFooddamageQtyNull() {
+                this[this.tableDT_Return.TotalFooddamageQtyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalFoodDamageAmtNull() {
+                return this.IsNull(this.tableDT_Return.TotalFoodDamageAmtColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalFoodDamageAmtNull() {
+                this[this.tableDT_Return.TotalFoodDamageAmtColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -2625,6 +3160,40 @@ namespace FoodandBeverage.DS {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_GeninfoRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class DT_ReturnRowChangeEvent : global::System.EventArgs {
+            
+            private DT_ReturnRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnRowChangeEvent(DT_ReturnRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public DT_ReturnRow Row {
                 get {
                     return this.eventRow;
                 }

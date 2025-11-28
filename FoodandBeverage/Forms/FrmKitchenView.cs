@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -32,39 +33,40 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration Grid
-        public static int dslno = 0;
-        public static int dactionno = 1;
-        public static int dptypeno = 2;
-        public static int ditemno = 3;
-        public static int dqtyno = 4;
-        public static int dnotes = 5;
-        public static int dremnoteno = 6;
-        public static int ddetailsidno = 7;
-        public static int dkoidno = 8;
-        public static int dtidno = 9;
-        public static int dordermasteridno = 10;
-        public static int ddatetimeno = 11;
-        public static int dstatusno = 12;
-        public static int ditemidno = 13;
-        public static int dtabletypeno = 14;
-        public static int dorderno = 15;
-        public static int dAddonStatusno = 16;
-        public static int dAVIDno = 17;
+        public int dslno = 0;
+        public int dactionno = 1;
+        public int dptypeno = 2;
+        public int ditemno = 3;
+        public int dqtyno = 4;
+        public int dnotes = 5;
+        public int dremnoteno = 6;
+        public int ddetailsidno = 7;
+        public int dkoidno = 8;
+        public int dtidno = 9;
+        public int dordermasteridno = 10;
+        public int ddatetimeno = 11;
+        public int dstatusno = 12;
+        public int ditemidno = 13;
+        public int dtabletypeno = 14;
+        public int dorderno = 15;
+        public int dAddonStatusno = 16;
+        public int dAVIDno = 17;
 
-        public static int addslno = 0;
-        public static int additemnameno = 1;
-        public static int addqtyno = 2;
-        public static int addordermasteridno = 3;
-        public static int addkoidno = 4;
-        public static int addorderdetailidno = 5;
-        public static int addactionno = 6;
-        public static int addavidno = 7;
-        public static int addpavidno = 8;
-        public static int addaddonstatusno = 9;
-        public static int addonpriceno = 10;
-        public static int addonorderno = 11;
-        public static int addccodeno = 12;
+        public int addslno = 0;
+        public int additemnameno = 1;
+        public int addqtyno = 2;
+        public int addordermasteridno = 3;
+        public int addkoidno = 4;
+        public int addorderdetailidno = 5;
+        public int addactionno = 6;
+        public int addavidno = 7;
+        public int addpavidno = 8;
+        public int addaddonstatusno = 9;
+        public int addonpriceno = 10;
+        public int addonorderno = 11;
+        public int addccodeno = 12;
         #endregion
+
 
         Color boxcolor = Color.FromArgb(0x42, 0x67, 0xB2); //System.Drawing.ColorTranslator.FromHtml("#3AAFA9"); //
         public int dgv_view_rowno = 0;
@@ -156,6 +158,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 GC.Collect();
+
                 #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
                 int countpendingorder = 0;
@@ -163,13 +166,6 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-
-                //dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2,KOTPrintStatus Field3";
-                //dmnSearch.Table = " tblkitchenOrder ";
-                //dmnSearch.WhereNdGroupBy = "where status in(1,2)  and AddonStatus in(1,0) ";
-                //dmnSearch.OrderBy = "order by koid DESC";
-                //var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
-
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
                 var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
@@ -189,41 +185,7 @@ namespace FoodandBeverage.Forms
 
                     countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
                     btnprintcount.Text = Convert.ToString(countpendingorder);
-
-                    //var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
-                    //if (preserveNames != null)
-                    //{
-                    //    string dgvName = "dgv_product_details_k_" + orders.Field1 + orders.Field2;
-                    //    string startButtonName = "pb_start_k_" + orders.Field1 + orders.Field2;
-                    //    string readyButtonName = "pb_ready_k_" + clickedPictureBox.AccessibleDescription + id;
-                    //    string cancelFoodButtonName = "pictureBoxRemove_k_" + clickedPictureBox.AccessibleDescription + id;
-                    //    string lblTimeName = "lbl_time_K_" + clickedPictureBox.AccessibleDescription + id;
-                    //    string lblTableCodeName = "lbl_tablecod_k_" + clickedPictureBox.AccessibleDescription + id;
-
-                    //    Label lblTime = this.Controls.Find(lblTimeName, true).FirstOrDefault() as Label;
-                    //    Label lblTableCode = this.Controls.Find(lblTableCodeName, true).FirstOrDefault() as Label;
-                    //    PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
-                    //    PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
-                    //    PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
-                    //    if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
-                    //    {
-                    //        btnReady.Dispose();
-                    //        btnStart.Dispose();
-                    //        btnCancelFood.Dispose();
-                    //        lblTime?.Dispose();
-                    //        lblTableCode?.Dispose();
-                    //    }
-
-                    //}
-                    //foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
-                    //{
-                    //    if (control is TableLayoutPanel tlp && !preserveNames.Contains(tlp.Name))
-                    //    {
-                    //        flp_order_view.Controls.Remove(control);
-                    //        control.Dispose();
-                    //    }
-                    //}
-
+           
                     var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
                     int l = 0;
                     foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
@@ -246,22 +208,6 @@ namespace FoodandBeverage.Forms
                         dmnSearchtabledata.OrderNo =Convert.ToInt32(orders.Field2);
                         dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
                         var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
-
-                        #region Query code no use
-                        //dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7" +
-                        //    ",od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12," +
-                        //    "ko.tabletype Field13,od.itemid Field14,od.TableType Field15,od.MainRemarks Field16,ko.Orderno Field17," +
-                        //    "ko.KOTPrintStatus Field18,ko.AddonStatus Field19,ko.AV_id Field20,ko.Kitchennumber Field21," +
-                        //    "ko.KitchenNumber Field22,od.Addoncount Field23,od.VariatiionName Field24,ko.pkid Field25";
-                        //dmnSearch.Table = "tblkitchenOrder ko " +
-                        //    "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-                        //    "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                        //    "Left Join tblTable_info  ti on ti.Tid=ko.Tid";
-                        //dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId =" + orders.Field1 + " and ko.OrderNo =" + orders.Field2 + " and ko.AddonStatus in(1,0)";
-                        //dmnSearch.OrderBy = "order by ko.koid DESC";
-                        //var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
-                        #endregion
-
                         if (gridSourcedetails.Count > 0)
                         {
                             string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
@@ -961,188 +907,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Kitchen_View Page FillOrdersAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
-
-        //private void  PrintOrderAsync()
-        //{
-        //    ReportDocument reportDocument = new ReportDocument();
-        //    try
-        //    {
-        //        this.Invoke(new Action(() =>
-        //        {
-        //            blinkTimer.Start();
-        //            refreshtimer.Stop();
-        //        }));
-        //        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-        //        BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
-        //        DmnSearch dmnSearch = new DmnSearch();
-        //        dmnSearch.Select = "OrderMasterId Field1,OrderNo Field2,KOTPrintStatus Field3";
-        //        dmnSearch.Table = "tblkitchenOrder";
-        //        dmnSearch.WhereNdGroupBy = "where status in(1) and AddonStatus in(1,0) and KOTPrintStatus=1";
-        //        dmnSearch.OrderBy = "order by koid DESC";
-        //        var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
-        //        if (gridSourcemaster == null || gridSourcemaster.Count == 0)
-        //        {
-        //            return; 
-        //        }
-        //        var distinctOrders = gridSourcemaster
-        //            .GroupBy(order => new { order.Field1, order.Field2 })
-        //            .Select(group => group.First())
-        //            .OrderBy(order => order.Field1)
-        //            .ThenBy(order => order.Field2)
-        //            .ToList();
-
-        //        int countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
-        //        this.Invoke(new Action(() =>
-        //        {
-        //            btnprintcount.Text = Convert.ToString(countpendingorder);
-        //        }));
-
-        //        foreach (var orders in distinctOrders)
-        //        {
-        //            #region Crystal Report Declaration
-        //            DataSet dsReport = new DataSet();
-        //            DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
-        //            BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
-
-        //            DmnSearch dmnSearchDetails = new DmnSearch();
-        //            dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber";
-        //            dmnSearchDetails.Table = "tblkitchenOrder ko " +
-        //                "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-        //                "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-        //                "Left Join tblTable_info  ti on ti.Tid=ko.Tid " +
-        //                "Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3 " +
-        //                "Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid";
-        //            dmnSearchDetails.WhereNdGroupBy = $"where om.status=1 and ko.OrderMasterId={orders.Field1} and ko.OrderNo={orders.Field2}";
-        //            dmnSearchDetails.OrderBy = "order by od.AddonStatus";
-
-        //            var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
-
-        //            if (BillDetails == null || BillDetails.Count == 0)
-        //            {
-        //                continue; 
-        //            }
-
-        //            var processedData = BillDetails.Select(item => new
-        //            {
-        //                ItemName = item.ItemName,
-        //                Quantity = item.Quantity,
-        //                Notes = item.Notes,
-        //                Description = item.Description,
-        //                TableCode = item.TableCode,
-        //                OrderMasterId = item.OrderMasterId,
-        //                TableType = item.TableType,
-        //                AddonStatus = item.AddonStatus,
-        //                offeritemname = item.offeritemname,
-        //                offerqty = item.offerqty,
-        //                Kitchennumber = item.Kitchennumber,
-        //                MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
-        //                MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory)
-        //            }).ToList();
-
-        //            var mainCategoryCounts = processedData
-        //                .GroupBy(item => item.MainCategory)
-        //                .Select(group => new
-        //                {
-        //                    MainCategory = group.Key,
-        //                    MainCategoryCount = group.Count()
-        //                }).ToList();
-
-        //            var mergedData = processedData
-        //                .Join(mainCategoryCounts,
-        //                      processedItem => processedItem.MainCategory,
-        //                      mainCategoryCount => mainCategoryCount.MainCategory,
-        //                      (processedItem, mainCategoryCount) => new
-        //                      {
-        //                          MainCategoryCount = mainCategoryCount.MainCategoryCount,
-        //                          processedItem.MainCategory,
-        //                          processedItem.TableType,
-        //                          processedItem.AddonStatus,
-        //                          processedItem.ItemName,
-        //                          processedItem.Quantity,
-        //                          processedItem.Notes,
-        //                          processedItem.Description,
-        //                          processedItem.TableCode,
-        //                          processedItem.OrderMasterId,
-        //                          processedItem.offeritemname,
-        //                          processedItem.offerqty,
-        //                          processedItem.Kitchennumber
-        //                      })
-        //                .ToList();
-
-        //            if (mergedData != null && mergedData.Count > 0)
-        //            {
-        //                using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber"))
-        //                {
-        //                    dtSalesDetail.Load(reader);
-        //                }
-        //                dsReport.Tables.Add(dtSalesDetail);
-        //            }
-
-        //            string reportPath = RPTPath + @"\crkitchenbill.rpt";
-        //            if (!File.Exists(reportPath))
-        //            {
-        //                throw new FileNotFoundException("Report file not found.", reportPath);
-        //            }
-        //            reportDocument.Load(reportPath);
-
-        //            reportDocument.SetDataSource(dsReport);
-
-        //            //crvkitchenbill.RefreshReport();
-        //            this.Invoke(new Action(() =>
-        //            {
-        //                crvkitchenbill.ReportSource = reportDocument;
-        //            }));
-
-        //            reportDocument.PrintToPrinter(1, false, 0, 0);
-        //            #endregion
-
-        //            #region Update Print Status to 2
-        //            BllKitchenorder bllkitchen = new BllKitchenorder();
-        //            Dmnkitchen dmnkitchen = new Dmnkitchen
-        //            {
-        //                OrderMasterId = Convert.ToInt32(orders.Field1),
-        //                OrderNo = Convert.ToInt32(orders.Field2),
-        //                CreatedBy = FrmDashboard.UserId,
-        //                KOTPrintStatus = 2,
-        //                BranchId = FrmDashboard.BranchId
-        //            };
-        //            var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-        //            #endregion
-
-        //            this.Invoke(new Action(() =>
-        //            {
-        //                int c = Convert.ToInt32(btnprintcount.Text) - 1;
-        //                btnprintcount.Text = Convert.ToString(c);
-        //            }));
-
-        //        }
-
-        //        blinkTimer.Stop();
-        //        refreshtimer.Start();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.Invoke(new Action(() =>
-        //        {
-        //            blinkTimer.Stop();
-        //            lblprintloading.Text = "Printing Stopped";
-        //        }));
-
-        //        CMessageBox.Show("An error occurred: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-        //    }
-        //    finally
-        //    {
-        //        reportDocument.Close();
-        //        reportDocument.Dispose();
-        //        GC.Collect();
-        //        GC.WaitForPendingFinalizers();
-        //    }
-        //}
 
         private void PrintOrderAsync()
         {
@@ -1161,12 +928,6 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                //dmnSearch.Select = "OrderMasterId Field1, OrderNo Field2, KOTPrintStatus Field3";
-                //dmnSearch.Table = "tblkitchenOrder";
-                //dmnSearch.WhereNdGroupBy = "where status in(1) and AddonStatus in(1,0) and KOTPrintStatus=1";
-                //dmnSearch.OrderBy = "order by koid DESC";
-                ////var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
-
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
                 var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
@@ -3715,5 +3476,12 @@ namespace FoodandBeverage.Forms
             isDragging = false;
         }
 
+        private void tm_memory_Tick(object sender, EventArgs e)
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            long memoryInBytes = currentProcess.PrivateMemorySize64;
+            double memoryInMB = memoryInBytes / (1024.0 * 1024.0);
+            lblmemory.Text = $"Memory: {memoryInMB:F2} MB";
+        }
     }
 }

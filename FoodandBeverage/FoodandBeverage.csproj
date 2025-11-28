@@ -435,6 +435,12 @@
     <Compile Include="Forms\FrmPurchaseReturn.Designer.cs">
       <DependentUpon>FrmPurchaseReturn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmRefund.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmRefund.Designer.cs">
+      <DependentUpon>FrmRefund.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmRegistration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -845,6 +851,9 @@
     <EmbeddedResource Include="Forms\FrmPurchaseReturn.resx">
       <DependentUpon>FrmPurchaseReturn.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRefund.resx">
+      <DependentUpon>FrmRefund.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmRegistration.resx">
       <DependentUpon>FrmRegistration.cs</DependentUpon>

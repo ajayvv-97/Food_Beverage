@@ -31,8 +31,8 @@ namespace FoodandBeverage.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEmployeeShort));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tm_card = new System.Windows.Forms.Timer(this.components);
             this.tb_empolyee = new System.Windows.Forms.TabControl();
             this.tp_employee = new System.Windows.Forms.TabPage();
@@ -876,7 +876,7 @@ namespace FoodandBeverage.Forms
             // 
             // tp_rolereg
             // 
-            this.tp_rolereg.BackColor = System.Drawing.Color.AliceBlue;
+            this.tp_rolereg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.tp_rolereg.Controls.Add(this.tlp_role_design);
             this.tp_rolereg.Location = new System.Drawing.Point(4, 27);
             this.tp_rolereg.Name = "tp_rolereg";
@@ -1002,14 +1002,14 @@ namespace FoodandBeverage.Forms
             this.dgvforms.AllowUserToAddRows = false;
             this.dgvforms.AllowUserToDeleteRows = false;
             this.dgvforms.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvforms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvforms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvforms.ColumnHeadersHeight = 48;
             this.dgvforms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvforms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1022,8 +1022,8 @@ namespace FoodandBeverage.Forms
             this.dgvforms.Location = new System.Drawing.Point(11, 112);
             this.dgvforms.Name = "dgvforms";
             this.dgvforms.RowHeadersVisible = false;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvforms.RowTemplate.Height = 35;
             this.dgvforms.Size = new System.Drawing.Size(847, 204);
             this.dgvforms.TabIndex = 0;

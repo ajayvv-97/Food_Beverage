@@ -43,7 +43,14 @@ namespace Domain
         public decimal TotalCreditAmt { get; set; }
         public decimal Totaltax { get; set; }
     }
-    
-    
+
+    public class DmnReturn
+    {
+        public decimal TotalRtnCash { get; set; }
+        public int TotalRtnQty { get; set; }
+        public decimal TotalRtnCard { get; set; }
+        public int TotalFooddamagQty { get; set; }
+
+    }
 }
 

@@ -870,8 +870,24 @@ namespace FoodandBeverage.Forms
                     if(dgv_registartion.RowCount==0)
                         dgv_registartion.Rows.Add();
 
+                    int x = dgv_registartion.RowCount;
                     rearrange_slno();
 
+                    if (dgv_registartion.RowCount > 0)
+                    {
+                        var lastRow = dgv_registartion.Rows[dgv_registartion.RowCount - 1];
+                        bool isLastRowEmpty = lastRow.Cells[Ritemidno].Value == null || string.IsNullOrWhiteSpace(lastRow.Cells[Ritemidno].Value.ToString());
+                        if (!isLastRowEmpty)
+                        {
+                            int newIndex = dgv_registartion.Rows.Add();
+                            dgv_registartion.Rows[newIndex].Cells[Rslno].Value = dgv_registartion.RowCount; 
+                        }
+                    }
+                    else
+                    {
+                        int newIndex = dgv_registartion.Rows.Add();
+                        dgv_registartion.Rows[newIndex].Cells[Rslno].Value = 1;
+                    }
                     DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[cnt].Cells[Raction];
                     cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     cell1.Value = Properties.Resources.add_row;

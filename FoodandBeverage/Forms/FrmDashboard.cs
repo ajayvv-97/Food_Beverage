@@ -743,6 +743,7 @@ namespace FoodandBeverage.Forms
                         SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
                         SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
                         SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_refund, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
 
                         SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
                         SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.Department_icon, desiredWidth, desiredHeight);
@@ -3368,6 +3369,11 @@ namespace FoodandBeverage.Forms
                             ib_addon.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Refund) && gridesource[i].Write == 1)
+                        {
+                            ib_refund.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -5438,6 +5444,42 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        private void ib_refund_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (System.Windows.Forms.Application.OpenForms["FrmRefund"] != null)
+                {
+                    FrmRefund _instanceFrmRefund = Application.OpenForms["FrmRefund"] as FrmRefund;
+
+                    if (_instanceFrmRefund.WindowState == FormWindowState.Minimized)
+                        _instanceFrmRefund.WindowState = FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmRefund.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmRefund);
+                        panelDesktop.Controls.Add(_instanceFrmRefund);
+                        _instanceFrmRefund.Show();
+                        _instanceFrmRefund.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmRefund _instanceFrmRefund = new FrmRefund();
+                    ResizeForm(_instanceFrmRefund);
+                    _instanceFrmRefund.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmRefund);
+                    _instanceFrmRefund.Show();
+                    _instanceFrmRefund.WindowState = FormWindowState.Maximized;
+                    _instanceFrmRefund.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Homepage ib_refund_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
 
         private void btncls_gen_Click(object sender, EventArgs e)
         {

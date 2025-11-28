@@ -1257,18 +1257,28 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                _instanceFrmOrder.Show();
+                                _instanceFrmOrder.ShowDialog();
                                 _instanceFrmOrder.BringToFront();
                             }
                         }
                         else
                         {
-                            FrmOrder _instanceFrmOrder = new FrmOrder(0, Convert.ToInt32(DashboardTableType.CombinedOrderBill), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Billingpage));
-                            _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                            _instanceFrmOrder.Opacity = 0;
-                            _instanceFrmOrder.Visible = false;
-                            _instanceFrmOrder.Show();
-                            _instanceFrmOrder.BringToFront();
+                            using (FrmOrder _instanceFrmOrder = new FrmOrder(
+                                        0,
+                                        Convert.ToInt32(DashboardTableType.CombinedOrderBill),
+                                        0,
+                                        CheckedtableNames,
+                                        Convert.ToInt32(PageType.Billpage),
+                                        0,
+                                        Convert.ToInt32(SourcepageType.Billingpage)))
+                            {
+                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                _instanceFrmOrder.Opacity = 0;
+                                _instanceFrmOrder.Visible = false;
+                                _instanceFrmOrder.ShowDialog();
+                                _instanceFrmOrder.BringToFront();
+                            }
+
                         }
 
                     }
@@ -1288,7 +1298,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    _instanceFrmOrder.Show();
+                                    _instanceFrmOrder.ShowDialog();
                                     _instanceFrmOrder.BringToFront();
                                 }
                             }
@@ -1297,12 +1307,22 @@ namespace FoodandBeverage.Forms
                                 int tagValue;
                                 if (clickedControl.Tag != null)
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(tid, Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Billingpage));
-                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                    _instanceFrmOrder.Opacity = 0;
-                                    _instanceFrmOrder.Visible = false;
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
+                                    using (FrmOrder _instanceFrmOrder = new FrmOrder(
+                                                tid,
+                                                Convert.ToInt32(DashboardTableType.Normalorder),
+                                                0,
+                                                CheckedtableNames,
+                                                Convert.ToInt32(PageType.Billpage),
+                                                0,
+                                                Convert.ToInt32(SourcepageType.Billingpage)))
+                                    {
+                                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
+                                        _instanceFrmOrder.Opacity = 0;
+                                        _instanceFrmOrder.Visible = false;
+                                        _instanceFrmOrder.ShowDialog();
+                                        _instanceFrmOrder.BringToFront();
+                                    }
+
                                 }
                             }
                         }
@@ -1321,18 +1341,28 @@ namespace FoodandBeverage.Forms
                                     }
                                     else
                                     {
-                                        _instanceFrmOrder.Show();
+                                        _instanceFrmOrder.ShowDialog();
                                         _instanceFrmOrder.BringToFront();
                                     }
                                 }
                                 else
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(tid, Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), BmasterId, CheckedtableNames, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Billingpage));
-                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                    _instanceFrmOrder.Opacity = 0;
-                                    _instanceFrmOrder.Visible = false;
-                                    _instanceFrmOrder.Show();
-                                    _instanceFrmOrder.BringToFront();
+                                    using (FrmOrder _instanceFrmOrder = new FrmOrder(
+                                          tid,
+                                          Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel),
+                                          BmasterId,
+                                          CheckedtableNames,
+                                          Convert.ToInt32(PageType.Billpage),
+                                          0,
+                                          Convert.ToInt32(SourcepageType.Billingpage)))
+                                    {
+                                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
+                                        _instanceFrmOrder.Opacity = 0;
+                                        _instanceFrmOrder.Visible = false;
+                                        _instanceFrmOrder.Show();
+                                        _instanceFrmOrder.BringToFront();
+                                    }
+
 
                                 }
                             }
@@ -1359,12 +1389,14 @@ namespace FoodandBeverage.Forms
                             {
                                 if (clickedControl.Tag != null)
                                 {
-                                    FrmOrder _instanceFrmOrder = new FrmOrder(tid, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), OrderMasterId, Convert.ToInt32(SourcepageType.Pickuppage));
-                                    _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                    _instanceFrmOrder.Opacity = 0;
-                                    _instanceFrmOrder.Visible = false;
-                                    _instanceFrmOrder.ShowDialog();
-                                    _instanceFrmOrder.BringToFront();
+                                    using (FrmOrder _instanceFrmOrder = new FrmOrder(tid, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), OrderMasterId, Convert.ToInt32(SourcepageType.Pickuppage)))
+                                    {
+                                        _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                        _instanceFrmOrder.Opacity = 0;
+                                        _instanceFrmOrder.Visible = false;
+                                        _instanceFrmOrder.ShowDialog();
+                                        _instanceFrmOrder.BringToFront();
+                                    }
                                 }
                             }
                         }

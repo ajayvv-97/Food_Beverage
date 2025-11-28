@@ -2986,42 +2986,42 @@ namespace FoodandBeverage.Forms
                         decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
                         txtGrandTotal.Text = Convert.ToString(totalamt);
                         txtnetamount.Text = Convert.ToString(totalamt);
-                        for (int j = 0; j < gridSource.Count; j++)
-                        {
-                            #region Grid Inseration
-                            int exit_orderdetailid = 0;
-                            r1 = Dgv_Selected_Item.RowCount - 1;
+                        //for (int j = 0; j < gridSource.Count; j++)
+                        //{
+                        //    #region Grid Inseration
+                        //    int exit_orderdetailid = 0;
+                        //    r1 = Dgv_Selected_Item.RowCount - 1;
 
-                            Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Imgaddon;
-                            Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                            Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
-                            ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Imgaddon;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
+                        //    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
 
-                            Dgv_Selected_Item.Rows[r1].ReadOnly = true;
-                            Dgv_Selected_Item.Rows[r1].Cells[islno].Value = j + 1;
-                            Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                            Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = 0;
-                            Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = 0;
-                            Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[j].Field7);
-                            Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = 0;
-                            Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = Convert.ToString(gridSource[j].Field10);
-                            Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = 0;
-                            Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
+                        //    Dgv_Selected_Item.Rows[r1].ReadOnly = true;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[islno].Value = j + 1;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = 0;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = 0;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[j].Field7);
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = 0;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = Convert.ToString(gridSource[j].Field10);
+                        //    Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = 0;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
 
-                            //if(Convert.ToInt32(gridSource[j].Field9)>0)
-                            //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field9);
-                            //else
-                            //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field8);
-                            Dgv_Selected_Item.Rows[r1].Cells[itype].Value = 0;
-                            Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
-                            Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Secondary);
-                            Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.Enable);
-                            Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = Convert.ToInt32(gridSource[0].Id);
-                            Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = AddonBGcolor;
+                        //    //if(Convert.ToInt32(gridSource[j].Field9)>0)
+                        //    //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field9);
+                        //    //else
+                        //    //    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[j].Field8);
+                        //    Dgv_Selected_Item.Rows[r1].Cells[itype].Value = 0;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                        //    Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Secondary);
+                        //    Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.Enable);
+                        //    Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = Convert.ToInt32(gridSource[0].Id);
+                        //    Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = AddonBGcolor;
 
-                            Dgv_Selected_Item.Rows.Add(1);
-                            #endregion
-                        }
+                        //    Dgv_Selected_Item.Rows.Add(1);
+                        //    #endregion
+                        //}
 
                         Dgv_Selected_Item.ResumeLayout();
                         #endregion
@@ -6481,6 +6481,7 @@ namespace FoodandBeverage.Forms
                     DmnSalemaster dmnsalemaster = new DmnSalemaster();
                     DmnSaledetails dmnsaledetails = new DmnSaledetails();
                     BllSale bllSales = new BllSale();
+
                     if (string.IsNullOrEmpty(txtdis_per.Text))
                         txtdis_per.Text = "0";
                     if (string.IsNullOrEmpty(txtdiscountamt_promo.Text))
@@ -6748,6 +6749,7 @@ namespace FoodandBeverage.Forms
                                 this.Close();
                             }
                             #endregion
+
                         }
                         #endregion
                     }
@@ -7494,17 +7496,31 @@ namespace FoodandBeverage.Forms
                                 {
                                     if (KOT_saleprint_status)
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Convert.ToInt32(BillType.PickupBill));
-                                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                        frmSalesInvoice.ShowDialog();
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice =
+                                            new FoodandBeverage.SaleBill.FrmSaleInvoice(
+                                                InsertStatusP.SalesMasterId,
+                                                payid,
+                                                0,
+                                                Convert.ToInt32(BillType.PickupBill)))
+                                        {
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                        }
                                     }
                                     else
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                        frmSalesInvoice.ShowDialog();
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice =
+                                            new FoodandBeverage.SaleBill.FrmSaleInvoice(
+                                                InsertStatusP.SalesMasterId,
+                                                payid,
+                                                0,
+                                                Biltypeno))
+                                        {
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                        }
                                     }
-                                
+
                                     CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
@@ -7519,16 +7535,31 @@ namespace FoodandBeverage.Forms
                                 {
                                     if (KOT_saleprint_status)
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Convert.ToInt32(BillType.PickupBill));
-                                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                        frmSalesInvoice.ShowDialog();
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice =
+                                            new FoodandBeverage.SaleBill.FrmSaleInvoice(
+                                                InsertStatusP.SalesMasterId,
+                                                payid,
+                                                0,
+                                                Convert.ToInt32(BillType.PickupBill)))
+                                        {
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                        }
                                     }
                                     else
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                        frmSalesInvoice.ShowDialog();
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice =
+                                            new FoodandBeverage.SaleBill.FrmSaleInvoice(
+                                                InsertStatusP.SalesMasterId,
+                                                payid,
+                                                0,
+                                                Biltypeno))
+                                        {
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                        }
                                     }
+
                                     CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
@@ -7554,6 +7585,8 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  paybillcal()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
+
         public void setperfixsale()
         {
             try

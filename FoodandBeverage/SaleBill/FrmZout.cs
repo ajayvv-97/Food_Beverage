@@ -410,11 +410,14 @@ namespace FoodandBeverage.SaleBill
                 DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                 DataTable DT_Products = new DataTable("DT_Products");
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
+                DataTable DT_Return = new DataTable("DT_Return");
+
 
                 BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
                 BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
                 BllSearch<DmnGeneralSetting> bllgeneralsetting = new BllSearch<DmnGeneralSetting>();
+                BllSearch<DmnReturn> bllReturn = new BllSearch<DmnReturn>();
                 #endregion
 
                 #region GeneralSettings
@@ -519,10 +522,26 @@ namespace FoodandBeverage.SaleBill
                 }
                 #endregion
 
+                #region Return Summary
+                DmnSearch dmnSearchRtn = new DmnSearch();
+                dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                dmnSearchRtn.Table = "tblrefund r";
+                dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND " +
+                     " CONVERT(DATE, r.CreatedDateTime) = CONVERT(DATE, SYSDATETIME())"
+                    + " AND CONVERT(TIME, r.CreatedDateTime) >= '" + OpeningDate +
+                    "' And CONVERT(TIME, r.CreatedDateTime) <= CONVERT(TIME, SYSDATETIME()) ";
+                var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
+                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                {
+                    DT_Return.Load(reader);
+                }
+                #endregion                
+
                 dsReport.Tables.Add(DT_Products);
                 dsReport.Tables.Add(DT_Drawer);
                 dsReport.Tables.Add(DT_Geninfo);
                 dsReport.Tables.Add(dtgeneralsettings);
+                dsReport.Tables.Add(DT_Return);
 
                 if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                 {
@@ -608,7 +627,9 @@ namespace FoodandBeverage.SaleBill
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
                 BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
                 BllSearch<DmnGeneralSetting> bllgeneralsetting = new BllSearch<DmnGeneralSetting>();
+                BllSearch<DmnReturn> bllReturn = new BllSearch<DmnReturn>();
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
+       
 
                 pdffolderPath = Application.StartupPath + "\\DetailsOUT_PDF";
                 if (!Directory.Exists(pdffolderPath))
@@ -688,6 +709,8 @@ namespace FoodandBeverage.SaleBill
                     DataTable DT_Drawer = new DataTable("DT_Drawer");
                     DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                     DataTable DT_Products = new DataTable("DT_Products");
+                    DataTable DT_Return = new DataTable("DT_Return");
+
                     Staffid = Convert.ToInt32(StaffResult[i].Field1);
 
                     #region Products
@@ -749,11 +772,26 @@ namespace FoodandBeverage.SaleBill
                     }
                     #endregion
 
+                    #region Return Summary
+                    DmnSearch dmnSearchRtn = new DmnSearch();
+                    dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                    dmnSearchRtn.Table = "tblrefund r";
+                    dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND " +
+                        " CONVERT(DATE, r.CreatedDateTime) = CONVERT(DATE, SYSDATETIME())"
+                        + " AND CONVERT(TIME, r.CreatedDateTime) >= '" + OpeningDate +
+                        "' And CONVERT(TIME, r.CreatedDateTime) <= CONVERT(TIME, SYSDATETIME()) and r.CreatedBy = " + Staffid;
+                    var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
+                    using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                    {
+                        DT_Return.Load(reader);
+                    }
+                    #endregion
+
                     dsReport.Tables.Add(DT_Products);
                     dsReport.Tables.Add(DT_Drawer);
                     dsReport.Tables.Add(DT_Geninfo);
                     dsReport.Tables.Add(dtgeneralsettings);
-
+                    dsReport.Tables.Add(DT_Return);
 
                     if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                     {
@@ -867,11 +905,13 @@ namespace FoodandBeverage.SaleBill
                 DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                 DataTable DT_Products = new DataTable("DT_Products");
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
+                DataTable DT_Return = new DataTable("DT_Return"); 
 
                 BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
                 BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
                 BllSearch<DmnGeneralSetting> bllgeneralsetting = new BllSearch<DmnGeneralSetting>();
+                BllSearch<DmnReturn> bllReturn = new BllSearch<DmnReturn>();
 
                 #region GeneralSettings
                 DmnSearch dmnGeneralSetting = new DmnSearch();
@@ -964,10 +1004,23 @@ namespace FoodandBeverage.SaleBill
                 }
                 #endregion
 
+                #region Return Summary
+                DmnSearch dmnSearchRtn = new DmnSearch();
+                dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                dmnSearchRtn.Table = "tblrefund r";
+                dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND r.CreatedBy = " + FrmDashboard.UserId + "  AND r.CreatedDateTime >= '" + Drawerassigntime + "' AND r.CreatedDateTime <= SYSDATETIME()";
+                var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
+                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                {
+                    DT_Return.Load(reader);
+                }
+                #endregion                
+
                 dsReport.Tables.Add(DT_Products);
                 dsReport.Tables.Add(DT_Drawer);
                 dsReport.Tables.Add(DT_Geninfo);
                 dsReport.Tables.Add(dtgeneralsettings);
+                dsReport.Tables.Add(DT_Return);
 
                 if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                 {
@@ -1049,11 +1102,13 @@ namespace FoodandBeverage.SaleBill
                 DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                 DataTable DT_Products = new DataTable("DT_Products");
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
+                DataTable DT_Return = new DataTable("DT_Return");
 
                 BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
                 BllSearch<DmnOutCard> bllProducts = new BllSearch<DmnOutCard>();
                 BllSearch<DmnGeneralSetting> bllgeneralsetting = new BllSearch<DmnGeneralSetting>();
+                BllSearch<DmnReturn> bllReturn = new BllSearch<DmnReturn>();
 
                 #region GeneralSettings
                 DmnSearch dmnGeneralSetting = new DmnSearch();
@@ -1146,10 +1201,23 @@ namespace FoodandBeverage.SaleBill
                 }
                 #endregion
 
+                #region Return Summary
+                DmnSearch dmnSearchRtn = new DmnSearch();
+                dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                dmnSearchRtn.Table = "tblrefund r";
+                dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND r.CreatedBy = " + FrmDashboard.UserId + "  AND r.CreatedDateTime >= '" + Drawerassigntime + "' AND r.CreatedDateTime <= SYSDATETIME()";
+                var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
+                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                {
+                    DT_Return.Load(reader);
+                }
+                #endregion
+
                 dsReport.Tables.Add(DT_Products);
                 dsReport.Tables.Add(DT_Drawer);
                 dsReport.Tables.Add(DT_Geninfo);
                 dsReport.Tables.Add(dtgeneralsettings);
+                dsReport.Tables.Add(DT_Return);
 
                 if (PrintBillType == Convert.ToInt32(SalePrintbilltype.English_Arabic))
                 {

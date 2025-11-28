@@ -8610,3 +8610,91 @@ User Name: Ajay v v
 Designation: Billing
 FormTypeId: 33
 -------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:30:56 AM
+Page : Login Page IsUsernameValid()
+Exception: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:53:28 AM
+Page : Employee Page  btnSave_Click()
+Exception: The path is not of a legal form.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:53:37 AM
+Page : Employee Page  btnSave_Click()
+Exception: The path is not of a legal form.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:55:07 AM
+Page : Employee Page  btnSave_Click()
+Exception: The path is not of a legal form.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:55:15 AM
+Page : Employee Page  btnSave_Click()
+Exception: Parameter is not valid.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:55:34 AM
+Page : Employee Page  btnSave_Click()
+Exception: Parameter is not valid.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:55:36 AM
+Page : Employee Page  btnSave_Click()
+Exception: Parameter is not valid.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 11:56:45 AM
+Page : Employee Page  btnSave_Click()
+Exception: Parameter is not valid.
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 18
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 3:04:51 PM
+Page : Product page FillData()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 3:05:04 PM
+Page : Product page FillData()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 3:06:36 PM
+Page : Product page FillData()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 5
+-------------------------------------------------------------------------
+Date and Time: 11/28/2025 3:08:23 PM
+Page : Product page FillData()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: Ajay v v
+Designation: Billing
+FormTypeId: 5
+-------------------------------------------------------------------------
