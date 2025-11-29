@@ -32,9 +32,6 @@ namespace FoodandBeverage.Forms
         public static int UserType = 0;
         public static int Allaccess = 0;
 
-        public static string KitchenBillPath = "";
-        public static string ReportPath = "";
-        public static string SaleBillPath = "";
         public int Emp_RowCount = 0, Emp_ColCount = 0;
         public int OP_RowCount = 0, OP_ColCount = 0;
         public int ButtonID = 0;
@@ -62,10 +59,6 @@ namespace FoodandBeverage.Forms
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
-
-            KitchenBillPath = Convert.ToString(FrmLogin.KitchenBillPath);
-            SaleBillPath = Convert.ToString(FrmLogin.SaleBillPath);
-            ReportPath = Convert.ToString(FrmLogin.ReportPath);
         }
         #region grid Declarationassign
 

@@ -66,12 +66,13 @@ namespace FoodandBeverage.Forms
             try
             {
                 clsgen.Memoryrelease();
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-
+                dmnSearchtabledata.Field28 = "0";
                 switch (serachmode)
                 {
                     case 0: dmnSearchtabledata.Field29 = "0"; dmnSearch.WhereNdGroupBy = "where ti.Status=1"; break;

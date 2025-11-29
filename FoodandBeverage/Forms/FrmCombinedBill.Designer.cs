@@ -30,7 +30,6 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCombinedBill));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -46,21 +45,15 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCombinedBill));
             this.pnl_complebill_prevbill = new System.Windows.Forms.Panel();
             this.tlp_compl_pre_bill = new System.Windows.Forms.TableLayoutPanel();
             this.flp_header_com_pre = new System.Windows.Forms.FlowLayoutPanel();
-            this.btn_prevbill = new System.Windows.Forms.Button();
             this.tlp_outbtn = new System.Windows.Forms.TableLayoutPanel();
-            this.yout = new System.Windows.Forms.Button();
-            this.zout = new System.Windows.Forms.Button();
-            this.normal_rpt = new System.Windows.Forms.Button();
-            this.detailed_rpt = new System.Windows.Forms.Button();
-            this.btn_backCompleorder = new System.Windows.Forms.Button();
             this.tlp_tblcount_namelist = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_tbl_totalcount = new System.Windows.Forms.Label();
             this.cmb_tbl_names = new System.Windows.Forms.ComboBox();
             this.pnl_empty_msg = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblmsg = new System.Windows.Forms.Label();
             this.pnl_previous_bill = new System.Windows.Forms.Panel();
             this.tlp_previous_bill = new System.Windows.Forms.TableLayoutPanel();
@@ -78,7 +71,6 @@ namespace FoodandBeverage.Forms
             this.mAction = new System.Windows.Forms.DataGridViewImageColumn();
             this.cmordermasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flp_pre_bill_header = new System.Windows.Forms.FlowLayoutPanel();
-            this.btn_serach_prev_bill = new System.Windows.Forms.Button();
             this.pnl_compelte_bill = new System.Windows.Forms.Panel();
             this.pnl_split = new System.Windows.Forms.Panel();
             this.tlp_main_split = new System.Windows.Forms.TableLayoutPanel();
@@ -109,21 +101,28 @@ namespace FoodandBeverage.Forms
             this.label13 = new System.Windows.Forms.Label();
             this.lbl_desigtnation = new System.Windows.Forms.Label();
             this.tlp_d_save_canl = new System.Windows.Forms.TableLayoutPanel();
-            this.btncancel = new System.Windows.Forms.Button();
             this.pnl_bgcontrols = new System.Windows.Forms.Panel();
             this.txtdrawerid = new System.Windows.Forms.TextBox();
             this.txtextraaddamt_backup = new System.Windows.Forms.TextBox();
             this.txtdrops_backup = new System.Windows.Forms.TextBox();
             this.txtempoyeId = new System.Windows.Forms.TextBox();
-            this.btndrawersave = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btncancel = new System.Windows.Forms.Button();
+            this.btndrawersave = new System.Windows.Forms.Button();
+            this.btn_prevbill = new System.Windows.Forms.Button();
+            this.yout = new System.Windows.Forms.Button();
+            this.zout = new System.Windows.Forms.Button();
+            this.normal_rpt = new System.Windows.Forms.Button();
+            this.detailed_rpt = new System.Windows.Forms.Button();
+            this.btn_backCompleorder = new System.Windows.Forms.Button();
+            this.btn_serach_prev_bill = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_compl_pre_bill.SuspendLayout();
             this.flp_header_com_pre.SuspendLayout();
             this.tlp_outbtn.SuspendLayout();
             this.tlp_tblcount_namelist.SuspendLayout();
             this.pnl_empty_msg.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnl_previous_bill.SuspendLayout();
             this.tlp_previous_bill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).BeginInit();
@@ -140,6 +139,7 @@ namespace FoodandBeverage.Forms
             this.tlpemplist.SuspendLayout();
             this.tlp_d_save_canl.SuspendLayout();
             this.pnl_bgcontrols.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnl_complebill_prevbill
@@ -184,19 +184,6 @@ namespace FoodandBeverage.Forms
             this.flp_header_com_pre.Size = new System.Drawing.Size(837, 68);
             this.flp_header_com_pre.TabIndex = 1;
             // 
-            // btn_prevbill
-            // 
-            this.btn_prevbill.BackgroundImage = global::FoodandBeverage.Properties.Resources.Combinedbill_previousbill;
-            this.btn_prevbill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_prevbill.FlatAppearance.BorderSize = 0;
-            this.btn_prevbill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_prevbill.Location = new System.Drawing.Point(728, 3);
-            this.btn_prevbill.Name = "btn_prevbill";
-            this.btn_prevbill.Size = new System.Drawing.Size(106, 56);
-            this.btn_prevbill.TabIndex = 0;
-            this.btn_prevbill.UseVisualStyleBackColor = true;
-            this.btn_prevbill.Click += new System.EventHandler(this.btn_prevbill_Click);
-            // 
             // tlp_outbtn
             // 
             this.tlp_outbtn.ColumnCount = 4;
@@ -217,94 +204,6 @@ namespace FoodandBeverage.Forms
             this.tlp_outbtn.Size = new System.Drawing.Size(502, 56);
             this.tlp_outbtn.TabIndex = 27;
             this.tlp_outbtn.Visible = false;
-            // 
-            // yout
-            // 
-            this.yout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.yout.BackColor = System.Drawing.Color.Transparent;
-            this.yout.BackgroundImage = global::FoodandBeverage.Properties.Resources.fdnumber_large;
-            this.yout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.yout.Dock = System.Windows.Forms.DockStyle.Top;
-            this.yout.FlatAppearance.BorderSize = 0;
-            this.yout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.yout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.yout.ForeColor = System.Drawing.SystemColors.Window;
-            this.yout.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.yout.Location = new System.Drawing.Point(3, 3);
-            this.yout.Name = "yout";
-            this.yout.Size = new System.Drawing.Size(119, 50);
-            this.yout.TabIndex = 19;
-            this.yout.Text = "Y - Out";
-            this.yout.UseVisualStyleBackColor = false;
-            this.yout.Click += new System.EventHandler(this.yout_Click);
-            // 
-            // zout
-            // 
-            this.zout.BackColor = System.Drawing.Color.Transparent;
-            this.zout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("zout.BackgroundImage")));
-            this.zout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.zout.Dock = System.Windows.Forms.DockStyle.Top;
-            this.zout.FlatAppearance.BorderSize = 0;
-            this.zout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.zout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zout.ForeColor = System.Drawing.SystemColors.Window;
-            this.zout.Location = new System.Drawing.Point(128, 3);
-            this.zout.Name = "zout";
-            this.zout.Size = new System.Drawing.Size(119, 50);
-            this.zout.TabIndex = 20;
-            this.zout.Text = "Z - Out";
-            this.zout.UseVisualStyleBackColor = false;
-            this.zout.Click += new System.EventHandler(this.zout_Click);
-            // 
-            // normal_rpt
-            // 
-            this.normal_rpt.BackColor = System.Drawing.Color.Transparent;
-            this.normal_rpt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("normal_rpt.BackgroundImage")));
-            this.normal_rpt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.normal_rpt.Dock = System.Windows.Forms.DockStyle.Top;
-            this.normal_rpt.FlatAppearance.BorderSize = 0;
-            this.normal_rpt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.normal_rpt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.normal_rpt.ForeColor = System.Drawing.SystemColors.Window;
-            this.normal_rpt.Location = new System.Drawing.Point(253, 3);
-            this.normal_rpt.Name = "normal_rpt";
-            this.normal_rpt.Size = new System.Drawing.Size(119, 50);
-            this.normal_rpt.TabIndex = 21;
-            this.normal_rpt.Text = "Normal Report";
-            this.normal_rpt.UseVisualStyleBackColor = false;
-            this.normal_rpt.Click += new System.EventHandler(this.normal_rpt_Click);
-            // 
-            // detailed_rpt
-            // 
-            this.detailed_rpt.BackColor = System.Drawing.Color.Transparent;
-            this.detailed_rpt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailed_rpt.BackgroundImage")));
-            this.detailed_rpt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.detailed_rpt.Dock = System.Windows.Forms.DockStyle.Top;
-            this.detailed_rpt.FlatAppearance.BorderSize = 0;
-            this.detailed_rpt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.detailed_rpt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.detailed_rpt.ForeColor = System.Drawing.SystemColors.Window;
-            this.detailed_rpt.Location = new System.Drawing.Point(378, 3);
-            this.detailed_rpt.Name = "detailed_rpt";
-            this.detailed_rpt.Size = new System.Drawing.Size(121, 50);
-            this.detailed_rpt.TabIndex = 22;
-            this.detailed_rpt.Text = "Detailed Report";
-            this.detailed_rpt.UseVisualStyleBackColor = false;
-            this.detailed_rpt.Click += new System.EventHandler(this.detailed_rpt_Click);
-            // 
-            // btn_backCompleorder
-            // 
-            this.btn_backCompleorder.BackgroundImage = global::FoodandBeverage.Properties.Resources.combined_backbill;
-            this.btn_backCompleorder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_backCompleorder.FlatAppearance.BorderSize = 0;
-            this.btn_backCompleorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_backCompleorder.Location = new System.Drawing.Point(80, 3);
-            this.btn_backCompleorder.Name = "btn_backCompleorder";
-            this.btn_backCompleorder.Size = new System.Drawing.Size(134, 39);
-            this.btn_backCompleorder.TabIndex = 3;
-            this.btn_backCompleorder.UseVisualStyleBackColor = true;
-            this.btn_backCompleorder.Visible = false;
-            this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
             // 
             // tlp_tblcount_namelist
             // 
@@ -358,16 +257,6 @@ namespace FoodandBeverage.Forms
             this.pnl_empty_msg.Size = new System.Drawing.Size(363, 89);
             this.pnl_empty_msg.TabIndex = 15;
             this.pnl_empty_msg.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // lblmsg
             // 
@@ -606,20 +495,6 @@ namespace FoodandBeverage.Forms
             this.flp_pre_bill_header.Name = "flp_pre_bill_header";
             this.flp_pre_bill_header.Size = new System.Drawing.Size(446, 42);
             this.flp_pre_bill_header.TabIndex = 2;
-            // 
-            // btn_serach_prev_bill
-            // 
-            this.btn_serach_prev_bill.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
-            this.btn_serach_prev_bill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_serach_prev_bill.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btn_serach_prev_bill.FlatAppearance.BorderSize = 0;
-            this.btn_serach_prev_bill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_serach_prev_bill.Location = new System.Drawing.Point(366, 3);
-            this.btn_serach_prev_bill.Name = "btn_serach_prev_bill";
-            this.btn_serach_prev_bill.Size = new System.Drawing.Size(77, 39);
-            this.btn_serach_prev_bill.TabIndex = 0;
-            this.btn_serach_prev_bill.UseVisualStyleBackColor = true;
-            this.btn_serach_prev_bill.Click += new System.EventHandler(this.btn_serach_prev_bill_Click);
             // 
             // pnl_compelte_bill
             // 
@@ -1063,20 +938,6 @@ namespace FoodandBeverage.Forms
             this.tlp_d_save_canl.Size = new System.Drawing.Size(400, 57);
             this.tlp_d_save_canl.TabIndex = 25;
             // 
-            // btncancel
-            // 
-            this.btncancel.BackColor = System.Drawing.Color.Transparent;
-            this.btncancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
-            this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btncancel.FlatAppearance.BorderSize = 0;
-            this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncancel.Location = new System.Drawing.Point(104, 3);
-            this.btncancel.Name = "btncancel";
-            this.btncancel.Size = new System.Drawing.Size(93, 40);
-            this.btncancel.TabIndex = 23;
-            this.btncancel.UseVisualStyleBackColor = false;
-            this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
-            // 
             // pnl_bgcontrols
             // 
             this.pnl_bgcontrols.Controls.Add(this.txtdrawerid);
@@ -1130,6 +991,24 @@ namespace FoodandBeverage.Forms
             this.txtempoyeId.TabIndex = 20;
             this.txtempoyeId.Visible = false;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // btncancel
+            // 
+            this.btncancel.BackColor = System.Drawing.Color.Transparent;
+            this.btncancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
+            this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncancel.FlatAppearance.BorderSize = 0;
+            this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncancel.Location = new System.Drawing.Point(104, 3);
+            this.btncancel.Name = "btncancel";
+            this.btncancel.Size = new System.Drawing.Size(93, 40);
+            this.btncancel.TabIndex = 23;
+            this.btncancel.UseVisualStyleBackColor = false;
+            this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
+            // 
             // btndrawersave
             // 
             this.btndrawersave.BackColor = System.Drawing.Color.Transparent;
@@ -1144,9 +1023,126 @@ namespace FoodandBeverage.Forms
             this.btndrawersave.UseVisualStyleBackColor = false;
             this.btndrawersave.Click += new System.EventHandler(this.btndrawersave_Click);
             // 
-            // timer1
+            // btn_prevbill
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.btn_prevbill.BackgroundImage = global::FoodandBeverage.Properties.Resources.PREVIOUS_BILL;
+            this.btn_prevbill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_prevbill.FlatAppearance.BorderSize = 0;
+            this.btn_prevbill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_prevbill.Location = new System.Drawing.Point(728, 3);
+            this.btn_prevbill.Name = "btn_prevbill";
+            this.btn_prevbill.Size = new System.Drawing.Size(106, 56);
+            this.btn_prevbill.TabIndex = 0;
+            this.btn_prevbill.UseVisualStyleBackColor = true;
+            this.btn_prevbill.Click += new System.EventHandler(this.btn_prevbill_Click);
+            // 
+            // yout
+            // 
+            this.yout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.yout.BackColor = System.Drawing.Color.Transparent;
+            this.yout.BackgroundImage = global::FoodandBeverage.Properties.Resources.Y_OUT;
+            this.yout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.yout.Dock = System.Windows.Forms.DockStyle.Top;
+            this.yout.FlatAppearance.BorderSize = 0;
+            this.yout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.yout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yout.ForeColor = System.Drawing.SystemColors.Window;
+            this.yout.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.yout.Location = new System.Drawing.Point(3, 3);
+            this.yout.Name = "yout";
+            this.yout.Size = new System.Drawing.Size(119, 50);
+            this.yout.TabIndex = 19;
+            this.yout.UseVisualStyleBackColor = false;
+            this.yout.Click += new System.EventHandler(this.yout_Click);
+            // 
+            // zout
+            // 
+            this.zout.BackColor = System.Drawing.Color.Transparent;
+            this.zout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("zout.BackgroundImage")));
+            this.zout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.zout.Dock = System.Windows.Forms.DockStyle.Top;
+            this.zout.FlatAppearance.BorderSize = 0;
+            this.zout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.zout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.zout.ForeColor = System.Drawing.SystemColors.Window;
+            this.zout.Location = new System.Drawing.Point(128, 3);
+            this.zout.Name = "zout";
+            this.zout.Size = new System.Drawing.Size(119, 50);
+            this.zout.TabIndex = 20;
+            this.zout.UseVisualStyleBackColor = false;
+            this.zout.Click += new System.EventHandler(this.zout_Click);
+            // 
+            // normal_rpt
+            // 
+            this.normal_rpt.BackColor = System.Drawing.Color.Transparent;
+            this.normal_rpt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("normal_rpt.BackgroundImage")));
+            this.normal_rpt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.normal_rpt.Dock = System.Windows.Forms.DockStyle.Top;
+            this.normal_rpt.FlatAppearance.BorderSize = 0;
+            this.normal_rpt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.normal_rpt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.normal_rpt.ForeColor = System.Drawing.SystemColors.Window;
+            this.normal_rpt.Location = new System.Drawing.Point(253, 3);
+            this.normal_rpt.Name = "normal_rpt";
+            this.normal_rpt.Size = new System.Drawing.Size(119, 50);
+            this.normal_rpt.TabIndex = 21;
+            this.normal_rpt.UseVisualStyleBackColor = false;
+            this.normal_rpt.Click += new System.EventHandler(this.normal_rpt_Click);
+            // 
+            // detailed_rpt
+            // 
+            this.detailed_rpt.BackColor = System.Drawing.Color.Transparent;
+            this.detailed_rpt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailed_rpt.BackgroundImage")));
+            this.detailed_rpt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.detailed_rpt.Dock = System.Windows.Forms.DockStyle.Top;
+            this.detailed_rpt.FlatAppearance.BorderSize = 0;
+            this.detailed_rpt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.detailed_rpt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detailed_rpt.ForeColor = System.Drawing.SystemColors.Window;
+            this.detailed_rpt.Location = new System.Drawing.Point(378, 3);
+            this.detailed_rpt.Name = "detailed_rpt";
+            this.detailed_rpt.Size = new System.Drawing.Size(121, 50);
+            this.detailed_rpt.TabIndex = 22;
+            this.detailed_rpt.UseVisualStyleBackColor = false;
+            this.detailed_rpt.Click += new System.EventHandler(this.detailed_rpt_Click);
+            // 
+            // btn_backCompleorder
+            // 
+            this.btn_backCompleorder.BackgroundImage = global::FoodandBeverage.Properties.Resources.combined_backbill;
+            this.btn_backCompleorder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_backCompleorder.FlatAppearance.BorderSize = 0;
+            this.btn_backCompleorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_backCompleorder.Location = new System.Drawing.Point(80, 3);
+            this.btn_backCompleorder.Name = "btn_backCompleorder";
+            this.btn_backCompleorder.Size = new System.Drawing.Size(134, 56);
+            this.btn_backCompleorder.TabIndex = 3;
+            this.btn_backCompleorder.UseVisualStyleBackColor = true;
+            this.btn_backCompleorder.Visible = false;
+            this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
+            // 
+            // btn_serach_prev_bill
+            // 
+            this.btn_serach_prev_bill.BackgroundImage = global::FoodandBeverage.Properties.Resources.searchbutton;
+            this.btn_serach_prev_bill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_serach_prev_bill.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btn_serach_prev_bill.FlatAppearance.BorderSize = 0;
+            this.btn_serach_prev_bill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_serach_prev_bill.Location = new System.Drawing.Point(366, 3);
+            this.btn_serach_prev_bill.Name = "btn_serach_prev_bill";
+            this.btn_serach_prev_bill.Size = new System.Drawing.Size(77, 39);
+            this.btn_serach_prev_bill.TabIndex = 0;
+            this.btn_serach_prev_bill.UseVisualStyleBackColor = true;
+            this.btn_serach_prev_bill.Click += new System.EventHandler(this.btn_serach_prev_bill_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(227, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(74, 53);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // FrmCombinedBill
             // 
@@ -1154,7 +1150,7 @@ namespace FoodandBeverage.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.ClientSize = new System.Drawing.Size(869, 640);
+            this.ClientSize = new System.Drawing.Size(869, 674);
             this.Controls.Add(this.pnl_Drawer);
             this.Controls.Add(this.pnl_complebill_prevbill);
             this.Controls.Add(this.pnl_previous_bill);
@@ -1176,7 +1172,6 @@ namespace FoodandBeverage.Forms
             this.tlp_tblcount_namelist.PerformLayout();
             this.pnl_empty_msg.ResumeLayout(false);
             this.pnl_empty_msg.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnl_previous_bill.ResumeLayout(false);
             this.tlp_previous_bill.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvorderview)).EndInit();
@@ -1196,6 +1191,7 @@ namespace FoodandBeverage.Forms
             this.tlp_d_save_canl.ResumeLayout(false);
             this.pnl_bgcontrols.ResumeLayout(false);
             this.pnl_bgcontrols.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

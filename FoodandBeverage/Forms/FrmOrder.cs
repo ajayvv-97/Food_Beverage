@@ -7157,7 +7157,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                                     dmnorderdetail.BookingFlag = 1;
-                                                    dmnorderdetail.KOTPrintStatus = 0;
+                                                    dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
@@ -7232,7 +7232,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
                                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
-                                                    dmnorderdetail.KOTPrintStatus = 0;
+                                                    dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.BookingFlag = 0;
                                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
@@ -9982,7 +9982,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Order page  btn_show_existing_product_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
 

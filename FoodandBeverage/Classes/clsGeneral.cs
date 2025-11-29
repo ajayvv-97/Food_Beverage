@@ -16,15 +16,12 @@ namespace FoodandBeverage.Classes
 {
     public class ClsGeneral
     {
-        public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
-        public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
-        //public static string BugReportFileExcel = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
-        //public static string BugReportFile = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
-
-
-
-        //public static string BugReportFileExcel = Application.StartupPath + @"\BugReport\BugReport.xlsx";
-        // public static string BugReportFile = Application.StartupPath + @"\BugReport\BugReport.txt";
+        //public static string BugReportFileExcel = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
+        //public static string BugReportFile = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
+        ////public static string BugReportFileExcel = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.xlsx";
+        ////public static string BugReportFile = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
+        public static string BugReportFileExcel = Application.StartupPath + @"\BugReport\BugReport.xlsx";
+        public static string BugReportFile = Application.StartupPath + @"\BugReport\BugReport.txt";
 
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {

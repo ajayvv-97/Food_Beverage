@@ -87,7 +87,7 @@ namespace FoodandBeverage.Forms
             // btnaddnew
             // 
             this.btnaddnew.BackColor = System.Drawing.Color.Transparent;
-            this.btnaddnew.BackgroundImage = global::FoodandBeverage.Properties.Resources.plus;
+            this.btnaddnew.BackgroundImage = global::FoodandBeverage.Properties.Resources.ADD;
             this.btnaddnew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnaddnew.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnaddnew.FlatAppearance.BorderSize = 0;
@@ -130,7 +130,7 @@ namespace FoodandBeverage.Forms
             // 
             // btnsearch
             // 
-            this.btnsearch.BackgroundImage = global::FoodandBeverage.Properties.Resources.search;
+            this.btnsearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnsearch.BackgroundImage")));
             this.btnsearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnsearch.FlatAppearance.BorderSize = 0;
             this.btnsearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

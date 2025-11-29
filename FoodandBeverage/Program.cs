@@ -37,7 +37,7 @@ namespace FoodandBeverage
                     }
 
                    // Application.Run(new Forms.FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, null, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage)));
-                    Application.Run(new Forms.FrmloginTablet());
+                    Application.Run(new Forms.FrmLogin());
                 }
                 else
                 {

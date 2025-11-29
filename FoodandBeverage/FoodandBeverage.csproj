@@ -32,6 +32,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>fbicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AYJ_CardLib_Mi">
       <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Mi.dll</HintPath>
@@ -1208,9 +1215,6 @@
     <None Include="Resources\Deafult_food_pic.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\search.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\delete.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1221,9 +1225,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fb_icon.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Search_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\restaurant1.png" />
@@ -1691,9 +1692,6 @@
     <None Include="Resources\discount_productoffer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\aviable_dashboard.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\bgdashboard_tiltlbar.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -1704,15 +1702,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bg_username_dashboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\runningtable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\reserveicon_table.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\refresh_dashboard.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\combchossebutton.png" />
@@ -1888,12 +1877,46 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <Content Include="fbicon.ico" />
+    <None Include="Resources\PREVIOUS BILL.png" />
+    <None Include="Resources\Y-OUT.png" />
+    <None Include="Resources\searchbill.png" />
+    <None Include="Resources\ADD.png" />
+    <None Include="Resources\promo_gencode.png" />
+    <None Include="Resources\Search_icon.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\runningtable.png" />
+    <None Include="Resources\reserveicon_table.png" />
+    <None Include="Resources\refresh_dashboard.png" />
+    <None Include="Resources\Dashboard_pickup.png" />
+    <None Include="Resources\aviable_dashboard.png" />
+    <None Include="Resources\orderpage_premo_code_icon.png" />
+    <None Include="Resources\orderpage_grid_detailsicon.png" />
+    <None Include="Resources\orderpage_food_discounticon.png" />
+    <None Include="Resources\orderpage_custmordetails_icon.png" />
+    <None Include="Resources\orderpage_product_Descriptionicon.png" />
+    <None Include="Resources\orderpage_save_kot_print_button1.png" />
+    <None Include="Resources\orderpage_save_kot_print_button.png" />
+    <None Include="Resources\res_rev_cancel.png" />
+    <None Include="Resources\orderpageclose_button.png" />
+    <None Include="Resources\orderpage_save_kotbutton.png" />
+    <None Include="Resources\orderpage_refresh_button.png" />
+    <None Include="Resources\orderpage_print_bill_button.png" />
+    <None Include="Resources\orderpage_bill_copy_button.png" />
+    <None Include="Resources\categ_back.png" />
+    <None Include="Resources\categ_next.png" />
+    <None Include="Resources\registartion_search_icon2.png" />
+    <None Include="Resources\reg_certificate_icon1.png" />
+    <None Include="Resources\registartion_search_icon1.png" />
+    <None Include="Resources\reg_certificate_icon.png" />
+    <None Include="Resources\reg_clear__icon.png" />
+    <None Include="Resources\reg_view_icon.png" />
+    <None Include="Resources\reg_download_icon.png" />
+    <None Include="Resources\registartion_search_icon.png" />
     <None Include="Resources\table_view.png" />
     <None Include="Resources\payment_hide_show.png" />
     <None Include="Resources\backspace2.png" />
     <None Include="Resources\addon_comb_item.png" />
-    <None Include="Resources\categ_back.png" />
-    <None Include="Resources\categ_next.png" />
     <None Include="Resources\3dpuls.png" />
     <None Include="Resources\3dremove.png" />
     <None Include="Resources\fav_disable.png" />

@@ -40,7 +40,7 @@ namespace FoodandBeverage.Report
         string Timeformat = "HH:mm:ss";
         DateTime fTime, tTime;
         public List<DmnHRegistration> Addressdata;
-        string Path = Convert.ToString(FrmDashboard.ReportPath);
+        string Path = Convert.ToString(FrmLogin.ReportPath);
         public Color selectedColor;
         public bool ColorChk = false;
         bool FlagExcel = false;
