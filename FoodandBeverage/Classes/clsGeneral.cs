@@ -248,6 +248,43 @@ namespace FoodandBeverage.Classes
                 CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
             }
         }
+        public void GridAutoSizeSmart(DataGridView dgv)
+        {
+            try
+            {
+                if (dgv.Columns.Count == 0) return;
+
+                // Step 1: Set all columns to AutoSize = AllCells (except checkbox)
+                foreach (DataGridViewColumn col in dgv.Columns)
+                {
+                    if (col is DataGridViewCheckBoxColumn)
+                        continue;
+
+                    col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                }
+
+                dgv.PerformLayout(); // Important to calculate widths
+
+                // Step 2: Check remaining free width
+                int usedWidth = dgv.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+                int freeWidth = dgv.ClientSize.Width - usedWidth;
+
+                // Step 3: If free space exists, give it to the second column (Index = 1)
+                if (freeWidth > 20)   // 20px margin
+                {
+                    foreach (DataGridViewColumn col in dgv.Columns)
+                        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+                    // Give all extra space ONLY to second column
+                    if (dgv.Columns.Count > 1)
+                    {
+                        dgv.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
+                }
+            }
+            catch { }
+        }
+
         public void GrideAutoSize(DataGridView dataGridView)
         {
             try

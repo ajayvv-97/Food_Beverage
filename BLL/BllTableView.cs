@@ -13,7 +13,8 @@ namespace BLL
             DAL.DapperRepository<T> dapper = new DAL.DapperRepository<T>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("BookingInterwell", objSearch.Field30);
-            parms.Add("Serachmode", objSearch.Field29); 
+            parms.Add("Serachmode", objSearch.Field29);
+            parms.Add("categoryid", objSearch.Field28); 
              var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }
