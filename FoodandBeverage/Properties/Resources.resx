@@ -1081,4 +1081,28 @@
   <data name="PREVIOUS BILL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PREVIOUS BILL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="N_CANCEL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_CANCEL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_dashboard_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_dashboard_button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_dashboard_pickupmain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_dashboard_pickupmain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_LOCKSCREEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_LOCKSCREEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_LOGOUT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_LOGOUT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_okay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_okay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N_searchbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_searchbutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

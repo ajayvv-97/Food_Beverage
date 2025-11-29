@@ -1878,6 +1878,14 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\N_refresh.png" />
+    <None Include="Resources\N_searchbutton.png" />
+    <None Include="Resources\N_CANCEL.png" />
+    <None Include="Resources\N_okay.png" />
+    <None Include="Resources\N_LOGOUT.png" />
+    <None Include="Resources\N_LOCKSCREEN.png" />
+    <None Include="Resources\N_dashboard_pickupmain.png" />
+    <None Include="Resources\N_dashboard_button.png" />
     <None Include="Resources\PREVIOUS BILL.png" />
     <None Include="Resources\Y-OUT.png" />
     <None Include="Resources\searchbill.png" />
