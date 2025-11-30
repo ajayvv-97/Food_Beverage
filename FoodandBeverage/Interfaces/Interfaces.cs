@@ -144,7 +144,8 @@ namespace FoodandBeverage.Interfaces
     {
         save = 1,
         Print = 2,
-        Nnone = 3
+        Nnone = 3,
+        pickup=4
     };
     public enum ReportType
     {

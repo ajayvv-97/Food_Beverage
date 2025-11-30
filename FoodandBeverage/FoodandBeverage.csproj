@@ -1878,6 +1878,22 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\N_genratecode.png" />
+    <None Include="Resources\N_MORE.png" />
+    <None Include="Resources\N_USER.png" />
+    <None Include="Resources\N_CAMERA.png" />
+    <None Include="Resources\N_TRASH.png" />
+    <None Include="Resources\N_SEARCH.png" />
+    <None Include="Resources\N_REFESH.png" />
+    <None Include="Resources\N_SUBMIT.png" />
+    <None Include="Resources\N_CLEAR.png" />
+    <None Include="Resources\N_orderpage_kot.png" />
+    <None Include="Resources\N_orderpage_kot_printbill.png" />
+    <None Include="Resources\N_orderpage_cancelorder.png" />
+    <None Include="Resources\N_orderpage_billcopy.png" />
+    <None Include="Resources\N_oderpage_printbill.png" />
+    <None Include="Resources\N_orderpage_rescancel.png" />
+    <None Include="Resources\N_orderpage_nokot_printbill.png" />
     <None Include="Resources\N_refresh.png" />
     <None Include="Resources\N_searchbutton.png" />
     <None Include="Resources\N_CANCEL.png" />

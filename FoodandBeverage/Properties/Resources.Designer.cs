@@ -1842,9 +1842,29 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap N_CAMERA {
+            get {
+                object obj = ResourceManager.GetObject("N_CAMERA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap N_CANCEL {
             get {
                 object obj = ResourceManager.GetObject("N_CANCEL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_CLEAR {
+            get {
+                object obj = ResourceManager.GetObject("N_CLEAR", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1872,6 +1892,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap N_genratecode {
+            get {
+                object obj = ResourceManager.GetObject("N_genratecode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap N_LOCKSCREEN {
             get {
                 object obj = ResourceManager.GetObject("N_LOCKSCREEN", resourceCulture);
@@ -1892,9 +1922,99 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap N_MORE {
+            get {
+                object obj = ResourceManager.GetObject("N_MORE", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_oderpage_printbill {
+            get {
+                object obj = ResourceManager.GetObject("N_oderpage_printbill", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap N_okay {
             get {
                 object obj = ResourceManager.GetObject("N_okay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_billcopy {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_billcopy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_cancelorder {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_cancelorder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_kot {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_kot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_kot_printbill {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_kot_printbill", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_nokot_printbill {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_nokot_printbill", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_orderpage_rescancel {
+            get {
+                object obj = ResourceManager.GetObject("N_orderpage_rescancel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_REFESH {
+            get {
+                object obj = ResourceManager.GetObject("N_REFESH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1912,9 +2032,49 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap N_SEARCH {
+            get {
+                object obj = ResourceManager.GetObject("N_SEARCH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap N_searchbutton {
             get {
                 object obj = ResourceManager.GetObject("N_searchbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_SUBMIT {
+            get {
+                object obj = ResourceManager.GetObject("N_SUBMIT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_TRASH {
+            get {
+                object obj = ResourceManager.GetObject("N_TRASH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_USER {
+            get {
+                object obj = ResourceManager.GetObject("N_USER", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

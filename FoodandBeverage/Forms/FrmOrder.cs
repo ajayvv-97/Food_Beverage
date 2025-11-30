@@ -483,7 +483,10 @@ namespace FoodandBeverage.Forms
                     btn_promo_code.Visible = false;
                     btn_PrintCopy.Visible = false;
                     if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                    {
                         btndirectpaybill.Visible = true;
+                        btn_saveKOT.Visible = false;
+                    }
                 }
                 else if (typeno == 2)
                 {
@@ -6395,6 +6398,48 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public void ChangeLayoutStyle(TableLayoutPanel tlp, int mode)
+        {
+            tlp.SuspendLayout();
+
+            if (mode == 1) // ---- PERCENTAGE MODE ----
+            {
+                // Calculate % width/height
+                float colPercent = tlp.ColumnCount > 0 ? 100f / tlp.ColumnCount : 0;
+                float rowPercent = tlp.RowCount > 0 ? 100f / tlp.RowCount : 0;
+
+                // Columns -> Percent
+                for (int i = 0; i < tlp.ColumnStyles.Count; i++)
+                {
+                    tlp.ColumnStyles[i].SizeType = SizeType.Percent;
+                    tlp.ColumnStyles[i].Width = colPercent;
+                }
+
+                // Rows -> Percent
+                for (int i = 0; i < tlp.RowStyles.Count; i++)
+                {
+                    tlp.RowStyles[i].SizeType = SizeType.Percent;
+                    tlp.RowStyles[i].Height = rowPercent;
+                }
+            }
+            else if (mode == 2) // ---- AUTOSIZE MODE ----
+            {
+                // Columns -> AutoSize
+                for (int i = 0; i < tlp.ColumnStyles.Count; i++)
+                {
+                    tlp.ColumnStyles[i].SizeType = SizeType.AutoSize;
+                }
+
+                // Rows -> AutoSize
+                for (int i = 0; i < tlp.RowStyles.Count; i++)
+                {
+                    tlp.RowStyles[i].SizeType = SizeType.AutoSize;
+                }
+            }
+
+            tlp.ResumeLayout();
+        }
+
         private void btn_savekot_print_Click(object sender, EventArgs e)
         {
             try
@@ -6404,6 +6449,8 @@ namespace FoodandBeverage.Forms
                 Screen screen = Screen.FromControl(this);
                 int screenWidth = screen.Bounds.Width;
                 int screenHeight = screen.Bounds.Height;
+
+                ChangeLayoutStyle(tlp_payment_option, 1);
 
                 int adjustedWidth = 0, adjustedHeight = 0;
                 if (combined_Status)
@@ -6424,11 +6471,10 @@ namespace FoodandBeverage.Forms
                     btn_splitpayment.Visible = false;
                     Btnpartpayment.Visible = false;
                     btncreditcard.Dock = DockStyle.Fill;
-                    btnnetbanking.Dock = DockStyle.Fill;
-
+                    btnnetbanking.Dock = DockStyle.Fill;                  
+                    ChangeLayoutStyle(tlp_payment_option, 1);
                     UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
                     UIHelper.RoundCorners(tlp_payment_option, 25);
-
                     pnl_main.Enabled = false;
                 }
                 else
@@ -10810,8 +10856,11 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                // Center the panel
-                pnl_variation_addon.Location = new Point(this.Width / 2 - pnl_variation_addon.Size.Width / 2, this.Height / 2 - pnl_variation_addon.Size.Height / 2);
+                UIHelper.CenterAndResize(pnl_variation_addon, 55, 45);
+                UIHelper.RoundCorners(pnl_variation_addon, 25);
+                UIHelper.RoundCorners(tlp_header_vari_addon, 25);
+                UIHelper.RoundCorners(tlp_variation_addon, 25);
+                pnl_variation_addon.Visible = true;
 
                 // Query variations and addons
                 dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7,pav.CCode Field8";
@@ -10961,11 +11010,7 @@ namespace FoodandBeverage.Forms
                     label46.Visible = !addonflag;
 
                     flp_addons.ResumeLayout();
-                    UIHelper.CenterAndResize(pnl_variation_addon, 70, 53);
-                    UIHelper.RoundCorners(pnl_variation_addon, 25);
-                    UIHelper.RoundCorners(tlp_header_vari_addon, 25);
-                    UIHelper.RoundCorners(tlp_variation_addon, 25);
-                    pnl_variation_addon.Visible = true;
+            
                 }
             }
             catch (Exception ex)
@@ -12167,6 +12212,8 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+
 
         public void discountPer()
         {
