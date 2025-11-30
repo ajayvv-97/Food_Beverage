@@ -2626,10 +2626,12 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmOrderView _instanceFrmorderview = new FrmOrderView();
-                    _instanceFrmorderview.Show();
-                    _instanceFrmorderview.BringToFront();
-                    _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    using (FrmOrderView _instanceFrmorderview = new FrmOrderView())
+                    {
+                        _instanceFrmorderview.ShowDialog();
+                        _instanceFrmorderview.BringToFront();
+                        _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
                 }
             }
             catch (Exception ex)

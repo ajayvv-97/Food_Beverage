@@ -9,6 +9,7 @@ namespace Domain
         public int SalesMasterId { get; set; }
         public int OrderMasterid { get; set; }
         public int BranchId { get; set; }
+        public int tid { get; set; }
         public int CreatedBy { get; set; }
         public string CancelReason { get; set; }
     }
