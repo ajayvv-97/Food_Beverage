@@ -335,7 +335,6 @@ namespace FoodandBeverage.Forms
                     CheckRe_Pickuporder();                    
                 }
                    
-
                 #endregion
 
                 #region Grid color setting
@@ -486,6 +485,7 @@ namespace FoodandBeverage.Forms
                     {
                         btndirectpaybill.Visible = true;
                         btn_saveKOT.Visible = false;
+                        btn_promo_code.Visible = true;
                     }
                 }
                 else if (typeno == 2)
@@ -1895,6 +1895,7 @@ namespace FoodandBeverage.Forms
                     txtordermasterid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     //if (string.IsNullOrEmpty(txtGrandTotal.Text))
                     //    txtGrandTotal.Text = "0";
+
                     foreach (var orderNo in distinctCategories)
                     {
                         BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
@@ -6073,6 +6074,7 @@ namespace FoodandBeverage.Forms
                     UIHelper.RoundCorners(pnl_order_desc, 25);
                     UIHelper.RoundCorners(tlp_order_desc_nav, 25);
                     UIHelper.RoundCorners(tlp_order_desc, 25);
+                    ApplyRoundedTextBox(txtentrie_descr, 10);
                 }
                 else
                 {
@@ -6243,7 +6245,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.BookingFlag = 1;
-                                    dmnorderdetail.KOTPrintStatus = 0;
+                                    dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
@@ -6316,7 +6318,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
-                                    dmnorderdetail.KOTPrintStatus = 0;
+                                    dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.BookingFlag = 0;
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
@@ -12321,6 +12323,7 @@ namespace FoodandBeverage.Forms
                 UIHelper.RoundCorners(tlp_cancelorder, 25);
                 UIHelper.RoundCorners(pnl_cancelorder, 25);
                 UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
             }
             catch (Exception ex)
             {
@@ -12410,7 +12413,10 @@ namespace FoodandBeverage.Forms
 
         }
 
-
+        private void btn_cancelorder_Click(object sender, EventArgs e)
+        {
+            pnl_cancelorder.Visible = false;
+        }
 
         public void discountPer()
         {

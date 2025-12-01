@@ -520,6 +520,12 @@
     <Compile Include="Forms\FrmExpence.Designer.cs">
       <DependentUpon>FrmExpence.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\KitchenBill\CRCancelPrint.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRCancelPrint.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\KitchenBill\crkitchenbill.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -898,6 +904,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmExpence.resx">
       <DependentUpon>FrmExpence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KitchenBill\CRCancelPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRCancelPrint.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KitchenBill\crkitchenbill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

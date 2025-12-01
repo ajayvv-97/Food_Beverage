@@ -22,6 +22,16 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnOrderCancel Cancel_statusupdate(string procedureName, DmnOrderCancel objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderCancel> objDapperRepository = new DAL.DapperRepository<DmnOrderCancel>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("SalesMasterId", objTestClass.SalesMasterId);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
         public DmnKitchenaddonremove Kitchenremove_addon(string procedureName, DmnKitchenaddonremove objTestClass)
         {
             DAL.DapperRepository<DmnKitchenaddonremove> objDapperRepository = new DAL.DapperRepository<DmnKitchenaddonremove>();

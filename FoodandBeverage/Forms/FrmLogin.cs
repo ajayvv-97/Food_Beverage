@@ -338,11 +338,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                //clsgen.LogExceptionExcel("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 clsgen.LogException("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-               // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
        
         }

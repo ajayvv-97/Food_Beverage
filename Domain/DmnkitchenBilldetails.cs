@@ -25,6 +25,7 @@ namespace Domain
         public decimal TotalQTY { get; set; }
         public int Pkid { get; set; }
 
-        
+
     }
+ 
 }
