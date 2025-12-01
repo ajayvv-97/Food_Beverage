@@ -867,13 +867,13 @@ namespace FoodandBeverage.Forms
                     txtemail.Focus();
                     return false;
                 }
-                else if (string.IsNullOrEmpty(txtCardnumber.Text))
-                {
-                    tb_empolyee.SelectedTab = tp_employee;
-                    CMessageBox.Show("Card number is mandatory. This field is mandatory", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCardnumber.Focus();
-                    return false;
-                }
+                //else if (string.IsNullOrEmpty(txtCardnumber.Text))
+                //{
+                //    tb_empolyee.SelectedTab = tp_employee;
+                //    CMessageBox.Show("Card number is mandatory. This field is mandatory", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtCardnumber.Focus();
+                //    return false;
+                //}
                 else if (string.IsNullOrEmpty(txtEmpAddress.Text))
                 {
                     tb_empolyee.SelectedTab = tp_employee;
