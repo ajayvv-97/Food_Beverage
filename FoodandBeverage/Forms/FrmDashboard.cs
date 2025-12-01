@@ -349,6 +349,7 @@ namespace FoodandBeverage.Forms
                     Emp_RowCount = 0; Emp_ColCount = 0;
                     OP_RowCount = 0; OP_ColCount = 0;
                     Menuoperation.Visible = true;
+                    menuEmployee.Visible = true;
                     ib_Company.Visible = true;
                     ib_employee.Visible = true;
                 }
