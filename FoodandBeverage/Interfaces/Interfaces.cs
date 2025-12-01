@@ -115,7 +115,8 @@ namespace FoodandBeverage.Interfaces
         YOut = 30,
         ZOut = 31,
         report=32,
-        Refund=33
+        Refund=33,
+        ExtraLoginAccess=34
     };
     public enum DashboardTableType
     {
@@ -274,7 +275,8 @@ namespace FoodandBeverage.Interfaces
         CombinedBillpage = 32,
         Pickuppage = 33,
         YZout = 34,
-        Refund = 35
+        Refund = 35,
+        ExtraLoginAccess=36
 
     };
     public enum Menubutton

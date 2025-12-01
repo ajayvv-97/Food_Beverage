@@ -3,6 +3,7 @@ using CustomMessageBox;
 using DAL;
 using Domain;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -583,7 +584,13 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field6;
                         dgvorderview.Rows[rowIndex].Cells[tidno].Value = gridSource[i].Field8;
 
-     
+                        if (SearchType == Convert.ToInt32(Food_Status.Pending))
+                        {
+                            dgvorderview.Columns[deleteorderno].Visible = true;
+                        }
+                        else
+                            dgvorderview.Columns[deleteorderno].Visible = false;
+
 
                         // Set the image for the "statusno" column
                         if (Convert.ToInt32(gridSource[i].Field4) == 0 || Convert.ToInt32(gridSource[i].Field5) == 0)
@@ -1074,6 +1081,8 @@ namespace FoodandBeverage.Forms
                     refreshtimer_main.Start();
                     clsgen.GrideAutoSize(dgvorderview);
                 }
+                dgvorderview.Columns[deleteorderno].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+
             }
             catch (Exception ex)
             {
@@ -1308,7 +1317,7 @@ namespace FoodandBeverage.Forms
                         cancelod.tid =  tablecodeid;
                         cancelod.BranchId = FrmDashboard.BranchId;
                         cancelod.CreatedBy = FrmDashboard.UserId;
-                            cancelod.CancelReason = txt_product_remove_des.Text;
+                        cancelod.CancelReason = txt_product_remove_des.Text;
                         var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
                         ordercancelfalg = false;
                     }
@@ -1588,6 +1597,7 @@ namespace FoodandBeverage.Forms
                 {
                     lblorderheading.Text = "Cancelled Orders";
                 }
+
                 GetDataorders();
                 FillOrders();
             }
@@ -1751,14 +1761,24 @@ namespace FoodandBeverage.Forms
                      "Cancel Order",
                      MessageBoxButtons.YesNo,
                      MessageBoxIcon.Warning) == DialogResult.Yes)
-                {                    
-                    UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
-                    UIHelper.RoundCorners(tlp_order_desc, 25);
-                    UIHelper.RoundCorners(pnl_products_rem_descr, 25);
-                    UIHelper.RoundCorners(tlp_order_desc_nav, 25);
-                    orderid  = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
-                    tablecodeid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tidno].Value);
-                    ordercancelfalg = true;
+                {
+                    frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
+                    frm.ShowDialog();
+                    if (frmExtraAccessChk.access == true)
+                    {
+                        UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
+                        UIHelper.RoundCorners(tlp_order_desc, 25);
+                        UIHelper.RoundCorners(pnl_products_rem_descr, 25);
+                        UIHelper.RoundCorners(tlp_order_desc_nav, 25);
+                        orderid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
+                        tablecodeid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tidno].Value);
+                        ordercancelfalg = true;
+                    }
+                    else
+                    {
+                        CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    
                 }
             }
         }

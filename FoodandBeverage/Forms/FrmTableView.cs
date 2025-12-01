@@ -360,7 +360,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-public void TableStaus(int serachmode)
+        public void TableStaus(int serachmode)
         {
             try
             {

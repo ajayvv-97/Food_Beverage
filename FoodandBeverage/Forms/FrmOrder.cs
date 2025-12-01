@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FoodandBeverage.Forms.UserControls;
 
 namespace FoodandBeverage.Forms
 {
@@ -1836,7 +1837,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
-                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status=1";
+                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status IN (1,3)";
                 dmnSearchmaster.OrderBy = " order by OrderNo ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
@@ -12314,16 +12315,26 @@ namespace FoodandBeverage.Forms
                     return;  
                 }
 
-                lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
+                frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
+                frm.ShowDialog();
+                if (frmExtraAccessChk.access == true)
+                {
 
-                ttxdesc_cancelorder.Text = "Reason Type Here ...";
-                ttxdesc_cancelorder.ForeColor = Color.Gray;
+                    lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
 
-                UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
-                UIHelper.RoundCorners(tlp_cancelorder, 25);
-                UIHelper.RoundCorners(pnl_cancelorder, 25);
-                UIHelper.RoundCorners(tlpnav_cancelorder, 25);
-                ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                    ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                    ttxdesc_cancelorder.ForeColor = Color.Gray;
+
+                    UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
+                    UIHelper.RoundCorners(tlp_cancelorder, 25);
+                    UIHelper.RoundCorners(pnl_cancelorder, 25);
+                    UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                    ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                }
+                else
+                {
+                    CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
