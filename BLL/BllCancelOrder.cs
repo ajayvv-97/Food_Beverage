@@ -12,6 +12,7 @@ namespace BLL
             DynamicParameters parms = new DynamicParameters();
             parms.Add("@SalesMasterId", obj.SalesMasterId);
             parms.Add("@OrderMasterId", obj.OrderMasterid);
+            parms.Add("@tid", obj.tid);
             parms.Add("@BranchId", obj.BranchId);
             parms.Add("@CreatedBy", obj.CreatedBy);
             parms.Add("@CancelReason", obj.CancelReason);  

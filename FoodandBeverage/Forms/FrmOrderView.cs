@@ -16,33 +16,35 @@ namespace FoodandBeverage.Forms
     public partial class FrmOrderView : Form
     {
         #region Declaration Grid
-        public static int cslno = 0;
-        public static int orderdatetimeno = 1;
-        public static int orderidno = 2;
-        public static int tablecodeno = 3;
-        public static int totalqtyno = 4;
-        public static int statusno = 5;
-        public static int descno = 6;
-        public static int statusvalueno = 7;
+        public int deleteorderno = 0;
+        public int cslno = 1;
+        public int orderdatetimeno = 2;
+        public int orderidno = 3;
+        public int tablecodeno = 4;
+        public int totalqtyno = 5;
+        public int statusno = 6;
+        public int descno = 7;
+        public int statusvalueno = 8;
+        public int tidno = 9;
 
+        public int dslno = 0;
+        public int ditemno = 1;
+        public int dqtyno = 2;
+        public int dstatusno = 3;
+        public int dactionno = 4;
+        public int ddetailsidno = 5;
+        public int ddatetimeno = 6;
+        public int dnotesno = 7;
+        public int dkoidno = 8;
+        public int dstatusvalueno = 9;
+        public int dordermasteridno = 10;
+        public int dtableidno = 11;
+        public int daddonstatusno = 12;
+        public int davidno = 13;
+        public int daddccodenono = 14;
+        public int daddoonpriceno = 15;
+        public int dorderno = 16;
 
-        public static int dslno = 0;
-        public static int ditemno = 1;
-        public static int dqtyno = 2;
-        public static int dstatusno = 3;
-        public static int dactionno = 4;
-        public static int ddetailsidno = 5;
-        public static int ddatetimeno = 6;
-        public static int dnotesno = 7;
-        public static int dkoidno = 8;
-        public static int dstatusvalueno = 9;
-        public static int dordermasteridno = 10;
-        public static int dtableidno = 11;
-        public static int daddonstatusno = 12;
-        public static int davidno = 13;
-        public static int daddccodenono = 14;
-        public static int daddoonpriceno = 15;
-        public static int dorderno = 16;
 
         #endregion
         public int dgv_details_view_rowno = 0;
@@ -57,8 +59,9 @@ namespace FoodandBeverage.Forms
         int currentPage = 1;
         int pageSize = 5;
         int totalPages = 0;
-        public bool SerachFlag = false;
+        public bool SerachFlag = false,ordercancelfalg=false;
         public DateTime startTime = DateTime.Now;
+        int tablecodeid = 0, orderid = 0;
 
         public FrmOrderView()
         {
@@ -397,6 +400,11 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
                         dgvorderview.Rows[rowIndex].Cells[descno].Value = gridSource[i].Field9;
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field6;
+                        dgvorderview.Rows[rowIndex].Cells[tidno].Value = gridSource[i].Field8;
+
+                        //DataGridViewImageCell celldel = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[deleteorderno];
+                        //celldel.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                        //celldel.Value = Properties.Resources.N_TRASH;
 
                         // Set the image for the "statusno" column
                         if (Convert.ToInt32(gridSource[i].Field4) == 0 || Convert.ToInt32(gridSource[i].Field5) == 0)
@@ -573,6 +581,9 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[statusvalueno].Value = gridSource[i].Field4;
                         dgvorderview.Rows[rowIndex].Cells[descno].Value = gridSource[i].Field9;
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field6;
+                        dgvorderview.Rows[rowIndex].Cells[tidno].Value = gridSource[i].Field8;
+
+     
 
                         // Set the image for the "statusno" column
                         if (Convert.ToInt32(gridSource[i].Field4) == 0 || Convert.ToInt32(gridSource[i].Field5) == 0)
@@ -1146,7 +1157,7 @@ namespace FoodandBeverage.Forms
 
                                 #endregion
 
-                                #region Db Updation
+                            #region Db Updation
                                 dmnRemove_addon.Amount = newprice;
                                 dmnRemove_addon.DiscountAmount = disAmnt;
                                 if (gridSource[0].Field2 == "GST")
@@ -1205,7 +1216,12 @@ namespace FoodandBeverage.Forms
                         {
                             tlp_main.Enabled = false;
                             refreshtimer_sub.Stop();
-                            pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
+
+                            UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
+                            UIHelper.RoundCorners(tlp_order_desc, 25);
+                            UIHelper.RoundCorners(pnl_products_rem_descr, 25);
+                            UIHelper.RoundCorners(tlp_order_desc_nav, 25);
+
                             dgv_details_view_rowno = e.RowIndex;
                             pnl_products_rem_descr.Visible = true;
                             lblheader_product_des.Text = "Remove " + Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ditemno].Value);
@@ -1271,36 +1287,64 @@ namespace FoodandBeverage.Forms
                     //}
                     //else
                     //{
-                    DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-                    BllOrder bll_order = new BllOrder();
-                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
-                    dmnRemove_order.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
-                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
-                    dmnRemove_order.Tid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dtableidno].Value);
-                    decimal originalValue = Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dqtyno].Value);
-                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value);
-                    dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
-                    dmnRemove_order.Status = 0;
-                    dmnRemove_order.BranchId = FrmDashboard.BranchId;
-                    dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-                    dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
-                    dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
-                    var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
-
-                    dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;
-
-                    dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno].Value = "Cancelled";
-                    //DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno];
-                    //cell.Value = Properties.Resources.orderview_cancelled;
-
-                    DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dactionno];
-
-                    if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dslno].Value) % 2 == 0)
-                        cell1.Value = Properties.Resources.orderview_blank_2;
+                    if (ordercancelfalg)
+                    {
+                        int smid = 0, tableId = 0;                  
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "SalesMasterId Field1";
+                        dmnSearch.Table = "tblSalesMaster";
+                        dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            smid = Convert.ToInt32(gridSource[0].Field1);
+                        }
+                        DmnCancelOrder cancelod = new DmnCancelOrder();
+                        BllCancelOrder bllcancelod = new BllCancelOrder();
+                        cancelod.SalesMasterId = smid;
+                        cancelod.OrderMasterid = orderid;
+                        cancelod.tid =  tablecodeid;
+                        cancelod.BranchId = FrmDashboard.BranchId;
+                        cancelod.CreatedBy = FrmDashboard.UserId;
+                            cancelod.CancelReason = txt_product_remove_des.Text;
+                        var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
+                        ordercancelfalg = false;
+                    }
                     else
-                        cell1.Value = Properties.Resources.orderview_blank;
+                    {
+                        DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                        BllOrder bll_order = new BllOrder();
+                        dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ddetailsidno].Value);
+                        dmnRemove_order.koid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dkoidno].Value);
+                        dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dordermasteridno].Value);
+                        dmnRemove_order.Tid = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dtableidno].Value);
+                        decimal originalValue = Convert.ToDecimal(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dqtyno].Value);
+                        dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[daddonstatusno].Value);
+                        dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
+                        dmnRemove_order.Status = 0;
+                        dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                        dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                        dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
+                        dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
+                        var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
 
-                    dgv_details_view.Rows[dgv_details_view_rowno].Cells[dnotesno].Value = txt_product_remove_des.Text;
+                        dgv_details_view.Rows[dgv_details_view_rowno].ReadOnly = true;
+
+                        dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno].Value = "Cancelled";
+                        //DataGridViewImageCell cell = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dstatusno];
+                        //cell.Value = Properties.Resources.orderview_cancelled;
+
+                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_details_view.Rows[dgv_details_view_rowno].Cells[dactionno];
+
+                        if (Convert.ToInt32(dgv_details_view.Rows[dgv_details_view_rowno].Cells[dslno].Value) % 2 == 0)
+                            cell1.Value = Properties.Resources.orderview_blank_2;
+                        else
+                            cell1.Value = Properties.Resources.orderview_blank;
+
+                        dgv_details_view.Rows[dgv_details_view_rowno].Cells[dnotesno].Value = txt_product_remove_des.Text;
+                    }
                     pnl_products_rem_descr.Visible = false;
 
                     txt_product_remove_des.Text = "Reason type here .....";
@@ -1696,6 +1740,29 @@ namespace FoodandBeverage.Forms
                 AppSession.UnregisterForm(this);
             }
         }
+
+        private void dgvorderview_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+         
+            if (e.RowIndex < 0) return;
+            if (e.ColumnIndex == deleteorderno)
+            {
+                if (MessageBox.Show("Are you sure you want to cancel this order?",
+                     "Cancel Order",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Warning) == DialogResult.Yes)
+                {                    
+                    UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
+                    UIHelper.RoundCorners(tlp_order_desc, 25);
+                    UIHelper.RoundCorners(pnl_products_rem_descr, 25);
+                    UIHelper.RoundCorners(tlp_order_desc_nav, 25);
+                    orderid  = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[orderidno].Value);
+                    tablecodeid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tidno].Value);
+                    ordercancelfalg = true;
+                }
+            }
+        }
+
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {

@@ -25,6 +25,7 @@ namespace FoodandBeverage.Forms
     public partial class FrmKitchenView : Form
     {
         private SoundPlayer soundPlayer;
+        ReportDocument reportDocument = new ReportDocument();
         public FrmKitchenView()
         {
             InitializeComponent();
@@ -77,7 +78,7 @@ namespace FoodandBeverage.Forms
         private readonly IHubProxy _hubProxy;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        public string RPTPath = Convert.ToString(FrmDashboard.KitchenBillPath);
+        public string RPTPath = Convert.ToString(FrmLogin.KitchenBillPath);
         TableLayoutPanel tlp_order_col = new TableLayoutPanel();
         bool addingControls = false;
         public int KitchenDisplayCount = 0;
@@ -1068,10 +1069,12 @@ namespace FoodandBeverage.Forms
                         this.Invoke(new Action(() =>
                         {
                             string reportPath = "";
+                            //MessageBox.Show(RPTPath + "CRkitchenbill_Pickup.rpt");
+                            //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
                             if (Convert.ToInt32(BillDetails[0].Pkid)>0)
-                                reportPath = RPTPath + @"\CRkitchenbill_Pickup.rpt";
+                                reportPath = RPTPath + "CRkitchenbill_Pickup.rpt";
                             else
-                                 reportPath = RPTPath + @"\crkitchenbill.rpt";
+                                 reportPath = RPTPath + "crkitchenbill.rpt";
 
                             if (!File.Exists(reportPath))
                             {
@@ -1464,7 +1467,9 @@ namespace FoodandBeverage.Forms
                             }
                             dsReport.Tables.Add(dtSalesDetail);
                         }
-                        reportDocument.Load(RPTPath + @"\crkitchenbill.rpt");
+                        //MessageBox.Show(RPTPath + "crkitchenbill.rpt.rpt" + 2);
+                        //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
+                        reportDocument.Load(RPTPath + "crkitchenbill.rpt");
                         reportDocument.SetDataSource(dsReport);
                         if (this.IsHandleCreated)
                         {
@@ -3316,7 +3321,6 @@ namespace FoodandBeverage.Forms
         private void refreshtimer_Tick(object sender, EventArgs e)
         {
             FillOrdersAsync();
-
             if (Convert.ToInt32(btnprintcount.Text) > 0)
                 RunMethodInSeparateThread(PrintOrderAsync);
             else

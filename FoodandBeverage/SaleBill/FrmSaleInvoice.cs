@@ -33,7 +33,7 @@ namespace FoodandBeverage.SaleBill
         public string folderPath = Application.StartupPath + "\\Barcode";
         private HttpClient httpClient;
         public static int BType = 0;
-        public string RPTPath = Convert.ToString(FrmDashboard.SaleBillPath);
+        public string RPTPath = Convert.ToString(FrmLogin.SaleBillPath);
         public string locationname_api;
         public decimal netamount_api = 0;
         public string cusname_api;
@@ -537,25 +537,20 @@ namespace FoodandBeverage.SaleBill
 
         static bool IsValidEmail(string email)
         {
-            // Check if the email string is null or empty
             if (string.IsNullOrEmpty(email))
             {
                 return false;
             }
-
             try
             {
-                // Use a regular expression to validate the email address
                 string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
                 return Regex.IsMatch(email, pattern);
             }
             catch (Exception ex)
             {
-                // Catch any format exceptions thrown by the regular expression
                 return false;
             }
         }
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             bool bHandled = false;

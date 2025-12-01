@@ -27,7 +27,7 @@ namespace FoodandBeverage.SaleBill
 
         #region Declaration
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crvout;
-        public string RPTPath = Convert.ToString(FrmDashboard.SaleBillPath);
+        public string RPTPath = Convert.ToString(FrmLogin.SaleBillPath);
         public int flag, BranchId, UserId;
         public int Drstaffid;
         public bool XYDalvalue = false, DalDalvalue = false, Enabledefgmail = false;

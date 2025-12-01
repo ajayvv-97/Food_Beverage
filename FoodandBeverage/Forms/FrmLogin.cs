@@ -62,9 +62,6 @@ namespace FoodandBeverage.Forms
         public static string logoPath = "";
         public static string KitchenBillPath = "";
         public static string ReportPath = "";
-
-
-        
         public static int Compid =102;
 
        // public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
@@ -79,8 +76,8 @@ namespace FoodandBeverage.Forms
         {
             if (PrintpathValue == 1)
             {
-                KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
-                ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report";
+                KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
                 SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
                 XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
                 logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
@@ -93,11 +90,11 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                KitchenBillPath = Application.StartupPath + @"\Forms\KitchenBill";
-                ReportPath = Application.StartupPath + @"\Report";
-                SaleBillPath = Application.StartupPath + @"\SaleBill";
-                XYZPath = Application.StartupPath + @"\SaleBill";
-                logoPath = Application.StartupPath + @"\logoFile";
+                KitchenBillPath = Application.StartupPath + @"\KitchenBill\";
+                ReportPath = Application.StartupPath + @"\Report\";
+                SaleBillPath = Application.StartupPath + @"\SaleBill\";
+                XYZPath = Application.StartupPath + @"\SaleBill\";
+                logoPath = Application.StartupPath + @"\logoFile\";
             }
 
             //txtUserName.Text = "User Name .....";

@@ -66,12 +66,13 @@ namespace FoodandBeverage.Forms
             try
             {
                 clsgen.Memoryrelease();
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-
+                dmnSearchtabledata.Field28 = "0";
                 switch (serachmode)
                 {
                     case 0: dmnSearchtabledata.Field29 = "0"; dmnSearch.WhereNdGroupBy = "where ti.Status=1"; break;
@@ -372,9 +373,14 @@ public void TableStaus(int serachmode)
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
                 dmnSearchtabledata.Field29 = serachmode.ToString();
+                dmnSearchtabledata.Field28 = "0";
 
                 var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
-                if (gridSource.Count == 0) { tlp_table_dashboard.ResumeLayout(); return; }
+                if (gridSource.Count == 0)
+                { 
+                    tlp_table_dashboard.ResumeLayout();
+                    return;
+                }
 
                 var distinctCategories = gridSource.Select(item => item.Field1).Distinct().ToList();
                 List<CategoryInfo> categoryList = distinctCategories.Select(fcid =>

@@ -61,9 +61,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.txtkeypadno.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtkeypadno.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtkeypadno.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtkeypadno.Location = new System.Drawing.Point(3, 3);
+            this.txtkeypadno.Location = new System.Drawing.Point(4, 4);
+            this.txtkeypadno.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtkeypadno.Name = "txtkeypadno";
-            this.txtkeypadno.Size = new System.Drawing.Size(235, 40);
+            this.txtkeypadno.Size = new System.Drawing.Size(312, 50);
             this.txtkeypadno.TabIndex = 18;
             this.txtkeypadno.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtkeypadno_KeyDown);
             this.txtkeypadno.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtkeypadno_KeyPress);
@@ -77,13 +78,14 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tlp_main.Controls.Add(this.tlp_header, 0, 0);
             this.tlp_main.Controls.Add(this.tlp_save_cls_button, 0, 2);
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_main.Location = new System.Drawing.Point(5, 5);
+            this.tlp_main.Location = new System.Drawing.Point(7, 6);
+            this.tlp_main.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.22751F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.77248F));
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            this.tlp_main.Size = new System.Drawing.Size(282, 372);
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tlp_main.Size = new System.Drawing.Size(375, 458);
             this.tlp_main.TabIndex = 60;
             // 
             // tlp_keynumber
@@ -91,7 +93,7 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tlp_keynumber.ColumnCount = 3;
             this.tlp_keynumber.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_keynumber.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_keynumber.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tlp_keynumber.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             this.tlp_keynumber.Controls.Add(this.btn_7, 0, 0);
             this.tlp_keynumber.Controls.Add(this.btn_8, 1, 0);
             this.tlp_keynumber.Controls.Add(this.btndel, 2, 3);
@@ -105,14 +107,15 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tlp_keynumber.Controls.Add(this.btn_2, 1, 2);
             this.tlp_keynumber.Controls.Add(this.btn_1, 0, 2);
             this.tlp_keynumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_keynumber.Location = new System.Drawing.Point(3, 46);
+            this.tlp_keynumber.Location = new System.Drawing.Point(4, 57);
+            this.tlp_keynumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlp_keynumber.Name = "tlp_keynumber";
             this.tlp_keynumber.RowCount = 4;
             this.tlp_keynumber.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlp_keynumber.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlp_keynumber.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlp_keynumber.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_keynumber.Size = new System.Drawing.Size(276, 280);
+            this.tlp_keynumber.Size = new System.Drawing.Size(367, 344);
             this.tlp_keynumber.TabIndex = 0;
             // 
             // btn_7
@@ -127,9 +130,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_7.ForeColor = System.Drawing.Color.White;
-            this.btn_7.Location = new System.Drawing.Point(3, 3);
+            this.btn_7.Location = new System.Drawing.Point(4, 4);
+            this.btn_7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_7.Name = "btn_7";
-            this.btn_7.Size = new System.Drawing.Size(85, 64);
+            this.btn_7.Size = new System.Drawing.Size(113, 78);
             this.btn_7.TabIndex = 1;
             this.btn_7.Text = "7";
             this.btn_7.UseVisualStyleBackColor = false;
@@ -147,9 +151,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_8.ForeColor = System.Drawing.Color.White;
-            this.btn_8.Location = new System.Drawing.Point(94, 3);
+            this.btn_8.Location = new System.Drawing.Point(125, 4);
+            this.btn_8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_8.Name = "btn_8";
-            this.btn_8.Size = new System.Drawing.Size(85, 64);
+            this.btn_8.Size = new System.Drawing.Size(113, 78);
             this.btn_8.TabIndex = 2;
             this.btn_8.Text = "8";
             this.btn_8.UseVisualStyleBackColor = false;
@@ -167,9 +172,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btndel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btndel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btndel.ForeColor = System.Drawing.Color.White;
-            this.btndel.Location = new System.Drawing.Point(185, 213);
+            this.btndel.Location = new System.Drawing.Point(246, 262);
+            this.btndel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btndel.Name = "btndel";
-            this.btndel.Size = new System.Drawing.Size(88, 64);
+            this.btndel.Size = new System.Drawing.Size(117, 78);
             this.btndel.TabIndex = 19;
             this.btndel.Text = "DEL";
             this.btndel.UseVisualStyleBackColor = false;
@@ -187,9 +193,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_9.ForeColor = System.Drawing.Color.White;
-            this.btn_9.Location = new System.Drawing.Point(185, 3);
+            this.btn_9.Location = new System.Drawing.Point(246, 4);
+            this.btn_9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_9.Name = "btn_9";
-            this.btn_9.Size = new System.Drawing.Size(88, 64);
+            this.btn_9.Size = new System.Drawing.Size(117, 78);
             this.btn_9.TabIndex = 3;
             this.btn_9.Text = "9";
             this.btn_9.UseVisualStyleBackColor = false;
@@ -207,9 +214,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_clear.ForeColor = System.Drawing.Color.White;
-            this.btn_clear.Location = new System.Drawing.Point(94, 213);
+            this.btn_clear.Location = new System.Drawing.Point(125, 262);
+            this.btn_clear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_clear.Name = "btn_clear";
-            this.btn_clear.Size = new System.Drawing.Size(85, 64);
+            this.btn_clear.Size = new System.Drawing.Size(113, 78);
             this.btn_clear.TabIndex = 15;
             this.btn_clear.Text = "C";
             this.btn_clear.UseVisualStyleBackColor = false;
@@ -227,9 +235,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_4.ForeColor = System.Drawing.Color.White;
-            this.btn_4.Location = new System.Drawing.Point(3, 73);
+            this.btn_4.Location = new System.Drawing.Point(4, 90);
+            this.btn_4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_4.Name = "btn_4";
-            this.btn_4.Size = new System.Drawing.Size(85, 64);
+            this.btn_4.Size = new System.Drawing.Size(113, 78);
             this.btn_4.TabIndex = 5;
             this.btn_4.Text = "4";
             this.btn_4.UseVisualStyleBackColor = false;
@@ -247,9 +256,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_0.ForeColor = System.Drawing.Color.White;
-            this.btn_0.Location = new System.Drawing.Point(3, 213);
+            this.btn_0.Location = new System.Drawing.Point(4, 262);
+            this.btn_0.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_0.Name = "btn_0";
-            this.btn_0.Size = new System.Drawing.Size(85, 64);
+            this.btn_0.Size = new System.Drawing.Size(113, 78);
             this.btn_0.TabIndex = 14;
             this.btn_0.Text = "0";
             this.btn_0.UseVisualStyleBackColor = false;
@@ -267,9 +277,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_5.ForeColor = System.Drawing.Color.White;
-            this.btn_5.Location = new System.Drawing.Point(94, 73);
+            this.btn_5.Location = new System.Drawing.Point(125, 90);
+            this.btn_5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_5.Name = "btn_5";
-            this.btn_5.Size = new System.Drawing.Size(85, 64);
+            this.btn_5.Size = new System.Drawing.Size(113, 78);
             this.btn_5.TabIndex = 6;
             this.btn_5.Text = "5";
             this.btn_5.UseVisualStyleBackColor = false;
@@ -287,9 +298,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_3.ForeColor = System.Drawing.Color.White;
-            this.btn_3.Location = new System.Drawing.Point(185, 143);
+            this.btn_3.Location = new System.Drawing.Point(246, 176);
+            this.btn_3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_3.Name = "btn_3";
-            this.btn_3.Size = new System.Drawing.Size(88, 64);
+            this.btn_3.Size = new System.Drawing.Size(117, 78);
             this.btn_3.TabIndex = 11;
             this.btn_3.Text = "3";
             this.btn_3.UseVisualStyleBackColor = false;
@@ -307,9 +319,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_6.ForeColor = System.Drawing.Color.White;
-            this.btn_6.Location = new System.Drawing.Point(185, 73);
+            this.btn_6.Location = new System.Drawing.Point(246, 90);
+            this.btn_6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_6.Name = "btn_6";
-            this.btn_6.Size = new System.Drawing.Size(88, 64);
+            this.btn_6.Size = new System.Drawing.Size(117, 78);
             this.btn_6.TabIndex = 7;
             this.btn_6.Text = "6";
             this.btn_6.UseVisualStyleBackColor = false;
@@ -327,9 +340,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_2.ForeColor = System.Drawing.Color.White;
-            this.btn_2.Location = new System.Drawing.Point(94, 143);
+            this.btn_2.Location = new System.Drawing.Point(125, 176);
+            this.btn_2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_2.Name = "btn_2";
-            this.btn_2.Size = new System.Drawing.Size(85, 64);
+            this.btn_2.Size = new System.Drawing.Size(113, 78);
             this.btn_2.TabIndex = 10;
             this.btn_2.Text = "2";
             this.btn_2.UseVisualStyleBackColor = false;
@@ -347,9 +361,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.btn_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_1.ForeColor = System.Drawing.Color.White;
-            this.btn_1.Location = new System.Drawing.Point(3, 143);
+            this.btn_1.Location = new System.Drawing.Point(4, 176);
+            this.btn_1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_1.Name = "btn_1";
-            this.btn_1.Size = new System.Drawing.Size(85, 64);
+            this.btn_1.Size = new System.Drawing.Size(113, 78);
             this.btn_1.TabIndex = 9;
             this.btn_1.Text = "1";
             this.btn_1.UseVisualStyleBackColor = false;
@@ -363,11 +378,12 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tlp_header.Controls.Add(this.button2, 1, 0);
             this.tlp_header.Controls.Add(this.txtkeypadno, 0, 0);
             this.tlp_header.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_header.Location = new System.Drawing.Point(3, 3);
+            this.tlp_header.Location = new System.Drawing.Point(4, 4);
+            this.tlp_header.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlp_header.Name = "tlp_header";
             this.tlp_header.RowCount = 1;
             this.tlp_header.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_header.Size = new System.Drawing.Size(276, 37);
+            this.tlp_header.Size = new System.Drawing.Size(367, 45);
             this.tlp_header.TabIndex = 1;
             // 
             // button2
@@ -380,9 +396,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(244, 3);
+            this.button2.Location = new System.Drawing.Point(324, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(29, 31);
+            this.button2.Size = new System.Drawing.Size(39, 37);
             this.button2.TabIndex = 333;
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -395,11 +412,12 @@ namespace FoodandBeverage.Forms.UserAccount
             this.tlp_save_cls_button.Controls.Add(this.mbtnClose, 1, 0);
             this.tlp_save_cls_button.Controls.Add(this.mbtnSave, 0, 0);
             this.tlp_save_cls_button.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_save_cls_button.Location = new System.Drawing.Point(3, 332);
+            this.tlp_save_cls_button.Location = new System.Drawing.Point(4, 409);
+            this.tlp_save_cls_button.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlp_save_cls_button.Name = "tlp_save_cls_button";
             this.tlp_save_cls_button.RowCount = 1;
             this.tlp_save_cls_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_save_cls_button.Size = new System.Drawing.Size(276, 37);
+            this.tlp_save_cls_button.Size = new System.Drawing.Size(367, 45);
             this.tlp_save_cls_button.TabIndex = 2;
             // 
             // mbtnClose
@@ -411,9 +429,10 @@ namespace FoodandBeverage.Forms.UserAccount
             this.mbtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(141, 3);
+            this.mbtnClose.Location = new System.Drawing.Point(187, 4);
+            this.mbtnClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mbtnClose.Name = "mbtnClose";
-            this.mbtnClose.Size = new System.Drawing.Size(132, 31);
+            this.mbtnClose.Size = new System.Drawing.Size(176, 37);
             this.mbtnClose.TabIndex = 64;
             this.mbtnClose.UseVisualStyleBackColor = true;
             this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
@@ -428,23 +447,25 @@ namespace FoodandBeverage.Forms.UserAccount
             this.mbtnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.mbtnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(3, 3);
+            this.mbtnSave.Location = new System.Drawing.Point(4, 4);
+            this.mbtnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(132, 31);
+            this.mbtnSave.Size = new System.Drawing.Size(175, 37);
             this.mbtnSave.TabIndex = 65;
             this.mbtnSave.UseVisualStyleBackColor = false;
             this.mbtnSave.Click += new System.EventHandler(this.mbtnSave_Click);
             // 
             // Frmkeypad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(292, 382);
+            this.ClientSize = new System.Drawing.Size(389, 470);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Frmkeypad";
-            this.Padding = new System.Windows.Forms.Padding(5);
+            this.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Text = "Frmkeypad";
             this.Load += new System.EventHandler(this.Frmkeypad_Load);
             this.tlp_main.ResumeLayout(false);

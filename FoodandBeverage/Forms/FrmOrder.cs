@@ -483,7 +483,10 @@ namespace FoodandBeverage.Forms
                     btn_promo_code.Visible = false;
                     btn_PrintCopy.Visible = false;
                     if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                    {
                         btndirectpaybill.Visible = true;
+                        btn_saveKOT.Visible = false;
+                    }
                 }
                 else if (typeno == 2)
                 {
@@ -2752,9 +2755,30 @@ namespace FoodandBeverage.Forms
                 if (Convert.ToInt32(clickedControl.AccessibleDescription) == 1)
                     CheckMultiplePrice(Convert.ToInt32(clickedControl.Tag));
                 else if (Convert.ToInt32(clickedControl.AccessibleDescription) == 3)
+                {
+                    int qty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag),3);
+                    if (qty <= 0)
+                    {
+                        MessageBox.Show("Stock Out! This item is not available.",
+                                        "Out of Stock",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
                     ComboProductFill(Convert.ToInt32(clickedControl.Tag));
+                }                    
                 else
                 {
+                    int qty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag),0);
+                    if (qty <= 0)
+                    {
+                        MessageBox.Show("Stock Out! This item is not available.",
+                                        "Out of Stock",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return; 
+                    }
+
                     #region Variation And Addon Checking
                     dmnSearch.Select = "count(*)  Field1";
                     dmnSearch.Table = "tblProduct_Addon_Variation ";
@@ -2789,6 +2813,19 @@ namespace FoodandBeverage.Forms
                             {
                                 if (Convert.ToInt32(clickedControl.Tag) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value)!=0)
                                 {
+                                    decimal typeqty= Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                    int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 0);                    
+
+                                    // 2. Entered qty exceeds available stock
+                                    if (typeqty > availableQty)
+                                    {
+                                        MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                        "Stock Warning",
+                                                        MessageBoxButtons.OK,
+                                                        MessageBoxIcon.Warning);
+                                        return;
+                                    }
+
                                     Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                                     totalcellamount(i);
                                     decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
@@ -2890,6 +2927,37 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+        public int ProductQtyCheckMenuQty(int pid,int ptype)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "Quantity Field1";
+                dmnSearch.Table = "tblMenu";
+                if(ptype ==3)
+                    dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND producttype=3 and  Status = 1";
+                else
+                    dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND Status = 1";
+
+                var result = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (result != null && result.Count > 0)
+                {
+                    return Convert.ToInt32(result[0].Field1);   // return actual qty
+                }
+
+                return 0;   // no record found → qty = 0
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page ProductQtyCheckMenuQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                return 0;
+            }
+        }
+
+
         #endregion
 
         #region Combo Product Button click
@@ -2913,6 +2981,19 @@ namespace FoodandBeverage.Forms
                     {
                         if (id == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                         {
+                            decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 3);
+
+                            // 2. Entered qty exceeds available stock
+                            if (typeqty > availableQty)
+                            {
+                                MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                "Stock Warning",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                                return;
+                            }
+
                             flagexist = false;
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
@@ -6395,6 +6476,48 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        public void ChangeLayoutStyle(TableLayoutPanel tlp, int mode)
+        {
+            tlp.SuspendLayout();
+
+            if (mode == 1) // ---- PERCENTAGE MODE ----
+            {
+                // Calculate % width/height
+                float colPercent = tlp.ColumnCount > 0 ? 100f / tlp.ColumnCount : 0;
+                float rowPercent = tlp.RowCount > 0 ? 100f / tlp.RowCount : 0;
+
+                // Columns -> Percent
+                for (int i = 0; i < tlp.ColumnStyles.Count; i++)
+                {
+                    tlp.ColumnStyles[i].SizeType = SizeType.Percent;
+                    tlp.ColumnStyles[i].Width = colPercent;
+                }
+
+                // Rows -> Percent
+                for (int i = 0; i < tlp.RowStyles.Count; i++)
+                {
+                    tlp.RowStyles[i].SizeType = SizeType.Percent;
+                    tlp.RowStyles[i].Height = rowPercent;
+                }
+            }
+            else if (mode == 2) // ---- AUTOSIZE MODE ----
+            {
+                // Columns -> AutoSize
+                for (int i = 0; i < tlp.ColumnStyles.Count; i++)
+                {
+                    tlp.ColumnStyles[i].SizeType = SizeType.AutoSize;
+                }
+
+                // Rows -> AutoSize
+                for (int i = 0; i < tlp.RowStyles.Count; i++)
+                {
+                    tlp.RowStyles[i].SizeType = SizeType.AutoSize;
+                }
+            }
+
+            tlp.ResumeLayout();
+        }
+
         private void btn_savekot_print_Click(object sender, EventArgs e)
         {
             try
@@ -6404,6 +6527,8 @@ namespace FoodandBeverage.Forms
                 Screen screen = Screen.FromControl(this);
                 int screenWidth = screen.Bounds.Width;
                 int screenHeight = screen.Bounds.Height;
+
+                ChangeLayoutStyle(tlp_payment_option, 1);
 
                 int adjustedWidth = 0, adjustedHeight = 0;
                 if (combined_Status)
@@ -6424,11 +6549,10 @@ namespace FoodandBeverage.Forms
                     btn_splitpayment.Visible = false;
                     Btnpartpayment.Visible = false;
                     btncreditcard.Dock = DockStyle.Fill;
-                    btnnetbanking.Dock = DockStyle.Fill;
-
+                    btnnetbanking.Dock = DockStyle.Fill;                  
+                    ChangeLayoutStyle(tlp_payment_option, 1);
                     UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
                     UIHelper.RoundCorners(tlp_payment_option, 25);
-
                     pnl_main.Enabled = false;
                 }
                 else
@@ -7157,7 +7281,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                                     dmnorderdetail.BookingFlag = 1;
-                                                    dmnorderdetail.KOTPrintStatus = 0;
+                                                    dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
@@ -7232,7 +7356,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
                                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
-                                                    dmnorderdetail.KOTPrintStatus = 0;
+                                                    dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.BookingFlag = 0;
                                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
@@ -9982,7 +10106,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Order page  btn_show_existing_product_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
 
@@ -10598,6 +10721,19 @@ namespace FoodandBeverage.Forms
                     {
                         if (Av_ID == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                         {
+                            decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                            int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+
+                            // 2. Entered qty exceeds available stock
+                            if (typeqty > availableQty)
+                            {
+                                MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                "Stock Warning",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                                return;
+                            }
+
                             flagexist = false;
                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             totalcellamount(i);
@@ -10811,8 +10947,11 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                // Center the panel
-                pnl_variation_addon.Location = new Point(this.Width / 2 - pnl_variation_addon.Size.Width / 2, this.Height / 2 - pnl_variation_addon.Size.Height / 2);
+                UIHelper.CenterAndResize(pnl_variation_addon, 55, 45);
+                UIHelper.RoundCorners(pnl_variation_addon, 25);
+                UIHelper.RoundCorners(tlp_header_vari_addon, 25);
+                UIHelper.RoundCorners(tlp_variation_addon, 25);
+                pnl_variation_addon.Visible = true;
 
                 // Query variations and addons
                 dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7,pav.CCode Field8";
@@ -10962,11 +11101,7 @@ namespace FoodandBeverage.Forms
                     label46.Visible = !addonflag;
 
                     flp_addons.ResumeLayout();
-                    UIHelper.CenterAndResize(pnl_variation_addon, 70, 53);
-                    UIHelper.RoundCorners(pnl_variation_addon, 25);
-                    UIHelper.RoundCorners(tlp_header_vari_addon, 25);
-                    UIHelper.RoundCorners(tlp_variation_addon, 25);
-                    pnl_variation_addon.Visible = true;
+            
                 }
             }
             catch (Exception ex)
@@ -11472,6 +11607,7 @@ namespace FoodandBeverage.Forms
                 }
                 if (e.ColumnIndex == iqty)
                 {
+                    decimal totalamt = 0;
                     saletype = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
                     decimal kdata = 0;
                     using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
@@ -11494,6 +11630,27 @@ namespace FoodandBeverage.Forms
                         {
                             if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
                             {
+                                //int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
+
+                                //// 1. Out-of-stock check
+                                //if (availableQty <= 0)
+                                //{
+                                //    MessageBox.Show("Stock Out! This item is not available.",
+                                //                    "Out of Stock",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
+
+                                //// 2. Entered qty exceeds available stock
+                                //if (kdata > availableQty)
+                                //{
+                                //    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                //                    "Stock Warning",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
                                 decimal cqoh = kdata;
                                 if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                                 {
@@ -11507,9 +11664,14 @@ namespace FoodandBeverage.Forms
                                 break;
                             }
                         }
-                        decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
-                        txtGrandTotal.Text = Convert.ToString(totalamt);
-                        txtnetamount.Text = Convert.ToString(totalamt);
+                        decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value); // OLD row total
+                        Dgv_Selected_Item.Rows[rowno].Cells[iqty].Value = kdata;
+                        totalcellamount(rowno);
+                        decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value);
+                        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                        grand = grand - oldTotal + newTotal;
+                        txtGrandTotal.Text = grand.ToString();
+                        txtnetamount.Text = grand.ToString();
                         netAmount();
                         #endregion
                     }
@@ -11520,11 +11682,37 @@ namespace FoodandBeverage.Forms
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
+                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
+
+                                // 1. Out-of-stock check
+                                if (availableQty <= 0)
+                                {
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                    "Out of Stock",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // 2. Entered qty exceeds available stock
+                                if (kdata > availableQty)
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
                                 totalcellamount(i);
-                                decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
-                                txtGrandTotal.Text = Convert.ToString(totalamt);
-                                txtnetamount.Text = Convert.ToString(totalamt);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
                                 netAmount();
                                 break;
                             }
@@ -11537,11 +11725,37 @@ namespace FoodandBeverage.Forms
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
+                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
+
+                                // 1. Out-of-stock check
+                                if (availableQty <= 0)
+                                {
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                    "Out of Stock",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                               
+                                if (kdata > availableQty)
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
                                 totalcellamount(i);
-                                decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
-                                txtGrandTotal.Text = Convert.ToString(totalamt);
-                                txtnetamount.Text = Convert.ToString(totalamt);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
                                 netAmount();
                                 break;
                             }
@@ -11550,17 +11764,43 @@ namespace FoodandBeverage.Forms
                     else if (saletype == Convert.ToInt32(Tabletype.Variation_Addon))
                     {
                         #region Existing Product
-                        decimal totalamt = 0, Addon_amount = 0;
+                        decimal Addon_amount = 0;
                         for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
                         {
                             if (Av_ID == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
 
+                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
+
+                                // 1. Out-of-stock check
+                                if (availableQty <= 0)
+                                {
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                    "Out of Stock",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // 2. Entered qty exceeds available stock
+                                if (kdata > availableQty)
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
                                 totalcellamount(i);
-                                totalamt = Convert.ToDecimal(txtGrandTotal.Text) + Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
-                                txtGrandTotal.Text = Convert.ToString(totalamt);
-                                txtnetamount.Text = Convert.ToString(totalamt);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
                                 netAmount();
                                 break;
                             }
@@ -12150,6 +12390,7 @@ namespace FoodandBeverage.Forms
                 cancelod.CreatedBy = FrmDashboard.UserId;
                 cancelod.CancelReason = reason;
                 var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
+
                 if (InsertStatusP.SalesMasterId > 0)
                     MessageBox.Show("Order cancelled successfully!", "Cancelled");
                 clsgen.Memoryrelease();
@@ -12168,6 +12409,8 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+
 
         public void discountPer()
         {
