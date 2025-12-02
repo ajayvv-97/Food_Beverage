@@ -221,7 +221,7 @@ namespace FoodandBeverage.Forms
                         int catid = Convert.ToInt32(returnValue);
                         BllSearch<DmnCategory> bllSearch1 = new BllSearch<DmnCategory>();
                         DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType,ColorCode";
+                        objSearch.Select = "Fcid,CategoryName,Description,Status,CategoryType";
                         objSearch.Table = "tblCategory_FTI";
                         objSearch.WhereNdGroupBy = "where status = 1 and Fcid=" + catid;
                         objSearch.OrderBy = "";
@@ -414,7 +414,7 @@ namespace FoodandBeverage.Forms
                         objSearch = new DmnSearch();
                         objSearch.Select = "Fcid,CategoryName";
                         objSearch.Table = " tblCategory_FTI ";
-                        objSearch.WhereNdGroupBy = " Where CategoryType = " + cmb_cate.SelectedIndex + " and CategoryName = '" + txtfoodCate.Text+"'";
+                        objSearch.WhereNdGroupBy = " Where CategoryType = " + cmb_cate.SelectedIndex + " and Status=1 and CategoryName = '" + txtfoodCate.Text+"'";
                         var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                         if (gridSource.Count >= 1)
                         {
