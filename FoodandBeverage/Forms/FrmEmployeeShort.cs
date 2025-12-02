@@ -1143,7 +1143,7 @@ namespace FoodandBeverage.Forms
                             bool status = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", dmnEmployee.EmployeeCode.ToString() + ".jpeg", DocumentType.EmployeePhoto);
                             if (status == false)
                             {
-                                CMessageBox.Show("Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                                CMessageBox.Show("Unable To Upload Employee Photo ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                             }
                         }
                     }

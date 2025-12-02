@@ -5476,6 +5476,10 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void panelDesktop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
 
         private void btncls_gen_Click(object sender, EventArgs e)
         {
