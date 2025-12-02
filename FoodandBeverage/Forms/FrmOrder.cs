@@ -486,6 +486,7 @@ namespace FoodandBeverage.Forms
                     if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                     {
                         btndirectpaybill.Visible = true;
+                        btn_savekot_print.Visible = true;
                         btn_saveKOT.Visible = false;
                         btn_promo_code.Visible = true;
                     }
