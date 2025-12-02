@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FoodandBeverage.Forms.UserControls;
 
 namespace FoodandBeverage.Forms
 {
@@ -335,7 +336,6 @@ namespace FoodandBeverage.Forms
                     CheckRe_Pickuporder();                    
                 }
                    
-
                 #endregion
 
                 #region Grid color setting
@@ -486,6 +486,7 @@ namespace FoodandBeverage.Forms
                     {
                         btndirectpaybill.Visible = true;
                         btn_saveKOT.Visible = false;
+                        btn_promo_code.Visible = true;
                     }
                 }
                 else if (typeno == 2)
@@ -1836,7 +1837,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
-                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status=1";
+                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status IN (1,3)";
                 dmnSearchmaster.OrderBy = " order by OrderNo ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
@@ -1895,6 +1896,7 @@ namespace FoodandBeverage.Forms
                     txtordermasterid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
                     //if (string.IsNullOrEmpty(txtGrandTotal.Text))
                     //    txtGrandTotal.Text = "0";
+
                     foreach (var orderNo in distinctCategories)
                     {
                         BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
@@ -6073,6 +6075,7 @@ namespace FoodandBeverage.Forms
                     UIHelper.RoundCorners(pnl_order_desc, 25);
                     UIHelper.RoundCorners(tlp_order_desc_nav, 25);
                     UIHelper.RoundCorners(tlp_order_desc, 25);
+                    ApplyRoundedTextBox(txtentrie_descr, 10);
                 }
                 else
                 {
@@ -6243,7 +6246,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.BookingFlag = 1;
-                                    dmnorderdetail.KOTPrintStatus = 0;
+                                    dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
@@ -6316,7 +6319,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
-                                    dmnorderdetail.KOTPrintStatus = 0;
+                                    dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.BookingFlag = 0;
                                     dmnorderdetail.OrderNo = ResetFlagvalue;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
@@ -12312,15 +12315,26 @@ namespace FoodandBeverage.Forms
                     return;  
                 }
 
-                lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
+                frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
+                frm.ShowDialog();
+                if (frmExtraAccessChk.access == true)
+                {
 
-                ttxdesc_cancelorder.Text = "Reason Type Here ...";
-                ttxdesc_cancelorder.ForeColor = Color.Gray;
+                    lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
 
-                UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
-                UIHelper.RoundCorners(tlp_cancelorder, 25);
-                UIHelper.RoundCorners(pnl_cancelorder, 25);
-                UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                    ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                    ttxdesc_cancelorder.ForeColor = Color.Gray;
+
+                    UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
+                    UIHelper.RoundCorners(tlp_cancelorder, 25);
+                    UIHelper.RoundCorners(pnl_cancelorder, 25);
+                    UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                    ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                }
+                else
+                {
+                    CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -12410,7 +12424,10 @@ namespace FoodandBeverage.Forms
 
         }
 
-
+        private void btn_cancelorder_Click(object sender, EventArgs e)
+        {
+            pnl_cancelorder.Visible = false;
+        }
 
         public void discountPer()
         {

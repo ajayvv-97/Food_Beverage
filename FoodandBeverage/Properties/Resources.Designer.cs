@@ -223,6 +223,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Admin {
+            get {
+                object obj = ResourceManager.GetObject("Admin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap available {
             get {
                 object obj = ResourceManager.GetObject("available", resourceCulture);
@@ -3025,6 +3035,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap RETURN_BUTTON_small {
             get {
                 object obj = ResourceManager.GetObject("RETURN_BUTTON_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RFID_1 {
+            get {
+                object obj = ResourceManager.GetObject("RFID_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

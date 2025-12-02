@@ -89,6 +89,7 @@ namespace FoodandBeverage.Forms
             this.btn_close_viewmore = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_viewmore_order = new System.Windows.Forms.Button();
+            this.btn_cancelprintcount = new System.Windows.Forms.Button();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btnprintcount = new System.Windows.Forms.Button();
             this.btntotalorders = new System.Windows.Forms.Button();
@@ -231,7 +232,8 @@ namespace FoodandBeverage.Forms
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 122F));
+            this.tlp_search.Controls.Add(this.btn_cancelprintcount, 6, 0);
             this.tlp_search.Controls.Add(this.txttablecode, 0, 0);
             this.tlp_search.Controls.Add(this.txtorderid_search, 0, 0);
             this.tlp_search.Controls.Add(this.btn_refresh, 2, 0);
@@ -252,11 +254,11 @@ namespace FoodandBeverage.Forms
             this.txttablecode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txttablecode.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txttablecode.ForeColor = System.Drawing.Color.DarkGray;
-            this.txttablecode.Location = new System.Drawing.Point(241, 4);
+            this.txttablecode.Location = new System.Drawing.Point(236, 4);
             this.txttablecode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txttablecode.Multiline = true;
             this.txttablecode.Name = "txttablecode";
-            this.txttablecode.Size = new System.Drawing.Size(281, 56);
+            this.txttablecode.Size = new System.Drawing.Size(276, 56);
             this.txttablecode.TabIndex = 2;
             this.txttablecode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txttablecode.Enter += new System.EventHandler(this.txttablecode_Enter);
@@ -273,7 +275,7 @@ namespace FoodandBeverage.Forms
             this.txtorderid_search.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtorderid_search.Multiline = true;
             this.txtorderid_search.Name = "txtorderid_search";
-            this.txtorderid_search.Size = new System.Drawing.Size(229, 56);
+            this.txtorderid_search.Size = new System.Drawing.Size(224, 56);
             this.txtorderid_search.TabIndex = 1;
             this.txtorderid_search.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtorderid_search.Enter += new System.EventHandler(this.txtorderid_search_Enter);
@@ -287,7 +289,7 @@ namespace FoodandBeverage.Forms
             this.lblprintloading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblprintloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblprintloading.ForeColor = System.Drawing.Color.Red;
-            this.lblprintloading.Location = new System.Drawing.Point(626, 0);
+            this.lblprintloading.Location = new System.Drawing.Point(616, 0);
             this.lblprintloading.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblprintloading.Name = "lblprintloading";
             this.lblprintloading.Size = new System.Drawing.Size(181, 64);
@@ -674,13 +676,12 @@ namespace FoodandBeverage.Forms
             // pnl_kitchenorderBill
             // 
             this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
-            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(496, 222);
+            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(604, 223);
             this.pnl_kitchenorderBill.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
             this.pnl_kitchenorderBill.Padding = new System.Windows.Forms.Padding(13, 37, 13, 12);
-            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(556, 654);
+            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(391, 329);
             this.pnl_kitchenorderBill.TabIndex = 0;
-            this.pnl_kitchenorderBill.Visible = false;
             this.pnl_kitchenorderBill.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_kitchenorderBill_MouseDown);
             this.pnl_kitchenorderBill.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_kitchenorderBill_MouseMove);
             this.pnl_kitchenorderBill.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnl_kitchenorderBill_MouseUp);
@@ -703,7 +704,7 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.ShowParameterPanelButton = false;
             this.crvkitchenbill.ShowTextSearchButton = false;
             this.crvkitchenbill.ShowZoomButton = false;
-            this.crvkitchenbill.Size = new System.Drawing.Size(530, 605);
+            this.crvkitchenbill.Size = new System.Drawing.Size(365, 280);
             this.crvkitchenbill.TabIndex = 0;
             this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
@@ -745,6 +746,7 @@ namespace FoodandBeverage.Forms
             this.dataGridViewImageColumn1.Image = global::FoodandBeverage.Properties.Resources.Delete_Grid;
             this.dataGridViewImageColumn1.MinimumWidth = 6;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 68;
             // 
             // btn_cancel_product_des
@@ -847,13 +849,28 @@ namespace FoodandBeverage.Forms
             this.btn_viewmore_order.UseVisualStyleBackColor = true;
             this.btn_viewmore_order.Click += new System.EventHandler(this.btn_viewmore_order_Click);
             // 
+            // btn_cancelprintcount
+            // 
+            this.btn_cancelprintcount.BackgroundImage = global::FoodandBeverage.Properties.Resources.kitchentotalodericon;
+            this.btn_cancelprintcount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cancelprintcount.FlatAppearance.BorderSize = 0;
+            this.btn_cancelprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cancelprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_cancelprintcount.Location = new System.Drawing.Point(980, 4);
+            this.btn_cancelprintcount.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_cancelprintcount.Name = "btn_cancelprintcount";
+            this.btn_cancelprintcount.Size = new System.Drawing.Size(77, 56);
+            this.btn_cancelprintcount.TabIndex = 7;
+            this.btn_cancelprintcount.Text = "0";
+            this.btn_cancelprintcount.UseVisualStyleBackColor = true;
+            // 
             // btn_refresh
             // 
             this.btn_refresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_refresh.BackgroundImage")));
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(530, 4);
+            this.btn_refresh.Location = new System.Drawing.Point(520, 4);
             this.btn_refresh.Margin = new System.Windows.Forms.Padding(4);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(67, 56);
@@ -868,7 +885,7 @@ namespace FoodandBeverage.Forms
             this.btnprintcount.FlatAppearance.BorderSize = 0;
             this.btnprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprintcount.Location = new System.Drawing.Point(815, 4);
+            this.btnprintcount.Location = new System.Drawing.Point(805, 4);
             this.btnprintcount.Margin = new System.Windows.Forms.Padding(4);
             this.btnprintcount.Name = "btnprintcount";
             this.btnprintcount.Size = new System.Drawing.Size(71, 56);
@@ -884,7 +901,7 @@ namespace FoodandBeverage.Forms
             this.btntotalorders.FlatAppearance.BorderSize = 0;
             this.btntotalorders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntotalorders.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntotalorders.Location = new System.Drawing.Point(902, 4);
+            this.btntotalorders.Location = new System.Drawing.Point(892, 4);
             this.btntotalorders.Margin = new System.Windows.Forms.Padding(4);
             this.btntotalorders.Name = "btntotalorders";
             this.btntotalorders.Size = new System.Drawing.Size(77, 56);
@@ -997,5 +1014,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Timer tm_memory;
         private System.Windows.Forms.Label lblmemory;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button btn_cancelprintcount;
     }
 }

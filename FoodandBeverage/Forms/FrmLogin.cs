@@ -70,23 +70,25 @@ namespace FoodandBeverage.Forms
 
         public static Size FormSize;
         public static decimal AutoLogoutIdleTimeoutMinutes = 0;
+        public static int CorpID=102;
+      
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             if (PrintpathValue == 1)
             {
-                KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
-                SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                //ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                //SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
 
-                //KitchenBillPath = @"C: \Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill";
-                //ReportPath = @"C: \Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\Report";
-                //SaleBillPath = @"C: \Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
-                //XYZPath = @"C: \Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //logoPath = @"C: \Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                KitchenBillPath = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                ReportPath = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\Report";
+                SaleBillPath = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
+                XYZPath = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                logoPath = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
             }
             else
             {
@@ -338,11 +340,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                //clsgen.LogExceptionExcel("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 clsgen.LogException("Login Page btnlogin_Click()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-               // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
        
         }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using CrystalDecisions.CrystalReports.Engine;
@@ -88,6 +89,8 @@ namespace FoodandBeverage.Forms
 
         private bool isDragging = false;
         private Point startPoint = new Point(0, 0);
+        private bool isCancelPrintingRunning = false;
+        private bool isOrderPrintingRunning = false;
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -154,8 +157,17 @@ namespace FoodandBeverage.Forms
         {
             refreshtimer.Start();
         }
-        public void FillOrdersAsync()
+        public Task FillOrdersAsync()
         {
+            return Task.Run(() => FillOrders()); 
+        }
+        public void FillOrders()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(FillOrders));
+                return;
+            }
             try
             {
                 GC.Collect();
@@ -170,7 +182,6 @@ namespace FoodandBeverage.Forms
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
                 var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
-
                 if (gridSourcemaster.Count > 0)
                 {
                     //pnl_empty_msg.Visible = false;
@@ -914,6 +925,8 @@ namespace FoodandBeverage.Forms
 
         private void PrintOrderAsync()
         {
+            if (isOrderPrintingRunning) return;
+            isOrderPrintingRunning = true;
             ReportDocument reportDocument = new ReportDocument();
             try
             {
@@ -1057,12 +1070,12 @@ namespace FoodandBeverage.Forms
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY","Pkid"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid"))
                         {
                             dtSalesDetail.Load(reader);
                         }
                         dsReport.Tables.Add(dtSalesDetail);
-                    }                   
+                    }
 
                     if (this.IsHandleCreated)
                     {
@@ -1071,10 +1084,10 @@ namespace FoodandBeverage.Forms
                             string reportPath = "";
                             //MessageBox.Show(RPTPath + "CRkitchenbill_Pickup.rpt");
                             //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
-                            if (Convert.ToInt32(BillDetails[0].Pkid)>0)
+                            if (Convert.ToInt32(BillDetails[0].Pkid) > 0)
                                 reportPath = RPTPath + "CRkitchenbill_Pickup.rpt";
                             else
-                                 reportPath = RPTPath + "crkitchenbill.rpt";
+                                reportPath = RPTPath + "crkitchenbill.rpt";
 
                             if (!File.Exists(reportPath))
                             {
@@ -1134,20 +1147,293 @@ namespace FoodandBeverage.Forms
                     {
                         blinkTimer.Stop();
                         lblprintloading.Text = "Printing Stopped";
-
-                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
                     }));
                 }
             }
             finally
             {
+                isOrderPrintingRunning = false;
                 reportDocument.Close();
                 reportDocument.Dispose();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
         }
+
+        private void PrintcancelOrder()
+        {
+            if (isCancelPrintingRunning) return;
+            isCancelPrintingRunning = true;
+
+            ReportDocument reportDocument = null;  
+            DataSet dsReport = new DataSet();
+            DataTable DT_cancel = new DataTable("DT_CancelOrder");
+
+            try
+            {
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() => refreshtimer.Stop()));
+                }
+
+                // Fetch Cancel Orders
+                BllCancelsale<DmnOrderCancel> SearchDetails = new BllCancelsale<DmnOrderCancel>();
+                DmnOrderCancel dmncancel = new DmnOrderCancel();
+                var gridSourcemaster = SearchDetails.serachreport("prdPrintcancelOrder", dmncancel);
+
+                if (gridSourcemaster == null || gridSourcemaster.Count == 0)
+                {
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() => refreshtimer.Start()));
+                    }
+                    return;
+                }
+
+                // LOAD ALL DATA ONLY ONCE
+                using (var reader = ObjectReader.Create(gridSourcemaster,
+                    "SalesMasterId",
+                    "OrderMasterId",
+                    "CancelPrintStatus",
+                    "CancelDescription",
+                    "TableCode",
+                    "Pkid",
+                    "Station",
+                    "EmployeeName",
+                    "Tid"))
+                {
+                    DT_cancel.Load(reader);
+                }
+
+                // ADD TABLE ONLY ONCE
+                dsReport.Tables.Add(DT_cancel);
+
+                // Prepare ReportDocument
+                reportDocument = new ReportDocument();
+                string reportPath = RPTPath + "CRCancelPrint.rpt";
+
+                if (!File.Exists(reportPath))
+                {
+                    CMessageBox.Show(this, "Report file not found: " + reportPath, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new FileNotFoundException("Report file not found.", reportPath);
+                }
+
+                reportDocument.Load(reportPath);
+                reportDocument.SetDataSource(dsReport);
+
+                // LOOP AND PRINT ONLY FOR RECORDS WITH CancelPrintStatus = 1
+                foreach (var orders in gridSourcemaster)
+                {
+                    if (orders.CancelPrintStatus == 1)
+                    {
+                        if (this.IsHandleCreated)
+                        {
+                            this.Invoke(new Action(() => blinkTimer.Start()));
+                        }
+
+                        // Print
+                        reportDocument.PrintToPrinter(1, false, 0, 0);
+
+                        // Update status
+                        BllKitchenorder bllkitchen = new BllKitchenorder();
+                        DmnOrderCancel dmncnl = new DmnOrderCancel
+                        {
+                            SalesMasterId = Convert.ToInt32(orders.SalesMasterId),
+                            CreatedBy = FrmDashboard.UserId,
+                            BranchId = FrmDashboard.BranchId
+                        };
+                        bllkitchen.Cancel_statusupdate("prd_updateCancelprintstatus", dmncnl);
+
+                        // UI Update
+                        if (this.IsHandleCreated)
+                        {
+                            this.Invoke(new Action(() =>
+                            {
+                                PlaySound();
+                                int c = Convert.ToInt32(btn_cancelprintcount.Text) - 1;
+                                btn_cancelprintcount.Text = c < 0 ? "0" : c.ToString();
+                            }));
+                        }
+                    }
+                }
+
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        blinkTimer.Stop();
+                        refreshtimer.Start();
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        blinkTimer.Stop();
+                        lblprintloading.Text = "Printing Stopped";
+                        CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex,
+                            FrmLogin.EmployeName, FrmLogin.Designation,
+                            Convert.ToInt32(FormType.Kitchen_View));
+                    }));
+                }
+            }
+            finally
+            {
+                if (reportDocument != null)
+                {
+                    reportDocument.Close();
+                    reportDocument.Dispose();
+                }
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                isCancelPrintingRunning = false;  
+                
+            }
+        }
+
+
+        //private void PrintcancelOrder()
+        //{
+
+        //    try
+        //    {
+        //        if (this.IsHandleCreated)
+        //        {
+        //            this.Invoke(new Action(() =>
+        //            {
+        //                refreshtimer.Stop();
+        //            }));
+        //        }
+        //        BllCancelsale<DmnOrderCancel> SearchDetails = new BllCancelsale<DmnOrderCancel>();
+        //        DmnOrderCancel dmncancel = new DmnOrderCancel();
+        //        var gridSourcemaster = SearchDetails.serachreport("prdPrintcancelOrder", dmncancel);
+        //        if (gridSourcemaster == null || gridSourcemaster.Count == 0)
+        //        {
+        //            if (this.IsHandleCreated)
+        //            {
+        //                this.Invoke(new Action(() =>
+        //                {
+        //                    refreshtimer.Start();
+        //                }));
+        //            }
+        //            return;
+        //        }
+
+        //        ReportDocument reportDocument = new ReportDocument();
+        //        DataSet dsReport = new DataSet();
+        //        DataTable DT_cancel = new DataTable("DT_CancelOrder");
+        //        foreach (var orders in gridSourcemaster)
+        //        {
+        //            if (orders.CancelPrintStatus == 1)
+        //            {
+        //                if (this.IsHandleCreated)
+        //                {
+        //                    this.Invoke(new Action(() =>
+        //                    {
+        //                        blinkTimer.Start();
+        //                    }));
+        //                }
+
+        //                #region Crystal Report Declaration
+
+        //                if (this.IsHandleCreated)
+        //                {
+        //                    this.Invoke(new Action(() =>
+        //                    {
+        //                        using (var reader = ObjectReader.Create(gridSourcemaster,
+        //                            "SalesMasterId",
+        //                            "OrderMasterId",
+        //                            "CancelPrintStatus",
+        //                            "CancelDescription",
+        //                            "TableCode",
+        //                            "Pkid",
+        //                            "Station",
+        //                            "EmployeeName",
+        //                            "Tid"
+        //                        ))
+        //                        {
+        //                            DT_cancel.Load(reader);
+        //                        }
+        //                        dsReport.Tables.Add(DT_cancel);
+        //                        string reportPath = "";
+        //                        reportPath = RPTPath + "CRCancelPrint.rpt";
+        //                        if (!File.Exists(reportPath))
+        //                        {
+        //                            CMessageBox.Show(this, "Report file not found: " + reportPath,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                            throw new FileNotFoundException("Report file not found.", reportPath);
+        //                        }
+
+        //                        reportDocument.Load(reportPath);
+        //                        reportDocument.SetDataSource(dsReport);
+        //                        crvkitchenbill.ReportSource = reportDocument;
+        //                        reportDocument.PrintToPrinter(1, false, 0, 0);
+
+        //                    }));
+        //                }
+        //                #endregion
+
+        //                #region Update Print Status to 0
+        //                BllKitchenorder bllkitchen = new BllKitchenorder();
+        //                DmnOrderCancel dmncnl = new DmnOrderCancel
+        //                {
+        //                    SalesMasterId = Convert.ToInt32(orders.SalesMasterId),
+        //                    CreatedBy = FrmDashboard.UserId,    
+        //                    BranchId = FrmDashboard.BranchId
+        //                };
+        //               var InsertStatus = bllkitchen.Cancel_statusupdate("prd_updateCancelprintstatus", dmncnl);
+        //                #endregion
+
+        //                if (this.IsHandleCreated)
+        //                {
+        //                    this.Invoke(new Action(() =>
+        //                    {
+        //                        PlaySound();
+        //                        int c = Convert.ToInt32(btn_cancelprintcount.Text) - 1;
+        //                        if (c < 0)
+        //                            btn_cancelprintcount.Text = "0";
+        //                        else
+        //                            btn_cancelprintcount.Text = Convert.ToString(c);
+        //                    }));
+        //                }
+        //            }
+        //        }
+
+        //        if (this.IsHandleCreated)
+        //        {
+        //            this.Invoke(new Action(() =>
+        //            {
+        //                blinkTimer.Stop();
+        //                refreshtimer.Start();
+        //            }));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (this.IsHandleCreated)
+        //        {
+        //            this.Invoke(new Action(() =>
+        //            {
+        //                blinkTimer.Stop();
+        //                lblprintloading.Text = "Printing Stopped";
+        //                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+        //            }));
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        reportDocument.Close();
+        //        reportDocument.Dispose();
+        //        GC.Collect();
+        //        GC.WaitForPendingFinalizers();
+        //    }
+        //}
 
 
         private void FrmKitchenView_Load(object sender, EventArgs e)
@@ -3318,19 +3604,34 @@ namespace FoodandBeverage.Forms
                 refreshtimer.Start();
             }
         }
-        private void refreshtimer_Tick(object sender, EventArgs e)
+        //private void refreshtimer_Tick(object sender, EventArgs e)
+        //{
+        //    RunMethodInSeparateThread(PrintcancelOrder);
+        //    FillOrdersAsync();
+        //    if (Convert.ToInt32(btnprintcount.Text) > 0)
+        //        RunMethodInSeparateThread(PrintOrderAsync);
+        //    else
+        //    {
+        //        this.Invoke(new Action(() =>
+        //        {
+        //            lblprintloading.Visible = false;
+        //        }));
+        //    }
+
+        //}
+        private async void refreshtimer_Tick(object sender, EventArgs e)
         {
-            FillOrdersAsync();
+            refreshtimer.Stop();
+
+            await Task.Run(() => PrintcancelOrder());
+            await FillOrdersAsync();
+
             if (Convert.ToInt32(btnprintcount.Text) > 0)
-                RunMethodInSeparateThread(PrintOrderAsync);
-            else
-            {
-                this.Invoke(new Action(() =>
-                {
-                    lblprintloading.Visible = false;
-                }));
-            }
+                await Task.Run(() => PrintOrderAsync());
+
+            refreshtimer.Start();
         }
+
         private static void RunMethodInSeparateThread(Action action)
         {
             var thread = new Thread(new ThreadStart(action));

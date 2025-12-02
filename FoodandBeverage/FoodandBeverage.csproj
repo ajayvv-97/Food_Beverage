@@ -520,6 +520,12 @@
     <Compile Include="Forms\FrmExpence.Designer.cs">
       <DependentUpon>FrmExpence.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\KitchenBill\CRCancelPrint.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRCancelPrint.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\KitchenBill\crkitchenbill.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -549,6 +555,12 @@
     </Compile>
     <Compile Include="Forms\UserControls\FrmDataGridView.Designer.cs">
       <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\frmExtraAccessChk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\frmExtraAccessChk.Designer.cs">
+      <DependentUpon>frmExtraAccessChk.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserControls\Frmkeyboard.cs">
       <SubType>Form</SubType>
@@ -899,6 +911,10 @@
     <EmbeddedResource Include="Forms\FrmExpence.resx">
       <DependentUpon>FrmExpence.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KitchenBill\CRCancelPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRCancelPrint.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\KitchenBill\crkitchenbill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crkitchenbill.cs</LastGenOutput>
@@ -915,6 +931,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\FrmDataGridView.resx">
       <DependentUpon>FrmDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\frmExtraAccessChk.resx">
+      <DependentUpon>frmExtraAccessChk.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\Frmkeyboard.resx">
       <DependentUpon>Frmkeyboard.cs</DependentUpon>
@@ -1878,6 +1897,8 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\Admin.png" />
+    <None Include="Resources\RFID_1.png" />
     <None Include="Resources\N_genratecode.png" />
     <None Include="Resources\N_MORE.png" />
     <None Include="Resources\N_USER.png" />
