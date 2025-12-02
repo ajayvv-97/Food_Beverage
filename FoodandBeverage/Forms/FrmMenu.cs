@@ -34,6 +34,8 @@ namespace FoodandBeverage.Forms
         public static int pstatusno = 7;
         public static int pfcidno = 8;
         public static int ppdtype = 9;
+        public static int proptype = 10;
+        public static int proptypename = 11;
         #endregion
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
@@ -114,8 +116,8 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 1;
                                 else
                                     dmnmenu.Status = 0;
-                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
-                                count++;
+                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu); 
+                                 count++;
                             }
                         }
                         if (count > 0)
@@ -232,7 +234,6 @@ namespace FoodandBeverage.Forms
                             else
                                 dgv_menu.Rows[i].Cells[pstatusno].Value = false;
 
-
                             dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                             dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
                             dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
@@ -245,7 +246,7 @@ namespace FoodandBeverage.Forms
                 { 
                     if (rb_product.Checked == false && rb_item.Checked == false)
                     {
-                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
                         dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
                         dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.status=1 and P.Fcid=" + searchmode;
                         dmnSearch.OrderBy = "order by Product";
@@ -253,7 +254,7 @@ namespace FoodandBeverage.Forms
                     }
                     else if (searchmode == 0)
                     {
-                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
                         dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                             "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
                         dmnSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
@@ -261,7 +262,7 @@ namespace FoodandBeverage.Forms
                     }
                     else if (rb_product.Checked)
                     {
-                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                        dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
                         dmnSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
                         dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.status=1 and P.Fcid=" + searchmode;
                         dmnSearch.OrderBy = "order by Product";
@@ -298,6 +299,16 @@ namespace FoodandBeverage.Forms
                                 dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                                 dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
                                 dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
+                                dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
+
+                                if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
+                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Ready Food";
+                                else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
+                                {
+                                    dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
+                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Fresh Cooked";
+                                }
+                  
                             }
                             else if (rb_item.Checked)
                                 dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
@@ -1639,7 +1650,7 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8";
+                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
                 objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                     "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
                 objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
@@ -1670,9 +1681,14 @@ namespace FoodandBeverage.Forms
                         else
                             dgv_menu.Rows[i].Cells[pstatusno].Value = false;
 
+                        if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
+                            dgv_menu.Rows[i].Cells[proptypename].Value = "Ready Food";
+                        else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
+                        {
+                            dgv_menu.Rows[i].Cells[proptypename].Value = "Fresh Cooked";
+                            dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
+                        }
                     }
-
-
                     Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
                     int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
                     Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;

@@ -473,9 +473,15 @@ namespace FoodandBeverage.Interfaces
         NormalProduct = 1,
         OfferProduct = 2,
         ComboProduct = 3,
-        favourite=4,
-        ProductNameSerach=5,
-        ProductcodeSerach=6,
+        favourite = 4,
+        ProductNameSerach = 5,
+        ProductcodeSerach = 6,
+    };
+    public enum PreparationType
+    {
+        ReadyFood = 0,
+        FreshCooked = 1,
+
     };
 }
 

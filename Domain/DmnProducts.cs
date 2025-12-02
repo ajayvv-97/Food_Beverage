@@ -35,5 +35,7 @@ namespace Domain
 		public string Name { get; set; }
 
 		public int Ppid { get; set; }
+		public int PreparationMode { get; set; }
+		
 	}
 }
