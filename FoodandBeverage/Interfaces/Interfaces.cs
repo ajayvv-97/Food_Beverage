@@ -479,8 +479,8 @@ namespace FoodandBeverage.Interfaces
     };
     public enum PreparationType
     {
-        ReadyFood = 0,
-        FreshCooked = 1,
+        ReadyFood = 1,
+        FreshCooked = 2,
 
     };
 }

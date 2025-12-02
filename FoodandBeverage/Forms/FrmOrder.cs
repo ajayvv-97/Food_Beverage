@@ -500,6 +500,10 @@ namespace FoodandBeverage.Forms
                     btn_promo_code.Visible = true;
                     btndirectpaybill.Visible = true;
                     btn_entire_desc.Visible = false;
+                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                    {
+                        btndirectpaybill.Visible = false;
+                    }
 
                 }
                 else
@@ -1838,7 +1842,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
-                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status IN (1,3)";
+                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status IN (1)";
                 dmnSearchmaster.OrderBy = " order by OrderNo ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
@@ -2759,21 +2763,23 @@ namespace FoodandBeverage.Forms
                     CheckMultiplePrice(Convert.ToInt32(clickedControl.Tag));
                 else if (Convert.ToInt32(clickedControl.AccessibleDescription) == 3)
                 {
-                    int qty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag),3);
-                    if (qty <= 0)
+                    var data = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 3);
+                    int qty = data.Quantity;
+                    int prep = data.PreparationMode;
+                    if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))   
                     {
-                        MessageBox.Show("Stock Out! This item is not available.",
-                                        "Out of Stock",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
+                        MessageBox.Show("Stock Out! This item is not available.","Out of Stock",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                         return;
                     }
                     ComboProductFill(Convert.ToInt32(clickedControl.Tag));
                 }                    
                 else
-                {
-                    int qty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag),0);
-                    if (qty <= 0)
+                {  
+                    int prep = 0;
+                    var data = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 0);
+                    int qty = data.Quantity;
+                    prep = data.PreparationMode;
+                    if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
                     {
                         MessageBox.Show("Stock Out! This item is not available.",
                                         "Out of Stock",
@@ -2816,11 +2822,12 @@ namespace FoodandBeverage.Forms
                             {
                                 if (Convert.ToInt32(clickedControl.Tag) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value)!=0)
                                 {
-                                    decimal typeqty= Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                                    int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 0);                    
-
-                                    // 2. Entered qty exceeds available stock
-                                    if (typeqty > availableQty)
+                                  
+                                    var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 0);
+                                    decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                                    int availableQty = dataresult.Quantity;
+                                    prep = dataresult.PreparationMode;
+                                    if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
                                     {
                                         MessageBox.Show($"Only {availableQty} Qty Available.",
                                                         "Stock Warning",
@@ -2931,17 +2938,24 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
-        public int ProductQtyCheckMenuQty(int pid,int ptype)
+        public class MenuQtyResult
+        {
+            public int Quantity { get; set; }
+            public int PreparationMode { get; set; }
+        }
+
+        public MenuQtyResult ProductQtyCheckMenuQty(int pid, int ptype)
         {
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select = "Quantity Field1";
+                dmnSearch.Select = "Quantity Field1, PreparationMode Field2";
                 dmnSearch.Table = "tblMenu";
-                if(ptype ==3)
-                    dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND producttype=3 and  Status = 1";
+
+                if (ptype == 3)
+                    dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND producttype=3 AND Status = 1";
                 else
                     dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND Status = 1";
 
@@ -2949,17 +2963,22 @@ namespace FoodandBeverage.Forms
 
                 if (result != null && result.Count > 0)
                 {
-                    return Convert.ToInt32(result[0].Field1);   // return actual qty
+                    return new MenuQtyResult
+                    {
+                        Quantity = Convert.ToInt32(result[0].Field1),
+                        PreparationMode = Convert.ToInt32(result[0].Field2)
+                    };
                 }
 
-                return 0;   // no record found → qty = 0
+                return new MenuQtyResult { Quantity = 0, PreparationMode = 0 };
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Order page ProductQtyCheckMenuQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
-                return 0;
+                return new MenuQtyResult { Quantity = 0, PreparationMode = 0 };
             }
         }
+
 
 
         #endregion
@@ -2985,11 +3004,12 @@ namespace FoodandBeverage.Forms
                     {
                         if (id == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                         {
+                            int prep = 0;
+                            var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 3);
                             decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 3);
-
-                            // 2. Entered qty exceeds available stock
-                            if (typeqty > availableQty)
+                            int availableQty = dataresult.Quantity;
+                            prep = dataresult.PreparationMode;
+                            if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
                             {
                                 MessageBox.Show($"Only {availableQty} Qty Available.",
                                                 "Stock Warning",
@@ -10731,12 +10751,14 @@ namespace FoodandBeverage.Forms
                     {
                         if (Av_ID == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                         {
+                            int prep = 0;
+                            var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
                             decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
-                            int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
-
-                            // 2. Entered qty exceeds available stock
-                            if (typeqty > availableQty)
+                            int availableQty = dataresult.Quantity;
+                            prep = dataresult.PreparationMode;
+                            if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
                             {
+       
                                 MessageBox.Show($"Only {availableQty} Qty Available.",
                                                 "Stock Warning",
                                                 MessageBoxButtons.OK,
@@ -10958,7 +10980,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                UIHelper.CenterAndResize(pnl_variation_addon, 55, 50);
+                UIHelper.CenterAndResize(pnl_variation_addon, 55, 65);
                 UIHelper.RoundCorners(pnl_variation_addon, 25);
                 UIHelper.RoundCorners(tlp_header_vari_addon, 25);
                 UIHelper.RoundCorners(tlp_variation_addon, 25);
@@ -11693,10 +11715,11 @@ namespace FoodandBeverage.Forms
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
-                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
-
-                                // 1. Out-of-stock check
-                                if (availableQty <= 0)
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
                                     MessageBox.Show("Stock Out! This item is not available.",
                                                     "Out of Stock",
@@ -11706,7 +11729,7 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 // 2. Entered qty exceeds available stock
-                                if (kdata > availableQty)
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
                                     MessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
@@ -11736,20 +11759,22 @@ namespace FoodandBeverage.Forms
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
-                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
-
-                                // 1. Out-of-stock check
-                                if (availableQty <= 0)
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
+
                                     MessageBox.Show("Stock Out! This item is not available.",
-                                                    "Out of Stock",
-                                                    MessageBoxButtons.OK,
-                                                    MessageBoxIcon.Warning);
-                                    return;
+                                                        "Out of Stock",
+                                                        MessageBoxButtons.OK,
+                                                        MessageBoxIcon.Warning);
+                                        return;
+                                    
                                 }
 
-                               
-                                if (kdata > availableQty)
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
                                     MessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
@@ -11780,11 +11805,11 @@ namespace FoodandBeverage.Forms
                         {
                             if (Av_ID == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
-
-                                int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
-
-                                // 1. Out-of-stock check
-                                if (availableQty <= 0)
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
                                     MessageBox.Show("Stock Out! This item is not available.",
                                                     "Out of Stock",
@@ -11794,7 +11819,7 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 // 2. Entered qty exceeds available stock
-                                if (kdata > availableQty)
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 {
                                     MessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
@@ -11827,6 +11852,7 @@ namespace FoodandBeverage.Forms
                     int vid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ividno].Value);
                     string avid = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
                     int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
+                    int addonitem = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ivaraiationstatusno].Value);
 
                     if (rowType == Convert.ToInt32(Tabletype.DirectSale))
                     {
@@ -11885,25 +11911,28 @@ namespace FoodandBeverage.Forms
                     }
                     else if (rowType == Convert.ToInt32(Tabletype.Product))
                     {
-                        if (vid > 0)
+                        if (addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Variation) || addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                         {
                             #region Addon or Variation 
-                            int dgvcount = Dgv_Selected_Item.RowCount - 1;
-                            for (int i = dgvcount; i >= 0; i--)
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary))
                             {
-                                if (avid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
+                                int dgvcount = Dgv_Selected_Item.RowCount - 1;
+                                for (int i = dgvcount; i >= 0; i--)
                                 {
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                    if (avid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
                                     {
-                                        decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
-                                        decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
-                                        txtGrandTotal.Text = Convert.ToString(totalamt);
-                                        txtnetamount.Text = Convert.ToString(totalamt);
-                                        Dgv_Selected_Item.Rows.RemoveAt(i);
-                                    }
-                                    else
-                                    {
-                                        Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                        {
+                                            decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                            decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
+                                            txtGrandTotal.Text = Convert.ToString(totalamt);
+                                            txtnetamount.Text = Convert.ToString(totalamt);
+                                            Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        }
+                                        else
+                                        {
+                                            Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        }
                                     }
                                 }
                             }

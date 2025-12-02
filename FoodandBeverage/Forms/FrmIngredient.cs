@@ -111,7 +111,11 @@ namespace FoodandBeverage.Forms
                     dmnproduct.UPC = "";
                     dmnproduct.CreatedBy = FrmDashboard.UserId;
                     dmnproduct.BranchId = FrmDashboard.BranchId;
-                    dmnproduct.PreparationMode = Convert.ToInt32(cmbpre_type.SelectedIndex);
+
+                    if(Convert.ToInt32(cmbpre_type.SelectedIndex)==0)
+                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.ReadyFood);
+                    else
+                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.FreshCooked);
 
                     if (chb_active.Checked)
                         dmnproduct.Status = 1;
@@ -830,6 +834,7 @@ namespace FoodandBeverage.Forms
                         }
 
                     }
+
                     if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(PreparationType.ReadyFood))
                         cmbpre_type.SelectedIndex = 0;
                     else
