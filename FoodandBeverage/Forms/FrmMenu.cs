@@ -171,6 +171,7 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
                                 dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.PreparationMode = Convert.ToInt32(dgv_menu.Rows[i].Cells[proptype].Value);
                                 dmnmenu.CreatedBy = FrmDashboard.UserId;
                                 dmnmenu.BranchId = FrmDashboard.BranchId;
                                 if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
@@ -1681,6 +1682,8 @@ namespace FoodandBeverage.Forms
                         else
                             dgv_menu.Rows[i].Cells[pstatusno].Value = false;
 
+                        dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
+                        
                         if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
                             dgv_menu.Rows[i].Cells[proptypename].Value = "Ready Food";
                         else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
@@ -1952,11 +1955,10 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7";
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7,p.PreparationMode Field8";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";//
                     objSearch.WhereNdGroupBy = "where p.Status=1";
-                    objSearch.OrderBy = "order by m.Status desc";
-
+                    objSearch.OrderBy = "order by m.Status desc";                  
                     var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
@@ -1974,6 +1976,16 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pnameno].Style.ForeColor = Color.Black;
                             dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
                             dgv_menu.Columns[pstatusno].Visible = true;
+
+                            dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field8;
+                            if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field8 != null)
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Ready Food";
+                            else if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field8 != null)
+                            {
+                                dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Fresh Cooked";
+                            }
+
                             chk_selectall.Visible = true;
 
                             if (Convert.ToInt32(itemSource[i].Field6) == 1)
