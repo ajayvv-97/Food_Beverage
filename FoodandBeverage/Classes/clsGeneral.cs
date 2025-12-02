@@ -256,30 +256,30 @@ namespace FoodandBeverage.Classes
                 {
                     if (col is DataGridViewCheckBoxColumn)
                         continue;
-
                     col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
 
-                dgv.PerformLayout(); // Important to calculate widths
+                //dgv.PerformLayout(); // Important to calculate widths
 
-                // Step 2: Check remaining free width
-                int usedWidth = dgv.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-                int freeWidth = dgv.ClientSize.Width - usedWidth;
+                //// Step 2: Check remaining free width
+                //int usedWidth = dgv.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+                //int freeWidth = dgv.ClientSize.Width - usedWidth;
 
-                // Step 3: If free space exists, give it to the second column (Index = 1)
-                if (freeWidth > 20)   // 20px margin
-                {
-                    foreach (DataGridViewColumn col in dgv.Columns)
-                        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                //// Step 3: If free space exists, give it to the second column (Index = 1)
+
+                //    foreach (DataGridViewColumn col in dgv.Columns)
+                //        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
                     // Give all extra space ONLY to second column
                     if (dgv.Columns.Count > 1)
                     {
-                        dgv.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dgv.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     }
-                }
+                
             }
-            catch { }
+            catch 
+            { 
+            }
         }
 
         public void GrideAutoSize(DataGridView dataGridView)

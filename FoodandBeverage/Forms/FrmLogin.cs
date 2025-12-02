@@ -8,8 +8,11 @@ using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -71,7 +74,9 @@ namespace FoodandBeverage.Forms
         public static Size FormSize;
         public static decimal AutoLogoutIdleTimeoutMinutes = 0;
         public static int CorpID=102;
-      
+
+        private bool isMouseDown = false;
+        private int pressDuration = 0;
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -812,6 +817,146 @@ namespace FoodandBeverage.Forms
         private void Pnl_wifiPopup_Paint(object sender, PaintEventArgs e)
         {
             objGeneral.ApplyRoundedCorners(Pnl_wifiPopup, 10f);
+        }
+
+        private void longPressTimer_Tick(object sender, EventArgs e)
+        {
+            if (isMouseDown)
+            {
+                pressDuration += 100; // increase time by 100ms
+
+                // Check if pressed for at least 2 seconds (2000 ms)
+                if (pressDuration >= 10000)
+                {
+                    longPressTimer.Stop();
+                    isMouseDown = false;
+                    int x = (this.ClientSize.Width - pnlDBLogin.Width) / 2;
+                    int y = (this.ClientSize.Height - pnlDBLogin.Height) / 2;
+
+                    pnlDBLogin.Location = new Point(x, y);
+                    pnlDBLogin.BringToFront();
+                    pnlDBLogin.Visible = true;
+                    txtusernamedb.Focus();
+                    txtpwddb.Text = "";
+                    txtusernamedb.Text = "";
+                }
+            }
+        }
+
+        private void btndbconfiglogin_Click(object sender, EventArgs e)
+        {
+            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConfig", "dbsettings.txt");
+            string username = txtusernamedb.Text.Trim();
+            string password = txtpwddb.Text.Trim();
+
+            string validUser = ConfigurationManager.AppSettings["ValidUser"];
+            string validPass = ConfigurationManager.AppSettings["ValidPass"];
+
+            if (username == validUser && password == validPass)
+            {
+                pnlDBLogin.Visible = false;
+                MessageBox.Show("Login successful!", "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (File.Exists(configPath))
+                {
+                    string savedConnection = File.ReadAllText(configPath).Trim();
+                    txtext_conn.Text = savedConnection;
+                }
+                pnlDbSettings.Visible = true;
+                int x = (this.ClientSize.Width - pnlDbSettings.Width) / 2;
+                int y = (this.ClientSize.Height - pnlDbSettings.Height) / 2;
+
+                pnlDbSettings.Location = new Point(x, y);
+                pnlDbSettings.BringToFront();
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password.", "Authentication Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnsavedbconfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConfig", "dbsettings.txt");
+
+                // Get connection string from textbox
+                string newConnection = txtnew_conn.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(newConnection))
+                {
+                    MessageBox.Show("Please enter a connection string before saving.",
+                                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Save to file
+                File.WriteAllText(configPath, newConnection);
+
+                MessageBox.Show("✅ New database connection has been saved successfully!",
+                                "DB Config Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (File.Exists(configPath))
+                {
+                    string savedConnection = File.ReadAllText(configPath).Trim();
+                    txtext_conn.Text = savedConnection;
+                    txtnew_conn.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,
+                                "DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btntstconn_Click(object sender, EventArgs e)
+        {
+            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConfig", "dbsettings.txt");
+
+            if (!File.Exists(configPath))
+            {
+                MessageBox.Show("Database settings file not found:\n" + configPath,
+                                "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string connectionString = File.ReadAllText(configPath).Trim();
+
+            try
+            {
+                using (IDbConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        MessageBox.Show("✅ Database connection successful!",
+                                        "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("⚠ Database connection could not be established.",
+                                        "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Database connection failed!\n\nError: " + ex.Message,
+                                "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }      
+        private void pblogo_MouseDown(object sender, MouseEventArgs e)
+        {
+            isMouseDown = true;
+            pressDuration = 0;
+            longPressTimer.Start();
+        }
+
+        private void pblogo_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+            longPressTimer.Stop();
         }
     }
 }
