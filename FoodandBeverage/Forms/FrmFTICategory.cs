@@ -81,7 +81,7 @@ namespace FoodandBeverage.Forms
                         dmnfood.Description = txtdescr.Text;
                         dmnfood.CreatedBy = FrmDashboard.UserId;
                         dmnfood.BranchId = FrmDashboard.BranchId;
-                        dmnfood.ColorCode = Convert.ToString(txtcolorname.Text);
+                     
                         if (chk_active.Checked)
                             dmnfood.Status = 1;
                         else
@@ -121,9 +121,6 @@ namespace FoodandBeverage.Forms
                 txtfoodCate.Focus();
                 chk_active.Checked = true;
 
-                pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-                pbcolorpicker.BackColor = Color.Transparent;
-                txtcolorname.Text = "#4682B4";
             }
             catch (Exception ex)
             {
@@ -137,23 +134,10 @@ namespace FoodandBeverage.Forms
 
             try
             {
-                if (n != 0)
-                {
-                    dgv_category.Columns[ccolorno].Visible = false;
-                    btnresetcolor.Visible = false;
-                    pbcolorpicker.Visible = false;
-                    lblcolor.Visible = false;
-                }
-                else
-                {
-                    dgv_category.Columns[ccolorno].Visible = true;
-                    btnresetcolor.Visible = true;
-                    pbcolorpicker.Visible = true;
-                    lblcolor.Visible = true;
-                }
+               
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "Fcid,CategoryName,Description,Status,ColorCode";
+                objSearch.Select = "Fcid,CategoryName,Description,Status";
                 objSearch.Table = "tblCategory_FTI";
                 switch (n)
                 {               
@@ -191,13 +175,7 @@ namespace FoodandBeverage.Forms
                         dgv_category.Rows[i].Cells[cnameno].Value = itemSource[i].CategoryName;
                         dgv_category.Rows[i].Cells[cdesno].Value = itemSource[i].Description;
                         dgv_category.Rows[i].Cells[cstatusno].Value = Convert.ToInt32(itemSource[i].Status);
-                        if (n == 0)
-                        {
-                            if (Convert.ToString(itemSource[i].ColorCode) == "" || Convert.ToString(itemSource[i].ColorCode) == null)
-                                dgv_category.Rows[i].Cells[ccolorno].Style.BackColor = Color.SteelBlue;
-                            else
-                                dgv_category.Rows[i].Cells[ccolorno].Style.BackColor = ColorTranslator.FromHtml(itemSource[i].ColorCode);
-                        }
+                       
                     }
                 }
             }
@@ -256,30 +234,7 @@ namespace FoodandBeverage.Forms
                             txtdescr.Text = itemSource[0].Description;
                             btn_del_cate.Visible = true;
 
-                            if (Convert.ToInt32(itemSource[0].CategoryType) != 0)
-                            {
-                                btnresetcolor.Visible = false;
-                                pbcolorpicker.Visible = false;
-                                lblcolor.Visible = false;
-                            }
-                            else
-                            {
-                                if (Convert.ToString(itemSource[0].ColorCode) == "#4682B4" || Convert.ToString(itemSource[0].ColorCode) == "" || Convert.ToString(itemSource[0].ColorCode) == null)
-                                {
-                                    pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-                                    pbcolorpicker.BackColor = Color.Transparent;
-                                    txtcolorname.Text = "#4682B4";
-                                }
-                                else
-                                {
-                                    pbcolorpicker.BackgroundImage = null;
-                                    pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
-                                }
-
-                                btnresetcolor.Visible = true;
-                                pbcolorpicker.Visible = true;
-                                lblcolor.Visible = true;
-                            }
+                            
                         }
                     }
                 }
@@ -504,30 +459,7 @@ namespace FoodandBeverage.Forms
                     txtdescr.Text = itemSource[0].Description;
                     btn_del_cate.Visible = true;
 
-                    if (Convert.ToInt32(itemSource[0].CategoryType) != 0)
-                    {
-                        btnresetcolor.Visible = false;
-                        pbcolorpicker.Visible = false;
-                        lblcolor.Visible = false;
-                    }
-                    else
-                    {
-                        if (Convert.ToString(itemSource[0].ColorCode) == "#4682B4" || Convert.ToString(itemSource[0].ColorCode) == "" || Convert.ToString(itemSource[0].ColorCode) == null)
-                        {
-                            pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-                            pbcolorpicker.BackColor = Color.Transparent;
-                            txtcolorname.Text = "#4682B4";
-                        }  
-                        else
-                        {
-                            pbcolorpicker.BackgroundImage = null;
-                            pbcolorpicker.BackColor = ColorTranslator.FromHtml(itemSource[0].ColorCode);
-                        }
-                        txtcolorname.Text = itemSource[0].ColorCode;
-                        btnresetcolor.Visible = true;
-                        pbcolorpicker.Visible = true;
-                        lblcolor.Visible = true;
-                    }
+                   
                 }
             }
             catch (Exception ex)
@@ -587,10 +519,7 @@ namespace FoodandBeverage.Forms
                 DialogResult result = colorDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    pbcolorpicker.BackgroundImage = null;
-                    pbcolorpicker.BackColor = colorDialog.Color;
-                    if (pbcolorpicker.BackColor.Name.Contains("ff"))
-                        txtcolorname.Text = "#" + pbcolorpicker.BackColor.Name.Substring(2);
+                    
                 }
             }
             catch (Exception ex)
@@ -604,9 +533,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                pbcolorpicker.BackgroundImage = Properties.Resources.colourpick_icon;
-                pbcolorpicker.BackColor = Color.Transparent;
-                txtcolorname.Text = "#4682B4";
+                
             }
             catch (Exception ex)
             {

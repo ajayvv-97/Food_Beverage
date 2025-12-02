@@ -465,8 +465,9 @@ namespace FoodandBeverage.Interfaces
         Employee_Photo = 1,
         Customer_Photo = 2,
         Product_Photo = 3,
-        ComboProduct_photo = 4
-    };
+        ComboProduct_photo = 4,
+        Hotel_Cert_Photo =5
+    }; 
     public enum MenucategryType
     {
         NormalProduct = 1,
