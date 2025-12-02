@@ -1223,20 +1223,30 @@ namespace FoodandBeverage.Forms
                             pnl_products_rem_descr.Visible = false;
                         else
                         {
-                            tlp_main.Enabled = false;
-                            refreshtimer_sub.Stop();
+                            frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
+                            frm.ShowDialog();
+                            if (frmExtraAccessChk.access == true)
+                            {
+                                tlp_main.Enabled = false;
+                                refreshtimer_sub.Stop();
 
-                            UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
-                            UIHelper.RoundCorners(tlp_order_desc, 25);
-                            UIHelper.RoundCorners(pnl_products_rem_descr, 25);
-                            UIHelper.RoundCorners(tlp_order_desc_nav, 25);
+                                UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
+                                UIHelper.RoundCorners(tlp_order_desc, 25);
+                                UIHelper.RoundCorners(pnl_products_rem_descr, 25);
+                                UIHelper.RoundCorners(tlp_order_desc_nav, 25);
+                                ApplyRoundedTextBox(txt_product_remove_des, 10);
+                                dgv_details_view_rowno = e.RowIndex;
+                                pnl_products_rem_descr.Visible = true;
+                                lblheader_product_des.Text = "Remove " + Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ditemno].Value);
 
-                            dgv_details_view_rowno = e.RowIndex;
-                            pnl_products_rem_descr.Visible = true;
-                            lblheader_product_des.Text = "Remove " + Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[ditemno].Value);
-
-                            txt_product_remove_des.Text = "Reason type here .....";
-                            txt_product_remove_des.ForeColor = Color.DarkGray;
+                                txt_product_remove_des.Text = "Reason type here .....";
+                                txt_product_remove_des.ForeColor = Color.DarkGray;
+                            }
+                            else
+                            {
+                                CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                  
                         }
                     }
                     else if (Orderstatus == 0)

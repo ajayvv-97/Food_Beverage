@@ -52,7 +52,7 @@ namespace Domain
         public string Cmid { get; set; }
         public string VariatiionName { get; set; }
         public string OrderDetailsId { get; set; }
-        
-
-    }    
+        public int PreparationMode { get; set; }
+    }
+    
 }

@@ -82,6 +82,7 @@ namespace FoodandBeverage.Forms
         public int iComboTaxamtno = 41;
         public int iccodeno = 42;
         public int iVariatiionNameno = 43;
+        public int iPreparationModeno = 44;
 
 
         public int Cbarcode = 0;
@@ -478,7 +479,7 @@ namespace FoodandBeverage.Forms
                 {
                     btn_frm_close.Dock = DockStyle.Left;
                     btn_saveKOT.Visible = true;
-                    btn_savekot_print.Visible = true;
+                    btn_savekot_print.Visible = false;
                     btn_print_bill.Visible = false;
                     btn_promo_code.Visible = false;
                     btn_PrintCopy.Visible = false;
@@ -2348,7 +2349,7 @@ namespace FoodandBeverage.Forms
                     "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                     " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
                     " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 " +
-                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7 from " +
+                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,ofm.Discountper Field6,ofd.FinalPrice Field7 from " +
                     " tblItem i " +
                     " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                 dmnSearch.WhereNdGroupBy =
@@ -2798,7 +2799,7 @@ namespace FoodandBeverage.Forms
 
                     if (Convert.ToInt32(gridSource_va[0].Field1) == 0)
                     {
-                        dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12";
+                        dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,ofd.Discountper as Field10,ofm.offertype Field11,p.DiscountPer Field12,p.PreparationMode Field13";
                         dmnSearch.Table = "tblProduct p " +
                             " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                             " LEFT JOIN tblOfferMaster ofm on ofm.status=1 AND ofm.OfferType=0  AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
@@ -2900,6 +2901,7 @@ namespace FoodandBeverage.Forms
                                 Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
                                 Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                 Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+                                Dgv_Selected_Item.Rows[r1].Cells[iPreparationModeno].Value = Convert.ToInt32(gridSource[0].Field13);
                                 totalcellamount(r1);
                                 Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
                                 Dgv_Selected_Item.Rows.Add(1);
@@ -5163,7 +5165,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate) Field5";
+                        dmnSearch.Select = "i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5";
                         dmnSearch.Table = "tblItem i ";
                         dmnSearch.WhereNdGroupBy = " where i.Status=1 and i.fav_status=1";
                     }
@@ -6416,6 +6418,10 @@ namespace FoodandBeverage.Forms
                     txtdis_per.Text = "0";
                 if (string.IsNullOrEmpty(txtsalemasterid.Text))
                     txtsalemasterid.Text = "0";
+                if (string.IsNullOrEmpty(txttotalQTY.Text))
+                    txttotalQTY.Text = "0";
+                if (string.IsNullOrEmpty(txtpaidamount.Text))
+                    txtpaidamount.Text = "0";
                 if (Convert.ToInt32(txttotalQTY.Text) == 0)
                 {
                     CMessageBox.Show("Product cart is Empty", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -6525,70 +6531,71 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BillCopy_Status = false;
-                KOT_saleprint_status = true;
-                Screen screen = Screen.FromControl(this);
-                int screenWidth = screen.Bounds.Width;
-                int screenHeight = screen.Bounds.Height;
-
-                ChangeLayoutStyle(tlp_payment_option, 1);
-
-                int adjustedWidth = 0, adjustedHeight = 0;
-                if (combined_Status)
+                if (MandatoryCheck_KOT())
                 {
-                    var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-
-                    tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
-                    tlp_payment_option.Controls.Add(btnnetbanking, 2, 1);
-                    btncreditcard.Visible = true;
-                    btnnetbanking.Visible = true;
-                    btn_splitpayment.Visible = false;
-                    Btnpartpayment.Visible = false;
-                    btncreditcard.Dock = DockStyle.Fill;
-                    btnnetbanking.Dock = DockStyle.Fill;                  
+                    BillCopy_Status = false;
+                    KOT_saleprint_status = true;
+                    Screen screen = Screen.FromControl(this);
+                    int screenWidth = screen.Bounds.Width;
+                    int screenHeight = screen.Bounds.Height;
                     ChangeLayoutStyle(tlp_payment_option, 1);
-                    UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
-                    UIHelper.RoundCorners(tlp_payment_option, 25);
-                    pnl_main.Enabled = false;
-                }
-                else
-                {
-                    //CMessageBox.Show(screenWidth + "" + adjustedWidth + " " + adjustedHeight, "size", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
-                    controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
-                    tlp_payment_option.Controls.Remove(controlToRemove);
+                    int adjustedWidth = 0, adjustedHeight = 0;
+                    if (combined_Status)
+                    {
+                        var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
 
-                    tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
-                    tlp_payment_option.Controls.Add(btnnetbanking, 3, 0);
-                    tlp_payment_option.Controls.Add(Btnpartpayment, 2, 1);
-                    tlp_payment_option.Controls.Add(btn_splitpayment, 3, 1);
+                        tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
+                        tlp_payment_option.Controls.Add(btnnetbanking, 2, 1);
+                        btncreditcard.Visible = true;
+                        btnnetbanking.Visible = true;
+                        btn_splitpayment.Visible = false;
+                        Btnpartpayment.Visible = false;
+                        btncreditcard.Dock = DockStyle.Fill;
+                        btnnetbanking.Dock = DockStyle.Fill;
+                        ChangeLayoutStyle(tlp_payment_option, 1);
+                        UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
+                        UIHelper.RoundCorners(tlp_payment_option, 25);
+                        pnl_main.Enabled = false;
+                    }
+                    else
+                    {
+                        //CMessageBox.Show(screenWidth + "" + adjustedWidth + " " + adjustedHeight, "size", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
+                        controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
+                        tlp_payment_option.Controls.Remove(controlToRemove);
 
-                    btncreditcard.Visible = true;
-                    btnnetbanking.Visible = true;
-                    btn_splitpayment.Visible = true;
-                    Btnpartpayment.Visible = true;
+                        tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
+                        tlp_payment_option.Controls.Add(btnnetbanking, 3, 0);
+                        tlp_payment_option.Controls.Add(Btnpartpayment, 2, 1);
+                        tlp_payment_option.Controls.Add(btn_splitpayment, 3, 1);
 
-                    btncreditcard.Dock = DockStyle.Fill;
-                    btnnetbanking.Dock = DockStyle.Fill;
-                    btn_splitpayment.Dock = DockStyle.Fill;
-                    Btnpartpayment.Dock = DockStyle.Fill;
+                        btncreditcard.Visible = true;
+                        btnnetbanking.Visible = true;
+                        btn_splitpayment.Visible = true;
+                        Btnpartpayment.Visible = true;
 
-                    UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
-                    UIHelper.RoundCorners(tlp_payment_option, 25);
+                        btncreditcard.Dock = DockStyle.Fill;
+                        btnnetbanking.Dock = DockStyle.Fill;
+                        btn_splitpayment.Dock = DockStyle.Fill;
+                        Btnpartpayment.Dock = DockStyle.Fill;
 
-                    pnl_main.Enabled = false;
+                        UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
+                        UIHelper.RoundCorners(tlp_payment_option, 25);
+
+                        pnl_main.Enabled = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -10698,7 +10705,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "p.ItemCode as Field1, p.Product as Field2,p.Price as Field3,p.MRP as Field4,p.ProductId as Field5,p.Tax as Field6,p.TaxType as Field7," +
                     "p.Fcid as Field8,p.TaxSettingsId as Field9,p.DiscountPer Field12,pav.Type Field13,pav.Caption Field14," +
-                    "pav.Price Field15,a.AddonName Field16,a.Price Field17,pav.Pavid Field18";//,ofd.Discountper as Field10,ofm.offertype Field11
+                    "pav.Price Field15,a.AddonName Field16,a.Price Field17,pav.Pavid Field18,p.PreparationMode Field19";//,ofd.Discountper as Field10,ofm.offertype Field11
                 dmnSearch.Table = "tblProduct p " +
                     " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                     " LEFT JOIN tblProduct_Addon_Variation pav on pav.ProductId=p.ProductId and pav.status=1" +
@@ -10840,6 +10847,7 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iAddoncountno].Value = AddonCount;
                         Dgv_Selected_Item.Rows[r1].Cells[ividno].Value = vid;
                         Dgv_Selected_Item.Rows[r1].Cells[iVariatiionNameno].Value = vrianame;
+                        Dgv_Selected_Item.Rows[r1].Cells[iPreparationModeno].Value = Convert.ToInt32(gridSource[0].Field13);
 
                         Dgv_Selected_Item.Rows.Add(1);
                         GridSlno_Refresh();
@@ -10950,7 +10958,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                UIHelper.CenterAndResize(pnl_variation_addon, 55, 45);
+                UIHelper.CenterAndResize(pnl_variation_addon, 55, 50);
                 UIHelper.RoundCorners(pnl_variation_addon, 25);
                 UIHelper.RoundCorners(tlp_header_vari_addon, 25);
                 UIHelper.RoundCorners(tlp_variation_addon, 25);
@@ -12267,35 +12275,38 @@ namespace FoodandBeverage.Forms
 
         private void btndirectpaybill_Click(object sender, EventArgs e)
         {
-            DirectPayBill = true;
-            var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
-            tlp_payment_option.Controls.Remove(controlToRemove);
-            controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
-            tlp_payment_option.Controls.Remove(controlToRemove);
-            controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
-            tlp_payment_option.Controls.Remove(controlToRemove);
-            controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
-            tlp_payment_option.Controls.Remove(controlToRemove);
+            if (MandatoryCheck_KOT())
+            {
+                DirectPayBill = true;
+                var controlToRemove = tlp_payment_option.GetControlFromPosition(2, 0);
+                tlp_payment_option.Controls.Remove(controlToRemove);
+                controlToRemove = tlp_payment_option.GetControlFromPosition(3, 0);
+                tlp_payment_option.Controls.Remove(controlToRemove);
+                controlToRemove = tlp_payment_option.GetControlFromPosition(2, 1);
+                tlp_payment_option.Controls.Remove(controlToRemove);
+                controlToRemove = tlp_payment_option.GetControlFromPosition(3, 1);
+                tlp_payment_option.Controls.Remove(controlToRemove);
 
-            tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
-            tlp_payment_option.Controls.Add(btnnetbanking, 3, 0);
-            tlp_payment_option.Controls.Add(Btnpartpayment, 2, 1);
-            tlp_payment_option.Controls.Add(btn_splitpayment, 3, 1);
+                tlp_payment_option.Controls.Add(btncreditcard, 2, 0);
+                tlp_payment_option.Controls.Add(btnnetbanking, 3, 0);
+                tlp_payment_option.Controls.Add(Btnpartpayment, 2, 1);
+                tlp_payment_option.Controls.Add(btn_splitpayment, 3, 1);
 
-            btncreditcard.Visible = true;
-            btnnetbanking.Visible = true;
-            btn_splitpayment.Visible = true;
-            Btnpartpayment.Visible = true;
+                btncreditcard.Visible = true;
+                btnnetbanking.Visible = true;
+                btn_splitpayment.Visible = true;
+                Btnpartpayment.Visible = true;
 
-            btncreditcard.Dock = DockStyle.Fill;
-            btnnetbanking.Dock = DockStyle.Fill;
-            btn_splitpayment.Dock = DockStyle.Fill;
-            Btnpartpayment.Dock = DockStyle.Fill;
+                btncreditcard.Dock = DockStyle.Fill;
+                btnnetbanking.Dock = DockStyle.Fill;
+                btn_splitpayment.Dock = DockStyle.Fill;
+                Btnpartpayment.Dock = DockStyle.Fill;
 
-            UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
-            UIHelper.RoundCorners(tlp_payment_option, 25);
+                UIHelper.CenterAndResize(tlp_payment_option, 40, 45);
+                UIHelper.RoundCorners(tlp_payment_option, 25);
 
-            pnl_main.Enabled = false;
+                pnl_main.Enabled = false;
+            }
         }
 
         #region Cancel Order

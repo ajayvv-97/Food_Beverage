@@ -466,15 +466,21 @@ namespace FoodandBeverage.Interfaces
         Customer_Photo = 2,
         Product_Photo = 3,
         ComboProduct_photo = 4
-    }; 
+    };
     public enum MenucategryType
     {
         NormalProduct = 1,
         OfferProduct = 2,
         ComboProduct = 3,
-        favourite=4,
-        ProductNameSerach=5,
-        ProductcodeSerach=6,
+        favourite = 4,
+        ProductNameSerach = 5,
+        ProductcodeSerach = 6,
+    };
+    public enum PreparationType
+    {
+        ReadyFood = 0,
+        FreshCooked = 1,
+
     };
 }
 
