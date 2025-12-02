@@ -415,12 +415,40 @@ namespace FoodandBeverage.Classes
 
             }
         }
-
+        
         public void UploadImage_Database(Bitmap bitmap, int pPid, int inseration_type, int pId, int Emp_branchid, int status, int Emp_userid)
         {
             try
             {
                 #region Convert Employee photo to binary
+                byte[] imageData;
+                using (var ms = new MemoryStream())
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    imageData = ms.ToArray();
+                }
+                BllImageUpload bllimg = new BllImageUpload();
+                DmnImageUpload dmnpupload = new DmnImageUpload();
+                dmnpupload.PpId = pPid;
+                dmnpupload.ProductId = pId;
+                dmnpupload.BranchId = Emp_branchid;
+                dmnpupload.Status = status;
+                dmnpupload.CreatedBy = Emp_userid;
+                dmnpupload.Photo = imageData;
+                // dmnEmployeeph.Photo = rgb565Bytes.ToArray();
+                dmnpupload.Inseration_Type = inseration_type;
+                var resph = bllimg.UploadPhoto("prdInsert_Upd_Photo", dmnpupload);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public void Uploadcert1_Database(Bitmap bitmap, int pPid, int inseration_type, int pId, int Emp_branchid, int status, int Emp_userid)
+        {
+            try
+            {
+                #region Convert Cert1 photo to binary
                 byte[] imageData;
                 using (var ms = new MemoryStream())
                 {
@@ -513,6 +541,22 @@ namespace FoodandBeverage.Classes
                         }
                     }
                     break;
+                case 5:
+                    objSearchph.Select = "*";
+                    objSearchph.Table = "FoodBevMediaDB.dbo.tblHotelCertificate_Photo";
+                    objSearchph.WhereNdGroupBy = "Where status=1 and Hotel_id = " + pPid;
+                    var gridSourcecert = bllSearchph.GetSearchData("prdSearch", objSearchph);
+                    if (gridSourcecert.Count > 0 && gridSourcecert[0].certificate1 != null)
+                    {
+                        byte[] photoData = gridSourcecert[0].Photo;
+
+                        using (var mStream = new MemoryStream(photoData))
+                        {
+                            bitmap = new Bitmap(mStream);
+                        }
+                    }
+                    break;
+
 
             }
             return bitmap;

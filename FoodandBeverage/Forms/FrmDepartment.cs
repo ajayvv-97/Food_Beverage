@@ -426,16 +426,27 @@ namespace FoodandBeverage.Forms
                         dmnDepartment.DepartmentCode = mtxtCode.Text;
                         dmnDepartment.BranchId = Convert.ToInt32(FrmLogin.BranchId);
                         dmnDepartment.Status = 1;
+
                         if (DepartmentId == 0)
                         {
-                            dmnDepartment.EmployeeSrlNoStart = Convert.ToInt32(mtxtEmpSrlNo.Text);
-                            dmnDepartment.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
-                            var lstData = bllDepartment.AddData("prdInsertDepartment", dmnDepartment);
-                            savestatus = lstData;
-                            if (savestatus)
-                                CMessageBox.Show(this, mtxtName.Text + " Successfully Saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            int empNo;
+                            if (!int.TryParse(mtxtEmpSrlNo.Text, out empNo))
+                            {
+                                CMessageBox.Show(this, " Fill Employee Code", "Warning  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+                            }
                             else
-                                CMessageBox.Show(this, mtxtName.Text + " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            {
+                                dmnDepartment.EmployeeSrlNoStart = Convert.ToInt32(mtxtEmpSrlNo.Text);
+                                dmnDepartment.CreatedBy = Convert.ToInt32(FrmLogin.UserId);
+                                var lstData = bllDepartment.AddData("prdInsertDepartment", dmnDepartment);
+                                savestatus = lstData;
+                                if (savestatus)
+                                    CMessageBox.Show(this, mtxtName.Text + " Successfully Saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                else
+                                    CMessageBox.Show(this, mtxtName.Text + " Save Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            
                         }
                         else
                         {
