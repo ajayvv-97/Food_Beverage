@@ -61,7 +61,7 @@ namespace FoodandBeverage.Forms
                 {
                     AppSession.RegisterForm(this, (int)LogoutFormList.operation);
                 }
-
+                panel1.Visible = false;
                 ActiveControl = txtname;
                 txtname.Focus();
                 FillCombo();
@@ -184,7 +184,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtname, txtaddress, txtph, txtpin, txtg, certi1, certi2, certi3, tbl_BookingIn, txtemail, txtwebsite })
+                foreach (TextBox textBox in new TextBox[] { txtname, txtaddress, txtph, txtpin, txtg, tbl_BookingIn, txtemail, txtwebsite })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -244,9 +244,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Country = Convert.ToString(cmbcountry.SelectedValue);
                 dmnRegistration.State = Convert.ToString(cmdstate.SelectedValue);
                 dmnRegistration.City = Convert.ToString(cmdcity.SelectedValue);
-                dmnRegistration.Certificate = Convert.ToString(certi1.Text);
-                dmnRegistration.Certificate1 = Convert.ToString(certi2.Text);
-                dmnRegistration.Certificate2 = Convert.ToString(certi3.Text);
+               
                 dmnRegistration.CreatedBy = FrmDashboard.BranchId;
                 dmnRegistration.BranchId = FrmDashboard.BranchId;
                 dmnRegistration.Status = 1;
@@ -314,9 +312,7 @@ namespace FoodandBeverage.Forms
 
                     txtpin.Text = "";
                     txtph.Text = "";
-                    certi1.Text = "";
-                    certi2.Text = "";
-                    certi3.Text = "";
+                    
                     txtg.Text = "";
                     txtemail.Text = "";
                     txtwebsite.Text = "";
@@ -784,9 +780,7 @@ namespace FoodandBeverage.Forms
                     txtg.Text = Convert.ToString(gridSource1[0].GstNo);
                     txtemail.Text = Convert.ToString(gridSource1[0].Email);
                     txtwebsite.Text = Convert.ToString(gridSource1[0].website);
-                    certi1.Text = Convert.ToString(gridSource1[0].Certificate);
-                    certi2.Text = Convert.ToString(gridSource1[0].Certificate1);
-                    certi3.Text = Convert.ToString(gridSource1[0].Certificate2);
+                 
                     tbl_BookingIn.Text = Convert.ToString(gridSource1[0].BookingInerwell);
                     cmbcountry.SelectedValue = Convert.ToInt64(gridSource1[0].Country);
                     cmdstate.SelectedValue = Convert.ToInt64(gridSource1[0].State);
@@ -1037,9 +1031,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Country = Convert.ToString(cmbcountry.SelectedValue);
                 dmnRegistration.State = Convert.ToString(cmdstate.SelectedValue);
                 dmnRegistration.City = Convert.ToString(cmdcity.Text);
-                dmnRegistration.Certificate = Convert.ToString(certi1.Text);
-                dmnRegistration.Certificate1 = Convert.ToString(certi2.Text);
-                dmnRegistration.Certificate2 = Convert.ToString(certi3.Text);
+              
                 dmnRegistration.BookingInerwell = Convert.ToInt32(tbl_BookingIn.Text);
                 //pb2.BackgroundImage = DocumentType.HotelRegistrationProofPics;
                 dmnRegistration.CreatedBy = FrmDashboard.UserId;
@@ -1345,7 +1337,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                lbl_cert_view_name.Text = certi1.Text;
+                //lbl_cert_view_name.Text = certi1.Text;
                 pnlcerti_view.Location = new Point(
           this.ClientSize.Width / 2 - pnlcerti_view.Size.Width / 2,
        (this.ClientSize.Height / 5 - pnlcerti_view.Size.Height / 6));
@@ -1366,7 +1358,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                lbl_cert_view_name.Text = certi2.Text;
+                //lbl_cert_view_name.Text = certi2.Text;
                 pnlcerti_view.Location = new Point(
           this.ClientSize.Width / 2 - pnlcerti_view.Size.Width / 2,
        (this.ClientSize.Height / 5 - pnlcerti_view.Size.Height / 6));
@@ -1386,7 +1378,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                lbl_cert_view_name.Text = certi3.Text;
+                //lbl_cert_view_name.Text = certi3.Text;
                 pnlcerti_view.Location = new Point(
           this.ClientSize.Width / 2 - pnlcerti_view.Size.Width / 2,
        (this.ClientSize.Height / 5 - pnlcerti_view.Size.Height / 6));
@@ -1450,6 +1442,11 @@ namespace FoodandBeverage.Forms
             {
                 AppSession.UnregisterForm(this);
             }
+        }
+
+        private void btn_cert_upload_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = true;
         }
     }
 }
