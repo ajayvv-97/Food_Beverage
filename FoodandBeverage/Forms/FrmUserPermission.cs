@@ -79,7 +79,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -102,7 +102,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
 
@@ -135,7 +135,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  HeaderCheckBoxread_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -160,7 +160,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  HeaderCheckBoxwrite_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
 
@@ -207,7 +207,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  MandatoryCheckuser()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
                 return false;
             }
@@ -230,7 +230,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
 
@@ -306,7 +306,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  btnusertype_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
 
@@ -327,7 +327,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  dgvforms_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -344,7 +344,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  HeaderCheckBoxread_Clicked()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
                 return false;
             }
@@ -410,7 +410,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
 
@@ -451,7 +451,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  clear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -513,7 +513,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  FrmUserPermission_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -612,7 +612,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  Usertypepopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -680,7 +680,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }
@@ -704,7 +704,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGeneral.LogException("User Permission Page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Permission));
             }
         }

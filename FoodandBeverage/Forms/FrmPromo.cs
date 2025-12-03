@@ -73,7 +73,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page btngen_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 
@@ -105,7 +105,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page Clear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 		}
@@ -168,7 +168,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 				return false;
 			}
@@ -196,7 +196,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page CheckPromoLabel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 		}
@@ -288,7 +288,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page btnserach_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 
@@ -372,7 +372,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 
@@ -396,7 +396,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 		}
@@ -429,7 +429,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page txtdiscper_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 
@@ -518,7 +518,7 @@ namespace FoodandBeverage.Forms
 			}
 			catch (Exception ex)
 			{
-				CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				clsgen.LogException("PromoCode page btnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
 			}
 		}

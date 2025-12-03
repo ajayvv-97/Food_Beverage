@@ -69,11 +69,10 @@
             this.dtpWorkingHrs.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
             this.dtpWorkingHrs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpWorkingHrs.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpWorkingHrs.Location = new System.Drawing.Point(712, 28);
-            this.dtpWorkingHrs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpWorkingHrs.Location = new System.Drawing.Point(535, 21);
             this.dtpWorkingHrs.Name = "dtpWorkingHrs";
             this.dtpWorkingHrs.ShowUpDown = true;
-            this.dtpWorkingHrs.Size = new System.Drawing.Size(267, 30);
+            this.dtpWorkingHrs.Size = new System.Drawing.Size(201, 26);
             this.dtpWorkingHrs.TabIndex = 2;
             this.dtpWorkingHrs.Value = new System.DateTime(2024, 7, 4, 8, 0, 0, 0);
             this.dtpWorkingHrs.ValueChanged += new System.EventHandler(this.dtpWorkingHrs_ValueChanged);
@@ -114,8 +113,7 @@
             this.dgvDesignation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDesignation.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvDesignation.EnableHeadersVisualStyles = false;
-            this.dgvDesignation.Location = new System.Drawing.Point(11, 239);
-            this.dgvDesignation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvDesignation.Location = new System.Drawing.Point(8, 193);
             this.dgvDesignation.MultiSelect = false;
             this.dgvDesignation.Name = "dgvDesignation";
             this.dgvDesignation.ReadOnly = true;
@@ -139,7 +137,7 @@
             this.dgvDesignation.ShowCellErrors = false;
             this.dgvDesignation.ShowCellToolTips = false;
             this.dgvDesignation.ShowEditingIcon = false;
-            this.dgvDesignation.Size = new System.Drawing.Size(1026, 345);
+            this.dgvDesignation.Size = new System.Drawing.Size(770, 280);
             this.dgvDesignation.TabIndex = 4;
             this.dgvDesignation.TabStop = false;
             this.dgvDesignation.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDesignation_CellDoubleClick);
@@ -168,7 +166,7 @@
             this.Designation.MinimumWidth = 6;
             this.Designation.Name = "Designation";
             this.Designation.ReadOnly = true;
-            this.Designation.Width = 144;
+            this.Designation.Width = 119;
             // 
             // dWorkingHoursno
             // 
@@ -177,7 +175,7 @@
             this.dWorkingHoursno.MinimumWidth = 6;
             this.dWorkingHoursno.Name = "dWorkingHoursno";
             this.dWorkingHoursno.ReadOnly = true;
-            this.dWorkingHoursno.Width = 188;
+            this.dWorkingHoursno.Width = 153;
             // 
             // tableLayoutPanel1
             // 
@@ -193,14 +191,13 @@
             this.tableLayoutPanel1.Controls.Add(this.mtxtName, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1018, 105);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(764, 86);
             this.tableLayoutPanel1.TabIndex = 21;
             // 
             // metroLabel1
@@ -209,10 +206,9 @@
             this.metroLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.metroLabel1.ForeColor = System.Drawing.Color.Black;
-            this.metroLabel1.Location = new System.Drawing.Point(4, 0);
-            this.metroLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.metroLabel1.Location = new System.Drawing.Point(3, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(349, 24);
+            this.metroLabel1.Size = new System.Drawing.Size(263, 18);
             this.metroLabel1.TabIndex = 13;
             this.metroLabel1.Text = "Department ";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -225,10 +221,9 @@
             this.mcmbDepartment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mcmbDepartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mcmbDepartment.FormattingEnabled = true;
-            this.mcmbDepartment.Location = new System.Drawing.Point(4, 28);
-            this.mcmbDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mcmbDepartment.Location = new System.Drawing.Point(3, 21);
             this.mcmbDepartment.Name = "mcmbDepartment";
-            this.mcmbDepartment.Size = new System.Drawing.Size(349, 32);
+            this.mcmbDepartment.Size = new System.Drawing.Size(263, 26);
             this.mcmbDepartment.TabIndex = 18;
             this.mcmbDepartment.SelectionChangeCommitted += new System.EventHandler(this.mcmbDepartment_SelectionChangeCommitted);
             // 
@@ -238,10 +233,9 @@
             this.mlblName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mlblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mlblName.ForeColor = System.Drawing.Color.Black;
-            this.mlblName.Location = new System.Drawing.Point(361, 0);
-            this.mlblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.mlblName.Location = new System.Drawing.Point(272, 0);
             this.mlblName.Name = "mlblName";
-            this.mlblName.Size = new System.Drawing.Size(343, 24);
+            this.mlblName.Size = new System.Drawing.Size(257, 18);
             this.mlblName.TabIndex = 14;
             this.mlblName.Text = "Designation ";
             this.mlblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -252,11 +246,10 @@
             this.mtxtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.mtxtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.mtxtName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtxtName.Location = new System.Drawing.Point(361, 28);
-            this.mtxtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mtxtName.Location = new System.Drawing.Point(272, 21);
             this.mtxtName.Multiline = true;
             this.mtxtName.Name = "mtxtName";
-            this.mtxtName.Size = new System.Drawing.Size(343, 60);
+            this.mtxtName.Size = new System.Drawing.Size(257, 49);
             this.mtxtName.TabIndex = 17;
             this.mtxtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtName_KeyDown);
             this.mtxtName.Leave += new System.EventHandler(this.mtxtName_Leave_1);
@@ -268,10 +261,9 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(712, 0);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(535, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(302, 24);
+            this.label4.Size = new System.Drawing.Size(226, 18);
             this.label4.TabIndex = 15;
             this.label4.Text = "Working Hours ";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -283,10 +275,9 @@
             this.mbtnSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnSave.FlatAppearance.BorderSize = 0;
             this.mbtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnSave.Location = new System.Drawing.Point(751, 4);
-            this.mbtnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mbtnSave.Location = new System.Drawing.Point(563, 3);
             this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.Size = new System.Drawing.Size(85, 42);
+            this.mbtnSave.Size = new System.Drawing.Size(64, 35);
             this.mbtnSave.TabIndex = 16;
             this.mbtnSave.UseVisualStyleBackColor = true;
             this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
@@ -300,10 +291,9 @@
             this.mbtnRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnRefresh.FlatAppearance.BorderSize = 0;
             this.mbtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnRefresh.Location = new System.Drawing.Point(844, 4);
-            this.mbtnRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mbtnRefresh.Location = new System.Drawing.Point(633, 3);
             this.mbtnRefresh.Name = "mbtnRefresh";
-            this.mbtnRefresh.Size = new System.Drawing.Size(85, 42);
+            this.mbtnRefresh.Size = new System.Drawing.Size(64, 35);
             this.mbtnRefresh.TabIndex = 17;
             this.mbtnRefresh.UseVisualStyleBackColor = true;
             this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
@@ -317,10 +307,9 @@
             this.mbtnClose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mbtnClose.FlatAppearance.BorderSize = 0;
             this.mbtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mbtnClose.Location = new System.Drawing.Point(937, 4);
-            this.mbtnClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mbtnClose.Location = new System.Drawing.Point(703, 3);
             this.mbtnClose.Name = "mbtnClose";
-            this.mbtnClose.Size = new System.Drawing.Size(85, 42);
+            this.mbtnClose.Size = new System.Drawing.Size(64, 35);
             this.mbtnClose.TabIndex = 18;
             this.mbtnClose.UseVisualStyleBackColor = true;
             this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
@@ -332,19 +321,18 @@
             this.tableLayoutPanel4.BackColor = System.Drawing.Color.SteelBlue;
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Controls.Add(this.btncolse, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.btnmini, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(11, 10);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(8, 8);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1026, 39);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(770, 32);
             this.tableLayoutPanel4.TabIndex = 22;
             // 
             // btncolse
@@ -355,10 +343,9 @@
             this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(979, 4);
-            this.btncolse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btncolse.Location = new System.Drawing.Point(735, 3);
             this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(33, 31);
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
             this.btncolse.TabIndex = 11;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
@@ -372,10 +359,9 @@
             this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(939, 4);
-            this.btnmini.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnmini.Location = new System.Drawing.Point(705, 3);
             this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(31, 31);
+            this.btnmini.Size = new System.Drawing.Size(23, 25);
             this.btnmini.TabIndex = 10;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
@@ -387,10 +373,9 @@
             this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label23.Location = new System.Drawing.Point(4, 0);
-            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(927, 39);
+            this.label23.Size = new System.Drawing.Size(696, 32);
             this.label23.TabIndex = 277;
             this.label23.Text = "Designation";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -405,32 +390,30 @@
             this.tlp_main.Controls.Add(this.tlp_buttons, 0, 2);
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
-            this.tlp_main.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_main.Size = new System.Drawing.Size(1048, 592);
+            this.tlp_main.Size = new System.Drawing.Size(786, 481);
             this.tlp_main.TabIndex = 15;
             // 
             // tlp_design
             // 
             this.tlp_design.ColumnCount = 1;
             this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_design.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.tlp_design.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_design.Location = new System.Drawing.Point(11, 57);
-            this.tlp_design.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tlp_design.Location = new System.Drawing.Point(8, 46);
             this.tlp_design.Name = "tlp_design";
             this.tlp_design.RowCount = 2;
             this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 98F));
             this.tlp_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 2F));
-            this.tlp_design.Size = new System.Drawing.Size(1026, 116);
+            this.tlp_design.Size = new System.Drawing.Size(770, 94);
             this.tlp_design.TabIndex = 23;
             // 
             // tlp_buttons
@@ -444,24 +427,22 @@
             this.tlp_buttons.Controls.Add(this.mbtnClose, 3, 0);
             this.tlp_buttons.Controls.Add(this.mbtnRefresh, 2, 0);
             this.tlp_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_buttons.Location = new System.Drawing.Point(11, 181);
-            this.tlp_buttons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tlp_buttons.Location = new System.Drawing.Point(8, 146);
             this.tlp_buttons.Name = "tlp_buttons";
             this.tlp_buttons.RowCount = 1;
             this.tlp_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_buttons.Size = new System.Drawing.Size(1026, 50);
+            this.tlp_buttons.Size = new System.Drawing.Size(770, 41);
             this.tlp_buttons.TabIndex = 24;
             // 
             // FrmDesignation
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.ClientSize = new System.Drawing.Size(1048, 592);
+            this.ClientSize = new System.Drawing.Size(786, 481);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmDesignation";

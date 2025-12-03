@@ -63,7 +63,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -85,7 +85,7 @@ namespace FoodandBeverage.Forms.UserAccount
 
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -109,7 +109,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -157,7 +157,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+               // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FrmUserAccount_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 return false;
             }
@@ -192,7 +192,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  clear()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 
@@ -214,7 +214,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  FillCombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
         }
@@ -243,7 +243,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
 
             }
@@ -286,7 +286,7 @@ namespace FoodandBeverage.Forms.UserAccount
                 }
                 catch (Exception ex)
                 {
-                    CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                    //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                     objGeneral.LogException("User Account Page  txtemp_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
                 }
             }
@@ -304,7 +304,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  txtuname_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
 
             }
@@ -407,7 +407,7 @@ namespace FoodandBeverage.Forms.UserAccount
             catch (Exception ex)
             {
                 objGeneral.LogException("User Account Page  mbtnList_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -502,7 +502,7 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 objGeneral.LogException("User Account Page  mbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.User_Account));
             }
 

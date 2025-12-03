@@ -319,7 +319,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(92, 4);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(82, 34);
             this.btnSearch.TabIndex = 1;
@@ -1117,7 +1117,7 @@ namespace FoodandBeverage.Forms
             this.pnlPrRates.Controls.Add(this.tlp_grid_main);
             this.pnlPrRates.Location = new System.Drawing.Point(42, 199);
             this.pnlPrRates.Name = "pnlPrRates";
-            this.pnlPrRates.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pnlPrRates.Padding = new System.Windows.Forms.Padding(5);
             this.pnlPrRates.Size = new System.Drawing.Size(709, 334);
             this.pnlPrRates.TabIndex = 267;
             this.pnlPrRates.Visible = false;
@@ -1299,7 +1299,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 2;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.365159F));
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93.63484F));
