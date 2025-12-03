@@ -3845,8 +3845,8 @@ namespace FoodandBeverage.Forms
             await Task.Run(() => PrintcancelOrder());
             await FillOrdersAsync();
 
-            if (Convert.ToInt32(btnprintcount.Text) > 0)
-                await Task.Run(() => PrintOrderAsync());
+            //if (Convert.ToInt32(btnprintcount.Text) > 0)
+            //    await Task.Run(() => PrintOrderAsync());
 
             refreshtimer.Start();
         }

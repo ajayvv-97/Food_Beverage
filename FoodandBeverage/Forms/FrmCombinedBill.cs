@@ -24,7 +24,7 @@ namespace FoodandBeverage.Forms
 
         #region Declaration
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
-        TableLayoutPanel tlp_table_dashboard = new TableLayoutPanel();
+      
 
         public int panelsPerRow = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -40,6 +40,7 @@ namespace FoodandBeverage.Forms
         public Color Netamountcolor = Color.Green;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
         public Color Description_color = Color.Black;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
 
+        public int categoryId = 0;
         #endregion
 
         /*permission checking for manager and supervisor*/
@@ -75,7 +76,7 @@ namespace FoodandBeverage.Forms
                 {
                     AppSession.RegisterForm(this, (int)LogoutFormList.billing);
                 }
-
+         
                 dgvorderview.BorderStyle = BorderStyle.None;
                 dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -97,8 +98,13 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        private void SideMenuClick(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            categoryId = Convert.ToInt32(btn.Tag);
+            flp_sidemenu.Visible = false;
+        }
 
-        #region AssignDrawerCheck
         public void Billcomplete_Fill()
         {
             try
@@ -109,10 +115,10 @@ namespace FoodandBeverage.Forms
                 ListFillFlag = false;
                 this.Controls.Add(pnl_complebill_prevbill);
                 pnl_complebill_prevbill.Dock = DockStyle.Fill;
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+                tlp_control.Controls.Remove(controlToRemove);
+                tlp_control.Controls.Add(pnl_compelte_bill, 0, 1);
+                tlp_control.Dock = DockStyle.Fill;
 
                 pnl_empty_msg.Visible = false;
                 pnl_complebill_prevbill.Visible = true;
@@ -134,63 +140,182 @@ namespace FoodandBeverage.Forms
                 BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
                 DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
                 dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+                dmnSearchtabledata.Fcid = categoryId;
                 var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
                 //var sortedGridSource = gridSource.OrderBy(item => item.t).ToList();
                 pnl_compelte_bill.Controls.Clear();
-                tlp_table_dashboard.Controls.Clear();
-                tlp_table_dashboard.Dock = DockStyle.Fill;
-                tlp_table_dashboard.AutoScroll = true;
+                flp_billlayout.Controls.Clear();
+                flp_billlayout.Dock = DockStyle.Fill;
+                flp_billlayout.AutoScroll = true;
                 if (gridSource.Count > 0)
                 {
+                    #region old code
+                    //foreach (var tabledata in gridSource)
+                    //{
+                    //     if (Convert.ToInt32(tabledata.Tid) > 0)
+                    //    {
+                    //        #region Normal , Combined ,bokking orders
+                    //        string tlpname = "tlp_category_Com_" + tabledata.CategoryName;
+                    //        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                    //        if (tlp_box == null)
+                    //        {
+                    //            TableLayoutPanel tlp_category = new TableLayoutPanel();
+                    //            tlp_category.Name = "tlp_category_Com_" + tabledata.CategoryName;
+                    //            tlp_category.Tag = tabledata.CategoryName;
+                    //            tlp_category.Dock = DockStyle.Top;
+                    //            tlp_category.AutoSize = true;
+                    //            //tlp_category.BackColor = Color.Green;
+                    //            tlp_category.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
+                    //            tlp_category.RowCount = 2;
+                    //            tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                    //            tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                    //            FlowLayoutPanel flp_box = new FlowLayoutPanel();
+                    //            flp_box.Name = "flp_box_Com_" + tabledata.CategoryName;
+                    //            flp_box.Tag = tabledata.CategoryName;
+                    //            flp_box.Dock = DockStyle.Fill;
+                    //            flp_box.AutoSize = true;
+                    //            flp_box.FlowDirection = FlowDirection.LeftToRight;
+                    //            //flp_box.BackColor = Color.Blue;
+
+                    //            // Configure the Label
+                    //            Label lblcategory_head = new Label();
+                    //            lblcategory_head.Name = "lbcate_head_Com_" + tabledata.CategoryName;
+                    //            lblcategory_head.Tag = tabledata.Fcid;
+                    //            lblcategory_head.Text = tabledata.CategoryName;
+                    //            lblcategory_head.ForeColor = Color.Black;
+                    //            lblcategory_head.BackColor = Color.Transparent;
+                    //            lblcategory_head.Dock = DockStyle.Top;
+                    //            lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
+
+                    //            tlp_category.Controls.Add(lblcategory_head, 0, 0);
+                    //            tlp_category.Controls.Add(flp_box, 0, 1);
+                    //            tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
+                    //            rowIndex_cate++;
+                    //        }
+
+                    //        string flpname = "flp_box_Com_" + tabledata.CategoryName;
+                    //        FlowLayoutPanel flp_box_check = tlp_table_dashboard.Controls.Find(flpname, true).FirstOrDefault() as FlowLayoutPanel;
+
+                    //        #region Table Box 
+                    //        // Configure the TableLayoutPanel
+                    //        TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
+                    //        tlp_table_inner.RowCount = 3;
+                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+                    //        tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
+                    //        tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
+                    //        tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
+                    //        tlp_table_inner.Dock = DockStyle.None;
+                    //        tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //        //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+
+                    //        tlp_table_inner.BackColor = Color.White;
+
+                    //        if (screenWidth > 1366)
+                    //        {
+                    //            tlp_table_inner.Width = 120;
+                    //            tlp_table_inner.Height = 80;
+                    //            tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
+                    //        }
+                    //        else if (screenWidth >= 1024 && screenWidth <= 1366)
+                    //        {
+                    //            tlp_table_inner.Width = 120;
+                    //            tlp_table_inner.Height = 80;
+                    //            tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
+                    //        }
+
+                    //        Button btn_select = new Button();
+                    //        btn_select.Name = "btn_select_com" + tabledata.Tid;
+                    //        btn_select.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //        btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+                    //        btn_select.FlatStyle = FlatStyle.Flat;
+                    //        btn_select.FlatAppearance.BorderSize = 0;
+                    //        btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+                    //        btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+                    //        btn_select.Dock = DockStyle.Fill;
+                    //        btn_select.Margin = new Padding(20, 0, 20, 0);
+                    //        btn_select.Click += new EventHandler(btn_select_Clicked);
+
+                    //        // Configure the Label
+                    //        Label lbltablename = new Label();
+                    //        lbltablename.Name = "lb_tablename" + tabledata.Tid;
+                    //        lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+                    //        lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
+                    //        lbltablename.Text = tabledata.TableCode;
+                    //        lbltablename.ForeColor = Description_color;
+                    //        lbltablename.BackColor = Color.Transparent;
+                    //        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+                    //        lbltablename.Dock = DockStyle.Fill;
+
+                    //        // Configure the Label
+                    //        Label netamountlabel = new Label();
+                    //        netamountlabel.Name = "lb_netamount" + tabledata.Tid;
+                    //        netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                    //        netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
+                    //        netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+                    //        netamountlabel.ForeColor = Netamountcolor;
+                    //        netamountlabel.BackColor = Color.Transparent;
+                    //        netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
+                    //        netamountlabel.Dock = DockStyle.Fill;
+
+                    //        if (Convert.ToInt32(tabledata.BillStatus) == 0)
+                    //            tlp_table_inner.Visible = true;
+                    //        else
+                    //            tlp_table_inner.Visible = false;
+
+                    //        if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1//Bokking order hide plus button
+                    //        {
+                    //            btn_select.Visible = false;
+                    //        }
+                    //        else
+                    //        {
+                    //            if (Convert.ToInt32(tabledata.Cbid) > 0)
+                    //            {
+                    //                tlp_table_inner.BackColor = CombinedBillcolor;
+                    //                btn_select.Visible = false;
+                    //            }
+                    //            else
+                    //            {
+                    //                tlp_table_inner.BackColor = NormalBillingColor;
+                    //                btn_select.Visible = true;
+                    //            }
+                    //        }
+
+                    //        tlp_table_inner.Controls.Add(btn_select, 0, 0);
+                    //        tlp_table_inner.Controls.Add(lbltablename, 0, 1);
+                    //        tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
+
+                    //        lbltablename.Click += new EventHandler(CompleteEventHandler);
+                    //        netamountlabel.Click += new EventHandler(CompleteEventHandler);
+                    //        tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
+
+                    //        if (Convert.ToInt32(tabledata.BookmasterId) > 0)
+                    //        {
+                    //            tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+                    //            lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+                    //            netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+
+                    //            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //            netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                    //        }
+
+                    //        #endregion
+
+                    //        flp_box_check.Controls.Add(tlp_table_inner);
+                    //        #endregion
+                    //    }
+                    //}
+                    #endregion
                     foreach (var tabledata in gridSource)
                     {
-                         if (Convert.ToInt32(tabledata.Tid) > 0)
+                        if (Convert.ToInt32(tabledata.Tid) > 0)
                         {
-                            #region Normal , Combined ,bokking orders
-                            string tlpname = "tlp_category_Com_" + tabledata.CategoryName;
-                            TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                            if (tlp_box == null)
-                            {
-                                TableLayoutPanel tlp_category = new TableLayoutPanel();
-                                tlp_category.Name = "tlp_category_Com_" + tabledata.CategoryName;
-                                tlp_category.Tag = tabledata.CategoryName;
-                                tlp_category.Dock = DockStyle.Top;
-                                tlp_category.AutoSize = true;
-                                //tlp_category.BackColor = Color.Green;
-                                tlp_category.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-                                tlp_category.RowCount = 2;
-                                tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                                FlowLayoutPanel flp_box = new FlowLayoutPanel();
-                                flp_box.Name = "flp_box_Com_" + tabledata.CategoryName;
-                                flp_box.Tag = tabledata.CategoryName;
-                                flp_box.Dock = DockStyle.Fill;
-                                flp_box.AutoSize = true;
-                                flp_box.FlowDirection = FlowDirection.LeftToRight;
-                                //flp_box.BackColor = Color.Blue;
-
-                                // Configure the Label
-                                Label lblcategory_head = new Label();
-                                lblcategory_head.Name = "lbcate_head_Com_" + tabledata.CategoryName;
-                                lblcategory_head.Tag = tabledata.Fcid;
-                                lblcategory_head.Text = tabledata.CategoryName;
-                                lblcategory_head.ForeColor = Color.Black;
-                                lblcategory_head.BackColor = Color.Transparent;
-                                lblcategory_head.Dock = DockStyle.Top;
-                                lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
-
-                                tlp_category.Controls.Add(lblcategory_head, 0, 0);
-                                tlp_category.Controls.Add(flp_box, 0, 1);
-                                tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
-                                rowIndex_cate++;
-                            }
-
-                            string flpname = "flp_box_Com_" + tabledata.CategoryName;
-                            FlowLayoutPanel flp_box_check = tlp_table_dashboard.Controls.Find(flpname, true).FirstOrDefault() as FlowLayoutPanel;
-
-                            #region Table Box 
-                            // Configure the TableLayoutPanel
+                            // Configure the TableLayoutPanel for the table
                             TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
                             tlp_table_inner.RowCount = 3;
                             tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
@@ -198,29 +323,31 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
                             tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
                             tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                            tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
+                            tlp_table_inner.BorderStyle = BorderStyle.None;
                             tlp_table_inner.Dock = DockStyle.None;
-                            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                            //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-
+                            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
+                                                                    Convert.ToString(tabledata.OrderMasterId) + "," +
+                                                                    tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+                                                                    Convert.ToInt32(tabledata.BookmasterId) + "," +
+                                                                    Convert.ToInt32(tabledata.pkid);
                             tlp_table_inner.BackColor = Color.White;
 
-                            if (screenWidth > 1366)
-                            {
-                                tlp_table_inner.Width = 120;
-                                tlp_table_inner.Height = 80;
-                                tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
-                            }
-                            else if (screenWidth >= 1024 && screenWidth <= 1366)
-                            {
-                                tlp_table_inner.Width = 120;
-                                tlp_table_inner.Height = 80;
-                                tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
-                            }
+                            //if (screenWidth > 1366)
+                            //{
+                            //    tlp_table_inner.Width = 120;
+                            //    tlp_table_inner.Height = 80;
+                            //    tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
+                            //}
+                            //else if (screenWidth >= 1024 && screenWidth <= 1366)
+                            //{
+                            //    tlp_table_inner.Width = 120;
+                            //    tlp_table_inner.Height = 80;
+                            //    tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
+                            //}
 
                             Button btn_select = new Button();
                             btn_select.Name = "btn_select_com" + tabledata.Tid;
-                            btn_select.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                            btn_select.AccessibleDescription = tlp_table_inner.AccessibleDescription;
                             btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
                             btn_select.FlatStyle = FlatStyle.Flat;
                             btn_select.FlatAppearance.BorderSize = 0;
@@ -230,10 +357,9 @@ namespace FoodandBeverage.Forms
                             btn_select.Margin = new Padding(20, 0, 20, 0);
                             btn_select.Click += new EventHandler(btn_select_Clicked);
 
-                            // Configure the Label
                             Label lbltablename = new Label();
                             lbltablename.Name = "lb_tablename" + tabledata.Tid;
-                            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                            lbltablename.AccessibleDescription = tlp_table_inner.AccessibleDescription;
                             lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                             lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
                             lbltablename.Text = tabledata.TableCode;
@@ -242,10 +368,9 @@ namespace FoodandBeverage.Forms
                             lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
                             lbltablename.Dock = DockStyle.Fill;
 
-                            // Configure the Label
                             Label netamountlabel = new Label();
                             netamountlabel.Name = "lb_netamount" + tabledata.Tid;
-                            netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                            netamountlabel.AccessibleDescription = tlp_table_inner.AccessibleDescription;
                             netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                             netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
                             netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
@@ -254,12 +379,9 @@ namespace FoodandBeverage.Forms
                             netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
                             netamountlabel.Dock = DockStyle.Fill;
 
-                            if (Convert.ToInt32(tabledata.BillStatus) == 0)
-                                tlp_table_inner.Visible = true;
-                            else
-                                tlp_table_inner.Visible = false;
+                            tlp_table_inner.Visible = Convert.ToInt32(tabledata.BillStatus) == 0;
 
-                            if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1//Bokking order hide plus button
+                            if (tabledata.BookmasterId > 0)
                             {
                                 btn_select.Visible = false;
                             }
@@ -277,6 +399,10 @@ namespace FoodandBeverage.Forms
                                 }
                             }
 
+                            // Size settings
+                            if (screenWidth > 1366) { tlp_table_inner.Width = 300; tlp_table_inner.Height = 150; }
+                            else if (screenWidth >= 1024) { tlp_table_inner.Width = 120; tlp_table_inner.Height = 100; }
+
                             tlp_table_inner.Controls.Add(btn_select, 0, 0);
                             tlp_table_inner.Controls.Add(lbltablename, 0, 1);
                             tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
@@ -291,18 +417,20 @@ namespace FoodandBeverage.Forms
                                 lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
                                 netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
 
-                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                                netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," +
+                                                                      Convert.ToString(tabledata.OrderMasterId) + "," +
+                                                                      tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+                                                                      Convert.ToInt32(tabledata.BookmasterId) + "," +
+                                                                      Convert.ToInt32(tabledata.pkid);
+                                tlp_table_inner.AccessibleDescription = lbltablename.AccessibleDescription;
+                                netamountlabel.AccessibleDescription = lbltablename.AccessibleDescription;
                             }
-
-                            #endregion
-
-                            flp_box_check.Controls.Add(tlp_table_inner);
-                            #endregion
+                            UIHelper.RoundCorners(tlp_table_inner, 25, null);
+                            flp_billlayout.Controls.Add(tlp_table_inner);
                         }
                     }
-                    pnl_compelte_bill.Controls.Add(tlp_table_dashboard);
+
+                    pnl_compelte_bill.Controls.Add(flp_billlayout);
                     pnl_compelte_bill.Dock = DockStyle.Fill;
                     pnl_compelte_bill.Visible = true;
                     CombineBillAutoTimer.Start();
@@ -311,17 +439,10 @@ namespace FoodandBeverage.Forms
                 {                    
                     pnl_empty_msg.BringToFront();
                     pnl_empty_msg.Anchor = AnchorStyles.None;
-
                     int x = (this.Width - pnl_empty_msg.Width) / 2;
                     int y = (this.Height - pnl_empty_msg.Height) / 2;
                     pnl_empty_msg.Location = new Point(x, y);
                     pnl_empty_msg.Visible = true;
-
-                    //controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    //tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    //tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
-                    //pnl_empty_msg.Dock = DockStyle.Fill;
-                    //pnl_empty_msg.Visible = true;
                     btn_prevbill.PerformClick();
                 }
                 this.ResumeLayout();
@@ -361,6 +482,7 @@ namespace FoodandBeverage.Forms
                 BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
                 DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
                 dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+                dmnSearchtabledata.Fcid = categoryId;
                 var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
 
                 if (gridSource.Count > 0)
@@ -374,15 +496,15 @@ namespace FoodandBeverage.Forms
                         {
                             #region Normal , Combined ,bokking orders
                             string tlpname = "tlp_com" + tabledata.Tid;
-                            TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                            TableLayoutPanel tlp_box = flp_billlayout.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                             if (tlp_box != null)
                             {
                                 if (tabledata.BillStatus == 0)
                                 {
                                     string lblname = "lb_netamount" + tabledata.Tid;
                                     string btniaddicon = "btn_select_com" + tabledata.Tid;
-                                    Button btn_select = tlp_table_dashboard.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
-                                    Label lblnet = tlp_table_dashboard.Controls.Find(lblname, true).FirstOrDefault() as Label;
+                                    Button btn_select = flp_billlayout.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
+                                    Label lblnet = flp_billlayout.Controls.Find(lblname, true).FirstOrDefault() as Label;
                                     if (lblnet != null)
                                         lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
 
@@ -459,7 +581,7 @@ namespace FoodandBeverage.Forms
                         });
 
                         string btnname = "btn_select_com" + Convert.ToInt32(gridSource[i].Field2);
-                        Button btn_select = tlp_table_dashboard.Controls.Find(btnname, true).FirstOrDefault() as Button;
+                        Button btn_select = flp_billlayout.Controls.Find(btnname, true).FirstOrDefault() as Button;
                         if (btn_select != null)
                         {
                             btn_select.BackgroundImage = Properties.Resources.billselectedicon;
@@ -884,10 +1006,10 @@ namespace FoodandBeverage.Forms
 
                 this.Controls.Add(pnl_complebill_prevbill);
                 pnl_complebill_prevbill.Dock = DockStyle.Fill;
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_compelte_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+                tlp_control.Controls.Remove(controlToRemove);
+                tlp_control.Controls.Add(pnl_compelte_bill, 0, 1);
+                tlp_control.Dock = DockStyle.Fill;
 
                 pnl_empty_msg.Visible = false;
                 pnl_complebill_prevbill.Visible = true;
@@ -955,10 +1077,11 @@ namespace FoodandBeverage.Forms
                 pnl_complebill_prevbill.Dock = DockStyle.Fill;
                 pnl_complebill_prevbill.BringToFront();
 
-                Control controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                tlp_compl_pre_bill.Controls.Add(pnl_previous_bill, 0, 1);
-                tlp_compl_pre_bill.Dock = DockStyle.Fill;
+                Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+                tlp_control.Controls.Remove(controlToRemove);
+                tlp_control.Controls.Add(pnl_previous_bill, 0, 1);
+                tlp_control.Dock = DockStyle.Fill;
+
                 pnl_previous_bill.Dock = DockStyle.Fill;
                 pnl_previous_bill.Visible = true;
                 pnl_empty_msg.Visible = false;
@@ -1064,9 +1187,9 @@ namespace FoodandBeverage.Forms
                 else
                 {
 
-                    controlToRemove = tlp_compl_pre_bill.GetControlFromPosition(0, 1);
-                    tlp_compl_pre_bill.Controls.Remove(controlToRemove);
-                    tlp_compl_pre_bill.Controls.Add(pnl_empty_msg, 0, 1);
+                    controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+                    tlp_control.Controls.Remove(controlToRemove);
+                    tlp_control.Controls.Add(pnl_empty_msg, 0, 1);
                     pnl_empty_msg.Dock = DockStyle.Fill;
                     pnl_empty_msg.Visible = true;
                 }
@@ -1304,7 +1427,7 @@ namespace FoodandBeverage.Forms
                         FrmDrawer.DrawerID = 0;
                         tlp_outbtn.Visible = false;
                         tlp_previous_bill.Visible = false;
-                        tlp_compl_pre_bill.Visible = false;
+                        tlp_control.Visible = false;
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                     }
@@ -1497,7 +1620,7 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
-        #endregion
+        
 
         #region drawerAssign
         public void AssignDrawerCheck()
@@ -1628,15 +1751,133 @@ namespace FoodandBeverage.Forms
                     Billcomplete_Fill();
                     cmb_tbl_names.Items.Add("List");
                 }
-                else if(!tlp_compl_pre_bill.Visible)
+                else if(!tlp_control.Visible)
                 {
                     tlp_outbtn.Visible = true;
                     tlp_previous_bill.Visible = true;
-                    tlp_compl_pre_bill.Visible = true;
+                    tlp_control.Visible = true;
                 }
             }
 
         }
+
+        private void btn_showmenu_Click(object sender, EventArgs e)
+        {
+          
+
+            flp_sidemenu.Visible = !flp_sidemenu.Visible;
+
+            if (!flp_sidemenu.Visible)
+                return;
+
+
+            foreach (Control ctrl in flp_sidemenu.Controls)
+                ctrl.Dispose();
+            flp_sidemenu.Controls.Clear();
+            flp_sidemenu.Refresh();
+
+            flp_sidemenu.FlowDirection = FlowDirection.LeftToRight;
+            flp_sidemenu.Width = btn_showmenu.Width;
+            flp_sidemenu.Height = (int)(this.Height * 0.8);
+
+            flp_sidemenu.AutoScroll = true;
+            flp_sidemenu.HorizontalScroll.Enabled = true;
+            flp_sidemenu.HorizontalScroll.Visible = true;
+            flp_sidemenu.VerticalScroll.Enabled = false;
+            flp_sidemenu.VerticalScroll.Visible = false;
+
+            Point btnScreen = btn_showmenu.PointToScreen(Point.Empty);
+            int desiredX = btnScreen.X + (btn_showmenu.Width / 2) - (flp_sidemenu.Width / 2);
+            int desiredY = btnScreen.Y + btn_showmenu.Height + 20;
+
+            Rectangle screenBounds = Screen.FromControl(btn_showmenu).WorkingArea;
+
+            if (desiredX < screenBounds.Left)
+                desiredX = screenBounds.Left;
+            else if (desiredX + flp_sidemenu.Width > screenBounds.Right)
+                desiredX = screenBounds.Right - flp_sidemenu.Width;
+
+            if (desiredY + flp_sidemenu.Height > screenBounds.Bottom)
+            {
+                desiredY = btnScreen.Y - flp_sidemenu.Height - 10;
+                if (desiredY < screenBounds.Top)
+                    desiredY = screenBounds.Top;
+            }
+
+            Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
+            flp_sidemenu.Location = clientPos;
+
+            int bheight = btn_showmenu.Height + (btn_showmenu.Height / 2);
+            int bWidth = btn_showmenu.Width - 25;
+
+
+            BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+            DmnSearch objSearch = new DmnSearch
+            {
+                Select = "Fcid,CategoryName",
+                Table = "tblCategory_FTI",
+                WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 1",
+                OrderBy = ""
+            };
+
+            var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+
+            ToolTip tooltip = new ToolTip();
+
+            Button btnAll = new Button
+            {
+                Name = "btnSideMenu_All",
+                Tag = 0,
+                Text = "All",
+                Width = bWidth,
+                Height = bheight,
+                ForeColor = Color.White,
+                Dock = DockStyle.Top,
+                FlatStyle = FlatStyle.Flat,
+                Font = AppFonts.GetFont(10),
+                BackgroundImage = Properties.Resources.fb_sidemenu,
+                BackgroundImageLayout = ImageLayout.Stretch,
+          
+            };
+            btnAll.FlatAppearance.BorderSize = 0;
+            btnAll.Click += SideMenuClick;
+            tooltip.SetToolTip(btnAll, "All");
+            flp_sidemenu.Controls.Add(btnAll);
+
+            if (itemSource != null && itemSource.Count > 0)
+            {
+                foreach (var item in itemSource)
+                {
+                    Button btn = new Button
+                    {
+                        Name = "btnSideMenu_" + item.Fcid,
+                        Tag = item.Fcid,
+                        Text = item.CategoryName,
+                        Width = bWidth,
+                        Height = bheight,
+                        FlatStyle = FlatStyle.Flat,
+                        BackColor = Color.Transparent,
+                        ForeColor = Color.White,
+                        Font = AppFonts.GetFont(10),                    
+                        BackgroundImage = Properties.Resources.fb_sidemenu,
+                        BackgroundImageLayout = ImageLayout.Stretch,           
+        
+                    };
+
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.Click += SideMenuClick;
+                    tooltip.SetToolTip(btn, item.CategoryName);
+                    flp_sidemenu.Controls.Add(btn);
+                }
+            }
+            UIHelper.RoundCorners(flp_sidemenu, 25);
+        }
+
+        private void FrmCombinedBill_Resize(object sender, EventArgs e)
+        {
+            UIHelper.RoundCorners(flp_sidemenu, 25);
+        }
+
         public bool DrawerCheckBranch(int empid)
         {
             try

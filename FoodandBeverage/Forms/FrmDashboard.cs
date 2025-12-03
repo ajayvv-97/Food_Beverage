@@ -1045,13 +1045,12 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
 
-                    FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill();
-                    ResizeForm(_instanceCombinedBill);
-                    _instanceCombinedBill.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceCombinedBill);
-                    _instanceCombinedBill.Show();
-                    _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceCombinedBill.BringToFront();
+                    using (FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill())
+                    {
+                        _instanceCombinedBill.ShowDialog();
+                        _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
+                    }
 
                 }
                 menutable_click = false;
