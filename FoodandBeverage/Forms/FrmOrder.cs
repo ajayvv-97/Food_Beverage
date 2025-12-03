@@ -2352,11 +2352,11 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Table =
                     "tblProduct p " +
                     "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q" +
+                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND ofd.Producttype=1 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q" +
                     " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 and m.Quantity>0 " +
                     " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
                     " tblItem i " +
-                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
+                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                 dmnSearch.WhereNdGroupBy =
                     " where i.Fcid= " + clickedControl.Tag + " and i.Saletype=1 and i.Status=1  " +
@@ -2738,7 +2738,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select =" p.ItemCode_UPC as Field1, p.Itemname as Field2,p.srate as Field3,p.MRP as Field4,p.ItemId as Field5,p.Tax as Field6,p.TaxType as Field7,p.Fcid as Field8,p.TaxSettingsId as Field9,q.Discountper as Field10";
                 dmnSearch.Table = " tblItem p " +
-                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice,ofm.offertype,ofm.OfferstartDatetime,ofm.OfferEndDatetime from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1  where ofm.status = 1  AND ofm.OfferType = 0 AND p.itemid = ofd.ProductId and    ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
+                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice,ofm.offertype,ofm.OfferstartDatetime,ofm.OfferEndDatetime from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1  where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND p.itemid = ofd.ProductId and    ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 dmnSearch.WhereNdGroupBy = "where p.Status=1 and p.ItemId= " + id + " AND q.OfferstartDatetime <= SYSDATETIME() AND q.OfferEndDatetime >= SYSDATETIME()";
                 dmnSearch.OrderBy = "";
                 gridSource_offer = bllSearch.GetSearchData("prdSearch", dmnSearch);
