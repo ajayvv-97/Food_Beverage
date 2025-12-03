@@ -91,8 +91,6 @@ namespace FoodandBeverage.Forms
         public static bool AllowCashDrawer = false;
         public static bool AllowDrawerpermissionFullControl = false;
 
-
-        bool flagDrawerF = false, flagDrawer = false;
         public static FrmDashboard Instance { get; private set; }
         public static bool Enablenumberkeypad = false;
         public static string logoutformsno = "";
@@ -796,8 +794,6 @@ namespace FoodandBeverage.Forms
             try
             {
                 ProfilPIC_update();
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 panelDesktop.Controls.Clear();
                 btn_pickup.Visible = false;
@@ -946,8 +942,6 @@ namespace FoodandBeverage.Forms
             try
             {
                 AdjustButtonsToPanel();
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -993,16 +987,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
-                
                 ButtonID = Convert.ToInt32(Menubutton.Menubilling);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
-                
-
+               
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
@@ -1043,13 +1033,9 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         _instanceCombinedBill.Visible = true;
-                        _instanceCombinedBill.AssignDrawerCheck();
-                        //_instanceCombinedBill.AutoTimer.Start();
                         _instanceCombinedBill.Dock = DockStyle.Fill;
                         ResizeForm(_instanceCombinedBill);
-                        panelDesktop.Controls.Add(_instanceCombinedBill);
-                        _instanceCombinedBill.Show();
-                        _instanceCombinedBill.BringToFront();
+                        _instanceCombinedBill.DrawerCheck();
                     }
                 }
                 else
@@ -1084,9 +1070,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
-
                 ButtonID = Convert.ToInt32(Menubutton.Menureport);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1648,144 +1631,121 @@ namespace FoodandBeverage.Forms
             }
         }
         #region drawerAssign
-        public void AssigndrawerCheck()
+        public void AssignDrawerCheck()
         {
             try
             {
-                pnl_Drawer.Visible = false;
                 BllSearch<DmnGridFields> bllsearchdrawer = new BllSearch<DmnGridFields>();
                 DmnSearch dmnsearckdrawer = new DmnSearch();
-                dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,InitilAmount as Field8,e.EmployeeId as Field9,t.CreatedDateTime Field10";
-                dmnsearckdrawer.Table = "tblDrawerAssign t  left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
+                dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,u.UserAccountId as Field8,e.EmployeeId as Field9";
+                dmnsearckdrawer.Table = "tblDrawerAssign t   left join tblUserAccount  u on u.EmployeeId= t.EmployeeId left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
                 dmnsearckdrawer.WhereNdGroupBy = "where t.DName='" + System.Environment.MachineName + "'  and t.Status=1";
                 dmnsearckdrawer.OrderBy = "";
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
                 if (gridesource.Count > 0)
                 {
-                    pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
 
-                    if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId))
+                    if (AllowDrawerpermissionFullControl) //full permission 
                     {
-
-                        txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
-                        txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
-                        txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
-                        txtdrops.Text = Convert.ToString(gridesource[0].Field7);
-                        txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
-
-                        txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
-                        txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
-
-                        label15.Text = System.Environment.MachineName;
-                        lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
-                        lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
-                        lbl_staffname.Visible = true;
-                        txtdrops.Visible = true;
-                        txtextraaddamt.Visible = true;
-                        label12.Visible = true;
-                        label12.Visible = true;
-                        label8.Visible = true;
-                        txtstaffname.Visible = false;
-                        lbl_staffname_tip.Visible = false;
-                        btndrawersave.Visible = true;
-                        pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                        pnl_Drawer.Visible = true;
-
+                        if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
+                        {
+                            FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
+                            FrmDashboard.Instance.lbl_drawer.Visible = true;
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                        }
                     }
-                    else
+                    else// only self assign permission 
                     {
-
-                        MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4 + "  DateTime " + gridesource[0].Field10, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtdrawerid.Text = Convert.ToString(gridesource[0].Field5);
-                        txtinitialamt.Text = Convert.ToString(gridesource[0].Field8);
-                        txtinitialamt.ReadOnly = true;
-                        txtextraaddamt.Text = Convert.ToString(gridesource[0].Field6);
-                        txtdrops.Text = Convert.ToString(gridesource[0].Field7);
-                        txtempoyeId.Text = Convert.ToString(gridesource[0].Field9);
-
-                        txtextraaddamt_backup.Text = Convert.ToString(gridesource[0].Field6);
-                        txtdrops_backup.Text = Convert.ToString(gridesource[0].Field7);
-
-                        lbl_staffname.Text = Convert.ToString(gridesource[0].Field3);
-                        lbl_desigtnation.Text = Convert.ToString(gridesource[0].Field4);
-                        lbl_staffname.Visible = true;
-                        txtdrops.Visible = true;
-                        txtextraaddamt.Visible = true;
-                        label12.Visible = true;
-                        label12.Visible = true;
-                        label8.Visible = true;
-                        txtstaffname.Visible = false;
-                        lbl_staffname_tip.Visible = false;
-                        pnl_Drawer.Location = new Point(this.ClientSize.Width / 2 - pnl_Drawer.Size.Width / 2, this.ClientSize.Height / 2 - pnl_Drawer.Size.Height / 2);
-                        pnl_Drawer.Visible = true;
-
+                        if (Convert.ToInt32(gridesource[0].Field9) == Convert.ToInt32(FrmLogin.EmployeeId)) //assigned employee login  
+                        {
+                            FrmDrawer.DrawerID = Convert.ToInt32(gridesource[0].Field5);
+                            FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
+                            FrmDashboard.Instance.lbl_drawer.Visible = true;
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Green;
+                        }
+                        else // other employee drawer assigned on other employee
+                        {
+                            MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
+                            {
+                                FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
+                                FrmDashboard.Instance.lbl_drawer.Visible = true;
+                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                            }
+                            return;
+                        }
                     }
-                    pnl_Drawer.Visible = true;
                 }
-                else
+                else //drawer not assign
                 {
-                    MessageBox.Show("No drawer has been assigned", "Drawer Not Assigned", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (AllowDrawerpermissionFullControl)
+                    {
+                       
+                    }
+                    else if (AllowCashDrawer)
+                    {
+                        FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                        FrmDashboard.Instance.lbl_drawer.Visible = true;
+                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                        if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
+                        {
+                            MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
+                        DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                        if (result == DialogResult.OK)
+                        {
+                            if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                            {
+                                FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
+                                if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
+                                    _instanceFrmDrawer.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                                else
+                                {
+                                    _instanceFrmDrawer.Visible = true;
+                                    _instanceFrmDrawer.Dock = DockStyle.Fill;
+                                    ResizeForm(_instanceFrmDrawer);
+                                    _instanceFrmDrawer.ShowDialog();
+                                    _instanceFrmDrawer.BringToFront();
+                                }
+                            }
+                            else
+                            {
+                                using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
+                                {
+                                    ResizeForm(_instanceFrmDrawer);
+                                    _instanceFrmDrawer.BringToFront();
+                                    _instanceFrmDrawer.ShowDialog();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
+                            {
+                                FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                                FrmDashboard.Instance.lbl_drawer.Visible = true;
+                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                            }
+                        }
+                    }
+
+                    if (AllowDrawerpermissionFullControl == false && AllowCashDrawer == false) //Both permission are false
+                    {
+                        MessageBox.Show("You do not have permission to assign a drawer.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                        FrmDashboard.Instance.lbl_drawer.Visible = true;
+                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+
+                    }
                 }
-                #region Small
-                #endregion
-
-                //    flagDrawerF = false; flagDrawer = false;
-                //    BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
-                //    DmnSearch dmnforms = new DmnSearch();
-                //    dmnforms.Select = "*";
-                //    dmnforms.Table = " tblforms ";
-                //    dmnforms.WhereNdGroupBy = " where Form=2 and Status=1 and UserType=" + UserType;
-                //    dmnforms.OrderBy = "order by Form";
-                //    var gridesourcepermission = bllacctype.GetSearchData("prdSearch", dmnforms);
-                //    if (gridesourcepermission.Count > 0)
-                //    {
-                //        for (int i = 0; i < gridesourcepermission.Count(); i++)
-                //        {
-                //            if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowCashDrawer) && gridesourcepermission[i].Status == 1)
-                //            {
-                //                lbl_staffname.Visible = true;
-                //                txtstaffname.Visible = false;
-                //                lbl_staffname.Text = FrmLogin.EmployeName;
-                //                lbl_desigtnation.Text = FrmLogin.Designation;
-                //                txtempoyeId.Text = Convert.ToString(FrmLogin.EmployeeId);
-                //                lbl_staffname_tip.Visible = false;
-                //                flagDrawer = true;
-
-                //            }
-                //            else if (gridesourcepermission[i].Form == Convert.ToInt32(FrmDashboard.AllowDrawerpermissionFullControl) && gridesourcepermission[i].Status == 1)
-                //            {
-                //                lbl_staffname.Visible = false;
-                //                txtstaffname.Visible = true;
-                //                lbl_desigtnation.Text = FrmLogin.Designation;
-                //                lbl_staffname_tip.Visible = true;
-                //                flagDrawerF = true;
-                //            }
-                //        }
-                //    }
-                //    label15.Text = System.Environment.MachineName;
-                //    if (flagDrawer && flagDrawerF)
-                //    {
-                //        lbl_staffname.Visible = false;
-                //        txtstaffname.Visible = true;
-                //        lbl_desigtnation.Text = FrmLogin.Designation;
-                //        lbl_staffname_tip.Visible = true;
-                //    }
-
-                //    txtdrops.Visible = false;
-                //    txtextraaddamt.Visible = false;
-                //    label12.Visible = false;
-                //    label12.Visible = false;
-                //    label8.Visible = false;
-
-                //}
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Admin page AssigndrawerCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Drawer page  AssignDrawerCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Drawer));
             }
+
         }
-#endregion
+        #endregion
 
         #region TaskBar Time
         private void timer1_Tick(object sender, EventArgs e)
@@ -2895,9 +2855,6 @@ namespace FoodandBeverage.Forms
             try
             {
                 AdjustButtonsToPanel();
-
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
                 time_syn_lal.Stop();
                 time_syn_lal.Stop();
@@ -3534,8 +3491,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (pnl_Drawer.Visible)
-                    pnl_Drawer.Visible = false;
                 ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -3995,6 +3950,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AssignDrawerCheck();               
+                if(FrmDrawer.DrawerID==0)
+                {
+                    return;
+                }
+
                 if (menutable_click)
                 {
                     CloseTableViewPage();
@@ -4075,123 +4036,6 @@ namespace FoodandBeverage.Forms
             pnl_billsetting.Visible = false;
         }
 
-        private void btnclose_drawer_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                pnl_Drawer.Visible = false;
-
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Admin page btnclose_drawer_Click_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btndrawersave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtdrawerid.Text))
-                    txtdrawerid.Text = "0";
-                if (string.IsNullOrWhiteSpace(txtinitialamt.Text))
-                    txtinitialamt.Text = "0";
-                if (string.IsNullOrWhiteSpace(txtdrops.Text))
-                    txtdrops.Text = "0";
-                if (string.IsNullOrWhiteSpace(txtextraaddamt.Text))
-                    txtextraaddamt.Text = "0";
-
-                /* updation on loan and drops then adding */
-
-                if (string.IsNullOrWhiteSpace(txtdrops_backup.Text))
-                    txtdrops_backup.Text = "0";
-                if (string.IsNullOrWhiteSpace(txtextraaddamt_backup.Text))
-                    txtextraaddamt_backup.Text = "0";
-
-                /* end */
-
-                if (MandatoryCheckDrawer())
-                {
-                    Dmndrawer dmndrawer = new Dmndrawer();
-                    Blldrawer blldrawer = new Blldrawer();
-                    dmndrawer.Id = Convert.ToInt32(txtdrawerid.Text);
-                    dmndrawer.DName = System.Environment.MachineName;
-                    dmndrawer.InitilAmount = Convert.ToDecimal(txtinitialamt.Text);
-                    dmndrawer.EmployeeId = Convert.ToInt32(txtempoyeId.Text);
-                    if (txtextraaddamt.Text != txtextraaddamt_backup.Text)
-                        dmndrawer.LoanAmount = Convert.ToDecimal(txtextraaddamt.Text);
-                    else
-                        dmndrawer.LoanAmount = 0;
-
-                    if (txtdrops.Text != txtdrops_backup.Text)
-                        dmndrawer.Drops = Convert.ToDecimal(txtdrops.Text);
-                    else
-                        dmndrawer.Drops = 0;
-
-                  
-                    dmndrawer.CreatedBy = FrmDashboard.UserId;
-                    dmndrawer.Status = 1;
-                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
-
-                    if (InsertStatus != null)
-                    {
-                        if (txtdrawerid.Text == null || txtdrawerid.Text == "0")
-                        {
-                            DrawerId = InsertStatus.Id;
-                            MessageBox.Show("Drawer Assign Completed", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtinitialamt.ReadOnly = true;
-                        }
-                        else
-                        {
-                            DrawerId = Convert.ToInt32(txtdrawerid.Text);
-                            MessageBox.Show("Update Sucessfull", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        pnl_Drawer.Visible = false;
-                    }
-                    else
-                        MessageBox.Show("Assign Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    if (DrawerId > 0)
-                    {
-                        txtdrawerid.Text = Convert.ToString(DrawerId);
-                        txtextraaddamt_backup.Text = txtextraaddamt.Text;
-                        txtdrops.Text = txtdrops_backup.Text;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Admin page btndrawersave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        public bool MandatoryCheckDrawer()
-        {
-            try
-            {
-
-                if (flagDrawerF && string.IsNullOrWhiteSpace(txtstaffname.Text))
-                {
-                    MessageBox.Show("Please select Employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtstaffname.Focus();
-                    return false;
-                }
-                if (string.IsNullOrWhiteSpace(txtinitialamt.Text) || Convert.ToDecimal(txtinitialamt.Text) == 0)
-                {
-                    MessageBox.Show("Please Enter Initial Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Admin page MandatoryCheckDrawer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
 
         private void tmtime_Tick(object sender, EventArgs e)
         {
@@ -4205,76 +4049,6 @@ namespace FoodandBeverage.Forms
 
             // Display in label (rounded to 2 decimal places)
             lblmemory.Text = $"Memory: {memoryInMB:F2} MB";
-        }
-
-  
-        public void StaffPopup()
-        {
-            try
-            {
-                string returnValue = string.Empty;
-                DataTable dtColumnAlign = new DataTable();
-                DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "Id,EmployeeCode,EmployeeName,DesignationName,Mobile";
-                _objSearch.Select = "emp.EmployeeId as Id,emp.EmployeeCode as Field1,emp.EmployeeName as Field2,d.DesignationName as Field3,emp.Mobile as Field4";
-                _objSearch.Table = "tblEmployee  emp Left join tblDesignation d on d.DesignationId = emp.DesignationId ";
-                _objSearch.WhereNdGroupBy = "WHERE isnull(emp.Status,0) = 1 and emp.BranchId=" + BranchId;
-                _objSearch.OrderBy = " ORDER BY emp.EmployeeName ASC";
-                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-
-                {
-                    var dialogResult = search.ShowDialog();
-                    if (dialogResult == DialogResult.OK)
-                    {
-                        returnValue = Convert.ToString(search._retValue);
-                    }
-                }
-                if (returnValue.ToString() != "")
-                {
-                    int eid = Convert.ToInt32(returnValue);
-                    if (DrawerCheckBranch(eid))
-                    {
-                        MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        return;
-                    }
-
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "COUNT(*) OVER() AS Field1,emp.EmployeeName as Field2,d.DesignationName as Field3";
-                    objSearch.Table = "tblEmployee  emp Left join tblDesignation d on d.DesignationId = emp.DesignationId";
-                    objSearch.WhereNdGroupBy = "Where emp.status=1 and emp.EmployeeId = " + eid;
-                    objSearch.OrderBy = "";
-                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                    if (itemSource.Count > 0)
-                    {
-                        txtstaffname.Text = Convert.ToString(itemSource[0].Field2);
-                        lbl_desigtnation.Text = Convert.ToString(itemSource[0].Field3);
-                        txtempoyeId.Text = Convert.ToString(eid);
-                        lbl_staffname_tip.Visible = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Admin page  StaffPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                ////MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-   
-
-        private void btncancel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                pnl_Drawer.Visible = false;
-
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Admin page btncancel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void FrmDashboard_Shown(object sender, EventArgs e)
@@ -5241,7 +5015,37 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AssigndrawerCheck();
+                AssignDrawerCheck();
+                if (FrmDrawer.DrawerID == 0)
+                {
+                    return;
+                }
+                else
+                {
+                    if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                    {
+                        FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
+                        if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
+                            _instanceFrmDrawer.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        else
+                        {
+                            _instanceFrmDrawer.Visible = true;
+                            _instanceFrmDrawer.Dock = DockStyle.Fill;
+                            ResizeForm(_instanceFrmDrawer);
+                            _instanceFrmDrawer.ShowDialog();
+                            _instanceFrmDrawer.BringToFront();
+                        }
+                    }
+                    else
+                    {
+                        using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
+                        {
+                            ResizeForm(_instanceFrmDrawer);
+                            _instanceFrmDrawer.BringToFront();
+                            _instanceFrmDrawer.ShowDialog();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

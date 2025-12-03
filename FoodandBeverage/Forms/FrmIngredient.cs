@@ -296,6 +296,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                rowindex = 1;
                 txtsearch.Text = "Food Name.....";
                 txtsearch.ForeColor = Color.Gray;
 
@@ -3131,7 +3132,6 @@ namespace FoodandBeverage.Forms
                 if (flp_variation_data.Controls.Count>0)
                 {
                     Color redcolor = ColorTranslator.FromHtml("#FF474D");
-
                     for (int i = 0; i < dgv_variation.RowCount; i++)
                     {
                         int r = Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value);
@@ -3140,7 +3140,6 @@ namespace FoodandBeverage.Forms
                         TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
                         string pricename = "txt_price" + r;
                         TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
-
                         if (Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == null || Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == "")
                         {
                             txtsize.ForeColor = redcolor;

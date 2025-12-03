@@ -276,7 +276,8 @@ namespace FoodandBeverage.Interfaces
         Pickuppage = 33,
         YZout = 34,
         Refund = 35,
-        ExtraLoginAccess=36
+        ExtraLoginAccess = 36,
+        Drawer = 37
 
     };
     public enum Menubutton
