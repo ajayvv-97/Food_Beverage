@@ -880,8 +880,8 @@ namespace FoodandBeverage.Forms
             this.tp_rolereg.Controls.Add(this.tlp_role_design);
             this.tp_rolereg.Location = new System.Drawing.Point(4, 27);
             this.tp_rolereg.Name = "tp_rolereg";
-            this.tp_rolereg.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
-            this.tp_rolereg.Size = new System.Drawing.Size(888, 345);
+            this.tp_rolereg.Padding = new System.Windows.Forms.Padding(10);
+            this.tp_rolereg.Size = new System.Drawing.Size(889, 347);
             this.tp_rolereg.TabIndex = 1;
             this.tp_rolereg.Text = "Role Registration";
             // 
@@ -894,11 +894,11 @@ namespace FoodandBeverage.Forms
             this.tlp_role_design.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_role_design.Location = new System.Drawing.Point(10, 10);
             this.tlp_role_design.Name = "tlp_role_design";
-            this.tlp_role_design.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.tlp_role_design.Padding = new System.Windows.Forms.Padding(8);
             this.tlp_role_design.RowCount = 2;
             this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_role_design.Size = new System.Drawing.Size(868, 325);
+            this.tlp_role_design.Size = new System.Drawing.Size(869, 327);
             this.tlp_role_design.TabIndex = 226;
             // 
             // tlp_role_regis
@@ -919,7 +919,7 @@ namespace FoodandBeverage.Forms
             this.tlp_role_regis.RowCount = 2;
             this.tlp_role_regis.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.94737F));
             this.tlp_role_regis.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.05263F));
-            this.tlp_role_regis.Size = new System.Drawing.Size(846, 95);
+            this.tlp_role_regis.Size = new System.Drawing.Size(847, 95);
             this.tlp_role_regis.TabIndex = 225;
             // 
             // label2
@@ -1026,7 +1026,7 @@ namespace FoodandBeverage.Forms
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvforms.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvforms.RowTemplate.Height = 35;
-            this.dgvforms.Size = new System.Drawing.Size(846, 202);
+            this.dgvforms.Size = new System.Drawing.Size(847, 204);
             this.dgvforms.TabIndex = 0;
             this.dgvforms.Visible = false;
             this.dgvforms.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvforms_CellEndEdit);
@@ -1080,8 +1080,8 @@ namespace FoodandBeverage.Forms
             this.tp_userreg.Controls.Add(this.tlp_user_reg);
             this.tp_userreg.Location = new System.Drawing.Point(4, 27);
             this.tp_userreg.Name = "tp_userreg";
-            this.tp_userreg.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
-            this.tp_userreg.Size = new System.Drawing.Size(888, 345);
+            this.tp_userreg.Padding = new System.Windows.Forms.Padding(10);
+            this.tp_userreg.Size = new System.Drawing.Size(889, 347);
             this.tp_userreg.TabIndex = 2;
             this.tp_userreg.Text = "User Registration";
             // 
@@ -1111,7 +1111,7 @@ namespace FoodandBeverage.Forms
             this.tlp_user_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_user_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_user_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_user_reg.Size = new System.Drawing.Size(868, 325);
+            this.tlp_user_reg.Size = new System.Drawing.Size(869, 327);
             this.tlp_user_reg.TabIndex = 260;
             // 
             // txtcconpassword
@@ -1251,7 +1251,7 @@ namespace FoodandBeverage.Forms
             this.chkshowpassword.ForeColor = System.Drawing.Color.Black;
             this.chkshowpassword.Location = new System.Drawing.Point(342, 76);
             this.chkshowpassword.Name = "chkshowpassword";
-            this.chkshowpassword.Size = new System.Drawing.Size(523, 33);
+            this.chkshowpassword.Size = new System.Drawing.Size(524, 33);
             this.chkshowpassword.TabIndex = 258;
             this.chkshowpassword.Text = "Show password";
             this.chkshowpassword.UseVisualStyleBackColor = true;
@@ -1417,7 +1417,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1679,7 +1679,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.Controls.Add(this.tableLayoutPanel8);
             this.pnlwifi.Location = new System.Drawing.Point(954, 137);
             this.pnlwifi.Name = "pnlwifi";
-            this.pnlwifi.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pnlwifi.Padding = new System.Windows.Forms.Padding(5);
             this.pnlwifi.Size = new System.Drawing.Size(453, 203);
             this.pnlwifi.TabIndex = 287;
             this.pnlwifi.Visible = false;

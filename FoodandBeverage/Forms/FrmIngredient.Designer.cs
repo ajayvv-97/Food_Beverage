@@ -796,6 +796,7 @@ namespace FoodandBeverage.Forms
             this.Btn_view_menu.Size = new System.Drawing.Size(35, 44);
             this.Btn_view_menu.TabIndex = 0;
             this.Btn_view_menu.UseVisualStyleBackColor = true;
+            this.Btn_view_menu.Visible = false;
             this.Btn_view_menu.Click += new System.EventHandler(this.Btn_view_menu_Click);
             // 
             // pnl_regmain

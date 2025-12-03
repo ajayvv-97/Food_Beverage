@@ -138,7 +138,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page textb_shape()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -161,7 +161,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page ApplyRoundedTextBox()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -210,7 +210,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page txtusername_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }      
       
@@ -229,7 +229,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page txtusername_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             } 
         }
@@ -358,7 +358,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page IsValidHtmlColor()", ex, EmployeName, Designation,Convert.ToInt32(FormType.Login));
                 return false;
             }
@@ -395,7 +395,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page IsUsernameValid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return false;
             }
@@ -433,7 +433,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page IsPasswordvalid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return false;
             }    
@@ -454,7 +454,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page textb_shape()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return "";
             }
@@ -505,7 +505,7 @@ namespace FoodandBeverage.Forms
             }
             catch(Exception ex)
             {
-                CMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //CMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 clsgen.LogException("Login Page timer1_Tick()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -530,7 +530,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page IsValid()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
                 return false;
             }
@@ -560,7 +560,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtUserName_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -586,7 +586,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login Page pnlloginbox_Paint()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
 
@@ -604,7 +604,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtPwd_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -621,7 +621,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtPwd_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -644,7 +644,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtPwd_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -658,7 +658,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtPwd_KeyPress()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -671,7 +671,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Login page txtPwd_TextChanged()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
@@ -905,8 +905,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,
-                                "DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,"DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -942,8 +941,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Database connection failed!\n\nError: " + ex.Message,
-                                "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("❌ Database connection failed!\n\nError: " + ex.Message,"Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }      
         private void pblogo_MouseDown(object sender, MouseEventArgs e)

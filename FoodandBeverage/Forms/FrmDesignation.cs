@@ -70,7 +70,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  FillDepartmentComboBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
         }
@@ -101,7 +101,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  IsSavable()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -133,7 +133,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  fillGridView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void RefreshForm()
@@ -155,7 +155,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  RefreshForm()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 ;
 
@@ -201,7 +201,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {       
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  NameExist()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
                 return false;
  
@@ -239,7 +239,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {              
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  dgvFrmDesignation()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
 
             }
@@ -264,7 +264,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
         }
@@ -290,7 +290,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -351,7 +351,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  MbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void MbtnRefresh_Click(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {         
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  MbtnRefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
 
             }
@@ -419,7 +419,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  FrmDesignation_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
 
@@ -437,7 +437,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  DgvDesignation_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-               CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void DgvDesignation_KeyDown(object sender, KeyEventArgs e)
@@ -481,7 +481,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  DgvDesignation_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -506,7 +506,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Designation Page  FrmDesignation_KeyUp()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
             }
         }
@@ -536,7 +536,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  dtpWorkingHrs_ValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -553,7 +553,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  mtxtName_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -578,7 +578,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  FrmDesignation_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -666,7 +666,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  mtxtName_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -682,7 +682,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  mtxtName_Leave_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -713,7 +713,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  FrmDesignation_Resize()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -730,7 +730,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 objGeneral.LogException("Designation Page  mcmbDepartment_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Designation));
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
