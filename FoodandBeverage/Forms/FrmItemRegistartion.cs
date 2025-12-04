@@ -286,6 +286,8 @@ namespace FoodandBeverage.Forms
                 rdb_dsale.Enabled = true;
                 rdb_notsale.Enabled = true;
                 rdb_notsale.Checked = true;
+                chb_active.Checked = true;
+
 
                 tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.AutoSize);
                 tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);

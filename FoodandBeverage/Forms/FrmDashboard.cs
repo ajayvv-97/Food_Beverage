@@ -1677,11 +1677,11 @@ namespace FoodandBeverage.Forms
                 }
                 else //drawer not assign
                 {
-                    if (AllowDrawerpermissionFullControl)
-                    {
+                    //if (AllowDrawerpermissionFullControl)
+                    //{
                        
-                    }
-                    else if (AllowCashDrawer)
+                    //}
+                    if (AllowCashDrawer)
                     {
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.Visible = true;
